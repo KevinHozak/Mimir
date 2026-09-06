@@ -8,7 +8,7 @@ type Villager = { id: string; name: string; tradition: string; activity: string;
 type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[] };
 type Event = { id: string; tick: number; message: string; kind: string };
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
-type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number } };
+type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number } };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 function VillageCanvas({ villagers, playbackRate, zoom }: { villagers: Villager[]; playbackRate: number; zoom: number }) {
@@ -73,12 +73,13 @@ function VillageCanvas({ villagers, playbackRate, zoom }: { villagers: Villager[
 }
 
 function OwnerPanel({ ownerToken, setOwnerToken, report, message, onCommand, onRefresh }: { ownerToken: string; setOwnerToken: (value: string) => void; report: Report | null; message: string; onCommand: (path: string, body?: Record<string, unknown>) => void; onRefresh: () => void }) {
+  const summary = report?.summary ?? { scenarioName: "Legacy server", finalFood: "—", averageTrust: "—" };
   return <section className="operations">
     <div className="operations-heading"><div><h2>Owner operations</h2><p>Local timeline controls and recovery checks.</p></div><button onClick={onRefresh}>Refresh report</button></div>
     <label className="owner-token">Owner token <input type="password" value={ownerToken} onChange={(event) => setOwnerToken(event.target.value)} placeholder="Only needed when OWNER_TOKEN is set" /></label>
     <div className="operation-buttons"><button onClick={() => onCommand("/api/owner/archive")}>Archive</button><button onClick={() => onCommand("/api/owner/continue")}>Continue</button><button onClick={() => onCommand("/api/owner/branch", { tick: report?.tick })}>Branch here</button><button onClick={() => { if (window.confirm("Reset this timeline into a new season?")) onCommand("/api/owner/reset", {}); }}>Reset season</button></div>
     {message && <p className="operation-message">{message}</p>}
-    {report && <div className="report-grid"><span>Timeline <strong>{report.timeline.id.slice(0, 18)}…</strong></span><span>Status <strong>{report.timeline.status}</strong></span><span>Tick <strong>{report.tick}</strong></span><span>Scenario <strong>{report.summary.scenarioName}</strong></span><span>Final food <strong>{report.summary.finalFood}</strong></span><span>Average trust <strong>{report.summary.averageTrust}</strong></span><span>Checkpoints <strong>{report.checkpoints}</strong></span><span>Events <strong>{report.events}</strong></span><span>Interpretations <strong>{report.interpretations}</strong></span><span>Database <strong>{Math.round(report.databaseBytes / 1024)} KB</strong></span><span>Social <strong>{report.socialMode}</strong></span></div>}
+    {report && <div className="report-grid"><span>Timeline <strong>{report.timeline.id.slice(0, 18)}…</strong></span><span>Status <strong>{report.timeline.status}</strong></span><span>Tick <strong>{report.tick}</strong></span><span>Scenario <strong>{summary.scenarioName}</strong></span><span>Final food <strong>{summary.finalFood}</strong></span><span>Average trust <strong>{summary.averageTrust}</strong></span><span>Checkpoints <strong>{report.checkpoints}</strong></span><span>Events <strong>{report.events}</strong></span><span>Interpretations <strong>{report.interpretations}</strong></span><span>Database <strong>{Math.round(report.databaseBytes / 1024)} KB</strong></span><span>Social <strong>{report.socialMode}</strong></span></div>}
   </section>;
 }
 
