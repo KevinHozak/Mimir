@@ -27,6 +27,10 @@ try {
     await history.getByText("Season 1 · Tick 0").waitFor();
     await live.getByRole("button", { name: "Advance one tick" }).click();
     await live.getByText("Season 1 · Tick 2").waitFor();
+    await live.getByRole("button", { name: /Riverbend/ }).click();
+    await live.getByRole("heading", { name: "Riverbend: Select a villager" }).waitFor();
+    await live.getByRole("button", { name: /Mimir Village/ }).click();
+    await live.getByRole("heading", { name: /Mimir Village: Select a villager/ }).waitFor();
     await history.getByText("Season 1 · Tick 0").waitFor();
     await history.getByText("● HISTORY", { exact: true }).waitFor();
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
