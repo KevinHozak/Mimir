@@ -1,5 +1,5 @@
 export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
-export type Activity = "work" | "rest" | "share";
+export type Activity = "work" | "rest" | "share" | "craft" | "meet" | "gather";
 export interface TilePosition { x: number; y: number; }
 
 export interface Villager {
@@ -92,8 +92,8 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     random = nextRandom(random + index);
     const needsFood = villager.hunger >= 45;
     const shouldShare = villager.tradition === "Hearthkeepers" && needsFood && input.foodReserve > 0;
-    const activity: Activity = shouldShare ? "share" : needsFood ? "work" : "rest";
-    const location = activity === "work" ? "Fields" : activity === "share" ? "Granary" : "Homes";
+    const activity: Activity = shouldShare ? "share" : needsFood ? "work" : random % 7 === 0 ? "craft" : random % 7 === 1 ? "meet" : random % 7 === 2 ? "gather" : "rest";
+    const location = activity === "work" ? "Fields" : activity === "share" ? "Granary" : activity === "craft" ? "Workshop" : activity === "meet" ? "Meeting Place" : activity === "gather" ? "Woodland" : "Homes";
     const currentPosition = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     const anchor = LOCATION_TILES[location] ?? LOCATION_TILES.Homes;
     const target = { x: anchor.x + (index % 3) - 1, y: anchor.y + (index % 2) };
