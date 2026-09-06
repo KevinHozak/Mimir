@@ -1,0 +1,17 @@
+{
+  "name": "philosophy-world",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspace @philosophy-world/engine",
+    "dev:server": "npm run dev --workspace @philosophy-world/server",
+    "dev:web": "npm run dev --workspace @philosophy-world/web"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

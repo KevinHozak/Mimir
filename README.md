@@ -6,7 +6,7 @@ The first release will let one observer watch a shared fictional village, inspec
 
 ## Current status
 
-This repository contains the design proposals. Implementation has not started yet.
+The first implementation slice is now in place: a deterministic engine, SQLite-backed Fastify server, and minimal React/Phaser observer shell. The project is still pre-alpha and the simulation remains intentionally small.
 
 The initial world is planned around:
 
