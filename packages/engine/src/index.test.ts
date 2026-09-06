@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { advanceWorld, createWorld, runTicks } from "./index.js";
+import { advanceWorld, createWorld, interpretSocialEvents, runTicks } from "./index.js";
 
 const firstTick = advanceWorld(createWorld(42));
 const first = runTicks(createWorld(42), 60);
@@ -24,4 +24,9 @@ for (let seed = 1; seed <= 10; seed += 1) {
   assert.ok(result.interpretations.every((interpretation) => interpretation.source === "rules" && interpretation.evidenceEventIds.length > 0 && interpretation.confidence > 0 && interpretation.confidence <= 1));
 }
 assert.ok(first.interpretations.length > 0);
+assert.ok(first.interpretations.length >= 20);
+const rulesInterpretations = interpretSocialEvents(first.state, first.events);
+const aiFallbackInterpretations = interpretSocialEvents(first.state, first.events, "ai");
+assert.deepEqual(rulesInterpretations.map((interpretation) => interpretation.summary), aiFallbackInterpretations.map((interpretation) => interpretation.summary));
+assert.ok(aiFallbackInterpretations.every((interpretation) => interpretation.source === "ai"));
 console.log("engine tests passed");
