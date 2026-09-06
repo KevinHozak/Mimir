@@ -6,8 +6,12 @@ import "./styles.css";
 type TilePosition = { x: number; y: number };
 type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[] };
 type WorldDefinition = { width: number; height: number; terrain: string[][]; objects: { id: string; definitionId: string; position: TilePosition }[]; definitions: Record<string, { footprint: TilePosition[] }> };
-type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
+type SharedStore = { status: string; contributions: number; distributions: number; dissent: number; contributionRule: string; distributionRule: string };
+type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
 type Event = { id: string; tick: number; message: string; kind: string };
+type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
+type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
+type DilemmaCard = { id: string; title: string; prompt: string; competingValues: string[]; choices: { id: string; label: string; tradeoff: string }[] };
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number } };
 const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
@@ -129,11 +133,38 @@ function OwnerPanel({ ownerToken, setOwnerToken, report, message, onCommand, onR
   </section>;
 }
 
+function SeasonReview({ world, metrics }: { world: State; metrics: Metric[] }) {
+  const visible = metrics.filter((metric) => metric.tick <= world.tick);
+  const latest = visible.at(-1);
+  const maxTick = Math.max(1, visible.at(-1)?.tick ?? world.tick);
+  const maxFood = Math.max(1, ...visible.map((metric) => metric.foodReserve));
+  const point = (metric: Metric, value: number, max: number) => `${(metric.tick / maxTick) * 560},${154 - (value / max) * 124}`;
+  const foodPoints = visible.map((metric) => point(metric, metric.foodReserve, maxFood)).join(" ");
+  const trustPoints = visible.map((metric) => point(metric, metric.averageTrust, 100)).join(" ");
+  const complete = world.tick >= world.scenario.seasonTickLimit;
+  return <section className="season-review">
+    <div className="season-review-heading"><div><h2>{complete ? "Season review" : "Season progress"}</h2><p>{complete ? `${world.scenario.name} is complete.` : `${world.scenario.name} is recording its outcome.`}</p></div><strong>Tick {world.tick} / {world.scenario.seasonTickLimit}</strong></div>
+    {latest ? <>
+      <div className="metric-cards"><span>Food reserve<strong>{latest.foodReserve}</strong></span><span>Average trust<strong>{latest.averageTrust}</strong></span><span>Hungry<strong>{latest.hungryVillagers}</strong></span><span>Traveling<strong>{latest.travelingVillagers}</strong></span></div>
+      <svg className="metric-chart" viewBox="0 0 560 170" role="img" aria-label="Food reserve and average trust over the recorded season"><line x1="0" y1="154" x2="560" y2="154" /><polyline className="food-line" points={foodPoints} /><polyline className="trust-line" points={trustPoints} /></svg>
+      <div className="metric-legend"><span><i className="food-key" /> Food reserve</span><span><i className="trust-key" /> Average trust</span></div>
+    </> : <p>Metrics will appear after the first committed tick.</p>}
+  </section>;
+}
+
+function DesignBench({ cards, dilemmas, store }: { cards: CharacterCard[]; dilemmas: DilemmaCard[]; store?: SharedStore }) {
+  return <section className="design-bench"><h2>Values and dilemmas</h2><p>Authored tensions guide the first season; the engine records consequences rather than choosing a winning philosophy.</p><details><summary>Six character cards</summary><div className="card-grid">{cards.map((card) => <article key={card.id}><strong>{card.name}</strong><small>{card.tradition}</small><p>{card.disposition}</p><small>Strength: {card.strength}</small><small>Tension: {card.tension}</small></article>)}</div></details><details><summary>Three first-winter dilemmas</summary>{dilemmas.map((dilemma) => <article className="dilemma" key={dilemma.id}><strong>{dilemma.title}</strong><p>{dilemma.prompt}</p><small>Values: {dilemma.competingValues.join(" · ")}</small><ul>{dilemma.choices.map((choice) => <li key={choice.id}><strong>{choice.label}:</strong> {choice.tradeoff}</li>)}</ul></article>)}</details>{store && <div className="store-card"><strong>Shared granary · {store.status}</strong><p>{store.contributionRule} {store.distributionRule}</p><small>{store.contributions} contributions · {store.distributions} distributions · {store.dissent} dissent signals</small></div>}</section>;
+}
+
 function App() {
   const [world, setWorld] = useState<State | null>(null);
   const [liveWorld, setLiveWorld] = useState<State | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [interpretations, setInterpretations] = useState<Interpretation[]>([]);
+  const [metrics, setMetrics] = useState<Metric[]>([]);
+  const [characterCards, setCharacterCards] = useState<CharacterCard[]>([]);
+  const [dilemmas, setDilemmas] = useState<DilemmaCard[]>([]);
+  const [designStore, setDesignStore] = useState<SharedStore | undefined>();
   const [viewTick, setViewTick] = useState<number | null>(null);
   const [clockPaused, setClockPaused] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
@@ -146,13 +177,18 @@ function App() {
   const fitZoom = Math.min(1, 768 / ((world?.worldDefinition?.width ?? 100) * 24), 768 / ((world?.worldDefinition?.height ?? 100) * 24));
   useEffect(() => { setZoom(fitZoom); }, [fitZoom]);
   const loadLive = async () => {
-    const [worldResponse, eventsResponse, interpretationsResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`)]);
+    const [worldResponse, eventsResponse, interpretationsResponse, metricsResponse, designResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`), fetch(`${api}/api/metrics`), fetch(`${api}/api/design`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
     const nextWorld = worldPayload.state;
     setLiveWorld(nextWorld);
     if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
     setInterpretations((await interpretationsResponse.json()).interpretations as Interpretation[]);
+    setMetrics((await metricsResponse.json()).metrics as Metric[]);
+    const design = await designResponse.json() as { characterCards: CharacterCard[]; dilemmas: DilemmaCard[]; sharedStore?: SharedStore };
+    setCharacterCards(design.characterCards);
+    setDilemmas(design.dilemmas);
+    setDesignStore(design.sharedStore);
     if (viewTickRef.current === null) setWorld(nextWorld);
   };
   useEffect(() => {
@@ -186,7 +222,7 @@ function App() {
   return <main>
     <header><div><h1>Mimir</h1><p>A Thousand Worlds · Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= world.scenario.seasonTickLimit}>Advance one tick</button><span className="clock-speed">Tick speed</span>{[1000, 5000, 15000].map((intervalMs) => <button className={report?.tickIntervalMs === intervalMs ? "selected-rate" : ""} key={intervalMs} onClick={() => void setClockSpeed(intervalMs)}>{intervalMs / 1000}s</button>)}</div></header>
     <section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span><div className="playback"><span>Playback</span>{[0.5, 1, 2].map((rate) => <button className={playbackRate === rate ? "selected-rate" : ""} key={rate} onClick={() => setPlaybackRate(rate)}>{rate}×</button>)}</div><div className="zoom-controls"><span>Map</span><button onClick={() => setZoom((current) => Math.max(0.25, Number((current - 0.1).toFixed(2))))}>−</button><button onClick={() => setZoom(fitZoom)}>Fit</button><button onClick={() => setZoom((current) => Math.min(2, Number((current + 0.1).toFixed(2))))}>+</button><small>Drag to pan</small></div></section>
-    <section className="layout"><div><VillageCanvas villagers={world.villagers} worldDefinition={world.worldDefinition} worldRuntime={world.worldRuntime} playbackRate={playbackRate} zoom={zoom} /><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section><OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div>
+    <section className="layout"><div><VillageCanvas villagers={world.villagers} worldDefinition={world.worldDefinition} worldRuntime={world.worldRuntime} playbackRate={playbackRate} zoom={zoom} /><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><SeasonReview world={world} metrics={metrics} /><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section><DesignBench cards={characterCards} dilemmas={dilemmas} store={world.sharedStore ?? designStore} /><OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div>
       <aside><h2>{selected?.name ?? "Select a villager"}</h2><div className="villager-list">{world.villagers.map((villager) => <button className={`villager${selected?.id === villager.id ? " selected" : ""}`} key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl><div className="signals"><h3>Belief signals</h3><div><span>Cooperation</span><strong>{selected.beliefs.cooperation}</strong><i style={{ width: `${selected.beliefs.cooperation}%` }} /></div><div><span>Self-reliance</span><strong>{selected.beliefs.selfReliance}</strong><i style={{ width: `${selected.beliefs.selfReliance}%` }} /></div><div><span>Reflection</span><strong>{selected.beliefs.reflection}</strong><i style={{ width: `${selected.beliefs.reflection}%` }} /></div></div></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside>
     </section>
   </main>;

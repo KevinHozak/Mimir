@@ -6,7 +6,7 @@ The first release will let one observer watch a shared fictional village, inspec
 
 ## Current status
 
-The current observer slice includes a deterministic engine, SQLite-backed Fastify server, persistent tile movement, replay controls, rules-based social interpretations, and a local owner-operations panel for timeline recovery. The project is still pre-alpha and the simulation remains intentionally small; no paid AI provider is connected by default.
+The current observer slice includes a deterministic engine, SQLite-backed Fastify server, persistent tile movement, replay controls, season metrics and review, authored character/dilemma cards, a provisional shared-granary institution, bounded social interpretation validation with deterministic fallback, and a local owner-operations panel for timeline recovery. The project is still pre-alpha and the simulation remains intentionally small; no paid AI provider is connected by default.
 
 The initial world is planned around:
 
@@ -55,3 +55,5 @@ Run the complete local world with `npm start`. It builds missing artifacts, star
 Run the server and browser with `npm run dev:server` and `npm run dev:web`. When `OWNER_TOKEN` is configured, enter that token in the owner panel before using state-changing controls. For a safe database copy, use `DATABASE_PATH=<path> npm run backup --workspace @mimir/server -- backup <destination>`. Scheduled local backups are opt-in with `BACKUP_INTERVAL_MS` and `BACKUP_DIR`.
 
 Run the local browser flow with `npm run test:e2e --workspace @mimir/web` after building; it starts isolated local services and verifies authenticated ticking plus independent live/history observers.
+
+The pre-hosting deployment configuration is in `render.yaml`, with the operational checklist in [Hosted observer runbook](docs/hosted-observer-runbook.md). It defines a single paid Render service with a mounted SQLite disk and same-origin web serving; independent disaster-recovery storage still needs to be provisioned and restore-tested before treating the service as durable.

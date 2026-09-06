@@ -2,10 +2,10 @@ import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
 import { randomUUID } from "node:crypto";
-import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
+import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, createDefaultWorld, createWorld, FIRST_WINTER_SCENARIO, LOCATION_TILES, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, CHARACTER_CARDS, createDefaultWorld, createWorld, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, LOCATION_TILES, setObjectBlocked, type SharedStore, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 
 const port = Number(process.env.PORT ?? 3000);
 let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
@@ -18,6 +18,8 @@ const ownerToken = process.env.OWNER_TOKEN;
 const databasePath = process.env.DATABASE_PATH ?? "mimir.db";
 const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
 const backupDirectory = resolve(process.env.BACKUP_DIR ?? "backups");
+const serveWeb = process.env.SERVE_WEB === "true";
+const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
 database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (tick INTEGER PRIMARY KEY, state_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, event_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS interpretations (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS timelines (id TEXT PRIMARY KEY, parent_id TEXT, created_at TEXT NOT NULL, status TEXT NOT NULL, archived_at TEXT); CREATE TABLE IF NOT EXISTS timeline_checkpoints (timeline_id TEXT NOT NULL, tick INTEGER NOT NULL, state_json TEXT NOT NULL, PRIMARY KEY (timeline_id, tick)); CREATE TABLE IF NOT EXISTS timeline_events (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, event_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS timeline_interpretations (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS runtime_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);`);
@@ -45,7 +47,8 @@ function createScheduledBackup(reason: string) {
 }
 
 function normalizeState(raw: WorldState): WorldState {
-  return { ...raw, scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, worldDefinition: raw.worldDefinition ?? createDefaultWorld(), worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
+  const sharedStore: SharedStore = raw.sharedStore ?? { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 };
+  return { ...raw, sharedStore, scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, worldDefinition: raw.worldDefinition ?? createDefaultWorld(), worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
 }
 function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;
@@ -63,11 +66,29 @@ function saveActiveTimeline() { database.prepare("INSERT INTO runtime_metadata (
 
 app.get("/health", async () => ({ ok: true, tick: state.tick, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents }));
 app.get("/api/social/config", async () => ({ mode: socialMode, aiEnabled, budgetCents: socialBudgetCents, provider: "none", historicalPlaybackUsesAI: false }));
+app.get("/api/design", async () => ({ characterCards: CHARACTER_CARDS, dilemmas: FIRST_WINTER_DILEMMAS, sharedStore: state.sharedStore }));
 app.get("/api/timelines", async () => ({ activeTimelineId, timelines: database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines ORDER BY created_at").all() }));
 app.get("/api/live", async (_request, reply) => { reply.hijack(); const response = reply.raw; response.writeHead(200, { "content-type": "text/event-stream", "cache-control": "no-cache", connection: "keep-alive", "access-control-allow-origin": "*" }); response.write(`data: ${JSON.stringify({ state, timelineId: activeTimelineId, schedulerPaused })}\n\n`); liveClients.add(response); response.on("close", () => liveClients.delete(response)); });
 app.get("/api/world", async (request, reply) => { const query = request.query as { tick?: string }; if (query.tick === undefined) return { state, timelineId: activeTimelineId, schedulerPaused }; const tick = Number(query.tick); if (!Number.isInteger(tick) || tick < 0) return reply.code(400).send({ error: "tick must be a non-negative integer" }); const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND tick = ?").get(activeTimelineId, tick) as { state_json: string } | undefined; if (!row) return reply.code(404).send({ error: `No checkpoint exists for tick ${tick}` }); return { state: normalizeState(JSON.parse(row.state_json) as WorldState), timelineId: activeTimelineId, schedulerPaused }; });
 app.get("/api/events", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? ORDER BY tick DESC LIMIT ?").all(activeTimelineId, limit) as { event_json: string }[]; return { events: rows.reverse().map((row) => JSON.parse(row.event_json) as WorldEvent[]).flat(), timelineId: activeTimelineId }; });
 app.get("/api/interpretations", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? ORDER BY tick DESC LIMIT ?").all(activeTimelineId, limit) as { interpretation_json: string }[]; return { interpretations: rows.reverse().map((row) => JSON.parse(row.interpretation_json) as SocialInterpretation), timelineId: activeTimelineId }; });
+app.get("/api/metrics", async () => {
+  const rows = database.prepare("SELECT tick, state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick ASC").all(activeTimelineId) as { tick: number; state_json: string }[];
+  return {
+    timelineId: activeTimelineId,
+    metrics: rows.map((row) => {
+      const snapshot = normalizeState(JSON.parse(row.state_json) as WorldState);
+      return {
+        tick: row.tick,
+        foodReserve: snapshot.foodReserve,
+        averageTrust: Math.round(snapshot.villagers.reduce((total, villager) => total + villager.trust, 0) / snapshot.villagers.length),
+        hungryVillagers: snapshot.villagers.filter((villager) => villager.hunger >= 45).length,
+        travelingVillagers: snapshot.villagers.filter((villager) => villager.activity === "travel").length,
+        collectingVillagers: snapshot.villagers.filter((villager) => villager.activity === "collect").length
+      };
+    })
+  };
+});
 app.get("/api/report", async () => { const timeline = currentTimeline(); const counts = database.prepare("SELECT (SELECT COUNT(*) FROM timeline_checkpoints WHERE timeline_id = ?) AS checkpoints, (SELECT COUNT(*) FROM timeline_events WHERE timeline_id = ?) AS events, (SELECT COUNT(*) FROM timeline_interpretations WHERE timeline_id = ?) AS interpretations").get(activeTimelineId, activeTimelineId, activeTimelineId) as { checkpoints: number; events: number; interpretations: number }; const averageTrust = Math.round(state.villagers.reduce((total, villager) => total + villager.trust, 0) / state.villagers.length); return { timeline, tick: state.tick, schedulerPaused, tickIntervalMs, databaseBytes: existsSync(databasePath) ? statSync(databasePath).size : 0, socialMode, socialBudgetCents, fallbackCount: counts.interpretations, summary: { season: state.season, scenarioName: state.scenario.name, finalFood: state.foodReserve, averageTrust, villagers: state.villagers.length }, ...counts }; });
 app.post("/api/scheduler", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { paused?: unknown; intervalMs?: unknown } | undefined; if (body?.paused !== undefined && typeof body.paused !== "boolean") return reply.code(400).send({ error: "paused must be a boolean" }); if (body?.intervalMs !== undefined && (!Number.isInteger(body.intervalMs) || Number(body.intervalMs) < 250 || Number(body.intervalMs) > 300000)) return reply.code(400).send({ error: "intervalMs must be an integer between 250 and 300000" }); if (typeof body?.intervalMs === "number") tickIntervalMs = body.intervalMs; if (typeof body?.paused === "boolean") schedulerPaused = body.paused; restartScheduler(); return { schedulerPaused, tickIntervalMs }; });
 app.post("/api/owner/world/object", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { objectId?: unknown; blocked?: unknown } | undefined; if (typeof body?.objectId !== "string" || typeof body.blocked !== "boolean") return reply.code(400).send({ error: "objectId and blocked are required" }); try { state = { ...state, worldRuntime: setObjectBlocked(state.worldDefinition!, state.worldRuntime ?? { blockedObjectIds: [] }, body.objectId, body.blocked) }; database.prepare("INSERT OR REPLACE INTO timeline_checkpoints (timeline_id, tick, state_json) VALUES (?, ?, ?)").run(activeTimelineId, state.tick, JSON.stringify(state)); return { state, objectId: body.objectId, blocked: body.blocked }; } catch (error) { return reply.code(400).send({ error: error instanceof Error ? error.message : "invalid world object" }); } });
@@ -94,6 +115,22 @@ app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(req
 app.post("/api/owner/continue", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'active', archived_at = NULL WHERE id = ?").run(activeTimelineId); return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/branch", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { tick?: unknown } | undefined; const branchTick = body?.tick === undefined ? state.tick : Number(body.tick); if (!Number.isInteger(branchTick) || branchTick < 0) return reply.code(400).send({ error: "tick must be a non-negative integer" }); const source = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND tick = ?").get(activeTimelineId, branchTick) as { state_json: string } | undefined; if (!source) return reply.code(404).send({ error: "branch source checkpoint not found" }); const newId = `timeline-${randomUUID()}`; database.exec("BEGIN IMMEDIATE"); try { database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(newId, activeTimelineId, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, tick, state_json) SELECT ?, tick, state_json FROM timeline_checkpoints WHERE timeline_id = ? AND tick <= ?").run(newId, activeTimelineId, branchTick); database.prepare("INSERT INTO timeline_events (timeline_id, id, tick, event_json) SELECT ?, id, tick, event_json FROM timeline_events WHERE timeline_id = ? AND tick <= ?").run(newId, activeTimelineId, branchTick); database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, tick, interpretation_json) SELECT ?, id, tick, interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND tick <= ?").run(newId, activeTimelineId, branchTick); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; } activeTimelineId = newId; state = { ...normalizeState(JSON.parse(source.state_json) as WorldState), worldId: newId }; saveActiveTimeline(); return { timeline: currentTimeline(), state }; });
 app.post("/api/owner/reset", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { seed?: unknown } | undefined; const seed = body?.seed === undefined ? 20260906 : Number(body.seed); if (!Number.isInteger(seed)) return reply.code(400).send({ error: "seed must be an integer" }); const parent = activeTimelineId; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), parent); activeTimelineId = `timeline-${randomUUID()}`; state = createWorld(seed, activeTimelineId); database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(activeTimelineId, parent, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, tick, state_json) VALUES (?, 0, ?)").run(activeTimelineId, JSON.stringify(state)); schedulerPaused = true; saveActiveTimeline(); return { timeline: currentTimeline(), state, schedulerPaused }; });
+
+if (serveWeb) {
+  app.get("/*", async (request, reply) => {
+    const requestedPath = decodeURIComponent((request.raw.url ?? "/").split("?", 1)[0]);
+    if (requestedPath.startsWith("/api/") || requestedPath === "/health") return reply.code(404).send({ error: "not found" });
+    const relativePath = requestedPath === "/" ? "index.html" : requestedPath.replace(/^\/+/, "");
+    const candidate = resolve(webDistDirectory, relativePath);
+    const safePath = relative(candidate, webDistDirectory);
+    const safe = safePath === "" || (!safePath.startsWith("..") && !isAbsolute(safePath));
+    const indexPath = join(webDistDirectory, "index.html");
+    const filePath = safe && existsSync(candidate) && statSync(candidate).isFile() ? candidate : indexPath;
+    if (!existsSync(filePath)) return reply.code(404).send({ error: "web build not found" });
+    const contentTypes: Record<string, string> = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp" };
+    return reply.type(contentTypes[extname(filePath)] ?? "application/octet-stream").send(readFileSync(filePath));
+  });
+}
 
 await app.listen({ port, host: "0.0.0.0" });
 function restartScheduler() { if (scheduler) clearInterval(scheduler); if (tickIntervalMs > 0) { scheduler = setInterval(() => { if (!shuttingDown && !schedulerPaused && state.tick < seasonTickLimit) commitTick(); }, tickIntervalMs); scheduler.unref(); } }

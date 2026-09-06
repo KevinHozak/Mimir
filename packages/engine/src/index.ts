@@ -1,6 +1,8 @@
 export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
 export type Activity = "work" | "rest" | "share" | "collect" | "craft" | "meet" | "gather" | "travel";
 export * from "./world.js";
+export * from "./design.js";
+export * from "./social.js";
 import { createDefaultWorld, findRoute, isWalkable, sameCell, type WorldDefinition, type WorldRuntimeState } from "./world.js";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
@@ -33,14 +35,25 @@ export interface WorldState {
   foodReserve: number;
   scenario: ScenarioConfig;
   villagers: Villager[];
+  sharedStore: SharedStore;
   worldDefinition?: WorldDefinition;
   worldRuntime?: WorldRuntimeState;
+}
+
+export interface SharedStore {
+  id: "shared-granary";
+  status: "provisional" | "active";
+  contributionRule: string;
+  distributionRule: string;
+  contributions: number;
+  distributions: number;
+  dissent: number;
 }
 
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter";
+  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution";
   message: string;
   villagerIds: string[];
 }
@@ -102,6 +115,7 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
     season: 1,
     foodReserve: scenario.initialFood,
     scenario,
+    sharedStore: { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 },
     villagers: names.map(([name, tradition], index) => ({
       id: `villager-${index + 1}`,
       name,
@@ -192,11 +206,13 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
   const sharingCount = nextVillagers.filter((villager) => villager.activity === "share").length;
   const meetingVillagers = nextVillagers.filter((villager) => villager.activity === "meet");
   const consumed = nextVillagers.filter((villager) => villager.food === 0).length;
+  const collectionCount = nextVillagers.filter((villager) => villager.activity === "collect").length;
   const state: WorldState = {
     ...input,
     tick: input.tick + 1,
     seed: random,
     foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length),
+    sharedStore: { ...(input.sharedStore ?? createWorld(input.seed, input.worldId, input.scenario).sharedStore), contributions: (input.sharedStore?.contributions ?? 0) + foodProduced, distributions: (input.sharedStore?.distributions ?? 0) + sharingCount + collectionCount, dissent: input.sharedStore?.dissent ?? 0 },
     villagers: nextVillagers
   };
   const events: WorldEvent[] = [
@@ -227,6 +243,13 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       kind: "harvest" as const,
       message: `${foodProduced} food was gathered from the village's work.`,
       villagerIds: []
+    }] : []),
+    ...((foodProduced > 0 || sharingCount > 0 || collectionCount > 0) ? [{
+      id: `event-${state.tick}-institution`,
+      tick: state.tick,
+      kind: "institution" as const,
+      message: `The shared granary recorded ${foodProduced} contribution${foodProduced === 1 ? "" : "s"} and ${sharingCount + collectionCount} distribution${sharingCount + collectionCount === 1 ? "" : "s"}.`,
+      villagerIds: nextVillagers.filter((villager) => villager.activity === "share" || villager.activity === "collect").map((villager) => villager.id)
     }] : []),
     ...(meetingVillagers.length > 0 ? [{
       id: `event-${state.tick}-encounter`,

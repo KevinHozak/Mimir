@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: mimir
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:hosted
+    healthCheckPath: /health
+    autoDeploy: true
+    disk:
+      name: mimir-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: SERVE_WEB
+        value: "true"
+      - key: DATABASE_PATH
+        value: /var/data/mimir.db
+      - key: BACKUP_DIR
+        value: /var/data/backups
+      - key: BACKUP_INTERVAL_MS
+        value: "86400000"
+      - key: TICK_INTERVAL_MS
+        value: "15000"
+      - key: OWNER_TOKEN
+        sync: false

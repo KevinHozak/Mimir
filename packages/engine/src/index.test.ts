@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { advanceWorld, createFixtureWorld, createWorld, findRoute, FIRST_WINTER_SCENARIO, importTiledMap, interpretSocialEvents, isWalkable, parseWorldDefinition, runTicks, setObjectBlocked, worldFingerprint } from "./index.js";
+import { advanceWorld, boundedSocialInterpretation, CHARACTER_CARDS, createFixtureWorld, createWorld, findRoute, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, importTiledMap, interpretSocialEvents, isWalkable, parseWorldDefinition, runTicks, setObjectBlocked, validateSocialInterpretation, worldFingerprint } from "./index.js";
 
 const firstTick = advanceWorld(createWorld(42));
 const first = runTicks(createWorld(42), 60);
@@ -31,6 +31,17 @@ assert.ok(firstTick.state.worldDefinition);
 assert.equal(firstTick.state.worldDefinition?.width, 100);
 assert.equal(firstTick.state.worldDefinition?.height, 100);
 assert.ok(first.state.foodReserve >= 0);
+assert.equal(CHARACTER_CARDS.length, 6);
+assert.equal(FIRST_WINTER_DILEMMAS.length, 3);
+assert.equal(validateSocialInterpretation({ villagerId: "villager-1", eventId: "missing", belief: "cooperation", confidence: 0.5, trustDelta: 1, summary: "unsupported", evidenceEventIds: ["missing"] }, { state: firstTick.state, events: firstTick.events, promptVersion: "test" }, 0), null);
+const fallbackSocial = await boundedSocialInterpretation(firstTick.state, firstTick.events, undefined, { budgetCents: 0, timeoutMs: 10, promptVersion: "test" });
+assert.equal(fallbackSocial.usedFallback, true);
+assert.ok(fallbackSocial.interpretations.every((interpretation) => interpretation.source === "rules"));
+const modelSource = first.interpretations[0];
+assert.ok(modelSource);
+const acceptedSocial = await boundedSocialInterpretation(first.state, first.events, async () => [modelSource], { budgetCents: 1, timeoutMs: 50, promptVersion: "test" });
+assert.equal(acceptedSocial.usedFallback, false);
+assert.equal(acceptedSocial.interpretations[0].source, "ai");
 let collectionState = { ...createWorld(7), foodReserve: 1000, villagers: createWorld(7).villagers.map((villager, index) => index === 0 ? { ...villager, food: 0, hunger: 70 } : villager) };
 let collectionObserved = false;
 for (let tick = 0; tick < 50; tick += 1) {
