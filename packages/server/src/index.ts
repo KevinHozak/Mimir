@@ -4,6 +4,9 @@ import { DatabaseSync } from "node:sqlite";
 import { advanceWorld, createWorld, type WorldEvent, type WorldState } from "@philosophy-world/engine";
 
 const port = Number(process.env.PORT ?? 3000);
+const tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
+const autoTick = process.env.AUTO_TICK !== "false";
+const seasonTickLimit = Number(process.env.SEASON_TICK_LIMIT ?? 60);
 const databasePath = process.env.DATABASE_PATH ?? "philosophy-world.db";
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
@@ -17,7 +20,15 @@ const app = Fastify({ logger: true });
 await app.register(cors, { origin: true });
 
 app.get("/health", async () => ({ ok: true, tick: state.tick, databasePath }));
-app.get("/api/world", async () => ({ state }));
+app.get("/api/world", async (request, reply) => {
+  const query = request.query as { tick?: string };
+  if (query.tick === undefined) return { state };
+  const tick = Number(query.tick);
+  if (!Number.isInteger(tick) || tick < 0) return reply.code(400).send({ error: "tick must be a non-negative integer" });
+  const row = database.prepare("SELECT state_json FROM checkpoints WHERE tick = ?").get(tick) as { state_json: string } | undefined;
+  if (!row) return reply.code(404).send({ error: `No checkpoint exists for tick ${tick}` });
+  return { state: JSON.parse(row.state_json) as WorldState };
+});
 app.get("/api/events", async (request) => {
   const query = request.query as { limit?: string };
   const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50)));
@@ -25,7 +36,8 @@ app.get("/api/events", async (request) => {
   return { events: rows.reverse().map((row) => JSON.parse(row.event_json) as WorldEvent) };
 });
 
-app.post("/api/tick", async () => {
+function commitTick(): { state: WorldState; events: WorldEvent[] } | null {
+  if (state.tick >= seasonTickLimit) return null;
   const result = advanceWorld(state);
   database.exec("BEGIN IMMEDIATE");
   try {
@@ -39,6 +51,19 @@ app.post("/api/tick", async () => {
   }
   state = result.state;
   return { state, events: result.events };
+}
+
+app.post("/api/tick", async (request, reply) => {
+  const result = commitTick();
+  if (!result) return reply.code(409).send({ error: "season boundary reached", state });
+  return result;
 });
 
 await app.listen({ port, host: "0.0.0.0" });
+
+if (autoTick && tickIntervalMs > 0) {
+  setInterval(() => {
+    if (state.tick < seasonTickLimit) commitTick();
+  }, tickIntervalMs).unref();
+  app.log.info({ tickIntervalMs, seasonTickLimit }, "automatic tick scheduler enabled");
+}
