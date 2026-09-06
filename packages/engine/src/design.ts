@@ -18,6 +18,7 @@ export interface DilemmaChoice {
 
 export interface DilemmaCard {
   id: string;
+  triggerTick: number;
   title: string;
   prompt: string;
   competingValues: string[];
@@ -36,6 +37,7 @@ export const CHARACTER_CARDS: CharacterCard[] = [
 export const FIRST_WINTER_DILEMMAS: DilemmaCard[] = [
   {
     id: "hungry-neighbor-loan",
+    triggerTick: 12,
     title: "The Hungry Neighbor",
     prompt: "A villager asks for food from the shared store but cannot promise when they can repay it.",
     competingValues: ["care", "reciprocity", "trust"],
@@ -47,6 +49,7 @@ export const FIRST_WINTER_DILEMMAS: DilemmaCard[] = [
   },
   {
     id: "common-repair",
+    triggerTick: 24,
     title: "The Common Repair",
     prompt: "Repairing the bridge would help everyone, but the same hours could produce private food before winter.",
     competingValues: ["common good", "self-direction", "urgency"],
@@ -58,6 +61,7 @@ export const FIRST_WINTER_DILEMMAS: DilemmaCard[] = [
   },
   {
     id: "defensible-promise-breach",
+    triggerTick: 36,
     title: "The Broken Promise",
     prompt: "A villager breaks a promise because an unexpected danger makes the original commitment harmful.",
     competingValues: ["reliability", "mercy", "changed circumstances"],
@@ -68,4 +72,3 @@ export const FIRST_WINTER_DILEMMAS: DilemmaCard[] = [
     ]
   }
 ];
-

@@ -54,9 +54,9 @@ try {
     if (season < 3 && (await request("/api/owner/reset", { seed: season + 100 })).status !== 200) throw new Error(`season ${season + 1} reset failed`);
   }
 const completedReport = await (await fetch(`${endpoint}/api/report`)).json() as { tick: number; checkpoints: number; summary?: { dilemmasResolved?: number } };
-if (completedReport.tick !== 60 || completedReport.checkpoints !== 61 || completedReport.summary?.dilemmasResolved !== 1) throw new Error("completed season report was incomplete");
+if (completedReport.tick !== 60 || completedReport.checkpoints !== 61 || completedReport.summary?.dilemmasResolved !== 3) throw new Error("completed season report was incomplete");
 const recordedEvents = await (await fetch(`${endpoint}/api/events?limit=200`)).json() as { events: { kind: string; tick: number }[] };
-if (!recordedEvents.events.some((event) => event.kind === "dilemma" && event.tick === 12)) throw new Error("dilemma event was not persisted for replay");
+if (![12, 24, 36].every((tick) => recordedEvents.events.some((event) => event.kind === "dilemma" && event.tick === tick))) throw new Error("dilemma events were not persisted for replay");
 console.log("server integration tests passed");
 } finally {
   server.kill();

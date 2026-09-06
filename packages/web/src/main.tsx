@@ -143,14 +143,14 @@ function SeasonReview({ world, metrics }: { world: State; metrics: Metric[] }) {
   const foodPoints = visible.map((metric) => point(metric, metric.foodReserve, maxFood)).join(" ");
   const trustPoints = visible.map((metric) => point(metric, metric.averageTrust, 100)).join(" ");
   const complete = world.tick >= world.scenario.seasonTickLimit;
-  const dilemma = world.dilemmaHistory?.at(-1);
+  const dilemmas = world.dilemmaHistory ?? [];
   return <section className="season-review">
     <div className="season-review-heading"><div><h2>{complete ? "Season review" : "Season progress"}</h2><p>{complete ? `${world.scenario.name} is complete.` : `${world.scenario.name} is recording its outcome.`}</p></div><strong>Tick {world.tick} / {world.scenario.seasonTickLimit}</strong></div>
     {latest ? <>
-      <div className="metric-cards"><span>Food reserve<strong>{latest.foodReserve}</strong></span><span>Average trust<strong>{latest.averageTrust}</strong></span><span>Hungry<strong>{latest.hungryVillagers}</strong></span><span>Dilemmas<strong>{world.dilemmaHistory?.length ?? 0}</strong></span></div>
+      <div className="metric-cards"><span>Food reserve<strong>{latest.foodReserve}</strong></span><span>Average trust<strong>{latest.averageTrust}</strong></span><span>Hungry<strong>{latest.hungryVillagers}</strong></span><span>Dilemmas<strong>{dilemmas.length}</strong></span></div>
       <svg className="metric-chart" viewBox="0 0 560 170" role="img" aria-label="Food reserve and average trust over the recorded season"><line x1="0" y1="154" x2="560" y2="154" /><polyline className="food-line" points={foodPoints} /><polyline className="trust-line" points={trustPoints} /></svg>
       <div className="metric-legend"><span><i className="food-key" /> Food reserve</span><span><i className="trust-key" /> Average trust</span></div>
-      {dilemma && <article className="dilemma-outcome"><strong>Tick {dilemma.tick}: {dilemma.title}</strong><p>{dilemma.choiceLabel} · {dilemma.summary}</p><small>Food {dilemma.foodDelta >= 0 ? "+" : ""}{dilemma.foodDelta} · trust {dilemma.trustDelta >= 0 ? "+" : ""}{dilemma.trustDelta}</small></article>}
+      {dilemmas.map((dilemma) => <article className="dilemma-outcome" key={dilemma.id}><strong>Tick {dilemma.tick}: {dilemma.title}</strong><p>{dilemma.choiceLabel} · {dilemma.summary}</p><small>Food {dilemma.foodDelta >= 0 ? "+" : ""}{dilemma.foodDelta} · trust {dilemma.trustDelta >= 0 ? "+" : ""}{dilemma.trustDelta}</small></article>)}
     </> : <p>Metrics will appear after the first committed tick.</p>}
   </section>;
 }

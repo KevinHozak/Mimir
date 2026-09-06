@@ -4,7 +4,7 @@ export * from "./world.js";
 export * from "./design.js";
 export * from "./social.js";
 import { createDefaultWorld, findRoute, isWalkable, sameCell, type WorldDefinition, type WorldRuntimeState } from "./world.js";
-import { FIRST_WINTER_DILEMMAS } from "./design.js";
+import { FIRST_WINTER_DILEMMAS, type DilemmaCard } from "./design.js";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
 export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; dilemmaTick?: number; }
@@ -62,6 +62,9 @@ export interface DilemmaResolution {
   villagerIds: string[];
   foodDelta: number;
   trustDelta: number;
+  belief: keyof Beliefs;
+  beliefDelta: number;
+  institutionStatus?: SharedStore["status"];
   summary: string;
 }
 
@@ -113,6 +116,59 @@ function nextRandom(value: number): number {
 
 function bounded(value: number): number {
   return Math.max(0, Math.min(100, value));
+}
+
+interface DilemmaConsequence {
+  foodDelta: number;
+  trustDelta: number;
+  belief: keyof Beliefs;
+  beliefDelta: number;
+  dissentDelta: number;
+  institutionStatus?: SharedStore["status"];
+  summary: string;
+}
+
+interface ResolvedDilemma {
+  dilemma: DilemmaCard;
+  applicantIndex: number;
+  witnessIndex: number;
+  choice: DilemmaCard["choices"][number];
+  consequences: DilemmaConsequence;
+}
+
+function resolveDilemma(input: WorldState, villagers: Villager[], nextTick: number): ResolvedDilemma | null {
+  const dilemma = FIRST_WINTER_DILEMMAS.find((candidate) => candidate.triggerTick === nextTick);
+  if (!dilemma || villagers.length === 0) return null;
+  const chooserIndex = nextRandom(input.seed + nextTick + (input.dilemmaHistory?.length ?? 0) * 313) % villagers.length;
+  const chooser = villagers[chooserIndex];
+  const circumstancePressure = nextRandom(input.seed + nextTick + 1543) % 100;
+  const applicantIndex = villagers.reduce((bestIndex, villager, index) => villager.hunger > villagers[bestIndex].hunger ? index : bestIndex, 0);
+  const witnessIndex = (applicantIndex + 1 + chooserIndex) % villagers.length;
+  let choiceId: string;
+  if (dilemma.id === "hungry-neighbor-loan") {
+    const careScore = chooser.beliefs.cooperation + (chooser.tradition === "Hearthkeepers" ? 10 : 0) + chooser.trust;
+    const generosityScore = careScore + circumstancePressure - (input.foodReserve < 8 ? 18 : 0);
+    choiceId = generosityScore >= chooser.beliefs.selfReliance + 55 ? "grant" : generosityScore >= chooser.beliefs.selfReliance + 35 ? "loan" : "refuse";
+  } else if (dilemma.id === "common-repair") {
+    const commonScore = chooser.beliefs.cooperation + chooser.beliefs.reflection + (chooser.tradition === "Hearthkeepers" || chooser.tradition === "Seekers" ? 8 : 0);
+    const privateScore = chooser.beliefs.selfReliance + (chooser.tradition === "Freehands" ? 25 : 0) + circumstancePressure / 8;
+    choiceId = commonScore >= privateScore + 32 ? "repair" : privateScore >= commonScore + 8 ? "private-work" : "split";
+  } else {
+    choiceId = chooser.beliefs.reflection + circumstancePressure / 5 >= 62 ? "repair-publicly" : chooser.trust < 42 ? "enforce" : "release";
+  }
+  const choice = dilemma.choices.find((candidate) => candidate.id === choiceId) ?? dilemma.choices[0];
+  const consequencesByChoice: Record<string, DilemmaConsequence> = {
+    grant: { foodDelta: -8, trustDelta: 4, belief: "cooperation", beliefDelta: 3, dissentDelta: 0, summary: "The store granted immediate care without requiring repayment." },
+    loan: { foodDelta: -5, trustDelta: 1, belief: "selfReliance", beliefDelta: 2, dissentDelta: 0, summary: "The store offered measured help while preserving an expectation of reciprocity." },
+    refuse: { foodDelta: 0, trustDelta: -4, belief: "cooperation", beliefDelta: -3, dissentDelta: 1, summary: "The store protected its reserve, but the refusal left a visible grievance." },
+    repair: { foodDelta: -4, trustDelta: 4, belief: "cooperation", beliefDelta: 4, dissentDelta: 0, institutionStatus: "active", summary: "The village repaired the bridge together and made the granary a trusted common institution." },
+    "private-work": { foodDelta: 4, trustDelta: -2, belief: "selfReliance", beliefDelta: 4, dissentDelta: 1, summary: "Private work raised the immediate reserve, while the shared crossing remained vulnerable." },
+    split: { foodDelta: 0, trustDelta: 1, belief: "reflection", beliefDelta: 2, dissentDelta: 0, summary: "The village split its effort and accepted a slower answer to both needs." },
+    "repair-publicly": { foodDelta: -2, trustDelta: 4, belief: "reflection", beliefDelta: 4, dissentDelta: 0, summary: "An honest explanation and visible repair preserved trust after the promise changed." },
+    enforce: { foodDelta: 0, trustDelta: -3, belief: "selfReliance", beliefDelta: 2, dissentDelta: 1, summary: "The village enforced its promise, preserving predictability at a human cost." },
+    release: { foodDelta: 0, trustDelta: 1, belief: "cooperation", beliefDelta: 2, dissentDelta: 0, summary: "The village released the promise and accepted that mercy can change a rule." }
+  };
+  return { dilemma, applicantIndex, witnessIndex, choice, consequences: consequencesByChoice[choice.id] ?? { foodDelta: 0, trustDelta: 0, belief: "reflection", beliefDelta: 0, dissentDelta: 0, summary: "The village recorded the decision without changing the common reserve." } };
 }
 
 function routeBetween(start: TilePosition, target: TilePosition): TilePosition[] {
@@ -225,18 +281,7 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
   const meetingVillagers = nextVillagers.filter((villager) => villager.activity === "meet");
   const consumed = nextVillagers.filter((villager) => villager.food === 0).length;
   const collectionCount = nextVillagers.filter((villager) => villager.activity === "collect").length;
-  const resolvedDilemma = input.tick + 1 === (input.scenario.dilemmaTick ?? 12) ? (() => {
-    const dilemma = FIRST_WINTER_DILEMMAS[0];
-    const applicantIndex = nextRandom(input.seed + input.tick + 7919) % nextVillagers.length;
-    const witnessIndex = (applicantIndex + 1) % nextVillagers.length;
-    const choice = dilemma.choices[nextRandom(input.seed + input.tick + 1543) % dilemma.choices.length];
-    const consequences = ({
-      grant: { foodDelta: -8, trustDelta: 4, belief: "cooperation" as const, dissentDelta: 0, summary: "The store granted immediate care without requiring repayment." },
-      loan: { foodDelta: -5, trustDelta: 1, belief: "selfReliance" as const, dissentDelta: 0, summary: "The store offered measured help while preserving an expectation of reciprocity." },
-      refuse: { foodDelta: 0, trustDelta: -4, belief: "cooperation" as const, dissentDelta: 1, summary: "The store protected its reserve, but the refusal left a visible grievance." }
-    } as const)[choice.id] ?? { foodDelta: 0, trustDelta: 0, belief: "reflection" as const, dissentDelta: 0, summary: "The village recorded the decision without changing the common reserve." };
-    return { dilemma, applicantIndex, witnessIndex, choice, consequences };
-  })() : null;
+  const resolvedDilemma = resolveDilemma(input, nextVillagers, input.tick + 1);
   const dilemmaVillagerIds = resolvedDilemma ? [nextVillagers[resolvedDilemma.applicantIndex].id, nextVillagers[resolvedDilemma.witnessIndex].id] : [];
   const dilemmaHistory = resolvedDilemma ? [...(input.dilemmaHistory ?? []), {
     id: `dilemma-${input.tick + 1}-${resolvedDilemma.dilemma.id}`,
@@ -248,23 +293,26 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     villagerIds: dilemmaVillagerIds,
     foodDelta: resolvedDilemma.consequences.foodDelta,
     trustDelta: resolvedDilemma.consequences.trustDelta,
+    belief: resolvedDilemma.consequences.belief,
+    beliefDelta: resolvedDilemma.consequences.beliefDelta,
+    ...(resolvedDilemma.consequences.institutionStatus ? { institutionStatus: resolvedDilemma.consequences.institutionStatus } : {}),
     summary: resolvedDilemma.consequences.summary
   }] : (input.dilemmaHistory ?? []);
   const dilemmaAdjustedVillagers = resolvedDilemma ? nextVillagers.map((villager, index) => {
     if (index !== resolvedDilemma.applicantIndex && index !== resolvedDilemma.witnessIndex) return villager;
     const trustAdjustment = resolvedDilemma.consequences.trustDelta * (index === resolvedDilemma.applicantIndex ? 1 : 0.5);
-    return { ...villager, trust: bounded(villager.trust + trustAdjustment), beliefs: { ...villager.beliefs, [resolvedDilemma.consequences.belief]: bounded(villager.beliefs[resolvedDilemma.consequences.belief] + (resolvedDilemma.consequences.trustDelta > 0 ? 2 : -2)) } };
+    return { ...villager, trust: bounded(villager.trust + trustAdjustment), beliefs: { ...villager.beliefs, [resolvedDilemma.consequences.belief]: bounded(villager.beliefs[resolvedDilemma.consequences.belief] + resolvedDilemma.consequences.beliefDelta) } };
   }) : nextVillagers;
+  const previousStore = input.sharedStore ?? createWorld(input.seed, input.worldId, input.scenario).sharedStore;
   const state: WorldState = {
     ...input,
     tick: input.tick + 1,
     seed: random,
     foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length + (resolvedDilemma?.consequences.foodDelta ?? 0)),
-    sharedStore: { ...(input.sharedStore ?? createWorld(input.seed, input.worldId, input.scenario).sharedStore), contributions: (input.sharedStore?.contributions ?? 0) + foodProduced, distributions: (input.sharedStore?.distributions ?? 0) + sharingCount + collectionCount, dissent: input.sharedStore?.dissent ?? 0 },
+    sharedStore: { ...previousStore, status: resolvedDilemma?.consequences.institutionStatus ?? previousStore.status, contributions: previousStore.contributions + foodProduced, distributions: previousStore.distributions + sharingCount + collectionCount, dissent: previousStore.dissent + (resolvedDilemma?.consequences.dissentDelta ?? 0) },
     villagers: dilemmaAdjustedVillagers,
     dilemmaHistory
   };
-  if (resolvedDilemma) state.sharedStore.dissent += resolvedDilemma.consequences.dissentDelta;
   const events: WorldEvent[] = [
     {
       id: `event-${state.tick}-tick`,
