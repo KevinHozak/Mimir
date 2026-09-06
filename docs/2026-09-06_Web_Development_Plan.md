@@ -81,6 +81,8 @@ Philosophy World     Season 1 · Day 8 · Morning      LIVE · Connected
 
 - One handcrafted map, approximately 48 × 48 tiles, with the six scenario locations.
 - Warm, restrained palette, clear paths, readable building silhouettes, and simple shadows.
+- Later visual target: an original low-resolution, top-down pixel-art presentation inspired by the feel of *Ultima IV*: highly readable tile-based terrain, chunky 8-bit/early 16-bit character sprites, limited earthy colors, simple two-frame movement, and period-style panels and borders.
+- Recreate the visual language and technical constraints rather than copying *Ultima IV* assets, maps, characters, or exact artwork. All project art must have a documented source and license.
 - Twelve distinguishable villagers using clothing/hair variations and names on selection or hover.
 - Short directional walking loops, idle poses, and small work/rest/conversation indicators.
 - Camera pan, zoom, fit-village button, click-to-select, and optional follow-selected-NPC.
@@ -89,7 +91,7 @@ Philosophy World     Season 1 · Day 8 · Morning      LIVE · Connected
 - A searchable NPC list as an alternative to clicking small sprites. Labels and icons supplement color.
 - Reduced-motion mode removes decorative movement and uses direct or minimal position transitions.
 
-Use one licensed asset family initially. Keep source files and a credits/license manifest with every asset's origin and redistribution requirements. Tiled supplies a free open-source map editor with layers and JSON export; see [Tiled](https://www.mapeditor.org/). Custom portraits, interiors, weather, elaborate effects, and audio can wait.
+Use one licensed asset family initially, or commission/create an original asset family that follows the visual target above. Keep source files and a credits/license manifest with every asset's origin and redistribution requirements. Tiled supplies a free open-source map editor with layers and JSON export; see [Tiled](https://www.mapeditor.org/). Custom portraits, interiors, weather, elaborate effects, and audio can wait.
 
 ## 4. Simulation time and visible movement
 
