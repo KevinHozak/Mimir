@@ -1,0 +1,19 @@
+# Runtime data and local secrets
+*.db
+*.db-shm
+*.db-wal
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+
+# Logs and local tooling
+*.log
+.DS_Store
+.idea/
+.vscode/
