@@ -140,15 +140,61 @@ function cost(world: WorldDefinition, cell: Cell): number { return terrainRules[
 function neighbors(cell: Cell): Cell[] { return [{ x: cell.x, y: cell.y - 1 }, { x: cell.x - 1, y: cell.y }, { x: cell.x + 1, y: cell.y }, { x: cell.x, y: cell.y + 1 }]; }
 function distance(left: Cell, right: Cell): number { return Math.abs(left.x - right.x) + Math.abs(left.y - right.y); }
 
+type RouteEntry = { cell: Cell; priority: number };
+
+class RouteQueue {
+  private entries: RouteEntry[] = [];
+
+  private comesBefore(left: RouteEntry, right: RouteEntry): boolean {
+    return left.priority < right.priority || (left.priority === right.priority && cellKey(left.cell).localeCompare(cellKey(right.cell)) < 0);
+  }
+
+  push(entry: RouteEntry): void {
+    this.entries.push(entry);
+    let index = this.entries.length - 1;
+    while (index > 0) {
+      const parent = Math.floor((index - 1) / 2);
+      if (this.comesBefore(this.entries[parent], this.entries[index])) break;
+      [this.entries[parent], this.entries[index]] = [this.entries[index], this.entries[parent]];
+      index = parent;
+    }
+  }
+
+  pop(): RouteEntry | undefined {
+    const first = this.entries[0];
+    const last = this.entries.pop();
+    if (!first || !last) return first;
+    if (this.entries.length > 0) {
+      this.entries[0] = last;
+      let index = 0;
+      while (true) {
+        const left = index * 2 + 1;
+        const right = left + 1;
+        let smallest = index;
+        if (left < this.entries.length && this.comesBefore(this.entries[left], this.entries[smallest])) smallest = left;
+        if (right < this.entries.length && this.comesBefore(this.entries[right], this.entries[smallest])) smallest = right;
+        if (smallest === index) break;
+        [this.entries[index], this.entries[smallest]] = [this.entries[smallest], this.entries[index]];
+        index = smallest;
+      }
+    }
+    return first;
+  }
+}
+
 export function findRoute(world: WorldDefinition, start: Cell, goal: Cell, runtime?: WorldRuntimeState): Cell[] | null {
   if (!isWalkable(world, start, runtime) || !isWalkable(world, goal, runtime)) return null;
-  const open = [start];
+  const open = new RouteQueue();
+  open.push({ cell: start, priority: distance(start, goal) });
   const cameFrom = new Map<string, Cell>();
   const gScore = new Map([[cellKey(start), 0]]);
   const fScore = new Map([[cellKey(start), distance(start, goal)]]);
-  while (open.length) {
-    open.sort((a, b) => (fScore.get(cellKey(a))! - fScore.get(cellKey(b))!) || (gScore.get(cellKey(a))! - gScore.get(cellKey(b))!) || cellKey(a).localeCompare(cellKey(b)));
-    const current = open.shift()!;
+  while (true) {
+    const entry = open.pop();
+    if (!entry) break;
+    const currentKey = cellKey(entry.cell);
+    if (entry.priority !== fScore.get(currentKey)) continue;
+    const current = entry.cell;
     if (sameCell(current, goal)) {
       const route = [current];
       while (cameFrom.has(cellKey(route[0]))) route.unshift(cameFrom.get(cellKey(route[0]))!);
@@ -160,7 +206,7 @@ export function findRoute(world: WorldDefinition, start: Cell, goal: Cell, runti
       const candidate = gScore.get(cellKey(current))! + cost(world, next);
       if (candidate >= (gScore.get(nextKey) ?? Infinity)) continue;
       cameFrom.set(nextKey, current); gScore.set(nextKey, candidate); fScore.set(nextKey, candidate + distance(next, goal));
-      if (!open.some((cell) => sameCell(cell, next))) open.push(next);
+      open.push({ cell: next, priority: fScore.get(nextKey)! });
     }
   }
   return null;
