@@ -41,8 +41,8 @@ const names = [
 
 const locations = ["Homes", "Granary", "Workshop", "Meeting Place", "Fields", "Woodland"];
 export const LOCATION_TILES: Record<string, TilePosition> = {
-  Homes: { x: 5, y: 6 }, Granary: { x: 14, y: 6 }, Workshop: { x: 23, y: 6 },
-  "Meeting Place": { x: 14, y: 11 }, Fields: { x: 9, y: 11 }, Woodland: { x: 21, y: 11 }
+  Homes: { x: 5, y: 4 }, Granary: { x: 14, y: 4 }, Workshop: { x: 23, y: 4 },
+  "Meeting Place": { x: 14, y: 8 }, Fields: { x: 8, y: 11 }, Woodland: { x: 25, y: 9 }
 };
 
 function nextRandom(value: number): number {

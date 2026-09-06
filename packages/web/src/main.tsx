@@ -10,35 +10,21 @@ type Event = { id: string; tick: number; message: string; kind: string };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 const locationPoints: Record<string, TilePosition> = {
-  Homes: { x: 5, y: 6 }, Granary: { x: 14, y: 6 }, Workshop: { x: 23, y: 6 }, "Meeting Place": { x: 14, y: 11 }, Fields: { x: 9, y: 11 }, Woodland: { x: 21, y: 11 }
+  Homes: { x: 5, y: 4 }, Granary: { x: 14, y: 4 }, Workshop: { x: 23, y: 4 }, "Meeting Place": { x: 14, y: 8 }, Fields: { x: 8, y: 11 }, Woodland: { x: 25, y: 9 }
 };
 
 function VillageCanvas({ villagers }: { villagers: Villager[] }) {
   useEffect(() => {
     const tileSize = 24;
-    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, width: 768, height: 360, parent: "village-canvas", backgroundColor: "#d9c7a3", scene: { create() {
+    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 360, parent: "village-canvas", scene: { create() {
       const scene = this as Phaser.Scene;
-      scene.add.text(24, 22, "THE FIRST WINTER", { color: "#493b2a", fontSize: "22px", fontFamily: "monospace" });
-      for (let x = 0; x < 768; x += tileSize) for (let y = 0; y < 360; y += tileSize) {
-        const shade = (x / tileSize + y / tileSize) % 2 === 0 ? 0xdccaa6 : 0xd7c39b;
-        scene.add.rectangle(x + tileSize / 2, y + tileSize / 2, tileSize, tileSize, shade).setOrigin(0.5);
-      }
-      const roadTiles = [[8, 6], [9, 6], [10, 6], [11, 6], [12, 6], [13, 6], [15, 6], [16, 6], [17, 6], [18, 6], [19, 6], [20, 6], [14, 7], [14, 8], [14, 9], [14, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [15, 10], [16, 10], [17, 10], [18, 10], [19, 10], [20, 10]];
-      roadTiles.forEach(([x, y]) => scene.add.rectangle(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize, tileSize, 0xc2a276));
-      for (let x = 7; x <= 11; x += 1) for (let y = 10; y <= 13; y += 1) scene.add.line(0, 0, x * tileSize + 3, y * tileSize + 18, x * tileSize + 19, y * tileSize + 5, 0x9b713f, 1).setOrigin(0);
-      for (let x = 19; x <= 23; x += 2) for (let y = 9; y <= 13; y += 2) {
-        scene.add.rectangle(x * tileSize + 12, y * tileSize + 15, 5, 12, 0x76563c);
-        scene.add.rectangle(x * tileSize + 12, y * tileSize + 6, 18, 13, 0x527b48);
-      }
+      scene.add.text(24, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
+      for (let x = 0; x < 768; x += tileSize) for (let y = 0; y < 360; y += tileSize) scene.add.rectangle(x + tileSize / 2, y + tileSize / 2, tileSize, tileSize, 0xf2d27d, 0.06).setOrigin(0.5);
+      for (let x = 7; x <= 11; x += 1) for (let y = 10; y <= 13; y += 1) scene.add.line(0, 0, x * tileSize + 3, y * tileSize + 18, x * tileSize + 19, y * tileSize + 5, 0x9b713f, 0.8).setOrigin(0);
       Object.entries(locationPoints).forEach(([label, point]) => {
         const x = point.x * tileSize + tileSize / 2;
         const y = point.y * tileSize + tileSize / 2;
-        const isOutdoor = label === "Fields" || label === "Woodland";
-        if (!isOutdoor) {
-          scene.add.rectangle(x, y, 144, 48, 0xb18c67).setStrokeStyle(3, 0x6a5138);
-          scene.add.triangle(x, y - 28, -76, 20, 0, -10, 76, 20, 0x8f4f3d).setStrokeStyle(2, 0x6a5138);
-          scene.add.rectangle(x, y + 5, 10, 20, 0x493b2a);
-        }
+        scene.add.rectangle(x, y, 106, 30, 0x493b2a, 0.35).setStrokeStyle(2, 0xf2d27d, 0.8);
         scene.add.text(x - (label.length * 4), y - 8, label, { color: "#fff7e8", fontSize: "14px", fontFamily: "monospace" });
       });
       villagers.forEach((villager, index) => {
