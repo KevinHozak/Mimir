@@ -42,6 +42,7 @@ The initial hosting candidate is one paid Render service with a persistent disk,
 
 - [Simulation Game Plan](docs/2026-09-06_Simulation_Game_Plan.md) — world design, mechanics, stages, experiments, and success gates.
 - [Web Development Plan](docs/2026-09-06_Web_Development_Plan.md) — application architecture, persistence, hosting, operations, and verification.
+- [World Implementation Plan](docs/2026-09-06_World_Implementation_Plan.md) — phased scene, tile, object, collision, navigation, and replay implementation; criteria for reconsidering Godot.
 
 ## Repository status
 
