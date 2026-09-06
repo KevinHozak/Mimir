@@ -1,4 +1,4 @@
-# Philosophy World: Scene, Tile, Collision, and Navigation Plan
+# Mimir: A Thousand Worlds — Scene, Tile, Collision, and Navigation Plan
 
 Date: 2026-09-06
 

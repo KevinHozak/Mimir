@@ -5,10 +5,10 @@ import { dirname, isAbsolute, resolve } from "node:path";
 const mode = process.argv[2];
 const projectRoot = resolve(process.cwd(), "..", "..");
 const resolveProjectPath = (value: string) => isAbsolute(value) ? value : resolve(projectRoot, value);
-const source = resolveProjectPath(process.env.DATABASE_PATH ?? "philosophy-world.db");
+const source = resolveProjectPath(process.env.DATABASE_PATH ?? "mimir.db");
 const destinationArg = process.argv[3];
 if (!destinationArg || !["backup", "restore"].includes(mode)) {
-  console.error("Usage: npm run backup --workspace @philosophy-world/server -- backup <destination> | restore <backup> <destination>");
+  console.error("Usage: npm run backup --workspace @mimir/server -- backup <destination> | restore <backup> <destination>");
   process.exit(2);
 }
 if (mode === "backup") {

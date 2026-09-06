@@ -1,5 +1,5 @@
 {
-  "name": "@philosophy-world/server",
+  "name": "@mimir/server",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
-    "@philosophy-world/engine": "0.1.0",
+    "@mimir/engine": "0.1.0",
     "fastify": "^5.2.1"
   }
 }

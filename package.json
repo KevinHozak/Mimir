@@ -1,13 +1,13 @@
 {
-  "name": "philosophy-world",
+  "name": "mimir",
   "private": true,
   "type": "module",
   "workspaces": ["packages/*"],
   "scripts": {
     "build": "npm run build --workspaces",
-    "test": "npm run test --workspace @philosophy-world/engine",
-    "dev:server": "npm run dev --workspace @philosophy-world/server",
-    "dev:web": "npm run dev --workspace @philosophy-world/web"
+    "test": "npm run test --workspace @mimir/engine",
+    "dev:server": "npm run dev --workspace @mimir/server",
+    "dev:web": "npm run dev --workspace @mimir/web"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",

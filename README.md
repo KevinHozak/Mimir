@@ -1,6 +1,6 @@
-# Philosophy World
+# Mimir: A Thousand Worlds
 
-Philosophy World is a small autonomous village simulation about values, relationships, cooperation, conflict, and the consequences of different ideas about how to live well.
+Mimir is a small autonomous world simulation about values, relationships, cooperation, conflict, and the consequences of different ideas about how to live well.
 
 The first release will let one observer watch a shared fictional village, inspect its people and history, replay earlier moments, and review the outcome of bounded seasons. The simulation is intended to reveal tradeoffs rather than declare a single philosophy the winner.
 
@@ -50,6 +50,6 @@ The project is private while the design and implementation are being developed. 
 
 ## Local operations
 
-Run the server and browser with `npm run dev:server` and `npm run dev:web`. When `OWNER_TOKEN` is configured, enter that token in the owner panel before using state-changing controls. For a safe database copy, use `DATABASE_PATH=<path> npm run backup --workspace @philosophy-world/server -- backup <destination>`. Scheduled local backups are opt-in with `BACKUP_INTERVAL_MS` and `BACKUP_DIR`.
+Run the server and browser with `npm run dev:server` and `npm run dev:web`. When `OWNER_TOKEN` is configured, enter that token in the owner panel before using state-changing controls. For a safe database copy, use `DATABASE_PATH=<path> npm run backup --workspace @mimir/server -- backup <destination>`. Scheduled local backups are opt-in with `BACKUP_INTERVAL_MS` and `BACKUP_DIR`.
 
-Run the local browser flow with `npm run test:e2e --workspace @philosophy-world/web` after building; it starts isolated local services and verifies authenticated ticking plus independent live/history observers.
+Run the local browser flow with `npm run test:e2e --workspace @mimir/web` after building; it starts isolated local services and verifies authenticated ticking plus independent live/history observers.

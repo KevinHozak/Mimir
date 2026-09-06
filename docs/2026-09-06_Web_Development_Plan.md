@@ -1,4 +1,4 @@
-# 🌍 Philosophy World: Web Development Plan
+# 🌍 Mimir: Web Development Plan
 
 Date: 2026-09-06  
 Status: Implementation recommendation; no application has been built or deployed.  
@@ -62,7 +62,7 @@ Choose compatible stable versions at implementation time and commit the lockfile
 The village occupies most of the screen. A compact top bar shows the world, season, day, morning/evening, food reserve, population, and connection status. The bottom timeline remains visible. Selecting a villager opens a side panel.
 
 ```text
-Philosophy World     Season 1 · Day 8 · Morning      LIVE · Connected
+Mimir · A Thousand Worlds     Season 1 · Day 8 · Morning      LIVE · Connected
 ┌───────────────────────────────────┬───────────────────────────┐
 │                                   │ Selected villager         │
 │  Fields      Homes      Woodland  │ Name · current activity   │
@@ -196,7 +196,7 @@ Operations required for the hosted MVP:
 - Structured error logs and visibility into last tick, AI timeouts, fallback count, storage, and costs.
 - Graceful shutdown: finish or abandon the candidate tick safely before process exit.
 
-The local hardening slice now exercises the same boundaries before hosting: timeline-aware checkpoint/event storage with migration from the original tables; owner endpoints for archive, continue, branch, reset, pause, and tick; a browser owner-operations panel; `/api/report` operational counts; `OWNER_TOKEN` enforcement when configured; clean SIGINT/SIGTERM shutdown; and the workspace backup tool. Use `DATABASE_PATH=<path> npm run backup --workspace @philosophy-world/server -- backup <destination>` and the corresponding `restore <backup> <destination>` command. Restore refuses to overwrite an existing target. For opt-in local scheduled copies, set `BACKUP_INTERVAL_MS` and `BACKUP_DIR`; each copy checkpoints SQLite WAL first and receives a timestamped filename. The server integration test covers authorization, tick, branch, archive, reset, and report behavior.
+The local hardening slice now exercises the same boundaries before hosting: timeline-aware checkpoint/event storage with migration from the original tables; owner endpoints for archive, continue, branch, reset, pause, and tick; a browser owner-operations panel; `/api/report` operational counts; `OWNER_TOKEN` enforcement when configured; clean SIGINT/SIGTERM shutdown; and the workspace backup tool. Use `DATABASE_PATH=<path> npm run backup --workspace @mimir/server -- backup <destination>` and the corresponding `restore <backup> <destination>` command. Restore refuses to overwrite an existing target. For opt-in local scheduled copies, set `BACKUP_INTERVAL_MS` and `BACKUP_DIR`; each copy checkpoints SQLite WAL first and receives a timestamped filename. The server integration test covers authorization, tick, branch, archive, reset, and report behavior.
 
 AI keeps the original proposed **$1 per season and $10 per month caps**, with authorization required before connecting a paid provider. Start development with deterministic fixtures and a rule-based fallback. The intended hybrid layer remains in the MVP, subject to that spending decision; if unavailable, label the release as rules-only rather than claiming hybrid completion.
 

@@ -1,5 +1,5 @@
 {
-  "name": "@philosophy-world/engine",
+  "name": "@mimir/engine",
   "version": "0.1.0",
   "private": true,
   "type": "module",

@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, createDefaultWorld, createWorld, FIRST_WINTER_SCENARIO, LOCATION_TILES, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@philosophy-world/engine";
+import { advanceWorld, createDefaultWorld, createWorld, FIRST_WINTER_SCENARIO, LOCATION_TILES, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 
 const port = Number(process.env.PORT ?? 3000);
 let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
@@ -15,7 +15,7 @@ const aiEnabled = process.env.AI_ENABLED === "true";
 const socialBudgetCents = Number(process.env.SOCIAL_BUDGET_CENTS ?? 0);
 const socialMode = aiEnabled && socialBudgetCents > 0 ? "ai-fallback" : "rules-only";
 const ownerToken = process.env.OWNER_TOKEN;
-const databasePath = process.env.DATABASE_PATH ?? "philosophy-world.db";
+const databasePath = process.env.DATABASE_PATH ?? "mimir.db";
 const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
 const backupDirectory = resolve(process.env.BACKUP_DIR ?? "backups");
 const database = new DatabaseSync(databasePath);
@@ -39,7 +39,7 @@ function createScheduledBackup(reason: string) {
   database.exec("PRAGMA wal_checkpoint(FULL);");
   database.close();
   mkdirSync(dirname(join(backupDirectory, "placeholder")), { recursive: true });
-  const destination = join(backupDirectory, `philosophy-world-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
+  const destination = join(backupDirectory, `mimir-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
   copyFileSync(databasePath, destination);
   app.log.info({ destination }, "scheduled database backup created");
 }
