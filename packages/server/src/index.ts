@@ -2,7 +2,8 @@ import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
 import { randomUUID } from "node:crypto";
-import { existsSync, statSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
 import { advanceWorld, createWorld, LOCATION_TILES, type SocialInterpretation, type WorldEvent, type WorldState } from "@philosophy-world/engine";
 
@@ -15,6 +16,8 @@ const socialBudgetCents = Number(process.env.SOCIAL_BUDGET_CENTS ?? 0);
 const socialMode = aiEnabled && socialBudgetCents > 0 ? "ai-fallback" : "rules-only";
 const ownerToken = process.env.OWNER_TOKEN;
 const databasePath = process.env.DATABASE_PATH ?? "philosophy-world.db";
+const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
+const backupDirectory = resolve(process.env.BACKUP_DIR ?? "backups");
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
 database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (tick INTEGER PRIMARY KEY, state_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, event_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS interpretations (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS timelines (id TEXT PRIMARY KEY, parent_id TEXT, created_at TEXT NOT NULL, status TEXT NOT NULL, archived_at TEXT); CREATE TABLE IF NOT EXISTS timeline_checkpoints (timeline_id TEXT NOT NULL, tick INTEGER NOT NULL, state_json TEXT NOT NULL, PRIMARY KEY (timeline_id, tick)); CREATE TABLE IF NOT EXISTS timeline_events (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, event_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS timeline_interpretations (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS runtime_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);`);
@@ -29,6 +32,16 @@ const savedTimeline = database.prepare("SELECT value FROM runtime_metadata WHERE
 let activeTimelineId = savedTimeline?.value ?? "main";
 let schedulerPaused = !autoTick;
 let shuttingDown = false;
+function createScheduledBackup(reason: string) {
+  if (!existsSync(databasePath)) return;
+  const database = new DatabaseSync(databasePath);
+  database.exec("PRAGMA wal_checkpoint(FULL);");
+  database.close();
+  mkdirSync(dirname(join(backupDirectory, "placeholder")), { recursive: true });
+  const destination = join(backupDirectory, `philosophy-world-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
+  copyFileSync(databasePath, destination);
+  app.log.info({ destination }, "scheduled database backup created");
+}
 
 function normalizeState(raw: WorldState): WorldState {
   return { ...raw, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
@@ -83,6 +96,8 @@ app.post("/api/owner/reset", async (request, reply) => { if (!requireOwner(reque
 await app.listen({ port, host: "0.0.0.0" });
 let scheduler: NodeJS.Timeout | undefined;
 if (tickIntervalMs > 0) { scheduler = setInterval(() => { if (!shuttingDown && !schedulerPaused && state.tick < seasonTickLimit) commitTick(); }, tickIntervalMs); scheduler.unref(); app.log.info({ tickIntervalMs, seasonTickLimit, schedulerPaused }, "automatic tick scheduler configured"); }
-async function shutdown(signal: string) { if (shuttingDown) return; shuttingDown = true; if (scheduler) clearInterval(scheduler); for (const client of liveClients) client.end(); await app.close(); database.exec("PRAGMA wal_checkpoint(FULL);"); database.close(); app.log.info({ signal, tick: state.tick, timelineId: activeTimelineId }, "server shut down cleanly"); process.exit(0); }
+let backupScheduler: NodeJS.Timeout | undefined;
+if (backupIntervalMs > 0) { backupScheduler = setInterval(() => { if (!shuttingDown) createScheduledBackup("interval"); }, backupIntervalMs); backupScheduler.unref(); app.log.info({ backupIntervalMs, backupDirectory }, "scheduled database backups configured"); }
+async function shutdown(signal: string) { if (shuttingDown) return; shuttingDown = true; if (scheduler) clearInterval(scheduler); if (backupScheduler) clearInterval(backupScheduler); for (const client of liveClients) client.end(); await app.close(); database.exec("PRAGMA wal_checkpoint(FULL);"); database.close(); app.log.info({ signal, tick: state.tick, timelineId: activeTimelineId }, "server shut down cleanly"); process.exit(0); }
 process.once("SIGINT", () => void shutdown("SIGINT"));
 process.once("SIGTERM", () => void shutdown("SIGTERM"));

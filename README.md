@@ -6,7 +6,7 @@ The first release will let one observer watch a shared fictional village, inspec
 
 ## Current status
 
-The current observer slice includes a deterministic engine, SQLite-backed Fastify server, persistent tile movement, replay controls, and a rules-based social interpretation layer. The project is still pre-alpha and the simulation remains intentionally small; no paid AI provider is connected by default.
+The current observer slice includes a deterministic engine, SQLite-backed Fastify server, persistent tile movement, replay controls, rules-based social interpretations, and a local owner-operations panel for timeline recovery. The project is still pre-alpha and the simulation remains intentionally small; no paid AI provider is connected by default.
 
 The initial world is planned around:
 
@@ -45,3 +45,7 @@ The initial hosting candidate is one paid Render service with a persistent disk,
 ## Repository status
 
 The project is private while the design and implementation are being developed. Runtime databases, secrets, logs, and generated build output are intentionally excluded from version control.
+
+## Local operations
+
+Run the server and browser with `npm run dev:server` and `npm run dev:web`. When `OWNER_TOKEN` is configured, enter that token in the owner panel before using state-changing controls. For a safe database copy, use `DATABASE_PATH=<path> npm run backup --workspace @philosophy-world/server -- backup <destination>`. Scheduled local backups are opt-in with `BACKUP_INTERVAL_MS` and `BACKUP_DIR`.
