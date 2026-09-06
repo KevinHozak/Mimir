@@ -16,6 +16,7 @@ The initial world is planned around:
 - Needs, values, beliefs, relationships, memories, commitments, and practical capabilities.
 - A deterministic simulation engine with bounded AI interpretation for selected social encounters.
 - Historical checkpoints, event records, replay, branching, continuation, and reset.
+- Typed scenario parameters, with the initial season defined in `scenarios/first-winter.json`.
 
 ## Planned technology
 

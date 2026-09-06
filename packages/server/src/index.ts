@@ -5,12 +5,12 @@ import { randomUUID } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, createWorld, LOCATION_TILES, type SocialInterpretation, type WorldEvent, type WorldState } from "@philosophy-world/engine";
+import { advanceWorld, createWorld, FIRST_WINTER_SCENARIO, LOCATION_TILES, type SocialInterpretation, type WorldEvent, type WorldState } from "@philosophy-world/engine";
 
 const port = Number(process.env.PORT ?? 3000);
 const tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
 const autoTick = process.env.AUTO_TICK !== "false";
-const seasonTickLimit = Number(process.env.SEASON_TICK_LIMIT ?? 60);
+const seasonTickLimit = Number(process.env.SEASON_TICK_LIMIT ?? FIRST_WINTER_SCENARIO.seasonTickLimit);
 const aiEnabled = process.env.AI_ENABLED === "true";
 const socialBudgetCents = Number(process.env.SOCIAL_BUDGET_CENTS ?? 0);
 const socialMode = aiEnabled && socialBudgetCents > 0 ? "ai-fallback" : "rules-only";
@@ -44,7 +44,7 @@ function createScheduledBackup(reason: string) {
 }
 
 function normalizeState(raw: WorldState): WorldState {
-  return { ...raw, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
+  return { ...raw, scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
 }
 function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;

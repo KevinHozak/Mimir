@@ -31,6 +31,13 @@ try {
   if (report.tick !== 0 || report.checkpoints !== 1) throw new Error("report did not reflect reset");
   await new Promise((resolve) => setTimeout(resolve, 350));
   if (!existsSync(backupDirectory) || readdirSync(backupDirectory).filter((entry) => entry.endsWith(".db")).length === 0) throw new Error("scheduled backup was not created");
+  for (let season = 1; season <= 3; season += 1) {
+    for (let tick = 0; tick < 60; tick += 1) if ((await request("/api/tick")).status !== 200) throw new Error(`season ${season} stopped before tick 60`);
+    if ((await request("/api/tick")).status !== 409) throw new Error(`season ${season} exceeded its boundary`);
+    if (season < 3 && (await request("/api/owner/reset", { seed: season + 100 })).status !== 200) throw new Error(`season ${season + 1} reset failed`);
+  }
+  const completedReport = await (await fetch(`${endpoint}/api/report`)).json() as { tick: number; checkpoints: number };
+  if (completedReport.tick !== 60 || completedReport.checkpoints !== 61) throw new Error("completed season report was incomplete");
   console.log("server integration tests passed");
 } finally {
   server.kill();

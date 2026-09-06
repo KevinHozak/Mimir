@@ -2,6 +2,8 @@ export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
 export type Activity = "work" | "rest" | "share" | "craft" | "meet" | "gather";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
+export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; }
+export const FIRST_WINTER_SCENARIO: ScenarioConfig = { name: "The First Winter", initialFood: 72, seasonTickLimit: 60 };
 
 export interface Villager {
   id: string;
@@ -24,6 +26,7 @@ export interface WorldState {
   tick: number;
   season: number;
   foodReserve: number;
+  scenario: ScenarioConfig;
   villagers: Villager[];
 }
 
@@ -84,13 +87,14 @@ function routeBetween(start: TilePosition, target: TilePosition): TilePosition[]
   return route;
 }
 
-export function createWorld(seed = 1, worldId = "first-winter"): WorldState {
+export function createWorld(seed = 1, worldId = "first-winter", scenario: ScenarioConfig = FIRST_WINTER_SCENARIO): WorldState {
   return {
     worldId,
     seed: seed >>> 0,
     tick: 0,
     season: 1,
-    foodReserve: 72,
+    foodReserve: scenario.initialFood,
+    scenario,
     villagers: names.map(([name, tradition], index) => ({
       id: `villager-${index + 1}`,
       name,

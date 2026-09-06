@@ -95,6 +95,7 @@ function App() {
   const [ownerToken, setOwnerToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
   const [operationMessage, setOperationMessage] = useState("");
+  const viewTickRef = useRef<number | null>(null);
   const loadLive = async () => {
     const [worldResponse, eventsResponse, interpretationsResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
@@ -103,7 +104,7 @@ function App() {
     if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
     setInterpretations((await interpretationsResponse.json()).interpretations as Interpretation[]);
-    if (viewTick === null) setWorld(nextWorld);
+    if (viewTickRef.current === null) setWorld(nextWorld);
   };
   useEffect(() => {
     void loadLive();
@@ -113,14 +114,15 @@ function App() {
       setLiveWorld(payload.state);
       if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
       if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));
-      if (viewTick === null) setWorld(payload.state);
+      if (viewTickRef.current === null) setWorld(payload.state);
     };
     const timer = window.setInterval(() => void loadLive(), 15000);
     return () => { stream.close(); window.clearInterval(timer); };
-  }, [viewTick]);
+  }, []);
   const showTick = async (tick: number | null) => {
-    if (tick === null) { setViewTick(null); if (liveWorld) setWorld(liveWorld); return; }
+    if (tick === null) { viewTickRef.current = null; setViewTick(null); if (liveWorld) setWorld(liveWorld); return; }
     const result = await (await fetch(`${api}/api/world?tick=${tick}`)).json();
+    viewTickRef.current = tick;
     setViewTick(tick); setWorld(result.state as State);
   };
   const ownerRequest = async (path: string, body: Record<string, unknown> = {}) => fetch(`${api}${path}`, { method: "POST", headers: { "content-type": "application/json", ...(ownerToken ? { "x-owner-token": ownerToken } : {}) }, body: JSON.stringify(body) });

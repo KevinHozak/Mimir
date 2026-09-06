@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { advanceWorld, createWorld, interpretSocialEvents, runTicks } from "./index.js";
+import { advanceWorld, createWorld, FIRST_WINTER_SCENARIO, interpretSocialEvents, runTicks } from "./index.js";
 
 const firstTick = advanceWorld(createWorld(42));
 const first = runTicks(createWorld(42), 60);
@@ -7,6 +7,8 @@ const second = runTicks(createWorld(42), 60);
 const resumed = runTicks(runTicks(createWorld(42), 30).state, 30);
 
 assert.equal(first.state.tick, 60);
+assert.deepEqual(createWorld(42).scenario, FIRST_WINTER_SCENARIO);
+assert.equal(createWorld(42, "short-season", { ...FIRST_WINTER_SCENARIO, name: "Short Season", initialFood: 20, seasonTickLimit: 8 }).foodReserve, 20);
 assert.deepEqual(first.state, second.state);
 assert.deepEqual(first.state, resumed.state);
 assert.equal(first.events.length, second.events.length);
