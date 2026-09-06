@@ -8,7 +8,9 @@ const resumed = runTicks(runTicks(createWorld(42), 30).state, 30);
 
 assert.equal(first.state.tick, 60);
 assert.deepEqual(createWorld(42).scenario, FIRST_WINTER_SCENARIO);
-assert.equal(createWorld(42, "short-season", { ...FIRST_WINTER_SCENARIO, name: "Short Season", initialFood: 20, seasonTickLimit: 8 }).foodReserve, 20);
+const shortScenario = { ...FIRST_WINTER_SCENARIO, name: "Short Season", initialFood: 20, seasonTickLimit: 8, harvestInterval: 2, harvestAmount: 12, hungerPressure: 4 };
+assert.equal(createWorld(42, "short-season", shortScenario).foodReserve, 20);
+assert.equal(advanceWorld(createWorld(42, "short-season", shortScenario)).state.foodReserve, 32);
 assert.deepEqual(first.state, second.state);
 assert.deepEqual(first.state, resumed.state);
 assert.equal(first.events.length, second.events.length);

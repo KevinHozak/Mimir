@@ -5,10 +5,10 @@ import "./styles.css";
 
 type TilePosition = { x: number; y: number };
 type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[] };
-type State = { tick: number; season: number; foodReserve: number; villagers: Villager[] };
+type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[] };
 type Event = { id: string; tick: number; message: string; kind: string };
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
-type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number };
+type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number } };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 function VillageCanvas({ villagers, playbackRate, zoom }: { villagers: Villager[]; playbackRate: number; zoom: number }) {
@@ -78,7 +78,7 @@ function OwnerPanel({ ownerToken, setOwnerToken, report, message, onCommand, onR
     <label className="owner-token">Owner token <input type="password" value={ownerToken} onChange={(event) => setOwnerToken(event.target.value)} placeholder="Only needed when OWNER_TOKEN is set" /></label>
     <div className="operation-buttons"><button onClick={() => onCommand("/api/owner/archive")}>Archive</button><button onClick={() => onCommand("/api/owner/continue")}>Continue</button><button onClick={() => onCommand("/api/owner/branch", { tick: report?.tick })}>Branch here</button><button onClick={() => { if (window.confirm("Reset this timeline into a new season?")) onCommand("/api/owner/reset", {}); }}>Reset season</button></div>
     {message && <p className="operation-message">{message}</p>}
-    {report && <div className="report-grid"><span>Timeline <strong>{report.timeline.id.slice(0, 18)}…</strong></span><span>Status <strong>{report.timeline.status}</strong></span><span>Tick <strong>{report.tick}</strong></span><span>Checkpoints <strong>{report.checkpoints}</strong></span><span>Events <strong>{report.events}</strong></span><span>Interpretations <strong>{report.interpretations}</strong></span><span>Database <strong>{Math.round(report.databaseBytes / 1024)} KB</strong></span><span>Social <strong>{report.socialMode}</strong></span></div>}
+    {report && <div className="report-grid"><span>Timeline <strong>{report.timeline.id.slice(0, 18)}…</strong></span><span>Status <strong>{report.timeline.status}</strong></span><span>Tick <strong>{report.tick}</strong></span><span>Scenario <strong>{report.summary.scenarioName}</strong></span><span>Final food <strong>{report.summary.finalFood}</strong></span><span>Average trust <strong>{report.summary.averageTrust}</strong></span><span>Checkpoints <strong>{report.checkpoints}</strong></span><span>Events <strong>{report.events}</strong></span><span>Interpretations <strong>{report.interpretations}</strong></span><span>Database <strong>{Math.round(report.databaseBytes / 1024)} KB</strong></span><span>Social <strong>{report.socialMode}</strong></span></div>}
   </section>;
 }
 
@@ -108,6 +108,7 @@ function App() {
   };
   useEffect(() => {
     void loadLive();
+    void loadReport();
     const stream = new EventSource(`${api}/api/live`);
     stream.onmessage = (message) => {
       const payload = JSON.parse(message.data) as { state: State; events?: Event[]; interpretations?: Interpretation[] };

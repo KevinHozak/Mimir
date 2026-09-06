@@ -2,8 +2,8 @@ export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
 export type Activity = "work" | "rest" | "share" | "craft" | "meet" | "gather";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
-export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; }
-export const FIRST_WINTER_SCENARIO: ScenarioConfig = { name: "The First Winter", initialFood: 72, seasonTickLimit: 60 };
+export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; }
+export const FIRST_WINTER_SCENARIO: ScenarioConfig = { name: "The First Winter", initialFood: 72, seasonTickLimit: 60, harvestInterval: 3, harvestAmount: 8, hungerPressure: 9 };
 
 export interface Villager {
   id: string;
@@ -114,7 +114,7 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
 
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   let random = nextRandom(input.seed + input.tick);
-  const foodProduced = input.tick % 3 === 0 ? 8 : 3;
+  const foodProduced = input.tick % input.scenario.harvestInterval === 0 ? input.scenario.harvestAmount : 3;
   const occupiedTargets = new Set<string>();
   const nextVillagers = input.villagers.map((villager, index) => {
     random = nextRandom(random + index);
@@ -132,7 +132,7 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     occupiedTargets.add(`${target.x},${target.y}`);
     return {
       ...villager,
-      hunger: bounded(villager.hunger + 9 - (villager.food > 0 ? 13 : 0) - (shouldShare ? 3 : 0)),
+      hunger: bounded(villager.hunger + input.scenario.hungerPressure - (villager.food > 0 ? 13 : 0) - (shouldShare ? 3 : 0)),
       rest: bounded(villager.rest + (activity === "rest" ? 7 : -5)),
       trust: bounded(villager.trust + (shouldShare ? 2 : activity === "meet" ? 1 : (random % 9 === 0 ? -1 : 0))),
       food: shouldShare ? villager.food : Math.max(0, villager.food - 1),

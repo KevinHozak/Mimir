@@ -29,6 +29,11 @@ try {
     await live.getByText("Season 1 · Tick 2").waitFor();
     await history.getByText("Season 1 · Tick 0").waitFor();
     await history.getByText("● HISTORY", { exact: true }).waitFor();
+    const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await mobile.goto(`http://127.0.0.1:${webPort}/`);
+    await mobile.getByRole("heading", { name: "Owner operations" }).waitFor();
+    const overflow = await mobile.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: document.documentElement.clientWidth, offenders: Array.from(document.querySelectorAll("body *")).filter((element) => (element as HTMLElement).getBoundingClientRect().right > document.documentElement.clientWidth + 1).slice(0, 5).map((element) => `${element.tagName}.${(element as HTMLElement).className}`) }));
+    if (overflow.width > overflow.viewport + 1) throw new Error(`mobile layout overflows horizontally: ${JSON.stringify(overflow)}`);
     console.log("browser e2e tests passed");
   } finally { await browser.close(); }
 } finally {
