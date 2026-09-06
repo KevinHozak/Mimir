@@ -53,7 +53,18 @@ function App() {
     setEvents((await eventsResponse.json()).events as Event[]);
     if (viewTick === null) setWorld(nextWorld);
   };
-  useEffect(() => { void loadLive(); const timer = window.setInterval(() => void loadLive(), 5000); return () => window.clearInterval(timer); }, [viewTick]);
+  useEffect(() => {
+    void loadLive();
+    const stream = new EventSource(`${api}/api/live`);
+    stream.onmessage = (message) => {
+      const payload = JSON.parse(message.data) as { state: State; events?: Event[] };
+      setLiveWorld(payload.state);
+      if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
+      if (viewTick === null) setWorld(payload.state);
+    };
+    const timer = window.setInterval(() => void loadLive(), 15000);
+    return () => { stream.close(); window.clearInterval(timer); };
+  }, [viewTick]);
   const showTick = async (tick: number | null) => {
     if (tick === null) { setViewTick(null); if (liveWorld) setWorld(liveWorld); return; }
     const result = await (await fetch(`${api}/api/world?tick=${tick}`)).json();

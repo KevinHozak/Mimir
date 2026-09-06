@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
+import type { ServerResponse } from "node:http";
 import { advanceWorld, createWorld, type WorldEvent, type WorldState } from "@philosophy-world/engine";
 
 const port = Number(process.env.PORT ?? 3000);
@@ -15,11 +16,20 @@ database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (tick INTEGER PRIMARY KEY,
 const saved = database.prepare("SELECT state_json FROM checkpoints ORDER BY tick DESC LIMIT 1").get() as { state_json: string } | undefined;
 let state: WorldState = saved ? JSON.parse(saved.state_json) as WorldState : createWorld(20260906);
 if (!saved) database.prepare("INSERT INTO checkpoints (tick, state_json) VALUES (?, ?)").run(state.tick, JSON.stringify(state));
+const liveClients = new Set<ServerResponse>();
 
 const app = Fastify({ logger: true });
 await app.register(cors, { origin: true });
 
 app.get("/health", async () => ({ ok: true, tick: state.tick, databasePath }));
+app.get("/api/live", async (_request, reply) => {
+  reply.hijack();
+  const response = reply.raw;
+  response.writeHead(200, { "content-type": "text/event-stream", "cache-control": "no-cache", connection: "keep-alive", "access-control-allow-origin": "*" });
+  response.write(`data: ${JSON.stringify({ state })}\n\n`);
+  liveClients.add(response);
+  response.on("close", () => liveClients.delete(response));
+});
 app.get("/api/world", async (request, reply) => {
   const query = request.query as { tick?: string };
   if (query.tick === undefined) return { state };
@@ -50,6 +60,11 @@ function commitTick(): { state: WorldState; events: WorldEvent[] } | null {
     throw error;
   }
   state = result.state;
+  const message = `data: ${JSON.stringify({ state: result.state, events: result.events })}\n\n`;
+  for (const client of liveClients) {
+    if (!client.destroyed) client.write(message);
+    else liveClients.delete(client);
+  }
   return { state, events: result.events };
 }
 
