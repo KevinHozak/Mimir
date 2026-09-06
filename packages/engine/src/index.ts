@@ -4,9 +4,10 @@ export * from "./world.js";
 export * from "./design.js";
 export * from "./social.js";
 import { createDefaultWorld, findRoute, isWalkable, sameCell, type WorldDefinition, type WorldRuntimeState } from "./world.js";
+import { FIRST_WINTER_DILEMMAS } from "./design.js";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
-export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; }
+export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; dilemmaTick?: number; }
 export const FIRST_WINTER_SCENARIO: ScenarioConfig = { name: "The First Winter", initialFood: 72, seasonTickLimit: 360, harvestInterval: 3, harvestAmount: 8, hungerPressure: 9 };
 
 export interface Villager {
@@ -36,6 +37,7 @@ export interface WorldState {
   scenario: ScenarioConfig;
   villagers: Villager[];
   sharedStore: SharedStore;
+  dilemmaHistory: DilemmaResolution[];
   worldDefinition?: WorldDefinition;
   worldRuntime?: WorldRuntimeState;
 }
@@ -50,12 +52,27 @@ export interface SharedStore {
   dissent: number;
 }
 
+export interface DilemmaResolution {
+  id: string;
+  tick: number;
+  dilemmaId: string;
+  title: string;
+  choiceId: string;
+  choiceLabel: string;
+  villagerIds: string[];
+  foodDelta: number;
+  trustDelta: number;
+  summary: string;
+}
+
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution";
+  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma";
   message: string;
   villagerIds: string[];
+  dilemmaId?: string;
+  choiceId?: string;
 }
 
 export interface SocialInterpretation {
@@ -116,6 +133,7 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
     foodReserve: scenario.initialFood,
     scenario,
     sharedStore: { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 },
+    dilemmaHistory: [],
     villagers: names.map(([name, tradition], index) => ({
       id: `villager-${index + 1}`,
       name,
@@ -207,14 +225,46 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
   const meetingVillagers = nextVillagers.filter((villager) => villager.activity === "meet");
   const consumed = nextVillagers.filter((villager) => villager.food === 0).length;
   const collectionCount = nextVillagers.filter((villager) => villager.activity === "collect").length;
+  const resolvedDilemma = input.tick + 1 === (input.scenario.dilemmaTick ?? 12) ? (() => {
+    const dilemma = FIRST_WINTER_DILEMMAS[0];
+    const applicantIndex = nextRandom(input.seed + input.tick + 7919) % nextVillagers.length;
+    const witnessIndex = (applicantIndex + 1) % nextVillagers.length;
+    const choice = dilemma.choices[nextRandom(input.seed + input.tick + 1543) % dilemma.choices.length];
+    const consequences = ({
+      grant: { foodDelta: -8, trustDelta: 4, belief: "cooperation" as const, dissentDelta: 0, summary: "The store granted immediate care without requiring repayment." },
+      loan: { foodDelta: -5, trustDelta: 1, belief: "selfReliance" as const, dissentDelta: 0, summary: "The store offered measured help while preserving an expectation of reciprocity." },
+      refuse: { foodDelta: 0, trustDelta: -4, belief: "cooperation" as const, dissentDelta: 1, summary: "The store protected its reserve, but the refusal left a visible grievance." }
+    } as const)[choice.id] ?? { foodDelta: 0, trustDelta: 0, belief: "reflection" as const, dissentDelta: 0, summary: "The village recorded the decision without changing the common reserve." };
+    return { dilemma, applicantIndex, witnessIndex, choice, consequences };
+  })() : null;
+  const dilemmaVillagerIds = resolvedDilemma ? [nextVillagers[resolvedDilemma.applicantIndex].id, nextVillagers[resolvedDilemma.witnessIndex].id] : [];
+  const dilemmaHistory = resolvedDilemma ? [...(input.dilemmaHistory ?? []), {
+    id: `dilemma-${input.tick + 1}-${resolvedDilemma.dilemma.id}`,
+    tick: input.tick + 1,
+    dilemmaId: resolvedDilemma.dilemma.id,
+    title: resolvedDilemma.dilemma.title,
+    choiceId: resolvedDilemma.choice.id,
+    choiceLabel: resolvedDilemma.choice.label,
+    villagerIds: dilemmaVillagerIds,
+    foodDelta: resolvedDilemma.consequences.foodDelta,
+    trustDelta: resolvedDilemma.consequences.trustDelta,
+    summary: resolvedDilemma.consequences.summary
+  }] : (input.dilemmaHistory ?? []);
+  const dilemmaAdjustedVillagers = resolvedDilemma ? nextVillagers.map((villager, index) => {
+    if (index !== resolvedDilemma.applicantIndex && index !== resolvedDilemma.witnessIndex) return villager;
+    const trustAdjustment = resolvedDilemma.consequences.trustDelta * (index === resolvedDilemma.applicantIndex ? 1 : 0.5);
+    return { ...villager, trust: bounded(villager.trust + trustAdjustment), beliefs: { ...villager.beliefs, [resolvedDilemma.consequences.belief]: bounded(villager.beliefs[resolvedDilemma.consequences.belief] + (resolvedDilemma.consequences.trustDelta > 0 ? 2 : -2)) } };
+  }) : nextVillagers;
   const state: WorldState = {
     ...input,
     tick: input.tick + 1,
     seed: random,
-    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length),
+    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length + (resolvedDilemma?.consequences.foodDelta ?? 0)),
     sharedStore: { ...(input.sharedStore ?? createWorld(input.seed, input.worldId, input.scenario).sharedStore), contributions: (input.sharedStore?.contributions ?? 0) + foodProduced, distributions: (input.sharedStore?.distributions ?? 0) + sharingCount + collectionCount, dissent: input.sharedStore?.dissent ?? 0 },
-    villagers: nextVillagers
+    villagers: dilemmaAdjustedVillagers,
+    dilemmaHistory
   };
+  if (resolvedDilemma) state.sharedStore.dissent += resolvedDilemma.consequences.dissentDelta;
   const events: WorldEvent[] = [
     {
       id: `event-${state.tick}-tick`,
@@ -250,6 +300,15 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       kind: "institution" as const,
       message: `The shared granary recorded ${foodProduced} contribution${foodProduced === 1 ? "" : "s"} and ${sharingCount + collectionCount} distribution${sharingCount + collectionCount === 1 ? "" : "s"}.`,
       villagerIds: nextVillagers.filter((villager) => villager.activity === "share" || villager.activity === "collect").map((villager) => villager.id)
+    }] : []),
+    ...(resolvedDilemma ? [{
+      id: `event-${state.tick}-dilemma`,
+      tick: state.tick,
+      kind: "dilemma" as const,
+      message: `${resolvedDilemma.dilemma.title}: ${resolvedDilemma.choice.label}. ${resolvedDilemma.consequences.summary}`,
+      villagerIds: dilemmaVillagerIds,
+      dilemmaId: resolvedDilemma.dilemma.id,
+      choiceId: resolvedDilemma.choice.id
     }] : []),
     ...(meetingVillagers.length > 0 ? [{
       id: `event-${state.tick}-encounter`,
