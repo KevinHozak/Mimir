@@ -60,6 +60,24 @@ export interface TradeRecord {
   summary: string;
 }
 
+export type WeatherKind = "clear" | "rain" | "cold" | "drought" | "storm";
+export interface WeatherState {
+  kind: WeatherKind;
+  severity: number;
+  forecast: WeatherKind;
+  changedAtTick: number;
+}
+
+export interface HazardState {
+  id: string;
+  kind: "bridge-washout" | "field-damage";
+  status: "active" | "resolved";
+  startedAtTick: number;
+  routeId?: string;
+  settlementId: string;
+  summary: string;
+}
+
 export interface WorldState {
   worldId: string;
   seed: number;
@@ -73,6 +91,8 @@ export interface WorldState {
   settlements: SettlementState[];
   routes: RouteDefinition[];
   tradeHistory: TradeRecord[];
+  weather: WeatherState;
+  hazards: HazardState[];
   worldDefinition?: WorldDefinition;
   worldRuntime?: WorldRuntimeState;
 }
@@ -106,7 +126,7 @@ export interface DilemmaResolution {
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma" | "trade";
+  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma" | "trade" | "weather" | "hazard";
   message: string;
   villagerIds: string[];
   settlementIds?: string[];
@@ -138,6 +158,7 @@ const locations = ["Homes", "Granary", "Workshop", "Meeting Place", "Fields", "W
 export const HOME_SETTLEMENT = { id: "first-village", name: "Mimir Village" } as const;
 export const RIVERBEND_SETTLEMENT = { id: "riverbend", name: "Riverbend" } as const;
 export const REGIONAL_ROUTES: RouteDefinition[] = [{ id: "road-mimir-riverbend", name: "The River Road", fromSettlementId: HOME_SETTLEMENT.id, toSettlementId: RIVERBEND_SETTLEMENT.id, travelTicks: 3, status: "open" }];
+const initialWeather: WeatherState = { kind: "clear", severity: 0, forecast: "rain", changedAtTick: 0 };
 const homeSettlement = HOME_SETTLEMENT;
 const riverbendSettlement = RIVERBEND_SETTLEMENT;
 const regionalRoute = REGIONAL_ROUTES[0];
@@ -222,6 +243,23 @@ function routeBetween(start: TilePosition, target: TilePosition): TilePosition[]
   return route;
 }
 
+function resolveWeather(input: WorldState, nextTick: number): WeatherState {
+  const current = input.weather ?? initialWeather;
+  if (nextTick % 15 !== 0) return current;
+  const kinds: WeatherKind[] = ["clear", "rain", "cold", "drought", "storm"];
+  const kind = kinds[nextRandom(input.seed + nextTick + 9001) % kinds.length];
+  const forecast = kinds[nextRandom(input.seed + nextTick + 9007) % kinds.length];
+  return { kind, severity: kind === "clear" ? 0 : 1 + (nextRandom(input.seed + nextTick + 9013) % 3), forecast, changedAtTick: nextTick };
+}
+
+function weatherFoodModifier(weather: WeatherState): number {
+  return weather.kind === "drought" ? -3 : weather.kind === "storm" ? -2 : weather.kind === "rain" ? 1 : 0;
+}
+
+function weatherHungerModifier(weather: WeatherState): number {
+  return weather.kind === "cold" ? 3 : weather.kind === "storm" ? 2 : 0;
+}
+
 export function createWorld(seed = 1, worldId = "first-winter", scenario: ScenarioConfig = FIRST_WINTER_SCENARIO): WorldState {
   const worldDefinition = createDefaultWorld();
   const riverbendWorld = createDefaultWorld("riverbend-world-v1");
@@ -255,6 +293,8 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
     ],
     routes: [regionalRoute],
     tradeHistory: [],
+    weather: initialWeather,
+    hazards: [],
     villagers,
     worldDefinition,
     worldRuntime: { blockedObjectIds: [] }
@@ -263,7 +303,8 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
 
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   let random = nextRandom(input.seed + input.tick);
-  const foodProduced = input.tick % input.scenario.harvestInterval === 0 ? input.scenario.harvestAmount : 3;
+  const weather = resolveWeather(input, input.tick + 1);
+  const foodProduced = Math.max(0, (input.tick % input.scenario.harvestInterval === 0 ? input.scenario.harvestAmount : 3) + weatherFoodModifier(weather));
   const occupiedTargets = new Set<string>(input.villagers.map((villager, index) => {
     const position = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     return `${position.x},${position.y}`;
@@ -327,7 +368,7 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const shouldCollect = activity === "collect" && input.foodReserve > 0;
     return {
       ...villager,
-      hunger: bounded(villager.hunger + input.scenario.hungerPressure - (villager.food > 0 && activity !== "travel" ? 13 : 0) - (shouldShare ? 3 : 0)),
+      hunger: bounded(villager.hunger + input.scenario.hungerPressure + weatherHungerModifier(weather) - (villager.food > 0 && activity !== "travel" ? 13 : 0) - (shouldShare ? 3 : 0)),
       rest: bounded(villager.rest + (activity === "rest" ? 7 : activity === "travel" ? -2 : -5)),
       trust: bounded(villager.trust + (shouldShare ? 2 : activity === "meet" ? 1 : (random % 9 === 0 ? -1 : 0))),
       food: shouldCollect ? villager.food + 2 : shouldShare ? villager.food : Math.max(0, villager.food - 1),
@@ -369,6 +410,18 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     summary: `Jonan carried ${tradeAmount} food from Mimir Village to Riverbend along the River Road.`
   } : null;
   const tradeHistory = tradeRecord ? [...(input.tradeHistory ?? []), tradeRecord] : (input.tradeHistory ?? []);
+  const existingHazards = input.hazards ?? [];
+  const newHazard = weather.kind === "storm" && !existingHazards.some((hazard) => hazard.kind === "bridge-washout" && hazard.status === "active") ? {
+    id: `hazard-${input.tick + 1}-bridge-washout`,
+    kind: "bridge-washout" as const,
+    status: "active" as const,
+    startedAtTick: input.tick + 1,
+    routeId: regionalRoute.id,
+    settlementId: HOME_SETTLEMENT.id,
+    summary: "Storm water washed out the River Road bridge; cross-village travel is suspended."
+  } : null;
+  const hazards = newHazard ? [...existingHazards, newHazard] : existingHazards;
+  const routes = (input.routes ?? [regionalRoute]).map((route) => newHazard?.routeId === route.id ? { ...route, status: "blocked" as const } : route);
   const resolvedDilemma = resolveDilemma(input, nextVillagers, input.tick + 1);
   const dilemmaVillagerIds = resolvedDilemma ? [nextVillagers[resolvedDilemma.applicantIndex].id, nextVillagers[resolvedDilemma.witnessIndex].id] : [];
   const dilemmaHistory = resolvedDilemma ? [...(input.dilemmaHistory ?? []), {
@@ -401,8 +454,10 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     villagers: dilemmaAdjustedVillagers,
     dilemmaHistory,
     settlements: (input.settlements ?? []).map((settlement) => settlement.id === regionalRoute.fromSettlementId ? { ...settlement, foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length + (resolvedDilemma?.consequences.foodDelta ?? 0) - tradeAmount), villagerIds: dilemmaAdjustedVillagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) } : settlement.id === regionalRoute.toSettlementId ? { ...settlement, foodReserve: settlement.foodReserve + tradeAmount, villagerIds: dilemmaAdjustedVillagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) } : { ...settlement, villagerIds: dilemmaAdjustedVillagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) }),
-    routes: input.routes ?? [regionalRoute],
-    tradeHistory
+    routes,
+    tradeHistory,
+    weather,
+    hazards
   };
   const events: WorldEvent[] = [
     {
@@ -456,6 +511,21 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       message: tradeRecord.summary,
       villagerIds: [tradeRecord.villagerId],
       settlementIds: [tradeRecord.fromSettlementId, tradeRecord.toSettlementId]
+    }] : []),
+    ...(weather.kind !== (input.weather ?? initialWeather).kind ? [{
+      id: `event-${state.tick}-weather`,
+      tick: state.tick,
+      kind: "weather" as const,
+      message: `Weather changed to ${weather.kind} (severity ${weather.severity}); forecast: ${weather.forecast}.`,
+      villagerIds: []
+    }] : []),
+    ...(newHazard ? [{
+      id: `event-${state.tick}-hazard`,
+      tick: state.tick,
+      kind: "hazard" as const,
+      message: newHazard.summary,
+      villagerIds: [],
+      settlementIds: [newHazard.settlementId]
     }] : []),
     ...(meetingVillagers.length > 0 ? [{
       id: `event-${state.tick}-encounter`,

@@ -1,5 +1,5 @@
 export type TerrainKind = "grass" | "road" | "water";
-export type WorldObjectKind = "house" | "tree" | "granary" | "bridge";
+export type WorldObjectKind = "house" | "tree" | "granary" | "bridge" | "workshop" | "field" | "meeting-hall" | "watchtower" | "shelter";
 
 export interface Cell { x: number; y: number; }
 
@@ -14,6 +14,8 @@ export interface WorldObjectDefinition {
   footprint: Cell[];
   interactionSlots: Cell[];
   blocksMovement: boolean;
+  capacity?: number;
+  activities?: string[];
 }
 
 export interface WorldObjectInstance {
@@ -41,6 +43,11 @@ export const DEFAULT_OBJECT_DEFINITIONS: Record<WorldObjectKind, WorldObjectDefi
   tree: { id: "tree", footprint: [{ x: 0, y: 0 }], interactionSlots: [], blocksMovement: true },
   granary: { id: "granary", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }], interactionSlots: [{ x: 0, y: 1 }, { x: 1, y: 1 }], blocksMovement: true },
   bridge: { id: "bridge", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }], interactionSlots: [], blocksMovement: false }
+  ,workshop: { id: "workshop", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }], interactionSlots: [{ x: 0, y: 2 }, { x: 1, y: 2 }], blocksMovement: true, capacity: 4, activities: ["craft", "repair"] },
+  field: { id: "field", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }], interactionSlots: [{ x: 1, y: 2 }], blocksMovement: false, capacity: 8, activities: ["work", "gather"] },
+  "meeting-hall": { id: "meeting-hall", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }], interactionSlots: [{ x: 0, y: 2 }, { x: 1, y: 2 }], blocksMovement: true, capacity: 12, activities: ["meet"] },
+  watchtower: { id: "watchtower", footprint: [{ x: 0, y: 0 }], interactionSlots: [{ x: 0, y: 1 }], blocksMovement: true, capacity: 2, activities: ["guard", "observe"] },
+  shelter: { id: "shelter", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }], interactionSlots: [{ x: 0, y: 1 }, { x: 1, y: 1 }], blocksMovement: true, capacity: 6, activities: ["rest", "shelter"] }
 };
 
 const terrainRules: Record<TerrainKind, TerrainDefinition> = {
@@ -247,6 +254,11 @@ export function createDefaultWorld(id = "first-winter-world-v1"): WorldDefinitio
     { id: "tree-2", definitionId: "tree", position: { x: 84, y: 78 } },
     { id: "bridge-2", definitionId: "bridge", position: { x: 50, y: 25 } },
     { id: "bridge-3", definitionId: "bridge", position: { x: 50, y: 75 } }
+    ,{ id: "workshop-1", definitionId: "workshop", position: { x: 72, y: 16 } }
+    ,{ id: "field-1", definitionId: "field", position: { x: 22, y: 66 } }
+    ,{ id: "meeting-hall-1", definitionId: "meeting-hall", position: { x: 42, y: 46 } }
+    ,{ id: "watchtower-1", definitionId: "watchtower", position: { x: 78, y: 58 } }
+    ,{ id: "shelter-1", definitionId: "shelter", position: { x: 10, y: 48 } }
   ] };
   validateWorldDefinition(world); return world;
 }

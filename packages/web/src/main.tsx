@@ -10,7 +10,8 @@ type SharedStore = { status: string; contributions: number; distributions: numbe
 type DilemmaResolution = { id: string; tick: number; title: string; choiceLabel: string; summary: string; foodDelta: number; trustDelta: number };
 type Settlement = { id: string; name: string; foodReserve: number; villagerIds: string[] };
 type Trade = { id: string; tick: number; villagerId: string; fromSettlementId: string; toSettlementId: string; amount: number; summary: string };
-type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; settlements?: Settlement[]; tradeHistory?: Trade[]; dilemmaHistory?: DilemmaResolution[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
+type Hazard = { id: string; kind: string; status: string; summary: string };
+type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; settlements?: Settlement[]; tradeHistory?: Trade[]; weather?: { kind: string; severity: number; forecast: string }; hazards?: Hazard[]; dilemmaHistory?: DilemmaResolution[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
 type Event = { id: string; tick: number; message: string; kind: string };
 type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
 type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
@@ -164,7 +165,8 @@ function DesignBench({ cards, dilemmas, store }: { cards: CharacterCard[]; dilem
 function RegionOverview({ world }: { world: State }) {
   const settlements = world.settlements ?? [];
   const trades = world.tradeHistory ?? [];
-  return <section className="region-overview"><div className="season-review-heading"><div><h2>Regional view</h2><p>Two settlements connected by the River Road.</p></div><strong>{settlements.length} settlements</strong></div><div className="region-cards">{settlements.map((settlement) => <article key={settlement.id}><strong>{settlement.name}</strong><span>{settlement.villagerIds.length} villagers</span><span>{settlement.foodReserve} food reserve</span></article>)}</div>{trades.length > 0 && <div className="trade-history"><h3>Cross-village trade</h3>{trades.slice(-3).reverse().map((trade) => <p key={trade.id}><strong>Tick {trade.tick}:</strong> {trade.summary}</p>)}</div>}</section>;
+  const activeHazards = (world.hazards ?? []).filter((hazard) => hazard.status === "active");
+  return <section className="region-overview"><div className="season-review-heading"><div><h2>Regional view</h2><p>Two settlements connected by the River Road.</p></div><strong>{settlements.length} settlements</strong></div><div className="region-cards">{settlements.map((settlement) => <article key={settlement.id}><strong>{settlement.name}</strong><span>{settlement.villagerIds.length} villagers</span><span>{settlement.foodReserve} food reserve</span></article>)}</div><p className="weather-status">Weather: <strong>{world.weather?.kind ?? "clear"}</strong> · forecast {world.weather?.forecast ?? "rain"}</p>{activeHazards.map((hazard) => <p className="hazard-status" key={hazard.id}>⚠️ {hazard.summary}</p>)}{trades.length > 0 && <div className="trade-history"><h3>Cross-village trade</h3>{trades.slice(-3).reverse().map((trade) => <p key={trade.id}><strong>Tick {trade.tick}:</strong> {trade.summary}</p>)}</div>}</section>;
 }
 
 function App() {
