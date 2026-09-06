@@ -18,6 +18,9 @@ const request = async (path: string, body: Record<string, unknown> = {}, authori
 try {
   await waitForServer();
   if ((await request("/api/tick", {}, false)).status !== 401) throw new Error("owner token was not enforced");
+  const speed = await request("/api/scheduler", { paused: true, intervalMs: 1000 });
+  if (speed.status !== 200 || ((await speed.json()) as { tickIntervalMs: number }).tickIntervalMs !== 1000) throw new Error("scheduler speed was not accepted");
+  if ((await request("/api/scheduler", { intervalMs: 100 })).status !== 400) throw new Error("invalid scheduler speed was accepted");
   if ((await request("/api/tick")).status !== 200) throw new Error("authorized tick failed");
   const branch = await request("/api/owner/branch", { tick: 1 });
   if (branch.status !== 200) throw new Error("branch failed");
