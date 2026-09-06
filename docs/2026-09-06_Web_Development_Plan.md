@@ -221,7 +221,7 @@ The first useful demonstration is milestones 1–3: a real animated village with
 - Phase 4 now has a deterministic social adapter. It records evidence-linked interpretations with source, confidence, belief category, and trust delta; the server stores them separately and the observer shows them alongside objective events.
 - The active default is **rules-only**. `AI_ENABLED=true` with a positive `SOCIAL_BUDGET_CENTS` exposes an explicit `ai-fallback` configuration state, but no paid provider is connected until a provider, model, and spending authorization are separately approved. Historical playback reads persisted interpretations and makes no AI request.
 - Scenario configuration now has a typed engine contract and a checked-in `scenarios/first-winter.json` fixture. New seasons can change the scenario name, starting food, and tick limit without changing the core simulation rules.
-- The deferred-hosting local MVP now includes the owner operations panel, opt-in scheduled SQLite backups, an authenticated server integration suite, and a three-season completion/restart boundary check. Browser verification confirms one observer can remain in history while another continues live.
+- The deferred-hosting local MVP now includes the owner operations panel, opt-in scheduled SQLite backups, an authenticated server integration suite, a three-season completion/restart boundary check, and a Playwright browser flow. Browser verification confirms one observer can remain in history while another continues live.
 
 ### Proposed repository layout
 
