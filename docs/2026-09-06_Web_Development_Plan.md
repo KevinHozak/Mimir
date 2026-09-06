@@ -107,7 +107,7 @@ The engine chooses destinations and activities. For the MVP, travel is resolved 
 
 This is a visual representation of coarse simulation time. Exact mid-walk physical interactions are outside the first version. In the inspector, state changes occur at tick boundaries; the timeline may scrub within a transition for movement, but must identify the associated committed tick rather than imply sub-tick resource precision.
 
-Render smoothly using elapsed frame time, aiming for 60 FPS and accepting 30 FPS on the initial reference laptop. React updates panels when state changes; Phaser owns per-frame sprite movement. Do not rerender the React tree on every animation frame.
+Render smoothly using elapsed frame time, aiming for 60 FPS and accepting 30 FPS on the initial reference laptop. React updates panels when state changes; Phaser owns per-frame sprite movement. Keep the Phaser canvas and villager containers mounted between ticks, retargeting existing containers through committed routes one tile at a time. Do not rerender the React tree on every animation frame.
 
 Live animation presents the latest committed transition, so it can briefly trail the authoritative head. Label the displayed tick and latest committed tick. If a viewer falls behind, skip older visual transitions and resynchronize rather than accumulate an unbounded animation queue. World rules never depend on browser frame rate.
 
