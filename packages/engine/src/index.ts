@@ -1,6 +1,7 @@
 export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
 export type Activity = "work" | "rest" | "share" | "craft" | "meet" | "gather";
 export interface TilePosition { x: number; y: number; }
+export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
 
 export interface Villager {
   id: string;
@@ -12,6 +13,7 @@ export interface Villager {
   food: number;
   activity: Activity;
   location: string;
+  beliefs: Beliefs;
   position: TilePosition;
   route: TilePosition[];
 }
@@ -28,9 +30,23 @@ export interface WorldState {
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "harvest";
+  kind: "tick" | "sharing" | "harvest" | "encounter";
   message: string;
   villagerIds: string[];
+}
+
+export interface SocialInterpretation {
+  id: string;
+  tick: number;
+  eventId: string;
+  villagerId: string;
+  source: "rules" | "ai";
+  fallbackReason?: string;
+  belief: keyof Beliefs;
+  confidence: number;
+  trustDelta: number;
+  summary: string;
+  evidenceEventIds: string[];
 }
 
 const names = [
@@ -85,13 +101,14 @@ export function createWorld(seed = 1, worldId = "first-winter"): WorldState {
       food: 2,
       activity: "rest",
       location: locations[index % locations.length],
+      beliefs: { cooperation: 50, selfReliance: 50, reflection: 50 },
       position: { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 },
       route: []
     }))
   };
 }
 
-export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[] } {
+export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   let random = nextRandom(input.seed + input.tick);
   const foodProduced = input.tick % 3 === 0 ? 8 : 3;
   const occupiedTargets = new Set<string>();
@@ -113,16 +130,22 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       ...villager,
       hunger: bounded(villager.hunger + 9 - (villager.food > 0 ? 13 : 0) - (shouldShare ? 3 : 0)),
       rest: bounded(villager.rest + (activity === "rest" ? 7 : -5)),
-      trust: bounded(villager.trust + (shouldShare ? 2 : (random % 9 === 0 ? -1 : 0))),
+      trust: bounded(villager.trust + (shouldShare ? 2 : activity === "meet" ? 1 : (random % 9 === 0 ? -1 : 0))),
       food: shouldShare ? villager.food : Math.max(0, villager.food - 1),
       activity,
       location,
+      beliefs: {
+        cooperation: bounded((villager.beliefs?.cooperation ?? 50) + (shouldShare ? 3 : 0)),
+        selfReliance: bounded((villager.beliefs?.selfReliance ?? 50) + (activity === "work" ? 2 : 0)),
+        reflection: bounded((villager.beliefs?.reflection ?? 50) + (activity === "meet" ? 2 : 0))
+      },
       position: target,
       route: routeBetween(currentPosition, target)
     };
   });
 
   const sharingCount = nextVillagers.filter((villager) => villager.activity === "share").length;
+  const meetingVillagers = nextVillagers.filter((villager) => villager.activity === "meet");
   const consumed = nextVillagers.filter((villager) => villager.food === 0).length;
   const state: WorldState = {
     ...input,
@@ -152,18 +175,50 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       kind: "harvest" as const,
       message: `${foodProduced} food was gathered from the village's work.`,
       villagerIds: []
+    }] : []),
+    ...(meetingVillagers.length > 0 ? [{
+      id: `event-${state.tick}-encounter`,
+      tick: state.tick,
+      kind: "encounter" as const,
+      message: `${meetingVillagers.map((villager) => villager.name).join(", ")} gathered at the meeting place.`,
+      villagerIds: meetingVillagers.map((villager) => villager.id)
     }] : [])
   ];
-  return { state, events };
+  return { state, events, interpretations: interpretSocialEvents(state, events) };
 }
 
-export function runTicks(initial: WorldState, count: number): { state: WorldState; events: WorldEvent[] } {
+export function interpretSocialEvents(state: WorldState, events: WorldEvent[], source: "rules" | "ai" = "rules"): SocialInterpretation[] {
+  const namesById = new Map(state.villagers.map((villager) => [villager.id, villager.name]));
+  return events
+    .filter((event) => event.kind === "sharing" || event.kind === "encounter")
+    .flatMap((event) => event.villagerIds.map((villagerId) => {
+      const name = namesById.get(villagerId) ?? villagerId;
+      const sharing = event.kind === "sharing";
+      return {
+        id: `interpretation-${event.id}-${villagerId}`,
+        tick: event.tick,
+        eventId: event.id,
+        villagerId,
+        source,
+        ...(source === "rules" ? { fallbackReason: "Deterministic rules are the active Phase 4 adapter." } : {}),
+        belief: sharing ? "cooperation" : "reflection",
+        confidence: sharing ? 0.88 : 0.7,
+        trustDelta: sharing ? 2 : 1,
+        summary: sharing ? `${name} reads the shared food as evidence that cooperation can protect the village.` : `${name} treats the gathering as a chance to compare values and revise their understanding.`,
+        evidenceEventIds: [event.id]
+      } satisfies SocialInterpretation;
+    }));
+}
+
+export function runTicks(initial: WorldState, count: number): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   let state = initial;
   const events: WorldEvent[] = [];
+  const interpretations: SocialInterpretation[] = [];
   for (let index = 0; index < count; index += 1) {
     const result = advanceWorld(state);
     state = result.state;
     events.push(...result.events);
+    interpretations.push(...result.interpretations);
   }
-  return { state, events };
+  return { state, events, interpretations };
 }

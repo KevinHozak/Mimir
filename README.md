@@ -6,7 +6,7 @@ The first release will let one observer watch a shared fictional village, inspec
 
 ## Current status
 
-The first implementation slice is now in place: a deterministic engine, SQLite-backed Fastify server, and minimal React/Phaser observer shell. The project is still pre-alpha and the simulation remains intentionally small.
+The current observer slice includes a deterministic engine, SQLite-backed Fastify server, persistent tile movement, replay controls, and a rules-based social interpretation layer. The project is still pre-alpha and the simulation remains intentionally small; no paid AI provider is connected by default.
 
 The initial world is planned around:
 

@@ -212,6 +212,13 @@ Build a visible slice early, then replace sample motion with actual outcomes. Ke
 
 The first useful demonstration is milestones 1–3: a real animated village with replay. Milestones 4–5 complete the intended hosted hybrid observer release. Estimate calendar time after milestone 1 establishes asset and integration effort; avoid a deadline unsupported by implementation evidence.
 
+### Current implementation status
+
+- Phases 1–3 have a working browser slice: the illustrated village, twelve selectable villagers, route animation, contained map zoom, playback-rate controls, live SSE updates, historical checkpoints, timeline scrubbing, and manual tick stepping.
+- Phase 2 verification covers ten deterministic seeds, distinct destination occupancy, bounded resources, and equivalence between uninterrupted and resumed execution.
+- Phase 4 now has a deterministic social adapter. It records evidence-linked interpretations with source, confidence, belief category, and trust delta; the server stores them separately and the observer shows them alongside objective events.
+- The active default is **rules-only**. `AI_ENABLED=true` with a positive `SOCIAL_BUDGET_CENTS` exposes an explicit `ai-fallback` configuration state, but no paid provider is connected until a provider, model, and spending authorization are separately approved. Historical playback reads persisted interpretations and makes no AI request.
+
 ### Proposed repository layout
 
 ```text

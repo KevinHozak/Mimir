@@ -7,9 +7,10 @@ type TilePosition = { x: number; y: number };
 type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[] };
 type State = { tick: number; season: number; foodReserve: number; villagers: Villager[] };
 type Event = { id: string; tick: number; message: string; kind: string };
+type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
-function VillageCanvas({ villagers }: { villagers: Villager[] }) {
+function VillageCanvas({ villagers, playbackRate, zoom }: { villagers: Villager[]; playbackRate: number; zoom: number }) {
   const villagersRef = useRef(villagers);
   const peopleRef = useRef(new Map<string, Phaser.GameObjects.Container>());
   const sceneRef = useRef<Phaser.Scene | null>(null);
@@ -48,6 +49,9 @@ function VillageCanvas({ villagers }: { villagers: Villager[] }) {
     villagersRef.current = villagers;
   }, [villagers]);
   useEffect(() => {
+    if (sceneRef.current) sceneRef.current.tweens.timeScale = playbackRate;
+  }, [playbackRate]);
+  useEffect(() => {
     const tileSize = 24;
     let isActive = true;
     const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 360, parent: "village-canvas", scene: { create() {
@@ -64,32 +68,37 @@ function VillageCanvas({ villagers }: { villagers: Villager[] }) {
   useEffect(() => {
     if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers]);
-  return <div id="village-canvas" />;
+  return <div className="village-stage"><div className="village-zoom" style={{ transform: `scale(${zoom})`, transformOrigin: "top left", marginBottom: `${360 * (zoom - 1)}px` }}><div id="village-canvas" /></div></div>;
 }
 
 function App() {
   const [world, setWorld] = useState<State | null>(null);
   const [liveWorld, setLiveWorld] = useState<State | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
+  const [interpretations, setInterpretations] = useState<Interpretation[]>([]);
   const [viewTick, setViewTick] = useState<number | null>(null);
   const [clockPaused, setClockPaused] = useState(false);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const [zoom, setZoom] = useState(1);
   const [selected, setSelected] = useState<Villager | null>(null);
   const loadLive = async () => {
-    const [worldResponse, eventsResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`)]);
+    const [worldResponse, eventsResponse, interpretationsResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
     const nextWorld = worldPayload.state;
     setLiveWorld(nextWorld);
     if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
+    setInterpretations((await interpretationsResponse.json()).interpretations as Interpretation[]);
     if (viewTick === null) setWorld(nextWorld);
   };
   useEffect(() => {
     void loadLive();
     const stream = new EventSource(`${api}/api/live`);
     stream.onmessage = (message) => {
-      const payload = JSON.parse(message.data) as { state: State; events?: Event[] };
+      const payload = JSON.parse(message.data) as { state: State; events?: Event[]; interpretations?: Interpretation[] };
       setLiveWorld(payload.state);
       if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
+      if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));
       if (viewTick === null) setWorld(payload.state);
     };
     const timer = window.setInterval(() => void loadLive(), 15000);
@@ -104,7 +113,7 @@ function App() {
   const toggleClock = async () => { const response = await fetch(`${api}/api/scheduler`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ paused: !clockPaused }) }); const result = await response.json() as { schedulerPaused: boolean }; setClockPaused(result.schedulerPaused); };
   if (!world) return <main><h1>Philosophy World</h1><p>Connecting to the village…</p></main>;
   const maximumTick = liveWorld?.tick ?? world.tick;
-  return <main><header><div><h1>Philosophy World</h1><p>Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= 60}>Advance one tick</button></div></header><section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span></section><section className="layout"><div><VillageCanvas villagers={world.villagers} /><div className="villagers">{world.villagers.map((villager) => <button className="villager" key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section></div><aside><h2>{selected?.name ?? "Select a villager"}</h2>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside></section></main>;
+  return <main><header><div><h1>Philosophy World</h1><p>Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= 60}>Advance one tick</button></div></header><section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span><div className="playback"><span>Playback</span>{[0.5, 1, 2].map((rate) => <button className={playbackRate === rate ? "selected-rate" : ""} key={rate} onClick={() => setPlaybackRate(rate)}>{rate}×</button>)}</div><div className="zoom-controls"><span>Map</span><button onClick={() => setZoom((current) => Math.max(0.8, Number((current - 0.1).toFixed(1))))}>−</button><button onClick={() => setZoom(1)}>Fit</button><button onClick={() => setZoom((current) => Math.min(1.4, Number((current + 0.1).toFixed(1))))}>+</button></div></section><section className="layout"><div><VillageCanvas villagers={world.villagers} playbackRate={playbackRate} zoom={zoom} /><div className="villagers">{world.villagers.map((villager) => <button className="villager" key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section></div><aside><h2>{selected?.name ?? "Select a villager"}</h2>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl><div className="signals"><h3>Belief signals</h3><div><span>Cooperation</span><strong>{selected.beliefs.cooperation}</strong><i style={{ width: `${selected.beliefs.cooperation}%` }} /></div><div><span>Self-reliance</span><strong>{selected.beliefs.selfReliance}</strong><i style={{ width: `${selected.beliefs.selfReliance}%` }} /></div><div><span>Reflection</span><strong>{selected.beliefs.reflection}</strong><i style={{ width: `${selected.beliefs.reflection}%` }} /></div></div></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside></section></main>;
 }
 
 createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);
