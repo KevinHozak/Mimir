@@ -50,6 +50,8 @@ The project is private while the design and implementation are being developed. 
 
 ## Local operations
 
+Run the complete local world with `npm start`. It builds missing artifacts, starts the simulation server, and serves the browser client at `http://127.0.0.1:4173/`.
+
 Run the server and browser with `npm run dev:server` and `npm run dev:web`. When `OWNER_TOKEN` is configured, enter that token in the owner panel before using state-changing controls. For a safe database copy, use `DATABASE_PATH=<path> npm run backup --workspace @mimir/server -- backup <destination>`. Scheduled local backups are opt-in with `BACKUP_INTERVAL_MS` and `BACKUP_DIR`.
 
 Run the local browser flow with `npm run test:e2e --workspace @mimir/web` after building; it starts isolated local services and verifies authenticated ticking plus independent live/history observers.

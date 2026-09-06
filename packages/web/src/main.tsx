@@ -10,7 +10,7 @@ type State = { tick: number; season: number; foodReserve: number; scenario: { na
 type Event = { id: string; tick: number; message: string; kind: string };
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number } };
-const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
 
 function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate, zoom }: { villagers: Villager[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; playbackRate: number; zoom: number }) {
   const villagersRef = useRef(villagers);
