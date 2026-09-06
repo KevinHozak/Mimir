@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, createWorld, FIRST_WINTER_SCENARIO, LOCATION_TILES, type SocialInterpretation, type WorldEvent, type WorldState } from "@philosophy-world/engine";
+import { advanceWorld, createDefaultWorld, createWorld, FIRST_WINTER_SCENARIO, LOCATION_TILES, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@philosophy-world/engine";
 
 const port = Number(process.env.PORT ?? 3000);
 const tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
@@ -44,7 +44,7 @@ function createScheduledBackup(reason: string) {
 }
 
 function normalizeState(raw: WorldState): WorldState {
-  return { ...raw, scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
+  return { ...raw, scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, worldDefinition: raw.worldDefinition ?? createDefaultWorld(), worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, villagers: raw.villagers.map((villager, index) => ({ ...villager, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] })) };
 }
 function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;
@@ -69,6 +69,7 @@ app.get("/api/events", async (request) => { const query = request.query as { lim
 app.get("/api/interpretations", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? ORDER BY tick DESC LIMIT ?").all(activeTimelineId, limit) as { interpretation_json: string }[]; return { interpretations: rows.reverse().map((row) => JSON.parse(row.interpretation_json) as SocialInterpretation), timelineId: activeTimelineId }; });
 app.get("/api/report", async () => { const timeline = currentTimeline(); const counts = database.prepare("SELECT (SELECT COUNT(*) FROM timeline_checkpoints WHERE timeline_id = ?) AS checkpoints, (SELECT COUNT(*) FROM timeline_events WHERE timeline_id = ?) AS events, (SELECT COUNT(*) FROM timeline_interpretations WHERE timeline_id = ?) AS interpretations").get(activeTimelineId, activeTimelineId, activeTimelineId) as { checkpoints: number; events: number; interpretations: number }; const averageTrust = Math.round(state.villagers.reduce((total, villager) => total + villager.trust, 0) / state.villagers.length); return { timeline, tick: state.tick, schedulerPaused, databaseBytes: existsSync(databasePath) ? statSync(databasePath).size : 0, socialMode, socialBudgetCents, fallbackCount: counts.interpretations, summary: { season: state.season, scenarioName: state.scenario.name, finalFood: state.foodReserve, averageTrust, villagers: state.villagers.length }, ...counts }; });
 app.post("/api/scheduler", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { paused?: unknown } | undefined; if (typeof body?.paused !== "boolean") return reply.code(400).send({ error: "paused must be a boolean" }); schedulerPaused = body.paused; return { schedulerPaused }; });
+app.post("/api/owner/world/object", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { objectId?: unknown; blocked?: unknown } | undefined; if (typeof body?.objectId !== "string" || typeof body.blocked !== "boolean") return reply.code(400).send({ error: "objectId and blocked are required" }); try { state = { ...state, worldRuntime: setObjectBlocked(state.worldDefinition!, state.worldRuntime ?? { blockedObjectIds: [] }, body.objectId, body.blocked) }; database.prepare("INSERT OR REPLACE INTO timeline_checkpoints (timeline_id, tick, state_json) VALUES (?, ?, ?)").run(activeTimelineId, state.tick, JSON.stringify(state)); return { state, objectId: body.objectId, blocked: body.blocked }; } catch (error) { return reply.code(400).send({ error: error instanceof Error ? error.message : "invalid world object" }); } });
 
 function commitTick(): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null {
   if (state.tick >= seasonTickLimit || currentTimeline().status !== "active") return null;

@@ -4,6 +4,8 @@ Date: 2026-09-06
 
 Status: Approved direction; implementation phases below are planned, not completed.
 
+Implementation ledger (updated 2026-09-06): phases 1, 3, 4, and the core of 5 are implemented in the current working tree and covered by engine, server, build, and browser checks. Phase 6 now has per-tick travel, persisted destinations, arrival-gated activities, and a deterministic serialize/restart test. Phase 2 now includes a validated normalized parser, a Tiled JSON importer, a checked-in authored map source with provisional tile mappings, and deterministic world fingerprints; final licensed tileset art provenance remains open. Phase 7 now has a persisted runtime blocker overlay, an owner endpoint for changing object blocking, red blocked-object rendering, and integration coverage proving a runtime blocker survives branching.
+
 Companion documents: [Web Development Plan](2026-09-06_Web_Development_Plan.md) and [Simulation Game Plan](2026-09-06_Simulation_Game_Plan.md).
 
 ## 1. Decision and intended outcome

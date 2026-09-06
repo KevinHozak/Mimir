@@ -1,0 +1,41 @@
+{
+  "type": "map",
+  "version": "1.10",
+  "tiledversion": "1.12.2",
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "width": 8,
+  "height": 8,
+  "tilewidth": 24,
+  "tileheight": 24,
+  "layers": [
+    {
+      "id": 1,
+      "name": "Terrain",
+      "type": "tilelayer",
+      "width": 8,
+      "height": 8,
+      "data": [
+        1, 1, 1, 1, 2, 1, 1, 1,
+        1, 1, 1, 1, 2, 1, 1, 1,
+        1, 1, 1, 1, 2, 1, 1, 1,
+        3, 3, 3, 3, 3, 3, 3, 3,
+        1, 1, 1, 1, 2, 1, 1, 1,
+        1, 1, 1, 1, 2, 1, 1, 1,
+        1, 1, 1, 1, 2, 1, 1, 1,
+        1, 1, 1, 1, 2, 1, 1, 1
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Objects",
+      "type": "objectgroup",
+      "objects": [
+        { "id": 1, "name": "House", "class": "house", "x": 24, "y": 24, "width": 48, "height": 48 },
+        { "id": 2, "name": "Tree", "class": "tree", "x": 72, "y": 24, "width": 24, "height": 24 },
+        { "id": 3, "name": "Granary", "class": "granary", "x": 120, "y": 120, "width": 48, "height": 24 },
+        { "id": 4, "name": "Bridge", "class": "bridge", "x": 96, "y": 72, "width": 72, "height": 24 }
+      ]
+    }
+  ]
+}

@@ -27,6 +27,14 @@ try {
   if ((await request("/api/tick")).status !== 409) throw new Error("archived timeline accepted a tick");
   const reset = await request("/api/owner/reset", { seed: 7 });
   if (reset.status !== 200 || ((await reset.json()) as { state: { tick: number } }).state.tick !== 0) throw new Error("reset failed");
+  const blocked = await request("/api/owner/world/object", { objectId: "bridge-1", blocked: true });
+  if (blocked.status !== 200) throw new Error("runtime object block failed");
+  const blockedWorld = await (await fetch(`${endpoint}/api/world`)).json() as { state: { worldRuntime?: { blockedObjectIds: string[] } } };
+  if (!blockedWorld.state.worldRuntime?.blockedObjectIds.includes("bridge-1")) throw new Error("runtime object block was not persisted");
+  if ((await request("/api/owner/branch", { tick: 0 })).status !== 200) throw new Error("runtime-state branch failed");
+  const branchedWorld = await (await fetch(`${endpoint}/api/world`)).json() as { state: { worldRuntime?: { blockedObjectIds: string[] } } };
+  if (!branchedWorld.state.worldRuntime?.blockedObjectIds.includes("bridge-1")) throw new Error("runtime object block was not copied into branch");
+  if ((await request("/api/owner/world/object", { objectId: "bridge-1", blocked: false })).status !== 200) throw new Error("runtime object unblock failed");
   const report = await (await fetch(`${endpoint}/api/report`)).json() as { tick: number; checkpoints: number };
   if (report.tick !== 0 || report.checkpoints !== 1) throw new Error("report did not reflect reset");
   await new Promise((resolve) => setTimeout(resolve, 350));
