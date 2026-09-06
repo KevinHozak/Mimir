@@ -1,5 +1,6 @@
 export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
 export type Activity = "work" | "rest" | "share";
+export interface TilePosition { x: number; y: number; }
 
 export interface Villager {
   id: string;
@@ -11,6 +12,8 @@ export interface Villager {
   food: number;
   activity: Activity;
   location: string;
+  position: TilePosition;
+  route: TilePosition[];
 }
 
 export interface WorldState {
@@ -37,6 +40,10 @@ const names = [
 ] as const;
 
 const locations = ["Homes", "Granary", "Workshop", "Meeting Place", "Fields", "Woodland"];
+export const LOCATION_TILES: Record<string, TilePosition> = {
+  Homes: { x: 5, y: 6 }, Granary: { x: 14, y: 6 }, Workshop: { x: 23, y: 6 },
+  "Meeting Place": { x: 14, y: 11 }, Fields: { x: 9, y: 11 }, Woodland: { x: 21, y: 11 }
+};
 
 function nextRandom(value: number): number {
   return (value * 1664525 + 1013904223) >>> 0;
@@ -44,6 +51,15 @@ function nextRandom(value: number): number {
 
 function bounded(value: number): number {
   return Math.max(0, Math.min(100, value));
+}
+
+function routeBetween(start: TilePosition, target: TilePosition): TilePosition[] {
+  const route: TilePosition[] = [{ ...start }];
+  let x = start.x;
+  let y = start.y;
+  while (x !== target.x) { x += x < target.x ? 1 : -1; route.push({ x, y }); }
+  while (y !== target.y) { y += y < target.y ? 1 : -1; route.push({ x, y }); }
+  return route;
 }
 
 export function createWorld(seed = 1, worldId = "first-winter"): WorldState {
@@ -62,7 +78,9 @@ export function createWorld(seed = 1, worldId = "first-winter"): WorldState {
       trust: 50,
       food: 2,
       activity: "rest",
-      location: locations[index % locations.length]
+      location: locations[index % locations.length],
+      position: { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 },
+      route: []
     }))
   };
 }
@@ -76,6 +94,9 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const shouldShare = villager.tradition === "Hearthkeepers" && needsFood && input.foodReserve > 0;
     const activity: Activity = shouldShare ? "share" : needsFood ? "work" : "rest";
     const location = activity === "work" ? "Fields" : activity === "share" ? "Granary" : "Homes";
+    const currentPosition = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
+    const anchor = LOCATION_TILES[location] ?? LOCATION_TILES.Homes;
+    const target = { x: anchor.x + (index % 3) - 1, y: anchor.y + (index % 2) };
     return {
       ...villager,
       hunger: bounded(villager.hunger + 9 - (villager.food > 0 ? 13 : 0) - (shouldShare ? 3 : 0)),
@@ -83,7 +104,9 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       trust: bounded(villager.trust + (shouldShare ? 2 : (random % 9 === 0 ? -1 : 0))),
       food: shouldShare ? villager.food : Math.max(0, villager.food - 1),
       activity,
-      location
+      location,
+      position: target,
+      route: routeBetween(currentPosition, target)
     };
   });
 
@@ -93,7 +116,8 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     ...input,
     tick: input.tick + 1,
     seed: random,
-    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount)
+    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount),
+    villagers: nextVillagers
   };
   const events: WorldEvent[] = [
     {

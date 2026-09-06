@@ -2,7 +2,7 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, createWorld, type WorldEvent, type WorldState } from "@philosophy-world/engine";
+import { advanceWorld, createWorld, LOCATION_TILES, type WorldEvent, type WorldState } from "@philosophy-world/engine";
 
 const port = Number(process.env.PORT ?? 3000);
 const tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
@@ -14,7 +14,16 @@ database.exec("PRAGMA journal_mode = WAL;");
 database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (tick INTEGER PRIMARY KEY, state_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, event_json TEXT NOT NULL);`);
 
 const saved = database.prepare("SELECT state_json FROM checkpoints ORDER BY tick DESC LIMIT 1").get() as { state_json: string } | undefined;
-let state: WorldState = saved ? JSON.parse(saved.state_json) as WorldState : createWorld(20260906);
+const savedState = saved ? JSON.parse(saved.state_json) as WorldState : createWorld(20260906);
+let state: WorldState = {
+  ...savedState,
+  villagers: savedState.villagers.map((villager, index) => ({
+    ...villager,
+    position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 },
+    route: villager.route ?? [],
+    location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length]
+  }))
+};
 if (!saved) database.prepare("INSERT INTO checkpoints (tick, state_json) VALUES (?, ?)").run(state.tick, JSON.stringify(state));
 const liveClients = new Set<ServerResponse>();
 

@@ -3,36 +3,39 @@ import { createRoot } from "react-dom/client";
 import Phaser from "phaser";
 import "./styles.css";
 
-type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number };
+type TilePosition = { x: number; y: number };
+type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[] };
 type State = { tick: number; season: number; foodReserve: number; villagers: Villager[] };
 type Event = { id: string; tick: number; message: string; kind: string };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
-const locationPoints: Record<string, [number, number]> = {
-  Homes: [120, 150], Granary: [330, 150], Workshop: [540, 150], "Meeting Place": [330, 278], Fields: [220, 285], Woodland: [500, 285]
+const locationPoints: Record<string, TilePosition> = {
+  Homes: { x: 5, y: 6 }, Granary: { x: 14, y: 6 }, Workshop: { x: 23, y: 6 }, "Meeting Place": { x: 14, y: 11 }, Fields: { x: 9, y: 11 }, Woodland: { x: 21, y: 11 }
 };
 
 function VillageCanvas({ villagers }: { villagers: Villager[] }) {
   useEffect(() => {
-    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, width: 760, height: 360, parent: "village-canvas", backgroundColor: "#d9c7a3", scene: { create() {
+    const tileSize = 24;
+    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, width: 768, height: 360, parent: "village-canvas", backgroundColor: "#d9c7a3", scene: { create() {
       const scene = this as Phaser.Scene;
       scene.add.text(24, 22, "THE FIRST WINTER", { color: "#493b2a", fontSize: "22px", fontFamily: "monospace" });
-      for (let x = 0; x < 760; x += 24) scene.add.line(0, 0, x, 0, x, 360, 0xcbb891, 0.35).setOrigin(0);
-      for (let y = 0; y < 360; y += 24) scene.add.line(0, 0, 0, y, 760, y, 0xcbb891, 0.35).setOrigin(0);
-      [[120, 150, "Homes"], [330, 150, "Granary"], [540, 150, "Workshop"], [330, 278, "Meeting Place"], [220, 285, "Fields"], [500, 285, "Woodland"]].forEach(([x, y, label]) => {
-        scene.add.rectangle(Number(x), Number(y), 150, 72, 0xb18c67).setStrokeStyle(3, 0x6a5138);
-        scene.add.text(Number(x) - (String(label).length * 4), Number(y) - 8, String(label), { color: "#fff7e8", fontSize: "14px", fontFamily: "monospace" });
+      for (let x = 0; x < 768; x += tileSize) scene.add.line(0, 0, x, 0, x, 360, 0xcbb891, 0.35).setOrigin(0);
+      for (let y = 0; y < 360; y += tileSize) scene.add.line(0, 0, 0, y, 768, y, 0xcbb891, 0.35).setOrigin(0);
+      Object.entries(locationPoints).forEach(([label, point]) => {
+        const x = point.x * tileSize + tileSize / 2;
+        const y = point.y * tileSize + tileSize / 2;
+        scene.add.rectangle(x, y, 144, 48, 0xb18c67).setStrokeStyle(3, 0x6a5138);
+        scene.add.text(x - (label.length * 4), y - 8, label, { color: "#fff7e8", fontSize: "14px", fontFamily: "monospace" });
       });
       villagers.forEach((villager, index) => {
-        const [targetX, targetY] = locationPoints[villager.location] ?? locationPoints.Homes;
-        const startX = 70 + (index % 6) * 112;
-        const startY = 72 + Math.floor(index / 6) * 34;
+        const route = villager.route.length > 0 ? villager.route : [villager.position];
+        const start = route[0] ?? villager.position;
         const colors = { Hearthkeepers: 0xc5664a, Freehands: 0x5c8eaa, Seekers: 0x8b6b9d };
-        const person = scene.add.container(startX, startY);
+        const person = scene.add.container(start.x * tileSize + tileSize / 2, start.y * tileSize + tileSize / 2);
         person.add(scene.add.rectangle(0, 0, 12, 12, colors[villager.tradition as keyof typeof colors] ?? 0x76563c).setOrigin(0.5));
         person.add(scene.add.rectangle(0, -9, 10, 4, 0x493b2a).setOrigin(0.5));
         person.add(scene.add.text(-18, 10, villager.name, { color: "#493b2a", fontSize: "10px", fontFamily: "monospace" }));
-        scene.tweens.add({ targets: person, x: targetX + ((index % 3) - 1) * 18, y: targetY + ((index % 2) - 0.5) * 18, duration: 900, ease: "Linear" });
+        route.slice(1).forEach((step, stepIndex) => scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 130, delay: stepIndex * 130, ease: "Stepped" }));
       });
     } } });
     return () => game.destroy(true);
