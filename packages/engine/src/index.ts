@@ -45,6 +45,12 @@ export const LOCATION_TILES: Record<string, TilePosition> = {
   "Meeting Place": { x: 14, y: 8 }, Fields: { x: 8, y: 11 }, Woodland: { x: 25, y: 9 }
 };
 
+const destinationOffsets: TilePosition[] = [
+  { x: 0, y: 0 }, { x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 },
+  { x: -1, y: -1 }, { x: 1, y: -1 }, { x: -1, y: 1 }, { x: 1, y: 1 }, { x: -2, y: 0 },
+  { x: 2, y: 0 }, { x: 0, y: 2 }
+];
+
 function nextRandom(value: number): number {
   return (value * 1664525 + 1013904223) >>> 0;
 }
@@ -88,6 +94,7 @@ export function createWorld(seed = 1, worldId = "first-winter"): WorldState {
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[] } {
   let random = nextRandom(input.seed + input.tick);
   const foodProduced = input.tick % 3 === 0 ? 8 : 3;
+  const occupiedTargets = new Set<string>();
   const nextVillagers = input.villagers.map((villager, index) => {
     random = nextRandom(random + index);
     const needsFood = villager.hunger >= 45;
@@ -96,7 +103,12 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const location = activity === "work" ? "Fields" : activity === "share" ? "Granary" : activity === "craft" ? "Workshop" : activity === "meet" ? "Meeting Place" : activity === "gather" ? "Woodland" : "Homes";
     const currentPosition = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     const anchor = LOCATION_TILES[location] ?? LOCATION_TILES.Homes;
-    const target = { x: anchor.x + (index % 3) - 1, y: anchor.y + (index % 2) };
+    const targetOffset = destinationOffsets
+      .map((offset, offsetIndex) => ({ offset, offsetIndex }))
+      .sort((left, right) => ((left.offsetIndex + index) % destinationOffsets.length) - ((right.offsetIndex + index) % destinationOffsets.length))
+      .find(({ offset }) => !occupiedTargets.has(`${anchor.x + offset.x},${anchor.y + offset.y}`))?.offset ?? destinationOffsets[0];
+    const target = { x: anchor.x + targetOffset.x, y: anchor.y + targetOffset.y };
+    occupiedTargets.add(`${target.x},${target.y}`);
     return {
       ...villager,
       hunger: bounded(villager.hunger + 9 - (villager.food > 0 ? 13 : 0) - (shouldShare ? 3 : 0)),

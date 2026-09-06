@@ -81,8 +81,8 @@ Philosophy World     Season 1 · Day 8 · Morning      LIVE · Connected
 
 - One handcrafted map, approximately 48 × 48 tiles, with the six scenario locations.
 - Warm, restrained palette, clear paths, readable building silhouettes, and simple shadows.
-- Later visual target: an original low-resolution, top-down pixel-art presentation inspired by the feel of *Ultima IV*: highly readable tile-based terrain, chunky 8-bit/early 16-bit character sprites, limited earthy colors, simple two-frame movement, and period-style panels and borders.
-- Recreate the visual language and technical constraints rather than copying *Ultima IV* assets, maps, characters, or exact artwork. All project art must have a documented source and license.
+- Current visual direction: an original, warm top-down village illustration with readable terrain, distinct character sprites, earthy colors, simple shadows, and visible tile-based movement. Keep the scene inviting and legible rather than targeting a specific retro game's look.
+- Do not copy another game's assets, maps, characters, or exact artwork. All project art must have a documented source and license.
 - Twelve distinguishable villagers using clothing/hair variations and names on selection or hover.
 - Short directional walking loops, idle poses, and small work/rest/conversation indicators.
 - Camera pan, zoom, fit-village button, click-to-select, and optional follow-selected-NPC.

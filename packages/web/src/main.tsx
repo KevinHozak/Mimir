@@ -9,10 +9,6 @@ type State = { tick: number; season: number; foodReserve: number; villagers: Vil
 type Event = { id: string; tick: number; message: string; kind: string };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
-const locationPoints: Record<string, TilePosition> = {
-  Homes: { x: 5, y: 4 }, Granary: { x: 14, y: 4 }, Workshop: { x: 23, y: 4 }, "Meeting Place": { x: 14, y: 8 }, Fields: { x: 8, y: 11 }, Woodland: { x: 25, y: 9 }
-};
-
 function VillageCanvas({ villagers }: { villagers: Villager[] }) {
   useEffect(() => {
     const tileSize = 24;
@@ -21,12 +17,6 @@ function VillageCanvas({ villagers }: { villagers: Villager[] }) {
       scene.add.text(24, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
       for (let x = 0; x < 768; x += tileSize) for (let y = 0; y < 360; y += tileSize) scene.add.rectangle(x + tileSize / 2, y + tileSize / 2, tileSize, tileSize, 0xf2d27d, 0.06).setOrigin(0.5);
       for (let x = 7; x <= 11; x += 1) for (let y = 10; y <= 13; y += 1) scene.add.line(0, 0, x * tileSize + 3, y * tileSize + 18, x * tileSize + 19, y * tileSize + 5, 0x9b713f, 0.8).setOrigin(0);
-      Object.entries(locationPoints).forEach(([label, point]) => {
-        const x = point.x * tileSize + tileSize / 2;
-        const y = point.y * tileSize + tileSize / 2;
-        scene.add.rectangle(x, y, 106, 30, 0x493b2a, 0.35).setStrokeStyle(2, 0xf2d27d, 0.8);
-        scene.add.text(x - (label.length * 4), y - 8, label, { color: "#fff7e8", fontSize: "14px", fontFamily: "monospace" });
-      });
       villagers.forEach((villager, index) => {
         const route = villager.route.length > 0 ? villager.route : [villager.position];
         const start = route[0] ?? villager.position;
@@ -55,11 +45,14 @@ function App() {
   const [liveWorld, setLiveWorld] = useState<State | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [viewTick, setViewTick] = useState<number | null>(null);
+  const [clockPaused, setClockPaused] = useState(false);
   const [selected, setSelected] = useState<Villager | null>(null);
   const loadLive = async () => {
     const [worldResponse, eventsResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`)]);
-    const nextWorld = (await worldResponse.json()).state as State;
+    const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
+    const nextWorld = worldPayload.state;
     setLiveWorld(nextWorld);
+    if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
     if (viewTick === null) setWorld(nextWorld);
   };
@@ -81,9 +74,10 @@ function App() {
     setViewTick(tick); setWorld(result.state as State);
   };
   const tick = async () => { await fetch(`${api}/api/tick`, { method: "POST", headers: { "content-type": "application/json" }, body: "{}" }); await loadLive(); };
+  const toggleClock = async () => { const response = await fetch(`${api}/api/scheduler`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ paused: !clockPaused }) }); const result = await response.json() as { schedulerPaused: boolean }; setClockPaused(result.schedulerPaused); };
   if (!world) return <main><h1>Philosophy World</h1><p>Connecting to the village…</p></main>;
   const maximumTick = liveWorld?.tick ?? world.tick;
-  return <main><header><div><h1>Philosophy World</h1><p>Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><button onClick={tick} disabled={viewTick !== null || world.tick >= 60}>Advance one tick</button></header><section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span></section><section className="layout"><div><VillageCanvas villagers={world.villagers} /><div className="villagers">{world.villagers.map((villager) => <button className="villager" key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section></div><aside><h2>{selected?.name ?? "Select a villager"}</h2>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside></section></main>;
+  return <main><header><div><h1>Philosophy World</h1><p>Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= 60}>Advance one tick</button></div></header><section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span></section><section className="layout"><div><VillageCanvas villagers={world.villagers} /><div className="villagers">{world.villagers.map((villager) => <button className="villager" key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section></div><aside><h2>{selected?.name ?? "Select a villager"}</h2>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside></section></main>;
 }
 
 createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);
