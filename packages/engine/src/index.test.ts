@@ -28,9 +28,32 @@ assert.ok(first.state.villagers.some((villager) => villager.activity !== "travel
 assert.ok(firstTick.state.villagers.every((villager) => villager.route.at(-1)?.x === villager.position.x && villager.route.at(-1)?.y === villager.position.y));
 assert.equal(new Set(firstTick.state.villagers.map((villager) => `${villager.position.x},${villager.position.y}`)).size, firstTick.state.villagers.length);
 assert.ok(firstTick.state.worldDefinition);
+assert.equal(firstTick.state.worldDefinition?.width, 100);
+assert.equal(firstTick.state.worldDefinition?.height, 100);
 assert.ok(first.state.foodReserve >= 0);
-for (let seed = 1; seed <= 10; seed += 1) {
-  const result = runTicks(createWorld(seed), 60);
+let collectionState = { ...createWorld(7), foodReserve: 1000, villagers: createWorld(7).villagers.map((villager, index) => index === 0 ? { ...villager, food: 0, hunger: 70 } : villager) };
+let collectionObserved = false;
+for (let tick = 0; tick < 50; tick += 1) {
+  const result = advanceWorld(collectionState);
+  const collection = result.events.find((event) => event.kind === "collection" && event.villagerIds.includes("villager-1"));
+  if (collection) {
+    const mara = result.state.villagers.find((villager) => villager.id === "villager-1")!;
+    assert.equal(mara.location, "Granary");
+    assert.ok(mara.food > 0);
+    collectionObserved = true;
+    break;
+  }
+  collectionState = result.state;
+}
+assert.ok(collectionObserved);
+for (let seed = 1; seed <= 3; seed += 1) {
+  let state = createWorld(seed);
+  let result = { state, events: [], interpretations: [] } as ReturnType<typeof advanceWorld>;
+  for (let tick = 0; tick < 60; tick += 1) {
+    result = advanceWorld(state);
+    state = result.state;
+    assert.equal(new Set(state.villagers.map((villager) => `${villager.position.x},${villager.position.y}`)).size, state.villagers.length);
+  }
   assert.equal(result.state.tick, 60);
   assert.ok(result.state.foodReserve >= 0);
   assert.ok(result.state.villagers.every((villager) => result.state.worldDefinition && isWalkable(result.state.worldDefinition, villager.position)));

@@ -97,7 +97,7 @@ Use one licensed asset family initially, or commission/create an original asset 
 
 Keep three clocks distinct:
 
-1. **World time:** the original morning/evening decision ticks, 60 ticks per 30-day season.
+1. **World time:** the original morning/evening decision ticks, with the current first-winter prototype running 360 ticks per 30-day season.
 2. **Server pace:** how frequently the server computes another tick in wall-clock time.
 3. **Viewer playback time:** how quickly one browser presents recorded ticks and movement.
 
@@ -134,7 +134,7 @@ For race-free Return to Live, fetch a snapshot carrying its committed sequence n
 
 ### Save state instead of regenerating the past
 
-For only 12 villagers and 60 ticks, **save a complete checkpoint after every tick**, plus the initial state, narrative events, validated AI results, and visual routes. This is simpler than reconstructing history from a sparse checkpoint and a complex event reducer. Measure storage before expanding; full snapshots containing growing memories will eventually need compression or a different retention strategy.
+For only 12 villagers and 360 ticks, **save a complete checkpoint after every tick**, plus the initial state, narrative events, validated AI results, and visual routes. This is simpler than reconstructing history from a sparse checkpoint and a complex event reducer. Measure storage before expanding; full snapshots containing growing memories will eventually need compression or a different retention strategy.
 
 Historical viewing loads those saved states and transitions. It makes no AI calls and does not require old engine code to recompute decisions. Preserve schema-compatible readers and versioned map/sprite assets so archived seasons remain viewable.
 
@@ -207,7 +207,7 @@ Build a visible slice early, then replace sample motion with actual outcomes. Ke
 | Milestone | Deliverable | Acceptance gate |
 |---|---|---|
 | 1. Visual browser prototype | Map, 12 sprites, routes, pan/zoom, inspector shell | Kevin can identify villagers and finds the village readable; sample behavior is clearly labeled |
-| 2. Real village and storage | Original stage-1 engine, 60 ticks, full checkpoints, events, actual destinations | Ten seeds pass accounting/invariant checks; save/resume matches uninterrupted execution |
+| 2. Real village and storage | Original stage-1 engine, 360 ticks, full checkpoints, events, actual destinations | Ten seeds pass accounting/invariant checks; save/resume matches uninterrupted execution |
 | 3. Rewindable observer | Historical slider, playback speeds, tick stepping, synchronized inspector/charts, Return to Live | Recorded states match inspected ticks; multiple viewers can watch different times without changing the world |
 | 4. Hybrid social layer | Original stage-2 interpretations, evidence, trust/belief effects, budget/fallback controls | Original twenty-encounter and AI-on/off gates pass; historical playback triggers zero AI calls |
 | 5. Hosted observer MVP | Paid server, persistence, owner controls, archive/continue/branch/reset, reports | Browser closure does not stop a running season; restart, backup restore, replay, and three season reviews pass |

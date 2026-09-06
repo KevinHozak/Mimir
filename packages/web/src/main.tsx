@@ -19,18 +19,25 @@ function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate,
   const syncVillagers = (scene: Phaser.Scene, nextVillagers: Villager[]) => {
     const tileSize = 24;
     const colors = { Hearthkeepers: 0xc5664a, Freehands: 0x5c8eaa, Seekers: 0x8b6b9d };
+    const visualOffsets = [{ x: 0, y: 0 }, { x: -6, y: 0 }, { x: 6, y: 0 }, { x: 0, y: -6 }, { x: 0, y: 6 }, { x: -6, y: -6 }, { x: 6, y: -6 }, { x: -6, y: 6 }, { x: 6, y: 6 }];
+    const cellSlots = new Map<string, number>();
     const nextIds = new Set(nextVillagers.map((villager) => villager.id));
     peopleRef.current.forEach((person, id) => {
       if (!nextIds.has(id)) { person.destroy(); peopleRef.current.delete(id); }
     });
     nextVillagers.forEach((villager, index) => {
       const route = villager.route.length > 0 ? villager.route : [villager.position];
+      const cellKey = `${villager.position.x},${villager.position.y}`;
+      const slot = cellSlots.get(cellKey) ?? 0;
+      cellSlots.set(cellKey, slot + 1);
+      const offset = visualOffsets[slot % visualOffsets.length];
+      const screenPosition = (position: TilePosition) => ({ x: position.x * tileSize + tileSize / 2 + offset.x, y: position.y * tileSize + tileSize / 2 + offset.y });
       let person = peopleRef.current.get(villager.id);
       let isNew = false;
       if (!person) {
         isNew = true;
         const start = route[0] ?? villager.position;
-        person = scene.add.container(start.x * tileSize + tileSize / 2, start.y * tileSize + tileSize / 2);
+        person = scene.add.container(screenPosition(start).x, screenPosition(start).y);
         person.add(scene.add.ellipse(0, 11, 17, 6, 0x493b2a, 0.38));
         person.add(scene.add.rectangle(0, 2, 16, 16, colors[villager.tradition as keyof typeof colors] ?? 0x76563c).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
         person.add(scene.add.rectangle(0, -8, 12, 10, 0xe2b783).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
@@ -42,9 +49,10 @@ function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate,
       scene.tweens.killTweensOf(person);
       if (isNew) scene.tweens.add({ targets: person.list.slice(1), y: "+=1", duration: 360, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
       route.slice(1).forEach((step, stepIndex) => {
-        scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
+        const destination = screenPosition(step);
+        scene.tweens.add({ targets: person, x: destination.x, y: destination.y, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
       });
-      if (index === nextVillagers.length - 1) person.setDepth(2);
+      person.setDepth(10 + villager.position.y);
     });
   };
   useEffect(() => {
@@ -54,14 +62,43 @@ function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate,
     if (sceneRef.current) sceneRef.current.tweens.timeScale = playbackRate;
   }, [playbackRate]);
   useEffect(() => {
+    if (!sceneRef.current) return;
+    const camera = sceneRef.current.cameras.main;
+    camera.setZoom(zoom);
+    const mapWidth = (worldDefinition?.width ?? 100) * 24;
+    const mapHeight = (worldDefinition?.height ?? 100) * 24;
+    camera.scrollX = Phaser.Math.Clamp(camera.scrollX, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
+    camera.scrollY = Phaser.Math.Clamp(camera.scrollY, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
+  }, [zoom, worldDefinition]);
+  useEffect(() => {
     const tileSize = 24;
     let isActive = true;
-    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 384, parent: "village-canvas", scene: { create() {
+    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 768, parent: "village-canvas", scene: { create() {
       const scene = this as Phaser.Scene;
       if (!isActive) return;
       sceneRef.current = scene;
+      const mapWidth = (worldDefinition?.width ?? 100) * tileSize;
+      const mapHeight = (worldDefinition?.height ?? 100) * tileSize;
+      const camera = scene.cameras.main;
+      camera.setBounds(0, 0, mapWidth, mapHeight);
+      camera.setZoom(zoom);
+      camera.centerOn(mapWidth / 2, mapHeight / 2);
+      let dragging = false;
+      let dragStart = { x: 0, y: 0, scrollX: 0, scrollY: 0 };
+      const canvas = scene.game.canvas;
+      const onPointerDown = (event: PointerEvent) => { dragging = true; canvas.setPointerCapture(event.pointerId); dragStart = { x: event.clientX, y: event.clientY, scrollX: camera.scrollX, scrollY: camera.scrollY }; canvas.style.cursor = "grabbing"; };
+      const onPointerMove = (event: PointerEvent) => {
+        if (!dragging) return;
+        camera.scrollX = Phaser.Math.Clamp(dragStart.scrollX - (event.clientX - dragStart.x) / camera.zoom, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
+        camera.scrollY = Phaser.Math.Clamp(dragStart.scrollY - (event.clientY - dragStart.y) / camera.zoom, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
+      };
+      const onPointerUp = (event: PointerEvent) => { dragging = false; if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId); canvas.style.cursor = "grab"; };
+      canvas.addEventListener("pointerdown", onPointerDown);
+      canvas.addEventListener("pointermove", onPointerMove);
+      canvas.addEventListener("pointerup", onPointerUp);
+      canvas.style.cursor = "grab";
        const terrainColors: Record<string, number> = { grass: 0x9dbc72, road: 0xd8b878, water: 0x5797b5 };
-       for (let y = 0; y < (worldDefinition?.height ?? 16); y += 1) for (let x = 0; x < (worldDefinition?.width ?? 32); x += 1) {
+       for (let y = 0; y < (worldDefinition?.height ?? 100); y += 1) for (let x = 0; x < (worldDefinition?.width ?? 100); x += 1) {
          const kind = worldDefinition?.terrain[y]?.[x] ?? "grass";
          scene.add.rectangle(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize, tileSize, terrainColors[kind] ?? terrainColors.grass).setOrigin(0.5).setStrokeStyle(1, 0x6f8154, 0.2);
        }
@@ -78,7 +115,7 @@ function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate,
   useEffect(() => {
     if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers]);
-  return <div className="village-stage"><div className="village-zoom" style={{ transform: `scale(${zoom})`, transformOrigin: "top left", marginBottom: `${384 * (zoom - 1)}px` }}><div id="village-canvas" /></div></div>;
+  return <div className="village-stage"><div className="village-zoom"><div id="village-canvas" /></div></div>;
 }
 
 function OwnerPanel({ ownerToken, setOwnerToken, report, message, onCommand, onRefresh }: { ownerToken: string; setOwnerToken: (value: string) => void; report: Report | null; message: string; onCommand: (path: string, body?: Record<string, unknown>) => void; onRefresh: () => void }) {
@@ -106,6 +143,8 @@ function App() {
   const [report, setReport] = useState<Report | null>(null);
   const [operationMessage, setOperationMessage] = useState("");
   const viewTickRef = useRef<number | null>(null);
+  const fitZoom = Math.min(1, 768 / ((world?.worldDefinition?.width ?? 100) * 24), 768 / ((world?.worldDefinition?.height ?? 100) * 24));
+  useEffect(() => { setZoom(fitZoom); }, [fitZoom]);
   const loadLive = async () => {
     const [worldResponse, eventsResponse, interpretationsResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
@@ -144,7 +183,13 @@ function App() {
   const setClockSpeed = async (intervalMs: number) => { const response = await ownerRequest("/api/scheduler", { intervalMs }); const result = await response.json() as { tickIntervalMs?: number; error?: string }; if (typeof result.tickIntervalMs === "number") setOperationMessage(`tick speed set to ${intervalMs / 1000}s`); else if (result.error) setOperationMessage(result.error); await loadReport(); };
   if (!world) return <main><h1>Mimir</h1><p>A Thousand Worlds · Connecting to the village…</p></main>;
   const maximumTick = liveWorld?.tick ?? world.tick;
-  return <main><header><div><h1>Mimir</h1><p>A Thousand Worlds · Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= 60}>Advance one tick</button><span className="clock-speed">Tick speed</span>{[1000, 5000, 15000].map((intervalMs) => <button className={report?.tickIntervalMs === intervalMs ? "selected-rate" : ""} key={intervalMs} onClick={() => void setClockSpeed(intervalMs)}>{intervalMs / 1000}s</button>)}</div></header><section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span><div className="playback"><span>Playback</span>{[0.5, 1, 2].map((rate) => <button className={playbackRate === rate ? "selected-rate" : ""} key={rate} onClick={() => setPlaybackRate(rate)}>{rate}×</button>)}</div><div className="zoom-controls"><span>Map</span><button onClick={() => setZoom((current) => Math.max(0.8, Number((current - 0.1).toFixed(1))))}>−</button><button onClick={() => setZoom(1)}>Fit</button><button onClick={() => setZoom((current) => Math.min(1.4, Number((current + 0.1).toFixed(1))))}>+</button></div></section><section className="layout"><div><VillageCanvas villagers={world.villagers} worldDefinition={world.worldDefinition} worldRuntime={world.worldRuntime} playbackRate={playbackRate} zoom={zoom} /><div className="villagers">{world.villagers.map((villager) => <button className="villager" key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section><OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div><aside><h2>{selected?.name ?? "Select a villager"}</h2>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl><div className="signals"><h3>Belief signals</h3><div><span>Cooperation</span><strong>{selected.beliefs.cooperation}</strong><i style={{ width: `${selected.beliefs.cooperation}%` }} /></div><div><span>Self-reliance</span><strong>{selected.beliefs.selfReliance}</strong><i style={{ width: `${selected.beliefs.selfReliance}%` }} /></div><div><span>Reflection</span><strong>{selected.beliefs.reflection}</strong><i style={{ width: `${selected.beliefs.reflection}%` }} /></div></div></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside></section></main>;
+  return <main>
+    <header><div><h1>Mimir</h1><p>A Thousand Worlds · Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= world.scenario.seasonTickLimit}>Advance one tick</button><span className="clock-speed">Tick speed</span>{[1000, 5000, 15000].map((intervalMs) => <button className={report?.tickIntervalMs === intervalMs ? "selected-rate" : ""} key={intervalMs} onClick={() => void setClockSpeed(intervalMs)}>{intervalMs / 1000}s</button>)}</div></header>
+    <section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span><div className="playback"><span>Playback</span>{[0.5, 1, 2].map((rate) => <button className={playbackRate === rate ? "selected-rate" : ""} key={rate} onClick={() => setPlaybackRate(rate)}>{rate}×</button>)}</div><div className="zoom-controls"><span>Map</span><button onClick={() => setZoom((current) => Math.max(0.25, Number((current - 0.1).toFixed(2))))}>−</button><button onClick={() => setZoom(fitZoom)}>Fit</button><button onClick={() => setZoom((current) => Math.min(2, Number((current + 0.1).toFixed(2))))}>+</button><small>Drag to pan</small></div></section>
+    <section className="layout"><div><VillageCanvas villagers={world.villagers} worldDefinition={world.worldDefinition} worldRuntime={world.worldRuntime} playbackRate={playbackRate} zoom={zoom} /><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section><OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div>
+      <aside><h2>{selected?.name ?? "Select a villager"}</h2><div className="villager-list">{world.villagers.map((villager) => <button className={`villager${selected?.id === villager.id ? " selected" : ""}`} key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div>{selected ? <><p className="tradition">{selected.tradition}</p><p>At <strong>{selected.location}</strong>, choosing to <strong>{selected.activity}</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl><div className="signals"><h3>Belief signals</h3><div><span>Cooperation</span><strong>{selected.beliefs.cooperation}</strong><i style={{ width: `${selected.beliefs.cooperation}%` }} /></div><div><span>Self-reliance</span><strong>{selected.beliefs.selfReliance}</strong><i style={{ width: `${selected.beliefs.selfReliance}%` }} /></div><div><span>Reflection</span><strong>{selected.beliefs.reflection}</strong><i style={{ width: `${selected.beliefs.reflection}%` }} /></div></div></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{world.foodReserve}</strong></div></aside>
+    </section>
+  </main>;
 }
 
 createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);

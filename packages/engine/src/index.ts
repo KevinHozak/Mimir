@@ -1,11 +1,11 @@
 export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
-export type Activity = "work" | "rest" | "share" | "craft" | "meet" | "gather" | "travel";
+export type Activity = "work" | "rest" | "share" | "collect" | "craft" | "meet" | "gather" | "travel";
 export * from "./world.js";
-import { createDefaultWorld, findRoute, sameCell, type WorldDefinition, type WorldRuntimeState } from "./world.js";
+import { createDefaultWorld, findRoute, isWalkable, sameCell, type WorldDefinition, type WorldRuntimeState } from "./world.js";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
 export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; }
-export const FIRST_WINTER_SCENARIO: ScenarioConfig = { name: "The First Winter", initialFood: 72, seasonTickLimit: 60, harvestInterval: 3, harvestAmount: 8, hungerPressure: 9 };
+export const FIRST_WINTER_SCENARIO: ScenarioConfig = { name: "The First Winter", initialFood: 72, seasonTickLimit: 360, harvestInterval: 3, harvestAmount: 8, hungerPressure: 9 };
 
 export interface Villager {
   id: string;
@@ -40,7 +40,7 @@ export interface WorldState {
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "harvest" | "encounter";
+  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter";
   message: string;
   villagerIds: string[];
 }
@@ -67,8 +67,8 @@ const names = [
 
 const locations = ["Homes", "Granary", "Workshop", "Meeting Place", "Fields", "Woodland"];
 export const LOCATION_TILES: Record<string, TilePosition> = {
-  Homes: { x: 5, y: 4 }, Granary: { x: 14, y: 4 }, Workshop: { x: 23, y: 4 },
-  "Meeting Place": { x: 14, y: 8 }, Fields: { x: 8, y: 11 }, Woodland: { x: 25, y: 9 }
+  Homes: { x: 16, y: 18 }, Granary: { x: 48, y: 14 }, Workshop: { x: 78, y: 18 },
+  "Meeting Place": { x: 48, y: 50 }, Fields: { x: 28, y: 72 }, Woodland: { x: 80, y: 70 }
 };
 
 const destinationOffsets: TilePosition[] = [
@@ -128,13 +128,15 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const position = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     return `${position.x},${position.y}`;
   }));
+  const occupiedNextPositions = new Set<string>();
   const nextVillagers = input.villagers.map((villager, index) => {
     random = nextRandom(random + index);
     const needsFood = villager.hunger >= 45;
     const currentPosition = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     const continuing = villager.destination && !sameCell(currentPosition, villager.destination);
-    const desiredActivity: Exclude<Activity, "travel"> = continuing ? (villager.intendedActivity ?? "rest") : (villager.tradition === "Hearthkeepers" && needsFood && input.foodReserve > 0 ? "share" : needsFood ? "work" : random % 7 === 0 ? "craft" : random % 7 === 1 ? "meet" : random % 7 === 2 ? "gather" : "rest");
-    const desiredLocation = continuing ? (villager.targetLocation ?? villager.location) : (desiredActivity === "work" ? "Fields" : desiredActivity === "share" ? "Granary" : desiredActivity === "craft" ? "Workshop" : desiredActivity === "meet" ? "Meeting Place" : desiredActivity === "gather" ? "Woodland" : "Homes");
+    const continuingActivity = villager.intendedActivity ?? "rest";
+    const desiredActivity: Exclude<Activity, "travel"> = continuing ? (continuingActivity === "collect" && input.foodReserve === 0 ? "work" : continuingActivity) : (villager.food === 0 && input.foodReserve > 0 ? "collect" : villager.tradition === "Hearthkeepers" && needsFood && input.foodReserve > 0 ? "share" : needsFood ? "work" : random % 7 === 0 ? "craft" : random % 7 === 1 ? "meet" : random % 7 === 2 ? "gather" : "rest");
+    const desiredLocation = continuing ? (villager.targetLocation ?? villager.location) : (desiredActivity === "work" ? "Fields" : desiredActivity === "share" || desiredActivity === "collect" ? "Granary" : desiredActivity === "craft" ? "Workshop" : desiredActivity === "meet" ? "Meeting Place" : desiredActivity === "gather" ? "Woodland" : "Homes");
     const anchor = LOCATION_TILES[desiredLocation] ?? LOCATION_TILES.Homes;
     const target = continuing ? villager.destination! : (() => {
       const targetOffset = destinationOffsets
@@ -150,18 +152,28 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     })();
     occupiedTargets.add(`${target.x},${target.y}`);
     const fullRoute = input.worldDefinition ? (findRoute(input.worldDefinition, currentPosition, target, input.worldRuntime) ?? [currentPosition]) : routeBetween(currentPosition, target);
-    const step = fullRoute[1] ?? currentPosition;
-    occupiedTargets.add(`${step.x},${step.y}`);
+    const proposedStep = fullRoute[Math.min(2, fullRoute.length - 1)] ?? currentPosition;
+    const fallbackOffsets = [{ x: 0, y: 0 }, ...destinationOffsets.filter((offset) => offset.x !== 0 || offset.y !== 0)];
+    const stepCandidates = [proposedStep, currentPosition, ...fallbackOffsets
+      .filter((offset) => offset.x !== 0 || offset.y !== 0)
+      .map((offset) => ({ x: currentPosition.x + offset.x, y: currentPosition.y + offset.y }))];
+    const step = stepCandidates
+      .find((candidate) => {
+        const key = `${candidate.x},${candidate.y}`;
+        return !occupiedNextPositions.has(key) && (!input.worldDefinition || isWalkable(input.worldDefinition, candidate, input.worldRuntime));
+      }) ?? proposedStep;
+    occupiedNextPositions.add(`${step.x},${step.y}`);
     const arrived = sameCell(step, target);
     const activity: Activity = arrived ? desiredActivity : "travel";
     const location = arrived ? desiredLocation : villager.location;
     const shouldShare = activity === "share" && villager.tradition === "Hearthkeepers" && needsFood && input.foodReserve > 0;
+    const shouldCollect = activity === "collect" && input.foodReserve > 0;
     return {
       ...villager,
       hunger: bounded(villager.hunger + input.scenario.hungerPressure - (villager.food > 0 && activity !== "travel" ? 13 : 0) - (shouldShare ? 3 : 0)),
       rest: bounded(villager.rest + (activity === "rest" ? 7 : activity === "travel" ? -2 : -5)),
       trust: bounded(villager.trust + (shouldShare ? 2 : activity === "meet" ? 1 : (random % 9 === 0 ? -1 : 0))),
-      food: shouldShare ? villager.food : Math.max(0, villager.food - 1),
+      food: shouldCollect ? villager.food + 2 : shouldShare ? villager.food : Math.max(0, villager.food - 1),
       activity,
       location,
       beliefs: {
@@ -184,7 +196,7 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     ...input,
     tick: input.tick + 1,
     seed: random,
-    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount),
+    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length),
     villagers: nextVillagers
   };
   const events: WorldEvent[] = [
@@ -201,6 +213,13 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       kind: "sharing" as const,
       message: `${sharingCount} Hearthkeeper${sharingCount === 1 ? "" : "s"} chose to share from the granary.`,
       villagerIds: nextVillagers.filter((villager) => villager.activity === "share").map((villager) => villager.id)
+    }] : []),
+    ...(nextVillagers.some((villager) => villager.activity === "collect") ? [{
+      id: `event-${state.tick}-collection`,
+      tick: state.tick,
+      kind: "collection" as const,
+      message: `${nextVillagers.filter((villager) => villager.activity === "collect").map((villager) => villager.name).join(", ")} collected food at the granary.`,
+      villagerIds: nextVillagers.filter((villager) => villager.activity === "collect").map((villager) => villager.id)
     }] : []),
     ...(foodProduced > 0 ? [{
       id: `event-${state.tick}-harvest`,

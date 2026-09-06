@@ -187,14 +187,20 @@ export function createFixtureWorld(): WorldDefinition {
 }
 
 export function createDefaultWorld(): WorldDefinition {
-  const width = 32; const height = 16;
-  const terrain = Array.from({ length: height }, (_, y) => Array.from({ length: width }, (_, x) => (y === 8 ? "road" : x === 16 ? "water" : "grass") as TerrainKind));
-  terrain[8][16] = "road"; terrain[8][17] = "road";
+  const width = 100; const height = 100;
+  const terrain = Array.from({ length: height }, (_, y) => Array.from({ length: width }, (_, x) => (y === 50 || y === 25 || y === 75 ? "road" : x === 50 ? "water" : "grass") as TerrainKind));
+  terrain[25][50] = "road"; terrain[25][51] = "road";
+  terrain[50][50] = "road"; terrain[50][51] = "road";
+  terrain[75][50] = "road"; terrain[75][51] = "road";
   const world: WorldDefinition = { schemaVersion: 1, id: "first-winter-world-v1", width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
-    { id: "house-1", definitionId: "house", position: { x: 4, y: 2 } },
-    { id: "tree-1", definitionId: "tree", position: { x: 27, y: 2 } },
-    { id: "granary-1", definitionId: "granary", position: { x: 13, y: 0 } },
-    { id: "bridge-1", definitionId: "bridge", position: { x: 16, y: 8 } }
+    { id: "house-1", definitionId: "house", position: { x: 12, y: 12 } },
+    { id: "tree-1", definitionId: "tree", position: { x: 84, y: 12 } },
+    { id: "granary-1", definitionId: "granary", position: { x: 47, y: 13 } },
+    { id: "bridge-1", definitionId: "bridge", position: { x: 50, y: 50 } },
+    { id: "house-2", definitionId: "house", position: { x: 12, y: 72 } },
+    { id: "tree-2", definitionId: "tree", position: { x: 84, y: 78 } },
+    { id: "bridge-2", definitionId: "bridge", position: { x: 50, y: 25 } },
+    { id: "bridge-3", definitionId: "bridge", position: { x: 50, y: 75 } }
   ] };
   validateWorldDefinition(world); return world;
 }
