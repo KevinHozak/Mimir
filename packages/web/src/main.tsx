@@ -19,12 +19,26 @@ function VillageCanvas({ villagers }: { villagers: Villager[] }) {
     const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, width: 768, height: 360, parent: "village-canvas", backgroundColor: "#d9c7a3", scene: { create() {
       const scene = this as Phaser.Scene;
       scene.add.text(24, 22, "THE FIRST WINTER", { color: "#493b2a", fontSize: "22px", fontFamily: "monospace" });
-      for (let x = 0; x < 768; x += tileSize) scene.add.line(0, 0, x, 0, x, 360, 0xcbb891, 0.35).setOrigin(0);
-      for (let y = 0; y < 360; y += tileSize) scene.add.line(0, 0, 0, y, 768, y, 0xcbb891, 0.35).setOrigin(0);
+      for (let x = 0; x < 768; x += tileSize) for (let y = 0; y < 360; y += tileSize) {
+        const shade = (x / tileSize + y / tileSize) % 2 === 0 ? 0xdccaa6 : 0xd7c39b;
+        scene.add.rectangle(x + tileSize / 2, y + tileSize / 2, tileSize, tileSize, shade).setOrigin(0.5);
+      }
+      const roadTiles = [[8, 6], [9, 6], [10, 6], [11, 6], [12, 6], [13, 6], [15, 6], [16, 6], [17, 6], [18, 6], [19, 6], [20, 6], [14, 7], [14, 8], [14, 9], [14, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [15, 10], [16, 10], [17, 10], [18, 10], [19, 10], [20, 10]];
+      roadTiles.forEach(([x, y]) => scene.add.rectangle(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize, tileSize, 0xc2a276));
+      for (let x = 7; x <= 11; x += 1) for (let y = 10; y <= 13; y += 1) scene.add.line(0, 0, x * tileSize + 3, y * tileSize + 18, x * tileSize + 19, y * tileSize + 5, 0x9b713f, 1).setOrigin(0);
+      for (let x = 19; x <= 23; x += 2) for (let y = 9; y <= 13; y += 2) {
+        scene.add.rectangle(x * tileSize + 12, y * tileSize + 15, 5, 12, 0x76563c);
+        scene.add.rectangle(x * tileSize + 12, y * tileSize + 6, 18, 13, 0x527b48);
+      }
       Object.entries(locationPoints).forEach(([label, point]) => {
         const x = point.x * tileSize + tileSize / 2;
         const y = point.y * tileSize + tileSize / 2;
-        scene.add.rectangle(x, y, 144, 48, 0xb18c67).setStrokeStyle(3, 0x6a5138);
+        const isOutdoor = label === "Fields" || label === "Woodland";
+        if (!isOutdoor) {
+          scene.add.rectangle(x, y, 144, 48, 0xb18c67).setStrokeStyle(3, 0x6a5138);
+          scene.add.triangle(x, y - 28, -76, 20, 0, -10, 76, 20, 0x8f4f3d).setStrokeStyle(2, 0x6a5138);
+          scene.add.rectangle(x, y + 5, 10, 20, 0x493b2a);
+        }
         scene.add.text(x - (label.length * 4), y - 8, label, { color: "#fff7e8", fontSize: "14px", fontFamily: "monospace" });
       });
       villagers.forEach((villager, index) => {
@@ -35,7 +49,10 @@ function VillageCanvas({ villagers }: { villagers: Villager[] }) {
         person.add(scene.add.rectangle(0, 0, 12, 12, colors[villager.tradition as keyof typeof colors] ?? 0x76563c).setOrigin(0.5));
         person.add(scene.add.rectangle(0, -9, 10, 4, 0x493b2a).setOrigin(0.5));
         person.add(scene.add.text(-18, 10, villager.name, { color: "#493b2a", fontSize: "10px", fontFamily: "monospace" }));
-        route.slice(1).forEach((step, stepIndex) => scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 130, delay: stepIndex * 130, ease: "Stepped" }));
+        route.slice(1).forEach((step, stepIndex) => {
+          scene.add.rectangle(step.x * tileSize + tileSize / 2, step.y * tileSize + tileSize / 2, 5, 5, 0xf2d27d).setOrigin(0.5).setAlpha(0.6);
+          scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
+        });
       });
     } } });
     return () => game.destroy(true);
