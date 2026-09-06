@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "backup": "tsx src/backup.ts"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",

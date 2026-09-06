@@ -196,6 +196,8 @@ Operations required for the hosted MVP:
 - Structured error logs and visibility into last tick, AI timeouts, fallback count, storage, and costs.
 - Graceful shutdown: finish or abandon the candidate tick safely before process exit.
 
+The local hardening slice now exercises the same boundaries before hosting: timeline-aware checkpoint/event storage with migration from the original tables; owner endpoints for archive, continue, branch, reset, pause, and tick; `/api/report` operational counts; `OWNER_TOKEN` enforcement when configured; clean SIGINT/SIGTERM shutdown; and the workspace backup tool. Use `DATABASE_PATH=<path> npm run backup --workspace @philosophy-world/server -- backup <destination>` and the corresponding `restore <backup> <destination>` command. Restore refuses to overwrite an existing target.
+
 AI keeps the original proposed **$1 per season and $10 per month caps**, with authorization required before connecting a paid provider. Start development with deterministic fixtures and a rule-based fallback. The intended hybrid layer remains in the MVP, subject to that spending decision; if unavailable, label the release as rules-only rather than claiming hybrid completion.
 
 ## 8. Implementation sequence
