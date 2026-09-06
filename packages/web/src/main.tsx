@@ -32,9 +32,13 @@ function VillageCanvas({ villagers }: { villagers: Villager[] }) {
         const start = route[0] ?? villager.position;
         const colors = { Hearthkeepers: 0xc5664a, Freehands: 0x5c8eaa, Seekers: 0x8b6b9d };
         const person = scene.add.container(start.x * tileSize + tileSize / 2, start.y * tileSize + tileSize / 2);
-        person.add(scene.add.rectangle(0, 0, 12, 12, colors[villager.tradition as keyof typeof colors] ?? 0x76563c).setOrigin(0.5));
-        person.add(scene.add.rectangle(0, -9, 10, 4, 0x493b2a).setOrigin(0.5));
-        person.add(scene.add.text(-18, 10, villager.name, { color: "#493b2a", fontSize: "10px", fontFamily: "monospace" }));
+        person.add(scene.add.ellipse(0, 11, 17, 6, 0x493b2a, 0.38));
+        person.add(scene.add.rectangle(0, 2, 16, 16, colors[villager.tradition as keyof typeof colors] ?? 0x76563c).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
+        person.add(scene.add.rectangle(0, -8, 12, 10, 0xe2b783).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
+        person.add(scene.add.rectangle(0, -15, 15, 5, 0x493b2a).setOrigin(0.5));
+        person.add(scene.add.rectangle(-3, -8, 2, 2, 0x493b2a).setOrigin(0.5));
+        person.add(scene.add.rectangle(3, -8, 2, 2, 0x493b2a).setOrigin(0.5));
+        scene.tweens.add({ targets: person.list.slice(1), y: "+=1", duration: 360, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
         route.slice(1).forEach((step, stepIndex) => {
           scene.add.rectangle(step.x * tileSize + tileSize / 2, step.y * tileSize + tileSize / 2, 5, 5, 0xf2d27d).setOrigin(0.5).setAlpha(0.6);
           scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
