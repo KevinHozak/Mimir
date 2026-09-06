@@ -43,6 +43,13 @@ assert.ok(dilemmaRun.state.dilemmaHistory.some((dilemma) => dilemma.beliefDelta 
 assert.equal(dilemmaRun.state.sharedStore.status, "active", "the repair dilemma can activate the shared institution");
 const alternateDilemmaRun = runTicks(createWorld(1), 36);
 assert.notDeepEqual(alternateDilemmaRun.state.dilemmaHistory.map((dilemma) => dilemma.choiceId), dilemmaRun.state.dilemmaHistory.map((dilemma) => dilemma.choiceId), "different seeds should produce different value-driven choices");
+const regionalRun = runTicks(createWorld(42), 11);
+const traveler = regionalRun.state.villagers.find((villager) => villager.id === "villager-12")!;
+assert.equal(traveler.settlementId, "riverbend");
+assert.equal(regionalRun.state.tradeHistory.length, 1);
+assert.ok(regionalRun.state.tradeHistory[0].amount > 0);
+assert.ok(regionalRun.events.some((event) => event.kind === "trade" && event.settlementIds?.includes("riverbend")));
+assert.equal(regionalRun.state.settlements.find((settlement) => settlement.id === "riverbend")?.foodReserve, 48 + regionalRun.state.tradeHistory[0].amount);
 assert.equal(validateSocialInterpretation({ villagerId: "villager-1", eventId: "missing", belief: "cooperation", confidence: 0.5, trustDelta: 1, summary: "unsupported", evidenceEventIds: ["missing"] }, { state: firstTick.state, events: firstTick.events, promptVersion: "test" }, 0), null);
 const fallbackSocial = await boundedSocialInterpretation(firstTick.state, firstTick.events, undefined, { budgetCents: 0, timeoutMs: 10, promptVersion: "test" });
 assert.equal(fallbackSocial.usedFallback, true);

@@ -26,6 +26,38 @@ export interface Villager {
   destination?: TilePosition;
   intendedActivity?: Exclude<Activity, "travel">;
   targetLocation?: string;
+  settlementId: string;
+  travelPlan?: { routeId: string; fromSettlementId: string; toSettlementId: string; remainingTicks: number };
+}
+
+export interface SettlementState {
+  id: string;
+  name: string;
+  foodReserve: number;
+  worldDefinition: WorldDefinition;
+  worldRuntime: WorldRuntimeState;
+  villagerIds: string[];
+}
+
+export interface RouteDefinition {
+  id: string;
+  name: string;
+  fromSettlementId: string;
+  toSettlementId: string;
+  travelTicks: number;
+  status: "open" | "blocked";
+}
+
+export interface TradeRecord {
+  id: string;
+  tick: number;
+  routeId: string;
+  villagerId: string;
+  fromSettlementId: string;
+  toSettlementId: string;
+  resource: "food";
+  amount: number;
+  summary: string;
 }
 
 export interface WorldState {
@@ -38,6 +70,9 @@ export interface WorldState {
   villagers: Villager[];
   sharedStore: SharedStore;
   dilemmaHistory: DilemmaResolution[];
+  settlements: SettlementState[];
+  routes: RouteDefinition[];
+  tradeHistory: TradeRecord[];
   worldDefinition?: WorldDefinition;
   worldRuntime?: WorldRuntimeState;
 }
@@ -71,9 +106,10 @@ export interface DilemmaResolution {
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma";
+  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma" | "trade";
   message: string;
   villagerIds: string[];
+  settlementIds?: string[];
   dilemmaId?: string;
   choiceId?: string;
 }
@@ -99,6 +135,12 @@ const names = [
 ] as const;
 
 const locations = ["Homes", "Granary", "Workshop", "Meeting Place", "Fields", "Woodland"];
+export const HOME_SETTLEMENT = { id: "first-village", name: "Mimir Village" } as const;
+export const RIVERBEND_SETTLEMENT = { id: "riverbend", name: "Riverbend" } as const;
+export const REGIONAL_ROUTES: RouteDefinition[] = [{ id: "road-mimir-riverbend", name: "The River Road", fromSettlementId: HOME_SETTLEMENT.id, toSettlementId: RIVERBEND_SETTLEMENT.id, travelTicks: 3, status: "open" }];
+const homeSettlement = HOME_SETTLEMENT;
+const riverbendSettlement = RIVERBEND_SETTLEMENT;
+const regionalRoute = REGIONAL_ROUTES[0];
 export const LOCATION_TILES: Record<string, TilePosition> = {
   Homes: { x: 16, y: 18 }, Granary: { x: 48, y: 14 }, Workshop: { x: 78, y: 18 },
   "Meeting Place": { x: 48, y: 50 }, Fields: { x: 28, y: 72 }, Woodland: { x: 80, y: 70 }
@@ -181,6 +223,23 @@ function routeBetween(start: TilePosition, target: TilePosition): TilePosition[]
 }
 
 export function createWorld(seed = 1, worldId = "first-winter", scenario: ScenarioConfig = FIRST_WINTER_SCENARIO): WorldState {
+  const worldDefinition = createDefaultWorld();
+  const riverbendWorld = createDefaultWorld("riverbend-world-v1");
+  const villagers = names.map(([name, tradition], index) => ({
+    id: `villager-${index + 1}`,
+    name,
+    tradition,
+    hunger: 15 + (index % 4) * 4,
+    rest: 75 - (index % 3) * 5,
+    trust: 50,
+    food: 2,
+    activity: "rest" as const,
+    location: locations[index % locations.length],
+    beliefs: { cooperation: 50, selfReliance: 50, reflection: 50 },
+    position: { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 },
+    route: [],
+    settlementId: homeSettlement.id
+  }));
   return {
     worldId,
     seed: seed >>> 0,
@@ -190,21 +249,14 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
     scenario,
     sharedStore: { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 },
     dilemmaHistory: [],
-    villagers: names.map(([name, tradition], index) => ({
-      id: `villager-${index + 1}`,
-      name,
-      tradition,
-      hunger: 15 + (index % 4) * 4,
-      rest: 75 - (index % 3) * 5,
-      trust: 50,
-      food: 2,
-      activity: "rest",
-      location: locations[index % locations.length],
-      beliefs: { cooperation: 50, selfReliance: 50, reflection: 50 },
-      position: { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 },
-      route: []
-    })),
-    worldDefinition: createDefaultWorld(),
+    settlements: [
+      { id: homeSettlement.id, name: homeSettlement.name, foodReserve: scenario.initialFood, worldDefinition, worldRuntime: { blockedObjectIds: [] }, villagerIds: villagers.map((villager) => villager.id) },
+      { id: riverbendSettlement.id, name: riverbendSettlement.name, foodReserve: 48, worldDefinition: riverbendWorld, worldRuntime: { blockedObjectIds: [] }, villagerIds: [] }
+    ],
+    routes: [regionalRoute],
+    tradeHistory: [],
+    villagers,
+    worldDefinition,
     worldRuntime: { blockedObjectIds: [] }
   };
 }
@@ -216,9 +268,26 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const position = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     return `${position.x},${position.y}`;
   }));
-  const occupiedNextPositions = new Set<string>();
-  const nextVillagers = input.villagers.map((villager, index) => {
+  const occupiedNextPositions = new Set<string>(input.villagers
+    .filter((villager) => villager.travelPlan || (input.tick + 1 === 8 && villager.id === "villager-12"))
+    .map((villager) => `${villager.position.x},${villager.position.y}`));
+  let nextVillagers = input.villagers.map((villager, index) => {
     random = nextRandom(random + index);
+    if (villager.travelPlan) {
+      const arrived = villager.travelPlan.remainingTicks <= 1;
+      occupiedNextPositions.add(`${villager.position.x},${villager.position.y}`);
+      return {
+        ...villager,
+        settlementId: arrived ? villager.travelPlan.toSettlementId : villager.travelPlan.fromSettlementId,
+        travelPlan: arrived ? undefined : { ...villager.travelPlan, remainingTicks: villager.travelPlan.remainingTicks - 1 },
+        location: arrived ? "Riverbend" : "The River Road",
+        activity: "travel" as const,
+        position: arrived ? { x: 95, y: 95 } : villager.position,
+        route: [villager.position],
+        ...(arrived ? { destination: undefined, intendedActivity: undefined, targetLocation: undefined } : {})
+      };
+    }
+    if (villager.settlementId !== HOME_SETTLEMENT.id) return { ...villager, activity: "rest" as const, location: "Riverbend", route: [villager.position], destination: undefined, intendedActivity: undefined, targetLocation: undefined };
     const needsFood = villager.hunger >= 45;
     const currentPosition = villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 };
     const continuing = villager.destination && !sameCell(currentPosition, villager.destination);
@@ -276,11 +345,30 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       targetLocation: arrived ? undefined : desiredLocation
     };
   });
+  const departureTick = 8;
+  const travelerId = "villager-12";
+  if (input.tick + 1 === departureTick) {
+    nextVillagers = nextVillagers.map((villager) => villager.id === travelerId ? { ...villager, activity: "travel" as const, location: "The River Road", travelPlan: { routeId: regionalRoute.id, fromSettlementId: regionalRoute.fromSettlementId, toSettlementId: regionalRoute.toSettlementId, remainingTicks: regionalRoute.travelTicks } } : villager);
+  }
 
   const sharingCount = nextVillagers.filter((villager) => villager.activity === "share").length;
   const meetingVillagers = nextVillagers.filter((villager) => villager.activity === "meet");
   const consumed = nextVillagers.filter((villager) => villager.food === 0).length;
   const collectionCount = nextVillagers.filter((villager) => villager.activity === "collect").length;
+  const tradeArrivalTick = departureTick + regionalRoute.travelTicks;
+  const tradeAmount = input.tick + 1 === tradeArrivalTick ? Math.min(6, Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount)) : 0;
+  const tradeRecord = tradeAmount > 0 ? {
+    id: `trade-${input.tick + 1}-${regionalRoute.id}`,
+    tick: input.tick + 1,
+    routeId: regionalRoute.id,
+    villagerId: travelerId,
+    fromSettlementId: regionalRoute.fromSettlementId,
+    toSettlementId: regionalRoute.toSettlementId,
+    resource: "food" as const,
+    amount: tradeAmount,
+    summary: `Jonan carried ${tradeAmount} food from Mimir Village to Riverbend along the River Road.`
+  } : null;
+  const tradeHistory = tradeRecord ? [...(input.tradeHistory ?? []), tradeRecord] : (input.tradeHistory ?? []);
   const resolvedDilemma = resolveDilemma(input, nextVillagers, input.tick + 1);
   const dilemmaVillagerIds = resolvedDilemma ? [nextVillagers[resolvedDilemma.applicantIndex].id, nextVillagers[resolvedDilemma.witnessIndex].id] : [];
   const dilemmaHistory = resolvedDilemma ? [...(input.dilemmaHistory ?? []), {
@@ -308,10 +396,13 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     ...input,
     tick: input.tick + 1,
     seed: random,
-    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length + (resolvedDilemma?.consequences.foodDelta ?? 0)),
+    foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length + (resolvedDilemma?.consequences.foodDelta ?? 0) - tradeAmount),
     sharedStore: { ...previousStore, status: resolvedDilemma?.consequences.institutionStatus ?? previousStore.status, contributions: previousStore.contributions + foodProduced, distributions: previousStore.distributions + sharingCount + collectionCount, dissent: previousStore.dissent + (resolvedDilemma?.consequences.dissentDelta ?? 0) },
     villagers: dilemmaAdjustedVillagers,
-    dilemmaHistory
+    dilemmaHistory,
+    settlements: (input.settlements ?? []).map((settlement) => settlement.id === regionalRoute.fromSettlementId ? { ...settlement, foodReserve: Math.max(0, input.foodReserve + foodProduced - consumed - sharingCount - nextVillagers.filter((villager) => villager.activity === "collect").length + (resolvedDilemma?.consequences.foodDelta ?? 0) - tradeAmount), villagerIds: dilemmaAdjustedVillagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) } : settlement.id === regionalRoute.toSettlementId ? { ...settlement, foodReserve: settlement.foodReserve + tradeAmount, villagerIds: dilemmaAdjustedVillagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) } : { ...settlement, villagerIds: dilemmaAdjustedVillagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) }),
+    routes: input.routes ?? [regionalRoute],
+    tradeHistory
   };
   const events: WorldEvent[] = [
     {
@@ -357,6 +448,14 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
       villagerIds: dilemmaVillagerIds,
       dilemmaId: resolvedDilemma.dilemma.id,
       choiceId: resolvedDilemma.choice.id
+    }] : []),
+    ...(tradeRecord ? [{
+      id: `event-${state.tick}-trade`,
+      tick: state.tick,
+      kind: "trade" as const,
+      message: tradeRecord.summary,
+      villagerIds: [tradeRecord.villagerId],
+      settlementIds: [tradeRecord.fromSettlementId, tradeRecord.toSettlementId]
     }] : []),
     ...(meetingVillagers.length > 0 ? [{
       id: `event-${state.tick}-encounter`,

@@ -32,8 +32,10 @@ try {
   if ((await request("/api/tick")).status !== 409) throw new Error("archived timeline accepted a tick");
   const reset = await request("/api/owner/reset", { seed: 7 });
   if (reset.status !== 200 || ((await reset.json()) as { state: { tick: number } }).state.tick !== 0) throw new Error("reset failed");
-  const design = await (await fetch(`${endpoint}/api/design`)).json() as { characterCards: unknown[]; dilemmas: unknown[]; sharedStore: { id: string } };
-  if (design.characterCards.length !== 6 || design.dilemmas.length !== 3 || design.sharedStore.id !== "shared-granary") throw new Error("design contract was incomplete");
+const design = await (await fetch(`${endpoint}/api/design`)).json() as { characterCards: unknown[]; dilemmas: unknown[]; sharedStore: { id: string } };
+if (design.characterCards.length !== 6 || design.dilemmas.length !== 3 || design.sharedStore.id !== "shared-granary") throw new Error("design contract was incomplete");
+const region = await (await fetch(`${endpoint}/api/region`)).json() as { settlements: { id: string }[]; routes: { id: string }[]; tradeHistory: unknown[] };
+if (region.settlements.length !== 2 || region.routes.some((route) => route.id !== "road-mimir-riverbend")) throw new Error("region contract was incomplete");
   const metrics = await (await fetch(`${endpoint}/api/metrics`)).json() as { metrics: { tick: number }[] };
   if (metrics.metrics.length !== 1 || metrics.metrics[0].tick !== 0) throw new Error("metrics did not include the initial checkpoint");
   const blocked = await request("/api/owner/world/object", { objectId: "bridge-1", blocked: true });

@@ -232,13 +232,13 @@ export function createFixtureWorld(): WorldDefinition {
   validateWorldDefinition(world); return world;
 }
 
-export function createDefaultWorld(): WorldDefinition {
+export function createDefaultWorld(id = "first-winter-world-v1"): WorldDefinition {
   const width = 100; const height = 100;
   const terrain = Array.from({ length: height }, (_, y) => Array.from({ length: width }, (_, x) => (y === 50 || y === 25 || y === 75 ? "road" : x === 50 ? "water" : "grass") as TerrainKind));
   terrain[25][50] = "road"; terrain[25][51] = "road";
   terrain[50][50] = "road"; terrain[50][51] = "road";
   terrain[75][50] = "road"; terrain[75][51] = "road";
-  const world: WorldDefinition = { schemaVersion: 1, id: "first-winter-world-v1", width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
+  const world: WorldDefinition = { schemaVersion: 1, id, width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
     { id: "house-1", definitionId: "house", position: { x: 12, y: 12 } },
     { id: "tree-1", definitionId: "tree", position: { x: 84, y: 12 } },
     { id: "granary-1", definitionId: "granary", position: { x: 47, y: 13 } },
