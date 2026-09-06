@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useState } from "react";
+import { StrictMode, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import Phaser from "phaser";
 import "./styles.css";
@@ -10,32 +10,59 @@ type Event = { id: string; tick: number; message: string; kind: string };
 const api = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 function VillageCanvas({ villagers }: { villagers: Villager[] }) {
-  useEffect(() => {
+  const villagersRef = useRef(villagers);
+  const peopleRef = useRef(new Map<string, Phaser.GameObjects.Container>());
+  const sceneRef = useRef<Phaser.Scene | null>(null);
+  const syncVillagers = (scene: Phaser.Scene, nextVillagers: Villager[]) => {
     const tileSize = 24;
-    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 360, parent: "village-canvas", scene: { create() {
-      const scene = this as Phaser.Scene;
-      scene.add.text(24, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
-      for (let x = 0; x < 768; x += tileSize) for (let y = 0; y < 360; y += tileSize) scene.add.rectangle(x + tileSize / 2, y + tileSize / 2, tileSize, tileSize, 0xf2d27d, 0.06).setOrigin(0.5);
-      for (let x = 7; x <= 11; x += 1) for (let y = 10; y <= 13; y += 1) scene.add.line(0, 0, x * tileSize + 3, y * tileSize + 18, x * tileSize + 19, y * tileSize + 5, 0x9b713f, 0.8).setOrigin(0);
-      villagers.forEach((villager, index) => {
-        const route = villager.route.length > 0 ? villager.route : [villager.position];
+    const colors = { Hearthkeepers: 0xc5664a, Freehands: 0x5c8eaa, Seekers: 0x8b6b9d };
+    const nextIds = new Set(nextVillagers.map((villager) => villager.id));
+    peopleRef.current.forEach((person, id) => {
+      if (!nextIds.has(id)) { person.destroy(); peopleRef.current.delete(id); }
+    });
+    nextVillagers.forEach((villager, index) => {
+      const route = villager.route.length > 0 ? villager.route : [villager.position];
+      let person = peopleRef.current.get(villager.id);
+      let isNew = false;
+      if (!person) {
+        isNew = true;
         const start = route[0] ?? villager.position;
-        const colors = { Hearthkeepers: 0xc5664a, Freehands: 0x5c8eaa, Seekers: 0x8b6b9d };
-        const person = scene.add.container(start.x * tileSize + tileSize / 2, start.y * tileSize + tileSize / 2);
+        person = scene.add.container(start.x * tileSize + tileSize / 2, start.y * tileSize + tileSize / 2);
         person.add(scene.add.ellipse(0, 11, 17, 6, 0x493b2a, 0.38));
         person.add(scene.add.rectangle(0, 2, 16, 16, colors[villager.tradition as keyof typeof colors] ?? 0x76563c).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
         person.add(scene.add.rectangle(0, -8, 12, 10, 0xe2b783).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
         person.add(scene.add.rectangle(0, -15, 15, 5, 0x493b2a).setOrigin(0.5));
         person.add(scene.add.rectangle(-3, -8, 2, 2, 0x493b2a).setOrigin(0.5));
         person.add(scene.add.rectangle(3, -8, 2, 2, 0x493b2a).setOrigin(0.5));
-        scene.tweens.add({ targets: person.list.slice(1), y: "+=1", duration: 360, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-        route.slice(1).forEach((step, stepIndex) => {
-          scene.add.rectangle(step.x * tileSize + tileSize / 2, step.y * tileSize + tileSize / 2, 5, 5, 0xf2d27d).setOrigin(0.5).setAlpha(0.6);
-          scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
-        });
+        peopleRef.current.set(villager.id, person);
+      }
+      scene.tweens.killTweensOf(person);
+      if (isNew) scene.tweens.add({ targets: person.list.slice(1), y: "+=1", duration: 360, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      route.slice(1).forEach((step, stepIndex) => {
+        scene.tweens.add({ targets: person, x: step.x * tileSize + tileSize / 2, y: step.y * tileSize + tileSize / 2, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
       });
+      if (index === nextVillagers.length - 1) person.setDepth(2);
+    });
+  };
+  useEffect(() => {
+    villagersRef.current = villagers;
+  }, [villagers]);
+  useEffect(() => {
+    const tileSize = 24;
+    let isActive = true;
+    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 360, parent: "village-canvas", scene: { create() {
+      const scene = this as Phaser.Scene;
+      if (!isActive) return;
+      sceneRef.current = scene;
+      scene.add.text(24, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
+      for (let x = 0; x < 768; x += tileSize) for (let y = 0; y < 360; y += tileSize) scene.add.rectangle(x + tileSize / 2, y + tileSize / 2, tileSize, tileSize, 0xf2d27d, 0.06).setOrigin(0.5);
+      for (let x = 7; x <= 11; x += 1) for (let y = 10; y <= 13; y += 1) scene.add.line(0, 0, x * tileSize + 3, y * tileSize + 18, x * tileSize + 19, y * tileSize + 5, 0x9b713f, 0.8).setOrigin(0);
+      syncVillagers(scene, villagersRef.current);
     } } });
-    return () => game.destroy(true);
+    return () => { isActive = false; sceneRef.current = null; peopleRef.current.clear(); game.destroy(true); };
+  }, []);
+  useEffect(() => {
+    if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers]);
   return <div id="village-canvas" />;
 }
