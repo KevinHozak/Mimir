@@ -2,6 +2,7 @@ export type Tradition = "Hearthkeepers" | "Freehands" | "Seekers";
 export type Activity = "work" | "rest" | "share" | "collect" | "craft" | "meet" | "gather" | "travel";
 export * from "./world.js";
 export * from "./navigation.js";
+export * from "./movement.js";
 export * from "./design.js";
 export * from "./social.js";
 import { createDefaultWorld, findRoute, isWalkable, MOVEMENT_MODEL, normalizeSpatialMetadata, SIMULATION_VERSION, sameCell, type MovementModel, type WorldDefinition, type WorldRuntimeState } from "./world.js";
