@@ -3,7 +3,7 @@ export type Activity = "work" | "rest" | "share" | "collect" | "craft" | "meet" 
 export * from "./world.js";
 export * from "./design.js";
 export * from "./social.js";
-import { createDefaultWorld, findRoute, isWalkable, sameCell, type WorldDefinition, type WorldRuntimeState } from "./world.js";
+import { createDefaultWorld, findRoute, isWalkable, MOVEMENT_MODEL, normalizeSpatialMetadata, SIMULATION_VERSION, sameCell, type MovementModel, type WorldDefinition, type WorldRuntimeState } from "./world.js";
 import { FIRST_WINTER_DILEMMAS, type DilemmaCard } from "./design.js";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
@@ -34,7 +34,7 @@ export interface SettlementState {
   id: string;
   name: string;
   foodReserve: number;
-  worldDefinition: WorldDefinition;
+  worldDefinition?: WorldDefinition;
   worldRuntime: WorldRuntimeState;
   villagerIds: string[];
 }
@@ -95,6 +95,9 @@ export interface WorldState {
   hazards: HazardState[];
   worldDefinition?: WorldDefinition;
   worldRuntime?: WorldRuntimeState;
+  spatialModel: "structured-v1" | "legacy-backdrop-v0";
+  simulationVersion: string;
+  movementModel: MovementModel;
 }
 
 export interface SharedStore {
@@ -297,7 +300,11 @@ export function createWorld(seed = 1, worldId = "first-winter", scenario: Scenar
     hazards: [],
     villagers,
     worldDefinition,
-    worldRuntime: { blockedObjectIds: [] }
+    worldRuntime: { blockedObjectIds: [] },
+    ...normalizeSpatialMetadata({ worldDefinition }),
+    spatialModel: "structured-v1",
+    simulationVersion: SIMULATION_VERSION,
+    movementModel: MOVEMENT_MODEL
   };
 }
 

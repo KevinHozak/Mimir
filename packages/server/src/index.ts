@@ -5,7 +5,8 @@ import { randomUUID } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, CHARACTER_CARDS, createDefaultWorld, createWorld, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, LOCATION_TILES, REGIONAL_ROUTES, RIVERBEND_SETTLEMENT, HOME_SETTLEMENT, setObjectBlocked, type SharedStore, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, CHARACTER_CARDS, createWorld, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { normalizeState } from "./state.js";
 
 const port = Number(process.env.PORT ?? 3000);
 let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
@@ -46,13 +47,6 @@ function createScheduledBackup(reason: string) {
   app.log.info({ destination }, "scheduled database backup created");
 }
 
-function normalizeState(raw: WorldState): WorldState {
-  const sharedStore: SharedStore = raw.sharedStore ?? { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 };
-  const worldDefinition = raw.worldDefinition ?? createDefaultWorld();
-  const settlements = raw.settlements ?? [{ id: HOME_SETTLEMENT.id, name: HOME_SETTLEMENT.name, foodReserve: raw.foodReserve, worldDefinition, worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, villagerIds: raw.villagers.map((villager) => villager.id) }, { id: RIVERBEND_SETTLEMENT.id, name: RIVERBEND_SETTLEMENT.name, foodReserve: 48, worldDefinition: createDefaultWorld("riverbend-world-v1"), worldRuntime: { blockedObjectIds: [] }, villagerIds: [] }];
-  const villagers = raw.villagers.map((villager, index) => ({ ...villager, settlementId: villager.settlementId ?? HOME_SETTLEMENT.id, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] }));
-  return { ...raw, sharedStore, dilemmaHistory: raw.dilemmaHistory ?? [], settlements: settlements.map((settlement) => ({ ...settlement, villagerIds: villagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) })), routes: raw.routes ?? REGIONAL_ROUTES, tradeHistory: raw.tradeHistory ?? [], weather: raw.weather ?? { kind: "clear", severity: 0, forecast: "rain", changedAtTick: 0 }, hazards: raw.hazards ?? [], scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, worldDefinition, worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, villagers };
-}
 function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;
   return normalizeState(row ? JSON.parse(row.state_json) as WorldState : createWorld(20260906, timelineId));

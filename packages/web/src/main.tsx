@@ -1,17 +1,18 @@
 import { StrictMode, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import Phaser from "phaser";
+import { parseWorldDefinition } from "@mimir/engine";
+import type { Cell, MovementModel, WorldDefinition } from "@mimir/engine";
 import "./styles.css";
 
-type TilePosition = { x: number; y: number };
+type TilePosition = Cell;
 type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[]; settlementId: string; travelPlan?: { toSettlementId: string; remainingTicks: number } };
-type WorldDefinition = { width: number; height: number; terrain: string[][]; objects: { id: string; definitionId: string; position: TilePosition }[]; definitions: Record<string, { footprint: TilePosition[] }> };
 type SharedStore = { status: string; contributions: number; distributions: number; dissent: number; contributionRule: string; distributionRule: string };
 type DilemmaResolution = { id: string; tick: number; title: string; choiceLabel: string; summary: string; foodDelta: number; trustDelta: number };
 type Settlement = { id: string; name: string; foodReserve: number; villagerIds: string[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
 type Trade = { id: string; tick: number; villagerId: string; fromSettlementId: string; toSettlementId: string; amount: number; summary: string };
 type Hazard = { id: string; kind: string; status: string; summary: string };
-type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; settlements?: Settlement[]; tradeHistory?: Trade[]; weather?: { kind: string; severity: number; forecast: string }; hazards?: Hazard[]; dilemmaHistory?: DilemmaResolution[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
+type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; settlements?: Settlement[]; tradeHistory?: Trade[]; weather?: { kind: string; severity: number; forecast: string }; hazards?: Hazard[]; dilemmaHistory?: DilemmaResolution[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; spatialModel?: "structured-v1" | "legacy-backdrop-v0"; simulationVersion?: string; movementModel?: MovementModel };
 type Event = { id: string; tick: number; message: string; kind: string };
 type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
 type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
@@ -19,6 +20,11 @@ type DilemmaCard = { id: string; title: string; prompt: string; competingValues:
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number; dilemmasResolved?: number; latestDilemma?: DilemmaResolution | null } };
 const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
+
+function validateClientWorld(state: State): void {
+  if (state.worldDefinition) parseWorldDefinition(state.worldDefinition);
+  state.settlements?.forEach((settlement) => { if (settlement.worldDefinition) parseWorldDefinition(settlement.worldDefinition); });
+}
 
 function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate, zoom }: { villagers: Villager[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; playbackRate: number; zoom: number }) {
   const villagersRef = useRef(villagers);
@@ -197,6 +203,7 @@ function App() {
     const [worldResponse, eventsResponse, interpretationsResponse, metricsResponse, designResponse, regionResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`), fetch(`${api}/api/metrics`), fetch(`${api}/api/design`), fetch(`${api}/api/region`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
     const nextWorld = worldPayload.state;
+    validateClientWorld(nextWorld);
     setLiveWorld(nextWorld);
     if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
@@ -216,6 +223,7 @@ function App() {
     const stream = new EventSource(`${api}/api/live`);
     stream.onmessage = (message) => {
       const payload = JSON.parse(message.data) as { state: State; events?: Event[]; interpretations?: Interpretation[] };
+      validateClientWorld(payload.state);
       setLiveWorld(payload.state);
       if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
       if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));

@@ -1,6 +1,50 @@
 export type TerrainKind = "grass" | "road" | "water";
 export type WorldObjectKind = "house" | "tree" | "granary" | "bridge" | "workshop" | "field" | "meeting-hall" | "watchtower" | "shelter";
 
+export const WORLD_SCHEMA_VERSION = 1 as const;
+export const WORLD_BUNDLE_SCHEMA_VERSION = 1 as const;
+export const SIMULATION_VERSION = "mimir-sim-v1" as const;
+
+export interface MovementModel {
+  id: "grid-tick-v1";
+  unit: "simulation-tick";
+  stepsPerTick: 2;
+  actorFootprint: { width: 1; height: 1 };
+  terrainCostMeaning: "positive-integer-steps";
+}
+
+export const MOVEMENT_MODEL: MovementModel = {
+  id: "grid-tick-v1",
+  unit: "simulation-tick",
+  stepsPerTick: 2,
+  actorFootprint: { width: 1, height: 1 },
+  terrainCostMeaning: "positive-integer-steps"
+};
+
+export type SpatialModel = "structured-v1" | "legacy-backdrop-v0";
+
+export interface SpatialSnapshotMetadata {
+  spatialModel: SpatialModel;
+  simulationVersion: string;
+  movementModel: MovementModel;
+}
+
+export function normalizeSpatialMetadata(raw: Partial<SpatialSnapshotMetadata> & { worldDefinition?: WorldDefinition }): SpatialSnapshotMetadata {
+  const legacy = !raw.worldDefinition && raw.spatialModel !== "structured-v1";
+  return {
+    spatialModel: raw.spatialModel ?? (legacy ? "legacy-backdrop-v0" : "structured-v1"),
+    simulationVersion: raw.simulationVersion ?? (legacy ? "legacy-unknown" : SIMULATION_VERSION),
+    movementModel: raw.movementModel ?? MOVEMENT_MODEL
+  };
+}
+
+export interface WorldBundleReference {
+  bundleId: string;
+  schemaVersion: typeof WORLD_BUNDLE_SCHEMA_VERSION;
+  contentHash: string;
+  assetVersion: string;
+}
+
 export interface Cell { x: number; y: number; }
 
 export interface TerrainDefinition {
@@ -25,8 +69,9 @@ export interface WorldObjectInstance {
 }
 
 export interface WorldDefinition {
-  schemaVersion: 1;
+  schemaVersion: typeof WORLD_SCHEMA_VERSION;
   id: string;
+  bundle: WorldBundleReference;
   width: number;
   height: number;
   terrain: TerrainKind[][];
@@ -59,8 +104,9 @@ const terrainRules: Record<TerrainKind, TerrainDefinition> = {
 export function cellKey(cell: Cell): string { return `${cell.x},${cell.y}`; }
 export function sameCell(left: Cell, right: Cell): boolean { return left.x === right.x && left.y === right.y; }
 
-export function validateWorldDefinition(world: WorldDefinition): void {
-  if (world.schemaVersion !== 1 || !world.id || !Number.isInteger(world.width) || !Number.isInteger(world.height) || world.width <= 0 || world.height <= 0) throw new Error("invalid world dimensions or schema");
+function validateWorldStructure(world: WorldDefinition): void {
+  if (world.schemaVersion !== WORLD_SCHEMA_VERSION || !world.id || !Number.isInteger(world.width) || !Number.isInteger(world.height) || world.width <= 0 || world.height <= 0) throw new Error("invalid world dimensions or schema");
+  if (!world.bundle || world.bundle.schemaVersion !== WORLD_BUNDLE_SCHEMA_VERSION || !world.bundle.bundleId || !world.bundle.contentHash || !world.bundle.assetVersion) throw new Error("world bundle reference is invalid");
   if (world.terrain.length !== world.height || world.terrain.some((row) => row.length !== world.width)) throw new Error("terrain dimensions do not match world");
   for (const row of world.terrain) for (const tile of row) if (!terrainRules[tile]) throw new Error(`unknown terrain: ${tile}`);
   for (const object of world.objects) {
@@ -73,18 +119,14 @@ export function validateWorldDefinition(world: WorldDefinition): void {
   }
 }
 
-export function parseWorldDefinition(raw: unknown): WorldDefinition {
-  if (!raw || typeof raw !== "object") throw new Error("world definition must be an object");
-  const world = raw as Partial<WorldDefinition>;
-  if (world.schemaVersion !== 1 || typeof world.id !== "string" || !Array.isArray(world.terrain) || !Array.isArray(world.objects) || !world.definitions) throw new Error("world definition is missing required fields");
-  const parsed = world as WorldDefinition;
-  validateWorldDefinition(parsed);
-  return parsed;
+function hashCanonical(canonical: string): string {
+  let hash = 2166136261;
+  for (let index = 0; index < canonical.length; index += 1) { hash ^= canonical.charCodeAt(index); hash = Math.imul(hash, 16777619); }
+  return `fnv1a-${(hash >>> 0).toString(16).padStart(8, "0")}`;
 }
 
-export function worldFingerprint(world: WorldDefinition): string {
-  validateWorldDefinition(world);
-  const canonical = JSON.stringify({
+function canonicalWorld(world: WorldDefinition): string {
+  return JSON.stringify({
     schemaVersion: world.schemaVersion,
     id: world.id,
     width: world.width,
@@ -93,9 +135,31 @@ export function worldFingerprint(world: WorldDefinition): string {
     objects: [...world.objects].sort((left, right) => left.id.localeCompare(right.id)),
     definitions: Object.fromEntries(Object.entries(world.definitions).sort(([left], [right]) => left.localeCompare(right)))
   });
-  let hash = 2166136261;
-  for (let index = 0; index < canonical.length; index += 1) { hash ^= canonical.charCodeAt(index); hash = Math.imul(hash, 16777619); }
-  return `fnv1a-${(hash >>> 0).toString(16).padStart(8, "0")}`;
+}
+
+export function worldFingerprint(world: WorldDefinition): string {
+  validateWorldStructure(world);
+  return hashCanonical(canonicalWorld(world));
+}
+
+export function validateWorldDefinition(world: WorldDefinition): void {
+  validateWorldStructure(world);
+  if (world.bundle.contentHash !== worldFingerprint(world)) throw new Error("world bundle content hash does not match definition");
+}
+
+function finalizeWorld(world: Omit<WorldDefinition, "bundle">, assetVersion = "provisional-v1"): WorldDefinition {
+  const withReference = { ...world, bundle: { bundleId: `${world.id}-bundle`, schemaVersion: WORLD_BUNDLE_SCHEMA_VERSION, contentHash: "pending", assetVersion } } as WorldDefinition;
+  withReference.bundle.contentHash = worldFingerprint(withReference);
+  return withReference;
+}
+
+export function parseWorldDefinition(raw: unknown): WorldDefinition {
+  if (!raw || typeof raw !== "object") throw new Error("world definition must be an object");
+  const world = raw as Partial<WorldDefinition>;
+  if (world.schemaVersion !== WORLD_SCHEMA_VERSION || typeof world.id !== "string" || !world.bundle || !Array.isArray(world.terrain) || !Array.isArray(world.objects) || !world.definitions) throw new Error("world definition is missing required fields");
+  const parsed = world as WorldDefinition;
+  validateWorldDefinition(parsed);
+  return parsed;
 }
 
 export interface TiledImportOptions {
@@ -127,7 +191,7 @@ export function importTiledMap(raw: unknown, id: string, options: TiledImportOpt
     if (object.x % tileSize !== 0 || object.y % tileSize !== 0) throw new Error(`Tiled object ${object.id} is not aligned to the grid`);
     objects.push({ id: `tiled-${object.id}`, definitionId, position: { x: object.x / tileSize, y: object.y / tileSize } });
   }
-  const world: WorldDefinition = { schemaVersion: 1, id, width, height, terrain, objects, definitions: options.definitions ?? DEFAULT_OBJECT_DEFINITIONS };
+  const world = finalizeWorld({ schemaVersion: WORLD_SCHEMA_VERSION, id, width, height, terrain, objects, definitions: options.definitions ?? DEFAULT_OBJECT_DEFINITIONS });
   validateWorldDefinition(world);
   return world;
 }
@@ -230,12 +294,12 @@ export function createFixtureWorld(): WorldDefinition {
   const width = 12; const height = 10;
   const terrain = Array.from({ length: height }, (_, y) => Array.from({ length: width }, (_, x) => (y === 4 ? "road" : x === 6 ? "water" : "grass") as TerrainKind));
   terrain[4][6] = "road"; terrain[4][7] = "road";
-  const world: WorldDefinition = { schemaVersion: 1, id: "fixture-v1", width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
+  const world = finalizeWorld({ schemaVersion: WORLD_SCHEMA_VERSION, id: "fixture-v1", width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
     { id: "house-1", definitionId: "house", position: { x: 2, y: 2 } },
     { id: "tree-1", definitionId: "tree", position: { x: 9, y: 2 } },
     { id: "granary-1", definitionId: "granary", position: { x: 8, y: 6 } },
     { id: "bridge-1", definitionId: "bridge", position: { x: 6, y: 4 } }
-  ] };
+  ] });
   validateWorldDefinition(world); return world;
 }
 
@@ -245,7 +309,7 @@ export function createDefaultWorld(id = "first-winter-world-v1"): WorldDefinitio
   terrain[25][50] = "road"; terrain[25][51] = "road";
   terrain[50][50] = "road"; terrain[50][51] = "road";
   terrain[75][50] = "road"; terrain[75][51] = "road";
-  const world: WorldDefinition = { schemaVersion: 1, id, width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
+  const world = finalizeWorld({ schemaVersion: WORLD_SCHEMA_VERSION, id, width, height, terrain, definitions: DEFAULT_OBJECT_DEFINITIONS, objects: [
     { id: "house-1", definitionId: "house", position: { x: 12, y: 12 } },
     { id: "tree-1", definitionId: "tree", position: { x: 84, y: 12 } },
     { id: "granary-1", definitionId: "granary", position: { x: 47, y: 13 } },
@@ -259,6 +323,6 @@ export function createDefaultWorld(id = "first-winter-world-v1"): WorldDefinitio
     ,{ id: "meeting-hall-1", definitionId: "meeting-hall", position: { x: 42, y: 46 } }
     ,{ id: "watchtower-1", definitionId: "watchtower", position: { x: 78, y: 58 } }
     ,{ id: "shelter-1", definitionId: "shelter", position: { x: 10, y: 48 } }
-  ] };
+  ] });
   validateWorldDefinition(world); return world;
 }

@@ -9,6 +9,7 @@
     "test:e2e": "tsx src/e2e.test.ts"
   },
   "dependencies": {
+    "@mimir/engine": "0.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "phaser": "^3.90.0",
     "react": "^19.0.0",

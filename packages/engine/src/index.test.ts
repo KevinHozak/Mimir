@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { advanceWorld, boundedSocialInterpretation, CHARACTER_CARDS, createFixtureWorld, createWorld, findRoute, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, importTiledMap, interpretSocialEvents, isWalkable, parseWorldDefinition, runTicks, setObjectBlocked, validateSocialInterpretation, worldFingerprint } from "./index.js";
+import { advanceWorld, boundedSocialInterpretation, CHARACTER_CARDS, createFixtureWorld, createWorld, findRoute, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, importTiledMap, interpretSocialEvents, isWalkable, MOVEMENT_MODEL, normalizeSpatialMetadata, parseWorldDefinition, runTicks, setObjectBlocked, validateSocialInterpretation, worldFingerprint } from "./index.js";
 
 const firstTick = advanceWorld(createWorld(42));
 const first = runTicks(createWorld(42), 60);
@@ -97,8 +97,12 @@ assert.ok(first.interpretations.length > 0);
 const fixture = createFixtureWorld();
 assert.deepEqual(parseWorldDefinition(JSON.parse(JSON.stringify(fixture))), fixture);
 assert.equal(worldFingerprint(fixture), worldFingerprint(parseWorldDefinition(JSON.parse(JSON.stringify(fixture)))));
+assert.equal(fixture.bundle.contentHash, worldFingerprint(fixture));
+assert.throws(() => parseWorldDefinition({ ...fixture, bundle: { ...fixture.bundle, contentHash: "fnv1a-invalid" } }), /content hash/);
 assert.notEqual(worldFingerprint(fixture), worldFingerprint({ ...fixture, objects: fixture.objects.map((object) => object.id === "tree-1" ? { ...object, position: { x: 10, y: 2 } } : object) }));
 assert.throws(() => parseWorldDefinition({ schemaVersion: 1 }), /missing required fields/);
+assert.deepEqual(normalizeSpatialMetadata({}), { spatialModel: "legacy-backdrop-v0", simulationVersion: "legacy-unknown", movementModel: MOVEMENT_MODEL });
+assert.deepEqual(normalizeSpatialMetadata({ worldDefinition: fixture }), { spatialModel: "structured-v1", simulationVersion: "mimir-sim-v1", movementModel: MOVEMENT_MODEL });
 const imported = importTiledMap({ width: 4, height: 3, tilewidth: 1, tileheight: 1, layers: [
   { type: "tilelayer", data: [1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1] },
   { type: "objectgroup", objects: [{ id: 4, x: 1, y: 1, class: "tree" }] }
