@@ -7,6 +7,6 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "node dist/validation.test.js"
+    "test": "npm run build && node dist/validation.test.js"
   }
 }
