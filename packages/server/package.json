@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test:state": "npm run build && node dist/state.test.js",
+    "test:first-glow-restart": "npm run build && node dist/first-glow-restart.test.js",
     "dev": "tsx watch src/index.ts",
     "backup": "tsx src/backup.ts",
     "test:integration": "npm run build && node dist/integration.test.js",

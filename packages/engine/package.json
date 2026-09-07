@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node dist/index.test.js && node dist/movement.test.js && node dist/structured.test.js && node dist/first-glow.test.js"
+    "test": "npm run build && node dist/index.test.js && node dist/movement.test.js && node dist/structured.test.js && node dist/first-glow.test.js && node dist/first-glow-actions.test.js"
   },
   "dependencies": {
     "@mimir/world-data": "0.1.0"
