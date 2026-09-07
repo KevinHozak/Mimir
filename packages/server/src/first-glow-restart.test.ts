@@ -31,7 +31,7 @@ const stop = async (child: ChildProcess | undefined) => {
   await new Promise<void>(resolve => { if (child.exitCode !== null) resolve(); else child.once("exit", () => resolve()); });
 };
 const reset = async (port: number) => {
-  const response = await fetch(`http://127.0.0.1:${port}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": token }, body: JSON.stringify({ bundleHash: hash, seed: 19 }) });
+  const response = await fetch(`http://127.0.0.1:${port}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": token }, body: JSON.stringify({ bundleHash: hash, seed: 19, sparkCount: 12 }) });
   assert.equal(response.status, 200);
   return response.json() as Promise<{ state: Record<string, unknown> }>;
 };
@@ -57,6 +57,11 @@ try {
   const secondRestarted = await tick(restartedPort);
   assert.deepEqual(comparable(secondRestarted.state), comparable(secondControl.state));
   assert.deepEqual(secondRestarted.events, secondControl.events);
+  for (let tickNumber = 0; tickNumber < 18; tickNumber += 1) {
+    const [controlResult, restartedResult] = await Promise.all([tick(controlPort), tick(restartedPort)]);
+    assert.deepEqual(comparable(restartedResult.state), comparable(controlResult.state));
+    assert.deepEqual(restartedResult.events, controlResult.events);
+  }
   console.log("First Glow server partial-travel restart equivalence passed");
 } finally {
   await stop(restarted); await stop(control);
