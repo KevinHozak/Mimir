@@ -14,6 +14,8 @@ try {
   children.push(spawn(process.execPath, [join(projectRoot, "node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(projectRoot, "packages", "web"), env: { ...process.env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`);
   await waitFor(`http://127.0.0.1:${webPort}/`);
+  const structuredReset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v2`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": "browser-owner" }, body: JSON.stringify({ bundleHash: "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae", seed: 31 }) });
+  if (!structuredReset.ok) throw new Error(`structured browser timeline reset failed: ${await structuredReset.text()}`);
   const browser = await chromium.launch({ headless: true });
   try {
     const live = await browser.newPage();
