@@ -21,7 +21,7 @@ Mimir is a single-authoritative-server simulation with a browser observer client
                                                   |
                                            deterministic world rules
                                            world data and pathfinding
-                                           social interpretation fallback
+                                           @mimir/world-data contracts
 ```
 
 The server owns canonical world state. The browser renders state and requests historical snapshots; it does not decide movement, resource outcomes, social consequences, or timeline mutations.
@@ -52,28 +52,28 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 - `WorldState`: First Glow world identity, seed, tick, schema-3 simulation version, structured-v2 spatial model, and `firstGlowState`.
 - `Spark`: charge, charge deficit, readiness, activity, position, route/contact state, and bounded local knowledge.
 - `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
-- `SocialInterpretation`: a separate interpretation record with source, confidence, belief category, trust delta, summary, and evidence event IDs.
+- `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Current advancement generates no interpretation records.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
 - `WorldRuntimeState`: mutable navigation revision, object blocking state, and reservations.
 
-`createWorldFromBundle()` creates the deterministic schema-3 initial world. `advanceWorld()` advances exactly one committed simulation tick and returns the next state, objective events, and interpretations. First Glow action selection is deterministic and based on stable IDs, bundle geometry, stored state, seed, and tick; no ambient randomness or live AI is used.
+`createWorldFromBundle()` creates the deterministic schema-3 initial world. `advanceWorld()` advances exactly one committed simulation tick and returns the next state, objective events, and interpretations. First Glow action selection is deterministic and uses stable IDs, bundle geometry, and stored simulation state. The world records a seed, but the current advance path does not pass it to action selection. No ambient randomness or live AI is used.
 
 The engine currently contains deterministic First Glow creation/advance, charge pools and charge accounting, shelter niches, traces, exploration, drawing, rest/readiness, sharing, structured object footprints, contacts/reservations, navigation revisions, runtime blockers, and bounded event records. Legacy creation entry points remain explicit failures or compatibility-shaped fields; they are not supported new timelines.
 
-The social layer is currently rules-only by default. The adapter can validate a supplied interpretation and use a deterministic fallback, but no paid model provider is connected.
+`advanceWorld()` and `runTicks()` currently return an empty interpretations array. Interpretation types, storage, and read endpoints remain, but there is no active interpretation adapter, generated social fallback, or paid model provider. Sharing is an explicit deterministic First Glow action.
 
 ## 4. World-data pipeline
 
-The intended source-of-truth boundary is:
+The implemented source-of-truth boundary is:
 
 ```text
 Tiled JSON source
         |
         v
-importTiledMap() + validateWorldDefinition()
+scripts/import-world.mjs + validateWorldBundle()
         |
         v
-normalized WorldDefinition
+schema-3 FirstGlowWorldBundle
         |                         |
         v                         v
 server pathfinding          Phaser rendering
@@ -89,7 +89,7 @@ The Fastify server is the sole live simulation writer. At startup it:
 1. Opens or creates the configured SQLite database.
 2. Creates the timeline, checkpoint, event, interpretation, and runtime-metadata tables when needed.
 3. Loads the active timeline's newest checkpoint.
-4. Normalizes older or incomplete state shapes for compatibility.
+4. Requires the First Glow simulation version, structured-v2 spatial model, and valid `firstGlowState`; incompatible checkpoints fail. It then supplies defaults for auxiliary envelope fields without migrating a village save.
 5. Starts the optional scheduler.
 
 The server commits a tick inside a SQLite transaction. It calculates the next engine state first, then writes the checkpoint and all returned events and interpretations, commits the transaction, updates in-memory state, and broadcasts the committed result to connected SSE clients.
@@ -121,8 +121,8 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/interpretations` — persisted social interpretations.
 - `GET /api/metrics` — checkpoint-derived charge, readiness, deficit, travel, and collection metrics.
 - `GET /api/report` — current timeline and season summary.
-- `GET /api/design` — character cards, dilemmas, and shared-store description.
-- `GET /api/region` — settlements, routes, trade history, weather, and hazards.
+- `GET /api/design` — Living Circuit/First Glow identity and `FIRST_GLOW_DESIGN` cards, event prompts, opening question, and knowledge boundary under `firstGlow`; legacy card/dilemma arrays are empty and the shared store is omitted.
+- `GET /api/region` — settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
 - `GET /api/timelines` — available timeline metadata.
 - `GET /api/live` — Server-Sent Events stream with the current state and committed tick updates.
 
@@ -138,7 +138,7 @@ State-changing operations require the configured `OWNER_TOKEN`, supplied through
 - `POST /api/owner/reset-v3` — archive the current timeline and create a schema-3 First Glow world.
 - `POST /api/owner/world/object` — change runtime blocking for a known world object.
 
-This is owner authentication, not a multi-user account or role system.
+When `OWNER_TOKEN` is unset, owner operations are permitted without authentication. A configured token provides owner authentication, not a multi-user account or role system.
 
 ## 7. Browser architecture
 
@@ -162,7 +162,7 @@ Historical playback reads persisted interpretation records and does not call an 
 
 ```text
 npm start
-  -> npm run build
+  -> npm run build (only when required output is missing)
   -> Node packages/server/dist/index.js
   -> Vite preview on 127.0.0.1:4173
 ```
@@ -190,7 +190,7 @@ The repository includes three verification layers:
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
 - Playwright browser tests for First Glow live/history observers, manifest assets, overlays, playback rates, and mobile layout.
 
-The TypeScript engine and server builds currently compile successfully. Running tests and the Vite build requires child-process creation for `tsx`, esbuild, and Playwright; restricted environments may fail those commands with `spawn EPERM` before application assertions execute.
+Use the current package scripts for verification; this documentation update does not establish a fresh build or test result. Running tests and the Vite build requires child-process creation for `tsx`, esbuild, and Playwright; restricted environments may fail those commands with `spawn EPERM` before application assertions execute.
 
 ## 10. Current architectural boundaries and gaps
 
@@ -201,14 +201,16 @@ Implemented boundaries:
 - Separation of objective events from social interpretations.
 - Separate live and historical observer state.
 - Timeline lineage through archive, branch, continue, and reset.
-- Normalized world data shared conceptually by simulation and renderer.
+- Shared world-data contracts used by simulation and rendering.
+- Capability-filtered interaction slots, reservations, and arrival-gated First Glow actions.
+- Content-addressed generated bundles with asset manifests and bundle-inclusive backup/restore tooling.
 
 Still open:
 
 - Real AI provider integration with budget reservation, timeout handling, and the planned 20-encounter quality review.
-- Full object-slot reservation and richer interaction-capability resolution.
-- Complete immutable asset-bundle storage and replay across asset versions.
-- Final licensed map art and provenance manifest.
+- Extensions to the existing capability-based slot selection, reservations, and arrival-gated interactions, if selected in future design work.
+- Further asset-version recovery hardening: bundle directories are copied by backup/restore and restored world JSON is validated, but the backup manifest checksums world JSON rather than every copied asset. Independent recovery remains a separate operational requirement.
+- Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.
 - Independent disaster-recovery storage and restoration verification.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.

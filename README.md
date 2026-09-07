@@ -4,6 +4,10 @@ Mimir is an observer simulation of the Living Circuit during the First Glow. Wat
 
 The active runtime is a schema-3 world bundle with `themeId: living-circuit`, `ageId: first-glow`, `simulationVersion: mimir-sim-v3-first-glow`, and `spatialModel: structured-v2`.
 
+The village prototype is historical and no longer supported. First Glow is the only active runtime; old village saves are rejected rather than relabeled or migrated.
+
+See [World theme](docs/world-theme.md), [Current architecture](docs/architecture.md), and the [GitHub development workflow](docs/github-workflow.md).
+
 ## Run locally
 
 ```powershell
