@@ -25,7 +25,7 @@ const backupDirectory = resolve(process.env.BACKUP_DIR ?? join(process.cwd(), "d
 const serveWeb = process.env.SERVE_WEB === "true";
 const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const worldBundleRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? join(process.cwd(), "assets/world/generated"));
-const defaultFirstGlowBundleHash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
+const defaultFirstGlowBundleHash = "sha256-1b31621b5cc07b822910d454366d031fac4fc7f64ebb18b168109c6bb2b83cef";
 mkdirSync(dirname(databasePath), { recursive: true });
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");

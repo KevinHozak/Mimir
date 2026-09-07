@@ -46,6 +46,12 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow aside { display: none; }
 .first-glow-inspector { margin-top: 14px; padding: 14px; background: #101b2d; border: 1px solid #52677f; border-radius: 10px; }
 .first-glow-inspector h2, .first-glow-inspector h3 { color: #edf7ff; }
+.entity-controls { display: grid; grid-template-columns: auto minmax(150px, 1fr) minmax(180px, 1fr); gap: 8px; align-items: center; margin: 12px 0; color: #a7b9cf; }
+.entity-controls input, .entity-controls select { min-width: 0; padding: 8px 10px; border: 1px solid #52677f; border-radius: 7px; background: #0a1322; color: #edf7ff; font: inherit; }
+.entity-cycle { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; gap: 8px; }
+.entity-cycle button { padding: 7px 10px; }
+.entity-cycle span { color: #8fa7c3; font-size: .85rem; }
+.selected-entity-card { border-color: #8addf2; box-shadow: 0 0 0 1px #8addf2; }
 .spark-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .spark-card { padding: 10px; border: 1px solid #52677f; border-radius: 8px; background: #0a1322; }
 .spark-card small { color: #8fa7c3; }
@@ -54,4 +60,4 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .spark-card p { margin-bottom: 0; }
 .first-glow-design { margin-top: 18px; padding: 16px 18px; color: #dceeff; background: #081426; border: 1px solid #52677f; border-radius: 10px; }.first-glow-design .opening-question { color: #edf7ff; font-size: 1.15rem; }.glow-tendencies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }.glow-tendencies article { padding: 10px; border: 1px solid #52677f; border-radius: 8px; background: #0a1322; }.glow-tendencies small { display: block; color: #8fa7c3; margin-top: 4px; }.glow-tendencies p { margin: 8px 0; }
 .glow-events { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }.glow-events article { padding: 10px; border: 1px solid #52677f; border-radius: 8px; background: #0a1322; }.glow-events small { display: block; color: #8fa7c3; }
-@media (max-width: 520px) { .spark-list { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .entity-controls { grid-template-columns: 1fr; } .spark-list { grid-template-columns: 1fr; } }
