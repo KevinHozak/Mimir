@@ -1,0 +1,54 @@
+{
+  "bundleHash": "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3",
+  "themeId": "living-circuit",
+  "ageId": "first-glow",
+  "map": {
+    "width": 16,
+    "height": 10,
+    "objectCount": 5,
+    "assetCount": 5,
+    "spawnCount": 12
+  },
+  "build": "production Vite bundle",
+  "seed": 20260907,
+  "sparks": 12,
+  "ticks": 120,
+  "engineRuns": [
+    {
+      "medianMs": 5.761600000000044,
+      "p95Ms": 8.918900000000008,
+      "maxMs": 18.68999999999994,
+      "finalTick": 120
+    },
+    {
+      "medianMs": 5.34089999999992,
+      "p95Ms": 7.375400000000127,
+      "maxMs": 9.14500000000021,
+      "finalTick": 120
+    }
+  ],
+  "browser": {
+    "browser": "Playwright Chromium headless",
+    "viewport": "1280x900",
+    "overlayOff": {
+      "frameMedianMs": 16.699999999999818,
+      "frameP95Ms": 33.400000000000546,
+      "frameMaxMs": 216.5999999999999,
+      "longTaskCount": 6,
+      "longTaskTotalMs": 507,
+      "memoryBeforeBytes": 44700000,
+      "memoryAfterBytes": 44700000,
+      "memoryGrowthBytes": 0
+    },
+    "overlayOn": {
+      "frameMedianMs": 16.699999999999818,
+      "frameP95Ms": 33.399999999999636,
+      "frameMaxMs": 33.400000000000546,
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "memoryBeforeBytes": 44700000,
+      "memoryAfterBytes": 44700000,
+      "memoryGrowthBytes": 0
+    }
+  }
+}

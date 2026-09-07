@@ -11,6 +11,7 @@ import { FIRST_WINTER_DILEMMAS, type DilemmaCard } from "./design.js";
 import { advanceFirstGlowState, advanceStructuredState, createFirstGlowState, createStructuredState, type FirstGlowState, type StructuredState } from "./structured.js";
 import { advanceFirstGlow } from "./first-glow-actions.js";
 import { decodeWorldBundle, type FirstGlowWorldBundle, type WorldBundle } from "@mimir/world-data";
+export { advanceFirstGlow } from "./first-glow-actions.js";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
 export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; dilemmaTick?: number; }
@@ -329,13 +330,13 @@ export function createWorldV2(bundle: WorldBundle, seed = 1, worldId = "first-wi
   return { ...shell, villagers, foodReserve: structuredState.settlements[0].storeFood, settlements: [{ id: homeSettlement.id, name: homeSettlement.name, foodReserve: structuredState.settlements[0].storeFood, worldRuntime: { blockedObjectIds: [] }, villagerIds: villagers.map(villager => villager.id) }, { id: riverbendSettlement.id, name: riverbendSettlement.name, foodReserve: 48, worldRuntime: { blockedObjectIds: [] }, villagerIds: [] }], worldDefinition: undefined, worldRuntime: { blockedObjectIds: [] }, structuredState, spatialModel: "structured-v2", simulationVersion: "mimir-sim-v2" };
 }
 
-export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3"): WorldState {
-  const glow = createFirstGlowState(bundle); const shell = createWorld(seed, worldId, { ...FIRST_WINTER_SCENARIO, name: "The First Glow", initialFood: 0 });
+export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {
+  const glow = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount); const shell = createWorld(seed, worldId, { ...FIRST_WINTER_SCENARIO, name: "The First Glow", initialFood: 0 });
   return { ...shell, villagers: [], foodReserve: 0, settlements: glow.settlements.map(settlement => ({ id: settlement.id, name: settlement.name, foodReserve: settlement.communalCharge, worldRuntime: { blockedObjectIds: [] }, villagerIds: [] })), worldDefinition: undefined, worldRuntime: { blockedObjectIds: [] }, structuredState: undefined, firstGlowState: glow, spatialModel: "structured-v2", simulationVersion: "mimir-sim-v3-first-glow" };
 }
 
-export function createWorldFromBundle(raw: unknown, seed = 1, worldId?: string): WorldState {
-  const bundle = decodeWorldBundle(raw); return bundle.schemaVersion === 3 ? createWorldV3(bundle, seed, worldId ?? "first-glow-v3") : createWorldV2(bundle, seed, worldId ?? "first-winter-v2");
+export function createWorldFromBundle(raw: unknown, seed = 1, worldId?: string, sparkCount = 1): WorldState {
+  const bundle = decodeWorldBundle(raw); return bundle.schemaVersion === 3 ? createWorldV3(bundle, seed, worldId ?? "first-glow-v3", sparkCount) : createWorldV2(bundle, seed, worldId ?? "first-winter-v2");
 }
 
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
