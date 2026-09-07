@@ -11,7 +11,7 @@
     "backup": "tsx src/backup.ts",
     "test:integration": "npm run build && node dist/integration.test.js",
     "test:structured-restart": "npm run build && node dist/structured-restart.test.js",
-    "test:backup-restore": "npm run build && node dist/backup-restore.test.js && node dist/first-glow-backup.test.js"
+    "test:backup-restore": "npm run build && node dist/backup-restore.test.js && node dist/first-glow-backup.test.js && node dist/first-glow-assets.test.js"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
