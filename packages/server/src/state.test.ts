@@ -17,4 +17,5 @@ assert.equal(normalized.simulationVersion, "legacy-unknown");
 assert.equal(normalized.worldDefinition, undefined);
 assert.deepEqual(normalized.villagers[0].position, { x: 2, y: 2 });
 assert.equal(normalized.villagers[0].location, "Homes");
+assert.throws(() => normalizeState({ ...(legacy as unknown as Record<string, unknown>), spatialModel: "structured-v2", simulationVersion: "future-sim", structuredState: undefined } as never), /structured-v2 checkpoint/);
 console.log("legacy spatial snapshot compatibility passed");
