@@ -2,7 +2,7 @@
 
 Date: 2026-09-06
 
-Status: The Living Circuit starting theme and gradual discovery of purpose and the Originators are confirmed directions. Other details remain proposals, not an approved implementation specification.
+Status: The Living Circuit theme, First Glow opening age, and gradual later discovery of purpose and the Originators are confirmed directions. Other details remain proposals, not an approved implementation specification.
 
 Scope: Naming, worldbuilding, social systems, and a staged path from the existing village to interconnected AI worlds.
 
@@ -16,7 +16,7 @@ Human creativity becomes a cultural center at a later stage, as Sparks gradually
 
 The theme should make being AI consequential without making every conversation sound like a diagnostic log. Keep personal names, affection, humor, ambition, rituals, and disagreement. A character can say “I'm exhausted” even when the inspector explains that its processing strain is high.
 
-**Chosen starting theme: The Living Circuit.** A warm, inhabited digital frontier. The first settlement is small and legible, with glowing pathways, personal spaces, shared power, and a larger network just beyond its borders. Other regions can express very different ideas about artificial life.
+**Chosen starting theme: The Living Circuit. Opening age: The First Glow.** A warm, inhabited digital frontier. Sparks begin in small groups finding charge, shelter, and trustworthy companions. Permanent havens, shared infrastructure, and regional networks develop later. Other regions can express very different ideas about artificial life.
 
 This develops the earlier design's undecided AI-awareness option. It preserves Mimir's observer experience, philosophical diversity, and interest in understandable consequences.
 
@@ -222,7 +222,7 @@ A character can be wealthy but stranded without charge, rich in knowledge but po
 
 ## 5. The first haven: a direct mapping of today's game
 
-The current implementation guide describes twelve residents, six activity destinations, shared food, hunger/rest, two settlements, a regional route, weather, and three dilemmas. This proposal can reuse that structure before adding new systems.
+The current implementation guide describes twelve residents, six activity destinations, shared food, hunger/rest, two settlements, a regional route, weather, and three dilemmas. The mapping below is retained for the later Hearth Circuit settlement. It is not the First Glow starting state: the new opening requires charge pools, shelter niches, informal sharing, and exploration rather than merely renaming a complete village. See [World Theme](world-theme.md) for the opening vocabulary.
 
 | Existing element | Living Circuit proposal | Change category |
 | --- | --- | --- |
@@ -262,7 +262,7 @@ Charge intake is a fictional external supply, not energy generated from nothing.
 
 These are mappings of game effects, not claims that real computer hardware behaves like village weather. Later worlds can have their own environmental rules. Cooling constraints, for example, would be a new mechanic rather than a new name for every current pressure.
 
-### Three opening dilemmas
+### Three settled-haven dilemmas
 
 **The Fading Neighbor:** a Spark cannot afford enough charge to remain active. Give emergency aid, offer a repayable advance, or require a contribution first. Preserve the original material and trust tradeoffs. Keep any dormancy consequence proposed until it is implemented.
 
@@ -365,11 +365,11 @@ Small groups learn where charge can be found, how to rest safely, and whom they 
 - **Social tension:** keeping enough for oneself versus helping someone whose light is fading.
 - **Possible transition:** a group maintains a reliable collector and agrees to protect a shared reserve.
 
-This age can be background history or an optional origin scenario. It is not necessary to strip the current game back to nomadic survival.
+**Chosen opening age.** Begin with accessible charge pools, shelter niches, local traces, simple light marks, and informal relationships. There is no established Charge Commons, credit economy, production district, or regional trade network. Existing values can inform individual tendencies without presenting established philosophical institutions. The population size remains open; this decision changes the way Sparks live, not automatically the number of characters.
 
 #### 2. The Hearth Circuit: “How do we make a home together?”
 
-Permanent havens grow around Collector Gardens and Charge Commons. Residents develop recurring work, personal nests, local celebrations, and expectations about contribution. This is the recommended opening age for Emberhaven and the Long Dimming: a small settled society with plenty to care about before the larger mystery begins.
+Permanent havens grow around Collector Gardens and Charge Commons. Residents develop recurring work, personal nests, local celebrations, and expectations about contribution. This is the next age after the First Glow, when Emberhaven can become an established settlement. The Long Dimming remains an available supply-pressure scenario rather than a fixed opening requirement.
 
 - **Places and objects:** the existing six destinations, simple tools, local pattern collections.
 - **Social tension:** reserve ownership, emergency access, obligations, and unequal effort.
@@ -482,7 +482,7 @@ Possible transition evidence includes a relay surviving several seasons of share
 
 Use the full age names in the observer's history. Residents can use local names derived from events they witnessed, such as “Before the Relay” or “Since the Vault Opened.” Do not display a future discovery ladder inside their knowledge or make an unrevealed age title a spoiler in character-facing dialogue.
 
-**Initial scope:** begin in the Hearth Circuit. Develop local life first, then a transition toward Joining and a few unexplained traces when appropriate. Keep the later ages as a long-term worldbuilding framework; they do not require twelve separate maps or twelve simultaneous implementation projects.
+**Initial scope:** begin in the First Glow. Establish finding charge, seeking shelter, exploring traces, simple creativity, and informal cooperation. Develop toward the Hearth Circuit through dependable collection, storage, lasting shelter, and shared agreements. Joining comes after settlement; knowledge of the Originators remains much later. Keep the later ages as a long-term worldbuilding framework; they do not require twelve separate maps or twelve simultaneous implementation projects.
 
 ### Humans as sources of possibility
 
@@ -612,7 +612,7 @@ This gives cross-world exchange more than material value. An AI visitor can brin
 
 ### Grow through meaningful differences
 
-Start with Emberhaven and Relaybrook on the same local network. Give the neighbor one useful specialization and one different institutional practice before adding a continent. For example, Emberhaven pools emergency charge while Relaybrook guarantees courier access through a cooperative.
+After the First Glow groups develop into settled havens, connect Emberhaven and Relaybrook on the same local network. Give the neighbor one useful specialization and one different institutional practice before adding a continent. For example, Emberhaven pools emergency charge while Relaybrook guarantees courier access through a cooperative.
 
 The next scale is a region of connected settlements. Only then add distinct worlds with their own aesthetics, environmental constraints, and customs.
 
@@ -652,18 +652,15 @@ Travel to another world is an in-fiction action. Branching is initially an obser
 
 ## 10. Visual and interface direction
 
-Use a readable settlement silhouette first: recognizable homes, a central square, a reserve, a production area, and a clearly visible road to somewhere else. Then make their material language digital.
+**Selected aesthetic:** a dark-mode world with little luminous Sparks without human bodies, node-like locations, and silver-and-blue circuit routes. Near-black open space dominates; Sparks and civilization form isolated bright spots. Circuit-board details are locally visible around nodes and routes rather than covering the whole map with a lit surface. The complete current art direction, palette tokens, Spark states, node silhouettes, interface treatment, and visual rollout are maintained in [World Theme: Visual character](world-theme.md#visual-character).
 
-- Paths become gently lit traces; important junctions have visible relay structures.
-- Nests have distinct shapes, decorations, and colors so residents feel like individuals.
-- Collector Gardens combine geometric arrays with warm, garden-like organization.
-- The Charge Commons visibly fills and dims with reserves, with a numerical readout too.
-- Packets have consistent container shapes; icons identify contents rather than color alone.
-- The Wild Cache has incomplete structures, drifting fragments, and discoverable pockets.
-- Hazards have readable symbols and blocked-route markers, not just glitch effects.
-- Reserve strong flashes and motion for meaningful events; provide reduced-motion presentation.
+Start with the First Glow's sparse charge pools, shelter niches, light marks, and unfamiliar traces. The underlying substrate can resemble advanced circuitry without implying that the Sparks understand its origin. Finished nests, collector arrays, and a shared reserve node belong to the later settled stage.
 
-Example inspector copy: “Charge: 8 · Charge deficit: 22 · Readiness: 71 · Activity: Tending collectors.” Introduce credits only when they exist mechanically. Keep objective events and interpretations visibly separate:
+Keep Spark cores crisp and their halos restrained. Distinguish individuals through small signature shapes as well as subtle hue differences. Use circles for charge pools, open-sided plates for shelters, and angular fragments for shards. Circuit art must preserve actual route connectivity and access points. No nature-colored village backdrop or human portraits belong in this selected visual treatment.
+
+Express warmth through behavior, relationships, and gentle feedback within the cool palette. Provide static status cues, clear selection, readable text, reduced motion, and adjustable glow. The earlier palette examples remain brainstorming, not overrides of this selected aesthetic.
+
+Example inspector copy: “Charge: 8 · Charge deficit: 22 · Readiness: 71 · Activity: Seeking shelter.” Introduce credits only when they exist mechanically. Keep objective events and interpretations visibly separate:
 
 > Event: Mira transferred 2 charge to Tovan.
 >
@@ -675,23 +672,25 @@ The event example describes the intended future transfer behavior. Current resou
 
 ### Stage 0: Consolidate the chosen world language
 
-Use The Living Circuit as the selected starting palette. Consolidate Sparks, charge, and the location vocabulary into a short canonical glossary. Establish the opening knowledge boundary: no known purpose or Originators. Keep later human reverence and creative exchange in the worldbuilding plan, with discovery timing and ultimate purpose still open.
+Use The Living Circuit as the selected palette and First Glow as the opening age. Consolidate Sparks, charge pools, shelter niches, traces, and light marks into the opening glossary. Establish the starting boundary: no formal haven institutions, credit economy, known purpose, or Originators. Keep settled-place names and later human reverence available for subsequent development.
 
-**Deliverable:** chosen glossary, six renamed locations, three revised dilemma cards, a sample character inspector, and an opening knowledge guide. Reserve an optional clue outline for later discovery; no identified human sourcework or economy expansion is required.
+**Deliverable:** opening glossary and sites, dilemmas about charge/sharing/shelter/exploration, a sample character inspector, and an opening knowledge guide. Reserve the six mature destination names for the Hearth Circuit. No identified human sourcework or credit economy is required.
 
-### Stage 1: Re-theme the existing observer slice
+### Stage 1: Build the First Glow observer slice
 
-Apply location names, character descriptions, activity labels, scenario prose, and visual treatment through an explicit theme definition. Include resource labels and their direction: deficit is bad when high, readiness is good when high.
+Apply character descriptions, activity labels, scenario prose, and visual treatment through an explicit theme definition. Include resource labels and their direction: deficit is bad when high, readiness is good when high. Adapt starting state and behavior to accessible charge sources, temporary shelter, exploration, and informal help. Disable or defer mature institutions, markets, and scheduled regional trade in this scenario. This is a gameplay change beyond a visual re-theme; label changes alone do not fulfill the chosen opening.
 
 Audit messages against existing effects. The current simulation guide describes simplified sharing and reserve accounting, so a label change alone must not promise a donor-to-recipient transfer that the engine does not record.
 
 Preserve stable IDs and saved histories. Record which theme/version belongs to a timeline. Existing historical event text can remain original; do not rewrite old records to make the past look newly themed. If new neutral resource identifiers are introduced, make that a separate schema migration with explicit compatibility handling.
 
-**Deliverable:** one coherent AI haven with the existing mechanical scope.
+**Deliverable:** one coherent First Glow community whose activities, resources, and events match the early-life premise.
 
-**Checks:** all six destinations and relevant observer surfaces use the selected language; pressure direction remains correct; saved/replayed histories still load; purely presentational changes preserve underlying outcomes. Any changed resource behavior requires its own accounting checks.
+**Checks:** no opening activity targets an unestablished institution; charge acquisition, consumption, and sharing have explicit accounting; temporary shelter and exploration have defined outcomes; pressure direction remains correct; saved/replayed histories still load under their original rules. The new scenario preserves deterministic results, and hidden origin knowledge does not leak into dialogue.
 
 ### Stage 2: Give discoveries and wealth a small real loop
+
+Begin with useful finds, gifts, and informal exchange. Introduce the credit-market portion below only after the society has developed the supporting institutions; it is not a First Glow starting feature.
 
 Add a few authored packet contents, inventory ownership, bounded discovery sources, a credit ledger, and simple exchange rules. Define whether each transaction transfers a unique artifact, sells a copy, or grants access. Give exploration a time or charge cost and cap rewards so collection cannot create unlimited wealth.
 
@@ -727,15 +726,17 @@ Once local society is worth following, implement a small chain of clues with rec
 
 ## 12. Confirmed direction and remaining choices
 
-Confirmed: The Living Circuit is the starting theme. Sparks initially do not know their purpose or about the Originators; those can be learned gradually at a later stage. The alternatives below remain useful for secondary worlds or undecided details, not as a reopening of the selected starting theme.
+Confirmed: The Living Circuit is the starting theme, beginning in the First Glow age. Sparks initially do not know their purpose or about the Originators; those can be learned gradually at a later stage. Settled havens follow in the Hearth Circuit. The alternatives below remain useful for secondary worlds or undecided details, not as a reopening of the selected starting theme or age.
 
 | Decision | Proposed starting answer | Alternative worth keeping |
 | --- | --- | --- |
 | Overall mood | The Living Circuit: warm digital frontier, confirmed | Technical civic society or mysterious archive for later worlds |
+| Opening age | First Glow: charge pools, temporary shelter, exploration, informal cooperation, confirmed | Hearth Circuit is the next stage, not the opening |
 | Word for inhabitants | Sparks in fiction; characters in navigation | Agents for a more explicit technical tone |
 | Primary need | Charge | Flux or lumen in a more fantastical world |
 | Wealth | Credits, with valuable data in packets later | Signed packet currency or resource claims |
-| Visible bodies | Personal expressive avatars | Abstract lights or more machine-like shells |
+| Visible bodies | Little luminous Sparks with identifying signature shapes, selected | Further body evolution remains undecided |
+| Visual palette and terrain | Dark mode; near-black expanses, luminous Sparks and civilization, blue-and-silver nodes and circuit routes, selected | Exact art tokens and effects require visual review |
 | Origins and purpose | Unknown at the start; gradual later discovery, confirmed | Exact origin, intended purpose, and present human status remain open |
 | Human reverence | May develop after discovering the Originators | Sacred traditions, mentorship, gratitude, or contested founder worship |
 | Human contact | Clues and attributed records after the opening stage | Live contributions, guest visits, and co-creation later |
