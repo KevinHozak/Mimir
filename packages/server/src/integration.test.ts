@@ -59,6 +59,16 @@ if (region.settlements.length !== 2 || region.routes.some((route) => route.id !=
   if (v2Reset.status !== 200) throw new Error(`structured-v2 reset failed: ${await v2Reset.text()}`);
   const v2State = (await v2Reset.json()) as { state: { spatialModel?: string; simulationVersion?: string; structuredState?: unknown } };
   if (v2State.state.spatialModel !== "structured-v2" || v2State.state.simulationVersion !== "mimir-sim-v2" || !v2State.state.structuredState) throw new Error("structured-v2 timeline did not retain its bundle state");
+  const v2Block = await request("/api/owner/world/object", { settlementId: "first-village", objectId: "tiled-2", blocked: true, idempotencyKey: "v2-block-tree" });
+  if (v2Block.status !== 202) throw new Error(`structured-v2 blocker was not queued: ${await v2Block.text()}`);
+  const v2BeforeTick = await (await fetch(`${endpoint}/api/world`)).json() as { state: { structuredState?: { settlements: { runtime: { objects: { objectId: string; blocked: boolean }[]; navigationRevision: number } }[] } } };
+  if (v2BeforeTick.state.structuredState?.settlements[0].runtime.objects.some(object => object.objectId === "tiled-2" && object.blocked)) throw new Error("structured-v2 blocker changed live state early");
+  if ((await request("/api/tick")).status !== 200) throw new Error("structured-v2 blocker did not apply on tick");
+  const v2AfterTick = await (await fetch(`${endpoint}/api/world`)).json() as { state: { structuredState?: { settlements: { runtime: { objects: { objectId: string; blocked: boolean }[]; navigationRevision: number } }[] } } };
+  const v2Runtime = v2AfterTick.state.structuredState?.settlements[0].runtime;
+  if (!v2Runtime?.objects.some(object => object.objectId === "tiled-2" && object.blocked) || v2Runtime.navigationRevision !== 1) throw new Error("structured-v2 blocker did not update runtime navigation state");
+  if ((await request("/api/owner/world/object", { settlementId: "first-village", objectId: "tiled-2", blocked: false, idempotencyKey: "v2-unblock-tree" })).status !== 202) throw new Error("structured-v2 unblock was not queued");
+  if ((await request("/api/tick")).status !== 200) throw new Error("structured-v2 unblock did not apply on tick");
   await new Promise((resolve) => setTimeout(resolve, 1100));
   const scheduledManifest = readdirSync(backupDirectory).filter((entry) => entry.endsWith(".manifest.json")).map((entry) => JSON.parse(readFileSync(join(backupDirectory, entry), "utf8")) as { bundleHashes?: string[] }).find((manifest) => manifest.bundleHashes?.includes("sha256-6a2e1ffe6a311d4cbb08a616bec272cc82e47809dea635b4b3f121aa8e991987"));
   if (!scheduledManifest) throw new Error("scheduled backup did not include the active world bundle");
