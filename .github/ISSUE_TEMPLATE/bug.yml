@@ -1,0 +1,24 @@
+name: Bug report
+description: Report a reproducible problem in Mimir.
+labels: [bug]
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and evidence
+      description: Include steps, simulation version, bundle hash, seed/tick, and browser when relevant. Do not include secrets or live databases.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What observable behavior and checks will demonstrate the fix?
+    validations:
+      required: true
