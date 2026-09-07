@@ -38,10 +38,14 @@ function toWorldEvents(state: FirstGlowState, priorIds = new Set<string>()): Wor
   return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, tick: state.tick, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" ? "world-object" : "tick", message: event.message, villagerIds: [], settlementIds: [] }));
 }
 
+function openingChargeIntake(world: WorldState): number {
+  return world.tick > 0 && world.tick % 4 === 0 ? 24 : 0;
+}
+
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   validateFirstGlowState(input.firstGlowState);
   const previousIds = new Set(input.firstGlowState.events.map(event => event.id));
-  const firstGlowState = advanceFirstGlow(input.firstGlowState);
+  const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input) });
   const state: WorldState = { ...input, tick: firstGlowState.tick, firstGlowState };
   return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations: [] };
 }

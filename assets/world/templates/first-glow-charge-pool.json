@@ -2,7 +2,12 @@
   "id": "charge-pool",
   "label": "Charge pool",
   "footprint": [{ "x": 0, "y": 0 }],
-  "slots": [{ "id": "draw", "offset": { "x": 0, "y": 1 }, "capacity": 1 }],
-  "capabilities": ["charge-pool"], "capacity": 1,
+  "slots": [
+    { "id": "draw-south", "offset": { "x": 0, "y": 1 }, "capacity": 1 },
+    { "id": "draw-west", "offset": { "x": -1, "y": 1 }, "capacity": 1 },
+    { "id": "draw-east", "offset": { "x": 1, "y": 1 }, "capacity": 1 },
+    { "id": "draw-far", "offset": { "x": 0, "y": 2 }, "capacity": 1 }
+  ],
+  "capabilities": ["charge-pool"], "capacity": 4,
   "visualAsset": "first-glow-charge-pool.svg", "groundContact": { "x": 24, "y": 48 }, "blocksMovement": true
 }

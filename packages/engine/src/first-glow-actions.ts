@@ -10,7 +10,7 @@ function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][numbe
 function chooseAutonomousActivities(state: FirstGlowState): void {
   if (state.tick === 0) return;
   for (const settlement of state.settlements) for (const spark of settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id))) {
-    if (spark.status !== "choosing" || spark.destinationObjectId) continue;
+    if ((spark.status !== "choosing" && spark.status !== "waiting") || spark.destinationObjectId) continue;
     const companion = settlement.sparks.find((candidate) => candidate.id !== spark.id && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y && candidate.carriedCharge === 0);
     if (spark.carriedCharge > 0 && companion) { spark.intendedActivity = "share-charge"; continue; }
     const needsCharge = spark.carriedCharge === 0 || spark.chargeDeficit > 0;
@@ -22,7 +22,7 @@ function chooseAutonomousActivities(state: FirstGlowState): void {
     if (!hasLearned(spark, "shape-pattern")) priorities.push("shape-pattern");
     priorities.push("seek-shelter", "idle");
     const next = priorities.find((activity) => canFirstGlowReach(settlement, spark, activity));
-    if (next) spark.intendedActivity = next;
+    if (next) { spark.intendedActivity = next; spark.waitReason = undefined; }
   }
 }
 
@@ -69,6 +69,8 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
       state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: movedActors.has(spark.id) ? "movement-strain" : "activity-strain" });
     }
     if (drawnActors.has(spark.id)) continue;
+    const expendedCharge = movedActors.has(spark.id) || arrivalActions.has(spark.id) || shares.some((share) => share.actorId === spark.id || share.recipientId === spark.id);
+    if (!expendedCharge) continue;
     if (spark.carriedCharge > 0) { spark.carriedCharge -= 1; state.ledger.push({ kind: "consumption", actorId: spark.id, amount: 1, reason: "activity-sustenance" }); }
     else { spark.chargeDeficit += 1; state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: "charge-deficit" }); }
   }

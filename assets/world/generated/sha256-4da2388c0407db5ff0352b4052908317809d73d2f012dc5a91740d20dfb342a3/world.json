@@ -1,0 +1,701 @@
+{
+  "schemaVersion": 3,
+  "spatialModel": "structured-v2",
+  "simulationVersion": "mimir-sim-v3-first-glow",
+  "themeId": "living-circuit",
+  "ageId": "first-glow",
+  "id": "first-glow-v1",
+  "width": 16,
+  "height": 10,
+  "cellSizePx": 24,
+  "terrain": [
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ]
+  ],
+  "terrainDefinitions": {
+    "open": {
+      "id": "open",
+      "label": "Open space",
+      "walkable": true,
+      "movementCost": 2,
+      "visualAsset": ""
+    },
+    "gap": {
+      "id": "gap",
+      "label": "Circuit gap",
+      "walkable": false,
+      "visualAsset": ""
+    }
+  },
+  "surfaces": [
+    {
+      "id": "trace-main",
+      "cells": [
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 6,
+          "y": 1
+        },
+        {
+          "x": 7,
+          "y": 1
+        },
+        {
+          "x": 8,
+          "y": 1
+        },
+        {
+          "x": 9,
+          "y": 1
+        },
+        {
+          "x": 10,
+          "y": 1
+        },
+        {
+          "x": 11,
+          "y": 1
+        },
+        {
+          "x": 12,
+          "y": 1
+        },
+        {
+          "x": 13,
+          "y": 1
+        },
+        {
+          "x": 14,
+          "y": 1
+        }
+      ],
+      "movementCost": 1,
+      "enabled": true
+    },
+    {
+      "id": "tiled-103-surface",
+      "cells": [
+        {
+          "x": 8,
+          "y": 4
+        },
+        {
+          "x": 9,
+          "y": 4
+        },
+        {
+          "x": 10,
+          "y": 4
+        }
+      ],
+      "movementCost": 1,
+      "enabled": true,
+      "visualAsset": "assets/72c7e29669a2882d03c0c9bd3c33bea2076547b556950a63984874cdd57a7f96-first-glow-relay-crossing.svg"
+    }
+  ],
+  "objectDefinitions": {
+    "charge-pool": {
+      "id": "charge-pool",
+      "label": "Charge pool",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "draw-south",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "draw-west",
+          "offset": {
+            "x": -1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "draw-east",
+          "offset": {
+            "x": 1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "draw-far",
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "charge-pool"
+      ],
+      "capacity": 4,
+      "visualAsset": "assets/d83587d3dd16d679f552a4e2067427727f2f3c6f799013ef4337a161ddc3edd0-first-glow-charge-pool.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "shelter-niche": {
+      "id": "shelter-niche",
+      "label": "Shelter niche",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "rest-south",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-west",
+          "offset": {
+            "x": -1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-east",
+          "offset": {
+            "x": 1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-far",
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "shelter-niche"
+      ],
+      "capacity": 4,
+      "visualAsset": "assets/fb0222407daa4a2117abaabd3ea11647d4b95756308f74ff60748e1c40c26664-first-glow-shelter-niche.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "relay-crossing": {
+      "id": "relay-crossing",
+      "label": "Relay crossing",
+      "footprint": [],
+      "slots": [],
+      "capabilities": [
+        "relay-crossing"
+      ],
+      "capacity": 0,
+      "visualAsset": "assets/72c7e29669a2882d03c0c9bd3c33bea2076547b556950a63984874cdd57a7f96-first-glow-relay-crossing.svg",
+      "groundContact": {
+        "x": 36,
+        "y": 24
+      },
+      "blocksMovement": false
+    },
+    "pattern-shard": {
+      "id": "pattern-shard",
+      "label": "Pattern shard",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "examine",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "pattern-shard"
+      ],
+      "capacity": 1,
+      "visualAsset": "assets/7b56c87ee0218b321eb35fcc974a3e9dedf0ab53eff681bb2bcd0a55e4928b6d-first-glow-pattern-shard.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "light-mark": {
+      "id": "light-mark",
+      "label": "Light mark",
+      "footprint": [],
+      "slots": [
+        {
+          "id": "mark",
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "light-mark"
+      ],
+      "capacity": 1,
+      "visualAsset": "assets/23dda358356a9639b2f198b65adfeb3aef05933749d62618069091ce5cc37d45-first-glow-light-mark.svg",
+      "groundContact": {
+        "x": 12,
+        "y": 12
+      },
+      "blocksMovement": false
+    }
+  },
+  "objects": [
+    {
+      "id": "tiled-101",
+      "definitionId": "charge-pool",
+      "origin": {
+        "x": 2,
+        "y": 2
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-102",
+      "definitionId": "shelter-niche",
+      "origin": {
+        "x": 13,
+        "y": 2
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-103",
+      "definitionId": "relay-crossing",
+      "origin": {
+        "x": 8,
+        "y": 4
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-104",
+      "definitionId": "pattern-shard",
+      "origin": {
+        "x": 11,
+        "y": 7
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-105",
+      "definitionId": "light-mark",
+      "origin": {
+        "x": 5,
+        "y": 7
+      },
+      "orientation": 0
+    }
+  ],
+  "layers": [
+    {
+      "id": "1",
+      "role": "ground",
+      "order": 1
+    },
+    {
+      "id": "2",
+      "role": "surface",
+      "order": 2
+    },
+    {
+      "id": "3",
+      "role": "objects",
+      "order": 3
+    },
+    {
+      "id": "4",
+      "role": "foreground",
+      "order": 4
+    },
+    {
+      "id": "5",
+      "role": "spawns",
+      "order": 5
+    }
+  ],
+  "spawns": [
+    {
+      "id": "spark-spawn-01",
+      "cell": {
+        "x": 0,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-02",
+      "cell": {
+        "x": 2,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-03",
+      "cell": {
+        "x": 4,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-04",
+      "cell": {
+        "x": 6,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-05",
+      "cell": {
+        "x": 10,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-06",
+      "cell": {
+        "x": 12,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-07",
+      "cell": {
+        "x": 14,
+        "y": 0
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-08",
+      "cell": {
+        "x": 1,
+        "y": 9
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-09",
+      "cell": {
+        "x": 3,
+        "y": 9
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-10",
+      "cell": {
+        "x": 5,
+        "y": 9
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-11",
+      "cell": {
+        "x": 7,
+        "y": 9
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spark-spawn-12",
+      "cell": {
+        "x": 14,
+        "y": 9
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/d83587d3dd16d679f552a4e2067427727f2f3c6f799013ef4337a161ddc3edd0-first-glow-charge-pool.svg",
+      "sha256": "sha256-d83587d3dd16d679f552a4e2067427727f2f3c6f799013ef4337a161ddc3edd0",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/fb0222407daa4a2117abaabd3ea11647d4b95756308f74ff60748e1c40c26664-first-glow-shelter-niche.svg",
+      "sha256": "sha256-fb0222407daa4a2117abaabd3ea11647d4b95756308f74ff60748e1c40c26664",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/72c7e29669a2882d03c0c9bd3c33bea2076547b556950a63984874cdd57a7f96-first-glow-relay-crossing.svg",
+      "sha256": "sha256-72c7e29669a2882d03c0c9bd3c33bea2076547b556950a63984874cdd57a7f96",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/7b56c87ee0218b321eb35fcc974a3e9dedf0ab53eff681bb2bcd0a55e4928b6d-first-glow-pattern-shard.svg",
+      "sha256": "sha256-7b56c87ee0218b321eb35fcc974a3e9dedf0ab53eff681bb2bcd0a55e4928b6d",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/23dda358356a9639b2f198b65adfeb3aef05933749d62618069091ce5cc37d45-first-glow-light-mark.svg",
+      "sha256": "sha256-23dda358356a9639b2f198b65adfeb3aef05933749d62618069091ce5cc37d45",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    }
+  ],
+  "bundle": {
+    "bundleId": "first-glow-v1",
+    "contentHash": "sha256-4da2388c0407db5ff0352b4052908317809d73d2f012dc5a91740d20dfb342a3",
+    "schemaVersion": 3,
+    "assetVersion": "first-glow-v1"
+  }
+}
