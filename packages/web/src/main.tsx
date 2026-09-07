@@ -20,7 +20,7 @@ type Event = { id: string; tick: number; message: string; kind: string };
 type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
 type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
 type DilemmaCard = { id: string; title: string; prompt: string; competingValues: string[]; choices: { id: string; label: string; tradeoff: string }[] };
-type FirstGlowDesign = { openingQuestion: string; boundary: string; cards: { id: string; name: string; tendency: string; description: string; openingQuestion: string }[] };
+type FirstGlowDesign = { openingQuestion: string; boundary: string; cards: { id: string; name: string; tendency: string; description: string; openingQuestion: string }[]; events: { id: string; title: string; prompt: string; observableOutcome: string }[] };
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number; dilemmasResolved?: number; latestDilemma?: DilemmaResolution | null; firstGlow?: { sourceCharge: number; communalCharge: number; carriedCharge: number; chargeDeficit: number; sparks: number } } };
 const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
@@ -206,7 +206,7 @@ function DesignBench({ cards, dilemmas, store }: { cards: CharacterCard[]; dilem
 
 function FirstGlowDesignBench({ design }: { design?: FirstGlowDesign }) {
   if (!design) return null;
-  return <section className="first-glow-design" data-testid="first-glow-design"><h2>Opening question</h2><p className="opening-question">{design.openingQuestion}</p><p>{design.boundary}</p><div className="glow-tendencies">{design.cards.map(card => <article key={card.id}><strong>{card.name}</strong><small>{card.tendency}</small><p>{card.description}</p><small>{card.openingQuestion}</small></article>)}</div></section>;
+  return <section className="first-glow-design" data-testid="first-glow-design"><h2>Opening question</h2><p className="opening-question">{design.openingQuestion}</p><p>{design.boundary}</p><div className="glow-tendencies">{design.cards.map(card => <article key={card.id}><strong>{card.name}</strong><small>{card.tendency}</small><p>{card.description}</p><small>{card.openingQuestion}</small></article>)}</div><h3>Early signals</h3><div className="glow-events">{design.events.map(event => <article key={event.id}><strong>{event.title}</strong><p>{event.prompt}</p><small>{event.observableOutcome}</small></article>)}</div></section>;
 }
 
 function RegionOverview({ world, activeSettlementId, onSelect }: { world: State; activeSettlementId: string; onSelect: (id: string) => void }) {

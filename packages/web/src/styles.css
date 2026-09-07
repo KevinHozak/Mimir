@@ -49,4 +49,5 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .spark-card dt { color: #8fa7c3; }.spark-card dd { margin: 0; color: #edf7ff; text-align: right; }
 .spark-card p { margin-bottom: 0; }
 .first-glow-design { margin-top: 18px; padding: 16px 18px; color: #dceeff; background: #081426; border: 1px solid #52677f; border-radius: 10px; }.first-glow-design .opening-question { color: #edf7ff; font-size: 1.15rem; }.glow-tendencies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }.glow-tendencies article { padding: 10px; border: 1px solid #52677f; border-radius: 8px; background: #0a1322; }.glow-tendencies small { display: block; color: #8fa7c3; margin-top: 4px; }.glow-tendencies p { margin: 8px 0; }
+.glow-events { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }.glow-events article { padding: 10px; border: 1px solid #52677f; border-radius: 8px; background: #0a1322; }.glow-events small { display: block; color: #8fa7c3; }
 @media (max-width: 520px) { .spark-list { grid-template-columns: 1fr; } }
