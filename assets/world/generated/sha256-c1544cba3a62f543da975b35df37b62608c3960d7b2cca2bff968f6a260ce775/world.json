@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 2,
+  "spatialModel": "structured-v2",
+  "simulationVersion": "mimir-sim-v2",
+  "id": "first-winter-v2",
+  "width": 8,
+  "height": 8,
+  "cellSizePx": 24,
+  "terrain": [
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ],
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ],
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ],
+    [
+      "road",
+      "road",
+      "road",
+      "road",
+      "road",
+      "road",
+      "road",
+      "road"
+    ],
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ],
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ],
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ],
+    [
+      "grass",
+      "grass",
+      "grass",
+      "grass",
+      "water",
+      "grass",
+      "grass",
+      "grass"
+    ]
+  ],
+  "terrainDefinitions": {
+    "grass": {
+      "id": "grass",
+      "walkable": true,
+      "movementCost": 2,
+      "visualAsset": "provisional/grass"
+    },
+    "road": {
+      "id": "road",
+      "walkable": true,
+      "movementCost": 1,
+      "visualAsset": "provisional/road"
+    },
+    "water": {
+      "id": "water",
+      "walkable": false,
+      "visualAsset": "provisional/water"
+    }
+  },
+  "surfaces": [
+    {
+      "id": "tiled-4-surface",
+      "cells": [
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 6,
+          "y": 3
+        }
+      ],
+      "movementCost": 1,
+      "enabled": true,
+      "visualAsset": "provisional/bridge"
+    }
+  ],
+  "objectDefinitions": {
+    "house": {
+      "id": "house",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "slots": [
+        {
+          "id": "rest-1",
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-2",
+          "offset": {
+            "x": 1,
+            "y": 2
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "rest"
+      ],
+      "capacity": 2,
+      "visualAsset": "provisional/house",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "tree": {
+      "id": "tree",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [],
+      "capabilities": [
+        "gather"
+      ],
+      "capacity": 0,
+      "visualAsset": "provisional/tree",
+      "groundContact": {
+        "x": 12,
+        "y": 24
+      },
+      "blocksMovement": true,
+      "foreground": true
+    },
+    "granary": {
+      "id": "granary",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "food-1",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "food-2",
+          "offset": {
+            "x": 1,
+            "y": 1
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "collect",
+        "share"
+      ],
+      "capacity": 2,
+      "visualAsset": "provisional/granary",
+      "groundContact": {
+        "x": 24,
+        "y": 24
+      },
+      "blocksMovement": true
+    },
+    "bridge": {
+      "id": "bridge",
+      "footprint": [],
+      "slots": [],
+      "capabilities": [],
+      "capacity": 0,
+      "visualAsset": "provisional/bridge",
+      "groundContact": {
+        "x": 36,
+        "y": 24
+      },
+      "blocksMovement": false
+    }
+  },
+  "objects": [
+    {
+      "id": "tiled-1",
+      "definitionId": "house",
+      "origin": {
+        "x": 1,
+        "y": 1
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-2",
+      "definitionId": "tree",
+      "origin": {
+        "x": 3,
+        "y": 1
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-3",
+      "definitionId": "granary",
+      "origin": {
+        "x": 5,
+        "y": 5
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-4",
+      "definitionId": "bridge",
+      "origin": {
+        "x": 4,
+        "y": 3
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-tree-5",
+      "definitionId": "tree",
+      "origin": {
+        "x": 0,
+        "y": 6
+      },
+      "orientation": 0
+    }
+  ],
+  "layers": [
+    {
+      "id": "terrain",
+      "role": "ground",
+      "order": 0
+    },
+    {
+      "id": "surfaces",
+      "role": "surface",
+      "order": 1
+    },
+    {
+      "id": "objects",
+      "role": "objects",
+      "order": 2
+    },
+    {
+      "id": "foreground",
+      "role": "foreground",
+      "order": 3
+    },
+    {
+      "id": "spawns",
+      "role": "spawns",
+      "order": 4
+    }
+  ],
+  "spawns": [
+    {
+      "id": "home-spawn",
+      "cell": {
+        "x": 0,
+        "y": 0
+      },
+      "settlementId": "first-village",
+      "entrance": true
+    },
+    {
+      "id": "granary-spawn",
+      "cell": {
+        "x": 7,
+        "y": 7
+      },
+      "settlementId": "first-village"
+    }
+  ],
+  "assets": [],
+  "bundle": {
+    "bundleId": "first-winter-v2",
+    "contentHash": "sha256-c1544cba3a62f543da975b35df37b62608c3960d7b2cca2bff968f6a260ce775",
+    "schemaVersion": 2,
+    "assetVersion": "provisional-v1"
+  }
+}
