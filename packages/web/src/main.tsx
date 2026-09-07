@@ -94,6 +94,7 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
     const tileSize = 24; const nextIds = new Set(nextSparks.map(spark => spark.id));
     peopleRef.current.forEach((person, id) => { if (!nextIds.has(id)) { person.destroy(); peopleRef.current.delete(id); } });
     nextSparks.forEach((spark) => { const position = { x: spark.position.x * tileSize + tileSize / 2, y: spark.position.y * tileSize + tileSize / 2 }; let core = peopleRef.current.get(spark.id); if (!core) { core = scene.add.container(position.x, position.y); core.add(scene.add.circle(0, 0, 9, 0x8addf2, 0.16)); core.add(scene.add.circle(0, 0, 5, 0xedf7ff, 1)); core.add(scene.add.circle(6, -6, 2, 0xc7b7ff, 1)); core.setBlendMode(Phaser.BlendModes.ADD); peopleRef.current.set(spark.id, core); scene.tweens.add({ targets: core.list[0], scale: 1.25, alpha: 0.08, duration: 700, yoyo: true, repeat: -1, ease: "Sine.easeInOut" }); } core.setPosition(position.x, position.y); core.setDepth(100 + spark.position.y); });
+    document.getElementById("village-canvas")?.setAttribute("data-rendered-spark-coordinates", JSON.stringify(Object.fromEntries(nextSparks.map(spark => [spark.id, { x: spark.position.x * tileSize + tileSize / 2, y: spark.position.y * tileSize + tileSize / 2 }]))));
   };
   useEffect(() => {
     villagersRef.current = villagers;
