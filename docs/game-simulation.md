@@ -1,7 +1,7 @@
 # Mimir Game Simulation
 
-Date: 2026-09-06
-Status: Current implementation guide, with planned behavior called out separately.
+Date: 2026-09-07
+Status: Historical simulation guide. The active runtime is the schema-3 First Glow implementation described in `docs/architecture.md`; village-era mechanics below are retained as design history, not current support.
 
 Mimir is an observer game about a small society trying to live together under pressure. The player does not directly issue a command to every villager. Instead, the player watches an autonomous world, follows people and institutions, studies the consequences of decisions, and uses season boundaries to continue, branch, or restart the experiment.
 

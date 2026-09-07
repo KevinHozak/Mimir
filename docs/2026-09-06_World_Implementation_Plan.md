@@ -2,7 +2,7 @@
 
 Date: 2026-09-06
 
-Status: Re-audited against implementation at commit `4c4c752` on 2026-09-06 and reworked for the selected [Living Circuit theme](world-theme.md). All seven original phases remain partial against their complete acceptance gates, but their implemented spatial and persistence work is the foundation for the First Glow conversion in section 10.
+Status: Historical phased plan. The dated audit below records prior implementation work; the active runtime is now the schema-3 First Glow implementation. Use `docs/architecture.md` and `AGENTS.md` for current code and file boundaries.
 
 Review convention: `[x]` means the entire listed requirement is implemented; `[ ]` means incomplete, partially implemented, or not yet verified. Partial progress and evidence are recorded below each phase. Acceptance gates are separate checklist items and are not implied by passing general smoke tests.
 

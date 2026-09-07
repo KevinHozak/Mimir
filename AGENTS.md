@@ -12,18 +12,18 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 
 | Document | What it is for |
 | --- | --- |
-| [README.md](README.md) | Project introduction, workspace entry points, and links. Some overview prose still describes the village prototype. |
+| [README.md](README.md) | Project introduction, workspace entry points, and local runtime-data layout. |
 | [docs/world-theme.md](docs/world-theme.md) | Current consolidated theme reference: First Glow, Sparks, terminology, opening knowledge, blue-and-silver dark-mode aesthetics, and visual rollout. Read first for naming, art, UI, or setting work. |
 | [AI World Theme Plan](docs/2026-09-06_AI_World_Theme_Plan.md) | Broader brainstorming, retained alternative palettes, resource proposals, human inspiration, discovery ages, and staged development. Confirmed choices are marked; alternatives are not all approved features. |
 | [docs/game-simulation.md](docs/game-simulation.md) | Explanation of ticks, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
-| [docs/architecture.md](docs/architecture.md) | System boundaries, server/client responsibilities, API overview, and persistence architecture. Parts predate the fourth package and structured-v2 bundle pipeline. |
+| [docs/architecture.md](docs/architecture.md) | Current package boundaries, First Glow runtime, API surface, persistence, local data, and hosted operations. |
 | [Simulation Game Plan](docs/2026-09-06_Simulation_Game_Plan.md) | Original goals, social mechanics, development stages, experiments, and acceptance gates. Opening status/path metadata is historical; newer theme decisions supersede the original village/AI-awareness proposals. |
 | [Web Development Plan](docs/2026-09-06_Web_Development_Plan.md) | Planned web architecture, operations, hosting, persistence, and verification. Treat gates as planned until supported by current evidence. |
 | [World Implementation Plan](docs/2026-09-06_World_Implementation_Plan.md) | World geometry, authoring, rendering, navigation, versioning, and phased verification; criteria for reconsidering the rendering approach. |
 | [Hosted observer runbook](docs/hosted-observer-runbook.md) | Deployment preparation, operational checks, and durability requirements. Read before hosted changes. |
 | [Structured world profile](docs/2026-09-06-world-profile.md) | Dated performance and browser evidence for a particular bundle and scenario. Associated desktop/mobile PNGs are historical captures, not current theme mockups. |
 | [World map sources](assets/world/README.md) | Map-authoring and import instructions, supported source features, immutable generated bundles, and provisional art status. |
-| [Backdrop provenance](assets/licenses/village-backdrop.md) | Provenance for the existing village illustration. Retain licensing records when replacing assets. |
+| [First Glow asset provenance](assets/licenses/first-glow-assets.md) | Provenance for the active authored First Glow assets. |
 
 For intended visual and narrative behavior, use `docs/world-theme.md` and the latest explicit user decisions. For actual runtime behavior, inspect code, selected simulation/bundle versions, tests, and live configuration. A design document does not prove a feature exists; an older code identifier does not override the selected theme.
 
@@ -50,12 +50,13 @@ When implementation changes invalidate a current guide, update the affected guid
 | `assets/world/` | Authored Tiled JSON, object templates, authoring notes, and generated content-addressed bundles. |
 | `assets/world/generated/` | Versioned `sha256-*` directories containing `world.json` and `manifest.json`. Some generated bundles are deliberately tracked for reproducibility and historical playback. |
 | `assets/licenses/` | Asset attribution and provenance. |
-| `scenarios/` | Reserved for future First Glow scenario configuration; the active bundle is under `assets/world/`. |
+| `data/` | Local mutable databases, settings, game state, and backup outputs; see `data/README.md`. |
+| `.tmp/` | Disposable test and profiling artifacts; ignored by Git. |
 | `scripts/` | Local launcher, Tiled importer, bundle validator, and profiling harness. |
 | `docs/` | Current references, design plans, runbook, and dated visual/performance evidence. |
 | `node_modules/` and package `dist/` | Installed dependencies and build output. Regenerate through package commands; do not hand-edit or commit them. |
 
-Root SQLite files, WAL/SHM sidecars, test backups, and restored `.bundles` directories may exist locally. They are runtime/test artifacts, not authoring sources. Do not stage them because a broad status listing happens to show them, and do not delete unfamiliar artifacts or active databases as routine cleanup.
+Local SQLite files, WAL/SHM sidecars, test backups, and restored `.bundles` directories belong under `data/` or `.tmp/`, not in the repository root. They are runtime/test artifacts, not authoring sources. Do not stage them because a broad status listing happens to show them, and do not delete unfamiliar artifacts or active databases as routine cleanup.
 
 ## Important files and entry points
 
@@ -68,10 +69,10 @@ Root SQLite files, WAL/SHM sidecars, test backups, and restored `.bundles` direc
 | `packages/world-data/src/types.ts` | Structured world/bundle/runtime contracts. |
 | `packages/world-data/src/canonical.ts` | Canonical data representation and SHA-256 bundle identity; preserve browser compatibility. |
 | `packages/world-data/src/spatial.ts` / `validation.ts` | Shared spatial behavior and validation. |
-| `packages/engine/src/index.ts` | Public world state, creation/advance entry points, scenario defaults, and simulation-version dispatch. |
-| `packages/engine/src/structured.ts` | Structured-v2 actors, interactions, reservations, movement, and resource ledger. |
-| `packages/engine/src/world.ts`, `movement.ts`, `navigation.ts` | World definitions and movement/navigation support. Check which simulation path calls a helper before changing it. |
-| `packages/engine/src/design.ts` / `social.ts` | Authored cards/dilemmas and constrained interpretation validation/fallback. |
+| `packages/engine/src/index.ts` | Public First Glow world state, creation/advance entry points, and simulation-version dispatch. |
+| `packages/engine/src/structured.ts` | Structured-v2 actors/Sparks, reservations, movement, validation, and resource ledger. |
+| `packages/engine/src/first-glow-actions.ts` | First Glow activity transitions, arrival-gated actions, and event/ledger effects. |
+| `packages/engine/src/design.ts` | First Glow design copy and bounded observer-facing concepts. |
 | `packages/server/src/index.ts` | Server startup, configuration, routes, scheduler, SQLite transaction path, and live broadcasts. |
 | `packages/server/src/state.ts` | Historical state normalization and compatibility checks. |
 | `packages/server/src/backup-lib.ts` / `backup.ts` | Shared backup implementation and CLI for backup/restore with bundle data. |
@@ -79,7 +80,7 @@ Root SQLite files, WAL/SHM sidecars, test backups, and restored `.bundles` direc
 | `packages/web/src/first-glow.tsx` / `fixtureDecoder.ts` | First Glow inspector and shared fixture decoding. |
 | `assets/world/maps/first-glow.tiled.json` | Active authored map source; imported through `scripts/import-world.mjs`. |
 | `scripts/run-local.mjs` | Starts the local server and Vite preview; builds only when required artifacts are missing. |
-| `scripts/profile-world.mjs` | Engine/browser profiling harness tied to an explicit bundle and isolated runtime. Inspect its fixture selection before using it for a new map. |
+| `scripts/profile-first-glow.mjs` | First Glow engine/browser profiling harness tied to an explicit bundle and isolated runtime. |
 
 ## Commands and verification
 
@@ -93,14 +94,14 @@ Run from the repository root. The project uses TypeScript, ES modules, npm works
 | `npm run dev:server` | Watch server TypeScript. |
 | `npm run dev:web` | Run Vite development server. Use its displayed URL; preview and development ports differ. |
 | `npm test` | Root world-data and engine tests only; this is not the complete server/browser suite. Build first, because world-data's test script uses existing compiled output. |
-| `npm run test:integration --workspace @mimir/server` | Server API/persistence integration checks. |
-| `npm run test:structured-restart --workspace @mimir/server` | Structured-state restart checks. |
+| `npm run test:first-glow-commands --workspace @mimir/server` | First Glow object-command persistence checks. |
+| `npm run test:first-glow-restart --workspace @mimir/server` | First Glow restart-equivalence checks. |
 | `npm run test:backup-restore --workspace @mimir/server` | Bundle-inclusive backup and restoration checks. |
 | `node packages/server/dist/state.test.js` | State-normalization regression checks after building the server; currently not listed as a package test script. |
-| `npm run test:e2e --workspace @mimir/web` | Playwright observer checks after building; requires the browser runtime. |
+| `npm run test:first-glow --workspace @mimir/web` | Playwright First Glow observer checks after building; requires the browser runtime. |
 | `npm run world:import -- assets/world/maps/first-glow.tiled.json` | Generate the content-addressed First Glow bundle from authored source. |
 | `npm run world:validate -- assets/world/generated/<sha256>/world.json` | Validate a specific generated bundle; replace the placeholder with the actual directory. |
-| `node scripts/profile-world.mjs` | Run the dedicated world profiling harness after building. |
+| `npm run profile:first-glow` | Run the dedicated First Glow engine/browser profiling harness after building. |
 
 Choose checks according to the change. Documentation-only work needs link/content/whitespace verification, not simulation runs. World-data or movement changes need validation and deterministic movement tests; persistence changes need restart/restore checks; visual changes need rendered desktop/mobile inspection and appropriate browser checks. Report environment failures separately from application assertions, and never present a prior profiling run as current validation.
 
@@ -108,10 +109,10 @@ Choose checks according to the change. Documentation-only work needs link/conten
 
 Inspect `packages/server/src/index.ts`, `scripts/run-local.mjs`, and `render.yaml` for current defaults. Important configuration includes `PORT`, `DATABASE_PATH`, `AUTO_TICK`, `TICK_INTERVAL_MS`, `SEASON_TICK_LIMIT`, `OWNER_TOKEN`, `WORLD_BUNDLE_ROOT`, `SERVE_WEB`, `WEB_DIST_DIR`, `BACKUP_DIR`, and `BACKUP_INTERVAL_MS`. The browser uses `VITE_API_URL` when configured.
 
-- Use isolated database paths and ports for tests and experiments. Normal `npm start` can advance the local world; it is not a read-only inspection command.
-- On PowerShell, set environment variables with `$env:NAME = 'value'`; POSIX `NAME=value command` examples do not run unchanged. Prefer absolute paths for custom databases and backup targets, and restore temporary environment overrides afterward.
+- Use isolated database paths and ports for tests and experiments. Normal `npm start` uses `data/local/mimir.db` and can advance the local world; it is not a read-only inspection command.
+- On PowerShell, set environment variables with `$env:NAME = 'value'`; POSIX `NAME=value command` examples do not run unchanged. The default local database is `data/local/mimir.db`; disposable tests belong under `.tmp/`. Prefer absolute paths for custom databases and backup targets, and restore temporary environment overrides afterward.
 - When configured, owner authentication uses `OWNER_TOKEN` via `x-owner-token`. The current local server permits owner operations when the token is unset; do not describe this as an authenticated public deployment.
-- Use the supplied backup CLI rather than copying a running SQLite file casually: `npm run backup --workspace @mimir/server -- backup <destination>`. Restore with `npm run backup --workspace @mimir/server -- restore <backup> <new-destination>`.
+- Use the supplied backup CLI rather than copying a running SQLite file casually: `npm run backup --workspace @mimir/server -- backup <destination>`. Restore with `npm run backup --workspace @mimir/server -- restore <backup> <new-destination>`. Default scheduled backup output is `data/backups/`.
 - Preserve backup manifests and accompanying `.bundles` directories. Database-only recovery may omit world assets needed by saved histories. Restore to a new destination and verify it before replacing any live state.
 - Never commit secrets, tokens, live databases, WAL/SHM files, or arbitrary test outputs. Do not print credentials while troubleshooting.
 - No paid AI provider is connected by default. Treat adding real provider calls or spending money as separate scope; fictional charge has no connection to API billing.

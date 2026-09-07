@@ -1,7 +1,7 @@
 # 🌍 Mimir: Web Development Plan
 
 Date: 2026-09-06  
-Status: Implementation recommendation; no application has been built or deployed.  
+Status: Historical implementation plan. The application and local observer slice now exist; hosted deployment remains a separate operational step.
 Companion design: [Simulation Game Plan](2026-09-06_Simulation_Game_Plan.md)
 
 ## 1. Recommended direction

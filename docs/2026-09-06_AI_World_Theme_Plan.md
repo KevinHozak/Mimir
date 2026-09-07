@@ -752,4 +752,4 @@ The strongest opening is a small society whose artificial nature creates recogni
 - [Current simulation guide](game-simulation.md): implemented mechanics and known simplifications.
 - [Original simulation plan](2026-09-06_Simulation_Game_Plan.md): philosophical goals, planned systems, and the previously undecided AI-awareness direction. Its opening implementation status and working-folder metadata are historical.
 - [World implementation plan](2026-09-06_World_Implementation_Plan.md): scene and navigation planning.
-- [First Winter scenario](../scenarios/first-winter.json): checked-in scenario configuration; the current simulation guide notes it is not automatically the server's runtime default.
+- First Winter scenario: historical scenario configuration removed from the active repository; the current runtime is the schema-3 First Glow bundle under `assets/world/`.

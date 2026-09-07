@@ -13,3 +13,13 @@ npm start
 ```
 
 Open the URL printed by the launcher. The server owns simulation outcomes, SQLite stores committed history, and the browser renders the current or replayed First Glow state.
+
+## Local data
+
+Mutable local runtime data lives under `data/` and is ignored by Git:
+
+- `data/local/` — the default SQLite database and future local settings/game-state files.
+- `data/backups/` — local backup databases, manifests, and bundle sidecars.
+- `.tmp/` — disposable test and profiling artifacts.
+
+Authored maps, templates, fixtures, immutable generated bundles, and provenance remain under `assets/`.
