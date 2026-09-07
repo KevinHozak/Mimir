@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
@@ -8,10 +8,12 @@ const root = join(process.cwd(), "..", "..");
 const apiPort = 34211;
 const webPort = 5188;
 const hash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
+const tempRoot = join(root, ".tmp", "browser-tests");
+mkdirSync(tempRoot, { recursive: true });
+const database = join(tempRoot, `first-glow-browser-${Date.now()}.db`);
 const children: ChildProcess[] = [];
 const waitFor = async (url: string) => { for (let attempt = 0; attempt < 60; attempt += 1) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error(`service did not start: ${url}`); };
 try {
-  const database = join(root, `first-glow-browser-${Date.now()}.db`);
   const env = { ...process.env, PORT: String(apiPort), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-first-glow", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" }));
   children.push(spawn(process.execPath, [join(root, "node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
@@ -30,4 +32,7 @@ try {
     await desktop.getByText("Tick 2 / 2").waitFor(); await mobile.getByText("Tick 2 / 2").waitFor(); const authoritative = await (await fetch(`http://127.0.0.1:${apiPort}/api/world`)).json() as { state: { firstGlowState?: { settlements: { sparks: { id: string; position: { x: number; y: number } }[] }[] } } }; const expectedCoordinates = Object.fromEntries((authoritative.state.firstGlowState?.settlements[0].sparks ?? []).map(spark => [spark.id, { x: spark.position.x * 24 + 12, y: spark.position.y * 24 + 12 }])); for (const page of [desktop, mobile]) { await page.waitForFunction(expected => document.querySelector("#village-canvas")?.getAttribute("data-rendered-spark-coordinates") === JSON.stringify(expected), expectedCoordinates); } const desktopInspector = await desktop.getByTestId("first-glow-inspector").textContent(); const mobileInspector = await mobile.getByTestId("first-glow-inspector").textContent(); assert.equal(desktopInspector, mobileInspector); for (const page of [desktop, mobile]) { const rendered = JSON.parse(await page.locator("#village-canvas").getAttribute("data-rendered-spark-coordinates") ?? "{}"); assert.deepEqual(rendered, expectedCoordinates); }
     console.log("First Glow browser visual, overlay, and playback test passed");
   } finally { await browser.close(); }
-} finally { await Promise.all(children.map(child => new Promise<void>(resolve => { if (child.exitCode !== null) { resolve(); return; } child.once("exit", () => resolve()); child.kill(); setTimeout(resolve, 3000); }))); }
+} finally {
+  await Promise.all(children.map(child => new Promise<void>(resolve => { if (child.exitCode !== null) { resolve(); return; } child.once("exit", () => resolve()); child.kill(); setTimeout(resolve, 3000); })));
+  for (const path of [database, `${database}-wal`, `${database}-shm`]) if (existsSync(path)) rmSync(path, { force: true });
+}

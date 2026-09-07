@@ -10,6 +10,7 @@ const stamp = Date.now();
 const database = join(root, `first-glow-backup-${stamp}.db`);
 const backup = join(root, `first-glow-backup-${stamp}-copy.db`);
 const restored = join(root, `first-glow-backup-${stamp}-restored.db`);
+const restoredBundles = `${restored}.bundles`;
 const bundleRoot = join(root, "assets", "world", "generated");
 const hash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
 let child: ReturnType<typeof spawn> | undefined;
@@ -33,5 +34,6 @@ try {
   console.log("First Glow bundle-inclusive backup/restore passed");
 } finally {
   if (child && child.exitCode === null) child.kill();
-  for (const path of [database, backup, restored, `${database}-wal`, `${database}-shm`, `${backup}-wal`, `${backup}-shm`, `${restored}-wal`, `${restored}-shm`, `${backup}.manifest.json`, `${backup}.bundles`, `${restored}.bundles`]) if (existsSync(path)) rmSync(path, { recursive: true, force: true });
+  // Restore creates the sidecar before validating bundle contents, so clean it even when restore fails.
+  for (const path of [database, backup, restored, `${database}-wal`, `${database}-shm`, `${backup}-wal`, `${backup}-shm`, `${restored}-wal`, `${restored}-shm`, `${backup}.manifest.json`, `${backup}.bundles`, restoredBundles, `${restored}.manifest.json`]) if (existsSync(path)) rmSync(path, { recursive: true, force: true });
 }
