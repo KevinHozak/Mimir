@@ -4,6 +4,7 @@ import Phaser from "phaser";
 import { parseWorldDefinition } from "@mimir/engine";
 import type { Cell, MovementModel, WorldDefinition } from "@mimir/engine";
 import { FirstGlowInspector, type FirstGlowSpark } from "./first-glow.js";
+import { HistoryRequestSequencer } from "./history-sequencing.js";
 import "./styles.css";
 
 type TilePosition = Cell;
@@ -239,6 +240,9 @@ function App() {
   const [operationMessage, setOperationMessage] = useState("");
   const [activeSettlementId, setActiveSettlementId] = useState("first-village");
   const viewTickRef = useRef<number | null>(null);
+  const historyRequestRef = useRef(new HistoryRequestSequencer());
+  const liveContextRef = useRef<string | null>(null);
+  const invalidateHistoryRequest = () => historyRequestRef.current.invalidate();
   const activeSettlement = world?.settlements?.find((settlement) => settlement.id === activeSettlementId);
   const visibleVillagers = (world?.villagers ?? []).filter((villager) => villager.settlementId === activeSettlementId);
   const selected = visibleVillagers.find((villager) => villager.id === selectedVillagerId);
@@ -250,12 +254,15 @@ function App() {
   const displayedWorldDefinition = activeSettlement?.worldDefinition ?? world?.worldDefinition ?? (isFirstGlow && firstGlowBundle ? firstGlowWorldDefinition(firstGlowBundle) : structuredWorldDefinition(world?.structuredState, activeSettlementId));
   const fitZoom = (isFirstGlow ? Math.min(2, 768 / ((displayedWorldDefinition?.width ?? 100) * 24), 768 / ((displayedWorldDefinition?.height ?? 100) * 24)) : Math.min(1, 768 / ((displayedWorldDefinition?.width ?? 100) * 24), 768 / ((displayedWorldDefinition?.height ?? 100) * 24)));
   useEffect(() => { setZoom(fitZoom); }, [fitZoom]);
-  useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) { setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); setSelectedVillagerId(null); } }, [world?.settlements, activeSettlementId]);
+  useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) { invalidateHistoryRequest(); setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); setSelectedVillagerId(null); } }, [world?.settlements, activeSettlementId]);
   const loadLive = async () => {
     const [worldResponse, eventsResponse, interpretationsResponse, metricsResponse, designResponse, regionResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`), fetch(`${api}/api/metrics`), fetch(`${api}/api/design`), fetch(`${api}/api/region`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
     const nextWorld = worldPayload.state;
     validateClientWorld(nextWorld);
+    const nextContext = `${nextWorld.worldId}:${nextWorld.firstGlowState?.settlements.map((settlement) => settlement.bundle.bundle.contentHash).join(",") ?? "legacy"}`;
+    if (liveContextRef.current !== null && liveContextRef.current !== nextContext) invalidateHistoryRequest();
+    liveContextRef.current = nextContext;
     setLiveWorld(nextWorld);
     if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
@@ -286,10 +293,20 @@ function App() {
     return () => { stream.close(); window.clearInterval(timer); };
   }, []);
   const showTick = async (tick: number | null) => {
+    if (tick === null) invalidateHistoryRequest();
     if (tick === null) { viewTickRef.current = null; setViewTick(null); if (liveWorld) setWorld(liveWorld); return; }
-    const result = await (await fetch(`${api}/api/world?tick=${tick}`)).json();
-    viewTickRef.current = tick;
-    setViewTick(tick); setWorld(result.state as State);
+    const request = historyRequestRef.current.begin();
+    try {
+      const response = await fetch(`${api}/api/world?tick=${tick}`, { signal: request.signal });
+      const result = await response.json() as { state: State };
+      if (!historyRequestRef.current.isCurrent(request)) return;
+      viewTickRef.current = tick;
+      setViewTick(tick); setWorld(result.state);
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === "AbortError")) throw error;
+    } finally {
+      historyRequestRef.current.complete(request);
+    }
   };
   const ownerRequest = async (path: string, body: Record<string, unknown> = {}) => fetch(`${api}${path}`, { method: "POST", headers: { "content-type": "application/json", ...(ownerToken ? { "x-owner-token": ownerToken } : {}) }, body: JSON.stringify(body) });
   const loadReport = async () => { const response = await fetch(`${api}/api/report`); if (response.ok) setReport(await response.json() as Report); };
@@ -302,7 +319,7 @@ function App() {
   return <main className={isFirstGlow ? "first-glow" : ""} data-theme={isFirstGlow ? "living-circuit" : "village"}>
     <header><div><h1>Mimir</h1><p>A Light of Our Own · Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button onClick={toggleClock}>{clockPaused ? "Resume clock" : "Pause clock"}</button><button onClick={tick} disabled={viewTick !== null || world.tick >= world.scenario.seasonTickLimit}>Advance one tick</button><span className="clock-speed">Tick speed</span>{[1000, 5000, 15000].map((intervalMs) => <button className={report?.tickIntervalMs === intervalMs ? "selected-rate" : ""} key={intervalMs} onClick={() => void setClockSpeed(intervalMs)}>{intervalMs / 1000}s</button>)}</div></header>
     <section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live" onClick={() => void showTick(null)} disabled={viewTick === null}>Return to Live</button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span><div className="playback"><span>Playback</span>{[0.5, 1, 2].map((rate) => <button className={playbackRate === rate ? "selected-rate" : ""} key={rate} onClick={() => setPlaybackRate(rate)}>{rate}×</button>)}</div><div className="zoom-controls"><span>Map</span><button onClick={() => setZoom((current) => Math.max(0.25, Number((current - 0.1).toFixed(2))))}>−</button><button onClick={() => setZoom(fitZoom)}>Fit</button><button onClick={() => setZoom((current) => Math.min(2, Number((current + 0.1).toFixed(2))))}>+</button><button onClick={() => setDebugOverlay((current) => !current)}>{debugOverlay ? "Hide IDs" : "Show IDs"}</button><small>Drag to pan</small></div></section>
-     <section className="layout"><div><VillageCanvas villagers={visibleVillagers} sparks={firstGlowSparks} firstGlowBundle={firstGlowBundle} firstGlowRuntime={firstGlowRuntime} assetBaseUrl={api} worldDefinition={displayedWorldDefinition} worldRuntime={activeSettlement?.worldRuntime ?? world.worldRuntime} playbackRate={playbackRate} zoom={zoom} tick={world.tick} history={viewTick !== null} debugOverlay={debugOverlay} /><RegionOverview world={world} activeSettlementId={activeSettlementId} onSelect={(id) => { setActiveSettlementId(id); setSelected(null); }} /><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><SeasonReview world={world} metrics={metrics} /><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section>{isFirstGlow ? <FirstGlowDesignBench design={firstGlowDesign} /> : <DesignBench cards={characterCards} dilemmas={dilemmas} store={world.sharedStore ?? designStore} />}<OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div>
+     <section className="layout"><div><VillageCanvas villagers={visibleVillagers} sparks={firstGlowSparks} firstGlowBundle={firstGlowBundle} firstGlowRuntime={firstGlowRuntime} assetBaseUrl={api} worldDefinition={displayedWorldDefinition} worldRuntime={activeSettlement?.worldRuntime ?? world.worldRuntime} playbackRate={playbackRate} zoom={zoom} tick={world.tick} history={viewTick !== null} debugOverlay={debugOverlay} /><RegionOverview world={world} activeSettlementId={activeSettlementId} onSelect={(id) => { invalidateHistoryRequest(); setActiveSettlementId(id); setSelected(null); }} /><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><SeasonReview world={world} metrics={metrics} /><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section>{isFirstGlow ? <FirstGlowDesignBench design={firstGlowDesign} /> : <DesignBench cards={characterCards} dilemmas={dilemmas} store={world.sharedStore ?? designStore} />}<OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div>
       <aside><h2>{selected?.name ?? `${activeSettlement?.name ?? "Settlement"}: Select a villager`}</h2><div className="villager-list">{visibleVillagers.map((villager) => <button className={`villager${selected?.id === villager.id ? " selected" : ""}`} key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div>{selected ? <><p className="tradition">{selected.tradition}</p><p>Current cell <strong>({selected.position.x}, {selected.position.y})</strong> in <strong>{activeSettlement?.name ?? selected.settlementId}</strong>.</p><p>Destination <strong>{selected.destinationObjectId && selected.destinationSlotId ? `${selected.destinationObjectId} / ${selected.destinationSlotId}` : "none"}</strong>; intent <strong>{selected.intendedActivity ?? selected.activity}</strong>.</p><p>Status <strong>{selected.status ?? selected.activity}</strong>{selected.waitReason ? ` · waiting: ${selected.waitReason}` : ""} · progress <strong>{selected.route.length} cell(s), ${selected.remainingCost ?? 0} cost pending</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl><div className="signals"><h3>Belief signals</h3><div><span>Cooperation</span><strong>{selected.beliefs.cooperation}</strong><i style={{ width: `${selected.beliefs.cooperation}%` }} /></div><div><span>Self-reliance</span><strong>{selected.beliefs.selfReliance}</strong><i style={{ width: `${selected.beliefs.selfReliance}%` }} /></div><div><span>Reflection</span><strong>{selected.beliefs.reflection}</strong><i style={{ width: `${selected.beliefs.reflection}%` }} /></div></div></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{activeSettlement?.foodReserve ?? world.foodReserve}</strong></div></aside>
     </section>
   </main>;
