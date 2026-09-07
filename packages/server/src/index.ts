@@ -104,7 +104,7 @@ function commitTick(): { state: WorldState; events: WorldEvent[]; interpretation
   if (state.tick >= seasonTickLimit || currentTimeline().status !== "active") return null;
   const pending = applyPendingCommands(state, state.tick + 1);
   const advanced = advanceWorld(pending.state);
-  const result = { ...advanced, events: [...pending.events, ...advanced.events] };
+  const result = { ...advanced, events: [...pending.events, ...advanced.events].map(event => ({ ...event, tick: advanced.state.tick })) };
   database.exec("BEGIN IMMEDIATE");
   try {
     database.prepare("INSERT INTO timeline_checkpoints (timeline_id, tick, state_json) VALUES (?, ?, ?)").run(activeTimelineId, result.state.tick, JSON.stringify(result.state));
