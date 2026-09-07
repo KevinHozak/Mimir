@@ -19,7 +19,6 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 | [docs/architecture.md](docs/architecture.md) | Current package boundaries, First Glow runtime, API surface, persistence, local data, and hosted operations. |
 | [Simulation Game Plan](docs/planning/2026-09-06_Simulation_Game_Plan.md) | Original goals, social mechanics, development stages, experiments, and acceptance gates. Opening status/path metadata is historical; newer theme decisions supersede the original village/AI-awareness proposals. |
 | [Web Development Plan](docs/planning/2026-09-06_Web_Development_Plan.md) | Planned web architecture, operations, hosting, persistence, and verification. Treat gates as planned until supported by current evidence. |
-| [World Implementation Plan](docs/planning/2026-09-06_World_Implementation_Plan.md) | World geometry, authoring, rendering, navigation, versioning, and phased verification; criteria for reconsidering the rendering approach. |
 | [Hosted observer runbook](docs/hosted-observer-runbook.md) | Deployment preparation, operational checks, and durability requirements. Read before hosted changes. |
 | [Evidence](docs/evidence/) | Dated performance reports and desktop/mobile browser captures. Historical evidence is labeled by bundle and date; current First Glow evidence uses the `first-glow-*` files. |
 | [World map sources](assets/world/README.md) | Map-authoring and import instructions, supported source features, immutable generated bundles, and provisional art status. |

@@ -28,6 +28,14 @@ The server owns canonical world state. The browser renders state and requests hi
 
 The current deployment target is one Node web service with one SQLite writer and a persistent disk. Horizontal scaling is not supported by the current persistence model.
 
+### Rendering technology boundary
+
+Phaser remains the renderer for the browser observer, with Tiled as the visual world-authoring tool and the shared world-data contract as the authority for geometry, movement, and interactions. More maps or buildings alone are not a reason to change engines.
+
+Reconsider Godot if Mimir shifts toward directly controlled gameplay, substantial real-time physics, complex interactive scenes and animation tooling, extensive scene-based interiors, native desktop/mobile releases, or if maintaining custom scene tooling becomes a demonstrated recurring cost. Evaluate that choice with one representative prototype comparing authoring effort, browser and native delivery, performance, inspector integration, and deterministic replay.
+
+An initial Godot experiment should consume the versioned world/state contract as an alternate viewer. Moving the authoritative simulation into Godot is a separate architecture decision that requires a headless-server strategy, persistence compatibility, and determinism testing; Mimir must retain only one authoritative movement system.
+
 ## 2. Repository structure
 
 ```text
