@@ -24,6 +24,7 @@ const backupDirectory = resolve(process.env.BACKUP_DIR ?? "backups");
 const serveWeb = process.env.SERVE_WEB === "true";
 const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const worldBundleRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? join(process.cwd(), "assets/world/generated"));
+const defaultFirstGlowBundleHash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
 database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (tick INTEGER PRIMARY KEY, state_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, event_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS interpretations (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS timelines (id TEXT PRIMARY KEY, parent_id TEXT, created_at TEXT NOT NULL, status TEXT NOT NULL, archived_at TEXT); CREATE TABLE IF NOT EXISTS timeline_checkpoints (timeline_id TEXT NOT NULL, tick INTEGER NOT NULL, state_json TEXT NOT NULL, PRIMARY KEY (timeline_id, tick)); CREATE TABLE IF NOT EXISTS timeline_events (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, event_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS timeline_interpretations (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS pending_commands (id TEXT PRIMARY KEY, timeline_id TEXT NOT NULL, ordering INTEGER NOT NULL, target_tick INTEGER NOT NULL, settlement_id TEXT NOT NULL, object_id TEXT NOT NULL, blocked INTEGER NOT NULL, idempotency_key TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT, created_at TEXT NOT NULL, UNIQUE(timeline_id, idempotency_key)); CREATE TABLE IF NOT EXISTS runtime_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);`);
@@ -52,7 +53,15 @@ function createScheduledBackup(reason: string) {
 
 function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;
-  return normalizeState(row ? JSON.parse(row.state_json) as WorldState : createWorld(20260906, timelineId));
+  if (row) return normalizeState(JSON.parse(row.state_json) as WorldState);
+  if (timelineId === "main") {
+    const bundlePath = resolve(worldBundleRoot, defaultFirstGlowBundleHash, "world.json");
+    if (!existsSync(bundlePath)) throw new Error(`default First Glow bundle not found: ${defaultFirstGlowBundleHash}`);
+    const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8")));
+    if (bundle.schemaVersion !== 3) throw new Error("default First Glow bundle must use schema 3");
+    return normalizeState(createWorldFromBundle(bundle, 20260906, timelineId, 12));
+  }
+  return normalizeState(createWorld(20260906, timelineId));
 }
 function validateBundleAssetsAtStartup(bundle: DecodedWorldBundle): void {
   const bundleRoot = resolve(worldBundleRoot, bundle.bundle.contentHash);

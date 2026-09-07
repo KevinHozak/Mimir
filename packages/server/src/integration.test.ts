@@ -17,6 +17,8 @@ const waitForServer = async () => { for (let attempt = 0; attempt < 40; attempt 
 const request = async (path: string, body: Record<string, unknown> = {}, authorized = true) => fetch(`${endpoint}${path}`, { method: "POST", headers: { "content-type": "application/json", ...(authorized ? { "x-owner-token": token } : {}) }, body: JSON.stringify(body) });
 try {
   await waitForServer();
+  const initialWorld = await (await fetch(`${endpoint}/api/world`)).json() as { state: { simulationVersion?: string; firstGlowState?: { themeId?: string; ageId?: string } } };
+  if (initialWorld.state.simulationVersion !== "mimir-sim-v3-first-glow" || initialWorld.state.firstGlowState?.themeId !== "living-circuit" || initialWorld.state.firstGlowState?.ageId !== "first-glow") throw new Error("new database did not default to First Glow");
   const browserShell = await (await fetch(`${endpoint}/`)).text();
   if (!browserShell.includes("<div id=\"root\">")) throw new Error("hosted web shell was not served");
   if ((await request("/api/tick", {}, false)).status !== 401) throw new Error("owner token was not enforced");
