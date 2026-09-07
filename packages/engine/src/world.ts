@@ -81,6 +81,8 @@ export interface WorldDefinition {
 
 export interface WorldRuntimeState {
   blockedObjectIds: string[];
+  walkableSurfaces?: { id: string; cells: Cell[]; movementCost: number; enabled: boolean }[];
+  reservations?: { actorId: string; objectId: string; slotId: string }[];
 }
 
 export const DEFAULT_OBJECT_DEFINITIONS: Record<WorldObjectKind, WorldObjectDefinition> = {
@@ -109,7 +111,10 @@ function validateWorldStructure(world: WorldDefinition): void {
   if (!world.bundle || world.bundle.schemaVersion !== WORLD_BUNDLE_SCHEMA_VERSION || !world.bundle.bundleId || !world.bundle.contentHash || !world.bundle.assetVersion) throw new Error("world bundle reference is invalid");
   if (world.terrain.length !== world.height || world.terrain.some((row) => row.length !== world.width)) throw new Error("terrain dimensions do not match world");
   for (const row of world.terrain) for (const tile of row) if (!terrainRules[tile]) throw new Error(`unknown terrain: ${tile}`);
+  const objectIds = new Set<string>();
   for (const object of world.objects) {
+    if (!object.id || objectIds.has(object.id) || !Number.isInteger(object.position.x) || !Number.isInteger(object.position.y)) throw new Error(`invalid or duplicate object ${object.id}`);
+    objectIds.add(object.id);
     const definition = world.definitions[object.definitionId];
     if (!definition) throw new Error(`unknown object definition: ${object.definitionId}`);
     for (const offset of [...definition.footprint, ...definition.interactionSlots]) {
@@ -198,16 +203,32 @@ export function importTiledMap(raw: unknown, id: string, options: TiledImportOpt
 
 export function inBounds(world: WorldDefinition, cell: Cell): boolean { return cell.x >= 0 && cell.y >= 0 && cell.x < world.width && cell.y < world.height; }
 
-export function isWalkable(world: WorldDefinition, cell: Cell, runtime?: WorldRuntimeState): boolean {
-  if (!inBounds(world, cell) || !terrainRules[world.terrain[cell.y][cell.x]].walkable) return false;
-  return !world.objects.some((object) => {
+export type CellBlockReason = "out-of-bounds" | "terrain" | "solid-object" | "runtime-blocker";
+export type CellQuery = { walkable: true; cost: number } | { walkable: false; reason: CellBlockReason; objectId?: string };
+
+export function queryCell(world: WorldDefinition, cell: Cell, runtime: WorldRuntimeState = { blockedObjectIds: [] }): CellQuery {
+  if (!Number.isInteger(cell.x) || !Number.isInteger(cell.y) || !inBounds(world, cell)) return { walkable: false, reason: "out-of-bounds" };
+  for (const object of world.objects) {
     const definition = world.definitions[object.definitionId];
-    const runtimeBlocked = runtime?.blockedObjectIds.includes(object.id) ?? false;
-    return (definition.blocksMovement || runtimeBlocked) && definition.footprint.some((offset) => sameCell(cell, { x: object.position.x + offset.x, y: object.position.y + offset.y }));
-  });
+    const runtimeBlocked = runtime.blockedObjectIds.includes(object.id);
+    if ((definition.blocksMovement || runtimeBlocked) && definition.footprint.some((offset) => sameCell(cell, { x: object.position.x + offset.x, y: object.position.y + offset.y }))) return { walkable: false, reason: runtimeBlocked ? "runtime-blocker" : "solid-object", objectId: object.id };
+  }
+  const surface = runtime.walkableSurfaces?.find((candidate) => candidate.enabled && candidate.cells.some((surfaceCell) => sameCell(surfaceCell, cell)));
+  if (surface) return { walkable: true, cost: surface.movementCost };
+  const definition = terrainRules[world.terrain[cell.y][cell.x]];
+  return definition.walkable ? { walkable: true, cost: definition.movementCost } : { walkable: false, reason: "terrain" };
 }
 
-function cost(world: WorldDefinition, cell: Cell): number { return terrainRules[world.terrain[cell.y][cell.x]].movementCost; }
+export function canTraverse(world: WorldDefinition, from: Cell, to: Cell, runtime: WorldRuntimeState = { blockedObjectIds: [] }): CellQuery | { walkable: false; reason: "non-adjacent" } {
+  if (Math.abs(from.x - to.x) + Math.abs(from.y - to.y) !== 1) return { walkable: false, reason: "non-adjacent" };
+  const start = queryCell(world, from, runtime); return start.walkable ? queryCell(world, to, runtime) : start;
+}
+
+export function isWalkable(world: WorldDefinition, cell: Cell, runtime?: WorldRuntimeState): boolean {
+  return queryCell(world, cell, runtime).walkable;
+}
+
+function cost(world: WorldDefinition, cell: Cell, runtime: WorldRuntimeState = { blockedObjectIds: [] }): number { const result = queryCell(world, cell, runtime); return result.walkable ? result.cost : Infinity; }
 function neighbors(cell: Cell): Cell[] { return [{ x: cell.x, y: cell.y - 1 }, { x: cell.x - 1, y: cell.y }, { x: cell.x + 1, y: cell.y }, { x: cell.x, y: cell.y + 1 }]; }
 function distance(left: Cell, right: Cell): number { return Math.abs(left.x - right.x) + Math.abs(left.y - right.y); }
 
@@ -272,9 +293,10 @@ export function findRoute(world: WorldDefinition, start: Cell, goal: Cell, runti
       return route;
     }
     for (const next of neighbors(current)) {
-      if (!isWalkable(world, next, runtime)) continue;
+      const edge = canTraverse(world, current, next, runtime);
+      if (!edge.walkable) continue;
       const nextKey = cellKey(next);
-      const candidate = gScore.get(cellKey(current))! + cost(world, next);
+      const candidate = gScore.get(cellKey(current))! + cost(world, next, runtime);
       if (candidate >= (gScore.get(nextKey) ?? Infinity)) continue;
       cameFrom.set(nextKey, current); gScore.set(nextKey, candidate); fScore.set(nextKey, candidate + distance(next, goal));
       open.push({ cell: next, priority: fScore.get(nextKey)! });
