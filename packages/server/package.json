@@ -13,7 +13,7 @@
     "test:backup-restore": "npm run build && node dist/first-glow-backup.test.js && node dist/first-glow-assets.test.js"
   },
   "dependencies": {
-    "@fastify/cors": "^10.0.1",
+    "@fastify/cors": "^11.3.0",
     "@mimir/engine": "0.1.0",
     "@mimir/world-data": "0.1.0",
     "fastify": "^5.2.1"
