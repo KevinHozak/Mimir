@@ -1,0 +1,11 @@
+{
+  "name": "first-glow-authored",
+  "version": "first-glow-v1",
+  "tilewidth": 24,
+  "tileheight": 24,
+  "tiles": [
+    { "id": 0, "type": "open-space" },
+    { "id": 1, "type": "circuit-gap" },
+    { "id": 2, "type": "trace" }
+  ]
+}

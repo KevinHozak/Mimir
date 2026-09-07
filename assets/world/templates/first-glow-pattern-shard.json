@@ -1,0 +1,8 @@
+{
+  "id": "pattern-shard",
+  "label": "Pattern shard",
+  "footprint": [{ "x": 0, "y": 0 }],
+  "slots": [{ "id": "examine", "offset": { "x": 0, "y": 1 }, "capacity": 1 }],
+  "capabilities": ["pattern-shard"], "capacity": 1,
+  "visualAsset": "first-glow-pattern-shard.svg", "groundContact": { "x": 24, "y": 48 }, "blocksMovement": true
+}

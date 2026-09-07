@@ -1,10 +1,44 @@
-import { readFileSync, mkdirSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, mkdirSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, resolve, join } from "node:path";
 import { bundleHash, validateWorldBundle } from "@mimir/world-data";
 
-const source = resolve(process.argv[2] ?? "assets/world/first-winter.tiled.json");
+const source = resolve(process.argv[2] ?? "assets/world/maps/first-glow.tiled.json");
 const outputRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? "assets/world/generated");
 const map = JSON.parse(readFileSync(source, "utf8"));
+const property = (name) => Array.isArray(map.properties) ? map.properties.find(item => item.name === name)?.value : map[name];
+if (property("themeId") === "living-circuit" || property("ageId") === "first-glow") {
+  if (map.orientation !== "orthogonal" || map.infinite || map.tilewidth !== 24 || map.tileheight !== 24) throw new Error(`${source}: First Glow requires a finite orthogonal 24px map`);
+  if (property("themeId") !== "living-circuit" || property("ageId") !== "first-glow" || property("simulationVersion") !== "mimir-sim-v3-first-glow") throw new Error(`${source}: incomplete First Glow theme metadata`);
+  const sourceRoot = dirname(source);
+  const tileset = map.tilesets?.find(item => item.source);
+  if (!tileset || tileset.firstgid !== 1) throw new Error(`${source}: an external tileset with firstgid 1 is required`);
+  const tilesetPath = resolve(sourceRoot, tileset.source);
+  if (!existsSync(tilesetPath)) throw new Error(`${source}: missing external tileset ${tileset.source}`);
+  const tilesetData = JSON.parse(readFileSync(tilesetPath, "utf8"));
+  if (tilesetData.tilewidth !== 24 || tilesetData.tileheight !== 24 || !Array.isArray(tilesetData.tiles)) throw new Error(`${tilesetPath}: malformed First Glow tileset`);
+  const layer = (role, type) => map.layers?.find(item => item.role === role && item.type === type);
+  const groundLayer = layer("ground", "tilelayer"); const surfaceLayer = layer("surface", "tilelayer"); const objectLayer = layer("objects", "objectgroup"); const spawnLayer = layer("spawns", "objectgroup");
+  if (!groundLayer || !surfaceLayer || !objectLayer || !spawnLayer) throw new Error(`${source}: required role layers are missing`);
+  if (groundLayer.data.length !== map.width * map.height || surfaceLayer.data.length !== map.width * map.height) throw new Error(`${source}: tile layer data is incomplete`);
+  const terrain = Array.from({ length: map.height }, (_, y) => Array.from({ length: map.width }, (_, x) => { const gid = groundLayer.data[y * map.width + x]; if (gid === 1) return "open"; if (gid === 2) return "gap"; throw new Error(`${source}: unsupported ground GID ${gid} at ${x},${y}`); }));
+  const traceCells = []; for (let y = 0; y < map.height; y += 1) for (let x = 0; x < map.width; x += 1) if (surfaceLayer.data[y * map.width + x] === 3) traceCells.push({ x, y });
+  const templates = new Map(); const objectDefinitions = {};
+  for (const item of objectLayer.objects) {
+    if (typeof item.template !== "string") throw new Error(`${source}: object ${item.id} must reference a template`);
+    if (item.rotation || item.gid && item.gid < 0 || item.flippedHorizontally || item.flippedVertically) throw new Error(`${source}: unsupported transform on object ${item.id}`);
+    const templatePath = resolve(sourceRoot, item.template); if (!templatePath.startsWith(resolve(sourceRoot, ".."))) throw new Error(`${source}: template escapes source root`); if (!existsSync(templatePath)) throw new Error(`${source}: missing template ${item.template}`);
+    const template = JSON.parse(readFileSync(templatePath, "utf8")); if (!template.id || !Array.isArray(template.footprint) || !Array.isArray(template.slots) || !Array.isArray(template.capabilities)) throw new Error(`${templatePath}: malformed template`);
+    if (templates.has(template.id) && JSON.stringify(templates.get(template.id)) !== JSON.stringify(template)) throw new Error(`${source}: conflicting template ${template.id}`); templates.set(template.id, template); objectDefinitions[template.id] = structuredClone(template);
+  }
+  const assets = []; const assetSources = new Map(); for (const definition of Object.values(objectDefinitions)) { const assetName = definition.visualAsset; if (typeof assetName !== "string") throw new Error(`template ${definition.id}: visualAsset is required`); const assetPath = resolve(sourceRoot, "..", "assets", assetName); if (!existsSync(assetPath)) throw new Error(`${source}: missing asset ${assetName}`); const digest = createHash("sha256").update(readFileSync(assetPath)).digest("hex"); const outputName = `assets/${digest}-${assetName}`; definition.visualAsset = outputName; assets.push({ path: outputName, sha256: `sha256-${digest}`, mediaType: "image/svg+xml", version: property("assetVersion") ?? "first-glow-v1", provenance: "assets/licenses/first-glow-assets.md" }); assetSources.set(outputName, assetPath); }
+  const objects = objectLayer.objects.map(item => { const definitionId = JSON.parse(readFileSync(resolve(sourceRoot, item.template), "utf8")).id; if (item.x % 24 || item.y % 24) throw new Error(`${source}: object ${item.id} is not grid aligned`); return { id: `tiled-${item.id}`, definitionId, origin: { x: item.x / 24, y: item.y / 24 }, orientation: 0 }; });
+  const relay = objects.find(item => item.definitionId === "relay-crossing"); const surfaces = [{ id: "trace-main", cells: traceCells, movementCost: 1, enabled: true, visualAsset: assets.find(asset => asset.path.includes("trace"))?.path }]; if (relay) surfaces.push({ id: `${relay.id}-surface`, cells: [{ x: relay.origin.x, y: relay.origin.y }, { x: relay.origin.x + 1, y: relay.origin.y }, { x: relay.origin.x + 2, y: relay.origin.y }], movementCost: 1, enabled: true, visualAsset: objectDefinitions[relay.definitionId].visualAsset });
+  const spawns = spawnLayer.objects.map(item => { if (item.x % 24 || item.y % 24) throw new Error(`${source}: spawn ${item.id} is not grid aligned`); return { id: item.name || `spawn-${item.id}`, cell: { x: item.x / 24, y: item.y / 24 }, settlementId: "first-glow-region", entrance: Boolean(item.entrance) }; });
+  const world = { schemaVersion: 3, spatialModel: "structured-v2", simulationVersion: "mimir-sim-v3-first-glow", themeId: "living-circuit", ageId: "first-glow", id: property("bundleId") ?? "first-glow-v1", width: map.width, height: map.height, cellSizePx: 24, terrain, terrainDefinitions: { open: { id: "open", label: "Open space", walkable: true, movementCost: 2, visualAsset: "" }, gap: { id: "gap", label: "Circuit gap", walkable: false, visualAsset: "" } }, surfaces, objectDefinitions, objects, layers: map.layers.filter(item => item.role).map(item => ({ id: String(item.id), role: item.role, order: item.id })), spawns, assets, bundle: { bundleId: property("bundleId") ?? "first-glow-v1", contentHash: "", schemaVersion: 3, assetVersion: property("assetVersion") ?? "first-glow-v1" } };
+  world.bundle.contentHash = bundleHash(world); validateWorldBundle(world); const destination = join(outputRoot, world.bundle.contentHash); mkdirSync(join(destination, "assets"), { recursive: true }); const bundlePath = join(destination, "world.json"); const bytes = JSON.stringify(world, null, 2) + "\n"; if (existsSync(bundlePath) && readFileSync(bundlePath, "utf8") !== bytes) throw new Error(`immutable bundle collision at ${bundlePath}`); writeFileSync(bundlePath, bytes); for (const [outputName, assetPath] of assetSources) { const target = join(destination, outputName); if (existsSync(target) && readFileSync(target).compare(readFileSync(assetPath)) !== 0) throw new Error(`immutable asset collision at ${target}`); if (!existsSync(target)) copyFileSync(assetPath, target); } writeFileSync(join(destination, "manifest.json"), JSON.stringify({ bundle: world.bundle, source, generatedAt: "source-independent", assets }, null, 2) + "\n"); console.log(JSON.stringify({ source, bundle: world.bundle, path: bundlePath, assets: assets.length }, null, 2)); process.exit(0);
+}
+throw new Error(`${source}: only First Glow schema-3 sources are supported`);
 if (map.orientation !== "orthogonal" || map.infinite || map.tilewidth !== 24 || map.tileheight !== 24) throw new Error(`${source}: only finite orthogonal 24px maps are supported`);
 const terrainLayer = map.layers.find(layer => layer.type === "tilelayer" && layer.name === "Terrain");
 if (!terrainLayer || terrainLayer.data.length !== map.width * map.height) throw new Error(`${source}: named Terrain layer is missing or incomplete`);

@@ -2,7 +2,7 @@
 
 The Living Circuit is the selected theme for **Mimir: A Light of Our Own**: a digital frontier inhabited by artificial people called **Sparks**. The visual direction is dark, open space punctuated by little luminous Sparks and blue-and-silver circuit settlements. Warmth comes from their behavior and relationships within this cool-colored world.
 
-This document collects the selected palette into one working reference for names, descriptions, art, and writing. It describes the intended theme, not which mechanics have already been implemented. The broader [AI World Theme Plan](2026-09-06_AI_World_Theme_Plan.md) retains the brainstorming, discovery ages, and development proposals.
+This document collects the selected palette into one working reference for names, descriptions, art, and writing. It describes the intended theme, not which mechanics have already been implemented. The broader [AI World Theme Plan](planning/2026-09-06_AI_World_Theme_Plan.md) retains the brainstorming, discovery ages, and development proposals.
 
 ## The world at a glance
 
@@ -18,7 +18,7 @@ The central question is **“What keeps our lights on?”** Sparks begin able to
 
 The first loop is simple: find charge, decide how to use or share it, mark a useful route, find shelter, and return to discover whether the place or the relationship remains dependable. Supply may fluctuate. A familiar pool may weaken, and an unexplored trace may offer opportunity without guaranteeing safety.
 
-The opening does not require a fixed population change from the existing prototype. The important difference is how the Sparks live: small groups with informal practices rather than residents assigned to a complete village economy.
+The opening is the only active starting timeline: small groups of Sparks with informal practices, not residents assigned to a complete village economy. The pre–First Glow village prototype and its timelines are intentionally removed, not migrated or relabeled.
 
 ### Opening places and objects
 

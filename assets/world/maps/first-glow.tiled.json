@@ -1,0 +1,43 @@
+{
+  "orientation":"orthogonal","infinite":false,"width":16,"height":10,"tilewidth":24,"tileheight":24,
+  "themeId":"living-circuit","ageId":"first-glow","simulationVersion":"mimir-sim-v3-first-glow","bundleId":"first-glow-v1","assetVersion":"first-glow-v1",
+  "tilesets":[{"firstgid":1,"source":"../tilesets/first-glow.json"}],
+  "layers":[
+    {"id":1,"name":"Open Space","type":"tilelayer","role":"ground","data":[
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+      1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+    ]},
+    {"id":2,"name":"Luminous Traces","type":"tilelayer","role":"surface","data":[
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ]},
+    {"id":3,"name":"Circuit Nodes","type":"objectgroup","role":"objects","objects":[
+      {"id":101,"name":"pool-a","template":"../templates/first-glow-charge-pool.json","x":48,"y":48},
+      {"id":102,"name":"niche-a","template":"../templates/first-glow-shelter-niche.json","x":312,"y":48},
+      {"id":103,"name":"relay-a","template":"../templates/first-glow-relay-crossing.json","x":192,"y":96},
+      {"id":104,"name":"shard-a","template":"../templates/first-glow-pattern-shard.json","x":264,"y":168},
+      {"id":105,"name":"mark-a","template":"../templates/first-glow-light-mark.json","x":120,"y":168}
+    ]},
+    {"id":4,"name":"Quiet Foreground","type":"objectgroup","role":"foreground","objects":[]},
+    {"id":5,"name":"Spark Spawns","type":"objectgroup","role":"spawns","objects":[
+      {"id":201,"name":"spark-spawn-01","class":"spawn","x":0,"y":0},{"id":202,"name":"spark-spawn-02","class":"spawn","x":48,"y":0},{"id":203,"name":"spark-spawn-03","class":"spawn","x":96,"y":0},{"id":204,"name":"spark-spawn-04","class":"spawn","x":144,"y":0},{"id":205,"name":"spark-spawn-05","class":"spawn","x":240,"y":0},{"id":206,"name":"spark-spawn-06","class":"spawn","x":288,"y":0},{"id":207,"name":"spark-spawn-07","class":"spawn","x":336,"y":0},
+      {"id":208,"name":"spark-spawn-08","class":"spawn","x":24,"y":216},{"id":209,"name":"spark-spawn-09","class":"spawn","x":72,"y":216},{"id":210,"name":"spark-spawn-10","class":"spawn","x":120,"y":216},{"id":211,"name":"spark-spawn-11","class":"spawn","x":168,"y":216},{"id":212,"name":"spark-spawn-12","class":"spawn","x":336,"y":216}
+    ]}
+  ]
+}

@@ -30,13 +30,13 @@ jobs:
         run: npm test
       - name: Historical state normalization
         run: npm run test:state --workspace @mimir/server
-      - name: Server integration
-        run: npm run test:integration --workspace @mimir/server
-      - name: Structured restart
-        run: npm run test:structured-restart --workspace @mimir/server
+      - name: First Glow commands
+        run: npm run test:first-glow-commands --workspace @mimir/server
+      - name: First Glow restart
+        run: npm run test:first-glow-restart --workspace @mimir/server
       - name: Backup and restore
         run: npm run test:backup-restore --workspace @mimir/server
       - name: Install browser runtime
         run: npx playwright install --with-deps chromium
       - name: Browser integration
-        run: npm run test:e2e --workspace @mimir/web
+        run: npm run test:first-glow --workspace @mimir/web

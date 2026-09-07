@@ -23,8 +23,8 @@ export function createBundleInclusiveBackup(source: string, destination: string,
   sourceDatabase.close();
   for (const row of rows) {
     try {
-      const state = JSON.parse(row.state_json) as { worldDefinition?: { bundle?: { contentHash?: string } }; structuredState?: { settlements?: { bundle?: { bundle?: { contentHash?: string } } }[] } };
-      const hashes = [state.worldDefinition?.bundle?.contentHash, ...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle?.bundle?.contentHash)];
+      const state = JSON.parse(row.state_json) as { worldDefinition?: { bundle?: { contentHash?: string } }; structuredState?: { settlements?: { bundle?: { bundle?: { contentHash?: string } } }[] }; firstGlowState?: { settlements?: { bundle?: { bundle?: { contentHash?: string } } }[] } };
+      const hashes = [state.worldDefinition?.bundle?.contentHash, ...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle?.bundle?.contentHash), ...(state.firstGlowState?.settlements ?? []).map(settlement => settlement.bundle?.bundle?.contentHash)];
       for (const hash of hashes) if (hash && existsSync(join(bundleRoot, hash, "world.json"))) copiedBundles.add(hash);
     } catch { /* retain legacy snapshots even if they do not contain a bundle reference */ }
   }

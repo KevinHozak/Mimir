@@ -1,0 +1,8 @@
+{
+  "id": "light-mark",
+  "label": "Light mark",
+  "footprint": [],
+  "slots": [{ "id": "mark", "offset": { "x": 0, "y": 0 }, "capacity": 1 }],
+  "capabilities": ["light-mark"], "capacity": 1,
+  "visualAsset": "first-glow-light-mark.svg", "groundContact": { "x": 12, "y": 12 }, "blocksMovement": false
+}

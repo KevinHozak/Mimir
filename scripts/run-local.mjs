@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
@@ -23,7 +23,7 @@ const server = run(node, [serverEntry], {
     PORT: process.env.PORT ?? "3000",
     AUTO_TICK: process.env.AUTO_TICK ?? "true",
     TICK_INTERVAL_MS: process.env.TICK_INTERVAL_MS ?? "3000",
-    DATABASE_PATH: process.env.DATABASE_PATH ?? "mimir.db",
+    DATABASE_PATH: process.env.DATABASE_PATH ?? join(root, "data", "local", "mimir.db"),
   },
 });
 const web = run(node, [viteEntry, "preview", "--host", "127.0.0.1", "--port", process.env.WEB_PORT ?? "4173"], {

@@ -2,6 +2,9 @@
 *.db
 *.db-shm
 *.db-wal
+.tmp/
+data/local/
+data/backups/
 .env
 .env.*
 !.env.example

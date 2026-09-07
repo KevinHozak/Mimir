@@ -8,7 +8,7 @@ import { createBundleInclusiveBackup } from "./backup-lib.js";
 const mode = process.argv[2];
 const projectRoot = resolve(process.cwd(), "..", "..");
 const resolveProjectPath = (value: string) => isAbsolute(value) ? value : resolve(projectRoot, value);
-const source = resolveProjectPath(process.env.DATABASE_PATH ?? "mimir.db");
+const source = resolveProjectPath(process.env.DATABASE_PATH ?? "data/local/mimir.db");
 const bundleRoot = resolveProjectPath(process.env.WORLD_BUNDLE_ROOT ?? "assets/world/generated");
 const hashFile = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
 const destinationArg = process.argv[3];

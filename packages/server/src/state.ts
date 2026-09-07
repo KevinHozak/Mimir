@@ -1,14 +1,19 @@
-import { createDefaultWorld, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, LOCATION_TILES, normalizeSpatialMetadata, REGIONAL_ROUTES, RIVERBEND_SETTLEMENT, validateFirstGlowState, type SharedStore, type WorldState } from "@mimir/engine";
+import { validateFirstGlowState, type WorldState } from "@mimir/engine";
 
 export function normalizeState(raw: WorldState): WorldState {
-  if (raw.spatialModel === "structured-v1" && !raw.worldDefinition) throw new Error("structured-v1 checkpoint is missing its embedded world definition");
-  if (raw.simulationVersion === "mimir-sim-v3-first-glow" && (!raw.firstGlowState || raw.firstGlowState.schemaVersion !== 3)) throw new Error("First Glow checkpoint is missing its supported simulation state");
-  if (raw.spatialModel === "structured-v2" && raw.simulationVersion !== "mimir-sim-v3-first-glow" && (raw.simulationVersion !== "mimir-sim-v2" || !raw.structuredState)) throw new Error("structured-v2 checkpoint is missing its supported simulation state");
-  if (raw.firstGlowState) validateFirstGlowState(raw.firstGlowState);
-  const sharedStore: SharedStore = raw.sharedStore ?? { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 };
-  const legacySpatialSnapshot = !raw.worldDefinition && raw.spatialModel !== "structured-v1";
-  const worldDefinition = raw.worldDefinition ?? (legacySpatialSnapshot ? undefined : createDefaultWorld());
-  const settlements = raw.settlements ?? [{ id: HOME_SETTLEMENT.id, name: HOME_SETTLEMENT.name, foodReserve: raw.foodReserve, worldDefinition, worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, villagerIds: raw.villagers.map((villager) => villager.id) }, { id: RIVERBEND_SETTLEMENT.id, name: RIVERBEND_SETTLEMENT.name, foodReserve: 48, worldDefinition: legacySpatialSnapshot ? undefined : createDefaultWorld("riverbend-world-v1"), worldRuntime: { blockedObjectIds: [] }, villagerIds: [] }];
-  const villagers = raw.villagers.map((villager, index) => ({ ...villager, settlementId: villager.settlementId ?? HOME_SETTLEMENT.id, position: villager.position ?? { x: 2 + (index % 6) * 4, y: 2 + Math.floor(index / 6) * 2 }, route: villager.route ?? [], beliefs: villager.beliefs ?? { cooperation: 50, selfReliance: 50, reflection: 50 }, location: villager.location ?? Object.keys(LOCATION_TILES)[index % Object.keys(LOCATION_TILES).length] }));
-  return { ...raw, sharedStore, dilemmaHistory: raw.dilemmaHistory ?? [], settlements: settlements.map((settlement) => ({ ...settlement, villagerIds: villagers.filter((villager) => villager.settlementId === settlement.id).map((villager) => villager.id) })), routes: raw.routes ?? REGIONAL_ROUTES, tradeHistory: raw.tradeHistory ?? [], weather: raw.weather ?? { kind: "clear", severity: 0, forecast: "rain" }, hazards: raw.hazards ?? [], scenario: raw.scenario ?? FIRST_WINTER_SCENARIO, worldDefinition, worldRuntime: raw.worldRuntime ?? { blockedObjectIds: [] }, ...normalizeSpatialMetadata({ worldDefinition, spatialModel: raw.spatialModel, simulationVersion: raw.simulationVersion, movementModel: raw.movementModel }), villagers };
+  if (raw.simulationVersion !== "mimir-sim-v3-first-glow" || raw.spatialModel !== "structured-v2" || !raw.firstGlowState) throw new Error("checkpoint is not a First Glow structured-v2 state");
+  validateFirstGlowState(raw.firstGlowState);
+  return {
+    ...raw,
+    tick: raw.firstGlowState.tick,
+    season: raw.season ?? 0,
+    foodReserve: raw.foodReserve ?? 0,
+    villagers: raw.villagers ?? [],
+    events: raw.events ?? [],
+    interpretations: raw.interpretations ?? [],
+    settlements: raw.settlements ?? [],
+    tradeHistory: raw.tradeHistory ?? [],
+    dilemmaHistory: raw.dilemmaHistory ?? [],
+    scenario: raw.scenario ?? { name: "The First Glow", seasonTickLimit: 360 }
+  };
 }
