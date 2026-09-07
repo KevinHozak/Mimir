@@ -62,7 +62,7 @@ Choose compatible stable versions at implementation time and commit the lockfile
 The village occupies most of the screen. A compact top bar shows the world, season, day, morning/evening, food reserve, population, and connection status. The bottom timeline remains visible. Selecting a villager opens a side panel.
 
 ```text
-Mimir · A Thousand Worlds     Season 1 · Day 8 · Morning      LIVE · Connected
+Mimir · A Light of Our Own     Season 1 · Day 8 · Morning      LIVE · Connected
 ┌───────────────────────────────────┬───────────────────────────┐
 │                                   │ Selected villager         │
 │  Fields      Homes      Woodland  │ Name · current activity   │

@@ -1,4 +1,4 @@
-# Mimir: A Thousand Worlds — Current Architecture
+# Mimir: A Light of Our Own — Current Architecture
 
 Date: 2026-09-06  
 Status: Current implementation reference for the pre-alpha local/hosted observer slice.

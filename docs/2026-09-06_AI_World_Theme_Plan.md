@@ -648,7 +648,7 @@ Keep these distinct in language and interface:
 
 Travel to another world is an in-fiction action. Branching is initially an observer operation, not a portal residents can use. If connected worlds are introduced, checkpoint and branch their shared state consistently; otherwise cross-world trades could be duplicated or stranded across incompatible histories.
 
-“Mimir: A Thousand Worlds” already fits this direction. Optional setting or season titles include *The Living Circuit*, *Havens of the Mesh*, *Where Sparks Gather*, and *The Long Dimming*.
+**Selected title: Mimir: A Light of Our Own.** The subtitle connects the luminous world with the Sparks' creativity, independence, and choice of purpose. The Living Circuit names the setting; The First Glow names the opening age. Other setting or season names remain separate from the project subtitle.
 
 ## 10. Visual and interface direction
 

@@ -1,4 +1,4 @@
-# Mimir: A Thousand Worlds — Scene, Tile, Collision, and Navigation Plan
+# Mimir: A Light of Our Own — Scene, Tile, Collision, and Navigation Plan
 
 Date: 2026-09-06
 

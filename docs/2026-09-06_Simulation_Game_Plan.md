@@ -4,7 +4,7 @@ Date: 2026-09-06
 Owner: Kevin Hozak  
 Status: Design proposal informed by Kevin's answers and earlier Drive notes. No game has been implemented.  
 Working folder: `C:\Projects\Philosophy-World`  
-Project name: Mimir. Subtitle: A Thousand Worlds.
+Project name: Mimir. Subtitle: A Light of Our Own.
 
 ## 1. The game in one paragraph
 

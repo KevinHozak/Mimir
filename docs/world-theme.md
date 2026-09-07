@@ -1,6 +1,6 @@
 # World Theme: The Living Circuit
 
-The Living Circuit is the selected theme for **Mimir: A Thousand Worlds**: a digital frontier inhabited by artificial people called **Sparks**. The visual direction is dark, open space punctuated by little luminous Sparks and blue-and-silver circuit settlements. Warmth comes from their behavior and relationships within this cool-colored world.
+The Living Circuit is the selected theme for **Mimir: A Light of Our Own**: a digital frontier inhabited by artificial people called **Sparks**. The visual direction is dark, open space punctuated by little luminous Sparks and blue-and-silver circuit settlements. Warmth comes from their behavior and relationships within this cool-colored world.
 
 This document collects the selected palette into one working reference for names, descriptions, art, and writing. It describes the intended theme, not which mechanics have already been implemented. The broader [AI World Theme Plan](2026-09-06_AI_World_Theme_Plan.md) retains the brainstorming, discovery ages, and development proposals.
 

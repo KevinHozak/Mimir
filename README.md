@@ -1,4 +1,4 @@
-# Mimir: A Thousand Worlds
+# Mimir: A Light of Our Own
 
 Mimir is a small autonomous world simulation about values, relationships, cooperation, conflict, and the consequences of different ideas about how to live well.
 
