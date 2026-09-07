@@ -15,6 +15,7 @@ type Trade = { id: string; tick: number; villagerId: string; fromSettlementId: s
 type Hazard = { id: string; kind: string; status: string; summary: string };
 type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; settlements?: Settlement[]; tradeHistory?: Trade[]; weather?: { kind: string; severity: number; forecast: string }; hazards?: Hazard[]; dilemmaHistory?: DilemmaResolution[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; spatialModel?: "structured-v1" | "structured-v2" | "legacy-backdrop-v0"; simulationVersion?: string; movementModel?: MovementModel; structuredState?: unknown; firstGlowState?: { settlements: { id: string; bundle: unknown; sparks: Spark[]; runtime: { objects: { objectId: string; blocked: boolean }[] } }[] } };
 type Spark = FirstGlowSpark;
+type FirstGlowBundle = { id: string; width: number; height: number; terrain: string[][]; bundle: { contentHash: string; assetVersion: string }; objectDefinitions: Record<string, { footprint: Cell[]; slots: { offset: Cell }[]; blocksMovement: boolean; capabilities: string[] }>; objects: { id: string; definitionId: string; origin: Cell }[]; surfaces: { id: string; cells: TilePosition[]; movementCost: number; enabled: boolean }[]; spawns: { id: string; cell: TilePosition; settlementId: string; entrance?: boolean }[]; layers: { id: string; role: string; order: number }[] };
 type Event = { id: string; tick: number; message: string; kind: string };
 type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
 type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
@@ -36,7 +37,12 @@ function structuredWorldDefinition(structuredState: unknown, settlementId: strin
   return { schemaVersion: 1, id: bundle.id, bundle: { bundleId: bundle.id, schemaVersion: 1, contentHash: bundle.bundle.contentHash, assetVersion: bundle.bundle.assetVersion }, width: bundle.width, height: bundle.height, terrain: bundle.terrain as WorldDefinition["terrain"], objects: bundle.objects.map((object) => ({ id: object.id, definitionId: object.definitionId as WorldDefinition["objects"][number]["definitionId"], position: object.origin })), definitions: definitions as WorldDefinition["definitions"] };
 }
 
-function VillageCanvas({ villagers, sparks = [], worldDefinition, worldRuntime, playbackRate, zoom, tick, history, debugOverlay = import.meta.env.DEV }: { villagers: Villager[]; sparks?: Spark[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; playbackRate: number; zoom: number; tick: number; history: boolean; debugOverlay?: boolean }) {
+function firstGlowWorldDefinition(bundle: FirstGlowBundle): WorldDefinition & { firstGlowBundle: FirstGlowBundle } {
+  const definitions = Object.fromEntries(Object.entries(bundle.objectDefinitions).map(([id, definition]) => [id, { id, footprint: definition.footprint, interactionSlots: definition.slots.map(slot => slot.offset), blocksMovement: definition.blocksMovement, activities: definition.capabilities }]));
+  return { schemaVersion: 1, id: bundle.id, bundle: { bundleId: bundle.id, schemaVersion: 1, contentHash: bundle.bundle.contentHash, assetVersion: bundle.bundle.assetVersion }, width: bundle.width, height: bundle.height, terrain: bundle.terrain as WorldDefinition["terrain"], objects: bundle.objects.map(object => ({ id: object.id, definitionId: object.definitionId as WorldDefinition["objects"][number]["definitionId"], position: object.origin })), definitions: definitions as WorldDefinition["definitions"], firstGlowBundle: bundle };
+}
+
+function VillageCanvas({ villagers, sparks = [], firstGlowBundle, worldDefinition, worldRuntime, playbackRate, zoom, tick, history, debugOverlay = import.meta.env.DEV }: { villagers: Villager[]; sparks?: Spark[]; firstGlowBundle?: FirstGlowBundle; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; playbackRate: number; zoom: number; tick: number; history: boolean; debugOverlay?: boolean }) {
   const villagersRef = useRef(villagers);
   const peopleRef = useRef(new Map<string, Phaser.GameObjects.Container>());
   const sceneRef = useRef<Phaser.Scene | null>(null);
@@ -131,24 +137,26 @@ function VillageCanvas({ villagers, sparks = [], worldDefinition, worldRuntime, 
       canvas.addEventListener("pointermove", onPointerMove);
       canvas.addEventListener("pointerup", onPointerUp);
       canvas.style.cursor = "grab";
+       const glowBundle = firstGlowBundle ?? (worldDefinition as (WorldDefinition & { firstGlowBundle?: FirstGlowBundle }) | undefined)?.firstGlowBundle;
        const terrainColors: Record<string, number> = sparks.length ? { open: 0x050912, gap: 0x02040b } : { grass: 0x9dbc72, road: 0xd8b878, water: 0x5797b5 };
        for (let y = 0; y < (worldDefinition?.height ?? 100); y += 1) for (let x = 0; x < (worldDefinition?.width ?? 100); x += 1) {
          const kind = worldDefinition?.terrain[y]?.[x] ?? "grass";
-         scene.add.rectangle(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize, tileSize, terrainColors[kind] ?? terrainColors.grass).setOrigin(0.5).setStrokeStyle(1, 0x6f8154, 0.2);
+         scene.add.rectangle(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize, tileSize, terrainColors[kind] ?? terrainColors.grass).setOrigin(0.5).setStrokeStyle(1, sparks.length ? 0x23344a : 0x6f8154, sparks.length ? 0.45 : 0.2);
        }
+       if (sparks.length && glowBundle) { glowBundle.surfaces.filter(surface => surface.enabled).forEach(surface => surface.cells.forEach(cell => scene.add.rectangle(cell.x * tileSize + tileSize / 2, cell.y * tileSize + tileSize / 2, tileSize - 4, tileSize - 4, surface.movementCost === 1 ? 0x6cdbff : 0x243d63, 0.3).setOrigin(0.5).setStrokeStyle(1, 0x9eeaff, 0.75).setDepth(3))); if (debugOverlay) { glowBundle.spawns.forEach(spawn => scene.add.text(spawn.cell.x * tileSize + 2, spawn.cell.y * tileSize + 2, `spawn:${spawn.id}`, { color: "#9eeaff", fontSize: "8px", backgroundColor: "#081426" }).setDepth(1002)); } }
        worldDefinition?.objects.forEach((object) => {
          const definition = worldDefinition.definitions[object.definitionId];
-         const color = worldRuntime?.blockedObjectIds.includes(object.id) ? 0xb54f4f : object.definitionId === "tree" ? 0x3e7046 : object.definitionId === "bridge" ? 0x8b5e3c : object.definitionId === "granary" ? 0x9d5f3f : 0x76563c;
+         const color = sparks.length ? (worldRuntime?.blockedObjectIds.includes(object.id) ? 0xb05dff : object.definitionId === "relay-crossing" ? 0x9eeaff : 0x527aa8) : (worldRuntime?.blockedObjectIds.includes(object.id) ? 0xb54f4f : object.definitionId === "tree" ? 0x3e7046 : object.definitionId === "bridge" ? 0x8b5e3c : object.definitionId === "granary" ? 0x9d5f3f : 0x76563c);
          const objectCells = definition?.footprint ?? [];
-         objectCells.forEach((offset) => scene.add.rectangle((object.position.x + offset.x) * tileSize + tileSize / 2, (object.position.y + offset.y) * tileSize + tileSize / 2, tileSize - 2, tileSize - 2, color).setOrigin(0.5).setDepth(5 + object.position.y + offset.y).setStrokeStyle(2, 0x493b2a));
+         objectCells.forEach((offset) => scene.add.rectangle((object.position.x + offset.x) * tileSize + tileSize / 2, (object.position.y + offset.y) * tileSize + tileSize / 2, tileSize - 2, tileSize - 2, color).setOrigin(0.5).setDepth(5 + object.position.y + offset.y).setStrokeStyle(2, sparks.length ? 0x9eeaff : 0x493b2a));
          if (debugOverlay) { scene.add.text(object.position.x * tileSize + 2, object.position.y * tileSize + 2, object.id, { color: "#fff7e8", fontSize: "8px", backgroundColor: "#493b2a" }).setDepth(1000); definition?.interactionSlots.forEach((slot, slotIndex) => scene.add.rectangle((object.position.x + slot.x) * tileSize + tileSize / 2, (object.position.y + slot.y) * tileSize + tileSize / 2, tileSize - 8, tileSize - 8, 0x3d8c72, 0.45).setDepth(1001).setStrokeStyle(1, 0x2a5d4b)); }
        });
-       if (debugOverlay) { const legend = scene.add.text(8, 44, "DEBUG: green slots · red blockers · labels = stable IDs", { color: "#fff7e8", fontSize: "10px", backgroundColor: "#493b2a" }).setScrollFactor(0).setDepth(2000); void legend; }
-        scene.add.text(24, 22, sparks.length ? "THE FIRST GLOW" : "THE FIRST WINTER", { color: sparks.length ? "#EDF7FF" : "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: sparks.length ? "#050912" : "#493b2a", strokeThickness: 4 });
+       if (debugOverlay) { const legend = scene.add.text(8, 44, sparks.length ? "DEBUG: cyan surfaces · violet blockers · labels = stable IDs" : "DEBUG: green slots · red blockers · labels = stable IDs", { color: sparks.length ? "#dceeff" : "#fff7e8", fontSize: "10px", backgroundColor: sparks.length ? "#081426" : "#493b2a" }).setScrollFactor(0).setDepth(2000); void legend; }
+        scene.add.text(8, sparks.length ? (worldDefinition?.height ?? 100) * tileSize - 18 : 22, sparks.length ? "THE FIRST GLOW" : "THE FIRST WINTER", { color: sparks.length ? "#EDF7FF" : "#fff7e8", fontSize: sparks.length ? "12px" : "22px", fontFamily: "monospace", stroke: sparks.length ? "#050912" : "#493b2a", strokeThickness: sparks.length ? 2 : 4 });
        if (sparks.length) { syncVillagers(scene, []); syncSparks(scene, sparks); } else syncVillagers(scene, villagersRef.current);
     } } });
     return () => { isActive = false; sceneRef.current = null; peopleRef.current.clear(); lastTickRef.current = null; game.destroy(true); };
-  }, [debugOverlay, worldDefinition, worldRuntime, sparks]);
+  }, [debugOverlay, firstGlowBundle, worldDefinition, worldRuntime, sparks]);
   useEffect(() => {
     if (sceneRef.current && sparks.length) syncSparks(sceneRef.current, sparks); else if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers, sparks]);
@@ -212,7 +220,7 @@ function App() {
   const [clockPaused, setClockPaused] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [zoom, setZoom] = useState(1);
-  const [debugOverlay, setDebugOverlay] = useState(import.meta.env.DEV);
+  const [debugOverlay, setDebugOverlay] = useState(false);
   const [selectedVillagerId, setSelectedVillagerId] = useState<string | null>(null);
   const [ownerToken, setOwnerToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
@@ -224,9 +232,10 @@ function App() {
   const selected = visibleVillagers.find((villager) => villager.id === selectedVillagerId);
   const isFirstGlow = world?.simulationVersion === "mimir-sim-v3-first-glow";
   const firstGlowSparks = world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.sparks ?? [];
+  const firstGlowBundle = isFirstGlow ? world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.bundle as FirstGlowBundle | undefined : undefined;
   const setSelected = (villager: Villager | null) => setSelectedVillagerId(villager?.id ?? null);
-  const displayedWorldDefinition = activeSettlement?.worldDefinition ?? world?.worldDefinition ?? structuredWorldDefinition(world?.structuredState, activeSettlementId);
-  const fitZoom = Math.min(1, 768 / ((displayedWorldDefinition?.width ?? 100) * 24), 768 / ((displayedWorldDefinition?.height ?? 100) * 24));
+  const displayedWorldDefinition = activeSettlement?.worldDefinition ?? world?.worldDefinition ?? (isFirstGlow && firstGlowBundle ? firstGlowWorldDefinition(firstGlowBundle) : structuredWorldDefinition(world?.structuredState, activeSettlementId));
+  const fitZoom = (isFirstGlow ? Math.min(2, 768 / ((displayedWorldDefinition?.width ?? 100) * 24), 768 / ((displayedWorldDefinition?.height ?? 100) * 24)) : Math.min(1, 768 / ((displayedWorldDefinition?.width ?? 100) * 24), 768 / ((displayedWorldDefinition?.height ?? 100) * 24)));
   useEffect(() => { setZoom(fitZoom); }, [fitZoom]);
   useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) { setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); setSelectedVillagerId(null); } }, [world?.settlements, activeSettlementId]);
   const loadLive = async () => {
