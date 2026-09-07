@@ -19,8 +19,8 @@ The current renderer uses normalized object definitions and procedural placehold
 Typical workflow:
 
 1. Edit the Tiled source or a JSON template, keeping stable object IDs and grid alignment.
-2. Run `npm run world:import -- assets/world/first-winter.tiled.json` and copy the printed SHA-256 hash.
+2. Run the importer for the selected source (`assets/world/first-winter.tiled.json` for village history or `assets/world/maps/first-glow.tiled.json` for new First Glow timelines) and copy the printed SHA-256 hash.
 3. Run `npm run world:validate -- assets/world/generated/<sha256>/world.json`; diagnostics identify the object, slot, spawn, cell, and reason.
-4. Build the server and open a temporary timeline with `POST /api/owner/reset-v2` using that hash. Do not edit an existing bundle or timeline.
+4. Build the server and open a temporary timeline with `POST /api/owner/reset-v2` for a structured-v2 village bundle or `POST /api/owner/reset-v3` for a schema-3 First Glow bundle. Do not edit an existing bundle or timeline.
 5. Use the map toolbar's `Show IDs` control, run the engine tests, and exercise bridge/open/blocked route checks before selecting the bundle for a new timeline.
 6. Use the server backup/restore commands for a clean-directory recovery check. Missing or mismatched bundles are restore errors, not fallback requests.

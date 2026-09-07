@@ -16,6 +16,7 @@ The first hosted service is intentionally one simulation writer. Do not scale it
 4. Let a short test season advance, restart the service, and verify the latest checkpoint and timeline remain available.
 5. Create a backup, copy it outside the service disk, restore it into a fresh test path, and replay the restored timeline before treating the deployment as durable. The manifest must list every bundle referenced by included checkpoints, including archived timelines; corrupting `world.json` must make restore fail before startup.
 6. For a structured timeline, verify `/api/world` reports `spatialModel: "structured-v2"`, the expected bundle hash is present in `structuredState`, and a queued `/api/owner/world/object` command returns 202 with an effective next tick. Retry its idempotency key and verify no duplicate command is created.
+7. For a First Glow timeline, verify `/api/world` reports `simulationVersion: "mimir-sim-v3-first-glow"`, `themeId: "living-circuit"`, and `ageId: "first-glow"`. Use `/api/owner/reset-v3` with the schema-3 bundle hash; do not relabel or rewrite an older timeline. A clean bundle-inclusive restore must replay legacy, structured-v1, structured-v2, and First Glow checkpoints, while missing or checksum-mismatched referenced assets fail before startup.
 
 The scheduled backup in `render.yaml` is a local disk copy only. It is not an independent disaster-recovery backup until a separate storage destination is configured and restoration is tested. Manual and scheduled backups share the same bundle-inclusive implementation and manifest format, but neither should be treated as off-host protection without an external copy.
 
@@ -23,6 +24,8 @@ Authoring and release commands from a checkout are:
 
 ```powershell
 npm run world:import -- assets/world/first-winter.tiled.json
+npm run world:validate -- assets/world/generated/<sha256>/world.json
+npm run world:import -- assets/world/maps/first-glow.tiled.json
 npm run world:validate -- assets/world/generated/<sha256>/world.json
 npm run build
 npm test
@@ -32,3 +35,12 @@ npm run backup --workspace @mimir/server -- backup <backup.db>
 npm run backup --workspace @mimir/server -- restore <backup.db> <restored.db>
 node scripts/profile-world.mjs
 ```
+
+The current First Glow bundle is `sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3`. Start a new First Glow timeline with an owner-authenticated request such as:
+
+```powershell
+$headers = @{ "x-owner-token" = $env:OWNER_TOKEN; "content-type" = "application/json" }
+Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -Headers $headers -Body '{"bundleHash":"sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3","seed":31,"sparkCount":12}'
+```
+
+When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.
