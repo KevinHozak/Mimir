@@ -3,6 +3,7 @@ export type Activity = "work" | "rest" | "share" | "collect" | "craft" | "meet" 
 export * from "./world.js";
 export * from "./navigation.js";
 export * from "./movement.js";
+export * from "./structured.js";
 export * from "./design.js";
 export * from "./social.js";
 import { createDefaultWorld, findRoute, isWalkable, MOVEMENT_MODEL, normalizeSpatialMetadata, SIMULATION_VERSION, sameCell, type MovementModel, type WorldDefinition, type WorldRuntimeState } from "./world.js";
@@ -131,7 +132,7 @@ export interface DilemmaResolution {
 export interface WorldEvent {
   id: string;
   tick: number;
-  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma" | "trade" | "weather" | "hazard";
+  kind: "tick" | "sharing" | "collection" | "harvest" | "encounter" | "institution" | "dilemma" | "trade" | "weather" | "hazard" | "world-object";
   message: string;
   villagerIds: string[];
   settlementIds?: string[];
