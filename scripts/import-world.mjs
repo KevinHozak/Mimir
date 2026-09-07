@@ -12,7 +12,7 @@ const terrain = Array.from({ length: map.height }, (_, y) => Array.from({ length
 const slots = (prefix, offsets) => offsets.map((offset, index) => ({ id: `${prefix}-${index + 1}`, offset, capacity: 1 }));
 const objectDefinitions = {
   house: { id: "house", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }], slots: slots("rest", [{ x: 0, y: 2 }, { x: 1, y: 2 }]), capabilities: ["rest"], capacity: 2, visualAsset: "provisional/house", groundContact: { x: 24, y: 48 }, blocksMovement: true },
-  tree: { id: "tree", footprint: [{ x: 0, y: 0 }], slots: [], capabilities: ["gather"], capacity: 0, visualAsset: "provisional/tree", groundContact: { x: 12, y: 24 }, blocksMovement: true, foreground: true },
+  tree: { id: "tree", footprint: [{ x: 0, y: 0 }], slots: slots("gather", [{ x: 0, y: 1 }]), capabilities: ["gather"], capacity: 1, visualAsset: "provisional/tree", groundContact: { x: 12, y: 24 }, blocksMovement: true, foreground: true },
   granary: { id: "granary", footprint: [{ x: 0, y: 0 }, { x: 1, y: 0 }], slots: slots("food", [{ x: 0, y: 1 }, { x: 1, y: 1 }]), capabilities: ["collect", "share"], capacity: 2, visualAsset: "provisional/granary", groundContact: { x: 24, y: 24 }, blocksMovement: true },
   bridge: { id: "bridge", footprint: [], slots: [], capabilities: [], capacity: 0, visualAsset: "provisional/bridge", groundContact: { x: 36, y: 24 }, blocksMovement: false }
 };

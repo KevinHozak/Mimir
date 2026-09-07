@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { advanceStructuredState, createStructuredState } from "./structured.js";
 import type { WorldBundle } from "@mimir/world-data";
 
-const bundle = JSON.parse(readFileSync(join(process.cwd(), "..", "..", "assets", "world", "generated", "sha256-c1544cba3a62f543da975b35df37b62608c3960d7b2cca2bff968f6a260ce775", "world.json"), "utf8")) as WorldBundle;
+const bundle = JSON.parse(readFileSync(join(process.cwd(), "..", "..", "assets", "world", "generated", "sha256-6a2e1ffe6a311d4cbb08a616bec272cc82e47809dea635b4b3f121aa8e991987", "world.json"), "utf8")) as WorldBundle;
 let state = createStructuredState(bundle, "first-village", "Hearthmere", 1);
 const actor = () => state.settlements[0].actors[0];
 let collectedBeforeArrival = false;
