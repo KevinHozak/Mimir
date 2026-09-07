@@ -4,14 +4,16 @@ import { join } from "node:path";
 import { advanceStructuredState, createStructuredState } from "./structured.js";
 import type { WorldBundle } from "@mimir/world-data";
 
-const bundle = JSON.parse(readFileSync(join(process.cwd(), "..", "..", "assets", "world", "generated", "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae", "world.json"), "utf8")) as WorldBundle;
+const bundle = JSON.parse(readFileSync(join(process.cwd(), "..", "..", "assets", "world", "generated", "sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564", "world.json"), "utf8")) as WorldBundle;
 let state = createStructuredState(bundle, "first-village", "Hearthmere", 1);
 const actor = () => state.settlements[0].actors[0];
 let collectedBeforeArrival = false;
-for (let index = 0; index < 80; index += 1) { state = advanceStructuredState(state); if (state.ledger.some(entry => entry.kind === "collection")) { collectedBeforeArrival = actor().position.x === 0 && actor().position.y === 0; break; } }
+let totalProduction = 0;
+let totalConsumption = 0;
+for (let index = 0; index < 80; index += 1) { state = advanceStructuredState(state); totalProduction += state.ledger.filter(entry => entry.kind === "production").reduce((sum, entry) => sum + entry.amount, 0); totalConsumption += state.ledger.filter(entry => entry.kind === "consumption").reduce((sum, entry) => sum + entry.amount, 0); if (state.ledger.some(entry => entry.kind === "collection")) { collectedBeforeArrival = actor().position.x === 0 && actor().position.y === 0; break; } }
 assert.equal(collectedBeforeArrival, false);
 assert.ok(state.ledger.some(entry => entry.kind === "collection"));
-assert.equal(state.settlements[0].storeFood + actor().food + state.ledger.filter(entry => entry.kind === "consumption").reduce((sum, entry) => sum + entry.amount, 0), 24);
+assert.equal(state.settlements[0].storeFood + actor().food + totalConsumption, 24 + totalProduction);
 
 const reservations = createStructuredState(bundle, "first-village", "Hearthmere", 4);
 for (const villager of reservations.settlements[0].actors) villager.intendedActivity = "collect";

@@ -4,7 +4,7 @@ import { spawn, type ChildProcess } from "node:child_process";
 import { join } from "node:path";
 
 const projectRoot = join(process.cwd(), "..", "..");
-const bundleHash = "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae";
+const bundleHash = "sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564";
 const token = "restart-owner";
 let serial = 0;
 function start(databasePath: string, port: number): ChildProcess { return spawn(process.execPath, [join(projectRoot, "packages", "server", "dist", "index.js")], { cwd: projectRoot, env: { ...process.env, PORT: String(port), AUTO_TICK: "false", DATABASE_PATH: databasePath, OWNER_TOKEN: token }, stdio: "ignore" }); }

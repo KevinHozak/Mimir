@@ -4,7 +4,7 @@ import { existsSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "nod
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
-const root = join(process.cwd(), "..", ".."); const stamp = Date.now(); const database = join(root, `backup-v2-${stamp}.db`); const backup = join(root, `backup-v2-${stamp}-copy.db`); const restored = join(root, `backup-v2-${stamp}-restored.db`); const corrupt = join(root, `backup-v2-${stamp}-corrupt.db`); const port = 34135; const hash = "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae"; let server: ChildProcess | undefined;
+const root = join(process.cwd(), "..", ".."); const stamp = Date.now(); const database = join(root, `backup-v2-${stamp}.db`); const backup = join(root, `backup-v2-${stamp}-copy.db`); const restored = join(root, `backup-v2-${stamp}-restored.db`); const corrupt = join(root, `backup-v2-${stamp}-corrupt.db`); const port = 34135; const hash = "sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564"; let server: ChildProcess | undefined;
 async function waitFor() { for (let attempt = 0; attempt < 80; attempt += 1) { try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch { /* startup */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error("backup fixture server did not start"); }
 async function stop() { if (server && server.exitCode === null) { server.kill(); await new Promise<void>(resolve => { server?.once("exit", () => resolve()); setTimeout(resolve, 3000); }); } }
 try {

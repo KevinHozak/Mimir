@@ -38,7 +38,7 @@
         { "id": 5, "name": "Workshop", "class": "workshop", "x": 0, "y": 120, "width": 48, "height": 48 },
         { "id": 6, "name": "Field", "class": "field", "x": 48, "y": 120, "width": 72, "height": 48 },
         { "id": 7, "name": "Meeting Hall", "class": "meeting-hall", "x": 144, "y": 0, "width": 48, "height": 48 },
-        { "id": 8, "name": "Woodland", "class": "tree", "x": 168, "y": 120, "width": 24, "height": 24 }
+        { "id": 8, "name": "Woodland", "class": "tree", "x": 120, "y": 24, "width": 24, "height": 24 }
       ]
     },
     {

@@ -7,7 +7,7 @@ import { createStructuredState, advanceStructuredState } from "../packages/engin
 import { readFileSync } from "node:fs";
 
 const root = process.cwd();
-const hash = "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae";
+const hash = "sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564";
 const bundle = JSON.parse(readFileSync(join(root, "assets", "world", "generated", hash, "world.json"), "utf8"));
 const engineRuns = [];
 for (let run = 0; run < 2; run += 1) {

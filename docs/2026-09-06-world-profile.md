@@ -2,7 +2,7 @@
 
 Profile date: 2026-09-06 (America/Chicago)
 
-- Bundle: `sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae`
+- Bundle: `sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564`
 - Map: 8 x 8 cells, 8 authored objects, 12 first-village spawns
 - Seed: `20260906`
 - Simulation: 120 ticks, 12 actors, two consecutive engine runs
@@ -14,8 +14,8 @@ Engine timings, measured per tick:
 
 | Run | Median | P95 | Max | Final tick |
 | --- | ---: | ---: | ---: | ---: |
-| 1 | 36.01 ms | 41.51 ms | 69.21 ms | 120 |
-| 2 | 33.48 ms | 41.24 ms | 42.05 ms | 120 |
+| 1 | 8.39 ms | 17.06 ms | 52.06 ms | 120 |
+| 2 | 6.92 ms | 8.98 ms | 11.97 ms | 120 |
 
 Browser frame timings over 120 `requestAnimationFrame` samples with the overlay initially off: median 16.70 ms, P95 33.30 ms, maximum 183.30 ms. The browser profile was run against an isolated server/database and dedicated API/web ports; the temporary database was removed after shutdown.
 
