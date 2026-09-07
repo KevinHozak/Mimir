@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { existsSync, readdirSync, unlinkSync, rmSync } from "node:fs";
+import { existsSync, readdirSync, unlinkSync, rmSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const projectRoot = join(process.cwd(), "..", "..");
@@ -9,7 +9,7 @@ const port = 34129;
 const token = "integration-owner";
 const server = spawn(process.execPath, [join(projectRoot, "packages", "server", "dist", "index.js")], {
   cwd: projectRoot,
-  env: { ...process.env, PORT: String(port), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", SEASON_TICK_LIMIT: "60", SERVE_WEB: "true", DATABASE_PATH: databasePath, OWNER_TOKEN: token, BACKUP_INTERVAL_MS: "200", BACKUP_DIR: backupDirectory },
+  env: { ...process.env, PORT: String(port), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", SEASON_TICK_LIMIT: "60", SERVE_WEB: "true", DATABASE_PATH: databasePath, OWNER_TOKEN: token, BACKUP_INTERVAL_MS: "1000", BACKUP_DIR: backupDirectory },
   stdio: "ignore",
 });
 const endpoint = `http://localhost:${port}`;
@@ -53,12 +53,15 @@ if (region.settlements.length !== 2 || region.routes.some((route) => route.id !=
   const report = await (await fetch(`${endpoint}/api/report`)).json() as { tick: number; checkpoints: number };
   if (report.tick !== 2 || report.checkpoints !== 3) throw new Error("report did not reflect queued commands");
   if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("season test reset failed");
-  await new Promise((resolve) => setTimeout(resolve, 350));
+  await new Promise((resolve) => setTimeout(resolve, 1100));
   if (!existsSync(backupDirectory) || readdirSync(backupDirectory).filter((entry) => entry.endsWith(".db")).length === 0) throw new Error("scheduled backup was not created");
   const v2Reset = await request("/api/owner/reset-v2", { bundleHash: "sha256-6a2e1ffe6a311d4cbb08a616bec272cc82e47809dea635b4b3f121aa8e991987", seed: 11 });
   if (v2Reset.status !== 200) throw new Error(`structured-v2 reset failed: ${await v2Reset.text()}`);
   const v2State = (await v2Reset.json()) as { state: { spatialModel?: string; simulationVersion?: string; structuredState?: unknown } };
   if (v2State.state.spatialModel !== "structured-v2" || v2State.state.simulationVersion !== "mimir-sim-v2" || !v2State.state.structuredState) throw new Error("structured-v2 timeline did not retain its bundle state");
+  await new Promise((resolve) => setTimeout(resolve, 1100));
+  const scheduledManifest = readdirSync(backupDirectory).filter((entry) => entry.endsWith(".manifest.json")).map((entry) => JSON.parse(readFileSync(join(backupDirectory, entry), "utf8")) as { bundleHashes?: string[] }).find((manifest) => manifest.bundleHashes?.includes("sha256-6a2e1ffe6a311d4cbb08a616bec272cc82e47809dea635b4b3f121aa8e991987"));
+  if (!scheduledManifest) throw new Error("scheduled backup did not include the active world bundle");
   if ((await request("/api/tick")).status !== 200) throw new Error("structured-v2 tick failed");
   if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("legacy season test reset failed after v2 timeline");
   for (let season = 1; season <= 3; season += 1) {

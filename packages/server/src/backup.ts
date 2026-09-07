@@ -1,8 +1,9 @@
 import { DatabaseSync } from "node:sqlite";
-import { copyFileSync, existsSync, mkdirSync, statSync, readFileSync, writeFileSync, cpSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, statSync, readFileSync, cpSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, isAbsolute, resolve, join } from "node:path";
 import { bundleHash, validateWorldBundle, type WorldBundle } from "@mimir/world-data";
+import { createBundleInclusiveBackup } from "./backup-lib.js";
 
 const mode = process.argv[2];
 const projectRoot = resolve(process.cwd(), "..", "..");
@@ -16,23 +17,8 @@ if (!destinationArg || !["backup", "restore"].includes(mode)) {
   process.exit(2);
 }
 if (mode === "backup") {
-  if (!existsSync(source)) throw new Error(`Source database does not exist: ${source}`);
   const destination = resolveProjectPath(destinationArg);
-  if (existsSync(destination)) throw new Error(`Refusing to overwrite existing backup: ${destination}`);
-  const database = new DatabaseSync(source);
-  database.exec("PRAGMA wal_checkpoint(FULL);");
-  database.close();
-  mkdirSync(dirname(destination), { recursive: true });
-  copyFileSync(source, destination);
-  const copiedBundles = new Set<string>(); const sourceDatabase = new DatabaseSync(destination);
-  const hasTimelineTable = sourceDatabase.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'timeline_checkpoints'").get();
-  const hasCheckpointTable = sourceDatabase.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'checkpoints'").get();
-  const rows = (hasTimelineTable ? sourceDatabase.prepare("SELECT state_json FROM timeline_checkpoints").all() : hasCheckpointTable ? sourceDatabase.prepare("SELECT state_json FROM checkpoints").all() : []) as { state_json: string }[]; sourceDatabase.close();
-  for (const row of rows) { try { const state = JSON.parse(row.state_json) as { worldDefinition?: { bundle?: { contentHash?: string } }; structuredState?: { settlements?: { bundle?: { bundle?: { contentHash?: string } } }[] } }; const hashes = [state.worldDefinition?.bundle?.contentHash, ...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle?.bundle?.contentHash)]; for (const hash of hashes) if (hash && existsSync(join(bundleRoot, hash, "world.json"))) copiedBundles.add(hash); } catch { /* legacy state is retained without a structured bundle */ } }
-  const bundleDestination = `${destination}.bundles`; mkdirSync(bundleDestination, { recursive: true }); const bundleFiles: { hash: string; path: string; sha256: string }[] = [];
-  for (const hash of [...copiedBundles].sort()) { const sourceBundle = join(bundleRoot, hash); const targetBundle = join(bundleDestination, hash); cpSync(sourceBundle, targetBundle, { recursive: true, force: false, errorOnExist: true }); const worldPath = join(targetBundle, "world.json"); bundleFiles.push({ hash, path: `${hash}/world.json`, sha256: hashFile(worldPath) }); }
-  const manifest = { databaseSha256: hashFile(destination), databaseBytes: statSync(destination).size, bundleHashes: [...copiedBundles].sort(), bundleFiles, databaseVersion: 1 };
-  writeFileSync(`${destination}.manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
+  const manifest = createBundleInclusiveBackup(source, destination, bundleRoot);
   console.log(JSON.stringify({ mode, source, destination, manifest: `${destination}.manifest.json`, ...manifest }));
 } else {
   const backup = resolveProjectPath(destinationArg);
