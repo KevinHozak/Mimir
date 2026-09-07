@@ -407,6 +407,10 @@ Validation note: the initial `tsx`/Vite attempts hit the known Windows `EPERM` c
 
 ## 10. Active handoff: Living Circuit / First Glow conversion
 
+### 10.0a First Glow-only scope decision
+
+The active product scope now ends at the First Glow boundary. The user explicitly authorized removal of pre–First Glow village timeline data, assets, tests, and runtime code. Those records are not migrated or relabeled. `structured-v2` remains as the spatial model for schema-3 First Glow bundles; schema-2, structured-v1, and legacy village continuation are no longer supported. Any old compatibility wording elsewhere in this historical plan is superseded by this decision.
+
 ### 10.0 Conversion rules and dependency order
 
 The next stage is a versioned conversion of new timelines, not a search-and-replace over old data. Preserve `legacy-backdrop-v0`, structured-v1, and existing structured-v2 village checkpoints and bundles byte-for-byte. Continue to render/replay them according to their recorded version. Do not convert `food` to `charge`, `villager` to `Spark`, or `Hearthmere` to a First Glow location while loading old history.
@@ -448,16 +452,16 @@ Each package must preserve a runnable application, use isolated databases and po
 
 Targets: `packages/world-data/src/types.ts`, `validation.ts`, canonical tests and fixtures; `packages/engine/src/structured.ts` and public state types; `packages/server/src/state.ts` and timeline creation; browser adapters; scenario/theme metadata documentation.
 
-1. Add schema-3 bundle and runtime decoding from `unknown`, with required `themeId`, `ageId`, asset records, layer roles, terrain/surface/object definitions, spawns, and immutable reference data. Keep schema-2 decoding available for replay; do not widen it with implicit First Glow defaults.
+1. Add schema-3 bundle and runtime decoding from `unknown`, with required `themeId`, `ageId`, asset records, layer roles, terrain/surface/object definitions, spawns, and immutable reference data. Do not retain schema-2 village decoding or infer First Glow defaults.
 2. Define First Glow domain types: actor is a Spark; resources include carried charge and settlement/source charge; actor need is `chargeDeficit`; recovery is `readiness`; activities are `seek-charge`, `draw-charge`, `share-charge`, `explore`, `mark-trace`, `seek-shelter`, `meet`, `shape-pattern`, and `idle`. Separate persisted IDs from display labels.
 3. Define capabilities and runtime properties for `charge-pool`, `shelter-niche`, `trace`, `relay-crossing`, `pattern-shard`, and `light-mark`. Keep geometry generic: capability strings drive action selection; labels never drive simulation.
 4. Introduce a schema-3 First Glow fixture under `assets/world/fixtures/` and decode the exact same bytes in world-data, engine/server, and browser tests. Include invalid nested types, unknown references, duplicate IDs, malformed assets, invalid reservations/actor references, and wrong theme/age/version combinations.
-5. Add explicit creation/continuation dispatch: existing timelines use their recorded adapters; First Glow timelines use `mimir-sim-v3-first-glow`; unknown or incomplete versions fail clearly. Do not make First Glow the default until T1–T4's vertical slice passes together.
-6. Add a compatibility vocabulary boundary in the web adapter so old history says villager/food/granary while First Glow says Spark/charge/charge pool. The canonical state and events, not CSS text replacement, determine which vocabulary is used.
+5. Add explicit creation/continuation dispatch: First Glow timelines use `mimir-sim-v3-first-glow`; unknown, incomplete, or pre–First Glow versions fail clearly. Do not make First Glow the default until T1–T4's vertical slice passes together.
+6. Keep the vocabulary boundary inside First Glow presentation and domain contracts: persisted IDs remain stable while labels use Spark, charge, charge pool, shelter niche, and trace terminology.
 
 Verification: canonical schema-3 hash stability in Node and browser; fixture decoder parity; rejection of malformed nested values and reservation actor IDs; round-trip serialize/reload; old legacy/v1/v2 fixture reads unchanged; unsupported continuation fails; no old checkpoint bytes are rewritten; no First Glow field is persisted under an old simulation version.
 
-Acceptance gate T1: a First Glow fixture can be loaded through shared decoders in server and browser, produces an explicit new timeline/checkpoint version, and coexists with readable old village fixtures without inferred migration.
+Acceptance gate T1: a First Glow fixture can be loaded through shared decoders in server and browser, produces an explicit new timeline/checkpoint version, and rejects pre–First Glow timeline continuation without inferred migration.
 
 ### 10.3 T2 — First Glow authored bundle, templates, and assets
 

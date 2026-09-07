@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { dirname, resolve, join } from "node:path";
 import { bundleHash, validateWorldBundle } from "@mimir/world-data";
 
-const source = resolve(process.argv[2] ?? "assets/world/first-winter.tiled.json");
+const source = resolve(process.argv[2] ?? "assets/world/maps/first-glow.tiled.json");
 const outputRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? "assets/world/generated");
 const map = JSON.parse(readFileSync(source, "utf8"));
 const property = (name) => Array.isArray(map.properties) ? map.properties.find(item => item.name === name)?.value : map[name];
@@ -38,6 +38,7 @@ if (property("themeId") === "living-circuit" || property("ageId") === "first-glo
   const world = { schemaVersion: 3, spatialModel: "structured-v2", simulationVersion: "mimir-sim-v3-first-glow", themeId: "living-circuit", ageId: "first-glow", id: property("bundleId") ?? "first-glow-v1", width: map.width, height: map.height, cellSizePx: 24, terrain, terrainDefinitions: { open: { id: "open", label: "Open space", walkable: true, movementCost: 2, visualAsset: "" }, gap: { id: "gap", label: "Circuit gap", walkable: false, visualAsset: "" } }, surfaces, objectDefinitions, objects, layers: map.layers.filter(item => item.role).map(item => ({ id: String(item.id), role: item.role, order: item.id })), spawns, assets, bundle: { bundleId: property("bundleId") ?? "first-glow-v1", contentHash: "", schemaVersion: 3, assetVersion: property("assetVersion") ?? "first-glow-v1" } };
   world.bundle.contentHash = bundleHash(world); validateWorldBundle(world); const destination = join(outputRoot, world.bundle.contentHash); mkdirSync(join(destination, "assets"), { recursive: true }); const bundlePath = join(destination, "world.json"); const bytes = JSON.stringify(world, null, 2) + "\n"; if (existsSync(bundlePath) && readFileSync(bundlePath, "utf8") !== bytes) throw new Error(`immutable bundle collision at ${bundlePath}`); writeFileSync(bundlePath, bytes); for (const [outputName, assetPath] of assetSources) { const target = join(destination, outputName); if (existsSync(target) && readFileSync(target).compare(readFileSync(assetPath)) !== 0) throw new Error(`immutable asset collision at ${target}`); if (!existsSync(target)) copyFileSync(assetPath, target); } writeFileSync(join(destination, "manifest.json"), JSON.stringify({ bundle: world.bundle, source, generatedAt: "source-independent", assets }, null, 2) + "\n"); console.log(JSON.stringify({ source, bundle: world.bundle, path: bundlePath, assets: assets.length }, null, 2)); process.exit(0);
 }
+throw new Error(`${source}: only First Glow schema-3 sources are supported`);
 if (map.orientation !== "orthogonal" || map.infinite || map.tilewidth !== 24 || map.tileheight !== 24) throw new Error(`${source}: only finite orthogonal 24px maps are supported`);
 const terrainLayer = map.layers.find(layer => layer.type === "tilelayer" && layer.name === "Terrain");
 if (!terrainLayer || terrainLayer.data.length !== map.width * map.height) throw new Error(`${source}: named Terrain layer is missing or incomplete`);

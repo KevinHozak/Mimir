@@ -1,8 +1,0 @@
-{
-  "name": "The First Winter",
-  "initialFood": 72,
-  "seasonTickLimit": 60,
-  "harvestInterval": 3,
-  "harvestAmount": 8,
-  "hungerPressure": 9
-}

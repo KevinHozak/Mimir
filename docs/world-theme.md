@@ -18,7 +18,7 @@ The central question is **“What keeps our lights on?”** Sparks begin able to
 
 The first loop is simple: find charge, decide how to use or share it, mark a useful route, find shelter, and return to discover whether the place or the relationship remains dependable. Supply may fluctuate. A familiar pool may weaken, and an unexplored trace may offer opportunity without guaranteeing safety.
 
-The opening does not require a fixed population change from the existing prototype. The important difference is how the Sparks live: small groups with informal practices rather than residents assigned to a complete village economy.
+The opening is the only active starting timeline: small groups of Sparks with informal practices, not residents assigned to a complete village economy. The pre–First Glow village prototype and its timelines are intentionally removed, not migrated or relabeled.
 
 ### Opening places and objects
 

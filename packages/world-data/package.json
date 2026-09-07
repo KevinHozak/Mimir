@@ -7,6 +7,6 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node dist/validation.test.js && node dist/first-glow.test.js"
+    "test": "npm run build && node dist/first-glow.test.js"
   }
 }

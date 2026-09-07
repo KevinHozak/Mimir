@@ -37,20 +37,20 @@ When implementation changes invalidate a current guide, update the affected guid
 - Sparks initially do not know their purpose or the **Originators**. Reveal evidence gradually and preserve individual knowledge boundaries. Human reverence and creative exchange develop later, not as starting objectives or dialogue.
 - The world is predominantly near-black open space, with blue-and-silver circuit nodes/routes and bright spots for Sparks and civilization. Use dark mode throughout the UI. Circuit-board details are local rather than an evenly illuminated background.
 - Keep charge, credits, and data distinct: charge sustains activity; later credits are money; packets carry information. Readiness increases with rest, while charge deficit increases with need.
-- The repository still contains village terms, assets, and mechanics. First Glow is a selected target, not an assertion that every existing scenario already implements it. Do not turn legacy field renaming into an implicit save migration.
+- First Glow is the active and only supported runtime. Historical village prototype assets, timelines, and compatibility paths have been removed; do not reintroduce them or silently relabel old saves.
 
 ## Main folders
 
 | Folder | Contents and responsibility |
 | --- | --- |
 | `packages/world-data/` | `@mimir/world-data`: shared structured-world types, canonical serialization/hash calculation, spatial queries, and world/runtime validation. This is the lower-level contract used by simulation and authoring tools. |
-| `packages/engine/` | `@mimir/engine`: deterministic world transitions, activities, resource rules, navigation/movement, authored social material, and bounded social interpretation. Contains legacy and structured simulation paths. |
+| `packages/engine/` | `@mimir/engine`: deterministic First Glow transitions, charge rules, structured-v2 navigation, authored Spark material, and bounded interpretation. |
 | `packages/server/` | `@mimir/server`: Fastify HTTP/SSE API, SQLite state/history, scheduling, owner operations, state normalization, and bundle-inclusive backup/restore tooling. |
 | `packages/web/` | `@mimir/web`: React observer UI, Phaser world scene, CSS, coordinate/debug helpers, Vite entry point, browser tests, and static public assets. |
 | `assets/world/` | Authored Tiled JSON, object templates, authoring notes, and generated content-addressed bundles. |
 | `assets/world/generated/` | Versioned `sha256-*` directories containing `world.json` and `manifest.json`. Some generated bundles are deliberately tracked for reproducibility and historical playback. |
 | `assets/licenses/` | Asset attribution and provenance. |
-| `scenarios/` | Checked-in scenario configuration, currently including `first-winter.json`. Verify how a file is loaded before assuming it controls runtime defaults. |
+| `scenarios/` | Reserved for future First Glow scenario configuration; the active bundle is under `assets/world/`. |
 | `scripts/` | Local launcher, Tiled importer, bundle validator, and profiling harness. |
 | `docs/` | Current references, design plans, runbook, and dated visual/performance evidence. |
 | `node_modules/` and package `dist/` | Installed dependencies and build output. Regenerate through package commands; do not hand-edit or commit them. |
@@ -76,9 +76,8 @@ Root SQLite files, WAL/SHM sidecars, test backups, and restored `.bundles` direc
 | `packages/server/src/state.ts` | Historical state normalization and compatibility checks. |
 | `packages/server/src/backup-lib.ts` / `backup.ts` | Shared backup implementation and CLI for backup/restore with bundle data. |
 | `packages/web/src/main.tsx` / `styles.css` | Main observer application, scene integration, and styling. |
-| `packages/web/src/village/coordinates.ts` / `debugOverlay.ts` | Coordinate conversions and developer overlay. The folder name is a legacy implementation name. |
-| `packages/web/public/village-backdrop.png` | Existing prototype illustration, not the selected First Glow art direction. |
-| `assets/world/first-winter.tiled.json` | Current authored map source; imported through `scripts/import-world.mjs`. |
+| `packages/web/src/first-glow.tsx` / `fixtureDecoder.ts` | First Glow inspector and shared fixture decoding. |
+| `assets/world/maps/first-glow.tiled.json` | Active authored map source; imported through `scripts/import-world.mjs`. |
 | `scripts/run-local.mjs` | Starts the local server and Vite preview; builds only when required artifacts are missing. |
 | `scripts/profile-world.mjs` | Engine/browser profiling harness tied to an explicit bundle and isolated runtime. Inspect its fixture selection before using it for a new map. |
 
@@ -99,7 +98,7 @@ Run from the repository root. The project uses TypeScript, ES modules, npm works
 | `npm run test:backup-restore --workspace @mimir/server` | Bundle-inclusive backup and restoration checks. |
 | `node packages/server/dist/state.test.js` | State-normalization regression checks after building the server; currently not listed as a package test script. |
 | `npm run test:e2e --workspace @mimir/web` | Playwright observer checks after building; requires the browser runtime. |
-| `npm run world:import -- assets/world/first-winter.tiled.json` | Generate the content-addressed world bundle from authored source. |
+| `npm run world:import -- assets/world/maps/first-glow.tiled.json` | Generate the content-addressed First Glow bundle from authored source. |
 | `npm run world:validate -- assets/world/generated/<sha256>/world.json` | Validate a specific generated bundle; replace the placeholder with the actual directory. |
 | `node scripts/profile-world.mjs` | Run the dedicated world profiling harness after building. |
 
@@ -123,7 +122,7 @@ Inspect `packages/server/src/index.ts`, `scripts/run-local.mjs`, and `render.yam
 2. **Determinism:** derive randomness from recorded inputs. Preserve stable ordering and tie-breaking. Avoid ambient randomness or wall-clock-dependent decisions in simulation rules.
 3. **Evidence boundaries:** objective events and subjective interpretations are different records. Validate interpretation references and bounded effects; retain deterministic fallback behavior.
 4. **Historical integrity:** replay uses recorded state and interpretations, never fresh AI output. Branches preserve parent history. Changes to schema, simulation version, spatial model, or theme need explicit compatibility behavior.
-5. **Version-aware code:** legacy, structured-v1, and structured-v2 state paths coexist. Inspect creation, dispatch, normalization, and serialization together. Do not silently repair an invalid v2 checkpoint by inventing a new world.
+5. **Version-aware code:** schema-3 First Glow state and structured-v2 spatial data are explicit at creation, dispatch, normalization, and serialization boundaries. Invalid or incompatible checkpoints fail rather than being invented or migrated.
 6. **Resource accounting:** production, consumption, transfer, and loss must be explicit. Movement/arrival and interaction effects must follow the authoritative rules and not run early because an animation reached a destination.
 7. **Shared geometry:** rendering, navigation, collision, surfaces, object footprints, and interaction slots must agree. Visual circuit routes must not imply connections absent from the model.
 8. **Immutable bundles:** edit authored sources or importer code, regenerate, and validate. Never hand-edit a hash-named world bundle or remove an old bundle still referenced by a checkpoint. Do not assume template JSON is automatically loaded; inspect importer wiring.
