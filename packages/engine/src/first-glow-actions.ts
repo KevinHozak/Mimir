@@ -1,9 +1,34 @@
-import { advanceFirstGlowState, type FirstGlowState } from "./structured.js";
+import { advanceFirstGlowState, canFirstGlowReach, type FirstGlowState } from "./structured.js";
+import type { FirstGlowActivity } from "@mimir/world-data";
 
 export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; }
 
+function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][number], activity: FirstGlowActivity): boolean {
+  return spark.knownEvidenceEventIds.some((eventId) => eventId.endsWith(`-${activity}`));
+}
+
+function chooseAutonomousActivities(state: FirstGlowState): void {
+  if (state.tick === 0) return;
+  for (const settlement of state.settlements) for (const spark of settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id))) {
+    if (spark.status !== "choosing" || spark.destinationObjectId) continue;
+    const companion = settlement.sparks.find((candidate) => candidate.id !== spark.id && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y && candidate.carriedCharge === 0);
+    if (spark.carriedCharge > 0 && companion) { spark.intendedActivity = "share-charge"; continue; }
+    const needsCharge = spark.carriedCharge === 0 || spark.chargeDeficit > 0;
+    const priorities: FirstGlowActivity[] = [];
+    if (needsCharge && settlement.sourceCharge > 0) priorities.push("seek-charge");
+    if (spark.readiness < 70) priorities.push("seek-shelter");
+    if (!hasLearned(spark, "explore")) priorities.push("explore");
+    if (hasLearned(spark, "explore") && !hasLearned(spark, "mark-trace")) priorities.push("mark-trace");
+    if (!hasLearned(spark, "shape-pattern")) priorities.push("shape-pattern");
+    priorities.push("seek-shelter", "idle");
+    const next = priorities.find((activity) => canFirstGlowReach(settlement, spark, activity));
+    if (next) spark.intendedActivity = next;
+  }
+}
+
 export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExternalChargeInput = {}): FirstGlowState {
   const working = structuredClone(input);
+  chooseAutonomousActivities(working);
   const previous = new Map(working.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, { status: spark.status, activity: spark.intendedActivity }] as const)));
   const shares: { actorId: string; recipientId: string }[] = [];
   const restoredActivities = new Map<string, FirstGlowState["settlements"][number]["sparks"][number]["intendedActivity"]>();
@@ -29,10 +54,15 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
   const movedActors = new Set(state.events.filter(event => event.kind === "movement").map(event => event.actorId));
   const drawnActors = new Set(state.ledger.filter(entry => entry.kind === "draw" && entry.actorId).map(entry => entry.actorId));
   for (const settlement of state.settlements) for (const spark of settlement.sparks) {
+    const drawn = state.ledger.find((entry) => entry.kind === "draw" && entry.actorId === spark.id)?.amount ?? 0;
+    if (drawn > 0) spark.chargeDeficit = Math.max(0, spark.chargeDeficit - drawn);
+  }
+  for (const settlement of state.settlements) for (const spark of settlement.sparks) {
     const before = previous.get(spark.id);
     if ((before?.status === "traveling" || before?.status === "interacting") && spark.status === "choosing" && (before.activity === "explore" || before.activity === "mark-trace" || before.activity === "shape-pattern")) {
       state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 0, reason: `${before.activity}-arrived` });
       state.events.push({ id: `event-${state.tick}-${spark.id}-${before.activity}`, kind: before.activity, actorId: spark.id, message: `${spark.name} completed ${before.activity.replaceAll("-", " ")}.` });
+      spark.knownEvidenceEventIds.push(`event-${state.tick}-${spark.id}-${before.activity}`);
     }
     if (movedActors.has(spark.id) || arrivalActions.has(spark.id)) {
       spark.readiness = Math.max(0, spark.readiness - 1);
