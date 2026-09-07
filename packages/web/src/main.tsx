@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import Phaser from "phaser";
 import { parseWorldDefinition } from "@mimir/engine";
 import type { Cell, MovementModel, WorldDefinition } from "@mimir/engine";
+import { FirstGlowInspector, type FirstGlowSpark } from "./first-glow.js";
 import "./styles.css";
 
 type TilePosition = Cell;
@@ -13,7 +14,7 @@ type Settlement = { id: string; name: string; foodReserve: number; villagerIds: 
 type Trade = { id: string; tick: number; villagerId: string; fromSettlementId: string; toSettlementId: string; amount: number; summary: string };
 type Hazard = { id: string; kind: string; status: string; summary: string };
 type State = { tick: number; season: number; foodReserve: number; scenario: { name: string; seasonTickLimit: number }; villagers: Villager[]; settlements?: Settlement[]; tradeHistory?: Trade[]; weather?: { kind: string; severity: number; forecast: string }; hazards?: Hazard[]; dilemmaHistory?: DilemmaResolution[]; sharedStore?: SharedStore; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; spatialModel?: "structured-v1" | "structured-v2" | "legacy-backdrop-v0"; simulationVersion?: string; movementModel?: MovementModel; structuredState?: unknown; firstGlowState?: { settlements: { id: string; bundle: unknown; sparks: Spark[]; runtime: { objects: { objectId: string; blocked: boolean }[] } }[] } };
-type Spark = { id: string; name: string; position: TilePosition; status: string; intendedActivity: string; destinationObjectId?: string; destinationSlotId?: string; remainingRoute: TilePosition[]; remainingCost: number; committedCells: TilePosition[]; carriedCharge: number; chargeDeficit: number; readiness: number; waitReason?: string };
+type Spark = FirstGlowSpark;
 type Event = { id: string; tick: number; message: string; kind: string };
 type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
 type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
@@ -151,18 +152,7 @@ function VillageCanvas({ villagers, sparks = [], worldDefinition, worldRuntime, 
   useEffect(() => {
     if (sceneRef.current && sparks.length) syncSparks(sceneRef.current, sparks); else if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers, sparks]);
-  return <div className="village-stage"><div className="village-zoom"><div id="village-canvas" /></div>{sparks.length > 0 && <FirstGlowInspector sparks={sparks} />}</div>;
-}
-
-function FirstGlowInspector({ sparks }: { sparks: Spark[] }) {
-  return <section className="first-glow-inspector" data-testid="first-glow-inspector">
-    <div className="season-review-heading"><div><h2>First Glow</h2><p>Observe Sparks learning how to remain lit together.</p></div><strong>{sparks.length} Sparks</strong></div>
-    <div className="spark-list">{sparks.map((spark) => <article className="spark-card" key={spark.id}>
-      <h3>{spark.name}</h3><small>{spark.id}</small>
-      <dl><dt>Activity</dt><dd>{spark.intendedActivity}</dd><dt>Charge</dt><dd>{spark.carriedCharge}</dd><dt>Charge deficit</dt><dd>{spark.chargeDeficit}</dd><dt>Readiness</dt><dd>{spark.readiness}</dd><dt>Capability</dt><dd>{spark.destinationObjectId ? `${spark.destinationObjectId} / ${spark.destinationSlotId ?? "slot"}` : "roaming"}</dd></dl>
-      <p>Status: <strong>{spark.status}</strong>{spark.waitReason ? ` · ${spark.waitReason}` : ""}</p>
-    </article>)}</div>
-  </section>;
+  return <div className="village-stage"><div className="village-zoom"><div id="village-canvas" /></div>{sparks.length > 0 && <FirstGlowInspector sparks={sparks} debugOverlay={debugOverlay} />}</div>;
 }
 
 function OwnerPanel({ ownerToken, setOwnerToken, report, message, onCommand, onRefresh }: { ownerToken: string; setOwnerToken: (value: string) => void; report: Report | null; message: string; onCommand: (path: string, body?: Record<string, unknown>) => void; onRefresh: () => void }) {
