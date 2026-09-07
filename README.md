@@ -51,6 +51,8 @@ The initial hosting candidate is one paid Render service with a persistent disk,
 
 The project is private while the design and implementation are being developed. Runtime databases, secrets, logs, and generated build output are intentionally excluded from version control.
 
+Implementation work is tracked in [Mimir Development](https://github.com/users/KevinHozak/projects/2). See [GitHub development workflow](docs/github-workflow.md) for issues, pull requests, CI, dependency updates, and repository protection availability.
+
 ## Local operations
 
 Run the complete local world with `npm start`. It builds missing artifacts, starts the simulation server, and serves the browser client at `http://127.0.0.1:4173/`.

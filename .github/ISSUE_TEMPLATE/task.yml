@@ -1,0 +1,24 @@
+name: Implementation task
+description: Define bounded implementation work with acceptance criteria.
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Intended outcome
+      description: Describe the concrete behavior this task should deliver.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Design references and scope
+      description: Link relevant repository docs. Distinguish selected decisions from proposals and preserve version compatibility.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List observable completion criteria and appropriate verification.
+    validations:
+      required: true
