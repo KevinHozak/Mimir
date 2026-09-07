@@ -6,7 +6,7 @@ import type { Cell, MovementModel, WorldDefinition } from "@mimir/engine";
 import "./styles.css";
 
 type TilePosition = Cell;
-type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[]; settlementId: string; travelPlan?: { toSettlementId: string; remainingTicks: number } };
+type Villager = { id: string; name: string; tradition: string; activity: string; location: string; hunger: number; trust: number; position: TilePosition; route: TilePosition[]; settlementId: string; destination?: TilePosition; intendedActivity?: string; targetLocation?: string; status?: string; waitReason?: string; travelPlan?: { toSettlementId: string; remainingTicks: number } };
 type SharedStore = { status: string; contributions: number; distributions: number; dissent: number; contributionRule: string; distributionRule: string };
 type DilemmaResolution = { id: string; tick: number; title: string; choiceLabel: string; summary: string; foodDelta: number; trustDelta: number };
 type Settlement = { id: string; name: string; foodReserve: number; villagerIds: string[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
@@ -26,7 +26,7 @@ function validateClientWorld(state: State): void {
   state.settlements?.forEach((settlement) => { if (settlement.worldDefinition) parseWorldDefinition(settlement.worldDefinition); });
 }
 
-function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate, zoom }: { villagers: Villager[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; playbackRate: number; zoom: number }) {
+function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate, zoom, debugOverlay = import.meta.env.DEV }: { villagers: Villager[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] }; playbackRate: number; zoom: number; debugOverlay?: boolean }) {
   const villagersRef = useRef(villagers);
   const peopleRef = useRef(new Map<string, Phaser.GameObjects.Container>());
   const sceneRef = useRef<Phaser.Scene | null>(null);
@@ -62,6 +62,7 @@ function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate,
       }
       scene.tweens.killTweensOf(person);
       if (isNew) scene.tweens.add({ targets: person.list.slice(1), y: "+=1", duration: 360, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      if (route.length <= 1) person.setPosition(screenPosition(route[0]).x, screenPosition(route[0]).y);
       route.slice(1).forEach((step, stepIndex) => {
         const destination = screenPosition(step);
         scene.tweens.add({ targets: person, x: destination.x, y: destination.y, duration: 180, delay: stepIndex * 180, ease: "Stepped" });
@@ -119,13 +120,16 @@ function VillageCanvas({ villagers, worldDefinition, worldRuntime, playbackRate,
        worldDefinition?.objects.forEach((object) => {
          const definition = worldDefinition.definitions[object.definitionId];
          const color = worldRuntime?.blockedObjectIds.includes(object.id) ? 0xb54f4f : object.definitionId === "tree" ? 0x3e7046 : object.definitionId === "bridge" ? 0x8b5e3c : object.definitionId === "granary" ? 0x9d5f3f : 0x76563c;
-         definition?.footprint.forEach((offset) => scene.add.rectangle((object.position.x + offset.x) * tileSize + tileSize / 2, (object.position.y + offset.y) * tileSize + tileSize / 2, tileSize - 2, tileSize - 2, color).setOrigin(0.5).setStrokeStyle(2, 0x493b2a));
+         const objectCells = definition?.footprint ?? [];
+         objectCells.forEach((offset) => scene.add.rectangle((object.position.x + offset.x) * tileSize + tileSize / 2, (object.position.y + offset.y) * tileSize + tileSize / 2, tileSize - 2, tileSize - 2, color).setOrigin(0.5).setDepth(5 + object.position.y + offset.y).setStrokeStyle(2, 0x493b2a));
+         if (debugOverlay) { scene.add.text(object.position.x * tileSize + 2, object.position.y * tileSize + 2, object.id, { color: "#fff7e8", fontSize: "8px", backgroundColor: "#493b2a" }).setDepth(1000); definition?.interactionSlots.forEach((slot, slotIndex) => scene.add.rectangle((object.position.x + slot.x) * tileSize + tileSize / 2, (object.position.y + slot.y) * tileSize + tileSize / 2, tileSize - 8, tileSize - 8, 0x3d8c72, 0.45).setDepth(1001).setStrokeStyle(1, 0x2a5d4b)); }
        });
+       if (debugOverlay) { const legend = scene.add.text(8, 44, "DEBUG: green slots · red blockers · labels = stable IDs", { color: "#fff7e8", fontSize: "10px", backgroundColor: "#493b2a" }).setScrollFactor(0).setDepth(2000); void legend; }
        scene.add.text(24, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
       syncVillagers(scene, villagersRef.current);
     } } });
     return () => { isActive = false; sceneRef.current = null; peopleRef.current.clear(); game.destroy(true); };
-  }, []);
+  }, [debugOverlay, worldDefinition, worldRuntime]);
   useEffect(() => {
     if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers]);

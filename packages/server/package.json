@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "dev": "tsx watch src/index.ts",
     "backup": "tsx src/backup.ts",
-    "test:integration": "tsx src/integration.test.ts"
+    "test:integration": "npm run build && node dist/integration.test.js"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
