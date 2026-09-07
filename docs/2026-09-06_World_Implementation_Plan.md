@@ -2,27 +2,29 @@
 
 Date: 2026-09-06
 
-Status: Reviewed against implementation at commit `2c0ab82` on 2026-09-06. All seven phases remain partial against their full deliverables and acceptance gates.
+Status: Re-audited against implementation at commit `4c4c752` on 2026-09-06 and reworked for the selected [Living Circuit theme](world-theme.md). All seven original phases remain partial against their complete acceptance gates, but their implemented spatial and persistence work is the foundation for the First Glow conversion in section 10.
 
 Review convention: `[x]` means the entire listed requirement is implemented; `[ ]` means incomplete, partially implemented, or not yet verified. Partial progress and evidence are recorded below each phase. Acceptance gates are separate checklist items and are not implied by passing general smoke tests.
 
-Implementation handoff: section 9 expands every remaining phase into bounded work packages, exact rework targets, default behavior, and verification cases for GPT 5.6 Luna at Medium reasoning. These are instructions for future implementation, not claims of completed work. Read section 9.0 before starting any package; do not implement the entire document in one unreviewed change.
+Implementation handoff: section 9 preserves the detailed village-era handoff and its implementation evidence. Section 10 is now the active handoff: it converts the existing structured-v2 foundation to the Living Circuit and the opening age, the First Glow. Read section 10.0 before starting the next package.
 
-Implementation assessment: shared world types, content fingerprints, a minimal Tiled importer, procedural structured rendering, deterministic A*, persisted destinations, basic arrival gating, and runtime blockers exist. The previous ledger overstated completion: strict validation, Tiled templates/assets/surfaces, scene modules and overlays, capability-based destinations, cost-aware movement, safe dynamic changes, and version-preserving replay still have gaps.
+Implementation assessment: shared structured-v2 world types, content hashes, authored bundles, deterministic pathfinding, capability/slot reservations, cost-budgeted movement, arrival-gated charge-precursor accounting, queued blockers, restart equivalence, bundle-inclusive backup, procedural structured rendering, and basic authoritative playback exist. The implementation remains incomplete: unknown-input decoding is shallow; the importer does not resolve its checked-in templates or an external tileset; bundle asset manifests are empty; scene responsibilities remain concentrated in `main.tsx`; effective block reasons and exact sprite replay are not asserted; non-collection activity effects are unfinished; and the clean legacy/v1/multiple-v2 replay matrix has not been proved.
 
-Validation during this review: engine tests passed; engine and server TypeScript compilation passed; the compiled legacy snapshot compatibility test passed. Direct schema probes confirmed the ID/coordinate gaps noted in Phase 1. The initial tsx invocation of the legacy test encountered an esbuild spawn permission error; running its freshly compiled JavaScript passed. Server integration and browser tests were inspected but not rerun; visual behavior, asset-inclusive restore, and twelve-villager profiling are not claimed as verified.
+Validation during this audit: current source, tests, generated manifests, documentation, and commit history through `4c4c752` were inspected. This documentation-only audit did not rerun the previously recorded build, browser, restart, restore, or profile commands. Section 9's ledger distinguishes recorded evidence from requirements that are still open; those historical results are not fresh First Glow validation.
 
-Companion documents: [Web Development Plan](2026-09-06_Web_Development_Plan.md) and [Simulation Game Plan](2026-09-06_Simulation_Game_Plan.md).
+Companion documents: [World Theme](world-theme.md), [AI World Theme Plan](2026-09-06_AI_World_Theme_Plan.md), [Web Development Plan](2026-09-06_Web_Development_Plan.md), and [Simulation Game Plan](2026-09-06_Simulation_Game_Plan.md). Where terminology, opening knowledge, visual direction, or starting institutions conflict, `world-theme.md` is authoritative.
 
 ## 1. Decision and intended outcome
 
-Keep Phaser for the village view, React for the observer interface, and the TypeScript server as the authoritative simulation. Use Tiled to author terrain and reusable world objects. Defer Godot; section 7 describes when to reconsider it.
+Keep Phaser for the top-down world view, React for the observer interface, and the TypeScript server as the authoritative simulation. Keep Tiled and the immutable bundle pipeline for authored geometry. Defer Godot; section 7 describes when to reconsider it.
 
-The world must describe what exists, where it is, where villagers may travel, and what they can do upon arrival. Adding or moving a building should normally be a content edit followed by validation, without changing movement code. Adding a new kind of behavior may still require engine code.
+The selected setting is **The Living Circuit** and the opening age is **The First Glow**. The visible people are small luminous **Sparks**, not human-shaped villagers. The opening world is mostly near-black space with local blue-and-silver circuit structures. It begins with charge pools, shelter niches, traces, exploration, light marks, simple creativity, and informal cooperation—not an established village economy, formal commons, market, or knowledge of the Originators.
 
-The first milestone is a small village containing a house, tree, water, bridge, and functioning granary. Prove that these parts work together before rebuilding the entire illustrated map or expanding the world.
+The world contract must continue to describe what exists, where Sparks may travel, and what they can do upon validated arrival. Theme conversion must not erase the spatial, deterministic, historical, or persistence guarantees already built. It also must not silently reinterpret an old village timeline as First Glow. Existing village bundles and the legacy backdrop remain immutable compatibility fixtures.
 
-## 2. Original prototype baseline and intended changes
+The next milestone is a complete First Glow vertical slice: a Spark seeks a reachable charge pool, follows a trace around an obstacle and across a controllable relay crossing, draws or shares charge only after arrival, returns to or chooses a shelter niche, and can replay that history accurately. The same slice must report a meaningful wait/failure when the crossing is unavailable.
+
+## 2. Historical baseline and current conversion boundary
 
 The original prototype described when this plan was written displays `village-backdrop.png` beneath a transparent Phaser canvas. The buildings and water in that image have no simulation equivalents. The engine stores named location coordinates and chooses nearby destination offsets. Its `routeBetween()` function moves horizontally, then vertically, without consulting terrain or obstacles.
 
@@ -35,9 +37,9 @@ Relevant implementation entry points:
 - `packages/web/src/styles.css`: illustrated background and viewport sizing.
 - `packages/server/src/index.ts`: persisted state, normalization, timeline operations, and simulation advancement.
 
-Review note: this section preserves the original baseline, not the current implementation assessment. See the phase checklists below for current status.
+Review note: this section preserves the original baseline. Since it was written, structured-v2 added authoritative geometry, movement progress, reservations, runtime blockers, bundle references, and related persistence. See section 4 and the ledger in section 9 for the current audit.
 
-This plan replaces those spatial shortcuts while preserving server authority and recorded history. A browser-only collision fix would leave simulation outcomes inconsistent with the displayed world.
+The Living Circuit conversion starts from structured-v2, not from the CSS-backdrop prototype. Village-era content remains readable under its recorded spatial/simulation versions. First Glow receives a new immutable bundle and a new theme-aware simulation/content version; it does not mutate old checkpoints or rename their serialized fields in place.
 
 ## 3. World data and ownership
 
@@ -58,19 +60,21 @@ Tiled source files are the editable source of truth for map placement and templa
 
 | Data | Responsibility |
 |---|---|
-| Terrain definitions | Movement permissions, positive traversal costs, and visual references for grass, roads, water, and other terrain |
+| Terrain definitions | Movement permissions, positive traversal costs, and visual references for dark open space, traces, local circuit substrate, gaps, and other First Glow terrain |
 | Object definitions | Reusable appearance, blocking footprint, entrance/work slots, capacity, and supported interaction identifiers |
 | Object instances | Stable ID, definition reference, map position, supported orientation, and instance overrides |
 | World definition | Map dimensions, cell size, layers, instances, spawn positions, and definition/asset versions |
 | Runtime object state | Open doors, inventory, construction state, depletion, and other mutable properties |
-| Villager movement state | Current cell, destination object/slot, remaining route, travel progress, and movement status |
+| Spark movement state | Current cell, destination object/slot, remaining route, travel progress, and movement status |
 | Recorded history | Definition bundle reference, simulation version, movement progress, object changes, and committed activity outcomes |
 
 Use a shared world-data package for schema validation, normalized types, and pure spatial queries. Keep Phaser imports out of this package and the simulation engine. Organize map sources, tilesets, templates, and generated output in dedicated directories; choose exact package and directory names during phase 1.
 
 Start with finite orthogonal maps and four-direction grid movement. Use integer cell coordinates in simulation and a single cell-to-pixel transform in rendering. Explicitly define object origins, sprite foot anchors, and supported rotations. Reject unsupported map features during import instead of silently approximating them.
 
-## 4. Implementation phases
+## 4. Audit of the original seven implementation phases
+
+These checklists retain the original village-era clauses so prior work can be audited precisely. A checked item is reusable foundation. An unchecked item is either incomplete or not verified as written. Village-specific unfinished content is **superseded for new timelines**, not silently counted as complete; section 10 translates the remaining engineering requirements into First Glow deliverables.
 
 ### Phase 1: Establish the world contract and compatibility boundary
 
@@ -87,9 +91,9 @@ Deliverables:
 
 - [ ] Acceptance gate: the same fixture loads in server and browser code, invalid IDs/coordinates fail validation, and legacy snapshots can still be read without being silently rewritten.
 
-Review evidence: [`world.ts`](../packages/engine/src/world.ts) provides shared pure types, version fields, deterministic hashes, `MOVEMENT_MODEL`, and `createFixtureWorld()`. [`index.ts`](../packages/engine/src/index.ts) and the scenario define tick-based decisions and season limits; browser speed changes tween timing only. Positive costs exist for traversable grass/road; water is impassable. The shared module lives in the engine package rather than a dedicated world-data package.
+Current audit: `@mimir/world-data` now owns structured-v2 bundle/runtime types, canonical SHA-256 identity, integer-coordinate and duplicate-ID checks, authored clearance/reachability checks, and pure spatial queries. Engine movement uses a two-cost-unit tick budget, and server normalization rejects malformed structured-v1/v2 checkpoints. The fixture and compiled tests exist.
 
-Remaining: validation is not a complete schema for definitions or runtime state. A direct review probe confirmed that duplicate instance IDs and fractional object positions are accepted after recomputing the hash. Origins, orientations, cell size, and spawns are not represented in the world contract. [`state.test.ts`](../packages/server/src/state.test.ts) verifies legacy metadata and missing-world preservation, but the viewer draws fallback grass instead of the old backdrop and old timelines can still continue under current engine rules. The full compatibility/validation gate is therefore open.
+Still open: `validateWorldBundle()` accepts a typed value rather than fully decoding arbitrary unknown JSON; nested field/type coverage and runtime reservation actor references remain incomplete. Server and browser do not share one archived fixture-decoder parity test. Legacy snapshots normalize separately, but faithful legacy visual replay and a final legacy/v1/v2 read/continue matrix remain unproved. First Glow also needs an explicit new bundle/theme version boundary rather than in-place field renaming.
 
 ### Phase 2: Author tiles and reusable objects in Tiled
 
@@ -106,9 +110,9 @@ Deliverables:
 
 - [ ] Acceptance gate: moving a house or placing a second tree changes the imported world without edits to engine or renderer logic. Repeated imports of unchanged source produce the same content hash.
 
-Review evidence: [`first-winter.tiled.json`](../assets/world/first-winter.tiled.json) contains terrain and object layers for grass, road, water, house, tree, granary, and bridge. `importTiledMap()` in [`world.ts`](../packages/engine/src/world.ts) uses explicit GID/type mappings and stable `tiled-<id>` instance IDs; fingerprints are deterministic. Reusable footprints and slots currently live in TypeScript definitions. The backdrop asset is retained.
+Current audit: the checked-in village source imports deterministically to immutable hash `sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564`. It has water beneath an explicit bridge surface, eight object instances, six capability destinations, twelve first-settlement spawns, and a second-settlement entrance. Four JSON template files exist, stable `tiled-<id>` IDs are produced, and authored overlap/slot/spawn/reachability validation runs.
 
-Remaining: no final licensed tileset, Tiled template files, external tileset resolution, surface/foreground layers, or authored validated spawns. The importer reads only the first terrain/object layers, ignores unsupported orientation/rotation/template semantics, and does not validate conflicting placement or asset references. Bridge cells are painted road instead of composing a surface above water. The runtime still calls `createDefaultWorld()` rather than loading this imported map, so content edits do not yet drive the running scene. See [`assets/world/README.md`](../assets/world/README.md).
+Still open or superseded: the importer hardcodes terrain, definitions, capabilities, slots, and bridge behavior instead of resolving the checked-in templates and external tileset references. The generated asset manifest is empty and all visuals are `provisional/*`; no selected asset provenance exists. Foreground content is not actually authored, source layer-role properties are not consumed, and no automated temporary moved-object/added-instance import regression proves the acceptance gate. New work should build a First Glow tileset and templates (charge pool, shelter niche, trace/relay infrastructure, pattern shard/light mark) rather than finish village art.
 
 ### Phase 3: Render the structured scene in Phaser
 
@@ -124,9 +128,9 @@ Deliverables:
 
 - [ ] Acceptance gate: visuals and debug footprints remain aligned while resizing and zooming; villagers appear in front of or behind objects correctly. Verify visually in the browser in addition to automated checks.
 
-Review evidence: `VillageCanvas` in [`main.tsx`](../packages/web/src/main.tsx) draws normalized terrain and object footprints on a 24-pixel grid; the structured scene no longer depends on the CSS backdrop. Phaser camera bounds, zoom, drag panning, and CSS canvas scaling are implemented.
+Current audit: structured bundles render procedurally without the CSS backdrop; coordinate helpers, camera bounds, zoom, pan, selected-actor lookup by ID, update-triggered rebuilds, object depth, and an explicit IDs overlay are present. The overlay model includes objects, slots, spawns, and reservations. Browser coverage exercises live ticks, history tick 0, settlement switching, overlay toggling, and mobile overflow. Historical desktop/mobile captures exist for the village bundle.
 
-Remaining: scene creation, assets, and villagers still live in the React entry point. Only actors receive Y-based depth; object rectangles remain at default depth, with no canopy/roof/foreground system. Grid strokes and blocker colors are not the required developer overlay: IDs, slots, entrances, spawns, and blocked-cell reasons are absent. Scene creation captures the initial world/runtime and does not redraw object changes or settlement maps on subsequent props. Browser tests cover history labels and mobile overflow, not depth ordering or debug alignment; the visual acceptance gate remains unverified.
+Still open: `VillageCanvas`, scene setup, bundle adaptation, actors, and asset concerns remain concentrated in `main.tsx`; only coordinate/debug helpers were extracted. Hash-qualified manifest assets are not loaded because manifests are empty. Effective blocked-cell reasons, footprints/entrances as distinct visual layers, and a real foreground system are incomplete. Browser tests do not assert exact sprite coordinates, depth transitions, resize/zoom alignment, or two-rate endpoints. All historical captures predate the Living Circuit and are not First Glow visual evidence.
 
 ### Phase 4: Enforce collision and traversability on the server
 
@@ -142,9 +146,9 @@ Deliverables:
 
 - [ ] Acceptance gate: actors cannot occupy water, solid building cells, or out-of-bounds cells; they can cross a bridge and reach an accessible entrance. A tree trunk blocks movement while its decorative canopy does not.
 
-Review evidence: `isWalkable()` and `findRoute()` in [`world.ts`](../packages/engine/src/world.ts) enforce bounds, terrain, solid footprints, runtime blockers, and cardinal route neighbors. Fixture tests cover water, building avoidance, an open crossing, and a blocked bridge.
+Current audit: shared structured-v2 `queryCell()`/`canTraverse()` compose bounds, solid objects, mutable blockers, walkable surfaces, and terrain in explicit precedence order. A linked runtime blocker closes a bridge surface; reopening increments the navigation revision and movement resumes. Authored spawns and slots are checked for bounds, occupancy, and reachability. Cost-budgeted structured movement validates every committed cardinal edge.
 
-Remaining: bridge-over-water surface precedence is missing because terrain is checked first. Spawns have no validation contract; interaction slots are checked for bounds but not clearance. In [`advanceWorld()`](../packages/engine/src/index.ts), the normal path selects up to two route cells, but crowding fallbacks check only destination occupancy and can select non-cardinal offsets without validating the intervening edge. There is no effective-traversability/reason overlay or separate decorative canopy representation. Existing endpoint-walkability assertions do not establish every-step collision safety.
+Still open: the developer overlay does not expose every effective blocked-cell reason, and exhaustive visual agreement has not been asserted. Legacy/structured-v1 helpers still coexist with the new queries, so unsupported continuation boundaries and any unsafe legacy fallback must stay explicit. The First Glow bundle needs equivalent tests for circuit gaps, trace surfaces, relay closure, shelter/charge-object footprints, and visual-only light fields.
 
 ### Phase 5: Add deterministic navigation and destination selection
 
@@ -161,9 +165,9 @@ Deliverables:
 
 - [ ] Acceptance gate: routes go around buildings, prefer cheaper roads when appropriate, and use the bridge to cross water. Closing the crossing produces a valid alternate route or an explicit failure, never a route through blocked terrain. Repeated runs produce identical route and slot choices.
 
-Review evidence: `findRoute()` in [`world.ts`](../packages/engine/src/world.ts) implements four-direction A* with positive terrain costs, Manhattan heuristic, fixed neighbor order, and priority/cell-key tie-breaking. Legacy snapshots retain `routeBetween()` as a fallback. Engine tests cover deterministic repeated runs and failure when the fixture bridge is blocked.
+Current audit: structured-v2 chooses destinations from authored capabilities and reachable slots in stable actor/object/slot order, reserves only interaction slots, allows actors to pass through one another, persists route/cost progress, and replans when navigation revision changes. Explicit wait reasons distinguish no route and no free slot; a separate resolver also defines invalid destination. Tests cover deterministic reservation capacity and bridge close/reopen behavior.
 
-Remaining: [`advanceWorld()`](../packages/engine/src/index.ts) still chooses `LOCATION_TILES` plus `destinationOffsets`, rather than object capabilities and interaction slots. Target reservation follows array order and falls back to the first offset when none qualify; no-route collapses to the current position rather than an explicit navigation outcome. Intermediate cells are reserved, contrary to the planned pass-through policy. Routes are recomputed each tick, but navigation revisions, bounded retries, and explicit wait/alternate-destination states are absent. Thus the full deterministic route-and-slot acceptance gate remains open.
+Still open: navigation logic is duplicated between the structured engine and the older resolver rather than using one authoritative implementation. Bounded retry/alternate-destination policy, source movement during travel, narrow-corridor cases, regional entrance transitions, and the full repeated-route acceptance matrix are incomplete. First Glow capabilities and labels must replace village destination semantics without using presentation strings as authority.
 
 ### Phase 6: Make travel, arrival, and interaction part of simulation time
 
@@ -180,9 +184,9 @@ Deliverables:
 
 - [ ] Acceptance gate: a villager cannot collect food before arrival; a blocked route does not award the activity outcome; restart during travel preserves progress. Different browser playback speeds and two simultaneous viewers produce the same authoritative results.
 
-Review evidence: [`index.ts`](../packages/engine/src/index.ts) persists `destination`, `intendedActivity`, and `targetLocation`; activity is `travel` until coordinate arrival. Collection/sharing are arrival-gated at those coordinates. [`index.test.ts`](../packages/engine/src/index.test.ts) includes JSON serialize/resume equivalence during travel and collection assertions. These are useful partial implementations, not completion of slot-based interaction.
+Current audit: structured-v2 persists choosing/traveling/waiting/interacting/idle status, destination object/slot, remaining route, partial edge cost, navigation revision, and committed cell sequences. Collection/share are arrival- and reservation-gated, resource changes use a per-tick ledger, and consumption/production are explicit. A real isolated server restart matched an uninterrupted control. Consecutive live ticks interpolate committed cells; history and nonconsecutive changes snap to authority.
 
-Remaining: no explicit choosing/waiting/interacting state machine; travel advances two cells regardless of terrain cost and does not persist cost progress or a remaining route. Arrival is not checked against object slots/capacity, and resource allocation is not reserved per actor. The inspector lacks destination intent; encounters filter `activity === "meet"` rather than testing actual proximity. Production is still global each tick and consumption/distribution accounting needs the planned audit. [`main.tsx`](../packages/web/src/main.tsx) still uses delayed route tweens; single-point routes do not snap existing actors to recorded positions on seek. Existing two-viewer tests check timeline isolation, not playback-speed equivalence or exact scene replay. A real server restart during travel and the full blocked-arrival gate remain unverified.
+Still open: only collection/share have meaningful structured action effects; rest, craft, work, gather, and same-object meeting behavior are not completed. Hunger/readiness, trust/cooperation, authored adjustments, and encounter evidence remain partly in the old model. The UI still presents food/granary/villager concepts and does not expose all structured status/intent/progress fields. Two simultaneous playback rates and exact turning-route sprite coordinates have not been asserted. First Glow requires versioned charge/readiness semantics, not a label-only replacement of food/hunger.
 
 ### Phase 7: Verify history, dynamic changes, and expansion workflow
 
@@ -199,17 +203,17 @@ Deliverables:
 
 - [ ] Acceptance gate: move a building, add another building instance, and change a bridge state without coordinate-specific code changes. Restore a backup and replay both legacy and structured-map timelines correctly. Profile the actual twelve-villager scene before pursuing larger-world optimizations.
 
-Review evidence: checkpoints embed world definitions and runtime blocker IDs. The owner endpoint persists blocker changes, and [`integration.test.ts`](../packages/server/src/integration.test.ts) checks that they survive branching. [`backup.ts`](../packages/server/src/backup.ts) copies/restores the database. Additional workshop, field, meeting-hall, watchtower, and shelter definitions/instances exist in [`world.ts`](../packages/engine/src/world.ts).
+Current audit: blocker mutations are durable idempotent next-tick commands, structured state updates navigation revisions transactionally, hash-qualified bundles can be retrieved, and manual/scheduled backups share a bundle-inclusive manifest/checksum implementation. Structured restart, restored startup without the original bundle root, deliberate corruption failure, and two-run twelve-actor profiling were recorded. Authoring and hosted recovery notes exist.
 
-Remaining: no immutable versioned asset store or asset-inclusive backup; no simulation-version continuation guard or faithful legacy renderer. Blocker updates overwrite the current tick checkpoint without a navigation revision, change event, or occupied-cell transition check; the settlement runtime copy and mounted scene can also retain old blocker state. Additional instances do not complete the six-location conversion while destinations still use hardcoded anchors. The authoring notes lack an executable edit/import/validate/overlay/route/version workflow. Required-location reachability, spawn/slot/asset validation, backup replay of both models, and profiling of the actual twelve-villager scene remain unverified.
+Still open: tracked bundles contain no copied visual assets, so asset-inclusive preservation is only structurally exercised. Backup/replay coverage does not include one clean archive containing legacy, structured-v1, and two distinct structured-v2 bundles; continuation behavior and faithful visuals are not verified across that matrix. Occupied-crossing rejection, branch-before/after pending command, idempotent retry, parent byte immutability, missing asset recovery, and import-only moved/added object acceptance need consolidated proof. The old six-location village expansion is superseded for new timelines by the First Glow content conversion, while the old bundle remains a replay fixture.
 
 ## 5. Delivery order and first complete slice
 
-Implement phases 1–6 against the small fixture map before converting the full village in phase 7. Versioning and compatibility begin in phase 1; phase 7 verifies the complete preservation workflow rather than introducing it late.
+The original village packages established enough of phases 1–7 to serve as a compatibility and regression foundation, but did not close their complete gates. Do not spend the next package polishing provisional village art or renaming old checkpoint fields. Follow section 10's conversion order.
 
-The first complete slice is: choose the granary, reserve an accessible slot, travel around a house and across a bridge, arrive, collect food, and replay that journey. Repeat with the bridge unavailable and verify a meaningful failure or alternate route.
+The next complete slice is: select a charge pool by capability, reserve its accessible contact, follow a trace around a solid circuit structure and across a relay crossing, draw charge after arrival, and replay the committed journey. Repeat with the crossing unavailable and verify a meaningful wait or alternate route. Then return to a shelter niche and recover readiness through an arrival-gated idle action.
 
-Keep reviewable changes separated into world contracts/importing, scene rendering, collision queries, routing, and simulation integration. Runtime and schema changes need meaningful tests; content changes need validation and visual inspection. Do not describe an intermediate rendering-only phase as a completed collision fix.
+Keep changes reviewable and version-aware: theme contract/vocabulary; First Glow authored bundle and assets; Spark scene; charge/readiness actions; observer text and hidden-knowledge content; compatibility/replay/backup proof. Runtime and schema changes need deterministic tests. Content changes need import validation and browser inspection. Visual conversion alone does not complete the simulation conversion.
 
 ## 6. Scope boundaries
 
@@ -240,11 +244,11 @@ These sources informed the 2026-09-06 assessment; architecture and phase choices
 - [Godot TileMaps and navigation considerations](https://docs.godotengine.org/en/stable/tutorials/2d/using_tilemaps.html)
 - [Godot browser export requirements](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html)
 
-## 9. Detailed implementation handoff
+## 9. Historical detailed implementation handoff and evidence
 
 ### 9.0 Working rules and dependency order
 
-This section makes implementation choices where the earlier phases were underspecified. Use these defaults unless a later user decision changes them. Names described as proposed files or APIs do not exist yet. Verify the checkout before editing: this review's code baseline is `2c0ab82`. Preserve later changes and existing databases; never reset a user's timeline just to make a test pass.
+This section preserves the village-era implementation choices and evidence used to build structured-v2. It remains authoritative for unfinished low-level guarantees where section 10 references it, but `world-theme.md` and section 10 supersede its village names, visual art, opening institutions, food economy, and full-village destination target for new timelines. Verify the checkout before editing; this re-audit baseline is `4c4c752`. Preserve later changes and existing databases; never reset a user's timeline just to make a test pass.
 
 Implement in this order: W1 contract and compatibility; W4 pure spatial queries; W2 importer and small fixture content; W5 navigation; W6 engine travel/actions; W3 rendering and W6 replay; W7 persistence integration and full village. W4 needs W1 types; W2 validation needs W4; W3 overlays need W4; W7 blocker persistence uses W5 revisions and W6 tick commits. Define bundle references in W1 and the storage format in W2, then complete durable storage and backup in W7. Keep the current application buildable between packages with explicit legacy adapters, not silent defaults.
 
@@ -391,12 +395,153 @@ This ledger records verified work packages without overstating phase completion.
 | W1 contract boundary | `53d81a1` plus follow-up | Added `@mimir/world-data` with strict v2 types, recursive canonicalization, portable SHA-256 bundle identity, runtime checks, and compiled validation tests for duplicate IDs, fractional coordinates, and surface precedence. Browser verification found and fixed the Node-only crypto leak. | Engine/server/web are not yet fully decoded through the package; legacy/v1 continuation guards, fixture archive, runtime-state migration, and browser decoder parity remain open. |
 | W2 importer | `1eb898e`, `55278a4`, `75ed322` plus route correction | Added deterministic importer/validator scripts, four template files, strict authored spatial diagnostics, and preserved immutable bundles. The route-corrected expanded authored village is `sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564`; it contains six capability destinations, eight object instances, twelve first-village spawns, and a Riverbend entrance. Engine/server compatibility, restart, and backup tests use the new hash while prior bundle directories remain preserved. | Licensed art/provenance, external tileset/template resolution, asset manifest population, conflict diagnostics beyond current spatial checks, and moved-house/add-tree import regression remain open. |
 | W4 traversability | `b6760df`, `a0c4b0e`, `e37410b` | Engine/world-data `queryCell()`/`canTraverse()` now share bounds, terrain, solid/runtime blocker, authored surface precedence, linked bridge-surface closure, and cardinal-edge logic with A*. Runtime blocker IDs, boolean state, and duplicate entries are validated; fresh engine compilation succeeds; bridge closure now produces no-route and reopening resumes movement. | Full effective-reason overlay, and replacement of all unsafe legacy step fallbacks remain open. |
-| W5 destinations | `af99890` | Added pure deterministic capability/slot resolver with explicit reserved/no-free-slot/no-route/invalid-destination outcomes and stable cost/object/slot ordering. | `advanceWorld()` still uses legacy anchors and does not yet persist/reconstruct reservations or navigation revisions. |
-| W6 movement/replay | `1641903`, `a9dc757`, `017cce9` plus follow-up | Added compiled cost-budgeted movement and structured-v2 simulation with explicit statuses, remaining route/cost, committed cell sequence, stable reservations, arrival-gated collection/share, deterministic full-slot reservation coverage, explicit per-tick `global-production` ledger entries, and cumulative conservation coverage. The server now routes structured-v2 ticks through this simulation and dedicated restart equivalence passes. | Full authored adjustment/social action effects and authoritative browser playback sequencing remain open. |
-| W3 web primitives | `4ec532f` plus follow-up | Added shared coordinate/inverse-coordinate helpers, debug legend types, ID-derived selected-villager lookup, depth-aware object rendering, dev overlay IDs/slots, one-cell snapping, and update-triggered scene rebuilds. Browser E2E passed; visual evidence: `docs/2026-09-06-world-desktop-overlay.png`, `docs/2026-09-06-world-mobile.png`; mobile width remained 390px. | Full v2 scene adapter, reservation/reason overlays, historical playback sequencing, and visual assertions across map switches remain open. |
+| W5 destinations | `af99890` plus structured-v2 integration | Added deterministic capability/slot selection with explicit reserved/no-free-slot/no-route/invalid-destination outcomes and stable cost/object/slot ordering. Structured-v2 persists reservations and navigation revisions while legacy `advanceWorld()` retains legacy anchors. | Consolidate duplicated routing/resolution logic; add bounded retry/alternate behavior, regional entrances, corridor/source-move cases, and the full deterministic acceptance matrix. |
+| W6 movement/replay | `1641903`, `a9dc757`, `017cce9` plus follow-up | Added compiled cost-budgeted movement and structured-v2 simulation with explicit statuses, remaining route/cost, committed cell sequence, stable reservations, arrival-gated collection/share, deterministic full-slot reservation coverage, explicit per-tick `global-production` ledger entries, and cumulative conservation coverage. The server now routes structured-v2 ticks through this simulation and dedicated restart equivalence passes. | Full authored adjustment/social action effects, rest/work/gather/meet behavior, structured inspector fields, and exact two-rate browser playback assertions remain open. |
+| W3 web primitives | `4ec532f` plus follow-up | Added shared coordinate/inverse-coordinate helpers, debug legend types, ID-derived selected-villager lookup, depth-aware object rendering, dev overlay IDs/slots/spawns/reservations, one-cell snapping, and update-triggered scene rebuilds. Browser E2E passed; visual evidence: `docs/2026-09-06-world-desktop-overlay.png`, `docs/2026-09-06-world-mobile.png`; mobile width remained 390px. | Scene/asset/actor modules, manifest asset loading, effective-reason overlays, foreground depth fixtures, and exact visual assertions remain open. |
 | W7 dynamic/bundle slice | `496bc18` plus follow-up, `e56064a`, `e73f503`, `40c4174`, `d4ed37d`, `2e100c5` | Blocker changes queue durable idempotent next-tick commands and apply transactionally; structured-v2 blocker/reopen behavior updates runtime navigation revision; compiled integration passes. Manual and scheduled backups share bundle-inclusive copying and manifests. Hash-qualified retrieval, `/api/owner/reset-v2`, restart equivalence, deliberate corruption failure, the full authored village, two-run 12-villager engine/browser profile, production-preview overlay-off/on timing comparison, and startup/replay from a clean restored bundle root are verified. | Final clean replay matrix across legacy/v1/v2, some continuation/asset-reference cases, and complete all-sevens acceptance review remain open. |
 
 | Browser structured-v2 adapter | `6910c91`, `5ba4f27`, `d941ac5` | The web app derives a renderable scene definition from the authoritative structured bundle, renders fresh structured timelines, and exposes an explicit `Show IDs`/`Hide IDs` developer overlay. Playback now interpolates only consecutive live authoritative ticks and snaps on history/nonconsecutive scene changes; rebuilt browser E2E passes live ticks, history seek, settlement switching, mobile overflow, and overlay state transition. | Exact sprite-coordinate assertions across history turns and a measured overlay-on comparison remain open. |
 | W1 test orchestration / compatibility guard | `d2a7722`, `f299a79` | Structured-v1/v2 checkpoint continuation now rejects missing/unsupported structured state, legacy normalization remains separate, and world-data rebuilds before root validation tests. | Full decoder parity and final legacy/v1/v2 replay matrix remain open. |
 
 Validation note: the initial `tsx`/Vite attempts hit the known Windows `EPERM` child-process restriction. The world-data tests and legacy compatibility tests must therefore be run from freshly compiled JavaScript when the restriction is present. The elevated full build passed; the long-running legacy engine suite was not counted as passed until its runtime is isolated. No phase acceptance gate is earned by the partial package commits above.
+
+## 10. Active handoff: Living Circuit / First Glow conversion
+
+### 10.0 Conversion rules and dependency order
+
+The next stage is a versioned conversion of new timelines, not a search-and-replace over old data. Preserve `legacy-backdrop-v0`, structured-v1, and existing structured-v2 village checkpoints and bundles byte-for-byte. Continue to render/replay them according to their recorded version. Do not convert `food` to `charge`, `villager` to `Spark`, or `Hearthmere` to a First Glow location while loading old history.
+
+For new timelines, introduce explicit metadata for `themeId: "living-circuit"` and `ageId: "first-glow"`. Keep `structured-v2` as the spatial-model identifier because the geometry model remains valid. Use a new required world-bundle schema version and a new simulation version for charge/readiness and First Glow activity semantics; the intended identifiers are schema `3` and `mimir-sim-v3-first-glow`. If implementation evidence requires different identifiers, update this plan and all compatibility tests in the same package before persisting them.
+
+Complete packages in this order:
+
+1. **T1 — Theme boundary and domain contract**
+2. **T2 — First Glow authored bundle, templates, and assets**
+3. **T3 — Charge, readiness, and First Glow actions**
+4. **T4 — Spark scene and dark observer shell**
+5. **T5 — First Glow language, knowledge, and social material**
+6. **T6 — Compatibility, bundle, command, and backup closure**
+7. **T7 — Browser acceptance, replay matrix, and profile**
+
+T1 is the immediate next package. T2 depends on its schema and capability vocabulary. T3 depends on the imported First Glow fixture. T4 may begin after T2 but cannot close until T3 supplies authoritative statuses/events. T5 depends on T3 event semantics. T6 depends on the new bundle/assets and checkpoint version. T7 closes the conversion only after all preceding packages pass.
+
+Each package must preserve a runnable application, use isolated databases and ports, update this plan's evidence table, and be committed separately. Rebuild before tests that consume `dist`. Content-addressed generated bundles are outputs: edit sources/importer/assets, generate a new hash, and retain every old hash referenced by history.
+
+### 10.1 Conversion map
+
+| Village-era concept in current code | First Glow target for new timelines | Compatibility rule |
+|---|---|---|
+| villager / human-shaped marker | Spark / small luminous core with signature mark | Keep old serialized names and old visual adapter for old timelines |
+| food / hunger | charge / charge deficit | New simulation version; no in-place save migration |
+| rest score or fatigue ambiguity | readiness, with strain as explanatory language | Higher readiness is better; deficit/strain must not be rendered as readiness |
+| grass, road, water | dark open space or local substrate, trace, circuit gap | Preserve movement-cost and surface precedence mechanics |
+| bridge | relay crossing or conductive link surface | Retain mutable blocker/replan behavior; presentation follows bundle metadata |
+| house / home | shelter niche | A temporary idle location, not yet a permanent Nest |
+| granary / shared reserve | charge pool and carried charge | No formal Charge Commons in the opening state |
+| workshop / field / woodland | pattern shard site, light-mark site, exploration area | Do not imply settled occupations or production institutions |
+| meeting hall | an informal shared contact/site | Encounters still require actual co-presence |
+| Hearthmere / Riverbend | unnamed opening region IDs and practical local labels | Emberhaven and Relaybrook are later-age reserved names |
+| first winter / weather framing | First Glow supply conditions and optional Long Dimming pressure | Long Dimming timing remains scenario-defined, not automatic opening lore |
+| known Originators/human purpose | unknown origin and bounded local knowledge | No opening dialogue, UI, or objective may reveal reserved lore |
+
+### 10.2 T1 — Theme boundary and domain contract (next)
+
+Targets: `packages/world-data/src/types.ts`, `validation.ts`, canonical tests and fixtures; `packages/engine/src/structured.ts` and public state types; `packages/server/src/state.ts` and timeline creation; browser adapters; scenario/theme metadata documentation.
+
+1. Add schema-3 bundle and runtime decoding from `unknown`, with required `themeId`, `ageId`, asset records, layer roles, terrain/surface/object definitions, spawns, and immutable reference data. Keep schema-2 decoding available for replay; do not widen it with implicit First Glow defaults.
+2. Define First Glow domain types: actor is a Spark; resources include carried charge and settlement/source charge; actor need is `chargeDeficit`; recovery is `readiness`; activities are `seek-charge`, `draw-charge`, `share-charge`, `explore`, `mark-trace`, `seek-shelter`, `meet`, `shape-pattern`, and `idle`. Separate persisted IDs from display labels.
+3. Define capabilities and runtime properties for `charge-pool`, `shelter-niche`, `trace`, `relay-crossing`, `pattern-shard`, and `light-mark`. Keep geometry generic: capability strings drive action selection; labels never drive simulation.
+4. Introduce a schema-3 First Glow fixture under `assets/world/fixtures/` and decode the exact same bytes in world-data, engine/server, and browser tests. Include invalid nested types, unknown references, duplicate IDs, malformed assets, invalid reservations/actor references, and wrong theme/age/version combinations.
+5. Add explicit creation/continuation dispatch: existing timelines use their recorded adapters; First Glow timelines use `mimir-sim-v3-first-glow`; unknown or incomplete versions fail clearly. Do not make First Glow the default until T1–T4's vertical slice passes together.
+6. Add a compatibility vocabulary boundary in the web adapter so old history says villager/food/granary while First Glow says Spark/charge/charge pool. The canonical state and events, not CSS text replacement, determine which vocabulary is used.
+
+Verification: canonical schema-3 hash stability in Node and browser; fixture decoder parity; rejection of malformed nested values and reservation actor IDs; round-trip serialize/reload; old legacy/v1/v2 fixture reads unchanged; unsupported continuation fails; no old checkpoint bytes are rewritten; no First Glow field is persisted under an old simulation version.
+
+Acceptance gate T1: a First Glow fixture can be loaded through shared decoders in server and browser, produces an explicit new timeline/checkpoint version, and coexists with readable old village fixtures without inferred migration.
+
+### 10.3 T2 — First Glow authored bundle, templates, and assets
+
+Targets: `assets/world/`, `assets/licenses/`, `scripts/import-world.mjs`, `scripts/validate-world.mjs`, generated bundle storage, authoring tests, and `assets/world/README.md`.
+
+1. Create a new finite orthogonal First Glow Tiled source; do not overwrite `first-winter.tiled.json`. Use named/property-tagged ground, surface, object, foreground/effect, and spawn layers. The composition should leave roughly three quarters of the opening view dark and quiet while keeping modeled routes readable.
+2. Replace hardcoded importer definitions with actual external tileset/template resolution. Author reusable templates for charge pool, shelter niche, relay crossing, circuit structure, pattern shard site, and light mark. Preserve stable Tiled object IDs and validate allowed instance overrides.
+3. Define movement content as trace cost 1, local substrate/open traversable area cost 2, and circuit gap impassable unless an enabled surface crosses it. A relay crossing must overlay a gap exactly as the old bridge proved surface precedence. Decorative light and glow never imply walkability or collision.
+4. Create or select a coherent blue-and-silver asset set matching `world-theme.md`. Prefer repository-authored vector/raster assets with explicit project provenance; for external assets, retain author, source URL, license text, retrieval date, version, and attribution requirements. Populate the immutable asset manifest with hashes, media types, versions, and copied bundle assets.
+5. Provide at least twelve valid Spark spawns, one regional entrance if regional travel remains enabled, enough charge/shelter contacts for the intended capacities, and reachable sites for every First Glow activity used by the scenario.
+6. Add deterministic import tests: unchanged source imports byte-identically; moving a shelter niche changes only expected placement/hash data; adding a second light mark or pattern shard needs no engine/renderer edit; external `firstgid`, template override, unsupported transform, missing asset, conflicting solid, blocked spawn, malformed slot, and unreachable capability cases are covered.
+
+Acceptance gate T2: the generated First Glow bundle includes real manifest assets and provenance, imports deterministically, validates every required capability/spawn, and supports moved/added instances through content edits alone.
+
+### 10.4 T3 — Charge, readiness, and First Glow actions
+
+Targets: structured engine state/actions, resource ledger, scenario data, deterministic tests, server restart test, and observer state DTOs.
+
+1. Replace food-era fields only in the new simulation version with carried charge, source/community charge, charge deficit, and readiness. Record production/intake, draw, share, consumption, loss, and authored adjustment entries explicitly and conserve charge across actors/sources after named external inputs.
+2. Keep choosing/traveling/waiting/interacting/idle and cost-budgeted movement. Gate draw/share/idle/explore/mark/meet/shape effects on validated arrival, reservation, settlement, object, capability, and contact. Execute at most one arrival-dependent action per Spark per tick.
+3. `draw-charge` transfers an actual available amount from a charge pool; `share-charge` transfers actual carried charge to another co-present Spark or an explicitly modeled local store/source. No formal commons, credits, market, or worker production credit exists in First Glow.
+4. `idle` at a shelter niche increases readiness according to an authored rule and performs no collection. Movement/actions reduce readiness or increase charge deficit only through explicit ledger/status rules. Define clamping and zero-resource outcomes without hiding negative inventory.
+5. Encounters require Sparks to interact at the same object/contact in the same region and tick. Preserve private knowledge and evidence references; spontaneous effects remain separately labeled.
+6. Consolidate duplicated routing/destination logic, add bounded replanning, source-depletion/target invalidation, regional entrance handling, corridor cases, and deterministic actor-order tests.
+
+Acceptance gate T3: the First Glow vertical slice draws no charge before arrival, awards nothing on failed navigation or empty source, preserves partial travel across a real restart, conserves charge, recovers readiness only while validly idling, and produces identical choices/events across repeated runs.
+
+### 10.5 T4 — Spark scene and dark observer shell
+
+Targets: `packages/web/src/main.tsx`, `styles.css`, focused scene/asset/Spark modules, manifest asset loading, debug overlay, and Playwright visual assertions.
+
+1. Extract React lifecycle, Phaser scene, bundle assets, Spark rendering, authoritative playback, and overlay generation into focused modules. Keep separate adapters for legacy backdrop, structured-v2 village bundles, and schema-3 First Glow bundles.
+2. Render manifest assets with hash-qualified texture keys. Use the selected near-black, blue, cyan, silver, and near-white palette; remove grass/brown village styling from First Glow while retaining it for old adapters. Render local circuitry only around nodes/traces and keep open space visually quiet.
+3. Render each Spark as a small luminous non-human core with a stable signature mark, readable at the fitted mobile scale. Use restrained glow and motion; no face, limbs, clothing, or human silhouette. Multiple Sparks at a meeting remain individually readable.
+4. Sort structures, effects, and Sparks by declared layer and ground-contact rules. Glow/foreground coverage is visual only. Expand the overlay to show IDs, cells, solids, surfaces, contacts, spawns, reservations, navigation revision, effective traversability, and blocked reason.
+5. Display structured Spark inspector fields: current region/cell/contact, destination object/contact, intended activity, status, wait reason, committed travel progress, charge, charge deficit, and readiness. Hide raw IDs outside developer mode.
+6. Use abort/request sequencing for history. Snap on seek, nonconsecutive tick, timeline/region/bundle switch, and return-live; interpolate only committed consecutive edges. Playback speed changes presentation only.
+7. Capture and inspect desktop and 390-pixel mobile screenshots with overlays off/on. Check contrast, approximately dark-dominant composition, exact coordinate alignment, Spark readability, depth transitions, no horizontal overflow, and no accidental opening-lore disclosure.
+
+Acceptance gate T4: the First Glow scene is visually and semantically distinct from the village, debug geometry stays aligned through resize/zoom/switches, Sparks depth-sort correctly, and two playback rates end on the same authoritative coordinates.
+
+### 10.6 T5 — First Glow language, knowledge, and social material
+
+Targets: authored cards/dilemmas/events, scenario configuration, region/inspector/design copy, reports, API presentation DTOs, tests, and current explanatory docs.
+
+1. Replace new-timeline village labels and human economic framing with the exact vocabulary in `world-theme.md`. Use natural speech; technical language clarifies circumstances but does not turn dialogue into diagnostics.
+2. Start with tendencies toward care, independence, and curiosity, not three established institutions. Hearthkeepers, Freehands, Seekers, Emberhaven, Relaybrook, formal Nests, Collector Garden, Charge Commons, Pattern Forge, Resonance Square, credits, markets, and regional trade remain later-age content.
+3. Enforce opening knowledge boundaries: Sparks do not know their purpose, humans, or Originators. Pattern shards can be mysterious without source-revealing labels. A private observation is not global knowledge.
+4. Replace first-winter-specific opening pressures with stable supply, weakening pools, shortages, efficiency loss, or a scenario-selected Long Dimming. Do not imply shutdown/permanent death mechanics unless implemented.
+5. Ensure generated event prose matches recorded outcomes exactly: no named recipient, transfer amount, discovery, relationship change, or lore claim without supporting fields/evidence.
+
+Acceptance gate T5: a new First Glow timeline, inspector, events, cards, and season report use consistent theme vocabulary and reveal no reserved lore or mature institution as established fact; old timeline text remains historically correct.
+
+### 10.7 T6 — Compatibility, bundles, commands, and backup closure
+
+Targets: server bundle registration/retrieval, timeline creation/continuation, queued object commands, backups/restores, asset serving, compatibility adapters, runbook, and integration tests.
+
+1. Register schema-3 bundle plus all assets before its first checkpoint. Serve only hash-qualified referenced files with containment, media type, and checksum checks. Missing/mismatched files fail clearly and never fall back to the newest world or SPA shell.
+2. Apply relay/source/shelter runtime changes through durable ordered next-tick commands. Validate occupied cells and pending partial edges, increment navigation revision only for effective spatial changes, and keep actor progress/events/command status/checkpoint atomic.
+3. Prove pending-command restart, idempotent retry, branch exclusion/inheritance rules, branch before/after application, occupied-crossing rejection, source-depletion replan, and parent checkpoint byte immutability for First Glow.
+4. Back up one database containing legacy, structured-v1, existing structured-v2 village, and schema-3 First Glow timelines plus every referenced asset. Restore into a clean directory with no original bundle access; replay every version and continue only explicitly supported versions. Corrupt/missing asset copies must fail before startup.
+5. Update authoring and hosted runbooks with exact First Glow edit/import/validate/register/new-timeline/overlay/route/restart/backup/restore commands and missing-bundle recovery. Keep the village bundle procedure as historical compatibility guidance.
+
+Acceptance gate T6: dynamic First Glow changes are safe and replayable, all historical models retain their original definitions/assets, and a clean bundle-inclusive restore passes the mixed-version matrix without fallback or mutation.
+
+### 10.8 T7 — Final conversion acceptance and performance evidence
+
+1. Run a fresh full build, world-data/engine tests, compiled state tests, server integration, First Glow restart, mixed backup/restore, browser E2E, and whitespace/status checks. Wire new suites into scripts so the documented commands run them.
+2. Run the full vertical slice with relay open, relay closed, relay reopened, moved shelter, and added light-mark/pattern-shard instance. Confirm API, engine, scene, overlay, inspector, and replay agree without coordinate-specific code changes.
+3. In two browser contexts at different playback rates, compare authoritative state and final rendered Spark coordinates. Seek tick 0 and a turning route; switch old/new timelines and regions; verify texture/version isolation and request cancellation.
+4. Profile twelve Sparks on the actual First Glow bundle with overlays off/on in production preview. Record hardware/browser, dimensions, object/asset count, build mode, seed, ticks, two engine runs, frame median/p95/max, long tasks, and observed memory growth. Preserve prior village measurements as historical, not comparison claims unless methodology matches.
+5. Review every original low-level gate and every T1–T7 gate. Mark only fully evidenced clauses complete. Record bundle hash, screenshot/profile paths, temporary test configuration, exact commands/results, commits, and verified remote branch.
+
+Final conversion gate: new timelines default to a complete First Glow experience; old timelines replay faithfully; movement, collision, actions, rendering, commands, persistence, and backup agree; all First Glow assets are preserved and licensed/provenanced; and no unresolved gate is represented as complete.
+
+### 10.9 First Glow conversion progress
+
+| Package | Status | Evidence | Remaining |
+|---|---|---|---|
+| T0 plan audit and conversion handoff | Complete | Reconciled source/tests/manifests/history at `4c4c752`; `world-theme.md` made authoritative; preserved village work as compatibility foundation. | None; T1 is next. |
+| T1 theme boundary and domain contract | **Next** | Existing structured-v2 version dispatch and compatibility guards are reusable. | All T1 steps and acceptance evidence. |
+| T2 First Glow bundle/assets | Not started | Existing Tiled/bundle pipeline and surface precedence are reusable. | All T2 steps and acceptance evidence. |
+| T3 First Glow actions | Not started | Existing status, reservations, movement budget, ledger, and restart path are reusable. | All T3 steps and acceptance evidence. |
+| T4 Spark scene | Not started | Existing Phaser camera, structured adapter, overlay primitives, and playback rules are reusable. | All T4 steps and acceptance evidence. |
+| T5 language/knowledge | Not started | `world-theme.md` is the selected content reference. | All T5 steps and acceptance evidence. |
+| T6 compatibility/persistence closure | Not started | Existing queued commands, bundle retrieval, backup manifests, and restored startup are reusable. | All T6 steps and mixed-version acceptance evidence. |
+| T7 final acceptance/profile | Not started | Prior village screenshots/profile establish tooling only. | Fresh First Glow browser, replay, restore, and profile evidence. |
