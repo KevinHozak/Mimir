@@ -1,0 +1,6 @@
+{
+  "id": "relay-crossing",
+  "label": "Relay crossing",
+  "footprint": [], "slots": [], "capabilities": ["relay-crossing"], "capacity": 0,
+  "visualAsset": "first-glow-relay-crossing.svg", "groundContact": { "x": 36, "y": 24 }, "blocksMovement": false
+}

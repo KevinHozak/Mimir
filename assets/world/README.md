@@ -12,6 +12,10 @@ The map contains reusable house, tree, granary, bridge, workshop, field, and mee
 
 The current renderer uses normalized object definitions and procedural placeholder colors while final licensed tileset art is selected. No redistributable tileset has been selected yet, so the art/provenance deliverable remains open. Keep source, templates, and eventual license text together when the art is replaced. Supported source features are finite orthogonal JSON maps, named uncompressed tile/object layers, grid-aligned rectangle/point objects, and orientation 0. Unsupported transforms, compressed/chunked data, polygons, and unknown layers must fail with context.
 
+## First Glow source
+
+`maps/first-glow.tiled.json` is the schema-3 Living Circuit source. It resolves the external `tilesets/first-glow.json`, reusable First Glow templates, and repository-authored SVGs under `assets/`. Import it with `npm run world:import -- assets/world/maps/first-glow.tiled.json`; the importer copies hash-qualified assets into the immutable generated bundle and records provenance in `manifest.json`. The current bundle is `sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3`.
+
 Typical workflow:
 
 1. Edit the Tiled source or a JSON template, keeping stable object IDs and grid alignment.
