@@ -25,12 +25,18 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     if (!actor || !recipient || actor.position.x !== recipient.position.x || actor.position.y !== recipient.position.y) continue;
     const amount = Math.min(1, actor.carriedCharge); actor.carriedCharge -= amount; recipient.carriedCharge += amount; state.ledger.push({ kind: "share", actorId: actor.id, amount, reason: amount ? "co-present-spark" : "no-carried-charge" }); state.events.push({ id: `event-${state.tick}-${actor.id}-share`, kind: "share", actorId: actor.id, message: `${actor.name} shared ${amount} charge with ${recipient.name}.` }); actor.status = "choosing"; recipient.status = "choosing"; const originalActivity = restoredActivities.get(recipient.id); if (originalActivity) recipient.intendedActivity = originalActivity;
   }
+  const arrivalActions = new Set(state.events.filter(event => ["explore", "mark-trace", "shape-pattern", "meet"].includes(event.kind)).map(event => event.actorId));
+  const movedActors = new Set(state.events.filter(event => event.kind === "movement").map(event => event.actorId));
   const drawnActors = new Set(state.ledger.filter(entry => entry.kind === "draw" && entry.actorId).map(entry => entry.actorId));
   for (const settlement of state.settlements) for (const spark of settlement.sparks) {
     const before = previous.get(spark.id);
     if ((before?.status === "traveling" || before?.status === "interacting") && spark.status === "choosing" && (before.activity === "explore" || before.activity === "mark-trace" || before.activity === "shape-pattern")) {
       state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 0, reason: `${before.activity}-arrived` });
       state.events.push({ id: `event-${state.tick}-${spark.id}-${before.activity}`, kind: before.activity, actorId: spark.id, message: `${spark.name} completed ${before.activity.replaceAll("-", " ")}.` });
+    }
+    if (movedActors.has(spark.id) || arrivalActions.has(spark.id)) {
+      spark.readiness = Math.max(0, spark.readiness - 1);
+      state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: movedActors.has(spark.id) ? "movement-strain" : "activity-strain" });
     }
     if (drawnActors.has(spark.id)) continue;
     if (spark.carriedCharge > 0) { spark.carriedCharge -= 1; state.ledger.push({ kind: "consumption", actorId: spark.id, amount: 1, reason: "activity-sustenance" }); }
