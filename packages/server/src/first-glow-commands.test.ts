@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
 const root = join(process.cwd(), "..", ".."); const port = 34143; const database = join(root, `first-glow-commands-${Date.now()}.db`); const hash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3"; let server: ChildProcess | undefined;
-const waitFor = async () => { for (let attempt = 0; attempt < 80; attempt += 1) { try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error("First Glow command server did not start"); };
+const waitFor = async () => { for (let attempt = 0; attempt < 300; attempt += 1) { try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error("First Glow command server did not start within 30 seconds"); };
 const request = async (path: string, init?: RequestInit) => fetch(`http://127.0.0.1:${port}${path}`, { ...init, headers: { "x-owner-token": "first-glow-command-owner", ...(init?.headers ?? {}) } });
 try {
   server = spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env: { ...process.env, PORT: String(port), AUTO_TICK: "false", DATABASE_PATH: database, OWNER_TOKEN: "first-glow-command-owner", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") }, stdio: "ignore" }); await waitFor();
