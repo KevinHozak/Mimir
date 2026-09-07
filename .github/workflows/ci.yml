@@ -40,3 +40,5 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Browser integration
         run: npm run test:first-glow --workspace @mimir/web
+      - name: Tiled importer acceptance
+        run: npm run world:test
