@@ -1,0 +1,15 @@
+import { spawn } from "node:child_process";
+import { existsSync, unlinkSync } from "node:fs";
+import { join } from "node:path";
+import { chromium } from "playwright";
+
+const root = process.cwd();
+const hash = "sha256-1f24c63c9168eb2e8d6a76be1b1d42c12b601ef9f3955a34a9cf25d4d2854564";
+const database = join(root, `profile-overlay-${Date.now()}.db`);
+const apiPort = 34139;
+const webPort = 5179;
+const server = spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env: { ...process.env, PORT: String(apiPort), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "profile-owner" }, stdio: "ignore" });
+const web = spawn(process.execPath, [join(root, "node_modules", "vite", "bin", "vite.js"), "preview", "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...process.env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" });
+const waitFor = async (url) => { for (let attempt = 0; attempt < 80; attempt += 1) { try { if ((await fetch(url)).ok) return; } catch {} await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error(`overlay profile service did not start: ${url}`); };
+const measure = async page => { const samples = await page.evaluate(() => new Promise(resolve => { const values = []; let previous = performance.now(); let count = 0; const frame = now => { values.push(now - previous); previous = now; count += 1; if (count === 120) resolve(values); else requestAnimationFrame(frame); }; requestAnimationFrame(frame); })); const sorted = samples.sort((a, b) => a - b); return { medianMs: sorted[Math.floor(sorted.length * 0.5)], p95Ms: sorted[Math.floor(sorted.length * 0.95)], maxMs: sorted.at(-1), frameCount: sorted.length }; };
+try { await waitFor(`http://127.0.0.1:${apiPort}/health`); await waitFor(`http://127.0.0.1:${webPort}/`); const reset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v2`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": "profile-owner" }, body: JSON.stringify({ bundleHash: hash, seed: 20260906 }) }); if (!reset.ok) throw new Error(await reset.text()); const browser = await chromium.launch({ headless: true }); try { const page = await browser.newPage({ viewport: { width: 1280, height: 900 } }); await page.goto(`http://127.0.0.1:${webPort}/`); await page.getByText("Owner operations").waitFor(); const off = await measure(page); await page.getByRole("button", { name: "Show IDs" }).click(); const on = await measure(page); console.log(JSON.stringify({ bundleHash: hash, browser: "Playwright Chromium headless", build: "Vite production preview", viewport: "1280x900", overlayOff: off, overlayOn: on }, null, 2)); } finally { await browser.close(); } } finally { server.kill(); web.kill(); for (const child of [server, web]) await new Promise(resolve => { if (child.exitCode !== null) resolve(); else { child.once("exit", resolve); setTimeout(resolve, 3000); } }); for (const suffix of ["", "-shm", "-wal"]) { const path = `${database}${suffix}`; if (existsSync(path)) unlinkSync(path); } }
