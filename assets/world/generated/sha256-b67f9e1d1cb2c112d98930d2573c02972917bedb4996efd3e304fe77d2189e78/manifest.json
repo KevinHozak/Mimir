@@ -1,0 +1,47 @@
+{
+  "bundle": {
+    "bundleId": "first-glow-v1",
+    "contentHash": "sha256-b67f9e1d1cb2c112d98930d2573c02972917bedb4996efd3e304fe77d2189e78",
+    "schemaVersion": 3,
+    "assetVersion": "first-glow-v1"
+  },
+  "source": "C:\\Projects\\Mimir\\assets\\world\\maps\\first-glow.tiled.json",
+  "generatedAt": "source-independent",
+  "assets": [
+    {
+      "path": "assets/19db2682cd1ed67f2d83213e624748b224ff7d6465758a9843cbd588b91a6885-first-glow-charge-pool.svg",
+      "sha256": "sha256-19db2682cd1ed67f2d83213e624748b224ff7d6465758a9843cbd588b91a6885",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/887f6c2d207da88b5f3b5526c43bdb30cde7a165d5e0be31d16f8dbaf53957e2-first-glow-shelter-niche.svg",
+      "sha256": "sha256-887f6c2d207da88b5f3b5526c43bdb30cde7a165d5e0be31d16f8dbaf53957e2",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/c3c376b2bd1e4d9873ea0938d927896675572865e5dd89c23bd00265908441d2-first-glow-relay-crossing.svg",
+      "sha256": "sha256-c3c376b2bd1e4d9873ea0938d927896675572865e5dd89c23bd00265908441d2",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/094f64bdeafdb3aeb821f1ba7b45c41131cc1ebeaa94d1438a0ab5040f50e648-first-glow-pattern-shard.svg",
+      "sha256": "sha256-094f64bdeafdb3aeb821f1ba7b45c41131cc1ebeaa94d1438a0ab5040f50e648",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/df31aeec6a17b29e730d57daf3aea03d3326832b88ff2c5fc5b88faebacc5f37-first-glow-light-mark.svg",
+      "sha256": "sha256-df31aeec6a17b29e730d57daf3aea03d3326832b88ff2c5fc5b88faebacc5f37",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v1",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    }
+  ]
+}
