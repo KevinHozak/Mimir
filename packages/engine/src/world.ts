@@ -206,18 +206,21 @@ export function inBounds(world: WorldDefinition, cell: Cell): boolean { return c
 export type CellBlockReason = "out-of-bounds" | "terrain" | "solid-object" | "runtime-blocker";
 export type CellQuery = { walkable: true; cost: number } | { walkable: false; reason: CellBlockReason; objectId?: string };
 
-export function queryCell(world: WorldDefinition, cell: Cell, runtime: WorldRuntimeState = { blockedObjectIds: [] }): CellQuery {
+interface SpatialLookup { blockedObjectByCell: Map<string, { objectId: string; runtime: boolean }>; surfaces: Map<string, number>; blockedObjectIds: Set<string>; }
+function createSpatialLookup(world: WorldDefinition, runtime: WorldRuntimeState): SpatialLookup {
+  const blockedObjectIds = new Set(runtime.blockedObjectIds); const blockedObjectByCell = new Map<string, { objectId: string; runtime: boolean }>();
+  for (const object of world.objects) { const definition = world.definitions[object.definitionId]; const runtimeBlocked = blockedObjectIds.has(object.id); if (!definition.blocksMovement && !runtimeBlocked) continue; for (const offset of definition.footprint) blockedObjectByCell.set(cellKey({ x: object.position.x + offset.x, y: object.position.y + offset.y }), { objectId: object.id, runtime: runtimeBlocked }); }
+  const surfaces = new Map<string, number>(); for (const surface of runtime.walkableSurfaces ?? []) if (surface.enabled) for (const cell of surface.cells) surfaces.set(cellKey(cell), surface.movementCost);
+  return { blockedObjectByCell, surfaces, blockedObjectIds };
+}
+function queryCellWithLookup(world: WorldDefinition, cell: Cell, lookup: SpatialLookup): CellQuery {
   if (!Number.isInteger(cell.x) || !Number.isInteger(cell.y) || !inBounds(world, cell)) return { walkable: false, reason: "out-of-bounds" };
-  for (const object of world.objects) {
-    const definition = world.definitions[object.definitionId];
-    const runtimeBlocked = runtime.blockedObjectIds.includes(object.id);
-    if ((definition.blocksMovement || runtimeBlocked) && definition.footprint.some((offset) => sameCell(cell, { x: object.position.x + offset.x, y: object.position.y + offset.y }))) return { walkable: false, reason: runtimeBlocked ? "runtime-blocker" : "solid-object", objectId: object.id };
-  }
-  const surface = runtime.walkableSurfaces?.find((candidate) => candidate.enabled && candidate.cells.some((surfaceCell) => sameCell(surfaceCell, cell)));
-  if (surface) return { walkable: true, cost: surface.movementCost };
+  const blocker = lookup.blockedObjectByCell.get(cellKey(cell)); if (blocker) return { walkable: false, reason: blocker.runtime ? "runtime-blocker" : "solid-object", objectId: blocker.objectId };
+  const surfaceCost = lookup.surfaces.get(cellKey(cell)); if (surfaceCost !== undefined) return { walkable: true, cost: surfaceCost };
   const definition = terrainRules[world.terrain[cell.y][cell.x]];
   return definition.walkable ? { walkable: true, cost: definition.movementCost } : { walkable: false, reason: "terrain" };
 }
+export function queryCell(world: WorldDefinition, cell: Cell, runtime: WorldRuntimeState = { blockedObjectIds: [] }): CellQuery { return queryCellWithLookup(world, cell, createSpatialLookup(world, runtime)); }
 
 export function canTraverse(world: WorldDefinition, from: Cell, to: Cell, runtime: WorldRuntimeState = { blockedObjectIds: [] }): CellQuery | { walkable: false; reason: "non-adjacent" } {
   if (Math.abs(from.x - to.x) + Math.abs(from.y - to.y) !== 1) return { walkable: false, reason: "non-adjacent" };
@@ -238,7 +241,7 @@ class RouteQueue {
   private entries: RouteEntry[] = [];
 
   private comesBefore(left: RouteEntry, right: RouteEntry): boolean {
-    return left.priority < right.priority || (left.priority === right.priority && cellKey(left.cell).localeCompare(cellKey(right.cell)) < 0);
+    return left.priority < right.priority || (left.priority === right.priority && cellKey(left.cell) < cellKey(right.cell));
   }
 
   push(entry: RouteEntry): void {
@@ -275,7 +278,7 @@ class RouteQueue {
 }
 
 export function findRoute(world: WorldDefinition, start: Cell, goal: Cell, runtime?: WorldRuntimeState): Cell[] | null {
-  if (!isWalkable(world, start, runtime) || !isWalkable(world, goal, runtime)) return null;
+  const effectiveRuntime = runtime ?? { blockedObjectIds: [] }; const lookup = createSpatialLookup(world, effectiveRuntime); if (!queryCellWithLookup(world, start, lookup).walkable || !queryCellWithLookup(world, goal, lookup).walkable) return null;
   const open = new RouteQueue();
   open.push({ cell: start, priority: distance(start, goal) });
   const cameFrom = new Map<string, Cell>();
@@ -293,10 +296,9 @@ export function findRoute(world: WorldDefinition, start: Cell, goal: Cell, runti
       return route;
     }
     for (const next of neighbors(current)) {
-      const edge = canTraverse(world, current, next, runtime);
-      if (!edge.walkable) continue;
+      if (Math.abs(current.x - next.x) + Math.abs(current.y - next.y) !== 1) continue; const edge = queryCellWithLookup(world, next, lookup); if (!queryCellWithLookup(world, current, lookup).walkable || !edge.walkable) continue;
       const nextKey = cellKey(next);
-      const candidate = gScore.get(cellKey(current))! + cost(world, next, runtime);
+      const candidate = gScore.get(cellKey(current))! + edge.cost;
       if (candidate >= (gScore.get(nextKey) ?? Infinity)) continue;
       cameFrom.set(nextKey, current); gScore.set(nextKey, candidate); fScore.set(nextKey, candidate + distance(next, goal));
       open.push({ cell: next, priority: fScore.get(nextKey)! });
