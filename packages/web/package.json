@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "test:e2e": "tsx src/e2e.test.ts"
+    "test:e2e": "tsx src/e2e.test.ts",
+    "test:first-glow": "npm run build && tsx src/first-glow-e2e.test.ts"
   },
   "dependencies": {
     "@mimir/engine": "0.1.0",
