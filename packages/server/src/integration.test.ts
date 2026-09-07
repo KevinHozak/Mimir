@@ -55,6 +55,12 @@ if (region.settlements.length !== 2 || region.routes.some((route) => route.id !=
   if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("season test reset failed");
   await new Promise((resolve) => setTimeout(resolve, 350));
   if (!existsSync(backupDirectory) || readdirSync(backupDirectory).filter((entry) => entry.endsWith(".db")).length === 0) throw new Error("scheduled backup was not created");
+  const v2Reset = await request("/api/owner/reset-v2", { bundleHash: "sha256-c1544cba3a62f543da975b35df37b62608c3960d7b2cca2bff968f6a260ce775", seed: 11 });
+  if (v2Reset.status !== 200) throw new Error(`structured-v2 reset failed: ${await v2Reset.text()}`);
+  const v2State = (await v2Reset.json()) as { state: { spatialModel?: string; simulationVersion?: string; structuredState?: unknown } };
+  if (v2State.state.spatialModel !== "structured-v2" || v2State.state.simulationVersion !== "mimir-sim-v2" || !v2State.state.structuredState) throw new Error("structured-v2 timeline did not retain its bundle state");
+  if ((await request("/api/tick")).status !== 200) throw new Error("structured-v2 tick failed");
+  if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("legacy season test reset failed after v2 timeline");
   for (let season = 1; season <= 3; season += 1) {
     for (let tick = 0; tick < 60; tick += 1) if ((await request("/api/tick")).status !== 200) throw new Error(`season ${season} stopped before tick 60`);
     if ((await request("/api/tick")).status !== 409) throw new Error(`season ${season} exceeded its boundary`);

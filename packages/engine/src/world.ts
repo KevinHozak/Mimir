@@ -21,7 +21,7 @@ export const MOVEMENT_MODEL: MovementModel = {
   terrainCostMeaning: "positive-integer-steps"
 };
 
-export type SpatialModel = "structured-v1" | "legacy-backdrop-v0";
+export type SpatialModel = "structured-v1" | "structured-v2" | "legacy-backdrop-v0";
 
 export interface SpatialSnapshotMetadata {
   spatialModel: SpatialModel;
@@ -30,7 +30,7 @@ export interface SpatialSnapshotMetadata {
 }
 
 export function normalizeSpatialMetadata(raw: Partial<SpatialSnapshotMetadata> & { worldDefinition?: WorldDefinition }): SpatialSnapshotMetadata {
-  const legacy = !raw.worldDefinition && raw.spatialModel !== "structured-v1";
+  const legacy = !raw.worldDefinition && raw.spatialModel !== "structured-v1" && raw.spatialModel !== "structured-v2";
   return {
     spatialModel: raw.spatialModel ?? (legacy ? "legacy-backdrop-v0" : "structured-v1"),
     simulationVersion: raw.simulationVersion ?? (legacy ? "legacy-unknown" : SIMULATION_VERSION),
