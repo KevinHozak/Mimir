@@ -188,7 +188,7 @@ function App() {
   const [clockPaused, setClockPaused] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [zoom, setZoom] = useState(1);
-  const [selected, setSelected] = useState<Villager | null>(null);
+  const [selectedVillagerId, setSelectedVillagerId] = useState<string | null>(null);
   const [ownerToken, setOwnerToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
   const [operationMessage, setOperationMessage] = useState("");
@@ -196,9 +196,11 @@ function App() {
   const viewTickRef = useRef<number | null>(null);
   const activeSettlement = world?.settlements?.find((settlement) => settlement.id === activeSettlementId);
   const visibleVillagers = world?.villagers.filter((villager) => villager.settlementId === activeSettlementId) ?? [];
+  const selected = visibleVillagers.find((villager) => villager.id === selectedVillagerId);
+  const setSelected = (villager: Villager | null) => setSelectedVillagerId(villager?.id ?? null);
   const fitZoom = Math.min(1, 768 / ((activeSettlement?.worldDefinition?.width ?? world?.worldDefinition?.width ?? 100) * 24), 768 / ((activeSettlement?.worldDefinition?.height ?? world?.worldDefinition?.height ?? 100) * 24));
   useEffect(() => { setZoom(fitZoom); }, [fitZoom]);
-  useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); }, [world?.settlements, activeSettlementId]);
+  useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) { setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); setSelectedVillagerId(null); } }, [world?.settlements, activeSettlementId]);
   const loadLive = async () => {
     const [worldResponse, eventsResponse, interpretationsResponse, metricsResponse, designResponse, regionResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`), fetch(`${api}/api/metrics`), fetch(`${api}/api/design`), fetch(`${api}/api/region`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
