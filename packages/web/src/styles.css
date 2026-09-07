@@ -30,3 +30,10 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .villager-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 14px 0 18px; }
 .villager { padding: 9px 10px; }
 .villager.selected { border-color: #76563c; box-shadow: inset 0 0 0 2px #d7c09b; }
+.first-glow { --fg-bg: #050912; --fg-panel: #101b2d; --fg-text: #e3ecf7; --fg-muted: #a7b9cf; color: var(--fg-text); background: var(--fg-bg); }
+.first-glow button { background: #24354d; color: var(--fg-text); border: 1px solid #52677f; }
+.first-glow .live { color: #8addf2; }.first-glow .history { color: #c7b7ff; }
+.first-glow .timeline, .first-glow aside, .first-glow .events, .first-glow .season-review, .first-glow .interpretations, .first-glow .operations { background: var(--fg-panel); border-color: #52677f; }
+.first-glow .timeline span, .first-glow p, .first-glow dt, .first-glow .season-review-heading p, .first-glow .report-grid, .first-glow .events p { color: var(--fg-muted); }
+.first-glow #village-canvas { background: #050912; border-color: #52677f; box-shadow: 0 6px 0 #101b2d; }
+.first-glow .region-overview, .first-glow .design-bench { background: #101b2d; border-color: #52677f; }
