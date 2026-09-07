@@ -110,8 +110,8 @@ const imported = importTiledMap({ width: 4, height: 3, tilewidth: 1, tileheight:
 assert.equal(imported.terrain[0][2], "water");
 assert.deepEqual(imported.objects[0], { id: "tiled-4", definitionId: "tree", position: { x: 1, y: 1 } });
 const authoredMap = JSON.parse(readFileSync(join(process.cwd(), "..", "..", "assets", "world", "first-winter.tiled.json"), "utf8")) as unknown;
-const authoredWorld = importTiledMap(authoredMap, "first-winter-authored-v1", { terrainByGid: { 1: "grass", 2: "water", 3: "road" }, objectByType: { house: "house", tree: "tree", granary: "granary", bridge: "bridge" } });
-assert.equal(authoredWorld.objects.length, 4);
+const authoredWorld = importTiledMap(authoredMap, "first-winter-authored-v1", { terrainByGid: { 1: "grass", 2: "water", 3: "road" }, objectByType: { house: "house", tree: "tree", granary: "granary", bridge: "bridge", workshop: "workshop", field: "field", "meeting-hall": "meeting-hall" } });
+assert.equal(authoredWorld.objects.length, 8);
 assert.equal(authoredWorld.terrain[0][4], "water");
 assert.equal(isWalkable(fixture, { x: 6, y: 3 }), false);
 assert.equal(isWalkable(fixture, { x: 6, y: 4 }), true);

@@ -55,7 +55,7 @@ if (region.settlements.length !== 2 || region.routes.some((route) => route.id !=
   if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("season test reset failed");
   await new Promise((resolve) => setTimeout(resolve, 1100));
   if (!existsSync(backupDirectory) || readdirSync(backupDirectory).filter((entry) => entry.endsWith(".db")).length === 0) throw new Error("scheduled backup was not created");
-  const v2Reset = await request("/api/owner/reset-v2", { bundleHash: "sha256-6a2e1ffe6a311d4cbb08a616bec272cc82e47809dea635b4b3f121aa8e991987", seed: 11 });
+  const v2Reset = await request("/api/owner/reset-v2", { bundleHash: "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae", seed: 11 });
   if (v2Reset.status !== 200) throw new Error(`structured-v2 reset failed: ${await v2Reset.text()}`);
   const v2State = (await v2Reset.json()) as { state: { spatialModel?: string; simulationVersion?: string; structuredState?: unknown } };
   if (v2State.state.spatialModel !== "structured-v2" || v2State.state.simulationVersion !== "mimir-sim-v2" || !v2State.state.structuredState) throw new Error("structured-v2 timeline did not retain its bundle state");
@@ -70,7 +70,7 @@ if (region.settlements.length !== 2 || region.routes.some((route) => route.id !=
   if ((await request("/api/owner/world/object", { settlementId: "first-village", objectId: "tiled-2", blocked: false, idempotencyKey: "v2-unblock-tree" })).status !== 202) throw new Error("structured-v2 unblock was not queued");
   if ((await request("/api/tick")).status !== 200) throw new Error("structured-v2 unblock did not apply on tick");
   await new Promise((resolve) => setTimeout(resolve, 1100));
-  const scheduledManifest = readdirSync(backupDirectory).filter((entry) => entry.endsWith(".manifest.json")).map((entry) => JSON.parse(readFileSync(join(backupDirectory, entry), "utf8")) as { bundleHashes?: string[] }).find((manifest) => manifest.bundleHashes?.includes("sha256-6a2e1ffe6a311d4cbb08a616bec272cc82e47809dea635b4b3f121aa8e991987"));
+  const scheduledManifest = readdirSync(backupDirectory).filter((entry) => entry.endsWith(".manifest.json")).map((entry) => JSON.parse(readFileSync(join(backupDirectory, entry), "utf8")) as { bundleHashes?: string[] }).find((manifest) => manifest.bundleHashes?.includes("sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae"));
   if (!scheduledManifest) throw new Error("scheduled backup did not include the active world bundle");
   if ((await request("/api/tick")).status !== 200) throw new Error("structured-v2 tick failed");
   if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("legacy season test reset failed after v2 timeline");

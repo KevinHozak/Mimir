@@ -34,8 +34,30 @@
         { "id": 1, "name": "House", "class": "house", "x": 24, "y": 24, "width": 48, "height": 48 },
         { "id": 2, "name": "Tree", "class": "tree", "x": 72, "y": 24, "width": 24, "height": 24 },
         { "id": 3, "name": "Granary", "class": "granary", "x": 120, "y": 120, "width": 48, "height": 24 },
-        { "id": 4, "name": "Bridge", "class": "bridge", "x": 96, "y": 72, "width": 72, "height": 24 }
+        { "id": 4, "name": "Bridge", "class": "bridge", "x": 96, "y": 72, "width": 72, "height": 24 },
+        { "id": 5, "name": "Workshop", "class": "workshop", "x": 0, "y": 120, "width": 48, "height": 48 },
+        { "id": 6, "name": "Field", "class": "field", "x": 48, "y": 120, "width": 72, "height": 48 },
+        { "id": 7, "name": "Meeting Hall", "class": "meeting-hall", "x": 144, "y": 0, "width": 48, "height": 48 },
+        { "id": 8, "name": "Woodland", "class": "tree", "x": 168, "y": 120, "width": 24, "height": 24 }
       ]
+    },
+    {
+      "id": 3,
+      "name": "Surfaces",
+      "type": "objectgroup",
+      "objects": []
+    },
+    {
+      "id": 4,
+      "name": "Foreground",
+      "type": "objectgroup",
+      "objects": []
+    },
+    {
+      "id": 5,
+      "name": "Spawns",
+      "type": "objectgroup",
+      "objects": []
     }
   ]
 }

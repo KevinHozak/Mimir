@@ -1,0 +1,10 @@
+{
+  "bundle": {
+    "bundleId": "first-winter-v2",
+    "contentHash": "sha256-b8e2c3b01dfbf1f1710a28a4f8877640acbe56b42fd103612ae5d6ae54e9adae",
+    "schemaVersion": 2,
+    "assetVersion": "provisional-v1"
+  },
+  "source": "C:\\Projects\\Mimir\\assets\\world\\first-winter.tiled.json",
+  "generatedAt": "source-independent"
+}
