@@ -161,7 +161,7 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
        if (sparks.length) { syncVillagers(scene, []); syncSparks(scene, sparks); } else syncVillagers(scene, villagersRef.current);
     } } });
     return () => { isActive = false; sceneRef.current = null; peopleRef.current.clear(); lastTickRef.current = null; game.destroy(true); };
-  }, [debugOverlay, firstGlowBundle, worldDefinition, worldRuntime, sparks]);
+  }, [debugOverlay, firstGlowBundle?.bundle.contentHash, worldDefinition?.id, worldDefinition?.bundle.contentHash]);
   useEffect(() => {
     if (sceneRef.current && sparks.length) syncSparks(sceneRef.current, sparks); else if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers, sparks]);
