@@ -14,14 +14,14 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 | --- | --- |
 | [README.md](README.md) | Project introduction, workspace entry points, and local runtime-data layout. |
 | [docs/world-theme.md](docs/world-theme.md) | Current consolidated theme reference: First Glow, Sparks, terminology, opening knowledge, blue-and-silver dark-mode aesthetics, and visual rollout. Read first for naming, art, UI, or setting work. |
-| [AI World Theme Plan](docs/2026-09-06_AI_World_Theme_Plan.md) | Broader brainstorming, retained alternative palettes, resource proposals, human inspiration, discovery ages, and staged development. Confirmed choices are marked; alternatives are not all approved features. |
+| [AI World Theme Plan](docs/planning/2026-09-06_AI_World_Theme_Plan.md) | Broader brainstorming, retained alternative palettes, resource proposals, human inspiration, discovery ages, and staged development. Confirmed choices are marked; alternatives are not all approved features. |
 | [docs/game-simulation.md](docs/game-simulation.md) | Explanation of ticks, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
 | [docs/architecture.md](docs/architecture.md) | Current package boundaries, First Glow runtime, API surface, persistence, local data, and hosted operations. |
-| [Simulation Game Plan](docs/2026-09-06_Simulation_Game_Plan.md) | Original goals, social mechanics, development stages, experiments, and acceptance gates. Opening status/path metadata is historical; newer theme decisions supersede the original village/AI-awareness proposals. |
-| [Web Development Plan](docs/2026-09-06_Web_Development_Plan.md) | Planned web architecture, operations, hosting, persistence, and verification. Treat gates as planned until supported by current evidence. |
-| [World Implementation Plan](docs/2026-09-06_World_Implementation_Plan.md) | World geometry, authoring, rendering, navigation, versioning, and phased verification; criteria for reconsidering the rendering approach. |
+| [Simulation Game Plan](docs/planning/2026-09-06_Simulation_Game_Plan.md) | Original goals, social mechanics, development stages, experiments, and acceptance gates. Opening status/path metadata is historical; newer theme decisions supersede the original village/AI-awareness proposals. |
+| [Web Development Plan](docs/planning/2026-09-06_Web_Development_Plan.md) | Planned web architecture, operations, hosting, persistence, and verification. Treat gates as planned until supported by current evidence. |
+| [World Implementation Plan](docs/planning/2026-09-06_World_Implementation_Plan.md) | World geometry, authoring, rendering, navigation, versioning, and phased verification; criteria for reconsidering the rendering approach. |
 | [Hosted observer runbook](docs/hosted-observer-runbook.md) | Deployment preparation, operational checks, and durability requirements. Read before hosted changes. |
-| [Structured world profile](docs/2026-09-06-world-profile.md) | Dated performance and browser evidence for a particular bundle and scenario. Associated desktop/mobile PNGs are historical captures, not current theme mockups. |
+| [Evidence](docs/evidence/) | Dated performance reports and desktop/mobile browser captures. Historical evidence is labeled by bundle and date; current First Glow evidence uses the `first-glow-*` files. |
 | [World map sources](assets/world/README.md) | Map-authoring and import instructions, supported source features, immutable generated bundles, and provisional art status. |
 | [First Glow asset provenance](assets/licenses/first-glow-assets.md) | Provenance for the active authored First Glow assets. |
 

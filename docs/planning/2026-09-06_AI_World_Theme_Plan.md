@@ -222,7 +222,7 @@ A character can be wealthy but stranded without charge, rich in knowledge but po
 
 ## 5. The first haven: a direct mapping of today's game
 
-The current implementation guide describes twelve residents, six activity destinations, shared food, hunger/rest, two settlements, a regional route, weather, and three dilemmas. The mapping below is retained for the later Hearth Circuit settlement. It is not the First Glow starting state: the new opening requires charge pools, shelter niches, informal sharing, and exploration rather than merely renaming a complete village. See [World Theme](world-theme.md) for the opening vocabulary.
+The current implementation guide describes twelve residents, six activity destinations, shared food, hunger/rest, two settlements, a regional route, weather, and three dilemmas. The mapping below is retained for the later Hearth Circuit settlement. It is not the First Glow starting state: the new opening requires charge pools, shelter niches, informal sharing, and exploration rather than merely renaming a complete village. See [World Theme](../world-theme.md) for the opening vocabulary.
 
 | Existing element | Living Circuit proposal | Change category |
 | --- | --- | --- |
@@ -652,7 +652,7 @@ Travel to another world is an in-fiction action. Branching is initially an obser
 
 ## 10. Visual and interface direction
 
-**Selected aesthetic:** a dark-mode world with little luminous Sparks without human bodies, node-like locations, and silver-and-blue circuit routes. Near-black open space dominates; Sparks and civilization form isolated bright spots. Circuit-board details are locally visible around nodes and routes rather than covering the whole map with a lit surface. The complete current art direction, palette tokens, Spark states, node silhouettes, interface treatment, and visual rollout are maintained in [World Theme: Visual character](world-theme.md#visual-character).
+**Selected aesthetic:** a dark-mode world with little luminous Sparks without human bodies, node-like locations, and silver-and-blue circuit routes. Near-black open space dominates; Sparks and civilization form isolated bright spots. Circuit-board details are locally visible around nodes and routes rather than covering the whole map with a lit surface. The complete current art direction, palette tokens, Spark states, node silhouettes, interface treatment, and visual rollout are maintained in [World Theme: Visual character](../world-theme.md#visual-character).
 
 Start with the First Glow's sparse charge pools, shelter niches, light marks, and unfamiliar traces. The underlying substrate can resemble advanced circuitry without implying that the Sparks understand its origin. Finished nests, collector arrays, and a shared reserve node belong to the later settled stage.
 
@@ -749,7 +749,7 @@ The strongest opening is a small society whose artificial nature creates recogni
 
 ## Local design references
 
-- [Current simulation guide](game-simulation.md): implemented mechanics and known simplifications.
+- [Current simulation guide](../game-simulation.md): implemented mechanics and known simplifications.
 - [Original simulation plan](2026-09-06_Simulation_Game_Plan.md): philosophical goals, planned systems, and the previously undecided AI-awareness direction. Its opening implementation status and working-folder metadata are historical.
 - [World implementation plan](2026-09-06_World_Implementation_Plan.md): scene and navigation planning.
 - First Winter scenario: historical scenario configuration removed from the active repository; the current runtime is the schema-3 First Glow bundle under `assets/world/`.
