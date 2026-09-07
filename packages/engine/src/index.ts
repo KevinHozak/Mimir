@@ -25,7 +25,7 @@ export function parseWorldDefinition<T>(value: T): T { return value; }
 export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {
   const firstGlowState = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount);
   const settlements = firstGlowState.settlements.map(settlement => ({ id: settlement.id, name: settlement.name, villagerIds: [], foodReserve: 0, worldRuntime: settlement.runtime }));
-  return { worldId, seed, tick: 0, simulationVersion: FIRST_GLOW_SIMULATION_VERSION, spatialModel: "structured-v2", firstGlowState, settlements };
+  return { worldId, seed, tick: 0, simulationVersion: FIRST_GLOW_SIMULATION_VERSION, spatialModel: "structured-v2", firstGlowState, settlements, villagers: [], events: [], interpretations: [], foodReserve: 0, scenario: { name: "The First Glow", seasonTickLimit: 360 }, weather: { kind: "clear", forecast: "clear", severity: 0 }, hazards: [], tradeHistory: [], dilemmaHistory: [], sharedStore: undefined, worldRuntime: firstGlowState.settlements[0].runtime };
 }
 
 export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {

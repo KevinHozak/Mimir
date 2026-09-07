@@ -3,8 +3,8 @@ import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
 import { createHash, randomUUID } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
-import { extname, isAbsolute, join, relative, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
+import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
 import { advanceWorld, CHARACTER_CARDS, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
@@ -19,13 +19,14 @@ const aiEnabled = process.env.AI_ENABLED === "true";
 const socialBudgetCents = Number(process.env.SOCIAL_BUDGET_CENTS ?? 0);
 const socialMode = aiEnabled && socialBudgetCents > 0 ? "ai-fallback" : "rules-only";
 const ownerToken = process.env.OWNER_TOKEN;
-const databasePath = process.env.DATABASE_PATH ?? "mimir.db";
+const databasePath = process.env.DATABASE_PATH ?? join(process.cwd(), "data", "local", "mimir.db");
 const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
-const backupDirectory = resolve(process.env.BACKUP_DIR ?? "backups");
+const backupDirectory = resolve(process.env.BACKUP_DIR ?? join(process.cwd(), "data", "backups"));
 const serveWeb = process.env.SERVE_WEB === "true";
 const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const worldBundleRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? join(process.cwd(), "assets/world/generated"));
 const defaultFirstGlowBundleHash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
+mkdirSync(dirname(databasePath), { recursive: true });
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
 database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (tick INTEGER PRIMARY KEY, state_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, event_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS interpretations (id TEXT PRIMARY KEY, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS timelines (id TEXT PRIMARY KEY, parent_id TEXT, created_at TEXT NOT NULL, status TEXT NOT NULL, archived_at TEXT); CREATE TABLE IF NOT EXISTS timeline_checkpoints (timeline_id TEXT NOT NULL, tick INTEGER NOT NULL, state_json TEXT NOT NULL, PRIMARY KEY (timeline_id, tick)); CREATE TABLE IF NOT EXISTS timeline_events (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, event_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS timeline_interpretations (timeline_id TEXT NOT NULL, id TEXT NOT NULL, tick INTEGER NOT NULL, interpretation_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS pending_commands (id TEXT PRIMARY KEY, timeline_id TEXT NOT NULL, ordering INTEGER NOT NULL, target_tick INTEGER NOT NULL, settlement_id TEXT NOT NULL, object_id TEXT NOT NULL, blocked INTEGER NOT NULL, idempotency_key TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT, created_at TEXT NOT NULL, UNIQUE(timeline_id, idempotency_key)); CREATE TABLE IF NOT EXISTS runtime_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);`);
@@ -123,6 +124,21 @@ app.get("/api/metrics", async () => {
     timelineId: activeTimelineId,
     metrics: rows.map((row) => {
       const snapshot = normalizeState(JSON.parse(row.state_json) as WorldState);
+      if (snapshot.firstGlowState) {
+        const sparks = snapshot.firstGlowState.settlements.flatMap((settlement) => settlement.sparks);
+        return {
+          tick: row.tick,
+          foodReserve: 0,
+          averageTrust: 0,
+          hungryVillagers: sparks.filter((spark) => spark.chargeDeficit > 0).length,
+          travelingVillagers: sparks.filter((spark) => spark.status === "traveling").length,
+          collectingVillagers: sparks.filter((spark) => spark.status === "drawing-charge").length,
+          sourceCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0),
+          communalCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0),
+          averageReadiness: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.readiness, 0) / sparks.length) : 0,
+          averageChargeDeficit: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.chargeDeficit, 0) / sparks.length) : 0
+        };
+      }
       return {
         tick: row.tick,
         foodReserve: snapshot.foodReserve,
