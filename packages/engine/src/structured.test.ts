@@ -12,3 +12,10 @@ for (let index = 0; index < 20; index += 1) { state = advanceStructuredState(sta
 assert.equal(collectedBeforeArrival, false);
 assert.ok(state.ledger.some(entry => entry.kind === "collection"));
 assert.equal(state.settlements[0].storeFood + actor().food + state.ledger.filter(entry => entry.kind === "consumption").reduce((sum, entry) => sum + entry.amount, 0), 24);
+
+const reservations = createStructuredState(bundle, "first-village", "Hearthmere", 4);
+for (const villager of reservations.settlements[0].actors) villager.intendedActivity = "collect";
+const reservedTick = advanceStructuredState(reservations);
+assert.deepEqual(reservedTick.settlements[0].runtime.reservations.map(item => item.actorId), ["villager-1", "villager-2"]);
+assert.equal(reservedTick.settlements[0].actors.filter(villager => villager.status === "waiting" && villager.waitReason === "no-free-slot").length, 2);
+assert.equal(new Set(reservedTick.settlements[0].runtime.reservations.map(item => `${item.objectId}:${item.slotId}`)).size, 2);
