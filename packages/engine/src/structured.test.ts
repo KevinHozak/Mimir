@@ -21,3 +21,14 @@ const reservedTick = advanceStructuredState(reservations);
 assert.deepEqual(reservedTick.settlements[0].runtime.reservations.map(item => item.actorId), ["villager-1", "villager-2"]);
 assert.equal(reservedTick.settlements[0].actors.filter(villager => villager.status === "waiting" && villager.waitReason === "no-free-slot").length, 2);
 assert.equal(new Set(reservedTick.settlements[0].runtime.reservations.map(item => `${item.objectId}:${item.slotId}`)).size, 2);
+
+const closed = createStructuredState(bundle, "first-village", "Hearthmere", 1);
+closed.settlements[0].runtime.objects = [{ objectId: "tiled-4", blocked: true }];
+const waiting = advanceStructuredState(closed);
+assert.equal(waiting.settlements[0].actors[0].status, "waiting");
+assert.equal(waiting.settlements[0].actors[0].waitReason, "no-route");
+const reopened = structuredClone(waiting);
+reopened.settlements[0].runtime.objects = [];
+reopened.settlements[0].runtime.navigationRevision += 1;
+const resumed = advanceStructuredState(reopened);
+assert.equal(resumed.settlements[0].actors[0].status, "traveling");
