@@ -6,7 +6,7 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
 import { advanceWorld, CHARACTER_CARDS, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
-import { bundleHash, decodeWorldBundle, validateWorldBundle, type WorldBundle } from "@mimir/world-data";
+import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 
@@ -54,7 +54,18 @@ function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;
   return normalizeState(row ? JSON.parse(row.state_json) as WorldState : createWorld(20260906, timelineId));
 }
+function validateBundleAssetsAtStartup(bundle: DecodedWorldBundle): void {
+  const bundleRoot = resolve(worldBundleRoot, bundle.bundle.contentHash);
+  for (const asset of bundle.assets) {
+    const candidate = resolve(bundleRoot, asset.path);
+    const containment = relative(bundleRoot, candidate);
+    if (containment.startsWith("..") || isAbsolute(containment) || !existsSync(candidate) || !statSync(candidate).isFile()) throw new Error(`missing First Glow bundle asset: ${asset.path}`);
+    const actualHash = createHash("sha256").update(readFileSync(candidate)).digest("hex");
+    if (actualHash !== asset.sha256 && `sha256-${actualHash}` !== asset.sha256) throw new Error(`bundle asset checksum mismatch at startup: ${asset.path}`);
+  }
+}
 let state = loadState(activeTimelineId);
+for (const bundle of [...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle), ...(state.firstGlowState?.settlements ?? []).map(settlement => settlement.bundle)]) validateBundleAssetsAtStartup(bundle);
 if (!database.prepare("SELECT 1 FROM timeline_checkpoints WHERE timeline_id = ? LIMIT 1").get(activeTimelineId)) database.prepare("INSERT INTO timeline_checkpoints (timeline_id, tick, state_json) VALUES (?, ?, ?)").run(activeTimelineId, state.tick, JSON.stringify(state));
 database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId);
 const liveClients = new Set<ServerResponse>();
