@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 3,
+  "spatialModel": "structured-v2",
+  "simulationVersion": "mimir-sim-v3-first-glow",
+  "themeId": "living-circuit",
+  "ageId": "first-glow",
+  "id": "first-glow-fixture",
+  "width": 5,
+  "height": 3,
+  "cellSizePx": 24,
+  "terrain": [["open", "open", "open", "open", "open"], ["open", "open", "open", "open", "open"], ["open", "open", "open", "open", "open"]],
+  "terrainDefinitions": { "open": { "id": "open", "label": "Open space", "walkable": true, "movementCost": 2 } },
+  "surfaces": [{ "id": "trace-1", "cells": [{ "x": 1, "y": 1 }, { "x": 2, "y": 1 }], "movementCost": 1, "enabled": true, "visualAsset": "trace" }],
+  "objectDefinitions": {
+    "charge-pool": { "id": "charge-pool", "label": "Charge pool", "footprint": [{ "x": 0, "y": 0 }], "slots": [{ "id": "draw", "offset": { "x": 0, "y": 1 }, "capacity": 1 }], "capabilities": ["charge-pool"], "capacity": 1, "visualAsset": "charge-pool", "groundContact": { "x": 12, "y": 24 }, "blocksMovement": true },
+    "shelter-niche": { "id": "shelter-niche", "label": "Shelter niche", "footprint": [{ "x": 0, "y": 0 }], "slots": [{ "id": "rest", "offset": { "x": 0, "y": 1 }, "capacity": 1 }], "capabilities": ["shelter-niche"], "capacity": 1, "visualAsset": "shelter-niche", "groundContact": { "x": 12, "y": 24 }, "blocksMovement": true }
+  },
+  "objects": [{ "id": "pool-a", "definitionId": "charge-pool", "origin": { "x": 1, "y": 0 }, "orientation": 0 }, { "id": "niche-a", "definitionId": "shelter-niche", "origin": { "x": 3, "y": 1 }, "orientation": 0 }],
+  "layers": [{ "id": "ground", "role": "ground", "order": 0 }, { "id": "traces", "role": "surface", "order": 1 }, { "id": "nodes", "role": "objects", "order": 2 }, { "id": "spawns", "role": "spawns", "order": 3 }],
+  "spawns": [{ "id": "spark-spawn-1", "cell": { "x": 0, "y": 0 }, "settlementId": "first-glow-region" }],
+  "assets": [{ "path": "trace.svg", "sha256": "sha256-fixture-trace", "mediaType": "image/svg+xml", "version": "fixture-v1", "provenance": "Mimir fixture asset" }],
+  "bundle": { "bundleId": "first-glow-fixture-bundle", "contentHash": "sha256-e0820b8553d2acea2d3058bc27297a2069dad21cc2334ebfdb56029cbe5515ac", "schemaVersion": 3, "assetVersion": "fixture-v1" }
+}

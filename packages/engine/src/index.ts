@@ -8,8 +8,8 @@ export * from "./design.js";
 export * from "./social.js";
 import { createDefaultWorld, findRoute, isWalkable, MOVEMENT_MODEL, normalizeSpatialMetadata, SIMULATION_VERSION, sameCell, type MovementModel, type WorldDefinition, type WorldRuntimeState } from "./world.js";
 import { FIRST_WINTER_DILEMMAS, type DilemmaCard } from "./design.js";
-import { advanceStructuredState, createStructuredState, type StructuredState } from "./structured.js";
-import type { WorldBundle } from "@mimir/world-data";
+import { advanceStructuredState, createFirstGlowState, createStructuredState, type FirstGlowState, type StructuredState } from "./structured.js";
+import { decodeWorldBundle, type FirstGlowWorldBundle, type WorldBundle } from "@mimir/world-data";
 export interface TilePosition { x: number; y: number; }
 export interface Beliefs { cooperation: number; selfReliance: number; reflection: number; }
 export interface ScenarioConfig { name: string; initialFood: number; seasonTickLimit: number; harvestInterval: number; harvestAmount: number; hungerPressure: number; dilemmaTick?: number; }
@@ -108,6 +108,7 @@ export interface WorldState {
   worldDefinition?: WorldDefinition;
   worldRuntime?: WorldRuntimeState;
   structuredState?: StructuredState;
+  firstGlowState?: FirstGlowState;
   spatialModel: "structured-v1" | "structured-v2" | "legacy-backdrop-v0";
   simulationVersion: string;
   movementModel: MovementModel;
@@ -327,7 +328,17 @@ export function createWorldV2(bundle: WorldBundle, seed = 1, worldId = "first-wi
   return { ...shell, villagers, foodReserve: structuredState.settlements[0].storeFood, settlements: [{ id: homeSettlement.id, name: homeSettlement.name, foodReserve: structuredState.settlements[0].storeFood, worldRuntime: { blockedObjectIds: [] }, villagerIds: villagers.map(villager => villager.id) }, { id: riverbendSettlement.id, name: riverbendSettlement.name, foodReserve: 48, worldRuntime: { blockedObjectIds: [] }, villagerIds: [] }], worldDefinition: undefined, worldRuntime: { blockedObjectIds: [] }, structuredState, spatialModel: "structured-v2", simulationVersion: "mimir-sim-v2" };
 }
 
+export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3"): WorldState {
+  const glow = createFirstGlowState(bundle); const shell = createWorld(seed, worldId, { ...FIRST_WINTER_SCENARIO, name: "The First Glow", initialFood: 0 });
+  return { ...shell, villagers: [], foodReserve: 0, settlements: glow.settlements.map(settlement => ({ id: settlement.id, name: settlement.name, foodReserve: settlement.communalCharge, worldRuntime: { blockedObjectIds: [] }, villagerIds: [] })), worldDefinition: undefined, worldRuntime: { blockedObjectIds: [] }, structuredState: undefined, firstGlowState: glow, spatialModel: "structured-v2", simulationVersion: "mimir-sim-v3-first-glow" };
+}
+
+export function createWorldFromBundle(raw: unknown, seed = 1, worldId?: string): WorldState {
+  const bundle = decodeWorldBundle(raw); return bundle.schemaVersion === 3 ? createWorldV3(bundle, seed, worldId ?? "first-glow-v3") : createWorldV2(bundle, seed, worldId ?? "first-winter-v2");
+}
+
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
+  if (input.firstGlowState) { const firstGlowState = structuredClone(input.firstGlowState); firstGlowState.tick += 1; const state = { ...input, tick: firstGlowState.tick, firstGlowState }; return { state, events: [], interpretations: [] }; }
   if (input.structuredState) {
     const structuredState = advanceStructuredState(input.structuredState); const structuredEvents: WorldEvent[] = structuredState.events.map(event => ({ id: event.id, tick: structuredState.tick, kind: event.kind === "collection" ? "collection" as const : event.kind === "share" ? "sharing" as const : event.kind === "movement" ? "world-object" as const : "tick" as const, message: event.message, villagerIds: [event.actorId] })); const villagers = input.villagers.map(villager => { const actor = structuredState.settlements.flatMap(settlement => settlement.actors).find(candidate => candidate.id === villager.id); return actor ? { ...villager, position: actor.position, route: actor.committedCells, activity: actor.status === "traveling" ? "travel" as const : actor.intendedActivity, food: actor.food, hunger: actor.hunger, status: actor.status, waitReason: actor.waitReason, destinationObjectId: actor.destinationObjectId, destinationSlotId: actor.destinationSlotId, remainingRoute: actor.remainingRoute, remainingCost: actor.remainingCost, plannedNavigationRevision: actor.plannedNavigationRevision } : villager; }); const state = { ...input, tick: structuredState.tick, foodReserve: structuredState.settlements[0]?.storeFood ?? input.foodReserve, villagers, structuredState, settlements: input.settlements.map(settlement => settlement.id === homeSettlement.id ? { ...settlement, foodReserve: structuredState.settlements[0]?.storeFood ?? settlement.foodReserve, villagerIds: villagers.filter(villager => villager.settlementId === settlement.id).map(villager => villager.id) } : settlement) }; return { state, events: structuredEvents, interpretations: [] };
   }

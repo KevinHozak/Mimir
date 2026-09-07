@@ -1,8 +1,10 @@
-import { createDefaultWorld, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, LOCATION_TILES, normalizeSpatialMetadata, REGIONAL_ROUTES, RIVERBEND_SETTLEMENT, type SharedStore, type WorldState } from "@mimir/engine";
+import { createDefaultWorld, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, LOCATION_TILES, normalizeSpatialMetadata, REGIONAL_ROUTES, RIVERBEND_SETTLEMENT, validateFirstGlowState, type SharedStore, type WorldState } from "@mimir/engine";
 
 export function normalizeState(raw: WorldState): WorldState {
   if (raw.spatialModel === "structured-v1" && !raw.worldDefinition) throw new Error("structured-v1 checkpoint is missing its embedded world definition");
-  if (raw.spatialModel === "structured-v2" && (raw.simulationVersion !== "mimir-sim-v2" || !raw.structuredState)) throw new Error("structured-v2 checkpoint is missing its supported simulation state");
+  if (raw.simulationVersion === "mimir-sim-v3-first-glow" && (!raw.firstGlowState || raw.firstGlowState.schemaVersion !== 3)) throw new Error("First Glow checkpoint is missing its supported simulation state");
+  if (raw.spatialModel === "structured-v2" && raw.simulationVersion !== "mimir-sim-v3-first-glow" && (raw.simulationVersion !== "mimir-sim-v2" || !raw.structuredState)) throw new Error("structured-v2 checkpoint is missing its supported simulation state");
+  if (raw.firstGlowState) validateFirstGlowState(raw.firstGlowState);
   const sharedStore: SharedStore = raw.sharedStore ?? { id: "shared-granary", status: "provisional", contributionRule: "Harvested food enters the common reserve.", distributionRule: "Food is distributed when a villager arrives at the granary.", contributions: 0, distributions: 0, dissent: 0 };
   const legacySpatialSnapshot = !raw.worldDefinition && raw.spatialModel !== "structured-v1";
   const worldDefinition = raw.worldDefinition ?? (legacySpatialSnapshot ? undefined : createDefaultWorld());

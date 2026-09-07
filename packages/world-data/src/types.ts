@@ -1,6 +1,10 @@
 export const WORLD_DATA_SCHEMA_VERSION = 2 as const;
 export const STRUCTURED_SPATIAL_MODEL = "structured-v2" as const;
 export const SIMULATION_VERSION = "mimir-sim-v2" as const;
+export const FIRST_GLOW_WORLD_SCHEMA_VERSION = 3 as const;
+export const FIRST_GLOW_SIMULATION_VERSION = "mimir-sim-v3-first-glow" as const;
+export const LIVING_CIRCUIT_THEME_ID = "living-circuit" as const;
+export const FIRST_GLOW_AGE_ID = "first-glow" as const;
 
 export type Cell = { x: number; y: number };
 export type TerrainId = string;
@@ -42,6 +46,31 @@ export interface WorldBundle {
   assets: AssetManifestEntry[];
   bundle: WorldBundleReference;
 }
+export type FirstGlowActivity = "seek-charge" | "draw-charge" | "share-charge" | "explore" | "mark-trace" | "seek-shelter" | "meet" | "shape-pattern" | "idle";
+export type FirstGlowCapability = "charge-pool" | "shelter-niche" | "trace" | "relay-crossing" | "pattern-shard" | "light-mark";
+export interface FirstGlowTerrainDefinition extends TerrainDefinition { label?: string; }
+export interface FirstGlowObjectDefinition extends ObjectDefinition { capabilities: FirstGlowCapability[]; label: string; }
+export interface FirstGlowWorldBundle {
+  schemaVersion: 3;
+  spatialModel: typeof STRUCTURED_SPATIAL_MODEL;
+  simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION;
+  themeId: typeof LIVING_CIRCUIT_THEME_ID;
+  ageId: typeof FIRST_GLOW_AGE_ID;
+  id: string;
+  width: number;
+  height: number;
+  cellSizePx: number;
+  terrain: string[][];
+  terrainDefinitions: Record<string, FirstGlowTerrainDefinition>;
+  surfaces: SurfaceInstance[];
+  objectDefinitions: Record<string, FirstGlowObjectDefinition>;
+  objects: ObjectInstance[];
+  layers: { id: string; role: "ground" | "surface" | "objects" | "foreground" | "spawns"; order: number }[];
+  spawns: Spawn[];
+  assets: AssetManifestEntry[];
+  bundle: { bundleId: string; contentHash: string; schemaVersion: 3; assetVersion: string };
+}
+export type DecodedWorldBundle = WorldBundle | FirstGlowWorldBundle;
 export interface ObjectRuntimeState { objectId: string; blocked: boolean; }
 export interface Reservation { actorId: string; objectId: string; slotId: string; }
 export interface WorldRuntimeState {

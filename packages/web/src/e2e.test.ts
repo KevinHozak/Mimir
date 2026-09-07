@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 import { spawn, type ChildProcess } from "node:child_process";
-import { existsSync, unlinkSync } from "node:fs";
+import { existsSync, readFileSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
 
 const projectRoot = join(process.cwd(), "..", "..");
@@ -20,6 +20,9 @@ try {
   try {
     const live = await browser.newPage();
     await live.goto(`http://127.0.0.1:${webPort}/`);
+    const fixture = JSON.parse(readFileSync(join(projectRoot, "assets", "world", "fixtures", "first-glow-schema-3.json"), "utf8"));
+    const decodedFixture = await live.evaluate(async (raw) => (await import("/src/fixtureDecoder.ts")).decodeFirstGlowFixture(raw), fixture);
+    if (decodedFixture.themeId !== "living-circuit" || decodedFixture.ageId !== "first-glow" || decodedFixture.simulationVersion !== "mimir-sim-v3-first-glow") throw new Error(`browser schema-3 decode mismatch: ${JSON.stringify(decodedFixture)}`);
     await live.getByRole("textbox", { name: "Owner token" }).fill("browser-owner");
     await live.getByRole("button", { name: "Advance one tick" }).click();
     await live.getByText("Season 1 · Tick 1").waitFor();
