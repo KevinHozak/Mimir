@@ -10,6 +10,5 @@
     "composite": true,
     "skipLibCheck": true
   },
-  "include": ["src"],
-  "references": [{ "path": "../world-data" }]
+  "include": ["src"]
 }

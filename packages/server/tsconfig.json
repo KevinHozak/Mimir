@@ -10,5 +10,5 @@
     "skipLibCheck": true
   },
   "include": ["src"],
-  "references": [{ "path": "../engine" }]
+  "references": [{ "path": "../world-data" }, { "path": "../engine" }]
 }
