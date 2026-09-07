@@ -38,16 +38,21 @@ const region = await (await fetch(`${endpoint}/api/region`)).json() as { settlem
 if (region.settlements.length !== 2 || region.routes.some((route) => route.id !== "road-mimir-riverbend") || region.weather.kind !== "clear" || region.hazards.length !== 0) throw new Error("region contract was incomplete");
   const metrics = await (await fetch(`${endpoint}/api/metrics`)).json() as { metrics: { tick: number }[] };
   if (metrics.metrics.length !== 1 || metrics.metrics[0].tick !== 0) throw new Error("metrics did not include the initial checkpoint");
-  const blocked = await request("/api/owner/world/object", { objectId: "bridge-1", blocked: true });
-  if (blocked.status !== 200) throw new Error("runtime object block failed");
+  const blocked = await request("/api/owner/world/object", { settlementId: "first-village", objectId: "bridge-1", blocked: true, idempotencyKey: "block-bridge-1" });
+  if (blocked.status !== 202) throw new Error("runtime object command was not queued");
   const blockedWorld = await (await fetch(`${endpoint}/api/world`)).json() as { state: { worldRuntime?: { blockedObjectIds: string[] } } };
-  if (!blockedWorld.state.worldRuntime?.blockedObjectIds.includes("bridge-1")) throw new Error("runtime object block was not persisted");
-  if ((await request("/api/owner/branch", { tick: 0 })).status !== 200) throw new Error("runtime-state branch failed");
+  if (blockedWorld.state.worldRuntime?.blockedObjectIds.includes("bridge-1")) throw new Error("pending blocker changed live state early");
+  if ((await request("/api/tick")).status !== 200) throw new Error("pending blocker did not apply on tick");
+  const appliedWorld = await (await fetch(`${endpoint}/api/world`)).json() as { state: { worldRuntime?: { blockedObjectIds: string[] } } };
+  if (!appliedWorld.state.worldRuntime?.blockedObjectIds.includes("bridge-1")) throw new Error("runtime object block was not applied");
+  if ((await request("/api/owner/branch", { tick: 1 })).status !== 200) throw new Error("runtime-state branch failed");
   const branchedWorld = await (await fetch(`${endpoint}/api/world`)).json() as { state: { worldRuntime?: { blockedObjectIds: string[] } } };
   if (!branchedWorld.state.worldRuntime?.blockedObjectIds.includes("bridge-1")) throw new Error("runtime object block was not copied into branch");
-  if ((await request("/api/owner/world/object", { objectId: "bridge-1", blocked: false })).status !== 200) throw new Error("runtime object unblock failed");
+  if ((await request("/api/owner/world/object", { settlementId: "first-village", objectId: "bridge-1", blocked: false, idempotencyKey: "unblock-bridge-1" })).status !== 202) throw new Error("runtime object unblock was not queued");
+  if ((await request("/api/tick")).status !== 200) throw new Error("runtime object unblock did not apply");
   const report = await (await fetch(`${endpoint}/api/report`)).json() as { tick: number; checkpoints: number };
-  if (report.tick !== 0 || report.checkpoints !== 1) throw new Error("report did not reflect reset");
+  if (report.tick !== 2 || report.checkpoints !== 3) throw new Error("report did not reflect queued commands");
+  if ((await request("/api/owner/reset", { seed: 101 })).status !== 200) throw new Error("season test reset failed");
   await new Promise((resolve) => setTimeout(resolve, 350));
   if (!existsSync(backupDirectory) || readdirSync(backupDirectory).filter((entry) => entry.endsWith(".db")).length === 0) throw new Error("scheduled backup was not created");
   for (let season = 1; season <= 3; season += 1) {
