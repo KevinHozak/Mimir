@@ -155,7 +155,7 @@ const names = [
 ] as const;
 
 const locations = ["Homes", "Granary", "Workshop", "Meeting Place", "Fields", "Woodland"];
-export const HOME_SETTLEMENT = { id: "first-village", name: "Mimir Village" } as const;
+export const HOME_SETTLEMENT = { id: "first-village", name: "Hearthmere" } as const;
 export const RIVERBEND_SETTLEMENT = { id: "riverbend", name: "Riverbend" } as const;
 export const REGIONAL_ROUTES: RouteDefinition[] = [{ id: "road-mimir-riverbend", name: "The River Road", fromSettlementId: HOME_SETTLEMENT.id, toSettlementId: RIVERBEND_SETTLEMENT.id, travelTicks: 3, status: "open" }];
 const initialWeather: WeatherState = { kind: "clear", severity: 0, forecast: "rain", changedAtTick: 0 };
@@ -407,7 +407,7 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     toSettlementId: regionalRoute.toSettlementId,
     resource: "food" as const,
     amount: tradeAmount,
-    summary: `Jonan carried ${tradeAmount} food from Mimir Village to Riverbend along the River Road.`
+    summary: `Jonan carried ${tradeAmount} food from Hearthmere to Riverbend along the River Road.`
   } : null;
   const tradeHistory = tradeRecord ? [...(input.tradeHistory ?? []), tradeRecord] : (input.tradeHistory ?? []);
   const existingHazards = input.hazards ?? [];
