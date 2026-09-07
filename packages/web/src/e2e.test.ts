@@ -23,6 +23,10 @@ try {
     await live.getByRole("textbox", { name: "Owner token" }).fill("browser-owner");
     await live.getByRole("button", { name: "Advance one tick" }).click();
     await live.getByText("Season 1 · Tick 1").waitFor();
+    const overlayButton = live.getByRole("button", { name: /IDs/ });
+    const overlayBefore = await overlayButton.innerText();
+    await overlayButton.click();
+    await live.getByRole("button", { name: overlayBefore === "Show IDs" ? "Hide IDs" : "Show IDs" }).waitFor();
     const history = await browser.newPage();
     await history.goto(`http://127.0.0.1:${webPort}/`);
     await history.getByRole("slider", { name: "History" }).press("Home");
