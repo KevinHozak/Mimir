@@ -40,6 +40,7 @@ The initial hosting candidate is one paid Render service with a persistent disk,
 
 ## Plans
 
+- [AI World Theme Plan](docs/2026-09-06_AI_World_Theme_Plan.md) — four naming palettes, an AI resource economy, human creativity and reverence, and expansion into interconnected worlds.
 - [Game Simulation](docs/game-simulation.md) — how a tick advances the world, how villagers and systems interact, and how seasons, timelines, replay, and AI interpretation work.
 - [Simulation Game Plan](docs/2026-09-06_Simulation_Game_Plan.md) — world design, mechanics, stages, experiments, and success gates.
 - [Web Development Plan](docs/2026-09-06_Web_Development_Plan.md) — application architecture, persistence, hosting, operations, and verification.
