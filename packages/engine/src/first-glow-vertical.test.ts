@@ -6,22 +6,22 @@ import { bundleHash, decodeWorldBundle, queryCell, validateWorldBundle } from "@
 import { advanceFirstGlowState, createFirstGlowState } from "./structured.js";
 import { advanceFirstGlow as advanceWithActions } from "./first-glow-actions.js";
 
-const hash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
-const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("../../../assets/world/generated/sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3/world.json", import.meta.url)), "utf8")));
+const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
+const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("../../../assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json", import.meta.url)), "utf8")));
 if (bundle.schemaVersion !== 3) throw new Error("vertical slice requires a First Glow bundle");
 
 test("First Glow vertical slice preserves relay, shelter, and authored signal changes", () => {
   const runtime = { navigationRevision: 0, objects: [], reservations: [] };
-  assert.equal(queryCell(bundle, runtime, { x: 8, y: 4 }).walkable, true);
+  assert.equal(queryCell(bundle, runtime, { x: 16, y: 12 }).walkable, true);
   const closed = structuredClone(bundle);
   closed.surfaces.find(surface => surface.id === "tiled-103-surface")!.enabled = false;
   closed.bundle.contentHash = bundleHash(closed);
   validateWorldBundle(closed);
-  assert.equal(queryCell(closed, runtime, { x: 8, y: 4 }).walkable, false);
+  assert.equal(queryCell(closed, runtime, { x: 16, y: 12 }).walkable, false);
   closed.surfaces.find(surface => surface.id === "tiled-103-surface")!.enabled = true;
   closed.bundle.contentHash = bundleHash(closed);
   validateWorldBundle(closed);
-  assert.equal(queryCell(closed, runtime, { x: 8, y: 4 }).walkable, true);
+  assert.equal(queryCell(closed, runtime, { x: 16, y: 12 }).walkable, true);
 
   const changed = structuredClone(closed);
   changed.objects.find(object => object.id === "tiled-102")!.origin = { x: 12, y: 2 };
