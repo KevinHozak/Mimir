@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
-import { appendFileSync, cpSync, existsSync, rmSync } from "node:fs";
+import { appendFileSync, cpSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
-const root = join(process.cwd(), "..", ".."); const port = 34142; const database = join(root, `first-glow-assets-${Date.now()}.db`); const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"; let server: ChildProcess | undefined;
+const root = join(process.cwd(), "..", ".."); const tempRoot = join(root, ".tmp", `first-glow-assets-${Date.now()}`); const port = 34142; const database = join(tempRoot, "source.db"); const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"; let server: ChildProcess | undefined;
 const waitFor = async () => { for (let attempt = 0; attempt < 80; attempt += 1) { try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error("First Glow asset server did not start"); };
-const corruptRoot = join(root, `first-glow-assets-corrupt-${Date.now()}`);
+const corruptRoot = join(tempRoot, "corrupt-bundles");
 try {
+  mkdirSync(tempRoot, { recursive: true });
   server = spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env: { ...process.env, PORT: String(port), AUTO_TICK: "false", DATABASE_PATH: database, OWNER_TOKEN: "first-glow-assets-owner", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") }, stdio: "ignore" }); await waitFor();
   const reset = await fetch(`http://127.0.0.1:${port}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": "first-glow-assets-owner" }, body: JSON.stringify({ bundleHash: hash, seed: 43 }) }); assert.equal(reset.status, 200, await reset.text());
   const bundle = await (await fetch(`http://127.0.0.1:${port}/api/world/bundles/${hash}`)).json() as { bundle: { assets: { path: string; mediaType: string }[] } }; const asset = bundle.bundle.assets[0]; assert.ok(asset);

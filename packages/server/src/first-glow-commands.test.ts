@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
-import { existsSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
-const root = join(process.cwd(), "..", ".."); const port = 34143; const database = join(root, `first-glow-commands-${Date.now()}.db`); const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"; let server: ChildProcess | undefined; const serverOutput: string[] = [];
+const root = join(process.cwd(), "..", ".."); const tempRoot = join(root, ".tmp", `first-glow-commands-${Date.now()}`); const port = 34143; const database = join(tempRoot, "commands.db"); const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"; let server: ChildProcess | undefined; const serverOutput: string[] = [];
 const waitFor = async () => { for (let attempt = 0; attempt < 300; attempt += 1) { if (server?.exitCode !== null && server?.exitCode !== undefined) throw new Error(`First Glow command server exited with code ${server.exitCode}: ${serverOutput.join("")}`); try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error(`First Glow command server did not start within 30 seconds: ${serverOutput.join("")}`); };
 const request = async (path: string, init?: RequestInit) => fetch(`http://127.0.0.1:${port}${path}`, { ...init, headers: { "x-owner-token": "first-glow-command-owner", ...(init?.headers ?? {}) } });
 try {
+  mkdirSync(tempRoot, { recursive: true });
   server = spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env: { ...process.env, PORT: String(port), AUTO_TICK: "false", DATABASE_PATH: database, OWNER_TOKEN: "first-glow-command-owner", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") }, stdio: ["ignore", "pipe", "pipe"] }); server.stdout?.on("data", chunk => serverOutput.push(String(chunk))); server.stderr?.on("data", chunk => serverOutput.push(String(chunk))); await waitFor();
   const reset = await request("/api/owner/reset-v3", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ bundleHash: hash, seed: 41 }) }); assert.equal(reset.status, 200);
   const design = await (await request("/api/design")).json() as { themeId?: string; ageId?: string; firstGlow?: { openingQuestion?: string; boundary?: string; events?: { title: string }[] }; characterCards?: unknown[]; dilemmas?: unknown[] }; assert.equal(design.themeId, "living-circuit"); assert.equal(design.ageId, "first-glow"); assert.equal(design.firstGlow?.openingQuestion, "What keeps our lights on?"); assert.match(design.firstGlow?.boundary ?? "", /Originators/); assert.deepEqual(design.firstGlow?.events?.map(event => event.title), ["A pool grows quiet", "An unfamiliar trace"]); assert.deepEqual(design.characterCards, []); assert.deepEqual(design.dilemmas, []);
