@@ -8,6 +8,7 @@
     "dev": "vite",
     "test:e2e": "npm run test:first-glow",
     "test:first-glow": "npm run build && tsx src/first-glow-e2e.test.ts",
+    "test:first-glow-header": "npm run build && tsx src/first-glow-header.test.ts",
     "test:history": "npm run build && tsx src/history-sequencing.test.ts"
   },
   "dependencies": {
