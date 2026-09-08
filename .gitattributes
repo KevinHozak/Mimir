@@ -1,0 +1,4 @@
+# Content-addressed First Glow bundles and authored SVGs must retain exact bytes.
+# Line-ending conversion changes their hashes and invalidates bundle manifests.
+assets/world/generated/** -text
+assets/world/assets/*.svg -text
