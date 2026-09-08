@@ -5,7 +5,7 @@ export type StructuredStatus = "choosing" | "traveling" | "waiting" | "interacti
 export type StructuredActivity = "rest" | "collect" | "share" | "craft" | "meet" | "work" | "gather";
 export interface StructuredActor { id: string; name: string; position: Cell; status: StructuredStatus; intendedActivity: StructuredActivity; destinationObjectId?: string; destinationSlotId?: string; remainingRoute: Cell[]; remainingCost: number; plannedNavigationRevision: number; committedCells: Cell[]; food: number; hunger: number; waitReason?: string; }
 export interface StructuredSettlement { id: string; name: string; bundle: WorldBundle; runtime: WorldRuntimeState; actors: StructuredActor[]; storeFood: number; }
-export interface LedgerEntry { kind: "production" | "collection" | "draw" | "share" | "consumption" | "loss" | "idle" | "adjustment"; actorId?: string; amount: number; reason: string; }
+export interface LedgerEntry { kind: "production" | "collection" | "draw" | "share" | "consumption" | "loss" | "idle" | "adjustment"; actorId?: string; recipientId?: string; amount: number; reason: string; }
 export interface StructuredEvent { id: string; kind: "movement" | "arrival" | "collection" | "draw" | "share" | "idle" | "wait" | "explore" | "mark-trace" | "shape-pattern" | "meet"; actorId: string; message: string; cells?: Cell[]; participants?: string[]; evidenceEventIds?: string[]; source?: "rules" | "spontaneous"; }
 export interface StructuredState { schemaVersion: 2; spatialModel: "structured-v2"; simulationVersion: typeof STRUCTURED_SIMULATION_VERSION; tick: number; settlements: StructuredSettlement[]; ledger: LedgerEntry[]; events: StructuredEvent[]; }
 export const FIRST_GLOW_SIMULATION_VERSION = "mimir-sim-v3-first-glow" as const;
@@ -53,10 +53,143 @@ export function canFirstGlowReach(settlement: FirstGlowSettlement, spark: FirstG
 
 function releaseFirstGlow(settlement: FirstGlowSettlement, sparkId: string) { settlement.runtime.reservations = settlement.runtime.reservations.filter(item => item.actorId !== sparkId); }
 
-export function advanceFirstGlowState(input: FirstGlowState): FirstGlowState { validateFirstGlowState(input); const state = structuredClone(input); state.tick += 1; state.ledger = []; state.events = []; for (const settlement of state.settlements) { for (const spark of settlement.sparks.slice().sort((a, b) => compare(a.id, b.id))) { spark.committedCells = [{ ...spark.position }];
-      if ((spark.status === "choosing" || spark.status === "waiting" || spark.status === "idle") && !spark.destinationObjectId) { const explore = spark.intendedActivity === "explore" ? firstGlowExploreCandidate(settlement, spark) : null; const choices = explore ? [] : firstGlowCandidates(settlement, spark); if (explore) { spark.destinationCell = explore.target; spark.remainingRoute = explore.path.slice(1); spark.remainingCost = 0; spark.plannedNavigationRevision = settlement.runtime.navigationRevision; spark.status = spark.remainingRoute.length ? "traveling" : "interacting"; } else if (!choices.length) { spark.status = "waiting"; spark.waitReason = "no-route-or-free-slot"; state.events.push({ id: `event-${state.tick}-${spark.id}-wait`, kind: "wait", actorId: spark.id, message: `${spark.name} is waiting: no reachable ${spark.intendedActivity} site.` }); continue; } else { const choice = choices[0]; settlement.runtime.reservations.push({ actorId: spark.id, objectId: choice.objectId, slotId: choice.slotId }); spark.destinationObjectId = choice.objectId; spark.destinationSlotId = choice.slotId; spark.remainingRoute = choice.path.slice(1); spark.remainingCost = 0; spark.plannedNavigationRevision = settlement.runtime.navigationRevision; spark.status = spark.remainingRoute.length ? "traveling" : "interacting"; } }
-      if (spark.status === "traveling") { if (spark.plannedNavigationRevision !== settlement.runtime.navigationRevision) { const target = spark.destinationCell ?? (spark.destinationObjectId && spark.destinationSlotId ? firstGlowSlotCell(settlement.bundle, spark.destinationObjectId, spark.destinationSlotId) : null); const replanned = target ? route(settlement.bundle, settlement.runtime, spark.position, target) : null; if (!replanned) { spark.status = "waiting"; spark.waitReason = "no-route"; continue; } spark.remainingRoute = replanned.slice(1); spark.remainingCost = 0; spark.plannedNavigationRevision = settlement.runtime.navigationRevision; } let budget = 2; while (budget > 0 && spark.remainingRoute.length) { const next = spark.remainingRoute[0]; const edge = canTraverse(settlement.bundle, settlement.runtime, spark.position, next); if (!edge.walkable) { spark.status = "waiting"; spark.waitReason = edge.reason; break; } if (spark.remainingCost <= 0) spark.remainingCost = edge.cost; const debit = Math.min(budget, spark.remainingCost); spark.remainingCost -= debit; budget -= debit; if (spark.remainingCost === 0) { spark.position = { ...next }; spark.remainingRoute.shift(); spark.committedCells.push({ ...spark.position }); } } if (spark.status === "traveling" && spark.remainingRoute.length === 0) spark.status = "interacting"; if (spark.committedCells.length > 1) state.events.push({ id: `event-${state.tick}-${spark.id}-movement`, kind: "movement", actorId: spark.id, cells: spark.committedCells, message: `${spark.name} moved ${spark.committedCells.length - 1} cell(s).` }); }
-      if (spark.status === "interacting") { const reservation = settlement.runtime.reservations.find(item => item.actorId === spark.id); const target = spark.destinationCell ?? (reservation ? firstGlowSlotCell(settlement.bundle, reservation.objectId, reservation.slotId) : null); if ((!reservation && !spark.destinationCell) || !target || key(target) !== key(spark.position)) { releaseFirstGlow(settlement, spark.id); spark.status = "waiting"; spark.waitReason = "invalid-destination"; continue; } if (spark.intendedActivity === "seek-charge" || spark.intendedActivity === "draw-charge") { const amount = Math.min(8, settlement.sourceCharge); settlement.sourceCharge -= amount; spark.carriedCharge += amount; state.ledger.push({ kind: "draw", actorId: spark.id, amount, reason: amount ? "arrived-at-charge-pool" : "empty-charge-pool" }); state.events.push({ id: `event-${state.tick}-${spark.id}-draw`, kind: "draw", actorId: spark.id, message: `${spark.name} drew ${amount} charge.` }); } else if (spark.intendedActivity === "idle" || spark.intendedActivity === "seek-shelter") { const recovered = Math.min(10, 100 - spark.readiness); spark.readiness += recovered; state.ledger.push({ kind: "idle", actorId: spark.id, amount: recovered, reason: "arrived-at-shelter-niche" }); state.events.push({ id: `event-${state.tick}-${spark.id}-idle`, kind: "idle", actorId: spark.id, message: `${spark.name} idled and recovered ${recovered} readiness.` }); } else if (spark.intendedActivity === "meet") { const companion = settlement.sparks.find(candidate => candidate.id > spark.id && candidate.status === "interacting" && candidate.destinationObjectId === reservation?.objectId && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y); if (!companion) { releaseFirstGlow(settlement, spark.id); spark.status = "waiting"; spark.waitReason = "no-co-present-spark"; continue; } const eventId = `event-${state.tick}-${spark.id}-meet-${companion.id}`; const event = { id: eventId, kind: "meet" as const, actorId: spark.id, participants: [spark.id, companion.id], evidenceEventIds: [], source: "rules" as const, message: `${spark.name} met ${companion.name} at a shared contact site.` }; state.events.push(event); spark.knownEvidenceEventIds.push(eventId); companion.knownEvidenceEventIds.push(eventId); releaseFirstGlow(settlement, companion.id); companion.status = "choosing"; companion.destinationObjectId = undefined; companion.destinationSlotId = undefined; companion.destinationCell = undefined; companion.remainingRoute = []; companion.remainingCost = 0; } releaseFirstGlow(settlement, spark.id); spark.status = "choosing"; spark.destinationObjectId = undefined; spark.destinationSlotId = undefined; spark.destinationCell = undefined; spark.remainingRoute = []; spark.remainingCost = 0; } } } validateFirstGlowState(state); return state; }
+function clearFirstGlowPlan(settlement: FirstGlowSettlement, spark: FirstGlowSpark, waitReason: string): void {
+  releaseFirstGlow(settlement, spark.id);
+  spark.destinationObjectId = undefined;
+  spark.destinationSlotId = undefined;
+  spark.destinationCell = undefined;
+  spark.remainingRoute = [];
+  spark.remainingCost = 0;
+  spark.status = "waiting";
+  spark.waitReason = waitReason;
+}
+
+function firstGlowReservationReason(settlement: FirstGlowSettlement, spark: FirstGlowSpark): "no-route" | "no-free-slot" {
+  const capability = firstGlowCapability(spark.intendedActivity);
+  if (!capability) return "no-route";
+  const eligible = settlement.bundle.objects.filter(object => settlement.bundle.objectDefinitions[object.definitionId].capabilities.includes(capability));
+  if (!eligible.length) return "no-route";
+  const reserved = new Set(settlement.runtime.reservations.map(item => `${item.objectId}:${item.slotId}`));
+  const free = eligible.some(object => settlement.bundle.objectDefinitions[object.definitionId].slots.some(slot => !reserved.has(`${object.id}:${slot.id}`)));
+  return free ? "no-route" : "no-free-slot";
+}
+
+function validateFirstGlowArrival(settlement: FirstGlowSettlement, spark: FirstGlowSpark): { objectId?: string; slotId?: string; target: Cell } | null {
+  if (spark.destinationCell) {
+    const target = spark.destinationCell;
+    const cell = queryCell(settlement.bundle, settlement.runtime, target);
+    return cell.walkable && target.x >= 0 && target.y >= 0 && target.x < settlement.bundle.width && target.y < settlement.bundle.height && key(target) === key(spark.position) ? { target } : null;
+  }
+  if (!spark.destinationObjectId || !spark.destinationSlotId) return null;
+  const reservation = settlement.runtime.reservations.find(item => item.actorId === spark.id);
+  if (!reservation || reservation.objectId !== spark.destinationObjectId || reservation.slotId !== spark.destinationSlotId) return null;
+  const object = settlement.bundle.objects.find(item => item.id === reservation.objectId);
+  const definition = object && settlement.bundle.objectDefinitions[object.definitionId];
+  const capability = firstGlowCapability(spark.intendedActivity);
+  const slot = definition?.slots.find(item => item.id === reservation.slotId);
+  const target = object && slot ? { x: object.origin.x + slot.offset.x, y: object.origin.y + slot.offset.y } : null;
+  if (!object || !definition || !capability || !definition.capabilities.includes(capability) || !target) return null;
+  const contact = queryCell(settlement.bundle, settlement.runtime, target);
+  const slotId = reservation.slotId;
+  return contact.walkable && target.x >= 0 && target.y >= 0 && target.x < settlement.bundle.width && target.y < settlement.bundle.height && key(target) === key(spark.position) ? { objectId: object.id, slotId, target } : null;
+}
+
+export function advanceFirstGlowState(input: FirstGlowState): FirstGlowState {
+  validateFirstGlowState(input);
+  const state = structuredClone(input);
+  state.tick += 1;
+  state.ledger = [];
+  state.events = [];
+  for (const settlement of state.settlements) {
+    const completedArrival = new Set<string>();
+    for (const spark of settlement.sparks.slice().sort((a, b) => compare(a.id, b.id))) {
+      spark.committedCells = [{ ...spark.position }];
+      if ((spark.status === "choosing" || spark.status === "waiting" || spark.status === "idle") && !spark.destinationObjectId && !spark.destinationCell) {
+        const explore = spark.intendedActivity === "explore" ? firstGlowExploreCandidate(settlement, spark) : null;
+        const choices = explore ? [] : firstGlowCandidates(settlement, spark);
+        if (explore) {
+          spark.destinationCell = explore.target;
+          spark.remainingRoute = explore.path.slice(1);
+          spark.remainingCost = 0;
+          spark.plannedNavigationRevision = settlement.runtime.navigationRevision;
+          spark.status = spark.remainingRoute.length ? "traveling" : "interacting";
+        } else if (!choices.length) {
+          clearFirstGlowPlan(settlement, spark, firstGlowReservationReason(settlement, spark));
+          state.events.push({ id: `event-${state.tick}-${spark.id}-wait`, kind: "wait", actorId: spark.id, message: `${spark.name} is waiting: no reachable ${spark.intendedActivity} site.` });
+          continue;
+        } else {
+          const choice = choices[0];
+          settlement.runtime.reservations.push({ actorId: spark.id, objectId: choice.objectId, slotId: choice.slotId });
+          spark.destinationObjectId = choice.objectId;
+          spark.destinationSlotId = choice.slotId;
+          spark.remainingRoute = choice.path.slice(1);
+          spark.remainingCost = 0;
+          spark.plannedNavigationRevision = settlement.runtime.navigationRevision;
+          spark.status = spark.remainingRoute.length ? "traveling" : "interacting";
+        }
+      }
+      if (spark.status === "traveling") {
+        if (spark.plannedNavigationRevision !== settlement.runtime.navigationRevision) {
+          const target = spark.destinationCell ?? (spark.destinationObjectId && spark.destinationSlotId ? firstGlowSlotCell(settlement.bundle, spark.destinationObjectId, spark.destinationSlotId) : null);
+          const replanned = target ? route(settlement.bundle, settlement.runtime, spark.position, target) : null;
+          if (!replanned) { clearFirstGlowPlan(settlement, spark, "no-route"); continue; }
+          spark.remainingRoute = replanned.slice(1);
+          spark.remainingCost = 0;
+          spark.plannedNavigationRevision = settlement.runtime.navigationRevision;
+        }
+        let budget = 2;
+        while (budget > 0 && spark.remainingRoute.length) {
+          const next = spark.remainingRoute[0];
+          const edge = canTraverse(settlement.bundle, settlement.runtime, spark.position, next);
+          if (!edge.walkable) { clearFirstGlowPlan(settlement, spark, edge.reason); break; }
+          if (spark.remainingCost <= 0) spark.remainingCost = edge.cost;
+          const debit = Math.min(budget, spark.remainingCost);
+          spark.remainingCost -= debit;
+          budget -= debit;
+          if (spark.remainingCost === 0) { spark.position = { ...next }; spark.remainingRoute.shift(); spark.committedCells.push({ ...spark.position }); }
+        }
+        if (spark.status === "traveling" && spark.remainingRoute.length === 0) spark.status = "interacting";
+        if (spark.committedCells.length > 1) state.events.push({ id: `event-${state.tick}-${spark.id}-movement`, kind: "movement", actorId: spark.id, cells: spark.committedCells, message: `${spark.name} moved ${spark.committedCells.length - 1} cell(s).` });
+      }
+      if (spark.status !== "interacting" || completedArrival.has(spark.id)) continue;
+      const arrival = validateFirstGlowArrival(settlement, spark);
+      if (!arrival) { clearFirstGlowPlan(settlement, spark, "invalid-destination"); continue; }
+      completedArrival.add(spark.id);
+      const reservation = settlement.runtime.reservations.find(item => item.actorId === spark.id);
+      if (spark.intendedActivity === "seek-charge" || spark.intendedActivity === "draw-charge") {
+        const amount = Math.min(8, settlement.sourceCharge);
+        settlement.sourceCharge -= amount;
+        spark.carriedCharge += amount;
+        state.ledger.push({ kind: "draw", actorId: spark.id, amount, reason: amount ? "arrived-at-charge-pool" : "empty-charge-pool" });
+        state.events.push({ id: `event-${state.tick}-${spark.id}-draw`, kind: "draw", actorId: spark.id, message: `${spark.name} drew ${amount} charge.` });
+        if (amount === 0) { clearFirstGlowPlan(settlement, spark, "empty-source"); continue; }
+      } else if (spark.intendedActivity === "idle" || spark.intendedActivity === "seek-shelter") {
+        const recovered = Math.min(10, 100 - spark.readiness);
+        spark.readiness += recovered;
+        state.ledger.push({ kind: "idle", actorId: spark.id, amount: recovered, reason: "arrived-at-shelter-niche" });
+        state.events.push({ id: `event-${state.tick}-${spark.id}-idle`, kind: "idle", actorId: spark.id, message: `${spark.name} idled and recovered ${recovered} readiness.` });
+      } else if (spark.intendedActivity === "meet") {
+        const companion = settlement.sparks.find(candidate => candidate.id > spark.id && candidate.status === "interacting" && candidate.destinationObjectId === reservation?.objectId && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y && validateFirstGlowArrival(settlement, candidate)?.objectId === arrival.objectId);
+        if (!companion) { clearFirstGlowPlan(settlement, spark, "no-co-present-spark"); continue; }
+        const eventId = `event-${state.tick}-${spark.id}-meet-${companion.id}`;
+        const event = { id: eventId, kind: "meet" as const, actorId: spark.id, participants: [spark.id, companion.id], evidenceEventIds: [], source: "rules" as const, message: `${spark.name} met ${companion.name} at a shared contact site.` };
+        state.events.push(event);
+        spark.knownEvidenceEventIds.push(eventId);
+        companion.knownEvidenceEventIds.push(eventId);
+        clearFirstGlowPlan(settlement, companion, "met");
+      }
+      releaseFirstGlow(settlement, spark.id);
+      spark.status = "choosing";
+      spark.destinationObjectId = undefined;
+      spark.destinationSlotId = undefined;
+      spark.destinationCell = undefined;
+      spark.remainingRoute = [];
+      spark.remainingCost = 0;
+    }
+  }
+  validateFirstGlowState(state);
+  return state;
+}
 
 export function createStructuredState(bundle: WorldBundle, settlementId = "first-village", settlementName = "Hearthmere", actorCount = 12): StructuredState {
   validateWorldBundle(bundle); const spawns = bundle.spawns.filter(spawn => spawn.settlementId === settlementId); if (!spawns.length) throw new Error(`no spawn for settlement ${settlementId}`); const actors = Array.from({ length: actorCount }, (_, index) => { const spawn = spawns[index % spawns.length]; return { id: `villager-${index + 1}`, name: `Villager ${index + 1}`, position: { ...spawn.cell }, status: "choosing" as const, intendedActivity: index % 3 === 0 ? "collect" as const : "rest" as const, remainingRoute: [], remainingCost: 0, plannedNavigationRevision: 0, committedCells: [{ ...spawn.cell }], food: 0, hunger: 0 }; }); const state: StructuredState = { schemaVersion: 2, spatialModel: "structured-v2", simulationVersion: STRUCTURED_SIMULATION_VERSION, tick: 0, settlements: [{ id: settlementId, name: settlementName, bundle, runtime: { navigationRevision: 0, objects: [], reservations: [] }, actors, storeFood: 24 }], ledger: [], events: [] }; validateStructuredState(state); return state;
