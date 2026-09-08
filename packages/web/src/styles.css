@@ -37,6 +37,9 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow-loading h1 { color: #edf7ff; }
 .first-glow-loading p { color: var(--fg-muted); }
 .first-glow button { background: #24354d; color: var(--fg-text); border: 1px solid #52677f; }
+.first-glow .compact-button { display: inline-flex; align-items: center; justify-content: center; width: 36px; min-width: 36px; padding: 7px 6px; line-height: 1; }
+.first-glow .compact-button span { line-height: 1; pointer-events: none; }
+.first-glow .controls .compact-button { flex: 0 0 36px; }
 .first-glow input, .first-glow select, .first-glow button { font-family: inherit; }
 .first-glow h1, .first-glow h2, .first-glow h3, .first-glow strong { letter-spacing: .01em; }
 .first-glow .live { color: #8addf2; }.first-glow .history { color: #c7b7ff; }
