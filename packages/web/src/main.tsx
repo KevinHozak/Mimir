@@ -396,7 +396,7 @@ function App() {
     const nextContext = `${nextWorld.worldId}:${nextWorld.firstGlowState?.settlements.map((settlement) => settlement.bundle.bundle.contentHash).join(",") ?? "legacy"}`;
     if (liveContextRef.current !== null && liveContextRef.current !== nextContext) invalidateHistoryRequest();
     liveContextRef.current = nextContext;
-    setLiveWorld(nextWorld);
+    setLiveWorld((current) => current && current.tick > nextWorld.tick ? current : nextWorld);
     if (typeof worldPayload.schedulerPaused === "boolean") setClockPaused(worldPayload.schedulerPaused);
     setEvents((await eventsResponse.json()).events as Event[]);
     setInterpretations((await interpretationsResponse.json()).interpretations as Interpretation[]);
@@ -407,8 +407,8 @@ function App() {
     setDesignStore(design.sharedStore);
     setFirstGlowDesign(design.firstGlow);
     const region = await regionResponse.json() as { settlements: Settlement[]; tradeHistory: Trade[] };
-    setLiveWorld((current) => current ? { ...current, settlements: region.settlements, tradeHistory: region.tradeHistory } : { ...nextWorld, settlements: region.settlements, tradeHistory: region.tradeHistory });
-    if (viewTickRef.current === null) setWorld({ ...nextWorld, settlements: region.settlements, tradeHistory: region.tradeHistory });
+    setLiveWorld((current) => current && current.tick > nextWorld.tick ? current : current ? { ...current, settlements: region.settlements, tradeHistory: region.tradeHistory } : { ...nextWorld, settlements: region.settlements, tradeHistory: region.tradeHistory });
+    if (viewTickRef.current === null) setWorld((current) => current && current.tick > nextWorld.tick ? current : { ...nextWorld, settlements: region.settlements, tradeHistory: region.tradeHistory });
   };
   useEffect(() => {
     void loadLive();
@@ -417,10 +417,10 @@ function App() {
     stream.onmessage = (message) => {
       const payload = JSON.parse(message.data) as { state: State; events?: Event[]; interpretations?: Interpretation[] };
       validateClientWorld(payload.state);
-      setLiveWorld(payload.state);
+      setLiveWorld((current) => current && current.tick > payload.state.tick ? current : payload.state);
       if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
       if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));
-      if (viewTickRef.current === null) setWorld(payload.state);
+      if (viewTickRef.current === null) setWorld((current) => current && current.tick > payload.state.tick ? current : payload.state);
     };
     const timer = window.setInterval(() => void loadLive(), 15000);
     return () => { stream.close(); window.clearInterval(timer); };
