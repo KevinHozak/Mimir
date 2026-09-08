@@ -87,7 +87,7 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .entity-controls { display: grid; grid-template-columns: auto minmax(150px, 1fr) minmax(180px, 1fr); gap: 8px; align-items: center; margin: 12px 0; color: #a7b9cf; }
 .entity-controls input, .entity-controls select { min-width: 0; padding: 8px 10px; border: 1px solid #52677f; border-radius: 7px; background: #0a1322; color: #edf7ff; font: inherit; }
 .entity-cycle { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; gap: 8px; }
-.entity-cycle button { padding: 7px 10px; }
+.entity-cycle button { width: 28px; min-width: 28px; height: 28px; padding: 2px; font-size: 1rem; line-height: 1; }
 .entity-cycle span { color: #8fa7c3; font-size: .85rem; }
 .selected-entity-card { border: 0; box-shadow: none; }
 .spark-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -116,8 +116,9 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow-header .controls, .first-glow .first-glow-header .controls { grid-column: 1 / -1; position: static; max-width: none; padding: 12px 15px; border: 1px solid #52677f; border-radius: 10px; background: linear-gradient(135deg, #101b2d, #0a1322); box-shadow: inset 0 0 18px rgba(138, 221, 242, .05); }
 .first-glow-map-controls { display: none; }
 .first-glow .village-stage > .entity-chooser { grid-column: 1; grid-row: 2; }
-.first-glow .entity-chooser { display: grid; grid-template-columns: auto minmax(160px, 1fr) minmax(190px, 1fr); gap: 8px; align-items: center; margin-top: 10px; padding: 12px 14px; border: 1px solid #52677f; border-radius: 10px; background: #0b1627; color: var(--fg-muted); }
-.entity-chooser input, .entity-chooser select { min-width: 0; padding: 8px 10px; border: 1px solid #52677f; border-radius: 7px; background: #0a1322; color: #edf7ff; font: inherit; }
+.first-glow .entity-chooser { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; align-items: center; margin-top: 10px; padding: 8px; border: 1px solid #52677f; border-radius: 8px; background: #0b1627; color: var(--fg-muted); }
+.first-glow-inspector > .entity-chooser { position: sticky; top: 0; z-index: 2; margin-top: 0; }
+.entity-chooser select { min-width: 0; padding: 6px 8px; border: 1px solid #52677f; border-radius: 6px; background: #0a1322; color: #edf7ff; font: inherit; }
 .entity-chooser .entity-cycle { grid-column: 1 / -1; }
 .empty-selection { padding: 12px; border: 1px dashed #52677f; border-radius: 7px; }
 @media (max-width: 800px) { .first-glow-header { width: 100%; grid-template-columns: 1fr; } .first-glow-header .identity-title-panel { width: auto; } .first-glow-header .identity-season-panel { width: auto; justify-content: space-between; } .first-glow-header .controls { grid-column: auto; position: static; } .first-glow .village-stage > .entity-chooser { grid-column: auto; grid-row: auto; } .first-glow .entity-chooser { grid-template-columns: 1fr; } .entity-chooser .entity-cycle { grid-column: auto; } }
