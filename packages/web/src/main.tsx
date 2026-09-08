@@ -122,6 +122,7 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
   useEffect(() => {
     const tileSize = 24;
     let isActive = true;
+    document.getElementById("village-canvas")?.replaceChildren();
     const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: debugOverlay, transparent: true, width: 768 * displayResolution, height: 768 * displayResolution, parent: "village-canvas", scene: { create() {
       const scene = this as Phaser.Scene;
       if (!isActive) return;
@@ -285,7 +286,7 @@ function App() {
   const [viewTick, setViewTick] = useState<number | null>(null);
   const [clockPaused, setClockPaused] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(2);
   const debugOverlay = false;
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [selectedVillagerId, setSelectedVillagerId] = useState<string | null>(null);
@@ -306,7 +307,7 @@ function App() {
   const firstGlowRuntime = isFirstGlow ? world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.runtime : undefined;
   const setSelected = (villager: Villager | null) => setSelectedVillagerId(villager?.id ?? null);
   const displayedWorldDefinition = activeSettlement?.worldDefinition ?? world?.worldDefinition ?? (isFirstGlow && firstGlowBundle ? firstGlowWorldDefinition(firstGlowBundle) : structuredWorldDefinition(world?.structuredState, activeSettlementId));
-  const fitZoom = (isFirstGlow ? 2 : Math.min(1, 768 / ((displayedWorldDefinition?.width ?? 100) * 24), 768 / ((displayedWorldDefinition?.height ?? 100) * 24)));
+  const fitZoom = (isFirstGlow || !displayedWorldDefinition ? 2 : Math.min(1, 768 / ((displayedWorldDefinition.width ?? 100) * 24), 768 / ((displayedWorldDefinition.height ?? 100) * 24)));
   useEffect(() => { setZoom(fitZoom); }, [fitZoom]);
   useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) { invalidateHistoryRequest(); setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); setSelectedVillagerId(null); } }, [world?.settlements, activeSettlementId]);
   const loadLive = async () => {
