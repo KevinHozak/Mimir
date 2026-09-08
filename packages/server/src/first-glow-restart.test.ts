@@ -8,7 +8,7 @@ const restartedPort = 34138;
 const controlPort = 34139;
 const restartedDatabase = join(root, `first-glow-restart-${Date.now()}.db`);
 const controlDatabase = join(root, `first-glow-control-${Date.now()}.db`);
-const hash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
+const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const token = "first-glow-owner";
 let restarted: ChildProcess | undefined;
 let control: ChildProcess | undefined;

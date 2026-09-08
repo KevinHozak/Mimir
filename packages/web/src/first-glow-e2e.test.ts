@@ -7,7 +7,7 @@ import { spawn, type ChildProcess } from "node:child_process";
 const root = join(process.cwd(), "..", "..");
 const apiPort = 34211;
 const webPort = 5188;
-const hash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
+const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const tempRoot = join(root, ".tmp", "browser-tests");
 mkdirSync(tempRoot, { recursive: true });
 const database = join(tempRoot, `first-glow-browser-${Date.now()}.db`);
