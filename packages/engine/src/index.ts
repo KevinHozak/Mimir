@@ -1,6 +1,7 @@
 import { advanceFirstGlow } from "./first-glow-actions.js";
 import { createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState } from "./structured.js";
 import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data";
+export { queryCell } from "@mimir/world-data";
 export * from "./structured.js";
 export * from "./design.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
