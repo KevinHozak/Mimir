@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
-import { existsSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
 const root = join(process.cwd(), "..", "..");
 const restartedPort = 34138;
 const controlPort = 34139;
-const restartedDatabase = join(root, `first-glow-restart-${Date.now()}.db`);
-const controlDatabase = join(root, `first-glow-control-${Date.now()}.db`);
+const tempRoot = join(root, ".tmp", `first-glow-restart-${Date.now()}`);
+const restartedDatabase = join(tempRoot, "restarted.db");
+const controlDatabase = join(tempRoot, "control.db");
 const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const token = "first-glow-owner";
 let restarted: ChildProcess | undefined;
@@ -43,6 +44,7 @@ const tick = async (port: number) => {
 const comparable = (state: Record<string, unknown>) => { const copy = structuredClone(state); delete copy.worldId; return copy; };
 
 try {
+  mkdirSync(tempRoot, { recursive: true });
   restarted = start(restartedPort, restartedDatabase); await waitFor(restartedPort);
   control = start(controlPort, controlDatabase); await waitFor(controlPort);
   const initial = await reset(restartedPort);
