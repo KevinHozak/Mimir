@@ -121,3 +121,9 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .entity-chooser .entity-cycle { grid-column: 1 / -1; }
 .empty-selection { padding: 12px; border: 1px dashed #52677f; border-radius: 7px; }
 @media (max-width: 800px) { .first-glow-header { width: 100%; grid-template-columns: 1fr; } .first-glow-header .identity-title-panel { width: auto; } .first-glow-header .identity-season-panel { width: auto; justify-content: space-between; } .first-glow-header .controls { grid-column: auto; position: static; } .first-glow .village-stage > .entity-chooser { grid-column: auto; grid-row: auto; } .first-glow .entity-chooser { grid-template-columns: 1fr; } .entity-chooser .entity-cycle { grid-column: auto; } }
+
+@media (min-width: 801px) {
+  .first-glow .first-glow-header .controls { position: absolute; top: 28px; right: 0; width: calc(100% - 638px); height: 704px; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 8px; padding: 12px; }
+  .first-glow .first-glow-header .controls .compact-button { width: 100%; flex: 0 0 36px; }
+  .first-glow .village-stage > .first-glow-inspector { grid-row: 2; margin: 0; }
+}
