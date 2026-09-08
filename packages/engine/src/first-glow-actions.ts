@@ -31,11 +31,12 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
   chooseAutonomousActivities(working);
   const previous = new Map(working.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, { status: spark.status, activity: spark.intendedActivity }] as const)));
   const shares: { actorId: string; recipientId: string }[] = [];
+  const claimedRecipients = new Set<string>();
   const restoredActivities = new Map<string, FirstGlowState["settlements"][number]["sparks"][number]["intendedActivity"]>();
-  for (const settlement of working.settlements) for (const spark of settlement.sparks) {
+  for (const settlement of working.settlements) for (const spark of settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id))) {
     if (spark.status !== "choosing" || spark.intendedActivity !== "share-charge") continue;
-    const recipient = settlement.sparks.find(candidate => candidate.id !== spark.id && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y);
-    if (recipient) { shares.push({ actorId: spark.id, recipientId: recipient.id }); spark.status = "waiting"; recipient.status = "waiting"; restoredActivities.set(recipient.id, recipient.intendedActivity); recipient.intendedActivity = "share-charge"; }
+    const recipient = settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id)).find(candidate => candidate.id !== spark.id && !claimedRecipients.has(candidate.id) && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y);
+    if (recipient) { shares.push({ actorId: spark.id, recipientId: recipient.id }); claimedRecipients.add(recipient.id); spark.status = "waiting"; recipient.status = "waiting"; restoredActivities.set(recipient.id, recipient.intendedActivity); recipient.intendedActivity = "share-charge"; }
   }
   const state = advanceFirstGlowState(working);
   const sourceInput = external.sourceCharge ?? 0;
@@ -48,7 +49,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
   for (const share of shares) for (const settlement of state.settlements) {
     const actor = settlement.sparks.find(spark => spark.id === share.actorId); const recipient = settlement.sparks.find(spark => spark.id === share.recipientId);
     if (!actor || !recipient || actor.position.x !== recipient.position.x || actor.position.y !== recipient.position.y) continue;
-    const amount = Math.min(1, actor.carriedCharge); actor.carriedCharge -= amount; recipient.carriedCharge += amount; state.ledger.push({ kind: "share", actorId: actor.id, amount, reason: amount ? "co-present-spark" : "no-carried-charge" }); state.events.push({ id: `event-${state.tick}-${actor.id}-share`, kind: "share", actorId: actor.id, message: `${actor.name} shared ${amount} charge with ${recipient.name}.` }); actor.status = "choosing"; recipient.status = "choosing"; const originalActivity = restoredActivities.get(recipient.id); if (originalActivity) recipient.intendedActivity = originalActivity;
+    const amount = Math.min(1, actor.carriedCharge); actor.carriedCharge -= amount; recipient.carriedCharge += amount; state.ledger.push({ kind: "share", actorId: actor.id, recipientId: recipient.id, amount, reason: amount ? "co-present-spark" : "no-carried-charge" }); state.events.push({ id: `event-${state.tick}-${actor.id}-share`, kind: "share", actorId: actor.id, participants: [actor.id, recipient.id], message: `${actor.name} shared ${amount} charge with ${recipient.name}.` }); actor.status = "choosing"; recipient.status = "choosing"; const originalActivity = restoredActivities.get(recipient.id); if (originalActivity) recipient.intendedActivity = originalActivity;
   }
   const arrivalActions = new Set(state.events.filter(event => ["explore", "mark-trace", "shape-pattern", "meet"].includes(event.kind)).map(event => event.actorId));
   const movedActors = new Set(state.events.filter(event => event.kind === "movement").map(event => event.actorId));
