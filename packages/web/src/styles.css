@@ -103,3 +103,16 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 @media (max-width: 800px) { .first-glow-header { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); } .first-glow-header .identity-season-panel { grid-column: 1 / 2; } .first-glow-header .controls { grid-column: 2 / 3; } }
 @media (max-width: 800px) { .first-glow .village-stage { display: block; } .first-glow .village-stage > .first-glow-inspector { margin-top: 10px; } .first-glow .first-glow-header .controls { position: static; max-width: none; padding: 0; border: 0; background: transparent; box-shadow: none; } }
 @media (max-width: 520px) { .first-glow-header { grid-template-columns: 1fr; gap: 8px; } .first-glow-header .identity-season-panel, .first-glow-header .controls { grid-column: auto; } .first-glow-header .identity-mark-panel { min-height: 64px; flex-direction: row; } .first-glow-header .controls { justify-content: stretch; } .first-glow-header .controls button { flex: 1; } }
+
+/* Issue #42: combine the authored mark with the Mimir identity and keep one live control set. */
+.first-glow-header { grid-template-columns: minmax(0, 1fr) minmax(190px, .55fr) minmax(260px, auto); }
+.first-glow-header .identity-title-panel { flex-direction: row; align-items: center; }
+.first-glow-header .identity-title-panel img { width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(138, 221, 242, .55)); }
+.first-glow-header .controls { position: static; max-width: none; padding: 12px 15px; border: 1px solid #52677f; border-radius: 10px; background: linear-gradient(135deg, #101b2d, #0a1322); box-shadow: inset 0 0 18px rgba(138, 221, 242, .05); }
+.first-glow-map-controls { display: none; }
+.first-glow .village-stage > .entity-chooser { grid-column: 1; grid-row: 2; }
+.first-glow .entity-chooser { display: grid; grid-template-columns: auto minmax(160px, 1fr) minmax(190px, 1fr); gap: 8px; align-items: center; margin-top: 10px; padding: 12px 14px; border: 1px solid #52677f; border-radius: 10px; background: #0b1627; color: var(--fg-muted); }
+.entity-chooser input, .entity-chooser select { min-width: 0; padding: 8px 10px; border: 1px solid #52677f; border-radius: 7px; background: #0a1322; color: #edf7ff; font: inherit; }
+.entity-chooser .entity-cycle { grid-column: 1 / -1; }
+.empty-selection { padding: 12px; border: 1px dashed #52677f; border-radius: 7px; }
+@media (max-width: 800px) { .first-glow-header { grid-template-columns: 1fr; } .first-glow-header .controls { position: static; } .first-glow .village-stage > .entity-chooser { grid-column: auto; grid-row: auto; } .first-glow .entity-chooser { grid-template-columns: 1fr; } .entity-chooser .entity-cycle { grid-column: auto; } }
