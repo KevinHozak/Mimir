@@ -26,6 +26,28 @@ type Interpretation = { id: string; tick: number; eventId: string; villagerId: s
 type HoveredCell = { x: number; y: number; clientX: number; clientY: number };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number; dilemmasResolved?: number; latestDilemma?: DilemmaResolution | null; firstGlow?: { sourceCharge: number; communalCharge: number; carriedCharge: number; chargeDeficit: number; sparks: number } } };
 const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
+const FIRST_GLOW_MIN_ZOOM = 1;
+const MAX_ZOOM = 4;
+
+function cameraScrollBounds(camera: Phaser.Cameras.Scene2D.Camera, mapWidth: number, mapHeight: number) {
+  const viewWidth = camera.width / camera.zoom;
+  const viewHeight = camera.height / camera.zoom;
+  const centeredX = mapWidth / 2 - camera.width / 2;
+  const centeredY = mapHeight / 2 - camera.height / 2;
+  return {
+    minX: viewWidth >= mapWidth ? centeredX : viewWidth / 2 - camera.width / 2,
+    maxX: viewWidth >= mapWidth ? centeredX : mapWidth - viewWidth / 2 - camera.width / 2,
+    minY: viewHeight >= mapHeight ? centeredY : viewHeight / 2 - camera.height / 2,
+    maxY: viewHeight >= mapHeight ? centeredY : mapHeight - viewHeight / 2 - camera.height / 2,
+  };
+}
+
+function cameraWorldOrigin(camera: Phaser.Cameras.Scene2D.Camera) {
+  return {
+    x: camera.scrollX + (camera.width - camera.width / camera.zoom) / 2,
+    y: camera.scrollY + (camera.height - camera.height / camera.zoom) / 2,
+  };
+}
 
 function validateClientWorld(state: State): void {
   if (state.worldDefinition) parseWorldDefinition(state.worldDefinition);
@@ -113,15 +135,17 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
     camera.setZoom(zoom * displayResolution);
     const mapWidth = (worldDefinition?.width ?? 100) * 24;
     const mapHeight = (worldDefinition?.height ?? 100) * 24;
-    camera.scrollX = Phaser.Math.Clamp(camera.scrollX, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
-    camera.scrollY = Phaser.Math.Clamp(camera.scrollY, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
+    const bounds = cameraScrollBounds(camera, mapWidth, mapHeight);
+    camera.setScroll(Phaser.Math.Clamp(camera.scrollX, bounds.minX, bounds.maxX), Phaser.Math.Clamp(camera.scrollY, bounds.minY, bounds.maxY));
+    const origin = cameraWorldOrigin(camera);
     sceneRef.current.game.canvas.dataset.cameraZoom = String(zoom);
     sceneRef.current.game.canvas.dataset.cameraViewCells = String(Math.round(768 / (24 * zoom)));
-    sceneRef.current.game.canvas.dataset.cameraScroll = `${Math.round(camera.scrollX)},${Math.round(camera.scrollY)}`;
+    sceneRef.current.game.canvas.dataset.cameraScroll = `${Math.round(origin.x)},${Math.round(origin.y)}`;
   }, [displayResolution, zoom, worldDefinition]);
   useEffect(() => {
     const tileSize = 24;
     let isActive = true;
+    let disposeInput = () => undefined;
     document.getElementById("village-canvas")?.replaceChildren();
     const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: debugOverlay, transparent: true, width: 768 * displayResolution, height: 768 * displayResolution, parent: "village-canvas", scene: { create() {
       const scene = this as Phaser.Scene;
@@ -134,36 +158,51 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
       camera.setZoom(zoom * displayResolution);
       camera.centerOn(mapWidth / 2, mapHeight / 2);
       let dragging = false;
-      let dragStart = { x: 0, y: 0, scrollX: 0, scrollY: 0 };
+      let activePointerId: number | null = null;
+      let dragOrigin = { x: 0, y: 0 };
+      let lastPointer = { x: 0, y: 0 };
       const canvas = scene.game.canvas;
       canvas.dataset.renderResolution = String(displayResolution);
       canvas.dataset.cameraZoom = String(zoom);
       canvas.dataset.cameraViewCells = String(Math.round(768 / (tileSize * zoom)));
-      canvas.dataset.cameraScroll = `${Math.round(camera.scrollX)},${Math.round(camera.scrollY)}`;
-      const onPointerDown = (event: PointerEvent) => { dragging = true; canvas.setPointerCapture(event.pointerId); dragStart = { x: event.clientX, y: event.clientY, scrollX: camera.scrollX, scrollY: camera.scrollY }; canvas.style.cursor = "grabbing"; };
+      const initialOrigin = cameraWorldOrigin(camera);
+      canvas.dataset.cameraScroll = `${Math.round(initialOrigin.x)},${Math.round(initialOrigin.y)}`;
+      const setCameraScroll = (x: number, y: number) => {
+        const bounds = cameraScrollBounds(camera, mapWidth, mapHeight);
+        camera.setScroll(Phaser.Math.Clamp(x, bounds.minX, bounds.maxX), Phaser.Math.Clamp(y, bounds.minY, bounds.maxY));
+        const origin = cameraWorldOrigin(camera);
+        canvas.dataset.cameraScroll = `${Math.round(origin.x)},${Math.round(origin.y)}`;
+      };
       const worldPointFromEvent = (event: PointerEvent) => {
         const rect = canvas.getBoundingClientRect();
         const scaleX = camera.width / rect.width;
         const scaleY = camera.height / rect.height;
-        return { x: camera.scrollX + ((event.clientX - rect.left) * scaleX) / camera.zoom, y: camera.scrollY + ((event.clientY - rect.top) * scaleY) / camera.zoom };
+        const origin = cameraWorldOrigin(camera);
+        return { x: origin.x + ((event.clientX - rect.left) * scaleX) / camera.zoom, y: origin.y + ((event.clientY - rect.top) * scaleY) / camera.zoom };
       };
       const onPointerMove = (event: PointerEvent) => {
+        if (dragging) return;
         const worldPoint = worldPointFromEvent(event);
-        if (!dragging) {
-          const cell = { x: Math.floor(worldPoint.x / tileSize), y: Math.floor(worldPoint.y / tileSize) };
-          if (sparks.length && cell.x >= 0 && cell.y >= 0 && cell.x < (worldDefinition?.width ?? 0) && cell.y < (worldDefinition?.height ?? 0)) setHoveredCell({ ...cell, clientX: event.clientX, clientY: event.clientY });
-          else setHoveredCell(null);
-          return;
-        }
+        const cell = { x: Math.floor(worldPoint.x / tileSize), y: Math.floor(worldPoint.y / tileSize) };
+        if (sparks.length && cell.x >= 0 && cell.y >= 0 && cell.x < (worldDefinition?.width ?? 0) && cell.y < (worldDefinition?.height ?? 0)) setHoveredCell({ ...cell, clientX: event.clientX, clientY: event.clientY });
+        else setHoveredCell(null);
+      };
+      const onDragMove = (event: PointerEvent) => {
+        if (!dragging || event.pointerId !== activePointerId) return;
         const rect = canvas.getBoundingClientRect();
-        camera.scrollX = Phaser.Math.Clamp(dragStart.scrollX - ((event.clientX - dragStart.x) * camera.width / rect.width) / camera.zoom, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
-        camera.scrollY = Phaser.Math.Clamp(dragStart.scrollY - ((event.clientY - dragStart.y) * camera.height / rect.height) / camera.zoom, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
-        canvas.dataset.cameraScroll = `${Math.round(camera.scrollX)},${Math.round(camera.scrollY)}`;
+        const worldDeltaX = ((event.clientX - lastPointer.x) * camera.width / rect.width) / camera.zoom;
+        const worldDeltaY = ((event.clientY - lastPointer.y) * camera.height / rect.height) / camera.zoom;
+        setCameraScroll(camera.scrollX - worldDeltaX, camera.scrollY - worldDeltaY);
+        lastPointer = { x: event.clientX, y: event.clientY };
       };
       const onPointerUp = (event: PointerEvent) => {
-        const wasClick = Math.hypot(event.clientX - dragStart.x, event.clientY - dragStart.y) < 6;
+        if (event.pointerId !== activePointerId) return;
+        const wasClick = Math.hypot(event.clientX - dragOrigin.x, event.clientY - dragOrigin.y) < 6;
         dragging = false;
-        if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+        activePointerId = null;
+        window.removeEventListener("pointermove", onDragMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
         canvas.style.cursor = "grab";
         if (!wasClick || !onSelectEntity) return;
         const rect = canvas.getBoundingClientRect();
@@ -171,7 +210,8 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
         // conversion must use the camera's logical viewport in CSS pixels.
         const scaleX = camera.width / rect.width;
         const scaleY = camera.height / rect.height;
-        const worldPoint = { x: camera.scrollX + ((event.clientX - rect.left) * scaleX) / camera.zoom, y: camera.scrollY + ((event.clientY - rect.top) * scaleY) / camera.zoom };
+        const origin = cameraWorldOrigin(camera);
+        const worldPoint = { x: origin.x + ((event.clientX - rect.left) * scaleX) / camera.zoom, y: origin.y + ((event.clientY - rect.top) * scaleY) / camera.zoom };
         const spark = sparks.find((candidate) => Math.hypot(candidate.position.x * tileSize + tileSize / 2 - worldPoint.x, candidate.position.y * tileSize + tileSize / 2 - worldPoint.y) <= tileSize * 0.7);
         if (spark) { onSelectEntity(`spark:${spark.id}`); return; }
         const object = worldDefinition?.objects.find((candidate) => {
@@ -180,17 +220,35 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
         });
         if (object) onSelectEntity(`object:${object.id}`);
       };
+      const onPointerDown = (event: PointerEvent) => {
+        if (event.button !== 0 || activePointerId !== null) return;
+        event.preventDefault();
+        dragging = true;
+        activePointerId = event.pointerId;
+        dragOrigin = { x: event.clientX, y: event.clientY };
+        lastPointer = dragOrigin;
+        setHoveredCell(null);
+        canvas.style.cursor = "grabbing";
+        window.addEventListener("pointermove", onDragMove);
+        window.addEventListener("pointerup", onPointerUp);
+        window.addEventListener("pointercancel", onPointerUp);
+      };
       canvas.addEventListener("pointerdown", onPointerDown);
       canvas.addEventListener("pointermove", onPointerMove);
-      canvas.addEventListener("pointerup", onPointerUp);
       canvas.addEventListener("pointerleave", () => setHoveredCell(null));
       const onWheel = (event: WheelEvent) => {
         event.preventDefault();
         const direction = event.deltaY < 0 ? 1 : -1;
-        onZoomChange((currentZoom) => Number(Math.max(0.5, Math.min(4, currentZoom + direction * 0.1)).toFixed(2)));
+        onZoomChange((currentZoom) => Number(Math.max(FIRST_GLOW_MIN_ZOOM, Math.min(MAX_ZOOM, currentZoom + direction * 0.1)).toFixed(2)));
       };
       canvas.addEventListener("wheel", onWheel, { passive: false });
+      canvas.style.touchAction = "none";
       canvas.style.cursor = "grab";
+      disposeInput = () => {
+        window.removeEventListener("pointermove", onDragMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+      };
        const glowBundle = firstGlowBundle ?? (worldDefinition as (WorldDefinition & { firstGlowBundle?: FirstGlowBundle }) | undefined)?.firstGlowBundle;
        if (sparks.length && glowBundle && assetBaseUrl && glowBundle.assets?.length) { const assetKeys = new Map(glowBundle.assets.map(asset => [asset.path, `${glowBundle.bundle.contentHash}:${asset.path}`])); for (const asset of glowBundle.assets) scene.load.image(assetKeys.get(asset.path)!, `${assetBaseUrl}/api/world/bundles/${glowBundle.bundle.contentHash}/${asset.path}`); scene.load.once("complete", () => { worldDefinition?.objects.forEach(object => { const visualAsset = glowBundle.objectDefinitions[object.definitionId]?.visualAsset; const key = visualAsset ? assetKeys.get(visualAsset) : undefined; if (!key || !scene.textures.exists(key)) return; const image = scene.add.image((object.position.x + 0.5) * tileSize, (object.position.y + 0.5) * tileSize, key).setDisplaySize(tileSize, tileSize).setDepth(6 + object.position.y); image.setAlpha(0.9); }); }); scene.load.start(); }
        const terrainColors: Record<string, number> = sparks.length ? { open: 0x050912, gap: 0x02040b } : { grass: 0x9dbc72, road: 0xd8b878, water: 0x5797b5 };
@@ -208,17 +266,17 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
          if (debugOverlay) { scene.add.text(object.position.x * tileSize + 2, object.position.y * tileSize + 2, `${object.id}${blocked ? " [blocked]" : ""}`, { color: "#fff7e8", fontSize: "8px", backgroundColor: sparks.length ? "#081426" : "#493b2a" }).setDepth(1000); definition?.interactionSlots.forEach((slot) => { const reservation = firstGlowRuntime?.reservations.find(item => item.objectId === object.id && item.slotId === slot.id); scene.add.rectangle((object.position.x + slot.x) * tileSize + tileSize / 2, (object.position.y + slot.y) * tileSize + tileSize / 2, tileSize - 8, tileSize - 8, reservation ? 0xf4c95d : 0x3d8c72, 0.45).setDepth(1001).setStrokeStyle(1, reservation ? 0xfff2ad : 0x2a5d4b); scene.add.text((object.position.x + slot.x) * tileSize + 1, (object.position.y + slot.y) * tileSize + 1, reservation ? `contact:${slot.id} <- ${reservation.actorId}` : `contact:${slot.id}`, { color: reservation ? "#fff2ad" : "#9eeaff", fontSize: "7px", backgroundColor: "#081426" }).setDepth(1002); }); }
        });
        if (debugOverlay) { const legend = scene.add.text(8, 44, sparks.length ? `DEBUG: surfaces · contacts · reservations · cells · nav:${firstGlowRuntime?.navigationRevision ?? 0}` : "DEBUG: green slots · red blockers · labels = stable IDs", { color: sparks.length ? "#dceeff" : "#fff7e8", fontSize: "10px", backgroundColor: sparks.length ? "#081426" : "#493b2a" }).setScrollFactor(0).setDepth(2000); void legend; if (sparks.length && glowBundle) { let walkable = 0; let blocked = 0; for (let y = 0; y < glowBundle.height; y += 1) for (let x = 0; x < glowBundle.width; x += 1) { const terrain = glowBundle.terrain[y]?.[x] ?? "unknown"; const surface = glowBundle.surfaces.find(item => item.enabled && item.cells.some(cell => cell.x === x && cell.y === y)); const isWalkable = Boolean(surface || glowBundle.terrainDefinitions?.[terrain]?.walkable); if (isWalkable) walkable += 1; else { blocked += 1; scene.add.rectangle(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize - 2, tileSize - 2, 0xff5f8f, 0.08).setOrigin(0.5).setDepth(4).setStrokeStyle(1, 0xff9cbd, 0.45); } } scene.add.text(8, 58, `effective cells: ${walkable} walkable · ${blocked} blocked`, { color: "#9eeaff", fontSize: "9px", backgroundColor: "#081426" }).setScrollFactor(0).setDepth(2000); } }
-        scene.add.text(8, sparks.length ? (worldDefinition?.height ?? 100) * tileSize - 18 : 22, sparks.length ? "THE FIRST GLOW" : "THE FIRST WINTER", { color: sparks.length ? "#EDF7FF" : "#fff7e8", fontSize: sparks.length ? "12px" : "22px", fontFamily: "monospace", stroke: sparks.length ? "#050912" : "#493b2a", strokeThickness: sparks.length ? 2 : 4 });
+        if (!sparks.length) scene.add.text(8, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
        if (sparks.length) { syncVillagers(scene, []); syncSparks(scene, sparks); } else syncVillagers(scene, villagersRef.current);
     } } });
-    return () => { isActive = false; sceneRef.current = null; peopleRef.current.clear(); lastTickRef.current = null; game.destroy(true); };
+    return () => { isActive = false; disposeInput(); sceneRef.current = null; peopleRef.current.clear(); lastTickRef.current = null; game.destroy(true); };
   }, [debugOverlay, firstGlowBundle?.bundle.contentHash, worldDefinition?.id, worldDefinition?.bundle.contentHash]);
   useEffect(() => {
     if (sceneRef.current && sparks.length) syncSparks(sceneRef.current, sparks); else if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
   }, [villagers, sparks]);
   const overlaySummary = firstGlowBundle && firstGlowRuntime ? `nav:${firstGlowRuntime.navigationRevision} · surfaces:${firstGlowBundle.surfaces.filter(surface => surface.enabled).map(surface => `${surface.id}/${surface.movementCost}`).join(",")} · contacts:${Object.values(firstGlowBundle.objectDefinitions).flatMap(definition => definition.slots.map(slot => slot.id)).join(",")} · reservations:${firstGlowRuntime.reservations.map(item => `${item.objectId}:${item.slotId}`).join(",") || "none"}` : "";
   const hoveredLabel = hoveredCell && firstGlowBundle ? (() => { const { x, y } = hoveredCell; const terrain = firstGlowBundle.terrain[y]?.[x] ?? "unknown"; const surface = firstGlowBundle.surfaces.find(item => item.enabled && item.cells.some(cell => cell.x === x && cell.y === y)); const spawn = firstGlowBundle.spawns.find(item => item.cell.x === x && item.cell.y === y); const object = worldDefinition?.objects.find(candidate => candidate.position.x === x && candidate.position.y === y || (worldDefinition.definitions[candidate.definitionId]?.footprint ?? []).some(offset => candidate.position.x + offset.x === x && candidate.position.y + offset.y === y)); const spark = sparks.find(candidate => candidate.position.x === x && candidate.position.y === y); return [`Cell (${x}, ${y})`, `Terrain: ${terrain}`, surface && `Surface: ${surface.id}`, spawn && `Spawn: ${spawn.id}`, object && `Object: ${object.id} · ${object.definitionId}`, spark && `Spark: ${spark.id}`].filter((value): value is string => Boolean(value)); })() : null;
-  const adjustZoom = (delta: number) => onZoomChange(Number(Math.max(0.5, Math.min(4, zoom + delta)).toFixed(2)));
+  const adjustZoom = (delta: number) => onZoomChange(Number(Math.max(FIRST_GLOW_MIN_ZOOM, Math.min(MAX_ZOOM, zoom + delta)).toFixed(2)));
   const fitZoom = sparks.length ? 2 : 1;
   return <div className="village-stage"><div className="village-zoom"><div id="village-canvas" />{worldDefinition?.width === 32 && worldDefinition.height === 32 && <div className="first-glow-map-controls" aria-label="Map zoom controls"><button className="compact-button" onClick={() => adjustZoom(0.1)} aria-label="+" title="Zoom in"><span aria-hidden="true">+</span></button><button className="compact-button" onClick={() => onZoomChange(fitZoom)} aria-label="Fit" title="Show a 16 by 16 view"><span aria-hidden="true">⌖</span></button><button className="compact-button" onClick={() => adjustZoom(-0.1)} aria-label="−" title="Zoom out"><span aria-hidden="true">−</span></button></div>}</div>{hoveredLabel && hoveredCell && <div className="first-glow-cell-tooltip" data-testid="first-glow-cell-tooltip" style={{ left: `${Math.max(8, Math.min(window.innerWidth - 240, hoveredCell.clientX + 12))}px`, top: `${Math.max(8, Math.min(window.innerHeight - 140, hoveredCell.clientY + 12))}px` }}>{hoveredLabel.map((label) => <span key={label}>{label}</span>)}</div>}{sparks.length > 0 && debugOverlay && <p className="first-glow-overlay-summary" data-testid="first-glow-overlay-summary">{overlaySummary}</p>}{sparks.length > 0 && <FirstGlowInspector sparks={sparks} objects={worldDefinition?.objects.map((object) => ({ id: object.id, definitionId: object.definitionId, position: object.position, blocked: Boolean(firstGlowRuntime?.objects.find((item) => item.objectId === object.id)?.blocked), capabilities: worldDefinition.definitions[object.definitionId]?.activities ?? [] })) ?? []} selectedEntityId={selectedEntityId} onSelectEntity={onSelectEntity ?? (() => undefined)} debugOverlay={debugOverlay} />}</div>;
 }
@@ -372,7 +430,7 @@ function App() {
   if (!world) return <main className="first-glow first-glow-loading" data-theme="living-circuit"><div><h1>Mimir</h1><p>A Light of Our Own · Connecting…</p></div></main>;
   const maximumTick = liveWorld?.tick ?? world.tick;
   return <main className={isFirstGlow ? "first-glow" : ""} data-theme={isFirstGlow ? "living-circuit" : "village"}>
-    <header><div><h1>Mimir</h1><p>A Light of Our Own · Season {world.season} · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button className="compact-button" onClick={toggleClock} aria-label={clockPaused ? "Resume clock" : "Pause clock"} title={clockPaused ? "Play: resume the clock" : "Pause the clock"}><span aria-hidden="true">{clockPaused ? "▶" : "⏸"}</span></button><button className="compact-button" onClick={tick} disabled={viewTick !== null || world.tick >= world.scenario.seasonTickLimit} aria-label="Advance one tick" title="Advance one tick"><span aria-hidden="true">⏭</span></button><span className="clock-speed">Tick speed</span>{[1000, 5000, 15000].map((intervalMs) => <button className={report?.tickIntervalMs === intervalMs ? "selected-rate" : ""} key={intervalMs} onClick={() => void setClockSpeed(intervalMs)} aria-label={`Set tick speed to ${intervalMs / 1000} seconds`} title={`Set tick speed to ${intervalMs / 1000} seconds`}>{intervalMs / 1000}s</button>)}</div></header>
+    <header><div><h1>Mimir</h1><p className="season-label">Season {world.season}: {isFirstGlow ? "The First Glow" : world.scenario.name}</p><p>A Light of Our Own · Tick {world.tick} · <span className={viewTick === null ? "live" : "history"}>● {viewTick === null ? "LIVE" : "HISTORY"}</span></p></div><div className="controls"><button className="compact-button" onClick={toggleClock} aria-label={clockPaused ? "Resume clock" : "Pause clock"} title={clockPaused ? "Play: resume the clock" : "Pause the clock"}><span aria-hidden="true">{clockPaused ? "▶" : "⏸"}</span></button><button className="compact-button" onClick={tick} disabled={viewTick !== null || world.tick >= world.scenario.seasonTickLimit} aria-label="Advance one tick" title="Advance one tick"><span aria-hidden="true">⏭</span></button><span className="clock-speed">Tick speed</span>{[1000, 5000, 15000].map((intervalMs) => <button className={report?.tickIntervalMs === intervalMs ? "selected-rate" : ""} key={intervalMs} onClick={() => void setClockSpeed(intervalMs)} aria-label={`Set tick speed to ${intervalMs / 1000} seconds`} title={`Set tick speed to ${intervalMs / 1000} seconds`}>{intervalMs / 1000}s</button>)}</div></header>
     <section className="timeline"><label htmlFor="timeline">History</label><input id="timeline" type="range" min="0" max={Math.max(1, maximumTick)} value={viewTick ?? maximumTick} onChange={(event) => void showTick(Number(event.target.value))} /><button className="return-live compact-button" onClick={() => void showTick(null)} disabled={viewTick === null} aria-label="Return to Live" title="Rewind: return to the live timeline"><span aria-hidden="true">↩</span></button><span>Tick {viewTick ?? maximumTick} / {maximumTick}</span><div className="playback"><span>Playback</span>{[0.5, 1, 2].map((rate) => <button className={playbackRate === rate ? "selected-rate" : ""} key={rate} onClick={() => setPlaybackRate(rate)} aria-label={`${rate}×`} title={`Set playback speed to ${rate}x`}>{rate}×</button>)}</div></section>
      <section className="layout"><div><VillageCanvas villagers={visibleVillagers} sparks={firstGlowSparks} firstGlowBundle={firstGlowBundle} firstGlowRuntime={firstGlowRuntime} assetBaseUrl={api} worldDefinition={displayedWorldDefinition} worldRuntime={activeSettlement?.worldRuntime ?? world.worldRuntime} playbackRate={playbackRate} zoom={zoom} onZoomChange={setZoom} tick={world.tick} history={viewTick !== null} selectedEntityId={selectedEntityId} onSelectEntity={setSelectedEntityId} debugOverlay={debugOverlay} /><RegionOverview world={world} activeSettlementId={activeSettlementId} onSelect={(id) => { invalidateHistoryRequest(); setActiveSettlementId(id); setSelected(null); setSelectedEntityId(null); }} /><section className="events"><h2>Recent events</h2>{events.filter((event) => event.tick <= world.tick).slice(-6).reverse().map((event) => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section><SeasonReview world={world} metrics={metrics} /><section className="interpretations"><h2>Social interpretations</h2>{interpretations.filter((interpretation) => interpretation.tick <= world.tick).slice(-4).reverse().map((interpretation) => <article key={interpretation.id}><p><strong>Tick {interpretation.tick} · {interpretation.source === "rules" ? "Rules fallback" : "AI"}</strong></p><p>{interpretation.summary}</p><small>Evidence: {interpretation.evidenceEventIds.join(", ")} · confidence {Math.round(interpretation.confidence * 100)}%</small></article>)}</section>{isFirstGlow ? <FirstGlowDesignBench design={firstGlowDesign} /> : <DesignBench cards={characterCards} dilemmas={dilemmas} store={world.sharedStore ?? designStore} />}<OwnerPanel ownerToken={ownerToken} setOwnerToken={setOwnerToken} report={report} message={operationMessage} onCommand={(path, body) => void runOwnerCommand(path, body)} onRefresh={() => void loadReport()} /></div>
       <aside><h2>{selected?.name ?? `${activeSettlement?.name ?? "Settlement"}: Select a villager`}</h2><div className="villager-list">{visibleVillagers.map((villager) => <button className={`villager${selected?.id === villager.id ? " selected" : ""}`} key={villager.id} onClick={() => setSelected(villager)}><span className={`dot ${villager.tradition.toLowerCase()}`} />{villager.name}<small>{villager.activity}</small></button>)}</div>{selected ? <><p className="tradition">{selected.tradition}</p><p>Current cell <strong>({selected.position.x}, {selected.position.y})</strong> in <strong>{activeSettlement?.name ?? selected.settlementId}</strong>.</p><p>Destination <strong>{selected.destinationObjectId && selected.destinationSlotId ? `${selected.destinationObjectId} / ${selected.destinationSlotId}` : "none"}</strong>; intent <strong>{selected.intendedActivity ?? selected.activity}</strong>.</p><p>Status <strong>{selected.status ?? selected.activity}</strong>{selected.waitReason ? ` · waiting: ${selected.waitReason}` : ""} · progress <strong>{selected.route.length} cell(s), ${selected.remainingCost ?? 0} cost pending</strong>.</p><dl><dt>Hunger</dt><dd>{selected.hunger}</dd><dt>Trust</dt><dd>{selected.trust}</dd></dl><div className="signals"><h3>Belief signals</h3><div><span>Cooperation</span><strong>{selected.beliefs.cooperation}</strong><i style={{ width: `${selected.beliefs.cooperation}%` }} /></div><div><span>Self-reliance</span><strong>{selected.beliefs.selfReliance}</strong><i style={{ width: `${selected.beliefs.selfReliance}%` }} /></div><div><span>Reflection</span><strong>{selected.beliefs.reflection}</strong><i style={{ width: `${selected.beliefs.reflection}%` }} /></div></div></> : <p>Click a villager to inspect their current situation.</p>}<div className="reserve">Food reserve <strong>{activeSettlement?.foodReserve ?? world.foodReserve}</strong></div></aside>
