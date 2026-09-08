@@ -80,19 +80,19 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow .region-overview, .first-glow .design-bench { background: #101b2d; border-color: #52677f; }
 .first-glow .region-overview, .first-glow .season-review, .first-glow .interpretations, .first-glow .design-bench { display: none; }
 .first-glow aside { display: none; }
-.first-glow-inspector { margin-top: 14px; padding: 10px; background: #101b2d; border: 0; border-radius: 10px; font-size: .86rem; overflow: auto; }
+.first-glow-inspector { margin-top: 14px; padding: 10px; background: #101b2d; border: 1px solid #52677f; border-radius: 10px; font-size: .72rem; overflow: auto; }
 .live-panel-controls { display: flex; gap: 6px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #52677f; }
 .live-panel-controls .compact-button { width: 34px; min-width: 34px; padding: 7px 5px; }
-.first-glow-inspector h2, .first-glow-inspector h3 { color: #edf7ff; }
+.first-glow-inspector h2, .first-glow-inspector h3 { color: #edf7ff; font-size: .86rem; }
 .entity-controls { display: grid; grid-template-columns: auto minmax(150px, 1fr) minmax(180px, 1fr); gap: 8px; align-items: center; margin: 12px 0; color: #a7b9cf; }
 .entity-controls input, .entity-controls select { min-width: 0; padding: 8px 10px; border: 1px solid #52677f; border-radius: 7px; background: #0a1322; color: #edf7ff; font: inherit; }
 .entity-cycle { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; gap: 8px; }
 .entity-cycle button { padding: 7px 10px; }
 .entity-cycle span { color: #8fa7c3; font-size: .85rem; }
-.selected-entity-card { border-color: #8addf2; box-shadow: 0 0 0 1px #8addf2; }
+.selected-entity-card { border: 0; box-shadow: none; }
 .spark-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .spark-card { padding: 8px; border: 1px solid #52677f; border-radius: 8px; background: #0a1322; }
-.spark-card small { color: #8fa7c3; }
+.spark-card small { color: #8fa7c3; font-size: .68rem; }
 .spark-card dl { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; margin: 6px 0; }
 .spark-card dt { color: #8fa7c3; }.spark-card dd { margin: 0; color: #edf7ff; text-align: right; }
 .spark-card p { margin-bottom: 0; }
