@@ -121,3 +121,14 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .entity-chooser .entity-cycle { grid-column: 1 / -1; }
 .empty-selection { padding: 12px; border: 1px dashed #52677f; border-radius: 7px; }
 @media (max-width: 800px) { .first-glow-header { width: 100%; grid-template-columns: 1fr; } .first-glow-header .identity-title-panel { width: auto; } .first-glow-header .identity-season-panel { width: auto; justify-content: space-between; } .first-glow-header .controls { grid-column: auto; position: static; } .first-glow .village-stage > .entity-chooser { grid-column: auto; grid-row: auto; } .first-glow .entity-chooser { grid-template-columns: 1fr; } .entity-chooser .entity-cycle { grid-column: auto; } }
+
+@media (min-width: 801px) {
+  .first-glow .first-glow-header .controls { position: absolute; top: 28px; right: 28px; width: calc(100% - 666px); height: 87px; display: grid; grid-template-columns: repeat(3, 36px); grid-template-rows: 36px 36px; gap: 8px; align-content: start; padding: 8px; }
+  .first-glow .first-glow-header .controls .compact-button { width: 36px; min-width: 36px; height: 36px; padding: 7px 6px; }
+  .first-glow .first-glow-header .controls button[aria-label="Pause clock"], .first-glow .first-glow-header .controls button[aria-label="Resume clock"] { grid-column: 1; grid-row: 1; }
+  .first-glow .first-glow-header .controls button[aria-label="Advance one tick"] { grid-column: 2; grid-row: 1; }
+  .first-glow .first-glow-header .controls button[aria-label="Zoom in"] { grid-column: 1; grid-row: 2; }
+  .first-glow .first-glow-header .controls button[aria-label="Fit map"] { grid-column: 2; grid-row: 2; }
+  .first-glow .first-glow-header .controls button[aria-label="Zoom out"] { grid-column: 3; grid-row: 2; }
+  .first-glow .village-stage > .first-glow-inspector { grid-row: 1; margin: 0; align-self: stretch; }
+}
