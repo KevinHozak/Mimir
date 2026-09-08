@@ -49,6 +49,7 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
   const peopleRef = useRef(new Map<string, Phaser.GameObjects.Container>());
   const sceneRef = useRef<Phaser.Scene | null>(null);
   const lastTickRef = useRef<number | null>(null);
+  const displayResolution = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
   const syncVillagers = (scene: Phaser.Scene, nextVillagers: Villager[]) => {
     const interpolate = !history && lastTickRef.current !== null && tick === lastTickRef.current + 1;
     const tileSize = 24;
@@ -107,16 +108,16 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
   useEffect(() => {
     if (!sceneRef.current) return;
     const camera = sceneRef.current.cameras.main;
-    camera.setZoom(zoom);
+    camera.setZoom(zoom * displayResolution);
     const mapWidth = (worldDefinition?.width ?? 100) * 24;
     const mapHeight = (worldDefinition?.height ?? 100) * 24;
     camera.scrollX = Phaser.Math.Clamp(camera.scrollX, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
     camera.scrollY = Phaser.Math.Clamp(camera.scrollY, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
-  }, [zoom, worldDefinition]);
+  }, [displayResolution, zoom, worldDefinition]);
   useEffect(() => {
     const tileSize = 24;
     let isActive = true;
-    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: true, transparent: true, width: 768, height: 768, parent: "village-canvas", scene: { create() {
+    const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: debugOverlay, transparent: true, width: 768 * displayResolution, height: 768 * displayResolution, parent: "village-canvas", scene: { create() {
       const scene = this as Phaser.Scene;
       if (!isActive) return;
       sceneRef.current = scene;
@@ -124,16 +125,18 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
       const mapHeight = (worldDefinition?.height ?? 100) * tileSize;
       const camera = scene.cameras.main;
       camera.setBounds(0, 0, mapWidth, mapHeight);
-      camera.setZoom(zoom);
+      camera.setZoom(zoom * displayResolution);
       camera.centerOn(mapWidth / 2, mapHeight / 2);
       let dragging = false;
       let dragStart = { x: 0, y: 0, scrollX: 0, scrollY: 0 };
       const canvas = scene.game.canvas;
+      canvas.dataset.renderResolution = String(displayResolution);
       const onPointerDown = (event: PointerEvent) => { dragging = true; canvas.setPointerCapture(event.pointerId); dragStart = { x: event.clientX, y: event.clientY, scrollX: camera.scrollX, scrollY: camera.scrollY }; canvas.style.cursor = "grabbing"; };
       const onPointerMove = (event: PointerEvent) => {
         if (!dragging) return;
-        camera.scrollX = Phaser.Math.Clamp(dragStart.scrollX - (event.clientX - dragStart.x) / camera.zoom, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
-        camera.scrollY = Phaser.Math.Clamp(dragStart.scrollY - (event.clientY - dragStart.y) / camera.zoom, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
+        const rect = canvas.getBoundingClientRect();
+        camera.scrollX = Phaser.Math.Clamp(dragStart.scrollX - ((event.clientX - dragStart.x) * camera.width / rect.width) / camera.zoom, 0, Math.max(0, mapWidth - camera.width / camera.zoom));
+        camera.scrollY = Phaser.Math.Clamp(dragStart.scrollY - ((event.clientY - dragStart.y) * camera.height / rect.height) / camera.zoom, 0, Math.max(0, mapHeight - camera.height / camera.zoom));
       };
       const onPointerUp = (event: PointerEvent) => {
         const wasClick = Math.hypot(event.clientX - dragStart.x, event.clientY - dragStart.y) < 6;
@@ -142,8 +145,10 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
         canvas.style.cursor = "grab";
         if (!wasClick || !onSelectEntity) return;
         const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
+        // The backing store may be 2x larger at high-DPR displays; pointer
+        // conversion must use the camera's logical viewport in CSS pixels.
+        const scaleX = camera.width / rect.width;
+        const scaleY = camera.height / rect.height;
         const worldPoint = { x: camera.scrollX + ((event.clientX - rect.left) * scaleX) / camera.zoom, y: camera.scrollY + ((event.clientY - rect.top) * scaleY) / camera.zoom };
         const spark = sparks.find((candidate) => Math.hypot(candidate.position.x * tileSize + tileSize / 2 - worldPoint.x, candidate.position.y * tileSize + tileSize / 2 - worldPoint.y) <= tileSize * 0.7);
         if (spark) { onSelectEntity(`spark:${spark.id}`); return; }
