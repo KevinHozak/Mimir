@@ -4,9 +4,9 @@
   "footprint": [{ "x": 0, "y": 0 }],
   "slots": [
     { "id": "rest-south", "offset": { "x": 0, "y": 1 }, "capacity": 1 },
-    { "id": "rest-far", "offset": { "x": 0, "y": 2 }, "capacity": 1 },
-    { "id": "rest-deep", "offset": { "x": 0, "y": 3 }, "capacity": 1 },
-    { "id": "rest-deepest", "offset": { "x": 0, "y": 4 }, "capacity": 1 }
+    { "id": "rest-west", "offset": { "x": -1, "y": 1 }, "capacity": 1 },
+    { "id": "rest-east", "offset": { "x": 1, "y": 1 }, "capacity": 1 },
+    { "id": "rest-far", "offset": { "x": 0, "y": 2 }, "capacity": 1 }
   ],
   "capabilities": ["shelter-niche"], "capacity": 4,
   "visualAsset": "first-glow-shelter-niche.svg", "groundContact": { "x": 24, "y": 48 }, "blocksMovement": true

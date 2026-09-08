@@ -3,7 +3,7 @@ import { appendFileSync, cpSync, existsSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
-const root = join(process.cwd(), "..", ".."); const port = 34142; const database = join(root, `first-glow-assets-${Date.now()}.db`); const hash = "sha256-c4447d511595386c6bdf55ffb955d0a2ead76273ae5920881ee378e1cef8f645"; let server: ChildProcess | undefined;
+const root = join(process.cwd(), "..", ".."); const port = 34142; const database = join(root, `first-glow-assets-${Date.now()}.db`); const hash = "sha256-b67f9e1d1cb2c112d98930d2573c02972917bedb4996efd3e304fe77d2189e78"; let server: ChildProcess | undefined;
 const waitFor = async () => { for (let attempt = 0; attempt < 80; attempt += 1) { try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error("First Glow asset server did not start"); };
 const corruptRoot = join(root, `first-glow-assets-corrupt-${Date.now()}`);
 try {
