@@ -381,6 +381,7 @@ function App() {
   const selected = visibleVillagers.find((villager) => villager.id === selectedVillagerId);
   const isFirstGlow = world?.simulationVersion === "mimir-sim-v3-first-glow";
   const firstGlowSparks = world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.sparks ?? [];
+  useEffect(() => { if (isFirstGlow && !selectedEntityId && firstGlowSparks.length > 0) setSelectedEntityId(`spark:${firstGlowSparks[0].id}`); }, [firstGlowSparks, isFirstGlow, selectedEntityId]);
   const firstGlowBundle = isFirstGlow ? world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.bundle as FirstGlowBundle | undefined : undefined;
   const firstGlowRuntime = isFirstGlow ? world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.runtime : undefined;
   const setSelected = (villager: Villager | null) => setSelectedVillagerId(villager?.id ?? null);

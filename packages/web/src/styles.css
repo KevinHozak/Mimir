@@ -117,6 +117,7 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow-map-controls { display: none; }
 .first-glow .village-stage > .entity-chooser { grid-column: 1; grid-row: 2; }
 .first-glow .entity-chooser { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; align-items: center; margin-top: 10px; padding: 8px; border: 1px solid #52677f; border-radius: 8px; background: #0b1627; color: var(--fg-muted); }
+.first-glow-inspector > .entity-chooser { position: sticky; top: 0; z-index: 2; margin-top: 0; }
 .entity-chooser select { min-width: 0; padding: 6px 8px; border: 1px solid #52677f; border-radius: 6px; background: #0a1322; color: #edf7ff; font: inherit; }
 .entity-chooser .entity-cycle { grid-column: 1 / -1; }
 .empty-selection { padding: 12px; border: 1px dashed #52677f; border-radius: 7px; }
