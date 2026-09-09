@@ -349,6 +349,8 @@ Provide independent sound controls and reduced-motion behavior. Reduced motion r
 
 ### Art rollout and review
 
+The executable production specification is [`first-glow-art-bible.md`](first-glow-art-bible.md). Use it for source formats, state treatments, contrast/reduced-motion review, and safe source-to-bundle retention; this theme document remains the selected visual and narrative authority.
+
 1. **Static visual pass:** a predominantly dark expanse with locally visible circuitry, several distinguishable Spark designs, a charge pool, a shelter niche, a shard, and a trace junction in the blue-and-silver palette.
 2. **State sheet:** show a Spark at rest, traveling, low on charge, and selected; show full/weak charge pools and open/blocked routes. Check the same sheet with glow disabled.
 3. **Opening scene:** compose a sparse First Glow map with real movement access, readable selection, and the Spark inspector treatment.
