@@ -9,6 +9,7 @@
     "test:e2e": "npm run test:first-glow",
     "test:first-glow": "npm run build && tsx src/first-glow-e2e.test.ts",
     "test:first-glow-rendering": "tsx src/first-glow-rendering.test.ts",
+    "test:first-glow-atmosphere": "tsx src/first-glow-atmosphere.test.ts",
     "test:first-glow-issue-42": "npm run build && tsx src/first-glow-issue-42-e2e.test.ts",
     "test:first-glow-header": "npm run build && tsx src/first-glow-header.test.ts",
     "test:first-glow-live-panel": "npm run build && tsx src/first-glow-live-panel.test.ts",
