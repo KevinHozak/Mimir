@@ -40,7 +40,7 @@ export function runFirstGlowSeason(scenario, seed, ticks = 24) {
     const nextTick = world.tick + 1;
     const sourceCharge = nextTick % 4 === 0 ? scenario.sourceIntakeEveryFour : 0;
     const loss = scenario.lossByTick[nextTick] ?? 0;
-    const firstGlowState = advanceFirstGlow(world.firstGlowState, { sourceCharge, loss });
+    const firstGlowState = advanceFirstGlow(world.firstGlowState, { sourceCharge, loss, resolveSocial: false });
     world = { ...world, tick: firstGlowState.tick, firstGlowState };
     const tickEvents = firstGlowState.events.map(event => ({ ...event, tick: firstGlowState.tick }));
     history.push(...tickEvents);
@@ -49,7 +49,7 @@ export function runFirstGlowSeason(scenario, seed, ticks = 24) {
     if (plan) {
       const result = applyPlannedChoice(world, plan, tickEvents);
       world = result.world;
-      plannedChoices.push({ ...plan, applied: result.applied, actorSparkId: result.actorSparkId, targetSparkId: result.targetSparkId, evidenceEventId: result.evidenceEventId });
+      plannedChoices.push({ ...plan, evidenceMode: "controlled-intervention", applied: result.applied, actorSparkId: result.actorSparkId, targetSparkId: result.targetSparkId, evidenceEventId: result.evidenceEventId });
     }
   }
   const settlement = world.firstGlowState.settlements[0];
@@ -65,7 +65,7 @@ export function runFirstGlowSeason(scenario, seed, ticks = 24) {
     return { sparkId: spark.id, sparkName: spark.name, pressure, response, later };
   }).filter(arc => arc.pressure && arc.response && arc.later).slice(0, 3);
   return {
-    scenarioId: scenario.id, title: scenario.title, seed, ticks, history, ledger, plannedChoices, arcs,
+    scenarioId: scenario.id, title: scenario.title, seed, ticks, history, ledger, plannedChoices, controlledInterventions: plannedChoices, arcs,
     metrics: {
       finalSourceCharge: settlement.sourceCharge,
       finalCommunalCharge: settlement.communalCharge,
@@ -84,7 +84,8 @@ export function runFirstGlowSeason(scenario, seed, ticks = 24) {
       trust: range(trustValues),
       fulfilledCommitments: commitments.filter(item => item.status === "fulfilled").length,
       brokenCommitments: commitments.filter(item => item.status === "broken").length,
-      appliedChoices: plannedChoices.filter(choice => choice.applied).length
+      appliedChoices: plannedChoices.filter(choice => choice.applied).length,
+      controlledInterventions: plannedChoices.filter(choice => choice.applied).length
     }
   };
 }
@@ -96,7 +97,7 @@ export function buildFirstGlowSeasonReport() {
     const metricNames = ["finalSourceCharge", "finalCommunalCharge", "finalCarriedCharge", "finalChargeDeficit", "averageReadiness", "totalDrawn", "totalShared", "totalLoss", "eventCount", "cooperationEvents", "idleOrWaitingEvents", "witnessedFacts", "communicatedClaims", "uncertainInferences", "fulfilledCommitments", "brokenCommitments", "appliedChoices"];
     const ranges = Object.fromEntries(metricNames.map(name => [name, range(runs.map(run => run.metrics[name]))]));
     ranges.trust = { min: range(runs.map(run => run.metrics.trust.min)).min, max: range(runs.map(run => run.metrics.trust.max)).max, mean: range(runs.map(run => run.metrics.trust.mean)).mean };
-    return { scenario: { ...scenario, bundleHash }, seedSet: scenario.seeds, ranges, representative: { seed: representative.seed, metrics: representative.metrics, arcs: representative.arcs, plannedChoices: representative.plannedChoices, eventSample: representative.history.filter(event => event.kind !== "movement").slice(0, 12) } };
+    return { scenario: { ...scenario, bundleHash }, seedSet: scenario.seeds, ranges, representative: { seed: representative.seed, metrics: representative.metrics, arcs: representative.arcs, plannedChoices: representative.plannedChoices, controlledInterventions: representative.controlledInterventions, eventSample: representative.history.filter(event => event.kind !== "movement").slice(0, 12) } };
   });
   return {
     generatedBy: "scripts/first-glow-season-review.mjs",
@@ -104,7 +105,7 @@ export function buildFirstGlowSeasonReport() {
     runtime: { themeId: "living-circuit", ageId: "first-glow", schemaVersion: 3, simulationVersion: "mimir-sim-v3-first-glow", spatialModel: "structured-v2", bundleHash, ticksPerSeason: 24, sparksPerSeason: 6 },
     reviews,
     decision: "Deepen the rules-only model's shelter and trust-repair loop before adding AI interpretation: scarcity changes charge pressure, while the information-gap and promise-breach runs show that evidence-linked local knowledge and bounded repair are the next useful questions.",
-    notEstablished: ["These fixed-seed seasons do not establish general behavior outside the tested seeds, 24-tick horizon, or four controls.", "Observed event order supports an evidence chain but does not prove that one event alone caused a later choice.", "The suite does not establish a stable long-term haven, universal Spark values, or that any future AI interpretation would improve the rules-only baseline.", "The current engine does not model a live communication channel for every objective event; absent claims remain absent knowledge."]
+    notEstablished: ["These fixed-seed seasons do not establish general behavior outside the tested seeds, 24-tick horizon, or four controls.", "Observed event order supports an evidence chain but does not prove that one event alone caused a later choice.", "The suite does not establish a stable long-term haven, universal Spark values, or that any future AI interpretation would improve the rules-only baseline.", "The current engine does not model a live communication channel for every objective event; absent claims remain absent knowledge.", "Choices listed as controlled interventions were injected by the review harness and are not evidence of autonomous causation; autonomous runtime behavior is evaluated by the committed event and social-state records."]
   };
 }
 
@@ -116,6 +117,7 @@ function markdown(report) {
     for (const name of ["finalSourceCharge", "finalChargeDeficit", "averageReadiness", "cooperationEvents", "idleOrWaitingEvents", "witnessedFacts", "communicatedClaims", "uncertainInferences", "fulfilledCommitments", "brokenCommitments"]) lines.push(`| ${name} | ${ranges[name].min}–${ranges[name].max} | ${representative.metrics[name]} |`);
     lines.push(``, `Observed causal chain candidates (objective evidence only):`);
     for (const arc of representative.arcs) lines.push(`- ${arc.sparkName}: pressure ${arc.pressure.id} (${arc.pressure.message}) → response ${arc.response.id} (${arc.response.message}) → later ${arc.later.id} (${arc.later.message})`);
+    lines.push(``, `Controlled interventions (not autonomous choices): ${representative.controlledInterventions.filter(choice => choice.applied).map(choice => `${choice.dilemmaId}/${choice.alternativeId} at tick ${choice.tick}`).join(", ") || "none"}`);
     lines.push(``, `Representative non-movement events: ${representative.eventSample.map(event => event.id).join(", ") || "none"}`, ``);
   }
   lines.push(`## Evidence-based decision`, ``, report.decision, ``, `## What the data does not establish`, ``, ...report.notEstablished.map(item => `- ${item}`), ``);

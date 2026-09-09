@@ -18,6 +18,8 @@ test("matched season runs and their evidence chains are deterministic", () => {
     assert.deepEqual(second, first);
     assert.ok(first.arcs.length >= 3, `${scenario.id} should preserve three Spark arcs`);
     assert.equal(first.metrics.appliedChoices, 3, `${scenario.id} should apply its three planned choices`);
+    assert.equal(first.metrics.controlledInterventions, 3);
+    assert.ok(first.controlledInterventions.every(choice => choice.evidenceMode === "controlled-intervention"));
   }
   const breach = runFirstGlowSeason(FIRST_GLOW_SEASON_SCENARIOS.find(scenario => scenario.id === "promise-breach"), 1402);
   assert.ok(breach.metrics.brokenCommitments >= 1);

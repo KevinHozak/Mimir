@@ -77,7 +77,7 @@ function EvidenceList({ title, evidence, empty }: { title: string; evidence: Fir
 }
 
 export function FirstGlowExplanationPanel({ explanations, currentTick }: { explanations: FirstGlowExplanation[]; currentTick: number }) {
-  const visible = explanations.filter(explanation => explanation.tick <= currentTick).slice(-3).reverse();
+  const visible = [...new Map(explanations.filter(explanation => explanation.tick <= currentTick).sort((a, b) => a.tick - b.tick || a.id.localeCompare(b.id)).map(explanation => [explanation.dilemmaId, explanation])).values()].reverse();
   return <section className="first-glow-explanations" data-testid="first-glow-explanations" aria-label="First Glow choice explanations">
     <h2>Why this happened</h2>
     <p>Committed choices are explained from recorded facts, local Spark knowledge, and bounded social state.</p>

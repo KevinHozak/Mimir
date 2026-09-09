@@ -142,10 +142,14 @@ export function createRulesOnlyFirstGlowInterpretation(context: FirstGlowInterpr
 export async function evaluateFirstGlowInterpretation(context: FirstGlowInterpretationContext, options: { provider?: FirstGlowInterpretationProvider; budget: FirstGlowInterpretationBudget; timeoutMs?: number; historicalPlayback?: boolean; recorded?: FirstGlowInterpretationRecord[] }): Promise<{ record: FirstGlowInterpretationRecord; usage: FirstGlowInterpretationUsage }> {
   const baseline = rulesOnlyFirstGlowInterpretation(context);
   const recorded = options.recorded?.find(item => item.encounterId === context.encounterId && item.contextHash === context.contextHash);
-  if (options.historicalPlayback && recorded) {
-    const usage = { requestId: `replay-${context.encounterId}`, encounterId: context.encounterId, contextHash: context.contextHash, outcome: "historical-replay" as const, reservedUnits: 0, usedUnits: 0 };
+  if (options.historicalPlayback) {
+    let replayRecord = recorded;
+    let reason: FirstGlowInterpretationFallbackReason | undefined;
+    if (replayRecord) { try { validateFirstGlowInterpretationRecord(replayRecord, context); } catch { replayRecord = undefined; reason = "malformed-output"; } }
+    const record = replayRecord ?? makeRecord(context, baseline, "deterministic-fallback", "rules", reason ?? "provider-error", baseline);
+    const usage = { requestId: `replay-${context.encounterId}`, encounterId: context.encounterId, contextHash: context.contextHash, outcome: "historical-replay" as const, ...(reason || !replayRecord ? { reason: reason ?? "provider-error" as const } : {}), reservedUnits: 0, usedUnits: 0 };
     recordUsage(options.budget, usage);
-    return { record: recorded, usage };
+    return { record, usage };
   }
   const requestId = `request-${context.encounterId}-${context.contextHash.slice(-12)}`;
   if (!options.provider || !reserve(options.budget)) {

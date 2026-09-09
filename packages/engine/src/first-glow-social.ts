@@ -191,6 +191,7 @@ export function applyFirstGlowDilemmaChoice(input: FirstGlowSocialState, choice:
 
 export function firstGlowActionScore(state: FirstGlowSocialState, actorSparkId: string, targetSparkId: string, dilemmaId: string): number {
   const trust = trustFor(state, actorSparkId, targetSparkId).value;
+  const knowledge = knowledgeFor(state, actorSparkId);
   const commitment = state.commitments.slice().sort((a, b) => b.resolvedTick - a.resolvedTick || compare(a.id, b.id)).find(item => item.promisorSparkId === actorSparkId && item.beneficiarySparkId === targetSparkId && item.dilemmaId === dilemmaId);
-  return trust + (commitment?.status === "fulfilled" ? 2 : commitment?.status === "broken" ? -2 : 0);
+  return trust + Math.min(2, knowledge.witnessedFacts.length + knowledge.communicatedClaims.length) - Math.min(2, knowledge.uncertainInferences.length) + (commitment?.status === "fulfilled" ? 2 : commitment?.status === "broken" ? -2 : 0);
 }

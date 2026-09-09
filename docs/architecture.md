@@ -70,7 +70,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 
 The engine currently contains deterministic First Glow creation/advance, charge pools and charge accounting, shelter niches, traces, exploration, drawing, rest/readiness, sharing, structured object footprints, contacts/reservations, navigation revisions, runtime blockers, and bounded event records. Legacy creation entry points remain explicit failures or compatibility-shaped fields; they are not supported new timelines.
 
-`advanceWorld()` and `runTicks()` return deterministic rules-only interpretation records for selected First Glow social encounters. `first-glow-interpretations.ts` defines the bounded provider adapter contract, context hashing, evidence/knowledge validation, budget telemetry, and deterministic fallbacks. No live or paid model provider is connected; provider proposals are review-harness inputs only. Sharing is an explicit deterministic First Glow action.
+`advanceWorld()` and `runTicks()` return deterministic rules-only interpretation records for selected First Glow social encounters. Normal First Glow ticks also resolve witnessed dilemma events into bounded social state before explanation records are appended, so trust, commitments, and Spark-local knowledge can affect later autonomous activity selection. `first-glow-interpretations.ts` defines the bounded provider adapter contract, context hashing, evidence/knowledge validation, budget telemetry, and deterministic fallbacks. No live or paid model provider is connected; provider proposals are review-harness inputs only. Sharing is an explicit deterministic First Glow action.
 
 ## 4. World-data pipeline
 

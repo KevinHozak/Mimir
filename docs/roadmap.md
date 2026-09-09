@@ -20,6 +20,8 @@ This is the current delivery order. It complements the dated planning documents 
 | 13 | [Validate art performance, accessibility, and recovery](https://github.com/KevinHozak/Mimir/issues/59) | Backlog. Test desktop/mobile rendering, reduced motion, and historical bundle recovery. |
 | 14 | [Expand through a meaningful second area](https://github.com/KevinHozak/Mimir/issues/60) | Backlog. Add a new First Glow decision space only after the earlier social and visual gates hold. |
 
+Issue #74 is the runtime completion follow-up for the social gates: normal First Glow ticks now commit bounded dilemma consequences, the observer shows recorded explanation chains in live and historical views, and the season review labels injected choices as controlled interventions. Phase 5 remains an offline, fixture-based evaluation harness; no provider is connected to the runtime.
+
 ## Non-negotiable gates
 
 - The server alone commits outcomes; browser animation and art never invent state.

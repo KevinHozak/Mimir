@@ -78,7 +78,7 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow .timeline span, .first-glow p, .first-glow dt, .first-glow .season-review-heading p, .first-glow .report-grid, .first-glow .events p { color: var(--fg-muted); }
 .first-glow #village-canvas { background: #050912; border-color: #52677f; box-shadow: 0 6px 0 #101b2d; }
 .first-glow .region-overview, .first-glow .design-bench { background: #101b2d; border-color: #52677f; }
-.first-glow .region-overview, .first-glow .season-review, .first-glow .interpretations, .first-glow .design-bench { display: none; }
+.first-glow .region-overview, .first-glow .season-review, .first-glow .design-bench { display: none; }
 .first-glow aside { display: none; }
 .first-glow-inspector { margin-top: 14px; padding: 10px; background: #101b2d; border: 1px solid #52677f; border-radius: 10px; font-size: .72rem; overflow: auto; }
 .live-panel-controls { display: flex; gap: 6px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #52677f; }
