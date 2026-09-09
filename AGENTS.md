@@ -16,7 +16,7 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 | [docs/roadmap.md](docs/roadmap.md) | Current delivery order and gates. Use this to distinguish active First Glow work from historical planning. |
 | [docs/history.md](docs/history.md) | Narrative record of the early village plans, the Living Circuit shift, and the retained long-term vision. Use when historical context is useful. |
 | [docs/world-theme.md](docs/world-theme.md) | Current consolidated theme reference: First Glow, Sparks, terminology, opening knowledge, blue-and-silver dark-mode aesthetics, and visual rollout. Read first for naming, art, UI, or setting work. |
-| [AI World Theme Plan](docs/planning/2026-09-06_AI_World_Theme_Plan.md) | Broader brainstorming, retained alternative palettes, resource proposals, human inspiration, discovery ages, and staged development. Confirmed choices are marked; alternatives are not all approved features. |
+| [docs/incubator.md](docs/incubator.md) | Organized, uncommitted possibilities: later ages, alternative worlds, human inspiration, social questions, and visual explorations. It never overrides selected First Glow direction. |
 | [docs/game-simulation.md](docs/game-simulation.md) | Explanation of ticks, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
 | [docs/architecture.md](docs/architecture.md) | Current package boundaries, First Glow runtime, API surface, persistence, local data, and hosted operations. |
 | [Hosted observer runbook](docs/hosted-observer-runbook.md) | Deployment preparation, operational checks, and durability requirements. Read before hosted changes. |
