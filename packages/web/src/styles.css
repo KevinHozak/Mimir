@@ -24,6 +24,46 @@ aside { background: #fffaf0; border: 1px solid #dbc9a8; border-radius: 14px; pad
 dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; }
 @media (max-width: 800px) { main { padding: 18px 14px; } .layout { grid-template-columns: 1fr; } .villagers { grid-template-columns: repeat(3, 1fr); } header { align-items: flex-start; gap: 16px; flex-direction: column; } .timeline { flex-wrap: wrap; } .timeline input { flex: 1 1 100%; order: 2; } .timeline label { order: 1; } .timeline .return-live, .timeline > span { order: 3; } .playback, .zoom-controls { order: 4; } .timeline > span { min-width: auto; } .report-grid { grid-template-columns: repeat(2, 1fr); } .operations-heading { flex-direction: column; } .metric-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { main, .layout, .layout > div, .village-stage { min-width: 0; max-width: 100%; } #village-canvas canvas { max-width: 100%; height: auto; } h1 { font-size: 1.8rem; } .controls { width: 100%; } .controls button { flex: 1; padding: 10px 8px; } .villagers { grid-template-columns: repeat(2, 1fr); } .owner-token { align-items: flex-start; flex-direction: column; } .owner-token input { width: 100%; } .operation-buttons button { flex: 1 1 calc(50% - 8px); } .report-grid { font-size: .78rem; } }
+
+/* First Glow keeps evidence, interpretation, and controls legible at every viewport. */
+.first-glow :focus-visible { outline: 2px solid #8addf2; outline-offset: 3px; }
+.first-glow .first-glow-error { margin: 12px 0 0; padding: 10px 12px; border: 1px solid #ef9a9a; border-radius: 8px; background: #291a29; color: #ffd4d4; }
+.first-glow .stream-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.first-glow .stream-heading h2 { margin-bottom: 3px; }
+.first-glow .stream-heading p { margin: 0 0 8px; font-size: .82rem; }
+.first-glow .stream-badge { flex: 0 0 auto; padding: 3px 7px; border: 1px solid #8addf2; border-radius: 999px; color: #8addf2; font-size: .66rem; font-weight: 700; letter-spacing: .12em; }
+.first-glow .interpretation-badge { border-color: #c7b7ff; color: #c7b7ff; }
+.first-glow .events { border-left: 3px solid #8addf2; }
+.first-glow .events p { padding: 8px 0; border-top: 1px solid rgba(82, 103, 127, .55); }
+.first-glow .events p:first-of-type { border-top: 0; }
+.first-glow .events p strong { color: #dceeff; }
+.first-glow .interpretations { border-left: 3px solid #c7b7ff; }
+.first-glow .interpretations article { border-top-color: rgba(199, 183, 255, .28); }
+.first-glow .interpretations article strong { color: #e6deff; }
+.first-glow .empty-state { color: #a7b9cf; font-style: italic; }
+.first-glow .first-glow-inspector { font-size: .8rem; }
+.first-glow .first-glow-inspector select { min-height: 38px; }
+.first-glow .operations input::placeholder { color: #8fa7c3; }
+
+@media (max-width: 900px) {
+  .first-glow .first-glow-header { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .first-glow .first-glow-header .controls { position: static; grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
+  .first-glow .village-stage { grid-template-columns: minmax(0, 1fr); }
+  .first-glow .village-stage > .first-glow-inspector { grid-column: 1; grid-row: 2; }
+  .first-glow .village-zoom { width: 100%; }
+}
+
+@media (max-width: 520px) {
+  .first-glow .first-glow-header { grid-template-columns: 1fr; gap: 8px; }
+  .first-glow-header .identity-panel { min-height: 64px; }
+  .first-glow-header h1 { font-size: 1.7rem; }
+  .first-glow .first-glow-header .controls { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; }
+  .first-glow .first-glow-header .controls .compact-button { width: auto; }
+  .first-glow .first-glow-inspector { padding: 9px; }
+  .first-glow .spark-card dl { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .first-glow .stream-heading { gap: 8px; }
+  .first-glow .stream-heading p { font-size: .76rem; }
+}
 /* The observer layout keeps the map square and the villager roster in the detail panel. */
 #village-canvas { aspect-ratio: 1; }
 .village-stage { position: relative; height: auto; overflow: hidden; }
