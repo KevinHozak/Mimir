@@ -60,6 +60,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 - `WorldState`: First Glow world identity, seed, tick, schema-3 simulation version, structured-v2 spatial model, and `firstGlowState`.
 - `Spark`: charge, charge deficit, readiness, activity, position, route/contact state, and bounded local knowledge.
 - `FirstGlowSocialState`: Spark-local witnessed facts, communicated claims, uncertain inferences, bounded relationship trust, and resolved commitments. It is serialized inside the schema-3 First Glow checkpoint; checkpoints without this state fail explicitly rather than being invented.
+- `FirstGlowExplanation`: deterministic, committed choice rationale with scored need, values, local knowledge, trust, commitments, cost, and risk factors plus evidence and consequences. It is serialized with the First Glow checkpoint for live and historical observer reads.
 - `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
 - `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Current advancement generates no interpretation records.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
@@ -196,6 +197,7 @@ The hosted model is intentionally single-writer. PostgreSQL or another coordinat
 The repository includes three verification layers:
 
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
+- The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
 - Playwright browser tests for First Glow live/history observers, manifest assets, overlays, playback rates, and mobile layout.
 

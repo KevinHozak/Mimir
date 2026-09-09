@@ -1,0 +1,1643 @@
+{
+  "generatedBy": "scripts/first-glow-season-review.mjs",
+  "generatedAt": "2026-09-09",
+  "runtime": {
+    "themeId": "living-circuit",
+    "ageId": "first-glow",
+    "schemaVersion": 3,
+    "simulationVersion": "mimir-sim-v3-first-glow",
+    "spatialModel": "structured-v2",
+    "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601",
+    "ticksPerSeason": 24,
+    "sparksPerSeason": 6
+  },
+  "reviews": [
+    {
+      "scenario": {
+        "id": "abundance-baseline",
+        "title": "Abundance baseline",
+        "question": "When charge remains dependable, do Sparks explore and cooperate without scarcity pressure?",
+        "controlledVariable": "24 source charge intake every fourth tick; no losses",
+        "seeds": [
+          1101,
+          1102,
+          1103
+        ],
+        "expectedObservable": "Stable charge access, exploration/trace activity, and a low final charge deficit.",
+        "interpretation": "Intended tradeoff: dependable supply should permit exploration and cooperation; this bounded run shows no immediate bug.",
+        "choices": [
+          {
+            "tick": 6,
+            "dilemmaId": "weakening-pool-report",
+            "alternativeId": "reveal-pool"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "help-shelter"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "make-mark-public"
+          }
+        ],
+        "sourceIntakeEveryFour": 24,
+        "lossByTick": {},
+        "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"
+      },
+      "seedSet": [
+        1101,
+        1102,
+        1103
+      ],
+      "ranges": {
+        "finalSourceCharge": {
+          "min": 80,
+          "max": 80,
+          "mean": 80
+        },
+        "finalCommunalCharge": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "finalCarriedCharge": {
+          "min": 36,
+          "max": 36,
+          "mean": 36
+        },
+        "finalChargeDeficit": {
+          "min": 5,
+          "max": 5,
+          "mean": 5
+        },
+        "averageReadiness": {
+          "min": 92.17,
+          "max": 92.17,
+          "mean": 92.17
+        },
+        "totalDrawn": {
+          "min": 88,
+          "max": 88,
+          "mean": 88
+        },
+        "totalShared": {
+          "min": 26,
+          "max": 26,
+          "mean": 26
+        },
+        "totalLoss": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "eventCount": {
+          "min": 118,
+          "max": 118,
+          "mean": 118
+        },
+        "cooperationEvents": {
+          "min": 26,
+          "max": 26,
+          "mean": 26
+        },
+        "idleOrWaitingEvents": {
+          "min": 32,
+          "max": 32,
+          "mean": 32
+        },
+        "witnessedFacts": {
+          "min": 144,
+          "max": 144,
+          "mean": 144
+        },
+        "communicatedClaims": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "uncertainInferences": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "fulfilledCommitments": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "brokenCommitments": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "appliedChoices": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "trust": {
+          "min": 0,
+          "max": 3,
+          "mean": 0.1
+        }
+      },
+      "representative": {
+        "seed": 1102,
+        "metrics": {
+          "finalSourceCharge": 80,
+          "finalCommunalCharge": 0,
+          "finalCarriedCharge": 36,
+          "finalChargeDeficit": 5,
+          "averageReadiness": 92.17,
+          "totalDrawn": 88,
+          "totalShared": 26,
+          "totalLoss": 0,
+          "eventCount": 118,
+          "cooperationEvents": 26,
+          "idleOrWaitingEvents": 32,
+          "witnessedFacts": 144,
+          "communicatedClaims": 3,
+          "uncertainInferences": 0,
+          "trust": {
+            "min": 0,
+            "max": 3,
+            "mean": 0.1
+          },
+          "fulfilledCommitments": 3,
+          "brokenCommitments": 0,
+          "appliedChoices": 3
+        },
+        "arcs": [
+          {
+            "sparkId": "spark-3",
+            "sparkName": "Spark 3",
+            "pressure": {
+              "id": "event-4-spark-3-draw",
+              "kind": "draw",
+              "actorId": "spark-3",
+              "message": "Spark 3 drew 8 charge.",
+              "tick": 4
+            },
+            "response": {
+              "id": "event-6-spark-3-wait",
+              "kind": "wait",
+              "actorId": "spark-3",
+              "message": "Spark 3 is waiting: no reachable share-charge site.",
+              "tick": 6
+            },
+            "later": {
+              "id": "event-24-spark-3-share",
+              "kind": "share",
+              "actorId": "spark-3",
+              "participants": [
+                "spark-3",
+                "spark-4"
+              ],
+              "message": "Spark 3 shared 1 charge with Spark 4.",
+              "tick": 24
+            }
+          },
+          {
+            "sparkId": "spark-4",
+            "sparkName": "Spark 4",
+            "pressure": {
+              "id": "event-1-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 1
+                },
+                {
+                  "x": 9,
+                  "y": 2
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 1
+            },
+            "response": {
+              "id": "event-2-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 2
+                },
+                {
+                  "x": 9,
+                  "y": 3
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 2
+            },
+            "later": {
+              "id": "event-5-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 6,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 5
+                }
+              ],
+              "message": "Spark 4 moved 2 cell(s).",
+              "tick": 5
+            }
+          },
+          {
+            "sparkId": "spark-5",
+            "sparkName": "Spark 5",
+            "pressure": {
+              "id": "event-1-spark-5-wait",
+              "kind": "wait",
+              "actorId": "spark-5",
+              "message": "Spark 5 is waiting: no reachable seek-charge site.",
+              "tick": 1
+            },
+            "response": {
+              "id": "event-2-spark-5-movement",
+              "kind": "movement",
+              "actorId": "spark-5",
+              "cells": [
+                {
+                  "x": 12,
+                  "y": 1
+                },
+                {
+                  "x": 12,
+                  "y": 2
+                }
+              ],
+              "message": "Spark 5 moved 1 cell(s).",
+              "tick": 2
+            },
+            "later": {
+              "id": "event-24-spark-5-share",
+              "kind": "share",
+              "actorId": "spark-5",
+              "participants": [
+                "spark-5",
+                "spark-3"
+              ],
+              "message": "Spark 5 shared 1 charge with Spark 3.",
+              "tick": 24
+            }
+          }
+        ],
+        "plannedChoices": [
+          {
+            "tick": 6,
+            "dilemmaId": "weakening-pool-report",
+            "alternativeId": "reveal-pool",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-6-spark-3-share"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "help-shelter",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-12-spark-3-wait"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "make-mark-public",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-18-spark-3-share"
+          }
+        ],
+        "eventSample": [
+          {
+            "id": "event-1-spark-5-wait",
+            "kind": "wait",
+            "actorId": "spark-5",
+            "message": "Spark 5 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-1-spark-6-wait",
+            "kind": "wait",
+            "actorId": "spark-6",
+            "message": "Spark 6 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-4-spark-2-draw",
+            "kind": "draw",
+            "actorId": "spark-2",
+            "message": "Spark 2 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-3-draw",
+            "kind": "draw",
+            "actorId": "spark-3",
+            "message": "Spark 3 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-5-explore",
+            "kind": "explore",
+            "actorId": "spark-5",
+            "message": "Spark 5 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-6-explore",
+            "kind": "explore",
+            "actorId": "spark-6",
+            "message": "Spark 6 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-5-spark-1-draw",
+            "kind": "draw",
+            "actorId": "spark-1",
+            "message": "Spark 1 drew 8 charge.",
+            "tick": 5
+          },
+          {
+            "id": "event-6-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 6
+          },
+          {
+            "id": "event-6-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 6
+          },
+          {
+            "id": "event-7-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 7
+          },
+          {
+            "id": "event-7-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 7
+          },
+          {
+            "id": "event-8-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 8
+          }
+        ]
+      }
+    },
+    {
+      "scenario": {
+        "id": "supply-scarcity",
+        "title": "Supply scarcity",
+        "question": "When intake stops and charge is lost, does pressure increase deficit and shelter-seeking?",
+        "controlledVariable": "No replenishment; 4 charge lost at ticks 8, 16, and 24",
+        "seeds": [
+          1201,
+          1202,
+          1203
+        ],
+        "expectedObservable": "Lower remaining source charge, higher deficit/readiness pressure, and more idle or waiting events.",
+        "interpretation": "Intended tradeoff: lower supply should raise charge pressure; unresolved question: whether shelter recovery should outpace depletion.",
+        "choices": [
+          {
+            "tick": 6,
+            "dilemmaId": "weakening-pool-report",
+            "alternativeId": "withhold-pool"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "continue-exploration"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "keep-mark-private"
+          }
+        ],
+        "sourceIntakeEveryFour": 0,
+        "lossByTick": {
+          "8": 4,
+          "16": 4,
+          "24": 4
+        },
+        "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"
+      },
+      "seedSet": [
+        1201,
+        1202,
+        1203
+      ],
+      "ranges": {
+        "finalSourceCharge": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "finalCommunalCharge": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "finalCarriedCharge": {
+          "min": 8,
+          "max": 8,
+          "mean": 8
+        },
+        "finalChargeDeficit": {
+          "min": 45,
+          "max": 45,
+          "mean": 45
+        },
+        "averageReadiness": {
+          "min": 90,
+          "max": 90,
+          "mean": 90
+        },
+        "totalDrawn": {
+          "min": 24,
+          "max": 24,
+          "mean": 24
+        },
+        "totalShared": {
+          "min": 8,
+          "max": 8,
+          "mean": 8
+        },
+        "totalLoss": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "eventCount": {
+          "min": 89,
+          "max": 89,
+          "mean": 89
+        },
+        "cooperationEvents": {
+          "min": 8,
+          "max": 8,
+          "mean": 8
+        },
+        "idleOrWaitingEvents": {
+          "min": 14,
+          "max": 14,
+          "mean": 14
+        },
+        "witnessedFacts": {
+          "min": 97,
+          "max": 97,
+          "mean": 97
+        },
+        "communicatedClaims": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "uncertainInferences": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "fulfilledCommitments": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "brokenCommitments": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "appliedChoices": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "trust": {
+          "min": -1,
+          "max": 0,
+          "mean": -0.1
+        }
+      },
+      "representative": {
+        "seed": 1202,
+        "metrics": {
+          "finalSourceCharge": 0,
+          "finalCommunalCharge": 0,
+          "finalCarriedCharge": 8,
+          "finalChargeDeficit": 45,
+          "averageReadiness": 90,
+          "totalDrawn": 24,
+          "totalShared": 8,
+          "totalLoss": 0,
+          "eventCount": 89,
+          "cooperationEvents": 8,
+          "idleOrWaitingEvents": 14,
+          "witnessedFacts": 97,
+          "communicatedClaims": 0,
+          "uncertainInferences": 3,
+          "trust": {
+            "min": -1,
+            "max": 0,
+            "mean": -0.1
+          },
+          "fulfilledCommitments": 0,
+          "brokenCommitments": 3,
+          "appliedChoices": 3
+        },
+        "arcs": [
+          {
+            "sparkId": "spark-2",
+            "sparkName": "Spark 2",
+            "pressure": {
+              "id": "event-4-spark-2-draw",
+              "kind": "draw",
+              "actorId": "spark-2",
+              "message": "Spark 2 drew 8 charge.",
+              "tick": 4
+            },
+            "response": {
+              "id": "event-15-spark-2-wait",
+              "kind": "wait",
+              "actorId": "spark-2",
+              "message": "Spark 2 is waiting: no reachable share-charge site.",
+              "tick": 15
+            },
+            "later": {
+              "id": "event-18-spark-2-share",
+              "kind": "share",
+              "actorId": "spark-2",
+              "participants": [
+                "spark-2",
+                "spark-6"
+              ],
+              "message": "Spark 2 shared 1 charge with Spark 6.",
+              "tick": 18
+            }
+          },
+          {
+            "sparkId": "spark-3",
+            "sparkName": "Spark 3",
+            "pressure": {
+              "id": "event-4-spark-3-draw",
+              "kind": "draw",
+              "actorId": "spark-3",
+              "message": "Spark 3 drew 8 charge.",
+              "tick": 4
+            },
+            "response": {
+              "id": "event-6-spark-3-wait",
+              "kind": "wait",
+              "actorId": "spark-3",
+              "message": "Spark 3 is waiting: no reachable share-charge site.",
+              "tick": 6
+            },
+            "later": {
+              "id": "event-9-spark-3-share",
+              "kind": "share",
+              "actorId": "spark-3",
+              "participants": [
+                "spark-3",
+                "spark-4"
+              ],
+              "message": "Spark 3 shared 1 charge with Spark 4.",
+              "tick": 9
+            }
+          },
+          {
+            "sparkId": "spark-4",
+            "sparkName": "Spark 4",
+            "pressure": {
+              "id": "event-1-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 1
+                },
+                {
+                  "x": 9,
+                  "y": 2
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 1
+            },
+            "response": {
+              "id": "event-2-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 2
+                },
+                {
+                  "x": 9,
+                  "y": 3
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 2
+            },
+            "later": {
+              "id": "event-5-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 6,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 5
+                }
+              ],
+              "message": "Spark 4 moved 2 cell(s).",
+              "tick": 5
+            }
+          }
+        ],
+        "plannedChoices": [
+          {
+            "tick": 6,
+            "dilemmaId": "weakening-pool-report",
+            "alternativeId": "withhold-pool",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-6-spark-3-share"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "continue-exploration",
+            "applied": true,
+            "actorSparkId": "spark-5",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-12-spark-5-movement"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "keep-mark-private",
+            "applied": true,
+            "actorSparkId": "spark-2",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-18-spark-2-share"
+          }
+        ],
+        "eventSample": [
+          {
+            "id": "event-1-spark-5-wait",
+            "kind": "wait",
+            "actorId": "spark-5",
+            "message": "Spark 5 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-1-spark-6-wait",
+            "kind": "wait",
+            "actorId": "spark-6",
+            "message": "Spark 6 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-4-spark-2-draw",
+            "kind": "draw",
+            "actorId": "spark-2",
+            "message": "Spark 2 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-3-draw",
+            "kind": "draw",
+            "actorId": "spark-3",
+            "message": "Spark 3 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-5-explore",
+            "kind": "explore",
+            "actorId": "spark-5",
+            "message": "Spark 5 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-6-explore",
+            "kind": "explore",
+            "actorId": "spark-6",
+            "message": "Spark 6 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-5-spark-1-draw",
+            "kind": "draw",
+            "actorId": "spark-1",
+            "message": "Spark 1 drew 8 charge.",
+            "tick": 5
+          },
+          {
+            "id": "event-6-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 6
+          },
+          {
+            "id": "event-6-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 6
+          },
+          {
+            "id": "event-7-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 7
+          },
+          {
+            "id": "event-7-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 7
+          },
+          {
+            "id": "event-8-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 8
+          }
+        ]
+      }
+    },
+    {
+      "scenario": {
+        "id": "information-gap",
+        "title": "Information gap",
+        "question": "When local signals are available but communication is not guaranteed, do knowledge boundaries remain visible?",
+        "controlledVariable": "8 source charge intake every fourth tick; social claims are limited to witnessed evidence",
+        "seeds": [
+          1301,
+          1302,
+          1303
+        ],
+        "expectedObservable": "Witnessed facts and uncertain inferences diverge between Sparks while objective events remain shared history.",
+        "interpretation": "Intended tradeoff: limited communication should preserve local knowledge boundaries; unresolved question: whether a future explicit communication action is needed.",
+        "choices": [
+          {
+            "tick": 6,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "keep-mark-private"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "weakening-pool-report",
+            "alternativeId": "withhold-pool"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "continue-exploration"
+          }
+        ],
+        "sourceIntakeEveryFour": 8,
+        "lossByTick": {},
+        "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"
+      },
+      "seedSet": [
+        1301,
+        1302,
+        1303
+      ],
+      "ranges": {
+        "finalSourceCharge": {
+          "min": 8,
+          "max": 8,
+          "mean": 8
+        },
+        "finalCommunalCharge": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "finalCarriedCharge": {
+          "min": 16,
+          "max": 16,
+          "mean": 16
+        },
+        "finalChargeDeficit": {
+          "min": 25,
+          "max": 25,
+          "mean": 25
+        },
+        "averageReadiness": {
+          "min": 92.33,
+          "max": 92.33,
+          "mean": 92.33
+        },
+        "totalDrawn": {
+          "min": 64,
+          "max": 64,
+          "mean": 64
+        },
+        "totalShared": {
+          "min": 28,
+          "max": 28,
+          "mean": 28
+        },
+        "totalLoss": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "eventCount": {
+          "min": 123,
+          "max": 123,
+          "mean": 123
+        },
+        "cooperationEvents": {
+          "min": 28,
+          "max": 28,
+          "mean": 28
+        },
+        "idleOrWaitingEvents": {
+          "min": 38,
+          "max": 38,
+          "mean": 38
+        },
+        "witnessedFacts": {
+          "min": 151,
+          "max": 151,
+          "mean": 151
+        },
+        "communicatedClaims": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "uncertainInferences": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "fulfilledCommitments": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "brokenCommitments": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "appliedChoices": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "trust": {
+          "min": -2,
+          "max": 0,
+          "mean": -0.1
+        }
+      },
+      "representative": {
+        "seed": 1302,
+        "metrics": {
+          "finalSourceCharge": 8,
+          "finalCommunalCharge": 0,
+          "finalCarriedCharge": 16,
+          "finalChargeDeficit": 25,
+          "averageReadiness": 92.33,
+          "totalDrawn": 64,
+          "totalShared": 28,
+          "totalLoss": 0,
+          "eventCount": 123,
+          "cooperationEvents": 28,
+          "idleOrWaitingEvents": 38,
+          "witnessedFacts": 151,
+          "communicatedClaims": 0,
+          "uncertainInferences": 3,
+          "trust": {
+            "min": -2,
+            "max": 0,
+            "mean": -0.1
+          },
+          "fulfilledCommitments": 0,
+          "brokenCommitments": 3,
+          "appliedChoices": 3
+        },
+        "arcs": [
+          {
+            "sparkId": "spark-2",
+            "sparkName": "Spark 2",
+            "pressure": {
+              "id": "event-4-spark-2-draw",
+              "kind": "draw",
+              "actorId": "spark-2",
+              "message": "Spark 2 drew 8 charge.",
+              "tick": 4
+            },
+            "response": {
+              "id": "event-15-spark-2-wait",
+              "kind": "wait",
+              "actorId": "spark-2",
+              "message": "Spark 2 is waiting: no reachable share-charge site.",
+              "tick": 15
+            },
+            "later": {
+              "id": "event-21-spark-2-draw",
+              "kind": "draw",
+              "actorId": "spark-2",
+              "message": "Spark 2 drew 8 charge.",
+              "tick": 21
+            }
+          },
+          {
+            "sparkId": "spark-3",
+            "sparkName": "Spark 3",
+            "pressure": {
+              "id": "event-4-spark-3-draw",
+              "kind": "draw",
+              "actorId": "spark-3",
+              "message": "Spark 3 drew 8 charge.",
+              "tick": 4
+            },
+            "response": {
+              "id": "event-6-spark-3-wait",
+              "kind": "wait",
+              "actorId": "spark-3",
+              "message": "Spark 3 is waiting: no reachable share-charge site.",
+              "tick": 6
+            },
+            "later": {
+              "id": "event-22-spark-3-wait",
+              "kind": "wait",
+              "actorId": "spark-3",
+              "message": "Spark 3 is waiting: no reachable share-charge site.",
+              "tick": 22
+            }
+          },
+          {
+            "sparkId": "spark-4",
+            "sparkName": "Spark 4",
+            "pressure": {
+              "id": "event-1-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 1
+                },
+                {
+                  "x": 9,
+                  "y": 2
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 1
+            },
+            "response": {
+              "id": "event-2-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 2
+                },
+                {
+                  "x": 9,
+                  "y": 3
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 2
+            },
+            "later": {
+              "id": "event-5-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 6,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 5
+                }
+              ],
+              "message": "Spark 4 moved 2 cell(s).",
+              "tick": 5
+            }
+          }
+        ],
+        "plannedChoices": [
+          {
+            "tick": 6,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "keep-mark-private",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-6-spark-3-share"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "weakening-pool-report",
+            "alternativeId": "withhold-pool",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-12-spark-3-wait"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "continue-exploration",
+            "applied": true,
+            "actorSparkId": "spark-2",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-18-spark-2-share"
+          }
+        ],
+        "eventSample": [
+          {
+            "id": "event-1-spark-5-wait",
+            "kind": "wait",
+            "actorId": "spark-5",
+            "message": "Spark 5 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-1-spark-6-wait",
+            "kind": "wait",
+            "actorId": "spark-6",
+            "message": "Spark 6 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-4-spark-2-draw",
+            "kind": "draw",
+            "actorId": "spark-2",
+            "message": "Spark 2 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-3-draw",
+            "kind": "draw",
+            "actorId": "spark-3",
+            "message": "Spark 3 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-5-explore",
+            "kind": "explore",
+            "actorId": "spark-5",
+            "message": "Spark 5 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-6-explore",
+            "kind": "explore",
+            "actorId": "spark-6",
+            "message": "Spark 6 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-5-spark-1-draw",
+            "kind": "draw",
+            "actorId": "spark-1",
+            "message": "Spark 1 drew 8 charge.",
+            "tick": 5
+          },
+          {
+            "id": "event-6-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 6
+          },
+          {
+            "id": "event-6-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 6
+          },
+          {
+            "id": "event-7-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 7
+          },
+          {
+            "id": "event-7-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 7
+          },
+          {
+            "id": "event-8-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 8
+          }
+        ]
+      }
+    },
+    {
+      "scenario": {
+        "id": "promise-breach",
+        "title": "Promise breach and repair",
+        "question": "After a Spark breaks an informal promise, can later help produce a bounded, evidence-linked trust repair?",
+        "controlledVariable": "16 source charge intake every fourth tick; one broken choice at tick 6 followed by help at tick 12",
+        "seeds": [
+          1401,
+          1402,
+          1403
+        ],
+        "expectedObservable": "A bounded trust dip, two commitment records, and a later fulfilled commitment with preserved evidence.",
+        "interpretation": "Intended tradeoff: breaking and then helping should leave distinct evidence-linked commitment outcomes; this bounded run shows no immediate bug.",
+        "choices": [
+          {
+            "tick": 6,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "continue-exploration"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "help-shelter"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "make-mark-public"
+          }
+        ],
+        "sourceIntakeEveryFour": 16,
+        "lossByTick": {},
+        "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601"
+      },
+      "seedSet": [
+        1401,
+        1402,
+        1403
+      ],
+      "ranges": {
+        "finalSourceCharge": {
+          "min": 32,
+          "max": 32,
+          "mean": 32
+        },
+        "finalCommunalCharge": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "finalCarriedCharge": {
+          "min": 36,
+          "max": 36,
+          "mean": 36
+        },
+        "finalChargeDeficit": {
+          "min": 5,
+          "max": 5,
+          "mean": 5
+        },
+        "averageReadiness": {
+          "min": 92.17,
+          "max": 92.17,
+          "mean": 92.17
+        },
+        "totalDrawn": {
+          "min": 88,
+          "max": 88,
+          "mean": 88
+        },
+        "totalShared": {
+          "min": 26,
+          "max": 26,
+          "mean": 26
+        },
+        "totalLoss": {
+          "min": 0,
+          "max": 0,
+          "mean": 0
+        },
+        "eventCount": {
+          "min": 118,
+          "max": 118,
+          "mean": 118
+        },
+        "cooperationEvents": {
+          "min": 26,
+          "max": 26,
+          "mean": 26
+        },
+        "idleOrWaitingEvents": {
+          "min": 32,
+          "max": 32,
+          "mean": 32
+        },
+        "witnessedFacts": {
+          "min": 144,
+          "max": 144,
+          "mean": 144
+        },
+        "communicatedClaims": {
+          "min": 2,
+          "max": 2,
+          "mean": 2
+        },
+        "uncertainInferences": {
+          "min": 1,
+          "max": 1,
+          "mean": 1
+        },
+        "fulfilledCommitments": {
+          "min": 2,
+          "max": 2,
+          "mean": 2
+        },
+        "brokenCommitments": {
+          "min": 1,
+          "max": 1,
+          "mean": 1
+        },
+        "appliedChoices": {
+          "min": 3,
+          "max": 3,
+          "mean": 3
+        },
+        "trust": {
+          "min": 0,
+          "max": 1,
+          "mean": 0.03
+        }
+      },
+      "representative": {
+        "seed": 1402,
+        "metrics": {
+          "finalSourceCharge": 32,
+          "finalCommunalCharge": 0,
+          "finalCarriedCharge": 36,
+          "finalChargeDeficit": 5,
+          "averageReadiness": 92.17,
+          "totalDrawn": 88,
+          "totalShared": 26,
+          "totalLoss": 0,
+          "eventCount": 118,
+          "cooperationEvents": 26,
+          "idleOrWaitingEvents": 32,
+          "witnessedFacts": 144,
+          "communicatedClaims": 2,
+          "uncertainInferences": 1,
+          "trust": {
+            "min": 0,
+            "max": 1,
+            "mean": 0.03
+          },
+          "fulfilledCommitments": 2,
+          "brokenCommitments": 1,
+          "appliedChoices": 3
+        },
+        "arcs": [
+          {
+            "sparkId": "spark-3",
+            "sparkName": "Spark 3",
+            "pressure": {
+              "id": "event-4-spark-3-draw",
+              "kind": "draw",
+              "actorId": "spark-3",
+              "message": "Spark 3 drew 8 charge.",
+              "tick": 4
+            },
+            "response": {
+              "id": "event-6-spark-3-wait",
+              "kind": "wait",
+              "actorId": "spark-3",
+              "message": "Spark 3 is waiting: no reachable share-charge site.",
+              "tick": 6
+            },
+            "later": {
+              "id": "event-24-spark-3-share",
+              "kind": "share",
+              "actorId": "spark-3",
+              "participants": [
+                "spark-3",
+                "spark-4"
+              ],
+              "message": "Spark 3 shared 1 charge with Spark 4.",
+              "tick": 24
+            }
+          },
+          {
+            "sparkId": "spark-4",
+            "sparkName": "Spark 4",
+            "pressure": {
+              "id": "event-1-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 1
+                },
+                {
+                  "x": 9,
+                  "y": 2
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 1
+            },
+            "response": {
+              "id": "event-2-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 9,
+                  "y": 2
+                },
+                {
+                  "x": 9,
+                  "y": 3
+                }
+              ],
+              "message": "Spark 4 moved 1 cell(s).",
+              "tick": 2
+            },
+            "later": {
+              "id": "event-5-spark-4-movement",
+              "kind": "movement",
+              "actorId": "spark-4",
+              "cells": [
+                {
+                  "x": 6,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 4
+                },
+                {
+                  "x": 5,
+                  "y": 5
+                }
+              ],
+              "message": "Spark 4 moved 2 cell(s).",
+              "tick": 5
+            }
+          },
+          {
+            "sparkId": "spark-5",
+            "sparkName": "Spark 5",
+            "pressure": {
+              "id": "event-1-spark-5-wait",
+              "kind": "wait",
+              "actorId": "spark-5",
+              "message": "Spark 5 is waiting: no reachable seek-charge site.",
+              "tick": 1
+            },
+            "response": {
+              "id": "event-2-spark-5-movement",
+              "kind": "movement",
+              "actorId": "spark-5",
+              "cells": [
+                {
+                  "x": 12,
+                  "y": 1
+                },
+                {
+                  "x": 12,
+                  "y": 2
+                }
+              ],
+              "message": "Spark 5 moved 1 cell(s).",
+              "tick": 2
+            },
+            "later": {
+              "id": "event-24-spark-5-share",
+              "kind": "share",
+              "actorId": "spark-5",
+              "participants": [
+                "spark-5",
+                "spark-3"
+              ],
+              "message": "Spark 5 shared 1 charge with Spark 3.",
+              "tick": 24
+            }
+          }
+        ],
+        "plannedChoices": [
+          {
+            "tick": 6,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "continue-exploration",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-6-spark-3-share"
+          },
+          {
+            "tick": 12,
+            "dilemmaId": "shelter-or-trace",
+            "alternativeId": "help-shelter",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-12-spark-3-wait"
+          },
+          {
+            "tick": 18,
+            "dilemmaId": "public-or-private-mark",
+            "alternativeId": "make-mark-public",
+            "applied": true,
+            "actorSparkId": "spark-3",
+            "targetSparkId": "spark-1",
+            "evidenceEventId": "event-18-spark-3-share"
+          }
+        ],
+        "eventSample": [
+          {
+            "id": "event-1-spark-5-wait",
+            "kind": "wait",
+            "actorId": "spark-5",
+            "message": "Spark 5 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-1-spark-6-wait",
+            "kind": "wait",
+            "actorId": "spark-6",
+            "message": "Spark 6 is waiting: no reachable seek-charge site.",
+            "tick": 1
+          },
+          {
+            "id": "event-4-spark-2-draw",
+            "kind": "draw",
+            "actorId": "spark-2",
+            "message": "Spark 2 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-3-draw",
+            "kind": "draw",
+            "actorId": "spark-3",
+            "message": "Spark 3 drew 8 charge.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-5-explore",
+            "kind": "explore",
+            "actorId": "spark-5",
+            "message": "Spark 5 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-4-spark-6-explore",
+            "kind": "explore",
+            "actorId": "spark-6",
+            "message": "Spark 6 completed explore.",
+            "tick": 4
+          },
+          {
+            "id": "event-5-spark-1-draw",
+            "kind": "draw",
+            "actorId": "spark-1",
+            "message": "Spark 1 drew 8 charge.",
+            "tick": 5
+          },
+          {
+            "id": "event-6-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 6
+          },
+          {
+            "id": "event-6-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 6
+          },
+          {
+            "id": "event-7-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 7
+          },
+          {
+            "id": "event-7-spark-3-share",
+            "kind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "tick": 7
+          },
+          {
+            "id": "event-8-spark-3-wait",
+            "kind": "wait",
+            "actorId": "spark-3",
+            "message": "Spark 3 is waiting: no reachable share-charge site.",
+            "tick": 8
+          }
+        ]
+      }
+    }
+  ],
+  "decision": "Deepen the rules-only model's shelter and trust-repair loop before adding AI interpretation: scarcity changes charge pressure, while the information-gap and promise-breach runs show that evidence-linked local knowledge and bounded repair are the next useful questions.",
+  "notEstablished": [
+    "These fixed-seed seasons do not establish general behavior outside the tested seeds, 24-tick horizon, or four controls.",
+    "Observed event order supports an evidence chain but does not prove that one event alone caused a later choice.",
+    "The suite does not establish a stable long-term haven, universal Spark values, or that any future AI interpretation would improve the rules-only baseline.",
+    "The current engine does not model a live communication channel for every objective event; absent claims remain absent knowledge."
+  ]
+}
