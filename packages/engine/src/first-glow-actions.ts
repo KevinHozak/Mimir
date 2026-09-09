@@ -1,5 +1,6 @@
 import { advanceFirstGlowState, canFirstGlowReach, type FirstGlowState } from "./structured.js";
 import { recordFirstGlowWitnesses } from "./first-glow-social.js";
+import { appendFirstGlowExplanations } from "./first-glow-explanations.js";
 import type { FirstGlowActivity } from "@mimir/world-data";
 
 export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; }
@@ -77,5 +78,6 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     else { spark.chargeDeficit += 1; state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: "charge-deficit" }); }
   }
   for (const event of state.events) recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants ?? [], state.tick);
+  appendFirstGlowExplanations(state, state.events);
   return state;
 }

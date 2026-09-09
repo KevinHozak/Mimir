@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { Cell } from "@mimir/engine";
+import type { Cell, FirstGlowExplanation } from "@mimir/engine";
 import { firstGlowActivityLabel, firstGlowWaitLabel } from "./first-glow-overlay.js";
 
 export type FirstGlowSpark = {
@@ -29,6 +29,8 @@ export type FirstGlowObject = {
   capabilities: string[];
   slots?: { id: string; offset: Cell }[];
 };
+
+export type FirstGlowExplanationEvent = { id: string; tick: number; message: string };
 
 function objectLabel(object: FirstGlowObject): string {
   return object.label ?? object.definitionId.split("-").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
@@ -67,5 +69,26 @@ export function FirstGlowEntityChooser({ sparks, objects, selectedEntityId, onSe
   return <section className="entity-chooser" data-testid="first-glow-entity-chooser" aria-label="Choose a First Glow entity">
     <select aria-label="Selected entity" value={selectedEntityId ?? ""} onChange={(event) => onSelectEntity(event.target.value)}><option value="">Choose a Spark or light site</option>{entities.map((entity) => <option value={entity.id} key={entity.id}>{entity.kind}: {entity.label}</option>)}</select>
     <div className="entity-cycle"><button type="button" onClick={() => cycle(-1)} disabled={entities.length < 2} aria-label="Previous entity" title="Previous entity">←</button><span>{activeIndex >= 0 ? `${activeIndex + 1} / ${entities.length}` : `0 / ${entities.length}`}</span><button type="button" onClick={() => cycle(1)} disabled={entities.length < 2} aria-label="Next entity" title="Next entity">→</button></div>
+  </section>;
+}
+
+function EvidenceList({ title, evidence, empty }: { title: string; evidence: FirstGlowExplanationEvent[]; empty: string }) {
+  return <section className="explanation-evidence"><h4>{title}</h4>{evidence.length ? <ul>{evidence.map(item => <li key={item.id}><a href={`#${item.id}`}>Tick {item.tick}: {item.message}</a></li>)}</ul> : <p>{empty}</p>}</section>;
+}
+
+export function FirstGlowExplanationPanel({ explanations, currentTick }: { explanations: FirstGlowExplanation[]; currentTick: number }) {
+  const visible = explanations.filter(explanation => explanation.tick <= currentTick).slice(-3).reverse();
+  return <section className="first-glow-explanations" data-testid="first-glow-explanations" aria-label="First Glow choice explanations">
+    <h2>Why this happened</h2>
+    <p>Committed choices are explained from recorded facts, local Spark knowledge, and bounded social state.</p>
+    {visible.length ? visible.map(explanation => <article className="first-glow-explanation" data-testid="first-glow-explanation" key={explanation.id}>
+      <header><div><h3>{explanation.alternativeLabel}</h3><p>Tick {explanation.tick} · {explanation.actorName}{explanation.targetSparkName ? ` with ${explanation.targetSparkName}` : ""}</p></div><strong>{explanation.dilemmaId.replaceAll("-", " ")}</strong></header>
+      <p>{explanation.summary}</p>
+      <dl className="explanation-score"><dt>Need</dt><dd>{explanation.score.need}</dd><dt>Values</dt><dd>{explanation.score.values}</dd><dt>Local knowledge</dt><dd>{explanation.score.localKnowledge}</dd><dt>Trust</dt><dd>{explanation.score.trust}</dd><dt>Commitments</dt><dd>{explanation.score.commitments}</dd><dt>Cost</dt><dd>{explanation.score.cost}</dd><dt>Risk</dt><dd>{explanation.score.risk}</dd><dt>Total</dt><dd>{explanation.score.total}</dd></dl>
+      <EvidenceList title="Objective evidence" evidence={explanation.objectiveEvents} empty="No objective event was recorded." />
+      <EvidenceList title={`What ${explanation.actorName} knew`} evidence={explanation.knownFacts} empty="This Spark had no recorded witnessed fact for this choice." />
+      <section className="explanation-evidence"><h4>Uncertain interpretation</h4>{explanation.uncertainInferences.length ? <ul>{explanation.uncertainInferences.map(inference => <li key={inference}>{inference}</li>)}</ul> : <p>No uncertain inference was recorded.</p>}</section>
+      <EvidenceList title="What changed afterward" evidence={explanation.consequenceEvents} empty="No consequence event was recorded." />
+    </article>) : <p className="empty-selection">No consequential choice has been committed at this tick yet.</p>}
   </section>;
 }
