@@ -26,7 +26,29 @@ type Event = { id: string; tick: number; message: string; kind: string };
 type Metric = { tick: number; foodReserve: number; averageTrust: number; hungryVillagers: number; travelingVillagers: number; collectingVillagers: number };
 type CharacterCard = { id: string; name: string; tradition: string; disposition: string; strength: string; tension: string; beliefSignals: { cooperation: number; selfReliance: number; reflection: number } };
 type DilemmaCard = { id: string; title: string; prompt: string; competingValues: string[]; choices: { id: string; label: string; tradeoff: string }[] };
-type FirstGlowDesign = { openingQuestion: string; boundary: string; cards: { id: string; name: string; tendency: string; description: string; openingQuestion: string }[]; events: { id: string; title: string; prompt: string; observableOutcome: string }[] };
+type FirstGlowDesign = {
+  openingQuestion: string;
+  boundary: string;
+  cards: {
+    id: string;
+    name: string;
+    valueTendencies: string[];
+    practicalNeeds: string[];
+    initialRelationships: { sparkId: string; kind: string; note: string }[];
+    knowledgeBoundary: { knows: string[]; doesNotKnow: string[] };
+    description: string;
+    openingQuestion: string;
+  }[];
+  dilemmas: {
+    id: string;
+    title: string;
+    prompt: string;
+    objectiveFacts: string[];
+    alternatives: { id: string; label: string; resourceEffects: string[]; socialEffects: string[]; durableConsequences: string[] }[];
+    knowledgeBoundaries: { sparkId: string; knows: string[]; doesNotKnow: string[] }[];
+  }[];
+  events: { id: string; title: string; prompt: string; observableOutcome: string }[];
+};
 type Interpretation = { id: string; tick: number; eventId: string; villagerId: string; source: "rules" | "ai"; fallbackReason?: string; belief: string; confidence: number; trustDelta: number; summary: string; evidenceEventIds: string[] };
 type HoveredCell = { x: number; y: number; clientX: number; clientY: number };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number; dilemmasResolved?: number; latestDilemma?: DilemmaResolution | null; firstGlow?: { sourceCharge: number; communalCharge: number; carriedCharge: number; chargeDeficit: number; sparks: number } } };
@@ -340,7 +362,25 @@ function DesignBench({ cards, dilemmas, store }: { cards: CharacterCard[]; dilem
 
 function FirstGlowDesignBench({ design }: { design?: FirstGlowDesign }) {
   if (!design) return null;
-  return <section className="first-glow-design" data-testid="first-glow-design"><h2>Opening question</h2><p className="opening-question">{design.openingQuestion}</p><p>{design.boundary}</p><div className="glow-tendencies">{design.cards.map(card => <article key={card.id}><strong>{card.name}</strong><small>{card.tendency}</small><p>{card.description}</p><small>{card.openingQuestion}</small></article>)}</div><h3>Early signals</h3><div className="glow-events">{design.events.map(event => <article key={event.id}><strong>{event.title}</strong><p>{event.prompt}</p><small>{event.observableOutcome}</small></article>)}</div></section>;
+  const sparkLabel = (id: string) => design.cards.find(card => card.id === id)?.name ?? id;
+  return <section className="first-glow-design" data-testid="first-glow-design">
+    <h2>Opening question</h2><p className="opening-question">{design.openingQuestion}</p><p>{design.boundary}</p>
+    <h3>Spark cards</h3>
+    <div className="glow-cards">{design.cards.map(card => <article className="glow-card" data-testid="first-glow-card" key={card.id}>
+      <header><strong>{card.name}</strong><small>{card.valueTendencies.join(" · ")}</small></header>
+      <p>{card.description}</p><p className="glow-question">{card.openingQuestion}</p>
+      <dl><dt>Practical needs</dt><dd>{card.practicalNeeds.join(" · ")}</dd><dt>Initial relationships</dt><dd>{card.initialRelationships.map(relationship => `${relationship.kind} with ${sparkLabel(relationship.sparkId)}: ${relationship.note}`).join(" · ")}</dd></dl>
+      <div className="glow-boundary"><strong>Local knowledge</strong><p><span>Knows:</span> {card.knowledgeBoundary.knows.join(" · ")}</p><p><span>Does not know:</span> {card.knowledgeBoundary.doesNotKnow.join(" · ")}</p></div>
+    </article>)}</div>
+    <h3>Opening dilemmas</h3>
+    <div className="glow-dilemmas">{design.dilemmas.map(dilemma => <article className="glow-dilemma" data-testid="first-glow-dilemma" key={dilemma.id}>
+      <h4>{dilemma.title}</h4><p>{dilemma.prompt}</p>
+      <section className="glow-objective"><h5>Objective observations</h5><ul>{dilemma.objectiveFacts.map(fact => <li key={fact}>{fact}</li>)}</ul></section>
+      <section className="glow-alternatives"><h5>Feasible alternatives</h5>{dilemma.alternatives.map(alternative => <article className="glow-alternative" key={alternative.id}><strong>{alternative.label}</strong><div><span>Resource effects:</span><ul>{alternative.resourceEffects.map(effect => <li key={effect}>{effect}</li>)}</ul></div><div><span>Social effects:</span><ul>{alternative.socialEffects.map(effect => <li key={effect}>{effect}</li>)}</ul></div><div><span>Possible durable consequences:</span><ul>{alternative.durableConsequences.map(effect => <li key={effect}>{effect}</li>)}</ul></div></article>)}</section>
+      <section className="glow-knowledge"><h5>Local knowledge boundaries</h5>{dilemma.knowledgeBoundaries.map(view => <div key={view.sparkId}><strong>{sparkLabel(view.sparkId)}</strong><p><span>Knows:</span> {view.knows.join(" · ")}</p><p><span>Does not know:</span> {view.doesNotKnow.join(" · ")}</p></div>)}</section>
+    </article>)}</div>
+    <h3>Early signals</h3><div className="glow-events">{design.events.map(event => <article key={event.id}><strong>{event.title}</strong><p>{event.prompt}</p><small>{event.observableOutcome}</small></article>)}</div>
+  </section>;
 }
 
 function RegionOverview({ world, activeSettlementId, onSelect }: { world: State; activeSettlementId: string; onSelect: (id: string) => void }) {
