@@ -59,6 +59,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 
 - `WorldState`: First Glow world identity, seed, tick, schema-3 simulation version, structured-v2 spatial model, and `firstGlowState`.
 - `Spark`: charge, charge deficit, readiness, activity, position, route/contact state, and bounded local knowledge.
+- `FirstGlowSocialState`: Spark-local witnessed facts, communicated claims, uncertain inferences, bounded relationship trust, and resolved commitments. It is serialized inside the schema-3 First Glow checkpoint; checkpoints without this state fail explicitly rather than being invented.
 - `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
 - `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Current advancement generates no interpretation records.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
