@@ -371,3 +371,7 @@ An opening scene can be as simple as:
 > The charge pool was weaker than before. Mira left a small light mark beside the trace so she could find it again. Tovan was still resting in the shelter niche. Beyond him, an unfamiliar path glimmered into the dark. She could follow it, wait for him, or share enough charge for them to look together.
 
 The world should make both the fading pool and the resting companion matter.
+
+### Current first social-story milestone
+
+The first authored social-story fixture is the six-card, three-dilemma First Glow set exposed by the engine design contract. It keeps objective observations separate from Spark interpretations, records local knowledge boundaries, and limits consequences to charge pools, shelter niches, exploration, traces, and light marks. These authored scenarios are deterministic fixtures for review; they do not add institutions, credits, Originators, a known purpose, or a new timeline schema.
