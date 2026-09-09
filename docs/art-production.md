@@ -13,9 +13,12 @@ npm run world:import -- assets/world/maps/first-glow.tiled.json
 $bundle = Get-ChildItem assets/world/generated -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 npm run world:validate -- (Join-Path $bundle.FullName 'world.json')
 npm run art:review -- --bundle (Join-Path $bundle.FullName 'world.json')
+npm run art:validate
 ```
 
 The checker is content-agnostic and validates all retained generated bundles. It reports missing source files, non-positive SVG dimensions, unsafe paths, missing provenance, invalid license or attribution, incomplete external-source records, active Tiled references without metadata, orphaned active metadata, missing bundle assets, digest mismatches, and broken bundle provenance. The importer remains responsible for canonical hashing and immutable output. A collision or modified hash directory fails rather than overwriting it.
+
+`npm run art:validate` builds the production web bundle, starts an isolated First Glow server/runtime, resets a twelve-Spark fixture, and records a repeatable performance/accessibility/recovery evidence packet under `.tmp/art-validation/<run-id>/`. It measures desktop and mobile viewport/DPR, asset requests, horizontal overflow, keyboard focus, canvas recreation between committed ticks, frame timing, long tasks, and JS heap growth. The command uses isolated ports and a disposable SQLite database; set `MIMIR_ART_VALIDATION_API_PORT` and `MIMIR_ART_VALIDATION_WEB_PORT` when running alongside another local Mimir instance. The schema fixture check is available without starting services via `npm run art:validate:test`.
 
 `npm run art:inventory` creates `.tmp/art-review/asset-inventory.json` and `contact-sheet.svg`. `npm run art:review -- --bundle ...` starts an isolated real observer and creates normal and zoomed-out desktop/mobile frames, reduced-motion/glow-disabled frames, and `review-context.json` under `.tmp/art-review/`. The context records the bundle hash, simulation/theme identity, commit, viewport, device scale factor, zoom mode/value, reduced-motion setting, glow setting, and capture date. These are review artifacts only; do not copy them into `assets/world/generated/`.
 
@@ -38,5 +41,6 @@ For a new active asset, record provenance and license first, add metadata, wire 
 - Contact sheet and inventory show the intended source assets.
 - Desktop and mobile frames from the running observer are inspected for clear silhouettes, readable labels, restrained glow, and no implied route, collision, entrance, or interaction slot. Inspect the reduced-motion/glow-disabled captures as an explicit accessibility and fallback pass.
 - Historical bundles remain present and re-check clean; backup/restore continues to use the bundle-inclusive server tooling.
+- Run `npm run art:validate`, then copy its measured values into a dated evidence note. Treat budgets as review thresholds, not proof of success: record misses and either fix them or explicitly accept them with scope and device limitations.
 
 Ask for design input before changing palette, Spark signatures, world object semantics, interaction geometry, or the provenance/license of an active asset. Mechanical checks and review artifacts do not require new lore or speculative future-world art.
