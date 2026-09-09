@@ -8,8 +8,8 @@
   "themeId": "living-circuit",
   "ageId": "first-glow",
   "simulationVersion": "mimir-sim-v3-first-glow",
-  "bundleId": "first-glow-v2",
-  "assetVersion": "first-glow-v2",
+  "bundleId": "first-glow-v3",
+  "assetVersion": "first-glow-v3",
   "tilesets": [
     {
       "firstgid": 1,
