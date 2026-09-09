@@ -15,9 +15,9 @@ npm run world:validate -- (Join-Path $bundle.FullName 'world.json')
 npm run art:review -- --bundle (Join-Path $bundle.FullName 'world.json')
 ```
 
-The checker is content-agnostic and validates all retained generated bundles. It reports missing source files, non-positive SVG dimensions, unsafe paths, missing provenance, active Tiled references without metadata, orphaned active metadata, missing bundle assets, and missing bundle provenance. The importer remains responsible for canonical hashing and immutable output. A collision or modified hash directory fails rather than overwriting it.
+The checker is content-agnostic and validates all retained generated bundles. It reports missing source files, non-positive SVG dimensions, unsafe paths, missing provenance, invalid license or attribution, incomplete external-source records, active Tiled references without metadata, orphaned active metadata, missing bundle assets, digest mismatches, and broken bundle provenance. The importer remains responsible for canonical hashing and immutable output. A collision or modified hash directory fails rather than overwriting it.
 
-`npm run art:inventory` and `npm run art:review` create `.tmp/art-review/asset-inventory.json`, `contact-sheet.svg`, `desktop-reference.svg`, `mobile-reference.svg`, and `review.html`. These are review artifacts only. Open `review.html` locally for a responsive desktop/mobile frame; do not copy those outputs into `assets/world/generated/`.
+`npm run art:inventory` creates `.tmp/art-review/asset-inventory.json` and `contact-sheet.svg`. `npm run art:review -- --bundle ...` starts an isolated real observer and creates `desktop.png`, `mobile.png`, `desktop-reduced-motion-glow-disabled.png`, `mobile-reduced-motion-glow-disabled.png`, and `review-context.json` under `.tmp/art-review/`. The context records the bundle hash, simulation/theme identity, commit, viewport, device scale factor, zoom, reduced-motion setting, glow setting, and capture date. These are review artifacts only; do not copy them into `assets/world/generated/`.
 
 ## Source convention
 
@@ -36,7 +36,7 @@ For a new active asset, record provenance and license first, add metadata, wire 
 - Source metadata and provenance pass `npm run art:check`.
 - Tiled/import/validate pass without editing a hash directory.
 - Contact sheet and inventory show the intended source assets.
-- Desktop and mobile review frames are inspected for clear silhouettes, readable labels, restrained glow, and no implied route, collision, entrance, or interaction slot.
+- Desktop and mobile frames from the running observer are inspected for clear silhouettes, readable labels, restrained glow, and no implied route, collision, entrance, or interaction slot. Inspect the reduced-motion/glow-disabled captures as an explicit accessibility and fallback pass.
 - Historical bundles remain present and re-check clean; backup/restore continues to use the bundle-inclusive server tooling.
 
 Ask for design input before changing palette, Spark signatures, world object semantics, interaction geometry, or the provenance/license of an active asset. Mechanical checks and review artifacts do not require new lore or speculative future-world art.

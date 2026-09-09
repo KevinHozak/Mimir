@@ -16,7 +16,7 @@
     "art:bible:test": "node scripts/first-glow-art-bible.test.mjs",
     "art:check": "node scripts/art-production.mjs check",
     "art:inventory": "node scripts/art-production.mjs inventory",
-    "art:review": "node scripts/art-production.mjs review",
+    "art:review": "node scripts/art-review.mjs",
     "art:test": "node scripts/art-production.test.mjs",
     "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",
     "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",

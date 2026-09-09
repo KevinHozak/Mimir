@@ -27,6 +27,6 @@ npm run world:validate -- assets/world/generated/<sha256>/world.json
 npm run art:review -- --bundle assets/world/generated/<sha256>/world.json
 ```
 
-`art:check` validates source metadata, dimensions, paths, provenance, active references, bundle assets, and orphaned active entries. `art:inventory` writes disposable inventory/contact-sheet files under `.tmp/art-review/`. `art:review` runs the check and import-path validation, then writes responsive desktop/mobile review HTML and SVG frames under the same ignored directory. It does not mutate server state.
+`art:check` validates source metadata, dimensions, paths, provenance, active references, bundle assets, and orphaned active entries. `art:inventory` writes disposable inventory/contact-sheet files under `.tmp/art-review/`. `art:review` starts an isolated server and Vite observer, resets a disposable First Glow database to the selected bundle, and captures actual desktop/mobile frames plus reduced-motion/glow-disabled variants and `review-context.json`. It uses dedicated ports and leaves only disposable evidence under `.tmp/art-review/`.
 
 For a new asset, add the editable source, one metadata entry in `assets/world/art-production/assets.json`, and a provenance entry in `assets/licenses/first-glow-assets.md`; then run the standard path. Keep historical bundles in place.
