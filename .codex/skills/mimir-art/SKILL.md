@@ -1,5 +1,5 @@
 ---
-name: art-production
+name: mimir-art
 description: Route Mimir world art from editable, provenance-recorded sources through Tiled import, immutable bundle validation, and desktop/mobile review artifacts.
 ---
 
