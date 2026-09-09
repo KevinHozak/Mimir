@@ -39,7 +39,12 @@ const reset = async (port: number) => {
 const tick = async (port: number) => {
   const response = await fetch(`http://127.0.0.1:${port}/api/tick`, { method: "POST", headers: { "x-owner-token": token } });
   assert.equal(response.status, 200);
-  return response.json() as Promise<{ state: Record<string, unknown>; events: unknown[] }>;
+  return response.json() as Promise<{ state: Record<string, unknown>; events: unknown[]; interpretations: unknown[] }>;
+};
+const interpretations = async (port: number) => {
+  const response = await fetch(`http://127.0.0.1:${port}/api/interpretations`);
+  assert.equal(response.status, 200);
+  return response.json() as Promise<{ interpretations: unknown[] }>;
 };
 const comparable = (state: Record<string, unknown>) => { const copy = structuredClone(state); delete copy.worldId; return copy; };
 
@@ -52,6 +57,8 @@ try {
   assert.equal(initial.state.simulationVersion, "mimir-sim-v3-first-glow");
   const first = await tick(restartedPort);
   assert.equal(first.state.tick, 1);
+  assert.ok(first.interpretations.length > 0);
+  assert.deepEqual((await interpretations(restartedPort)).interpretations, first.interpretations);
   await stop(restarted); restarted = undefined;
   await tick(controlPort);
   const secondControl = await tick(controlPort);
@@ -63,6 +70,7 @@ try {
     const [controlResult, restartedResult] = await Promise.all([tick(controlPort), tick(restartedPort)]);
     assert.deepEqual(comparable(restartedResult.state), comparable(controlResult.state));
     assert.deepEqual(restartedResult.events, controlResult.events);
+    assert.deepEqual(restartedResult.interpretations, controlResult.interpretations);
   }
   console.log("First Glow server partial-travel restart equivalence passed");
 } finally {

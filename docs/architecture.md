@@ -62,7 +62,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 - `FirstGlowSocialState`: Spark-local witnessed facts, communicated claims, uncertain inferences, bounded relationship trust, and resolved commitments. It is serialized inside the schema-3 First Glow checkpoint; checkpoints without this state fail explicitly rather than being invented.
 - `FirstGlowExplanation`: deterministic, committed choice rationale with scored need, values, local knowledge, trust, commitments, cost, and risk factors plus evidence and consequences. It is serialized with the First Glow checkpoint for live and historical observer reads.
 - `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
-- `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Current advancement generates no interpretation records.
+- `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Selected ambiguous First Glow events also produce deterministic rules-only baseline records with Spark-local evidence, stable context hashes, and no world-state authority.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
 - `WorldRuntimeState`: mutable navigation revision, object blocking state, and reservations.
 
@@ -70,7 +70,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 
 The engine currently contains deterministic First Glow creation/advance, charge pools and charge accounting, shelter niches, traces, exploration, drawing, rest/readiness, sharing, structured object footprints, contacts/reservations, navigation revisions, runtime blockers, and bounded event records. Legacy creation entry points remain explicit failures or compatibility-shaped fields; they are not supported new timelines.
 
-`advanceWorld()` and `runTicks()` currently return an empty interpretations array. Interpretation types, storage, and read endpoints remain, but there is no active interpretation adapter, generated social fallback, or paid model provider. Sharing is an explicit deterministic First Glow action.
+`advanceWorld()` and `runTicks()` return deterministic rules-only interpretation records for selected First Glow social encounters. `first-glow-interpretations.ts` defines the bounded provider adapter contract, context hashing, evidence/knowledge validation, budget telemetry, and deterministic fallbacks. No live or paid model provider is connected; provider proposals are review-harness inputs only. Sharing is an explicit deterministic First Glow action.
 
 ## 4. World-data pipeline
 
@@ -197,6 +197,7 @@ The hosted model is intentionally single-writer. PostgreSQL or another coordinat
 The repository includes three verification layers:
 
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
+- Engine interpretation tests for stable context hashes, evidence-scoped validation, deterministic fallbacks, budget telemetry, historical replay without provider calls, and a matched 20-encounter rules-only/AI-on review harness using a local fake provider.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
 - Playwright browser tests for First Glow live/history observers, manifest assets, overlays, playback rates, and mobile layout.
@@ -218,7 +219,7 @@ Implemented boundaries:
 
 Still open:
 
-- Real AI provider integration with budget reservation, timeout handling, and the planned 20-encounter quality review.
+- Selection and authorization of any real provider, model, and spending limit. No external AI calls are made by the First Glow runtime; the bounded adapter and local fake-provider review harness are the complete current implementation.
 - Extensions to the existing capability-based slot selection, reservations, and arrival-gated interactions, if selected in future design work.
 - Further asset-version recovery hardening: bundle directories are copied by backup/restore and restored world JSON is validated, but the backup manifest checksums world JSON rather than every copied asset. Independent recovery remains a separate operational requirement.
 - Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.

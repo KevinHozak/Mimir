@@ -1,4 +1,5 @@
 import { advanceFirstGlow } from "./first-glow-actions.js";
+import { buildFirstGlowInterpretationContext, createRulesOnlyFirstGlowInterpretation } from "./first-glow-interpretations.js";
 import { createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState } from "./structured.js";
 import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data";
 export { queryCell } from "@mimir/world-data";
@@ -6,6 +7,7 @@ export * from "./structured.js";
 export * from "./design.js";
 export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
+export * from "./first-glow-interpretations.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
 export interface WorldEvent { id: string; tick: number; kind: "tick" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
@@ -50,11 +52,12 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
   const previousIds = new Set(input.firstGlowState.events.map(event => event.id));
   const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input) });
   const state: WorldState = { ...input, tick: firstGlowState.tick, firstGlowState };
-  return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations: [] };
+  const interpretations = firstGlowState.events.filter(event => !previousIds.has(event.id)).slice().sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0).flatMap(event => { const context = buildFirstGlowInterpretationContext(firstGlowState, event); return context ? [createRulesOnlyFirstGlowInterpretation(context)] : []; });
+  return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations };
 }
 
 export function runTicks(initial: WorldState, count: number): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
-  let state = initial; const events: WorldEvent[] = [];
-  for (let index = 0; index < count; index += 1) { const result = advanceWorld(state); state = result.state; events.push(...result.events); }
-  return { state, events, interpretations: [] };
+  let state = initial; const events: WorldEvent[] = []; const interpretations: SocialInterpretation[] = [];
+  for (let index = 0; index < count; index += 1) { const result = advanceWorld(state); state = result.state; events.push(...result.events); interpretations.push(...result.interpretations); }
+  return { state, events, interpretations };
 }
