@@ -59,6 +59,86 @@ These prompts are retained because they can produce genuine disagreement without
 
 Any future dilemma must state objective facts, local knowledge, feasible alternatives, durable effects, and evidence references before it enters simulation behavior.
 
+## Candidate personality model
+
+**Candidate:** represent personality as a small, inspectable set of stable tendencies rather than as a fixed destiny. A four-trait starting model could use:
+
+| Tendency | What it may influence |
+| --- | --- |
+| Curiosity | Exploring uncertainty, testing traces, and seeking new information. |
+| Care | Noticing another Spark's strain and giving weight to help or sharing. |
+| Caution | Preferring reliable routes, evidence, rest, and lower-risk choices. |
+| Independence | Preferring self-directed action, private discovery, and firsthand testing. |
+
+Traits should be bounded numeric tendencies, not classes or a hidden verdict about a Spark. They can weight deterministic action scoring, but a concrete choice must still depend on charge, readiness, feasible routes, local knowledge, trust, commitments, cost, and risk. Personality describes a pressure on a choice; it must not make the choice inevitable.
+
+For example, a care-and-caution-oriented Spark may help a tired companion reach shelter; a curiosity-and-independence-oriented Spark may explore an unfamiliar trace. Either may reasonably choose differently when evidence, commitments, or immediate needs change.
+
+MBTI-like labels such as INFJ may be useful as optional authoring shorthand for a writer or designer, but should not be the authoritative simulation model or mandatory in-world vocabulary. Keep tendencies distinct from:
+
+- **values** — what a Spark considers important;
+- **knowledge** — what it has witnessed or credibly learned;
+- **relationships** — trust, affinity, tension, and commitments; and
+- **current state** — charge deficit, readiness, location, and recent events.
+
+This idea should follow, not expand, the current work on local knowledge, trust, and commitments. A future implementation proposal needs a clear scoring contract, observable explanations, fixed-seed replay coverage, and a decision about which tendencies are visible to the observer versus private authoring detail.
+
+### Candidate: Three Signals and eight Spark profiles
+
+The elegance of a three-principle, eight-combination virtue system—an inspiration associated with *Ultima IV*—could be adapted into Mimir without copying its terms or treating any profile as morally superior. The candidate system is called the **Three Signals**:
+
+| Signal | Guiding question | Visual primary | Shape / motion cue |
+| --- | --- | --- | --- |
+| Inquiry | What is true? | Blue | Diamond or pointed signal; an outward scanning pulse. |
+| Care | Who is affected? | Red | Small orbit or paired arc; a gentle gathering pulse. |
+| Resolve | What can I do? | Green | Chevron or directional mark; a forward, steady pulse. |
+
+Each Signal is a tendency, not a universal virtue test. A Spark can have a strong or quiet orientation toward each one, producing eight readable profiles:
+
+| Strong Signals | Accent color | Illustrative tendency |
+| --- | --- | --- |
+| None | Silver | Reserved, practical, and highly situational. |
+| Inquiry | Blue | Investigative and evidence-seeking. |
+| Care | Red | Attentive to another Spark's condition. |
+| Resolve | Green | Self-starting and action-oriented. |
+| Inquiry + Care | Magenta | Understanding before responding. |
+| Inquiry + Resolve | Cyan | Experimental and decisive. |
+| Care + Resolve | Yellow | Protective and active in help. |
+| Inquiry + Care + Resolve | Pale silver-white or prismatic accent | Integrates investigation, attention, and action. |
+
+The bright core of every Spark should remain recognizably First Glow white. These colors belong to a small signature ring, trail, orbiting mark, or brief pulse—not the whole body or the world palette. Combined Signals combine their marks as well as their colors, so the system remains understandable when hue is unavailable. Reduced-motion, contrast, and non-color status options remain mandatory.
+
+The profiles should influence what a Spark weighs, not dictate what it does. A care-and-caution-oriented Spark may escort a tired companion to shelter; a curiosity-and-independence-oriented Spark may explore a trace. Either can choose differently when local evidence, charge, readiness, trust, promises, or risk makes another action more compelling. Traits remain separate from values, knowledge, relationships, and current state.
+
+### Candidate: Hero Sparks
+
+**Candidate:** a small number of Sparks may become unusually consequential figures—Hero Sparks—without becoming omniscient, morally superior, or exempt from ordinary world rules. Hero status should express a rare capacity for attention, commitment, coordination, or influence rather than a hidden score for being the “best” Spark.
+
+One possible scaling rule is a slow base-2 threshold:
+
+```text
+heroCount = max(1, floor(log2(population)))
+```
+
+| Population | Hero Sparks |
+| --- | --- |
+| 1–3 | 1 |
+| 4–7 | 2 |
+| 8–15 | 3 |
+| 16–31 | 4 |
+| 32–63 | 5 |
+
+This creates a small, recognizable group as a world grows. It should be evaluated against other scarcity rules—such as a fixed percentage—before selection, because twelve Sparks would produce three Heroes under this version.
+
+Possible server-validated Hero capacities include a durable light mark, a reliable message carried across a connection, coordination of a difficult shared task, or a public commitment that others can inspect. The capacity must have explicit costs, evidence, resource accounting, and failure modes. It cannot grant hidden knowledge, free charge, immunity from consequences, or authority to alter another Spark's state without a valid committed interaction.
+
+Hero identity could be fixed deterministically at timeline creation, or emerge through an explicit recorded rule such as visible contribution, earned trust, a difficult commitment, or a demonstrated capacity. The observer must be able to explain why a Spark has this role. A Hero may align strongly with one or more Three Signals—Inquiry, Care, and Resolve—without making any Signal combination a rank.
+
+**Later AI boundary:** if bounded AI interpretation proves useful, Heroes may receive a larger reasoning or interpretation budget, a longer planning horizon, or access to a stronger model tier. That affects the quality of candidate reasoning only: the server still validates feasible actions and commits outcomes, and Hero AI cannot access private facts. Every call needs a recorded model/prompt version, strict per-season and world-level cost caps, deterministic or rules-only fallback, and comparison with the baseline before it changes behavior.
+
+This concept belongs after the rules-only social model and the bounded-AI evaluation gate. It should not expand current First Glow scope or make paid-provider use an assumed requirement.
+
+
 ## Candidate resources and objects
 
 The selected distinction remains firm:
