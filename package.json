@@ -11,6 +11,8 @@
     "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",
     "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",
     "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",
+    "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",
+    "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",
     "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",
     "dev:server": "npm run dev --workspace @mimir/server",
     "dev:web": "npm run dev --workspace @mimir/web"
