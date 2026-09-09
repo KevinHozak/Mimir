@@ -46,3 +46,12 @@ test("autonomous First Glow activity loop remains deterministic across multiple 
   const multi = structuredClone(bundle); multi.objects.push({ id: "tiled-201", definitionId: "charge-pool", origin: { x: 2, y: 1 }, orientation: 0 }, { id: "tiled-202", definitionId: "shelter-niche", origin: { x: 5, y: 1 }, orientation: 0 }, { id: "tiled-203", definitionId: "pattern-shard", origin: { x: 8, y: 1 }, orientation: 0 }, { id: "tiled-204", definitionId: "light-mark", origin: { x: 10, y: 2 }, orientation: 0 }); multi.bundle.contentHash = bundleHash(multi); validateWorldBundle(multi);
   const run = () => { let state = createFirstGlowState(multi, "first-glow-region", "Opening region", 2); for (let tick = 0; tick < 24; tick += 1) state = advanceFirstGlow(state); return state; }; assert.deepEqual(run(), run());
 });
+
+test("normal First Glow ticks commit all three social dilemma chains autonomously", () => {
+  let state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 6);
+  for (let tick = 0; tick < 80; tick += 1) state = advanceFirstGlow(state, { sourceCharge: tick % 4 === 0 ? 24 : 0 });
+  assert.ok(state.social.commitments.length > 0);
+  assert.deepEqual([...new Set(state.social.commitments.map(item => item.dilemmaId))].sort(), ["public-or-private-mark", "shelter-or-trace", "weakening-pool-report"]);
+  assert.deepEqual([...new Set(state.explanations.map(item => item.dilemmaId))].sort(), ["public-or-private-mark", "shelter-or-trace", "weakening-pool-report"]);
+  assert.ok(state.social.commitments.every(item => item.evidenceEventIds.length > 0));
+});

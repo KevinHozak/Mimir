@@ -36,6 +36,8 @@ Observed causal chain candidates (objective evidence only):
 - Spark 4: pressure event-1-spark-4-movement (Spark 4 moved 1 cell(s).) → response event-2-spark-4-movement (Spark 4 moved 1 cell(s).) → later event-5-spark-4-movement (Spark 4 moved 2 cell(s).)
 - Spark 5: pressure event-1-spark-5-wait (Spark 5 is waiting: no reachable seek-charge site.) → response event-2-spark-5-movement (Spark 5 moved 1 cell(s).) → later event-24-spark-5-share (Spark 5 shared 1 charge with Spark 3.)
 
+Controlled interventions (not autonomous choices): weakening-pool-report/reveal-pool at tick 6, shelter-or-trace/help-shelter at tick 12, public-or-private-mark/make-mark-public at tick 18
+
 Representative non-movement events: event-1-spark-5-wait, event-1-spark-6-wait, event-4-spark-2-draw, event-4-spark-3-draw, event-4-spark-5-explore, event-4-spark-6-explore, event-5-spark-1-draw, event-6-spark-3-wait, event-6-spark-3-share, event-7-spark-3-wait, event-7-spark-3-share, event-8-spark-3-wait
 
 ## Supply scarcity
@@ -67,6 +69,8 @@ Observed causal chain candidates (objective evidence only):
 - Spark 2: pressure event-4-spark-2-draw (Spark 2 drew 8 charge.) → response event-15-spark-2-wait (Spark 2 is waiting: no reachable share-charge site.) → later event-18-spark-2-share (Spark 2 shared 1 charge with Spark 6.)
 - Spark 3: pressure event-4-spark-3-draw (Spark 3 drew 8 charge.) → response event-6-spark-3-wait (Spark 3 is waiting: no reachable share-charge site.) → later event-9-spark-3-share (Spark 3 shared 1 charge with Spark 4.)
 - Spark 4: pressure event-1-spark-4-movement (Spark 4 moved 1 cell(s).) → response event-2-spark-4-movement (Spark 4 moved 1 cell(s).) → later event-5-spark-4-movement (Spark 4 moved 2 cell(s).)
+
+Controlled interventions (not autonomous choices): weakening-pool-report/withhold-pool at tick 6, shelter-or-trace/continue-exploration at tick 12, public-or-private-mark/keep-mark-private at tick 18
 
 Representative non-movement events: event-1-spark-5-wait, event-1-spark-6-wait, event-4-spark-2-draw, event-4-spark-3-draw, event-4-spark-5-explore, event-4-spark-6-explore, event-5-spark-1-draw, event-6-spark-3-wait, event-6-spark-3-share, event-7-spark-3-wait, event-7-spark-3-share, event-8-spark-3-wait
 
@@ -100,6 +104,8 @@ Observed causal chain candidates (objective evidence only):
 - Spark 3: pressure event-4-spark-3-draw (Spark 3 drew 8 charge.) → response event-6-spark-3-wait (Spark 3 is waiting: no reachable share-charge site.) → later event-22-spark-3-wait (Spark 3 is waiting: no reachable share-charge site.)
 - Spark 4: pressure event-1-spark-4-movement (Spark 4 moved 1 cell(s).) → response event-2-spark-4-movement (Spark 4 moved 1 cell(s).) → later event-5-spark-4-movement (Spark 4 moved 2 cell(s).)
 
+Controlled interventions (not autonomous choices): public-or-private-mark/keep-mark-private at tick 6, weakening-pool-report/withhold-pool at tick 12, shelter-or-trace/continue-exploration at tick 18
+
 Representative non-movement events: event-1-spark-5-wait, event-1-spark-6-wait, event-4-spark-2-draw, event-4-spark-3-draw, event-4-spark-5-explore, event-4-spark-6-explore, event-5-spark-1-draw, event-6-spark-3-wait, event-6-spark-3-share, event-7-spark-3-wait, event-7-spark-3-share, event-8-spark-3-wait
 
 ## Promise breach and repair
@@ -132,6 +138,8 @@ Observed causal chain candidates (objective evidence only):
 - Spark 4: pressure event-1-spark-4-movement (Spark 4 moved 1 cell(s).) → response event-2-spark-4-movement (Spark 4 moved 1 cell(s).) → later event-5-spark-4-movement (Spark 4 moved 2 cell(s).)
 - Spark 5: pressure event-1-spark-5-wait (Spark 5 is waiting: no reachable seek-charge site.) → response event-2-spark-5-movement (Spark 5 moved 1 cell(s).) → later event-24-spark-5-share (Spark 5 shared 1 charge with Spark 3.)
 
+Controlled interventions (not autonomous choices): shelter-or-trace/continue-exploration at tick 6, shelter-or-trace/help-shelter at tick 12, public-or-private-mark/make-mark-public at tick 18
+
 Representative non-movement events: event-1-spark-5-wait, event-1-spark-6-wait, event-4-spark-2-draw, event-4-spark-3-draw, event-4-spark-5-explore, event-4-spark-6-explore, event-5-spark-1-draw, event-6-spark-3-wait, event-6-spark-3-share, event-7-spark-3-wait, event-7-spark-3-share, event-8-spark-3-wait
 
 ## Evidence-based decision
@@ -144,3 +152,4 @@ Deepen the rules-only model's shelter and trust-repair loop before adding AI int
 - Observed event order supports an evidence chain but does not prove that one event alone caused a later choice.
 - The suite does not establish a stable long-term haven, universal Spark values, or that any future AI interpretation would improve the rules-only baseline.
 - The current engine does not model a live communication channel for every objective event; absent claims remain absent knowledge.
+- Choices listed as controlled interventions were injected by the review harness and are not evidence of autonomous causation; autonomous runtime behavior is evaluated by the committed event and social-state records.

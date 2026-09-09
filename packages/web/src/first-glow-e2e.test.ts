@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
 const root = join(process.cwd(), "..", "..");
+const nodeModules = existsSync(join(root, "node_modules")) ? join(root, "node_modules") : join(root, "..", "..", "node_modules");
 const apiPort = 34211;
 const webPort = 5188;
 const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
@@ -16,9 +17,9 @@ const waitFor = async (url: string) => { for (let attempt = 0; attempt < 60; att
 try {
   const env = { ...process.env, PORT: String(apiPort), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-first-glow", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" }));
-  children.push(spawn(process.execPath, [join(root, "node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
+  children.push(spawn(process.execPath, [join(nodeModules, "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`); await waitFor(`http://127.0.0.1:${webPort}/`);
-  const reset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": "browser-first-glow" }, body: JSON.stringify({ bundleHash: hash, seed: 23 }) }); assert.equal(reset.status, 200);
+    const reset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": "browser-first-glow" }, body: JSON.stringify({ bundleHash: hash, seed: 23, sparkCount: 6 }) }); assert.equal(reset.status, 200);
   const browser = await chromium.launch({ headless: true });
   try {
     const desktop = await browser.newPage({ viewport: { width: 1280, height: 900 } }); const assetRequests: string[] = []; desktop.on("request", request => { if (request.url().includes(`/api/world/bundles/${hash}/assets/`)) assetRequests.push(request.url()); }); await desktop.goto(`http://127.0.0.1:${webPort}/`); await desktop.locator('main[data-theme="living-circuit"]').waitFor(); await desktop.locator("#village-canvas canvas").first().waitFor(); await desktop.getByTestId("first-glow-inspector").waitFor(); const designPanel = desktop.getByTestId("first-glow-design"); await designPanel.waitFor(); assert.equal(await designPanel.getByTestId("first-glow-card").count(), 6); assert.equal(await designPanel.getByTestId("first-glow-dilemma").count(), 3); assert.equal(await designPanel.getByText("A pool grows quiet").count(), 1); assert.equal(await designPanel.getByText("Objective observations").count(), 3); assert.equal(await designPanel.getByText("Possible durable consequences:").count(), 6); assert.ok((await designPanel.innerText()).includes("valueTendencies") === false); const firstGlowCopy = (await desktop.locator("main").innerText()).toLowerCase(); assert.match(firstGlowCopy, /what keeps our lights on\?/); assert.match(firstGlowCopy, /originators/); assert.equal(firstGlowCopy.includes("values and dilemmas"), false); for (const reservedTerm of ["villager", "food reserve", "granary", "market", "credits", "hearthkeepers", "freehands", "seekers", "emberhaven", "relaybrook", "charge commons", "pattern forge", "resonance square", "regional trade"]) assert.equal(firstGlowCopy.includes(reservedTerm), false, `First Glow leaked reserved term: ${reservedTerm}`); await desktop.waitForTimeout(300); assert.ok(assetRequests.length >= 5, `expected manifest assets to load, got ${assetRequests.length}`);
@@ -49,12 +50,16 @@ try {
       const latest = await (await fetch(`http://127.0.0.1:${apiPort}/api/world`)).json() as { state: { firstGlowState?: { explanations?: { tick: number }[] } } };
       explanationState = latest.state.firstGlowState;
     }
+    for (let attempt = 0; attempt < 100; attempt += 1) { const response = await fetch(`http://127.0.0.1:${apiPort}/api/tick`, { method: "POST", headers: { "x-owner-token": "browser-first-glow" } }); if (response.status === 409) break; assert.equal(response.status, 200); }
+    explanationState = (await (await fetch(`http://127.0.0.1:${apiPort}/api/world`)).json()).state.firstGlowState;
+    assert.deepEqual([...new Set(explanationState?.explanations?.map(explanation => explanation.dilemmaId) ?? [])].sort(), ["public-or-private-mark", "shelter-or-trace", "weakening-pool-report"]);
     assert.ok(explanationState?.explanations?.length, "committed First Glow ticks should expose at least one explanation chain");
     await desktop.reload(); await desktop.locator('main[data-theme="living-circuit"]').waitFor(); await desktop.getByTestId("first-glow-explanations").getByTestId("first-glow-explanation").first().waitFor();
     const historicalTick = explanationState!.explanations![0].tick;
     await desktop.locator("#timeline").evaluate((element, value) => { const input = element as HTMLInputElement; input.value = String(value); input.dispatchEvent(new Event("input", { bubbles: true })); input.dispatchEvent(new Event("change", { bubbles: true })); }, historicalTick);
     await desktop.waitForTimeout(250);
     assert.ok(await desktop.getByTestId("first-glow-explanation").count() > 0, "historical First Glow view should retain the explanation chain");
+    for (const page of [desktop, mobile]) { const copy = await page.getByTestId("social-interpretations").innerText(); assert.equal(copy.includes("NaN%"), false); assert.ok(copy.includes("status rules baseline") || copy.includes("status deterministic fallback")); }
     console.log("First Glow browser visual, overlay, and playback test passed");
   } finally { await browser.close(); }
 } finally {

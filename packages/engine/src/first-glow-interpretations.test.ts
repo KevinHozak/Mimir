@@ -87,3 +87,16 @@ test("historical playback returns the recorded interpretation without calling a 
   assert.equal(replay.usage.outcome, "historical-replay");
   assert.equal(calls, 0);
 });
+
+test("historical playback falls back without calling a provider when records are absent or malformed", async () => {
+  const context = encounters(1).contexts[0];
+  let calls = 0;
+  const provider: FirstGlowInterpretationProvider = { providerId: "must-not-run", interpret: async () => { calls += 1; return {}; } };
+  const absent = await evaluateFirstGlowInterpretation(context, { provider, budget: budget(20), historicalPlayback: true });
+  const malformed = await evaluateFirstGlowInterpretation(context, { provider, budget: budget(20), historicalPlayback: true, recorded: [{ ...createRulesOnlyFirstGlowInterpretation(context), evidenceEventIds: ["hidden-event"] }] });
+  assert.equal(absent.record.confidence, "deterministic-fallback");
+  assert.equal(absent.usage.reason, "provider-error");
+  assert.equal(malformed.record.confidence, "deterministic-fallback");
+  assert.equal(malformed.usage.reason, "malformed-output");
+  assert.equal(calls, 0);
+});

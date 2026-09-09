@@ -1,9 +1,9 @@
 import { advanceFirstGlowState, canFirstGlowReach, type FirstGlowState } from "./structured.js";
-import { recordFirstGlowWitnesses } from "./first-glow-social.js";
+import { applyFirstGlowDilemmaChoice, firstGlowActionScore, recordFirstGlowWitnesses, type FirstGlowDilemmaChoice } from "./first-glow-social.js";
 import { appendFirstGlowExplanations } from "./first-glow-explanations.js";
 import type { FirstGlowActivity } from "@mimir/world-data";
 
-export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; }
+export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; }
 
 function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][number], activity: FirstGlowActivity): boolean {
   return spark.knownEvidenceEventIds.some((eventId) => eventId.endsWith(`-${activity}`));
@@ -18,13 +18,40 @@ function chooseAutonomousActivities(state: FirstGlowState): void {
     const needsCharge = spark.carriedCharge === 0 || spark.chargeDeficit > 0;
     const priorities: FirstGlowActivity[] = [];
     if (needsCharge && settlement.sourceCharge > 0) priorities.push("seek-charge");
-    if (spark.readiness < 70) priorities.push("seek-shelter");
+    const target = settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id)).find(candidate => candidate.id !== spark.id);
+    const shelterCarePreferred = target && firstGlowActionScore(state.social, spark.id, target.id, "shelter-or-trace") >= 3 && spark.readiness < 90;
+    if (spark.readiness < 70 || shelterCarePreferred) priorities.push("seek-shelter");
     if (!hasLearned(spark, "explore")) priorities.push("explore");
     if (hasLearned(spark, "explore") && !hasLearned(spark, "mark-trace")) priorities.push("mark-trace");
     if (!hasLearned(spark, "shape-pattern")) priorities.push("shape-pattern");
     priorities.push("seek-shelter", "idle");
     const next = priorities.find((activity) => canFirstGlowReach(settlement, spark, activity));
     if (next) { spark.intendedActivity = next; spark.waitReason = undefined; }
+  }
+}
+
+function resolveAutonomousSocialChoices(state: FirstGlowState): void {
+  const sparks = state.settlements.flatMap(settlement => settlement.sparks).slice().sort((a, b) => a.id.localeCompare(b.id));
+  for (const event of state.events.slice().sort((a, b) => a.id.localeCompare(b.id))) {
+    const dilemmaId: FirstGlowDilemmaChoice["dilemmaId"] | undefined = event.kind === "draw"
+      ? "weakening-pool-report"
+      : event.kind === "idle" || event.kind === "wait"
+        ? "shelter-or-trace"
+        : ["explore", "mark-trace", "shape-pattern", "meet"].includes(event.kind)
+          ? "public-or-private-mark"
+          : undefined;
+    if (!dilemmaId) continue;
+    const actor = sparks.find(spark => spark.id === event.actorId);
+    const target = event.participants?.slice().sort((a, b) => a.localeCompare(b)).find(id => id !== event.actorId) ?? sparks.find(spark => spark.id !== event.actorId)?.id;
+    if (!actor || !target) continue;
+    const choices: Record<FirstGlowDilemmaChoice["dilemmaId"], [string, string]> = {
+      "weakening-pool-report": ["reveal-pool", "withhold-pool"],
+      "shelter-or-trace": ["help-shelter", "continue-exploration"],
+      "public-or-private-mark": ["make-mark-public", "keep-mark-private"]
+    };
+    const [first, second] = choices[dilemmaId];
+    const alternativeId = firstGlowActionScore(state.social, actor.id, target, dilemmaId) >= 0 ? first : second;
+    state.social = applyFirstGlowDilemmaChoice(state.social, { dilemmaId, alternativeId, actorSparkId: actor.id, targetSparkId: target, evidenceEventIds: [event.id], tick: state.tick });
   }
 }
 
@@ -78,6 +105,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     else { spark.chargeDeficit += 1; state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: "charge-deficit" }); }
   }
   for (const event of state.events) recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants ?? [], state.tick);
+  if (external.resolveSocial !== false) resolveAutonomousSocialChoices(state);
   appendFirstGlowExplanations(state, state.events);
   return state;
 }
