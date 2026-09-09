@@ -5,7 +5,7 @@ These minimal SVG assets are authored for Mimir and distributed with the reposit
 - Author: Mimir project
 - Source URL: none; repository-authored
 - Retrieval date: not applicable
-- Version: first-glow-v2
+- Version: first-glow-v3 for the polished Graphics-P3 vertical slice; earlier versions remain retained in immutable bundles.
 - License: MIT, as part of this repository
 - Attribution: Mimir project
 
