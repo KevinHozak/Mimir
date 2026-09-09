@@ -750,6 +750,6 @@ The strongest opening is a small society whose artificial nature creates recogni
 ## Local design references
 
 - [Current simulation guide](../game-simulation.md): implemented mechanics and known simplifications.
-- [Original simulation plan](2026-09-06_Simulation_Game_Plan.md): philosophical goals, planned systems, and the previously undecided AI-awareness direction. Its opening implementation status and working-folder metadata are historical.
+- [Project History](../history.md): retained philosophical goals, planned systems, and the previously undecided AI-awareness direction from the retired original simulation plan. Its opening implementation status and working-folder metadata are historical.
 - [Current architecture](../architecture.md): implemented world, scene, navigation, persistence, and rendering boundaries.
 - First Winter scenario: historical scenario configuration removed from the active repository; the current runtime is the schema-3 First Glow bundle under `assets/world/`.
