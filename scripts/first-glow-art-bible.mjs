@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { basename, join, relative, resolve } from "node:path";
 
 const root = resolve(process.cwd());
@@ -15,6 +16,8 @@ const check = bundlePath => {
   for (const state of states) if (!bible.includes(state)) errors.push(`${biblePath}: missing interaction treatment ${state}`);
   for (const link of ["docs/world-theme.md", "assets/licenses/first-glow-assets.md", "assets/world/README.md"]) if (!existsSync(join(root, link))) errors.push(`missing linked source ${link}`);
   if (!bible.includes("Generated hash directories are output, never hand-edited")) errors.push(`${biblePath}: missing immutable-output rule`);
+  const production = spawnSync(process.execPath, [join(root, "scripts/art-production.mjs"), "check"], { cwd: root, env: process.env, encoding: "utf8" });
+  if (production.status !== 0) errors.push(`art-production provenance check failed: ${(production.stderr || production.stdout).trim()}`);
   if (bundlePath) {
     const path = resolve(root, bundlePath); if (!existsSync(path)) errors.push(`missing review bundle ${bundlePath}`);
     else { const world = JSON.parse(readFileSync(path, "utf8")); if (world.themeId !== "living-circuit" || world.ageId !== "first-glow" || world.schemaVersion !== 3) errors.push(`${bundlePath}: not a schema-3 Living Circuit First Glow bundle`); if (!world.bundle?.contentHash) errors.push(`${bundlePath}: missing content hash`); }
