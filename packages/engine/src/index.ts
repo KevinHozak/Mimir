@@ -5,6 +5,7 @@ export { queryCell } from "@mimir/world-data";
 export * from "./structured.js";
 export * from "./design.js";
 export * from "./first-glow-social.js";
+export * from "./first-glow-explanations.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
 export interface WorldEvent { id: string; tick: number; kind: "tick" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
