@@ -7,7 +7,7 @@ import { FirstGlowEntityChooser, FirstGlowExplanationPanel, FirstGlowInspector, 
 import { firstGlowAssetKey, firstGlowAssetUrl } from "./first-glow-assets.js";
 import { firstGlowSceneLifecycle } from "./first-glow-lifecycle.js";
 import { firstGlowPlaybackStepMs } from "./first-glow-playback.js";
-import { firstGlowSparkDepth, firstGlowSparkScreenPosition } from "./first-glow-rendering.js";
+import { firstGlowSparkDepth, firstGlowSparkScreenPosition, firstGlowSparkState, firstGlowSparkVisual } from "./first-glow-rendering.js";
 import { firstGlowBlockedSummary, firstGlowCellQuery, firstGlowGroundDepth } from "./first-glow-scene.js";
 import { HistoryRequestSequencer } from "./history-sequencing.js";
 import "./styles.css";
@@ -149,10 +149,35 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
     lastTickRef.current = tick;
   };
   const syncSparks = (scene: Phaser.Scene, nextSparks: Spark[]) => {
-    const tileSize = 24; const nextIds = new Set(nextSparks.map(spark => spark.id));
+    const tileSize = 24; const nextIds = new Set(nextSparks.map(spark => spark.id)); const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     peopleRef.current.forEach((person, id) => { if (!nextIds.has(id)) { person.destroy(); peopleRef.current.delete(id); } });
-     nextSparks.forEach((spark) => { const position = firstGlowSparkScreenPosition(spark.position, tileSize); let core = peopleRef.current.get(spark.id); if (!core) { core = scene.add.container(position.x, position.y); core.add(scene.add.circle(0, 0, 9, 0x8addf2, 0.16)); core.add(scene.add.circle(0, 0, 5, 0xedf7ff, 1)); core.add(scene.add.circle(6, -6, 2, 0xc7b7ff, 1)); core.setBlendMode(Phaser.BlendModes.ADD); peopleRef.current.set(spark.id, core); scene.tweens.add({ targets: core.list[0], scale: 1.25, alpha: 0.08, duration: 700, yoyo: true, repeat: -1, ease: "Sine.easeInOut" }); } core.setPosition(position.x, position.y); core.setDepth(firstGlowSparkDepth(spark.position)); });
-    document.getElementById("village-canvas")?.setAttribute("data-rendered-spark-coordinates", JSON.stringify(Object.fromEntries(nextSparks.map(spark => [spark.id, { x: spark.position.x * tileSize + tileSize / 2, y: spark.position.y * tileSize + tileSize / 2 }]))));
+    const signatureFor = (spark: Spark) => {
+      const visual = firstGlowSparkVisual(spark.id); const state = firstGlowSparkState(spark.intendedActivity, spark.status, spark.readiness, spark.chargeDeficit); return `${visual.signature}:${visual.accent}:${state}`;
+    };
+    nextSparks.forEach((spark) => {
+      const position = firstGlowSparkScreenPosition(spark.position, tileSize); const visual = firstGlowSparkVisual(spark.id); const state = firstGlowSparkState(spark.intendedActivity, spark.status, spark.readiness, spark.chargeDeficit); let core = peopleRef.current.get(spark.id);
+      if (!core || core.getData("visualKey") !== signatureFor(spark)) {
+        core?.destroy(); core = scene.add.container(position.x, position.y).setBlendMode(Phaser.BlendModes.ADD); core.setData("visualKey", signatureFor(spark));
+        const accent = visual.accent === "violet" ? 0xc7b7ff : visual.accent === "cyan" ? 0x8addf2 : 0xbfe8ff;
+        const halo = scene.add.circle(0, 0, 10, accent, 0.15); const shape = scene.add.graphics(); shape.fillStyle(0xedf7ff, 1); shape.lineStyle(1.5, accent, 0.95);
+        if (visual.signature === "ring") { shape.strokeCircle(0, 0, 5); shape.fillCircle(0, 0, 3); }
+        if (visual.signature === "diamond") { shape.beginPath(); shape.moveTo(0, -6); shape.lineTo(6, 0); shape.lineTo(0, 6); shape.lineTo(-6, 0); shape.closePath(); shape.fillPath(); shape.strokePath(); }
+        if (visual.signature === "triangle") { shape.beginPath(); shape.moveTo(0, -6); shape.lineTo(6, 5); shape.lineTo(-6, 5); shape.closePath(); shape.fillPath(); shape.strokePath(); }
+        if (visual.signature === "double-dot") { shape.fillCircle(0, 0, 4); shape.fillCircle(-8, 0, 2); shape.fillCircle(8, 0, 2); }
+        if (visual.signature === "cross") { shape.fillCircle(0, 0, 4); shape.lineBetween(-8, 0, 8, 0); shape.lineBetween(0, -8, 0, 8); }
+        if (visual.signature === "hex") { shape.fillCircle(0, 0, 4); shape.strokeCircle(0, 0, 8); shape.lineBetween(-5, -5, 5, 5); }
+        const mark = scene.add.graphics(); mark.lineStyle(1.5, accent, 0.9); mark.lineBetween(-8, 9, 8, 9);
+        const selectedRing = scene.add.circle(0, 0, 13, 0x000000, 0).setStrokeStyle(1.5, 0xc7b7ff, 0.95);
+        const stateCue = state === "blocked" ? "×" : state === "charging" ? "+" : state === "gathering" ? "••" : state === "traversing" ? "›" : state === "exploring" ? "·" : state === "sheltering" ? "⌒" : "";
+        const cue = scene.add.text(0, 14, stateCue, { color: state === "blocked" ? "#ef8b9a" : "#8addf2", fontSize: "11px", fontFamily: "ui-monospace, monospace", fontStyle: "bold" }).setOrigin(0.5);
+        core.add([halo, shape, mark, selectedRing, cue]); core.setData("selectedRing", selectedRing); core.setData("halo", halo); peopleRef.current.set(spark.id, core);
+        if (!reducedMotion) scene.tweens.add({ targets: halo, scale: 1.22, alpha: 0.06, duration: visual.motion === "pulse" ? 520 : 760, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
+      }
+      (core.getData("selectedRing") as Phaser.GameObjects.Arc).setVisible(selectedEntityId === `spark:${spark.id}`); core.setPosition(position.x, position.y); core.setDepth(firstGlowSparkDepth(spark.position));
+    });
+    const canvas = document.getElementById("village-canvas"); canvas?.setAttribute("data-rendered-spark-coordinates", JSON.stringify(Object.fromEntries(nextSparks.map(spark => [spark.id, { x: spark.position.x * tileSize + tileSize / 2, y: spark.position.y * tileSize + tileSize / 2 }]))));
+    canvas?.setAttribute("data-rendered-spark-signatures", JSON.stringify(Object.fromEntries(nextSparks.map(spark => [spark.id, firstGlowSparkVisual(spark.id).signature]))));
+    canvas?.setAttribute("data-rendered-spark-states", JSON.stringify(Object.fromEntries(nextSparks.map(spark => [spark.id, firstGlowSparkState(spark.intendedActivity, spark.status, spark.readiness, spark.chargeDeficit)])))); canvas?.setAttribute("data-reduced-motion", String(reducedMotion));
   };
   useEffect(() => {
     villagersRef.current = villagers;
@@ -315,7 +340,7 @@ function VillageCanvas({ villagers, sparks = [], firstGlowBundle, firstGlowRunti
    }, [debugOverlay, firstGlowBundle?.bundle.contentHash, firstGlowRuntime?.navigationRevision, firstGlowRuntime?.objects.map(item => `${item.objectId}:${item.blocked}`).join(","), worldDefinition?.id, worldDefinition?.bundle.contentHash]);
   useEffect(() => {
     if (sceneRef.current && sparks.length) syncSparks(sceneRef.current, sparks); else if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
-  }, [villagers, sparks]);
+  }, [villagers, sparks, selectedEntityId]);
    const overlaySummary = firstGlowBundle && firstGlowRuntime ? `nav:${firstGlowRuntime.navigationRevision} · blocked:${firstGlowBlockedSummary(firstGlowBundle, firstGlowRuntime)} · reservations:${firstGlowRuntime.reservations.map(item => `${item.objectId}:${item.slotId}`).join(",") || "none"}` : "";
    const hoveredLabel = hoveredCell && firstGlowBundle ? (() => { const { x, y } = hoveredCell; const terrain = firstGlowBundle.terrain[y]?.[x] ?? "unknown"; const surface = firstGlowBundle.surfaces.find(item => item.enabled && item.cells.some(cell => cell.x === x && cell.y === y)); const spawn = firstGlowBundle.spawns.find(item => item.cell.x === x && item.cell.y === y); const object = worldDefinition?.objects.find(candidate => candidate.position.x === x && candidate.position.y === y || (worldDefinition.definitions[candidate.definitionId]?.footprint ?? []).some(offset => candidate.position.x + offset.x === x && candidate.position.y + offset.y === y)); const spark = sparks.find(candidate => candidate.position.x === x && candidate.position.y === y); const query = firstGlowCellQuery(firstGlowBundle, firstGlowRuntime, { x, y }); return [`Cell (${x}, ${y})`, `Terrain: ${terrain}`, `Effective: ${query.walkable ? `walkable cost ${query.cost}` : `blocked ${query.reason}`}`, surface && `Surface: ${surface.id}`, spawn && `Spawn: ${spawn.id}`, object && `Object: ${object.id} · ${object.definitionId}`, spark && `Spark: ${spark.id}`].filter((value): value is string => Boolean(value)); })() : null;
   const adjustZoom = (delta: number) => onZoomChange(Number(Math.max(FIRST_GLOW_MIN_ZOOM, Math.min(MAX_ZOOM, zoom + delta)).toFixed(2)));

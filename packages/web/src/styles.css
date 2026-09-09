@@ -106,6 +106,27 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 @media (max-width: 800px) { .first-glow .village-stage { display: block; } .first-glow .village-stage > .first-glow-inspector { margin-top: 10px; } .first-glow .first-glow-header .controls { position: static; max-width: none; padding: 0; border: 0; background: transparent; box-shadow: none; } }
 @media (max-width: 520px) { .first-glow-header { grid-template-columns: 1fr; gap: 8px; } .first-glow-header .identity-season-panel, .first-glow-header .controls { grid-column: auto; } .first-glow-header .identity-mark-panel { min-height: 64px; flex-direction: row; } .first-glow-header .controls { justify-content: stretch; } .first-glow-header .controls button { flex: 1; } }
 
+/* Issue #57: keep every Spark individually readable through silhouette, mark, and state cues. */
+.selected-spark-identity { display: flex; align-items: center; gap: 12px; margin: 4px 0 10px; }
+.selected-spark-identity h3 { margin: 0; }
+.spark-identity-caption { margin: 4px 0 0; color: #8fa7c3 !important; font-size: .72rem; text-transform: capitalize; }
+.spark-avatar { position: relative; width: 76px; height: 76px; flex: 0 0 76px; display: grid; place-items: center; border: 1px solid #52677f; border-radius: 50%; background: radial-gradient(circle, rgba(138,221,242,.12), rgba(8,20,38,.2) 66%); }
+.spark-avatar.selected { border-color: #c7b7ff; box-shadow: 0 0 0 3px rgba(199,183,255,.16), 0 0 18px rgba(138,221,242,.18); }
+.spark-avatar-halo { position: absolute; width: 44px; height: 44px; border-radius: 50%; background: rgba(138,221,242,.14); }
+.spark-avatar-core { position: absolute; width: 18px; height: 18px; background: #edf7ff; box-shadow: 0 0 10px rgba(138,221,242,.75); }
+.spark-avatar-mark { position: absolute; width: 38px; height: 2px; background: #8addf2; opacity: .8; }
+.spark-avatar-state { position: absolute; right: 6px; bottom: 4px; min-width: 16px; color: #8addf2; font: 700 14px/1 ui-monospace, monospace; text-align: center; }
+.spark-avatar-diamond .spark-avatar-core { transform: rotate(45deg); }
+.spark-avatar-triangle .spark-avatar-core { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.spark-avatar-double-dot .spark-avatar-mark { width: 46px; height: 8px; border-top: 2px solid #8addf2; border-bottom: 2px solid #8addf2; background: transparent; }
+.spark-avatar-cross .spark-avatar-mark { width: 42px; height: 42px; border: 2px solid #8addf2; background: transparent; }
+.spark-avatar-hex .spark-avatar-core { clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+.spark-accent-violet .spark-avatar-mark { background: #c7b7ff; border-color: #c7b7ff; }
+.spark-accent-ice .spark-avatar-mark { background: #bfe8ff; border-color: #bfe8ff; }
+.spark-avatar[data-spark-state="blocked"] .spark-avatar-state { color: #ef8b9a; }
+.spark-avatar[data-spark-state="low-charge"] .spark-avatar-halo { opacity: .06; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.001ms !important; } .spark-avatar-halo { opacity: .12; } }
+
 /* Issue #42: combine the authored mark with the Mimir identity and keep one live control set. */
 .first-glow-header { width: min(100%, 600px); grid-template-columns: max-content minmax(0, 1fr); }
 .first-glow-header .identity-title-panel { width: max-content; flex-direction: row; align-items: center; gap: 18px; padding: 10px 14px; }

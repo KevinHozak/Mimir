@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { Cell, FirstGlowExplanation } from "@mimir/engine";
 import { firstGlowActivityLabel, firstGlowWaitLabel } from "./first-glow-overlay.js";
+import { firstGlowSparkState, firstGlowSparkVisual } from "./first-glow-rendering.js";
 
 export type FirstGlowSpark = {
   id: string;
@@ -44,6 +45,12 @@ const destinationLabel = (spark: FirstGlowSpark, objects: FirstGlowObject[]) => 
   return `${objectLabel(object)} contact${slot ? ` (${slot.id.replaceAll("-", " ")})` : ""} · ${slot ? cellLabel({ x: object.position.x + slot.offset.x, y: object.position.y + slot.offset.y }) : cellLabel(object.position)}`;
 };
 
+export function FirstGlowSparkAvatar({ spark, selected = false }: { spark: FirstGlowSpark; selected?: boolean }) {
+  const visual = firstGlowSparkVisual(spark.id);
+  const state = firstGlowSparkState(spark.intendedActivity, spark.status, spark.readiness, spark.chargeDeficit);
+  return <div className={`spark-avatar spark-avatar-${visual.signature} spark-accent-${visual.accent}${selected ? " selected" : ""}`} data-testid="first-glow-spark-avatar" data-spark-signature={visual.signature} data-spark-state={state} data-spark-motion={visual.motion} aria-label={`${spark.name}, ${visual.signature} signature, ${state} state`}><span className="spark-avatar-halo" aria-hidden="true" /><span className="spark-avatar-core" aria-hidden="true" /><span className="spark-avatar-mark" aria-hidden="true" /><span className="spark-avatar-state" aria-hidden="true">{state === "blocked" ? "×" : state === "charging" ? "+" : state === "gathering" ? "••" : state === "traversing" ? "›" : state === "exploring" ? "·" : state === "sheltering" ? "⌒" : ""}</span></div>;
+}
+
 export function FirstGlowInspector({ sparks, objects, regionName = "Opening region", selectedEntityId, onSelectEntity, debugOverlay }: { sparks: FirstGlowSpark[]; objects: FirstGlowObject[]; regionName?: string; selectedEntityId: string | null; onSelectEntity: (entityId: string) => void; debugOverlay: boolean }) {
   const entities = useMemo(() => [
     ...sparks.map((spark) => ({ id: `spark:${spark.id}`, label: spark.name, kind: "Spark", spark })),
@@ -53,7 +60,7 @@ export function FirstGlowInspector({ sparks, objects, regionName = "Opening regi
 
   return <section className="first-glow-inspector" data-testid="first-glow-inspector" aria-label="First Glow item details">
     <FirstGlowEntityChooser sparks={sparks} objects={objects} selectedEntityId={selectedEntityId} onSelectEntity={onSelectEntity} />
-    {activeEntity?.spark && <article className="spark-card selected-entity-card"><h3>{activeEntity.spark.name}</h3><small>{debugOverlay ? activeEntity.spark.id : "stable signature"}</small><dl><dt>Current location</dt><dd>{regionName} · {cellLabel(activeEntity.spark.position)}</dd><dt>Contact</dt><dd>{activeEntity.spark.destinationObjectId ? destinationLabel(activeEntity.spark, objects) : "none"}</dd><dt>Destination</dt><dd>{destinationLabel(activeEntity.spark, objects)}</dd><dt>Activity</dt><dd>{firstGlowActivityLabel(activeEntity.spark.intendedActivity)}</dd><dt>Status / wait reason</dt><dd>{firstGlowWaitLabel(activeEntity.spark.status, activeEntity.spark.waitReason)}</dd><dt>Travel progress</dt><dd>{activeEntity.spark.committedCells.length - 1} committed · {activeEntity.spark.remainingRoute.length} remaining · {activeEntity.spark.remainingCost} cost pending</dd><dt>Charge</dt><dd>{activeEntity.spark.carriedCharge}</dd><dt>Charge deficit</dt><dd>{activeEntity.spark.chargeDeficit}</dd><dt>Readiness</dt><dd>{activeEntity.spark.readiness}%</dd></dl></article>}
+    {activeEntity?.spark && <article className="spark-card selected-entity-card"><div className="selected-spark-identity"><FirstGlowSparkAvatar spark={activeEntity.spark} selected /><div><h3>{activeEntity.spark.name}</h3><small>{debugOverlay ? activeEntity.spark.id : "stable signature"}</small><p className="spark-identity-caption">{firstGlowSparkState(activeEntity.spark.intendedActivity, activeEntity.spark.status, activeEntity.spark.readiness, activeEntity.spark.chargeDeficit)} · {firstGlowSparkVisual(activeEntity.spark.id).motion} motion</p></div></div><dl><dt>Current location</dt><dd>{regionName} · {cellLabel(activeEntity.spark.position)}</dd><dt>Contact</dt><dd>{activeEntity.spark.destinationObjectId ? destinationLabel(activeEntity.spark, objects) : "none"}</dd><dt>Destination</dt><dd>{destinationLabel(activeEntity.spark, objects)}</dd><dt>Activity</dt><dd>{firstGlowActivityLabel(activeEntity.spark.intendedActivity)}</dd><dt>Status / wait reason</dt><dd>{firstGlowWaitLabel(activeEntity.spark.status, activeEntity.spark.waitReason)}</dd><dt>Travel progress</dt><dd>{activeEntity.spark.committedCells.length - 1} committed · {activeEntity.spark.remainingRoute.length} remaining · {activeEntity.spark.remainingCost} cost pending</dd><dt>Charge</dt><dd>{activeEntity.spark.carriedCharge}</dd><dt>Charge deficit</dt><dd>{activeEntity.spark.chargeDeficit}</dd><dt>Readiness</dt><dd>{activeEntity.spark.readiness}%</dd></dl></article>}
     {activeEntity?.object && <article className="spark-card selected-entity-card"><h3>{objectLabel(activeEntity.object)}</h3><small>{debugOverlay ? activeEntity.object.id : "light site"}</small><dl><dt>Location</dt><dd>({activeEntity.object.position.x}, {activeEntity.object.position.y})</dd><dt>Status</dt><dd>{activeEntity.object.blocked ? "blocked" : "open"}</dd><dt>Capabilities</dt><dd>{activeEntity.object.capabilities.join(", ") || "none"}</dd></dl><p>Select a nearby Spark to follow its activity at this site.</p></article>}
     {!activeEntity && <p className="empty-selection" role="status">Double-click a Spark or light site on the map, or choose one below, to inspect it.</p>}
   </section>;
