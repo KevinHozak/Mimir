@@ -10,3 +10,5 @@ npm run world:validate -- assets/world/generated/<sha256>/world.json
 The bundle is explicitly `themeId: living-circuit`, `ageId: first-glow`, `simulationVersion: mimir-sim-v3-first-glow`, and `spatialModel: structured-v2`. Persisted object, Spark, route, and asset IDs are stable identifiers; labels and artwork may evolve independently.
 
 Do not edit generated hash directories by hand. Add or change authored Tiled data, templates, or assets, regenerate, validate, and retain existing First Glow bundles referenced by checkpoints.
+
+See [`docs/first-glow-art-bible.md`](../../docs/first-glow-art-bible.md) and run `npm run art:bible:check` before visual review. The bible's review command writes only disposable `.tmp/first-glow-art-review/` captures.
