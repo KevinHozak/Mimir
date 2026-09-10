@@ -1,7 +1,7 @@
 import type { FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import type { FirstGlowAudioMix } from "./first-glow-audio-ambience.js";
 
-export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction" | "route-discover" | "mark-light" | "cache-probe" | "route-blocked" | "timeline-branch";
+export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction" | "route-discover" | "mark-light" | "cache-probe" | "route-blocked" | "timeline-branch" | "ui-confirm";
 export type FirstGlowCommittedEvent = { id: string; tick: number; kind: string; message: string };
 
 export function firstGlowAudioCueForEvent(event: FirstGlowCommittedEvent): FirstGlowAudioCue | null {
@@ -45,6 +45,7 @@ const cueShape: Record<FirstGlowAudioCue, { frequency: number; duration: number;
   "cache-probe": { frequency: 740, duration: 0.2, type: "triangle", gain: 0.16 },
   "route-blocked": { frequency: 180, duration: 0.16, type: "square", gain: 0.14 },
   "timeline-branch": { frequency: 620, duration: 0.26, type: "triangle", gain: 0.18 },
+  "ui-confirm": { frequency: 988, duration: 0.08, type: "sine", gain: 0.14 },
 };
 const musicAssetUrls = [
   "/audio/first-glow/weightless-shore.mp3",
@@ -65,6 +66,7 @@ const effectAssetUrls: Partial<Record<FirstGlowAudioCue, string>> = {
   "cache-probe": "/audio/first-glow/sfx/sfx_cache_probe.wav",
   "route-blocked": "/audio/first-glow/sfx/sfx_route_blocked.wav",
   "timeline-branch": "/audio/first-glow/sfx/sfx_timeline_branch.wav",
+  "ui-confirm": "/audio/first-glow/sfx/sfx_ui_confirm.wav",
 };
 
 export class FirstGlowAudioRuntime {
@@ -108,6 +110,7 @@ export class FirstGlowAudioRuntime {
     void this.context?.suspend();
   }
   playSelection(): void { this.playCue("selection"); }
+  playUiConfirm(): void { this.playCue("ui-confirm"); }
   toggleMusicTest(): boolean {
     if (this.musicTestTimer !== null) {
       window.clearInterval(this.musicTestTimer);

@@ -465,6 +465,7 @@ function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?:
     try {
       update({ enabled: true });
       await runtime.enable();
+      runtime.playUiConfirm();
       setSessionReady(true);
       setAudioStatus("Audio is ready. Sparse ambience follows the rendered context.");
     } catch {
@@ -480,12 +481,12 @@ function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?:
     <div className="audio-panel" aria-label="First Glow audio settings">
       <p className="audio-status" role="status">{audioStatus}</p>
       {!sessionReady && <button type="button" onClick={() => void enableAudio()} aria-label="Enable audio">Enable audio</button>}
-      {sessionReady && <button type="button" onClick={() => { runtime.disable(); setSessionReady(false); setMusicTestPlaying(false); setAmbienceTestPlaying(false); update({ enabled: false, muted: true }); }} aria-label="Disable audio">Disable audio</button>}
+      {sessionReady && <button type="button" onClick={() => { runtime.playUiConfirm(); runtime.disable(); setSessionReady(false); setMusicTestPlaying(false); setAmbienceTestPlaying(false); update({ enabled: false, muted: true }); }} aria-label="Disable audio">Disable audio</button>}
       {sessionReady && <div className="audio-test-buttons"><button type="button" onClick={() => setMusicTestPlaying(runtime.toggleMusicTest())} aria-label={musicTestPlaying ? "Stop music test" : "Play music test"}>{musicTestPlaying ? "Stop music test" : "Play music test"}</button><button type="button" onClick={() => setAmbienceTestPlaying(runtime.toggleAmbienceTest())} aria-label={ambienceTestPlaying ? "Stop ambience test" : "Play ambience test"}>{ambienceTestPlaying ? "Stop ambience test" : "Play ambience test"}</button><button type="button" onClick={() => runtime.playEffectsTest()} aria-label="Play effects test">Play effects test</button></div>}
-      <label className="audio-toggle"><input type="checkbox" checked={preferences.muted} onChange={(event) => update({ muted: event.target.checked })} /> Mute all audio</label>
-      <label className="audio-toggle"><input type="checkbox" checked={preferences.ambienceEnabled} onChange={(event) => update({ ambienceEnabled: event.target.checked })} /> Enable ambience</label>
-      <label className="audio-toggle"><input type="checkbox" checked={preferences.scoreEnabled} onChange={(event) => update({ scoreEnabled: event.target.checked })} /> Enable ambient score</label>
-      {(["master", "music", "effects"] as const).map((channel) => <label className="audio-slider" key={channel} htmlFor={`audio-${channel}`}><span>{channel === "master" ? "Master" : channel === "music" ? "Music" : "Effects"}</span><input id={`audio-${channel}`} type="range" min="0" max="100" step="1" value={audioPreferencePercent(preferences[channel])} onChange={(event) => update({ [channel]: Number(event.target.value) / 100 })} aria-label={`${channel} volume`} /><output htmlFor={`audio-${channel}`}>{audioPreferencePercent(preferences[channel])}%</output></label>)}
+      <label className="audio-toggle"><input type="checkbox" checked={preferences.muted} onChange={(event) => { runtime.playUiConfirm(); update({ muted: event.target.checked }); }} /> Mute all audio</label>
+      <label className="audio-toggle"><input type="checkbox" checked={preferences.ambienceEnabled} onChange={(event) => { runtime.playUiConfirm(); update({ ambienceEnabled: event.target.checked }); }} /> Enable ambience</label>
+      <label className="audio-toggle"><input type="checkbox" checked={preferences.scoreEnabled} onChange={(event) => { runtime.playUiConfirm(); update({ scoreEnabled: event.target.checked }); }} /> Enable ambient score</label>
+      {(["master", "music", "effects"] as const).map((channel) => <label className="audio-slider" key={channel} htmlFor={`audio-${channel}`}><span>{channel === "master" ? "Master" : channel === "music" ? "Music" : "Effects"}</span><input id={`audio-${channel}`} type="range" min="0" max="100" step="1" value={audioPreferencePercent(preferences[channel])} onChange={(event) => { runtime.playUiConfirm(); update({ [channel]: Number(event.target.value) / 100 }); }} aria-label={`${channel} volume`} /><output htmlFor={`audio-${channel}`}>{audioPreferencePercent(preferences[channel])}%</output></label>)}
       <small>Settings are saved in this browser. Sound is presentation only; every simulation fact remains readable with all channels muted.</small>
     </div>
   </details>;
