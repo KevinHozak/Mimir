@@ -1,12 +1,17 @@
 import type { FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import type { FirstGlowAudioMix } from "./first-glow-audio-ambience.js";
 
-export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction";
+export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction" | "route-discover" | "mark-light" | "cache-probe" | "route-blocked" | "timeline-branch" | "ui-confirm";
 export type FirstGlowCommittedEvent = { id: string; tick: number; kind: string; message: string };
 
 export function firstGlowAudioCueForEvent(event: FirstGlowCommittedEvent): FirstGlowAudioCue | null {
   if (/\bshared \d+ charge\b/i.test(event.message)) return "charge-share";
   if (/\bdrew \d+ charge\b/i.test(event.message)) return "charge-draw";
+  if (/\btimeline branch\b/i.test(event.message)) return "timeline-branch";
+  if (/\b(severed route|blocked route)\b/i.test(event.message)) return "route-blocked";
+  if (/\b(marked|light marker)\b/i.test(event.message)) return "mark-light";
+  if (/\b(probed the wild cache|cache)\b/i.test(event.message)) return "cache-probe";
+  if (/\b(discovered|discover|illuminat(?:ed|ing) a new route)\b/i.test(event.message)) return "route-discover";
   if (/\b(met|interaction)\b/i.test(event.message)) return "interaction";
   if (/\b(waiting|blocked|could not|no reachable|warning)\b/i.test(event.message)) return "warning";
   if (/\b(completed |arrived|probed the wild cache)/i.test(event.message)) return "arrival";
@@ -35,18 +40,53 @@ const cueShape: Record<FirstGlowAudioCue, { frequency: number; duration: number;
   "charge-share": { frequency: 440, duration: 0.22, type: "sine", gain: 0.2 },
   warning: { frequency: 190, duration: 0.2, type: "triangle", gain: 0.18 },
   interaction: { frequency: 390, duration: 0.2, type: "sine", gain: 0.18 },
+  "route-discover": { frequency: 440, duration: 0.24, type: "sine", gain: 0.18 },
+  "mark-light": { frequency: 880, duration: 0.12, type: "sine", gain: 0.16 },
+  "cache-probe": { frequency: 740, duration: 0.2, type: "triangle", gain: 0.16 },
+  "route-blocked": { frequency: 180, duration: 0.16, type: "square", gain: 0.14 },
+  "timeline-branch": { frequency: 620, duration: 0.26, type: "triangle", gain: 0.18 },
+  "ui-confirm": { frequency: 988, duration: 0.08, type: "sine", gain: 0.14 },
+};
+const musicAssetUrls = [
+  "/audio/first-glow/weightless-shore.mp3",
+  "/audio/first-glow/navigation-by-starlight.mp3",
+  "/audio/first-glow/haven-under-starlight.mp3",
+  "/audio/first-glow/where-the-light-pools.mp3",
+  "/audio/first-glow/where-light-dissolves.mp3",
+];
+const effectAssetUrls: Partial<Record<FirstGlowAudioCue, string>> = {
+  selection: "/audio/first-glow/sfx/sfx_spark_select.wav",
+  arrival: "/audio/first-glow/sfx/sfx_spark_arrive.wav",
+  "charge-draw": "/audio/first-glow/sfx/sfx_charge_draw.wav",
+  "charge-share": "/audio/first-glow/sfx/sfx_charge_share.wav",
+  warning: "/audio/first-glow/sfx/sfx_warning_gentle.wav",
+  interaction: "/audio/first-glow/sfx/sfx_interaction_success.wav",
+  "route-discover": "/audio/first-glow/sfx/sfx_route_discover.wav",
+  "mark-light": "/audio/first-glow/sfx/sfx_mark_light.wav",
+  "cache-probe": "/audio/first-glow/sfx/sfx_cache_probe.wav",
+  "route-blocked": "/audio/first-glow/sfx/sfx_route_blocked.wav",
+  "timeline-branch": "/audio/first-glow/sfx/sfx_timeline_branch.wav",
+  "ui-confirm": "/audio/first-glow/sfx/sfx_ui_confirm.wav",
 };
 
 export class FirstGlowAudioRuntime {
   private readonly ledger = new FirstGlowAudioEventLedger();
   private context: AudioContext | null = null;
   private preferences: FirstGlowAudioPreferences;
-  private mix: FirstGlowAudioMix = { context: "open-space", ambienceLevel: 0.035, scoreLevel: 0.015 };
+  private mix: FirstGlowAudioMix = { context: "open-space", ambienceLevel: 0.07, scoreLevel: 0.08 };
   private ambienceBus: GainNode | null = null;
   private effectsBus: GainNode | null = null;
   private musicBus: GainNode | null = null;
-  private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number }[] = [];
+  private musicBuffers: AudioBuffer[] = [];
+  private musicSource: AudioBufferSourceNode | null = null;
+  private musicAssetLoad: Promise<void> | null = null;
+  private musicTrackIndex = 0;
+  private effectBuffers = new Map<FirstGlowAudioCue, AudioBuffer>();
+  private effectAssetLoad: Promise<void> | null = null;
+  private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number; kind: "ambience" | "score" }[] = [];
   private ambientPulseTimer: number | null = null;
+  private musicTestTimer: number | null = null;
+  private ambienceTestTimer: number | null = null;
 
   constructor(preferences: FirstGlowAudioPreferences) { this.preferences = preferences; }
   updatePreferences(preferences: FirstGlowAudioPreferences): void { this.preferences = preferences; this.refreshAmbientVoices(); }
@@ -57,21 +97,92 @@ export class FirstGlowAudioRuntime {
     this.context ??= new AudioContextConstructor();
     this.ensureBuses();
     await this.context.resume();
+    await this.loadMusicAssets();
+    await this.loadEffectAssets();
+    this.startMusicAsset();
     this.refreshAmbientVoices();
   }
 
   disable(): void {
+    this.stopTestSounds();
     if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
     this.ambientPulseTimer = null;
     void this.context?.suspend();
   }
   playSelection(): void { this.playCue("selection"); }
+  playUiConfirm(): void { this.playCue("ui-confirm"); }
+  toggleMusicTest(): boolean {
+    if (this.musicTestTimer !== null) {
+      window.clearInterval(this.musicTestTimer);
+      this.musicTestTimer = null;
+      return false;
+    }
+    if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.music <= 0) return false;
+    this.playMusicTestPhrase();
+    this.musicTestTimer = window.setInterval(() => this.playMusicTestPhrase(), 1400);
+    return true;
+  }
+  private playMusicTestPhrase(): void {
+    if (!this.context || !this.musicBus) return;
+    const now = this.context.currentTime;
+    [392, 523.25].forEach((frequency, index) => {
+      const oscillator = this.context!.createOscillator();
+      const gain = this.context!.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, now);
+      gain.gain.setValueAtTime(0.0001, now + index * 0.14);
+      gain.gain.exponentialRampToValueAtTime(0.16 * this.preferences.master * this.preferences.music, now + index * 0.14 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.14 + 0.42);
+      oscillator.connect(gain).connect(this.musicBus!);
+      oscillator.start(now + index * 0.14);
+      oscillator.stop(now + index * 0.14 + 0.46);
+    });
+  }
+  toggleAmbienceTest(): boolean {
+    if (this.ambienceTestTimer !== null) {
+      window.clearInterval(this.ambienceTestTimer);
+      this.ambienceTestTimer = null;
+      return false;
+    }
+    if (!this.context || !this.ambienceBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || !this.preferences.ambienceEnabled) return false;
+    this.playAmbienceTestPulse();
+    this.ambienceTestTimer = window.setInterval(() => this.playAmbienceTestPulse(), 2400);
+    return true;
+  }
+  private playAmbienceTestPulse(): void {
+    if (!this.context || !this.ambienceBus) return;
+    const now = this.context.currentTime;
+    [[110, "sine"], [165, "triangle"]].forEach(([frequency, type], index) => {
+      const oscillator = this.context!.createOscillator();
+      const gain = this.context!.createGain();
+      oscillator.type = type as OscillatorType;
+      oscillator.frequency.setValueAtTime(frequency as number, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime((index === 0 ? 0.16 : 0.1) * this.preferences.master, now + 0.18);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+      oscillator.connect(gain).connect(this.ambienceBus!);
+      oscillator.start(now);
+      oscillator.stop(now + 1.9);
+    });
+  }
+  playEffectsTest(): void { this.playCue("selection"); }
+  stopTestSounds(): void {
+    if (this.musicTestTimer !== null) window.clearInterval(this.musicTestTimer);
+    if (this.ambienceTestTimer !== null) window.clearInterval(this.ambienceTestTimer);
+    this.musicTestTimer = null;
+    this.ambienceTestTimer = null;
+  }
   playCommittedEvents(events: FirstGlowCommittedEvent[]): void { for (const cue of this.ledger.accept(events)) this.playCue(cue); }
   updateAmbientMix(mix: FirstGlowAudioMix): void {
     this.mix = mix;
     this.refreshAmbientVoices();
   }
   close(): void {
+    this.stopTestSounds();
+    if (this.musicSource) {
+      this.musicSource.onended = null;
+      try { this.musicSource.stop(); } catch { /* already stopped */ }
+    }
     if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
     this.ambientPulseTimer = null;
     this.ambientVoices.forEach(voice => { try { voice.oscillator.stop(); } catch { /* already stopped */ } voice.oscillator.disconnect(); voice.gain.disconnect(); });
@@ -81,12 +192,27 @@ export class FirstGlowAudioRuntime {
     this.ambienceBus = null;
     this.effectsBus = null;
     this.musicBus = null;
+    this.musicBuffers = [];
+    this.musicSource = null;
+    this.musicAssetLoad = null;
+    this.effectBuffers.clear();
+    this.effectAssetLoad = null;
   }
 
   private playCue(cue: FirstGlowAudioCue): void {
     if (!this.context || !this.effectsBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.effects <= 0) return;
     const shape = cueShape[cue];
     const now = this.context.currentTime;
+    const buffer = this.effectBuffers.get(cue);
+    if (buffer) {
+      const source = this.context.createBufferSource();
+      const gain = this.context.createGain();
+      source.buffer = buffer;
+      gain.gain.value = this.preferences.master * this.preferences.effects;
+      source.connect(gain).connect(this.effectsBus);
+      source.start(now);
+      return;
+    }
     const oscillator = this.context.createOscillator();
     const gain = this.context.createGain();
     const peak = shape.gain * this.preferences.master * this.preferences.effects;
@@ -128,6 +254,7 @@ export class FirstGlowAudioRuntime {
     this.setBusGain(this.ambienceBus, active && this.preferences.ambienceEnabled ? this.preferences.master : 0);
     this.setBusGain(this.musicBus, active && this.preferences.scoreEnabled ? this.preferences.master : 0);
     this.setBusGain(this.effectsBus!, active ? this.preferences.master * this.preferences.effects : 0);
+    if (active && this.preferences.scoreEnabled) this.startMusicAsset();
     if (active && (this.preferences.ambienceEnabled || this.preferences.scoreEnabled)) {
       this.ensureAmbientVoices();
       this.scheduleAmbientPulse();
@@ -139,7 +266,7 @@ export class FirstGlowAudioRuntime {
 
   private ensureAmbientVoices(): void {
     if (!this.context || !this.ambienceBus || !this.musicBus || this.ambientVoices.length > 0) return;
-    const makeVoice = (frequency: number, bus: GainNode, type: OscillatorType) => {
+    const makeVoice = (frequency: number, bus: GainNode, type: OscillatorType, kind: "ambience" | "score") => {
       const oscillator = this.context!.createOscillator();
       const gain = this.context!.createGain();
       oscillator.type = type;
@@ -147,11 +274,13 @@ export class FirstGlowAudioRuntime {
       gain.gain.value = 0.0001;
       oscillator.connect(gain).connect(bus);
       oscillator.start();
-      this.ambientVoices.push({ oscillator, gain, frequency });
+      this.ambientVoices.push({ oscillator, gain, frequency, kind });
     };
-    makeVoice(92, this.ambienceBus, "sine");
-    makeVoice(138, this.ambienceBus, "triangle");
-    makeVoice(196, this.musicBus, "sine");
+    makeVoice(92, this.ambienceBus, "sine", "ambience");
+    makeVoice(138, this.ambienceBus, "triangle", "ambience");
+    makeVoice(196, this.musicBus, "sine", "score");
+    makeVoice(246.94, this.musicBus, "sine", "score");
+    makeVoice(293.66, this.musicBus, "sine", "score");
   }
 
   private scheduleAmbientPulse(): void {
@@ -161,15 +290,53 @@ export class FirstGlowAudioRuntime {
       if (!this.context || !this.preferences.enabled || this.preferences.muted) return;
       const now = this.context.currentTime;
       const ambienceTarget = this.preferences.ambienceEnabled ? this.mix.ambienceLevel * this.preferences.master : 0;
-      const scoreTarget = this.preferences.scoreEnabled ? this.mix.scoreLevel * this.preferences.master * this.preferences.music : 0;
+      const scoreTarget = this.preferences.scoreEnabled && this.musicBuffers.length === 0 ? this.mix.scoreLevel * this.preferences.master * this.preferences.music : 0;
       this.ambientVoices.forEach((voice, index) => {
-        const target = index < 2 ? ambienceTarget * (index === 0 ? 0.22 : 0.12) : scoreTarget * 0.28;
+        const isScore = voice.kind === "score";
+        const scoreIndex = isScore ? index - 2 : 0;
+        const start = isScore ? now + scoreIndex * 0.52 : now;
+        const target = isScore ? scoreTarget * (scoreIndex === 1 ? 0.82 : 0.7) : ambienceTarget * (index === 0 ? 0.65 : 0.42);
         voice.gain.cancelScheduledValues(now);
-        voice.gain.setValueAtTime(0.0001, now);
-        voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), now + 1.1);
-        voice.gain.linearRampToValueAtTime(0.0001, now + 3.2 + index * 0.3);
+        voice.gain.setValueAtTime(0.0001, start);
+        voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), start + (isScore ? 0.28 : 1.1));
+        voice.gain.linearRampToValueAtTime(0.0001, start + (isScore ? 1.75 : 3.2));
       });
-      this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 5200);
+      this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 7000);
     }, 1200);
+  }
+
+  private async loadMusicAssets(): Promise<void> {
+    if (!this.context || this.musicBuffers.length > 0) return;
+    this.musicAssetLoad ??= Promise.all(musicAssetUrls.map(async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`music asset unavailable: ${url}`);
+      return this.context!.decodeAudioData(await response.arrayBuffer());
+    })).then((buffers) => { this.musicBuffers = buffers; }).catch(() => { this.musicBuffers = []; });
+    await this.musicAssetLoad;
+  }
+
+  private async loadEffectAssets(): Promise<void> {
+    if (!this.context || this.effectBuffers.size > 0) return;
+    this.effectAssetLoad ??= Promise.all(Object.entries(effectAssetUrls).map(async ([cue, url]) => {
+      const response = await fetch(url!);
+      if (!response.ok) throw new Error(`effect asset unavailable: ${url}`);
+      return [cue as FirstGlowAudioCue, await this.context!.decodeAudioData(await response.arrayBuffer())] as const;
+    })).then((entries) => { this.effectBuffers = new Map(entries); }).catch(() => { this.effectBuffers.clear(); });
+    await this.effectAssetLoad;
+  }
+
+  private startMusicAsset(): void {
+    if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || !this.preferences.scoreEnabled || this.musicBuffers.length === 0 || this.musicSource) return;
+    const source = this.context.createBufferSource();
+    source.buffer = this.musicBuffers[this.musicTrackIndex % this.musicBuffers.length];
+    source.connect(this.musicBus);
+    source.onended = () => {
+      if (this.musicSource !== source) return;
+      this.musicSource = null;
+      this.musicTrackIndex = (this.musicTrackIndex + 1) % this.musicBuffers.length;
+      this.startMusicAsset();
+    };
+    this.musicSource = source;
+    source.start();
   }
 }

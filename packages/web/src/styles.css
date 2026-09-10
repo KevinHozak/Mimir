@@ -182,6 +182,7 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow-audio summary span { color: #8fa7c3; font-size: .78rem; font-weight: 400; }
 .audio-panel { display: grid; gap: 10px; padding: 0 14px 14px; border-top: 1px solid #263b55; }
 .audio-panel button { justify-self: start; padding: 8px 12px; background: #21445f; }
+.audio-test-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .audio-status { margin: 10px 0 0; color: #8fa7c3 !important; font-size: .78rem; }
 .audio-toggle, .audio-slider { display: grid; grid-template-columns: 100px minmax(100px, 1fr) 42px; gap: 8px; align-items: center; color: #c8d8e9; font-size: .8rem; }
 .audio-toggle { display: flex; gap: 8px; }
