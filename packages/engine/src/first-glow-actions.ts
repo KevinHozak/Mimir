@@ -22,6 +22,7 @@ function chooseAutonomousActivities(state: FirstGlowState): void {
     const shelterCarePreferred = target && firstGlowActionScore(state.social, spark.id, target.id, "shelter-or-trace") >= 3 && spark.readiness < 90;
     if (spark.readiness < 70 || shelterCarePreferred) priorities.push("seek-shelter");
     if (!hasLearned(spark, "explore")) priorities.push("explore");
+    if (hasLearned(spark, "explore") && !hasLearned(spark, "scavenge-cache")) priorities.push("scavenge-cache");
     if (hasLearned(spark, "explore") && !hasLearned(spark, "mark-trace")) priorities.push("mark-trace");
     if (!hasLearned(spark, "shape-pattern")) priorities.push("shape-pattern");
     priorities.push("seek-shelter", "idle");
@@ -39,6 +40,8 @@ function resolveAutonomousSocialChoices(state: FirstGlowState): void {
         ? "shelter-or-trace"
         : ["explore", "mark-trace", "shape-pattern", "meet"].includes(event.kind)
           ? "public-or-private-mark"
+          : event.kind === "wild-cache"
+            ? "wild-cache-risk"
           : undefined;
     if (!dilemmaId) continue;
     const actor = sparks.find(spark => spark.id === event.actorId);
@@ -47,7 +50,8 @@ function resolveAutonomousSocialChoices(state: FirstGlowState): void {
     const choices: Record<FirstGlowDilemmaChoice["dilemmaId"], [string, string]> = {
       "weakening-pool-report": ["reveal-pool", "withhold-pool"],
       "shelter-or-trace": ["help-shelter", "continue-exploration"],
-      "public-or-private-mark": ["make-mark-public", "keep-mark-private"]
+      "public-or-private-mark": ["make-mark-public", "keep-mark-private"],
+      "wild-cache-risk": ["enter-wild-cache", "stay-on-trace"]
     };
     const [first, second] = choices[dilemmaId];
     const alternativeId = firstGlowActionScore(state.social, actor.id, target, dilemmaId) >= 0 ? first : second;
@@ -80,7 +84,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     if (!actor || !recipient || actor.position.x !== recipient.position.x || actor.position.y !== recipient.position.y) continue;
     const amount = Math.min(1, actor.carriedCharge); actor.carriedCharge -= amount; recipient.carriedCharge += amount; state.ledger.push({ kind: "share", actorId: actor.id, recipientId: recipient.id, amount, reason: amount ? "co-present-spark" : "no-carried-charge" }); state.events.push({ id: `event-${state.tick}-${actor.id}-share`, kind: "share", actorId: actor.id, participants: [actor.id, recipient.id], message: `${actor.name} shared ${amount} charge with ${recipient.name}.` }); actor.status = "choosing"; recipient.status = "choosing"; const originalActivity = restoredActivities.get(recipient.id); if (originalActivity) recipient.intendedActivity = originalActivity;
   }
-  const arrivalActions = new Set(state.events.filter(event => ["explore", "mark-trace", "shape-pattern", "meet"].includes(event.kind)).map(event => event.actorId));
+  const arrivalActions = new Set(state.events.filter(event => ["explore", "mark-trace", "shape-pattern", "meet", "wild-cache"].includes(event.kind)).map(event => event.actorId));
   const movedActors = new Set(state.events.filter(event => event.kind === "movement").map(event => event.actorId));
   const drawnActors = new Set(state.ledger.filter(entry => entry.kind === "draw" && entry.actorId).map(entry => entry.actorId));
   for (const settlement of state.settlements) for (const spark of settlement.sparks) {

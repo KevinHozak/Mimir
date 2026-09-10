@@ -5,8 +5,8 @@ import type { FirstGlowState, StructuredEvent } from "./structured.js";
 export const FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION = 1 as const;
 export const FIRST_GLOW_REVIEW_ENCOUNTER_COUNT = 20 as const;
 export type FirstGlowInterpretationFallbackReason = "malformed-output" | "invalid-reference" | "unsupported-claim" | "timeout" | "budget-exhausted" | "provider-error";
-export type FirstGlowInterpretationDilemma = "weakening-pool-report" | "shelter-or-trace" | "public-or-private-mark";
-export type FirstGlowInterpretationAlternative = "reveal-pool" | "withhold-pool" | "help-shelter" | "continue-exploration" | "make-mark-public" | "keep-mark-private";
+export type FirstGlowInterpretationDilemma = "weakening-pool-report" | "shelter-or-trace" | "public-or-private-mark" | "wild-cache-risk";
+export type FirstGlowInterpretationAlternative = "reveal-pool" | "withhold-pool" | "help-shelter" | "continue-exploration" | "make-mark-public" | "keep-mark-private" | "enter-wild-cache" | "stay-on-trace";
 
 export interface FirstGlowInterpretationContext {
   schemaVersion: typeof FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION;
@@ -70,7 +70,8 @@ const sortedUnique = (values: string[]) => [...new Set(values)].sort(compare);
 const alternatives: Record<FirstGlowInterpretationDilemma, FirstGlowInterpretationAlternative[]> = {
   "weakening-pool-report": ["reveal-pool", "withhold-pool"],
   "shelter-or-trace": ["help-shelter", "continue-exploration"],
-  "public-or-private-mark": ["make-mark-public", "keep-mark-private"]
+  "public-or-private-mark": ["make-mark-public", "keep-mark-private"],
+  "wild-cache-risk": ["enter-wild-cache", "stay-on-trace"]
 };
 const mapping: Record<string, FirstGlowInterpretationDilemma> = {
   draw: "weakening-pool-report",
@@ -79,7 +80,8 @@ const mapping: Record<string, FirstGlowInterpretationDilemma> = {
   explore: "public-or-private-mark",
   "mark-trace": "public-or-private-mark",
   "shape-pattern": "public-or-private-mark",
-  meet: "public-or-private-mark"
+  meet: "public-or-private-mark",
+  "wild-cache": "wild-cache-risk"
 };
 
 function stableJson(value: unknown): string { return JSON.stringify(canonicalize(value)); }

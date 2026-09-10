@@ -46,8 +46,8 @@ export interface WorldBundle {
   assets: AssetManifestEntry[];
   bundle: WorldBundleReference;
 }
-export type FirstGlowActivity = "seek-charge" | "draw-charge" | "share-charge" | "explore" | "mark-trace" | "seek-shelter" | "meet" | "shape-pattern" | "idle";
-export type FirstGlowCapability = "charge-pool" | "shelter-niche" | "trace" | "relay-crossing" | "pattern-shard" | "light-mark";
+export type FirstGlowActivity = "seek-charge" | "draw-charge" | "share-charge" | "explore" | "mark-trace" | "seek-shelter" | "meet" | "shape-pattern" | "scavenge-cache" | "idle";
+export type FirstGlowCapability = "charge-pool" | "shelter-niche" | "trace" | "relay-crossing" | "pattern-shard" | "light-mark" | "wild-cache";
 export interface FirstGlowTerrainDefinition extends TerrainDefinition { label?: string; }
 export interface FirstGlowObjectDefinition extends ObjectDefinition { capabilities: FirstGlowCapability[]; label: string; }
 export interface FirstGlowWorldBundle {
