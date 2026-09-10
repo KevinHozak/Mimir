@@ -1,12 +1,17 @@
 import type { FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import type { FirstGlowAudioMix } from "./first-glow-audio-ambience.js";
 
-export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction";
+export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction" | "route-discover" | "mark-light" | "cache-probe" | "route-blocked" | "timeline-branch";
 export type FirstGlowCommittedEvent = { id: string; tick: number; kind: string; message: string };
 
 export function firstGlowAudioCueForEvent(event: FirstGlowCommittedEvent): FirstGlowAudioCue | null {
   if (/\bshared \d+ charge\b/i.test(event.message)) return "charge-share";
   if (/\bdrew \d+ charge\b/i.test(event.message)) return "charge-draw";
+  if (/\btimeline branch\b/i.test(event.message)) return "timeline-branch";
+  if (/\b(severed route|blocked route)\b/i.test(event.message)) return "route-blocked";
+  if (/\b(marked|light marker)\b/i.test(event.message)) return "mark-light";
+  if (/\b(probed the wild cache|cache)\b/i.test(event.message)) return "cache-probe";
+  if (/\b(discovered|discover|illuminat(?:ed|ing) a new route)\b/i.test(event.message)) return "route-discover";
   if (/\b(met|interaction)\b/i.test(event.message)) return "interaction";
   if (/\b(waiting|blocked|could not|no reachable|warning)\b/i.test(event.message)) return "warning";
   if (/\b(completed |arrived|probed the wild cache)/i.test(event.message)) return "arrival";
@@ -35,13 +40,32 @@ const cueShape: Record<FirstGlowAudioCue, { frequency: number; duration: number;
   "charge-share": { frequency: 440, duration: 0.22, type: "sine", gain: 0.2 },
   warning: { frequency: 190, duration: 0.2, type: "triangle", gain: 0.18 },
   interaction: { frequency: 390, duration: 0.2, type: "sine", gain: 0.18 },
+  "route-discover": { frequency: 440, duration: 0.24, type: "sine", gain: 0.18 },
+  "mark-light": { frequency: 880, duration: 0.12, type: "sine", gain: 0.16 },
+  "cache-probe": { frequency: 740, duration: 0.2, type: "triangle", gain: 0.16 },
+  "route-blocked": { frequency: 180, duration: 0.16, type: "square", gain: 0.14 },
+  "timeline-branch": { frequency: 620, duration: 0.26, type: "triangle", gain: 0.18 },
 };
 const musicAssetUrls = [
   "/audio/first-glow/weightless-shore.mp3",
   "/audio/first-glow/navigation-by-starlight.mp3",
   "/audio/first-glow/haven-under-starlight.mp3",
   "/audio/first-glow/where-the-light-pools.mp3",
+  "/audio/first-glow/where-light-dissolves.mp3",
 ];
+const effectAssetUrls: Partial<Record<FirstGlowAudioCue, string>> = {
+  selection: "/audio/first-glow/sfx/sfx_spark_select.wav",
+  arrival: "/audio/first-glow/sfx/sfx_spark_arrive.wav",
+  "charge-draw": "/audio/first-glow/sfx/sfx_charge_draw.wav",
+  "charge-share": "/audio/first-glow/sfx/sfx_charge_share.wav",
+  warning: "/audio/first-glow/sfx/sfx_warning_gentle.wav",
+  interaction: "/audio/first-glow/sfx/sfx_interaction_success.wav",
+  "route-discover": "/audio/first-glow/sfx/sfx_route_discover.wav",
+  "mark-light": "/audio/first-glow/sfx/sfx_mark_light.wav",
+  "cache-probe": "/audio/first-glow/sfx/sfx_cache_probe.wav",
+  "route-blocked": "/audio/first-glow/sfx/sfx_route_blocked.wav",
+  "timeline-branch": "/audio/first-glow/sfx/sfx_timeline_branch.wav",
+};
 
 export class FirstGlowAudioRuntime {
   private readonly ledger = new FirstGlowAudioEventLedger();
@@ -55,6 +79,8 @@ export class FirstGlowAudioRuntime {
   private musicSource: AudioBufferSourceNode | null = null;
   private musicAssetLoad: Promise<void> | null = null;
   private musicTrackIndex = 0;
+  private effectBuffers = new Map<FirstGlowAudioCue, AudioBuffer>();
+  private effectAssetLoad: Promise<void> | null = null;
   private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number; kind: "ambience" | "score" }[] = [];
   private ambientPulseTimer: number | null = null;
   private musicTestTimer: number | null = null;
@@ -70,6 +96,7 @@ export class FirstGlowAudioRuntime {
     this.ensureBuses();
     await this.context.resume();
     await this.loadMusicAssets();
+    await this.loadEffectAssets();
     this.startMusicAsset();
     this.refreshAmbientVoices();
   }
@@ -165,12 +192,24 @@ export class FirstGlowAudioRuntime {
     this.musicBuffers = [];
     this.musicSource = null;
     this.musicAssetLoad = null;
+    this.effectBuffers.clear();
+    this.effectAssetLoad = null;
   }
 
   private playCue(cue: FirstGlowAudioCue): void {
     if (!this.context || !this.effectsBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.effects <= 0) return;
     const shape = cueShape[cue];
     const now = this.context.currentTime;
+    const buffer = this.effectBuffers.get(cue);
+    if (buffer) {
+      const source = this.context.createBufferSource();
+      const gain = this.context.createGain();
+      source.buffer = buffer;
+      gain.gain.value = this.preferences.master * this.preferences.effects;
+      source.connect(gain).connect(this.effectsBus);
+      source.start(now);
+      return;
+    }
     const oscillator = this.context.createOscillator();
     const gain = this.context.createGain();
     const peak = shape.gain * this.preferences.master * this.preferences.effects;
@@ -271,6 +310,16 @@ export class FirstGlowAudioRuntime {
       return this.context!.decodeAudioData(await response.arrayBuffer());
     })).then((buffers) => { this.musicBuffers = buffers; }).catch(() => { this.musicBuffers = []; });
     await this.musicAssetLoad;
+  }
+
+  private async loadEffectAssets(): Promise<void> {
+    if (!this.context || this.effectBuffers.size > 0) return;
+    this.effectAssetLoad ??= Promise.all(Object.entries(effectAssetUrls).map(async ([cue, url]) => {
+      const response = await fetch(url!);
+      if (!response.ok) throw new Error(`effect asset unavailable: ${url}`);
+      return [cue as FirstGlowAudioCue, await this.context!.decodeAudioData(await response.arrayBuffer())] as const;
+    })).then((entries) => { this.effectBuffers = new Map(entries); }).catch(() => { this.effectBuffers.clear(); });
+    await this.effectAssetLoad;
   }
 
   private startMusicAsset(): void {

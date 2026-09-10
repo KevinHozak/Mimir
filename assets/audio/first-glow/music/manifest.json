@@ -33,6 +33,14 @@
       "durationSeconds": 175.647,
       "sourceSha256": "241157c3986eacf5489bc5156caf6a84636af6cb0b8f96b11c6c50f906d693e5",
       "runtimeSha256": "d5c16a459a24b535df9f282ed0fb4ef26d4876486eb08e1f5c53498805ed92c3"
+    },
+    {
+      "id": "first-glow-score-where-light-dissolves",
+      "sourceFile": "Where_Light_Dissolves-source.mp3",
+      "runtimeFile": "packages/web/public/audio/first-glow/where-light-dissolves.mp3",
+      "durationSeconds": 180.323,
+      "sourceSha256": "0258a44fa991fc5d4c8c4b4339a0b83785e9a8f8ca032bb8cc8f53de0d00cd19",
+      "runtimeSha256": "8040831ef2f00f7ce609ec9bbbea5802fd8301e1bacac5b2f7539644b01f2854"
     }
   ]
 }
