@@ -9,7 +9,7 @@ This is the current delivery order. It complements the dated planning documents 
 | Gate | Current work | Status |
 | --- | --- | --- |
 | Audio-P1 | [Establish an accessible, silent-by-default audio foundation](https://github.com/KevinHozak/Mimir/issues/93) | Ready. Next implementation work after the completed Graphics-P8 visual pass. |
-| Resonance-P0 | [Define the evidence-first Resonance and Anchor contract](https://github.com/KevinHozak/Mimir/issues/85) | Ready. Contract and deterministic fixtures only; no Anchor runtime work begins before the Living Stories gate. |
+| Resonance-P0 | [Define the evidence-first Resonance and Anchor contract](https://github.com/KevinHozak/Mimir/issues/85) | In progress. Contract and deterministic fixtures only; no Anchor runtime work begins before the Living Stories gate. |
 
 ## Next non-hosting delivery sequence
 
