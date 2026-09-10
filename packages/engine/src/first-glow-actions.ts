@@ -3,7 +3,7 @@ import { applyFirstGlowDilemmaChoice, firstGlowActionScore, recordFirstGlowWitne
 import { appendFirstGlowExplanations } from "./first-glow-explanations.js";
 import type { FirstGlowActivity } from "@mimir/world-data";
 
-export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; }
+export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; validate?: boolean; }
 
 function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][number], activity: FirstGlowActivity): boolean {
   return spark.knownEvidenceEventIds.some((eventId) => eventId.endsWith(`-${activity}`));
@@ -60,7 +60,16 @@ function resolveAutonomousSocialChoices(state: FirstGlowState): void {
 }
 
 export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExternalChargeInput = {}): FirstGlowState {
-  const working = structuredClone(input);
+  // Bundles are immutable, content-addressed authored data. Preserve their identity while
+  // cloning mutable runtime state so long evidence reviews do not copy the full map per tick.
+  const working: FirstGlowState = {
+    ...input,
+    settlements: input.settlements.map(({ bundle, ...settlement }) => ({ ...structuredClone(settlement), bundle })),
+    ledger: structuredClone(input.ledger),
+    events: structuredClone(input.events),
+    social: structuredClone(input.social),
+    explanations: structuredClone(input.explanations)
+  };
   chooseAutonomousActivities(working);
   const previous = new Map(working.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, { status: spark.status, activity: spark.intendedActivity }] as const)));
   const shares: { actorId: string; recipientId: string }[] = [];
@@ -71,7 +80,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     const recipient = settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id)).find(candidate => candidate.id !== spark.id && !claimedRecipients.has(candidate.id) && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y);
     if (recipient) { shares.push({ actorId: spark.id, recipientId: recipient.id }); claimedRecipients.add(recipient.id); spark.status = "waiting"; recipient.status = "waiting"; restoredActivities.set(recipient.id, recipient.intendedActivity); recipient.intendedActivity = "share-charge"; }
   }
-  const state = advanceFirstGlowState(working);
+  const state = advanceFirstGlowState(working, external.validate !== false);
   const sourceInput = external.sourceCharge ?? 0;
   const communalInput = external.communalCharge ?? 0;
   const lossInput = external.loss ?? 0;

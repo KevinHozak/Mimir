@@ -8,6 +8,10 @@ const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const bundleHash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const bundle = decodeWorldBundle(JSON.parse(readFileSync(join(root, "assets", "world", "generated", bundleHash, "world.json"), "utf8")));
 
+export const FIRST_GLOW_REVIEW_TICKS_PER_SEASON = 24;
+export const FIRST_GLOW_STORY_SEASONS = 4;
+export const FIRST_GLOW_LONG_STORY_TICKS = FIRST_GLOW_REVIEW_TICKS_PER_SEASON * FIRST_GLOW_STORY_SEASONS;
+
 export const FIRST_GLOW_SEASON_SCENARIOS = [
   { id: "abundance-baseline", title: "Abundance baseline", question: "When charge remains dependable, do Sparks explore and cooperate without scarcity pressure?", controlledVariable: "24 source charge intake every fourth tick; no losses", seeds: [1101, 1102, 1103], expectedObservable: "Stable charge access, exploration/trace activity, and a low final charge deficit.", interpretation: "Intended tradeoff: dependable supply should permit exploration and cooperation; this bounded run shows no immediate bug.", choices: [{ tick: 6, dilemmaId: "weakening-pool-report", alternativeId: "reveal-pool" }, { tick: 12, dilemmaId: "shelter-or-trace", alternativeId: "help-shelter" }, { tick: 18, dilemmaId: "public-or-private-mark", alternativeId: "make-mark-public" }], sourceIntakeEveryFour: 24, lossByTick: {} },
   { id: "supply-scarcity", title: "Supply scarcity", question: "When intake stops and charge is lost, does pressure increase deficit and shelter-seeking?", controlledVariable: "No replenishment; 4 charge lost at ticks 8, 16, and 24", seeds: [1201, 1202, 1203], expectedObservable: "Lower remaining source charge, higher deficit/readiness pressure, and more idle or waiting events.", interpretation: "Intended tradeoff: lower supply should raise charge pressure; unresolved question: whether shelter recovery should outpace depletion.", choices: [{ tick: 6, dilemmaId: "weakening-pool-report", alternativeId: "withhold-pool" }, { tick: 12, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }, { tick: 18, dilemmaId: "public-or-private-mark", alternativeId: "keep-mark-private" }], sourceIntakeEveryFour: 0, lossByTick: { 8: 4, 16: 4, 24: 4 } },
@@ -31,26 +35,30 @@ function applyPlannedChoice(world, plan, events) {
   return { world: { ...world, firstGlowState: { ...world.firstGlowState, social } }, applied: true, actorSparkId, targetSparkId, evidenceEventId: evidence.id };
 }
 
-export function runFirstGlowSeason(scenario, seed, ticks = 24) {
-  let world = createWorldV3(bundle, seed, `season-${scenario.id}-${seed}`, 6);
+export function runFirstGlowSeason(scenario, seed, ticks = FIRST_GLOW_LONG_STORY_TICKS, sparkCount = 6) {
+  let world = createWorldV3(bundle, seed, `season-${scenario.id}-${seed}`, sparkCount);
   const history = [];
   const ledger = [];
   const plannedChoices = [];
+  const seasonCheckpoints = [];
   for (let step = 0; step < ticks; step += 1) {
     const nextTick = world.tick + 1;
-    const sourceCharge = nextTick % 4 === 0 ? scenario.sourceIntakeEveryFour : 0;
-    const loss = scenario.lossByTick[nextTick] ?? 0;
-    const firstGlowState = advanceFirstGlow(world.firstGlowState, { sourceCharge, loss, resolveSocial: false });
+    const season = Math.floor((nextTick - 1) / FIRST_GLOW_REVIEW_TICKS_PER_SEASON) + 1;
+    const seasonTick = ((nextTick - 1) % FIRST_GLOW_REVIEW_TICKS_PER_SEASON) + 1;
+    const sourceCharge = seasonTick % 4 === 0 ? scenario.sourceIntakeEveryFour : 0;
+    const loss = scenario.lossByTick[seasonTick] ?? 0;
+    const firstGlowState = advanceFirstGlow(world.firstGlowState, { sourceCharge, loss, resolveSocial: false, validate: step === 0 });
     world = { ...world, tick: firstGlowState.tick, firstGlowState };
     const tickEvents = firstGlowState.events.map(event => ({ ...event, tick: firstGlowState.tick }));
     history.push(...tickEvents);
     ledger.push(...firstGlowState.ledger.map(entry => ({ ...entry, tick: firstGlowState.tick })));
-    const plan = scenario.choices.find(choice => choice.tick === firstGlowState.tick);
+    const plan = scenario.choices.find(choice => choice.tick === seasonTick);
     if (plan) {
       const result = applyPlannedChoice(world, plan, tickEvents);
       world = result.world;
-      plannedChoices.push({ ...plan, evidenceMode: "controlled-intervention", applied: result.applied, actorSparkId: result.actorSparkId, targetSparkId: result.targetSparkId, evidenceEventId: result.evidenceEventId });
+      plannedChoices.push({ ...plan, season, seasonTick, scheduledTick: firstGlowState.tick, evidenceMode: "controlled-intervention", applied: result.applied, actorSparkId: result.actorSparkId, targetSparkId: result.targetSparkId, evidenceEventId: result.evidenceEventId });
     }
+    if (seasonTick === FIRST_GLOW_REVIEW_TICKS_PER_SEASON) seasonCheckpoints.push({ season, tick: firstGlowState.tick, historyEventCount: history.length, ledgerEntryCount: ledger.length, commitmentCount: world.firstGlowState.social.commitments.length, nonNeutralTrustCount: world.firstGlowState.social.trust.filter(item => item.value !== 0).length });
   }
   const settlement = world.firstGlowState.settlements[0];
   const sparks = settlement.sparks.slice().sort((a, b) => compare(a.id, b.id));
@@ -65,7 +73,7 @@ export function runFirstGlowSeason(scenario, seed, ticks = 24) {
     return { sparkId: spark.id, sparkName: spark.name, pressure, response, later };
   }).filter(arc => arc.pressure && arc.response && arc.later).slice(0, 3);
   return {
-    scenarioId: scenario.id, title: scenario.title, seed, ticks, history, ledger, plannedChoices, controlledInterventions: plannedChoices, arcs,
+    scenarioId: scenario.id, title: scenario.title, seed, ticks, history, ledger, plannedChoices, controlledInterventions: plannedChoices, seasonCheckpoints, arcs,
     metrics: {
       finalSourceCharge: settlement.sourceCharge,
       finalCommunalCharge: settlement.communalCharge,
@@ -85,7 +93,9 @@ export function runFirstGlowSeason(scenario, seed, ticks = 24) {
       fulfilledCommitments: commitments.filter(item => item.status === "fulfilled").length,
       brokenCommitments: commitments.filter(item => item.status === "broken").length,
       appliedChoices: plannedChoices.filter(choice => choice.applied).length,
-      controlledInterventions: plannedChoices.filter(choice => choice.applied).length
+      controlledInterventions: plannedChoices.filter(choice => choice.applied).length,
+      completedSeasons: seasonCheckpoints.length,
+      persistentCommitments: world.firstGlowState.social.commitments.filter(item => item.resolvedTick <= FIRST_GLOW_REVIEW_TICKS_PER_SEASON).length
     }
   };
 }

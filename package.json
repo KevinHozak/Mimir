@@ -24,6 +24,7 @@
     "audio:test": "node scripts/first-glow-audio-contract.test.mjs",
     "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",
     "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",
+    "first-glow:long-story-review": "npm run build && node scripts/first-glow-long-story-review.mjs",
     "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",
     "dev:server": "npm run dev --workspace @mimir/server",
     "dev:web": "npm run dev --workspace @mimir/web"
