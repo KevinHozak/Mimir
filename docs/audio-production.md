@@ -30,3 +30,7 @@ No binary audio files are shipped by Audio-P2. `planned` entries are intentional
 ## Promotion gate
 
 Before a candidate becomes `shipped`, add its reviewed source and update the palette entry with its source path or URL, retrieval date when applicable, license, attribution, edit record, runtime format, version, checksum, and final loudness measurement. Audio-P3 and Audio-P4 own runtime integration; they must preserve the immutable world-bundle and provenance boundaries and must not add audio-only simulation evidence.
+
+## Audio-P3 committed event cues
+
+Audio-P3 uses small procedural Web Audio one-shots while the palette remains `contract-only`; it does not add unreviewed binary assets. The observer maps only newly received committed records to cues: explicit selection, completed arrival, charge draw, charge share, blocked or waiting warning, and recorded interaction. Initial snapshots, history navigation, replay views, and SSE reconnect state do not replay old cues. A session ledger deduplicates event IDs before playback, and muted audio leaves the event stream and visual evidence unchanged.

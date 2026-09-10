@@ -12,6 +12,7 @@ import { planFirstGlowAtmosphere, type FirstGlowAtmosphereEvent } from "./first-
 import { firstGlowBlockedSummary, firstGlowCellQuery, firstGlowGroundDepth } from "./first-glow-scene.js";
 import { HistoryRequestSequencer } from "./history-sequencing.js";
 import { audioPreferencePercent, loadFirstGlowAudioPreferences, saveFirstGlowAudioPreferences, type FirstGlowAudioPreferences } from "./first-glow-audio.js";
+import { FirstGlowAudioRuntime } from "./first-glow-audio-runtime.js";
 import "./styles.css";
 
 type TilePosition = Cell;
@@ -58,6 +59,7 @@ type Report = { timeline: { id: string; parent_id: string | null; created_at: st
 const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
 const FIRST_GLOW_MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
+const firstGlowAudioRuntime = new FirstGlowAudioRuntime(loadFirstGlowAudioPreferences());
 
 function cameraScrollBounds(camera: Phaser.Cameras.Scene2D.Camera, mapWidth: number, mapHeight: number) {
   const viewWidth = camera.width / camera.zoom;
@@ -446,11 +448,10 @@ function RegionOverview({ world, activeSettlementId, onSelect }: { world: State;
   return <section className="region-overview"><div className="season-review-heading"><div><h2>{firstGlow ? "Local region" : "Regional view"}</h2><p>{firstGlow ? "Select a region to inspect its Sparks and light sites." : "Select a settlement to inspect its map and people."}</p></div><strong>{settlements.length} {firstGlow ? "regions" : "settlements"}</strong></div><div className="region-cards">{settlements.map((settlement) => { const glowSettlement = world.firstGlowState?.settlements.find(candidate => candidate.id === settlement.id); return <button className={`region-card${settlement.id === activeSettlementId ? " selected" : ""}`} key={settlement.id} onClick={() => onSelect(settlement.id)}><strong>{settlement.name}</strong><span>{firstGlow ? `${glowSettlement?.sparks.length ?? 0} Sparks` : `${settlement.villagerIds.length} villagers`}</span><span>{firstGlow ? `${glowSettlement?.sourceCharge ?? 0} source charge` : `${settlement.foodReserve} food reserve`}</span><small>Inspect {firstGlow ? "region" : "settlement"}</small></button>; })}</div>{!firstGlow && <><p className="weather-status">Weather: <strong>{world.weather?.kind ?? "clear"}</strong> · forecast {world.weather?.forecast ?? "rain"}</p>{activeHazards.map((hazard) => <p className="hazard-status" key={hazard.id}>⚠️ {hazard.summary}</p>)}{trades.length > 0 && <div className="trade-history"><h3>Cross-village trade</h3>{trades.slice(-3).reverse().map((trade) => <p key={trade.id}><strong>Tick {trade.tick}:</strong> {trade.summary}</p>)}</div>}</>}</section>;
 }
 
-function FirstGlowAudioControls() {
+function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?: FirstGlowAudioRuntime } = {}) {
   const [preferences, setPreferences] = useState<FirstGlowAudioPreferences>(() => loadFirstGlowAudioPreferences());
   const [sessionReady, setSessionReady] = useState(false);
   const [audioStatus, setAudioStatus] = useState(() => loadFirstGlowAudioPreferences().enabled ? "Audio preference restored. Choose Enable audio to start this session." : "Silent until you choose Enable audio.");
-  const audioContextRef = useRef<AudioContext | null>(null);
   const update = (next: Partial<FirstGlowAudioPreferences>) => setPreferences((current) => {
     const updated = { ...current, ...next };
     saveFirstGlowAudioPreferences(updated);
@@ -458,26 +459,24 @@ function FirstGlowAudioControls() {
   });
   const enableAudio = async () => {
     try {
-      const AudioContextConstructor = window.AudioContext ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (!AudioContextConstructor) throw new Error("Audio is unavailable");
-      audioContextRef.current ??= new AudioContextConstructor();
-      await audioContextRef.current.resume();
       update({ enabled: true });
+      await runtime.enable();
       setSessionReady(true);
-      setAudioStatus("Audio is ready. No First Glow sounds are attached yet.");
+      setAudioStatus("Audio is ready. Cues follow committed events only.");
     } catch {
       update({ enabled: false });
       setSessionReady(false);
       setAudioStatus("Audio could not start here. The observer remains fully usable in silence.");
     }
   };
-  useEffect(() => () => { void audioContextRef.current?.close(); }, []);
+  useEffect(() => { runtime.updatePreferences(preferences); }, [preferences, runtime]);
+  useEffect(() => () => runtime.close(), [runtime]);
   return <details className="first-glow-audio" data-testid="first-glow-audio-controls">
     <summary>Audio <span aria-hidden="true">{sessionReady && !preferences.muted ? "· ready" : "· silent"}</span></summary>
     <div className="audio-panel" aria-label="First Glow audio settings">
       <p className="audio-status" role="status">{audioStatus}</p>
       {!sessionReady && <button type="button" onClick={() => void enableAudio()} aria-label="Enable audio">Enable audio</button>}
-      {sessionReady && <button type="button" onClick={() => { setSessionReady(false); update({ enabled: false, muted: true }); }} aria-label="Disable audio">Disable audio</button>}
+      {sessionReady && <button type="button" onClick={() => { runtime.disable(); setSessionReady(false); update({ enabled: false, muted: true }); }} aria-label="Disable audio">Disable audio</button>}
       <label className="audio-toggle"><input type="checkbox" checked={preferences.muted} onChange={(event) => update({ muted: event.target.checked })} /> Mute all audio</label>
       {(["master", "music", "effects"] as const).map((channel) => <label className="audio-slider" key={channel} htmlFor={`audio-${channel}`}><span>{channel === "master" ? "Master" : channel === "music" ? "Music" : "Effects"}</span><input id={`audio-${channel}`} type="range" min="0" max="100" step="1" value={audioPreferencePercent(preferences[channel])} onChange={(event) => update({ [channel]: Number(event.target.value) / 100 })} aria-label={`${channel} volume`} /><output htmlFor={`audio-${channel}`}>{audioPreferencePercent(preferences[channel])}%</output></label>)}
       <small>Sound is presentation only. Every simulation fact remains readable with all channels muted.</small>
@@ -510,6 +509,9 @@ function App() {
   const viewTickRef = useRef<number | null>(null);
   const historyRequestRef = useRef(new HistoryRequestSequencer());
   const liveContextRef = useRef<string | null>(null);
+  const audioRuntime = firstGlowAudioRuntime;
+  const previousSelectedEntityRef = useRef<string | null>(null);
+  useEffect(() => { if (previousSelectedEntityRef.current !== null && selectedEntityId !== null && previousSelectedEntityRef.current !== selectedEntityId) audioRuntime.playSelection(); previousSelectedEntityRef.current = selectedEntityId; }, [audioRuntime, selectedEntityId]);
   const invalidateHistoryRequest = () => historyRequestRef.current.invalidate();
   const activeSettlement = world?.settlements?.find((settlement) => settlement.id === activeSettlementId);
   const visibleVillagers = (world?.villagers ?? []).filter((villager) => villager.settlementId === activeSettlementId);
@@ -558,6 +560,7 @@ function App() {
       validateClientWorld(payload.state);
       setLiveWorld((current) => current && current.tick > payload.state.tick ? current : payload.state);
       if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
+      if (payload.events?.length && payload.state.simulationVersion === "mimir-sim-v3-first-glow") audioRuntime.playCommittedEvents(payload.events);
       if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));
       if (viewTickRef.current === null) setWorld((current) => current && current.tick > payload.state.tick ? current : payload.state);
     };
