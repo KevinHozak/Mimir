@@ -66,6 +66,22 @@ export class FirstGlowAudioRuntime {
     void this.context?.suspend();
   }
   playSelection(): void { this.playCue("selection"); }
+  playTestTone(): void {
+    if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.music <= 0) return;
+    const now = this.context.currentTime;
+    [392, 523.25].forEach((frequency, index) => {
+      const oscillator = this.context!.createOscillator();
+      const gain = this.context!.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, now);
+      gain.gain.setValueAtTime(0.0001, now + index * 0.14);
+      gain.gain.exponentialRampToValueAtTime(0.16 * this.preferences.master * this.preferences.music, now + index * 0.14 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.14 + 0.42);
+      oscillator.connect(gain).connect(this.musicBus!);
+      oscillator.start(now + index * 0.14);
+      oscillator.stop(now + index * 0.14 + 0.46);
+    });
+  }
   playCommittedEvents(events: FirstGlowCommittedEvent[]): void { for (const cue of this.ledger.accept(events)) this.playCue(cue); }
   updateAmbientMix(mix: FirstGlowAudioMix): void {
     this.mix = mix;

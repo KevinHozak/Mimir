@@ -13,6 +13,7 @@
     "test:first-glow-issue-42": "npm run build && tsx src/first-glow-issue-42-e2e.test.ts",
     "test:first-glow-header": "npm run build && tsx src/first-glow-header.test.ts",
     "test:first-glow-audio": "tsx src/first-glow-audio.test.ts",
+    "test:first-glow-settings": "tsx src/first-glow-settings.test.ts",
     "test:first-glow-live-panel": "npm run build && tsx src/first-glow-live-panel.test.ts",
     "test:first-glow-identity": "npm run build && tsx src/first-glow-identity.test.ts",
     "test:first-glow-identity-e2e": "npm run build && tsx src/first-glow-identity-e2e.test.ts",
