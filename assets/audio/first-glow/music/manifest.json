@@ -1,0 +1,22 @@
+{
+  "status": "review-candidate",
+  "retrievalDate": "2026-09-10",
+  "assets": [
+    {
+      "id": "first-glow-score-weightless-shore",
+      "sourceFile": "Weightless_Shore-source.mp3",
+      "runtimeFile": "packages/web/public/audio/first-glow/weightless-shore.mp3",
+      "durationSeconds": 176.614,
+      "sourceSha256": "01dcf4477ce179bb93ba735be8616acdc7a3990777aab6e506536b71e0c73918",
+      "runtimeSha256": "cb8dc2870c3b58a5bc493343375506c365b424d9387620880fe0dbe80003d6ba"
+    },
+    {
+      "id": "first-glow-score-navigation-by-starlight",
+      "sourceFile": "Navigation_By_Starlight-source.mp3",
+      "runtimeFile": "packages/web/public/audio/first-glow/navigation-by-starlight.mp3",
+      "durationSeconds": 63.295,
+      "sourceSha256": "482f23bf051b0137446aa210982aff5d05c561fde4c8bbb54c510c01338b501d",
+      "runtimeSha256": "b3b5e246e6375aff615b5e11821956ef07385fdff3edce66d466b910f6f34e7e"
+    }
+  ]
+}

@@ -36,6 +36,10 @@ const cueShape: Record<FirstGlowAudioCue, { frequency: number; duration: number;
   warning: { frequency: 190, duration: 0.2, type: "triangle", gain: 0.18 },
   interaction: { frequency: 390, duration: 0.2, type: "sine", gain: 0.18 },
 };
+const musicAssetUrls = [
+  "/audio/first-glow/weightless-shore.mp3",
+  "/audio/first-glow/navigation-by-starlight.mp3",
+];
 
 export class FirstGlowAudioRuntime {
   private readonly ledger = new FirstGlowAudioEventLedger();
@@ -45,6 +49,10 @@ export class FirstGlowAudioRuntime {
   private ambienceBus: GainNode | null = null;
   private effectsBus: GainNode | null = null;
   private musicBus: GainNode | null = null;
+  private musicBuffers: AudioBuffer[] = [];
+  private musicSource: AudioBufferSourceNode | null = null;
+  private musicAssetLoad: Promise<void> | null = null;
+  private musicTrackIndex = 0;
   private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number; kind: "ambience" | "score" }[] = [];
   private ambientPulseTimer: number | null = null;
   private musicTestTimer: number | null = null;
@@ -59,6 +67,8 @@ export class FirstGlowAudioRuntime {
     this.context ??= new AudioContextConstructor();
     this.ensureBuses();
     await this.context.resume();
+    await this.loadMusicAssets();
+    this.startMusicAsset();
     this.refreshAmbientVoices();
   }
 
@@ -137,6 +147,10 @@ export class FirstGlowAudioRuntime {
   }
   close(): void {
     this.stopTestSounds();
+    if (this.musicSource) {
+      this.musicSource.onended = null;
+      try { this.musicSource.stop(); } catch { /* already stopped */ }
+    }
     if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
     this.ambientPulseTimer = null;
     this.ambientVoices.forEach(voice => { try { voice.oscillator.stop(); } catch { /* already stopped */ } voice.oscillator.disconnect(); voice.gain.disconnect(); });
@@ -146,6 +160,9 @@ export class FirstGlowAudioRuntime {
     this.ambienceBus = null;
     this.effectsBus = null;
     this.musicBus = null;
+    this.musicBuffers = [];
+    this.musicSource = null;
+    this.musicAssetLoad = null;
   }
 
   private playCue(cue: FirstGlowAudioCue): void {
@@ -193,6 +210,7 @@ export class FirstGlowAudioRuntime {
     this.setBusGain(this.ambienceBus, active && this.preferences.ambienceEnabled ? this.preferences.master : 0);
     this.setBusGain(this.musicBus, active && this.preferences.scoreEnabled ? this.preferences.master : 0);
     this.setBusGain(this.effectsBus!, active ? this.preferences.master * this.preferences.effects : 0);
+    if (active && this.preferences.scoreEnabled) this.startMusicAsset();
     if (active && (this.preferences.ambienceEnabled || this.preferences.scoreEnabled)) {
       this.ensureAmbientVoices();
       this.scheduleAmbientPulse();
@@ -228,7 +246,7 @@ export class FirstGlowAudioRuntime {
       if (!this.context || !this.preferences.enabled || this.preferences.muted) return;
       const now = this.context.currentTime;
       const ambienceTarget = this.preferences.ambienceEnabled ? this.mix.ambienceLevel * this.preferences.master : 0;
-      const scoreTarget = this.preferences.scoreEnabled ? this.mix.scoreLevel * this.preferences.master * this.preferences.music : 0;
+      const scoreTarget = this.preferences.scoreEnabled && this.musicBuffers.length === 0 ? this.mix.scoreLevel * this.preferences.master * this.preferences.music : 0;
       this.ambientVoices.forEach((voice, index) => {
         const isScore = voice.kind === "score";
         const scoreIndex = isScore ? index - 2 : 0;
@@ -241,5 +259,30 @@ export class FirstGlowAudioRuntime {
       });
       this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 7000);
     }, 1200);
+  }
+
+  private async loadMusicAssets(): Promise<void> {
+    if (!this.context || this.musicBuffers.length > 0) return;
+    this.musicAssetLoad ??= Promise.all(musicAssetUrls.map(async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`music asset unavailable: ${url}`);
+      return this.context!.decodeAudioData(await response.arrayBuffer());
+    })).then((buffers) => { this.musicBuffers = buffers; }).catch(() => { this.musicBuffers = []; });
+    await this.musicAssetLoad;
+  }
+
+  private startMusicAsset(): void {
+    if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || !this.preferences.scoreEnabled || this.musicBuffers.length === 0 || this.musicSource) return;
+    const source = this.context.createBufferSource();
+    source.buffer = this.musicBuffers[this.musicTrackIndex % this.musicBuffers.length];
+    source.connect(this.musicBus);
+    source.onended = () => {
+      if (this.musicSource !== source) return;
+      this.musicSource = null;
+      this.musicTrackIndex = (this.musicTrackIndex + 1) % this.musicBuffers.length;
+      this.startMusicAsset();
+    };
+    this.musicSource = source;
+    source.start();
   }
 }
