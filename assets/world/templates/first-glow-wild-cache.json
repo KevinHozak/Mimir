@@ -1,0 +1,11 @@
+{
+  "id": "wild-cache",
+  "label": "Wild Cache",
+  "footprint": [{ "x": 0, "y": 0 }],
+  "slots": [{ "id": "probe-west", "offset": { "x": -1, "y": 0 }, "capacity": 1 }],
+  "capabilities": ["wild-cache"],
+  "capacity": 1,
+  "visualAsset": "first-glow-pattern-shard.svg",
+  "groundContact": { "x": 24, "y": 48 },
+  "blocksMovement": true
+}

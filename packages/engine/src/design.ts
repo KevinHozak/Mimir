@@ -36,7 +36,8 @@ export const FIRST_GLOW_DESIGN: FirstGlowDesign = {
   boundary: "Sparks know practical local routines, but not their purpose, the Originators, or any mature institution.",
   events: [
     { id: "quieting-pool", title: "A pool grows quiet", prompt: "A nearby charge pool gives less light than it did before.", observableOutcome: "The source charge falls and Sparks must notice the changing route." },
-    { id: "unfamiliar-trace", title: "An unfamiliar trace", prompt: "A faint trace appears beyond a familiar circuit path.", observableOutcome: "A Spark can explore it and leave a light mark for another Spark to find." }
+    { id: "unfamiliar-trace", title: "An unfamiliar trace", prompt: "A faint trace appears beyond a familiar circuit path.", observableOutcome: "A Spark can explore it and leave a light mark for another Spark to find." },
+    { id: "wild-cache-signal", title: "A wild cache signal", prompt: "A side branch ends at a faint cache signal whose return path is less familiar.", observableOutcome: "A Spark can spend charge and readiness to test the cache, leaving a witnessed record of the risk." }
   ],
   dilemmas: [
     {
@@ -79,6 +80,20 @@ export const FIRST_GLOW_DESIGN: FirstGlowDesign = {
       knowledgeBoundaries: [
         { sparkId: "spark-ora", knows: ["The junction's position.", "The two visible walkable connections."], doesNotKnow: ["Whether the trace continues safely beyond what is visible."] },
         { sparkId: "spark-nix", knows: ["Any mark visible from its current route."], doesNotKnow: ["Who made a private mark or why it was kept private."] }
+      ]
+    },
+    {
+      id: "wild-cache-risk",
+      title: "The wild cache",
+      prompt: "A faint cache signal is reachable, but probing it costs charge and makes the return route less certain.",
+      objectiveFacts: ["The Wild Cache is reachable from the known trace branch.", "Probing costs one carried charge or adds one charge deficit and reduces readiness.", "The cache signal is observed, but its wider purpose is unknown."],
+      alternatives: [
+        { id: "enter-wild-cache", label: "Probe the Wild Cache", resourceEffects: ["Spend one carried charge, or accept one charge deficit when dim."], socialEffects: ["The probing Spark creates a witnessed record that the branch is uncertain."], durableConsequences: ["The Spark learns a local cache signal without learning its purpose.", "The return route remains a practical question for later choices."] },
+        { id: "stay-on-trace", label: "Stay on the known trace", resourceEffects: ["Keep charge and readiness for a more familiar route."], socialEffects: ["A cautious choice can be compared with the probe when another Spark tests the branch."], durableConsequences: ["The cache remains an untested possibility.", "The known trace stays the safer shared reference."] }
+      ],
+      knowledgeBoundaries: [
+        { sparkId: "spark-ora", knows: ["The branch reaches a visible cache signal.", "The return route is less familiar."], doesNotKnow: ["What the cache signal is for or whether it continues beyond the visible point."] },
+        { sparkId: "spark-nix", knows: ["The known trace route and its own charge."], doesNotKnow: ["Whether the Wild Cache contains anything useful until a Spark probes it."] }
       ]
     }
   ],

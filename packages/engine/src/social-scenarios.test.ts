@@ -6,11 +6,11 @@ import { decodeWorldBundle } from "@mimir/world-data";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-test("First Glow social authorship validates as six cards and three dilemmas", () => {
+test("First Glow social authorship validates as six cards and four dilemmas", () => {
   validateFirstGlowDesign();
   assert.equal(FIRST_GLOW_DESIGN.cards.length, 6);
   assert.equal(new Set(FIRST_GLOW_DESIGN.cards.map(card => card.id)).size, 6);
-  assert.deepEqual(FIRST_GLOW_DESIGN.dilemmas.map(dilemma => dilemma.id), ["weakening-pool-report", "shelter-or-trace", "public-or-private-mark"]);
+  assert.deepEqual(FIRST_GLOW_DESIGN.dilemmas.map(dilemma => dilemma.id), ["weakening-pool-report", "shelter-or-trace", "public-or-private-mark", "wild-cache-risk"]);
   assert.ok(FIRST_GLOW_DESIGN.dilemmas.every(dilemma => dilemma.alternatives.length >= 2 && dilemma.objectiveFacts.length > 0));
 });
 

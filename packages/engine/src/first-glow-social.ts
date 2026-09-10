@@ -64,7 +64,7 @@ export interface FirstGlowSocialState {
 }
 
 export interface FirstGlowDilemmaChoice {
-  dilemmaId: "weakening-pool-report" | "shelter-or-trace" | "public-or-private-mark";
+  dilemmaId: "weakening-pool-report" | "shelter-or-trace" | "public-or-private-mark" | "wild-cache-risk";
   alternativeId: string;
   actorSparkId: string;
   targetSparkId: string;
@@ -79,7 +79,8 @@ const clampTrust = (value: number) => Math.max(FIRST_GLOW_TRUST_MIN, Math.min(FI
 const dilemmaAlternatives: Record<FirstGlowDilemmaChoice["dilemmaId"], readonly string[]> = {
   "weakening-pool-report": ["reveal-pool", "withhold-pool"],
   "shelter-or-trace": ["help-shelter", "continue-exploration"],
-  "public-or-private-mark": ["make-mark-public", "keep-mark-private"]
+  "public-or-private-mark": ["make-mark-public", "keep-mark-private"],
+  "wild-cache-risk": ["enter-wild-cache", "stay-on-trace"]
 };
 
 function knowledgeFor(state: FirstGlowSocialState, sparkId: string): FirstGlowSparkKnowledge {
@@ -175,7 +176,7 @@ export function applyFirstGlowDilemmaChoice(input: FirstGlowSocialState, choice:
   knowledgeFor(state, choice.targetSparkId);
   if (!Number.isInteger(choice.tick) || choice.tick < 0 || choice.evidenceEventIds.length === 0 || !choice.evidenceEventIds.every(eventId => canFirstGlowActOnEvent(state, choice.actorSparkId, eventId))) throw new Error("Spark cannot act on an event it has not witnessed or credibly learned");
   if (!dilemmaAlternatives[choice.dilemmaId].includes(choice.alternativeId)) throw new Error(`unsupported First Glow dilemma alternative ${choice.alternativeId}`);
-  const positive = ["reveal-pool", "help-shelter", "make-mark-public"].includes(choice.alternativeId);
+  const positive = ["reveal-pool", "help-shelter", "make-mark-public", "stay-on-trace"].includes(choice.alternativeId);
   const commitmentId = `commitment-${choice.dilemmaId}-${choice.actorSparkId}-${choice.targetSparkId}-${choice.tick}`;
   state.commitments.push({ id: commitmentId, promisorSparkId: choice.actorSparkId, beneficiarySparkId: choice.targetSparkId, dilemmaId: choice.dilemmaId, alternativeId: choice.alternativeId, status: positive ? "fulfilled" : "broken", evidenceEventIds: sortedUnique(choice.evidenceEventIds), createdTick: choice.tick, resolvedTick: choice.tick });
   state.commitments.sort((a, b) => a.resolvedTick - b.resolvedTick || compare(a.id, b.id));
@@ -185,6 +186,7 @@ export function applyFirstGlowDilemmaChoice(input: FirstGlowSocialState, choice:
   else if (choice.alternativeId === "make-mark-public") addClaim(state, choice, "This light mark records a visible trace junction.");
   else if (choice.alternativeId === "withhold-pool") addInference(state, choice, "The pool may yield less charge than before.");
   else if (choice.alternativeId === "continue-exploration") addInference(state, choice, "The tired Spark may need shelter before following this route.");
+  else if (choice.alternativeId === "enter-wild-cache") addInference(state, choice, "The Wild Cache may reveal a useful signal, but the return route is less familiar.");
   else addInference(state, choice, "The trace junction may be useful, but its farther branch remains unknown.");
   return state;
 }

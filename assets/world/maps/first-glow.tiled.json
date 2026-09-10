@@ -2115,13 +2115,20 @@
           "x": 528,
           "y": 528
         },
-        {
-          "id": 105,
-          "name": "mark-a",
-          "template": "../templates/first-glow-light-mark.json",
-          "x": 192,
-          "y": 528
-        }
+      {
+        "id": 105,
+        "name": "mark-a",
+        "template": "../templates/first-glow-light-mark.json",
+        "x": 192,
+        "y": 528
+      },
+      {
+        "id": 106,
+        "name": "wild-cache-a",
+        "template": "../templates/first-glow-wild-cache.json",
+        "x": 696,
+        "y": 624
+      }
       ]
     },
     {
