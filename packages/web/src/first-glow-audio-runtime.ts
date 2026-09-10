@@ -1,4 +1,5 @@
 import type { FirstGlowAudioPreferences } from "./first-glow-audio.js";
+import type { FirstGlowAudioMix } from "./first-glow-audio-ambience.js";
 
 export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction";
 export type FirstGlowCommittedEvent = { id: string; tick: number; kind: string; message: string };
@@ -40,24 +41,50 @@ export class FirstGlowAudioRuntime {
   private readonly ledger = new FirstGlowAudioEventLedger();
   private context: AudioContext | null = null;
   private preferences: FirstGlowAudioPreferences;
+  private mix: FirstGlowAudioMix = { context: "open-space", ambienceLevel: 0.035, scoreLevel: 0.015 };
+  private ambienceBus: GainNode | null = null;
+  private effectsBus: GainNode | null = null;
+  private musicBus: GainNode | null = null;
+  private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number }[] = [];
+  private ambientPulseTimer: number | null = null;
 
   constructor(preferences: FirstGlowAudioPreferences) { this.preferences = preferences; }
-  updatePreferences(preferences: FirstGlowAudioPreferences): void { this.preferences = preferences; }
+  updatePreferences(preferences: FirstGlowAudioPreferences): void { this.preferences = preferences; this.refreshAmbientVoices(); }
 
   async enable(): Promise<void> {
     const AudioContextConstructor = window.AudioContext ?? (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextConstructor) throw new Error("Audio is unavailable");
     this.context ??= new AudioContextConstructor();
+    this.ensureBuses();
     await this.context.resume();
+    this.refreshAmbientVoices();
   }
 
-  disable(): void { void this.context?.suspend(); }
+  disable(): void {
+    if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
+    this.ambientPulseTimer = null;
+    void this.context?.suspend();
+  }
   playSelection(): void { this.playCue("selection"); }
   playCommittedEvents(events: FirstGlowCommittedEvent[]): void { for (const cue of this.ledger.accept(events)) this.playCue(cue); }
-  close(): void { void this.context?.close(); this.context = null; }
+  updateAmbientMix(mix: FirstGlowAudioMix): void {
+    this.mix = mix;
+    this.refreshAmbientVoices();
+  }
+  close(): void {
+    if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
+    this.ambientPulseTimer = null;
+    this.ambientVoices.forEach(voice => { try { voice.oscillator.stop(); } catch { /* already stopped */ } voice.oscillator.disconnect(); voice.gain.disconnect(); });
+    this.ambientVoices = [];
+    void this.context?.close();
+    this.context = null;
+    this.ambienceBus = null;
+    this.effectsBus = null;
+    this.musicBus = null;
+  }
 
   private playCue(cue: FirstGlowAudioCue): void {
-    if (!this.context || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.effects <= 0) return;
+    if (!this.context || !this.effectsBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.effects <= 0) return;
     const shape = cueShape[cue];
     const now = this.context.currentTime;
     const oscillator = this.context.createOscillator();
@@ -69,8 +96,80 @@ export class FirstGlowAudioRuntime {
     gain.gain.setValueAtTime(0.0001, now);
     gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, peak), now + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + shape.duration);
-    oscillator.connect(gain).connect(this.context.destination);
+    oscillator.connect(gain).connect(this.effectsBus);
     oscillator.start(now);
     oscillator.stop(now + shape.duration + 0.02);
+  }
+
+  private ensureBuses(): void {
+    if (!this.context || this.ambienceBus) return;
+    this.ambienceBus = this.context.createGain();
+    this.musicBus = this.context.createGain();
+    this.effectsBus = this.context.createGain();
+    this.ambienceBus.connect(this.context.destination);
+    this.musicBus.connect(this.context.destination);
+    this.effectsBus.connect(this.context.destination);
+    this.setBusGain(this.ambienceBus, 0);
+    this.setBusGain(this.musicBus, 0);
+    this.setBusGain(this.effectsBus, this.preferences.effects * this.preferences.master);
+  }
+
+  private setBusGain(bus: GainNode, value: number): void {
+    if (!this.context) return;
+    const now = this.context.currentTime;
+    bus.gain.cancelScheduledValues(now);
+    bus.gain.setValueAtTime(bus.gain.value, now);
+    bus.gain.linearRampToValueAtTime(Math.max(0, value), now + 0.8);
+  }
+
+  private refreshAmbientVoices(): void {
+    if (!this.context || !this.ambienceBus || !this.musicBus) return;
+    const active = this.preferences.enabled && !this.preferences.muted;
+    this.setBusGain(this.ambienceBus, active && this.preferences.ambienceEnabled ? this.preferences.master : 0);
+    this.setBusGain(this.musicBus, active && this.preferences.scoreEnabled ? this.preferences.master : 0);
+    this.setBusGain(this.effectsBus!, active ? this.preferences.master * this.preferences.effects : 0);
+    if (active && (this.preferences.ambienceEnabled || this.preferences.scoreEnabled)) {
+      this.ensureAmbientVoices();
+      this.scheduleAmbientPulse();
+    } else if (this.ambientPulseTimer !== null) {
+      window.clearTimeout(this.ambientPulseTimer);
+      this.ambientPulseTimer = null;
+    }
+  }
+
+  private ensureAmbientVoices(): void {
+    if (!this.context || !this.ambienceBus || !this.musicBus || this.ambientVoices.length > 0) return;
+    const makeVoice = (frequency: number, bus: GainNode, type: OscillatorType) => {
+      const oscillator = this.context!.createOscillator();
+      const gain = this.context!.createGain();
+      oscillator.type = type;
+      oscillator.frequency.value = frequency;
+      gain.gain.value = 0.0001;
+      oscillator.connect(gain).connect(bus);
+      oscillator.start();
+      this.ambientVoices.push({ oscillator, gain, frequency });
+    };
+    makeVoice(92, this.ambienceBus, "sine");
+    makeVoice(138, this.ambienceBus, "triangle");
+    makeVoice(196, this.musicBus, "sine");
+  }
+
+  private scheduleAmbientPulse(): void {
+    if (this.ambientPulseTimer !== null || !this.context) return;
+    this.ambientPulseTimer = window.setTimeout(() => {
+      this.ambientPulseTimer = null;
+      if (!this.context || !this.preferences.enabled || this.preferences.muted) return;
+      const now = this.context.currentTime;
+      const ambienceTarget = this.preferences.ambienceEnabled ? this.mix.ambienceLevel * this.preferences.master : 0;
+      const scoreTarget = this.preferences.scoreEnabled ? this.mix.scoreLevel * this.preferences.master * this.preferences.music : 0;
+      this.ambientVoices.forEach((voice, index) => {
+        const target = index < 2 ? ambienceTarget * (index === 0 ? 0.22 : 0.12) : scoreTarget * 0.28;
+        voice.gain.cancelScheduledValues(now);
+        voice.gain.setValueAtTime(0.0001, now);
+        voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), now + 1.1);
+        voice.gain.linearRampToValueAtTime(0.0001, now + 3.2 + index * 0.3);
+      });
+      this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 5200);
+    }, 1200);
   }
 }

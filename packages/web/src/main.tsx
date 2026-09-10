@@ -9,6 +9,7 @@ import { firstGlowSceneLifecycle } from "./first-glow-lifecycle.js";
 import { firstGlowPlaybackStepMs } from "./first-glow-playback.js";
 import { firstGlowSparkDepth, firstGlowSparkScreenPosition, firstGlowSparkState, firstGlowSparkVisual } from "./first-glow-rendering.js";
 import { planFirstGlowAtmosphere, type FirstGlowAtmosphereEvent } from "./first-glow-atmosphere.js";
+import { planFirstGlowAudioMix } from "./first-glow-audio-ambience.js";
 import { firstGlowBlockedSummary, firstGlowCellQuery, firstGlowGroundDepth } from "./first-glow-scene.js";
 import { HistoryRequestSequencer } from "./history-sequencing.js";
 import { audioPreferencePercent, loadFirstGlowAudioPreferences, saveFirstGlowAudioPreferences, type FirstGlowAudioPreferences } from "./first-glow-audio.js";
@@ -462,7 +463,7 @@ function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?:
       update({ enabled: true });
       await runtime.enable();
       setSessionReady(true);
-      setAudioStatus("Audio is ready. Cues follow committed events only.");
+      setAudioStatus("Audio is ready. Sparse ambience follows the rendered context.");
     } catch {
       update({ enabled: false });
       setSessionReady(false);
@@ -478,6 +479,8 @@ function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?:
       {!sessionReady && <button type="button" onClick={() => void enableAudio()} aria-label="Enable audio">Enable audio</button>}
       {sessionReady && <button type="button" onClick={() => { runtime.disable(); setSessionReady(false); update({ enabled: false, muted: true }); }} aria-label="Disable audio">Disable audio</button>}
       <label className="audio-toggle"><input type="checkbox" checked={preferences.muted} onChange={(event) => update({ muted: event.target.checked })} /> Mute all audio</label>
+      <label className="audio-toggle"><input type="checkbox" checked={preferences.ambienceEnabled} onChange={(event) => update({ ambienceEnabled: event.target.checked })} /> Enable ambience</label>
+      <label className="audio-toggle"><input type="checkbox" checked={preferences.scoreEnabled} onChange={(event) => update({ scoreEnabled: event.target.checked })} /> Enable ambient score</label>
       {(["master", "music", "effects"] as const).map((channel) => <label className="audio-slider" key={channel} htmlFor={`audio-${channel}`}><span>{channel === "master" ? "Master" : channel === "music" ? "Music" : "Effects"}</span><input id={`audio-${channel}`} type="range" min="0" max="100" step="1" value={audioPreferencePercent(preferences[channel])} onChange={(event) => update({ [channel]: Number(event.target.value) / 100 })} aria-label={`${channel} volume`} /><output htmlFor={`audio-${channel}`}>{audioPreferencePercent(preferences[channel])}%</output></label>)}
       <small>Sound is presentation only. Every simulation fact remains readable with all channels muted.</small>
     </div>
@@ -521,6 +524,10 @@ function App() {
   useEffect(() => { if (isFirstGlow && !selectedEntityId && firstGlowSparks.length > 0) setSelectedEntityId(`spark:${firstGlowSparks[0].id}`); }, [firstGlowSparks, isFirstGlow, selectedEntityId]);
   const firstGlowBundle = isFirstGlow ? world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.bundle as FirstGlowBundle | undefined : undefined;
   const firstGlowRuntime = isFirstGlow ? world?.firstGlowState?.settlements.find((settlement) => settlement.id === activeSettlementId)?.runtime : undefined;
+  useEffect(() => {
+    const mixInput = isFirstGlow && firstGlowBundle ? { selectedEntityId, sparks: firstGlowSparks, objects: firstGlowBundle.objects, surfaces: firstGlowBundle.surfaces } : { selectedEntityId: null, sparks: [], objects: [], surfaces: [] };
+    audioRuntime.updateAmbientMix(planFirstGlowAudioMix(mixInput));
+  }, [audioRuntime, firstGlowBundle, firstGlowSparks, isFirstGlow, selectedEntityId]);
   const setSelected = (villager: Villager | null) => setSelectedVillagerId(villager?.id ?? null);
   const displayedWorldDefinition = activeSettlement?.worldDefinition ?? world?.worldDefinition ?? (isFirstGlow && firstGlowBundle ? firstGlowWorldDefinition(firstGlowBundle) : structuredWorldDefinition(world?.structuredState, activeSettlementId));
   const firstGlowSiteCount = displayedWorldDefinition?.objects.length ?? 0;

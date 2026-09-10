@@ -34,3 +34,11 @@ Before a candidate becomes `shipped`, add its reviewed source and update the pal
 ## Audio-P3 committed event cues
 
 Audio-P3 uses small procedural Web Audio one-shots while the palette remains `contract-only`; it does not add unreviewed binary assets. The observer maps only newly received committed records to cues: explicit selection, completed arrival, charge draw, charge share, blocked or waiting warning, and recorded interaction. Initial snapshots, history navigation, replay views, and SSE reconnect state do not replay old cues. A session ledger deduplicates event IDs before playback, and muted audio leaves the event stream and visual evidence unchanged.
+
+## Audio-P4 place-aware listening layer
+
+Audio-P4 keeps the same provenance boundary. The shipped sources are repository-authored procedural Web Audio code, recorded in [`assets/licenses/first-glow-audio.md`](../assets/licenses/first-glow-audio.md); the palette remains contract-only until reviewed binary sources are available.
+
+The observer derives one sparse context from the rendered First Glow selection: open space, a charge pool, a shelter niche, or a quiet route. The mapping uses only visible object positions, visible route cells, and the selected entity. It does not inspect charge quantity, hidden knowledge, future destinations, social progress, or uncommitted transitions. Ambient voices use short, low-level pulses with long quiet gaps and gentle fades, rather than a constant loop. The optional score is a separate bus and can be disabled independently from ambience; both remain subordinate to master, mute, and the existing effects controls.
+
+The score and ambience are presentation layers only. Initial snapshots, history views, reconnects, and muted sessions remain silent and readable through the existing visual and written evidence.
