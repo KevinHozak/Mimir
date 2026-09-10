@@ -14,10 +14,10 @@ export type FirstGlowAudioMix = {
 };
 
 const contextLevels: Record<FirstGlowAmbientContext, number> = {
-  "open-space": 0.035,
-  "charge-pool": 0.09,
-  "shelter-niche": 0.045,
-  "quiet-route": 0.06,
+  "open-space": 0.07,
+  "charge-pool": 0.12,
+  "shelter-niche": 0.06,
+  "quiet-route": 0.09,
 };
 
 const sameCell = (left: Cell, right: Cell) => left.x === right.x && left.y === right.y;
@@ -44,5 +44,5 @@ export function firstGlowAmbientContext(input: FirstGlowRenderedAudioInput): Fir
 
 export function planFirstGlowAudioMix(input: FirstGlowRenderedAudioInput): FirstGlowAudioMix {
   const context = firstGlowAmbientContext(input);
-  return { context, ambienceLevel: contextLevels[context], scoreLevel: context === "open-space" ? 0.022 : 0.03 };
+  return { context, ambienceLevel: contextLevels[context], scoreLevel: context === "open-space" ? 0.08 : 0.12 };
 }

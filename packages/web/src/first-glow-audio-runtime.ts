@@ -41,7 +41,7 @@ export class FirstGlowAudioRuntime {
   private readonly ledger = new FirstGlowAudioEventLedger();
   private context: AudioContext | null = null;
   private preferences: FirstGlowAudioPreferences;
-  private mix: FirstGlowAudioMix = { context: "open-space", ambienceLevel: 0.035, scoreLevel: 0.015 };
+  private mix: FirstGlowAudioMix = { context: "open-space", ambienceLevel: 0.07, scoreLevel: 0.08 };
   private ambienceBus: GainNode | null = null;
   private effectsBus: GainNode | null = null;
   private musicBus: GainNode | null = null;
@@ -168,7 +168,7 @@ export class FirstGlowAudioRuntime {
         const isScore = voice.kind === "score";
         const scoreIndex = isScore ? index - 2 : 0;
         const start = isScore ? now + scoreIndex * 0.52 : now;
-        const target = isScore ? scoreTarget * (scoreIndex === 1 ? 0.78 : 0.62) : ambienceTarget * (index === 0 ? 0.28 : 0.18);
+        const target = isScore ? scoreTarget * (scoreIndex === 1 ? 0.82 : 0.7) : ambienceTarget * (index === 0 ? 0.65 : 0.42);
         voice.gain.cancelScheduledValues(now);
         voice.gain.setValueAtTime(0.0001, start);
         voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), start + (isScore ? 0.28 : 1.1));
