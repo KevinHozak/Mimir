@@ -39,6 +39,8 @@ const cueShape: Record<FirstGlowAudioCue, { frequency: number; duration: number;
 const musicAssetUrls = [
   "/audio/first-glow/weightless-shore.mp3",
   "/audio/first-glow/navigation-by-starlight.mp3",
+  "/audio/first-glow/haven-under-starlight.mp3",
+  "/audio/first-glow/where-the-light-pools.mp3",
 ];
 
 export class FirstGlowAudioRuntime {

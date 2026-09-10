@@ -17,6 +17,22 @@
       "durationSeconds": 63.295,
       "sourceSha256": "482f23bf051b0137446aa210982aff5d05c561fde4c8bbb54c510c01338b501d",
       "runtimeSha256": "b3b5e246e6375aff615b5e11821956ef07385fdff3edce66d466b910f6f34e7e"
+    },
+    {
+      "id": "first-glow-score-haven-under-starlight",
+      "sourceFile": "Haven_Under_Starlight-source.mp3",
+      "runtimeFile": "packages/web/public/audio/first-glow/haven-under-starlight.mp3",
+      "durationSeconds": 176.013,
+      "sourceSha256": "ba9c9b789f3d2546ec2b41f50b12c88b05aa6d475d4717abc2ba2fe0bbf3d5bd",
+      "runtimeSha256": "6a6b9d0b6f04c7764cd8bd439a7c267ac5e9a3b5404c4af5e5cddc570c8a1ca9"
+    },
+    {
+      "id": "first-glow-score-where-the-light-pools",
+      "sourceFile": "Where_the_Light_Pools-source.mp3",
+      "runtimeFile": "packages/web/public/audio/first-glow/where-the-light-pools.mp3",
+      "durationSeconds": 175.647,
+      "sourceSha256": "241157c3986eacf5489bc5156caf6a84636af6cb0b8f96b11c6c50f906d693e5",
+      "runtimeSha256": "d5c16a459a24b535df9f282ed0fb4ef26d4876486eb08e1f5c53498805ed92c3"
     }
   ]
 }

@@ -6,7 +6,7 @@ Do not add an audio file to the shipped runtime until its palette entry is chang
 
 The current entries are deliberately `planned`. This prevents placeholder or unreviewed audio binaries from entering a First Glow bundle and keeps Audio-P1's silent mode fully valid. Audio-P3 may connect feedback cues only to committed observable events; Audio-P4 may add place-aware ambience after this contract is accepted. The current P4 implementation uses repository-authored procedural Web Audio sources; their code provenance is recorded in [`assets/licenses/first-glow-audio.md`](../licenses/first-glow-audio.md) while the binary palette remains unpromoted.
 
-Two user-provided music candidates are retained under [`first-glow/music/`](first-glow/music/), with normalized browser copies served from `packages/web/public/audio/first-glow/`. They are optional First Glow score candidates, with the procedural score remaining the fallback. Their origin and licensing are recorded as user-provided but not independently verified; do not redistribute them or promote them in the palette until those details are confirmed.
+Four user-provided music candidates are retained under [`first-glow/music/`](first-glow/music/), with normalized browser copies served from `packages/web/public/audio/first-glow/`. They are optional First Glow score candidates, with the procedural score remaining the fallback. Their origin and licensing are recorded as user-provided but not independently verified; do not redistribute them or promote them in the palette until those details are confirmed.
 
 ## Provenance requirements
 
