@@ -479,7 +479,7 @@ function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?:
       <p className="audio-status" role="status">{audioStatus}</p>
       {!sessionReady && <button type="button" onClick={() => void enableAudio()} aria-label="Enable audio">Enable audio</button>}
       {sessionReady && <button type="button" onClick={() => { runtime.disable(); setSessionReady(false); update({ enabled: false, muted: true }); }} aria-label="Disable audio">Disable audio</button>}
-      {sessionReady && <button type="button" onClick={() => runtime.playTestTone()} aria-label="Play audio test">Play test sound</button>}
+      {sessionReady && <div className="audio-test-buttons"><button type="button" onClick={() => runtime.playTestTone()} aria-label="Play music test">Play music test</button><button type="button" onClick={() => runtime.playAmbienceTest()} aria-label="Play ambience test">Play ambience test</button><button type="button" onClick={() => runtime.playEffectsTest()} aria-label="Play effects test">Play effects test</button></div>}
       <label className="audio-toggle"><input type="checkbox" checked={preferences.muted} onChange={(event) => update({ muted: event.target.checked })} /> Mute all audio</label>
       <label className="audio-toggle"><input type="checkbox" checked={preferences.ambienceEnabled} onChange={(event) => update({ ambienceEnabled: event.target.checked })} /> Enable ambience</label>
       <label className="audio-toggle"><input type="checkbox" checked={preferences.scoreEnabled} onChange={(event) => update({ scoreEnabled: event.target.checked })} /> Enable ambient score</label>

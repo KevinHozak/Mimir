@@ -82,6 +82,23 @@ export class FirstGlowAudioRuntime {
       oscillator.stop(now + index * 0.14 + 0.46);
     });
   }
+  playAmbienceTest(): void {
+    if (!this.context || !this.ambienceBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || !this.preferences.ambienceEnabled) return;
+    const now = this.context.currentTime;
+    [[110, "sine"], [165, "triangle"]].forEach(([frequency, type], index) => {
+      const oscillator = this.context!.createOscillator();
+      const gain = this.context!.createGain();
+      oscillator.type = type as OscillatorType;
+      oscillator.frequency.setValueAtTime(frequency as number, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime((index === 0 ? 0.16 : 0.1) * this.preferences.master, now + 0.18);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+      oscillator.connect(gain).connect(this.ambienceBus!);
+      oscillator.start(now);
+      oscillator.stop(now + 1.9);
+    });
+  }
+  playEffectsTest(): void { this.playCue("selection"); }
   playCommittedEvents(events: FirstGlowCommittedEvent[]): void { for (const cue of this.ledger.accept(events)) this.playCue(cue); }
   updateAmbientMix(mix: FirstGlowAudioMix): void {
     this.mix = mix;
