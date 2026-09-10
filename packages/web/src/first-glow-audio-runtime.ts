@@ -47,6 +47,8 @@ export class FirstGlowAudioRuntime {
   private musicBus: GainNode | null = null;
   private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number; kind: "ambience" | "score" }[] = [];
   private ambientPulseTimer: number | null = null;
+  private musicTestTimer: number | null = null;
+  private ambienceTestTimer: number | null = null;
 
   constructor(preferences: FirstGlowAudioPreferences) { this.preferences = preferences; }
   updatePreferences(preferences: FirstGlowAudioPreferences): void { this.preferences = preferences; this.refreshAmbientVoices(); }
@@ -61,13 +63,25 @@ export class FirstGlowAudioRuntime {
   }
 
   disable(): void {
+    this.stopTestSounds();
     if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
     this.ambientPulseTimer = null;
     void this.context?.suspend();
   }
   playSelection(): void { this.playCue("selection"); }
-  playTestTone(): void {
-    if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.music <= 0) return;
+  toggleMusicTest(): boolean {
+    if (this.musicTestTimer !== null) {
+      window.clearInterval(this.musicTestTimer);
+      this.musicTestTimer = null;
+      return false;
+    }
+    if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.music <= 0) return false;
+    this.playMusicTestPhrase();
+    this.musicTestTimer = window.setInterval(() => this.playMusicTestPhrase(), 1400);
+    return true;
+  }
+  private playMusicTestPhrase(): void {
+    if (!this.context || !this.musicBus) return;
     const now = this.context.currentTime;
     [392, 523.25].forEach((frequency, index) => {
       const oscillator = this.context!.createOscillator();
@@ -82,8 +96,19 @@ export class FirstGlowAudioRuntime {
       oscillator.stop(now + index * 0.14 + 0.46);
     });
   }
-  playAmbienceTest(): void {
-    if (!this.context || !this.ambienceBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || !this.preferences.ambienceEnabled) return;
+  toggleAmbienceTest(): boolean {
+    if (this.ambienceTestTimer !== null) {
+      window.clearInterval(this.ambienceTestTimer);
+      this.ambienceTestTimer = null;
+      return false;
+    }
+    if (!this.context || !this.ambienceBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || !this.preferences.ambienceEnabled) return false;
+    this.playAmbienceTestPulse();
+    this.ambienceTestTimer = window.setInterval(() => this.playAmbienceTestPulse(), 2400);
+    return true;
+  }
+  private playAmbienceTestPulse(): void {
+    if (!this.context || !this.ambienceBus) return;
     const now = this.context.currentTime;
     [[110, "sine"], [165, "triangle"]].forEach(([frequency, type], index) => {
       const oscillator = this.context!.createOscillator();
@@ -99,12 +124,19 @@ export class FirstGlowAudioRuntime {
     });
   }
   playEffectsTest(): void { this.playCue("selection"); }
+  stopTestSounds(): void {
+    if (this.musicTestTimer !== null) window.clearInterval(this.musicTestTimer);
+    if (this.ambienceTestTimer !== null) window.clearInterval(this.ambienceTestTimer);
+    this.musicTestTimer = null;
+    this.ambienceTestTimer = null;
+  }
   playCommittedEvents(events: FirstGlowCommittedEvent[]): void { for (const cue of this.ledger.accept(events)) this.playCue(cue); }
   updateAmbientMix(mix: FirstGlowAudioMix): void {
     this.mix = mix;
     this.refreshAmbientVoices();
   }
   close(): void {
+    this.stopTestSounds();
     if (this.ambientPulseTimer !== null) window.clearTimeout(this.ambientPulseTimer);
     this.ambientPulseTimer = null;
     this.ambientVoices.forEach(voice => { try { voice.oscillator.stop(); } catch { /* already stopped */ } voice.oscillator.disconnect(); voice.gain.disconnect(); });
