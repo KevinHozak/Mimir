@@ -88,6 +88,33 @@ Use a 0–2 score for each criterion: **0** absent or confusing, **1** present b
 
 This gate should precede formal institutions, personality systems, discovery arcs, or Hero Sparks. It is meant to reveal which of those later ideas has actually been earned by observed play, not to choose them in advance.
 
+## Candidate: Resonance and Resonance Anchors
+
+**Candidate:** the vast darkness can become meaningful not only through construction, but through repeated, consequential Spark action. **Resonance** is the accumulated social and cultural weight of an action pattern: care repeatedly offered, a promise repeatedly upheld, a route repeatedly mended, a discovery responsibly shared, a craft practiced, or even a disagreement openly sustained.
+
+Resonance is not raw power, a moral score, a replacement for charge, or proof that a Spark is superior. **Charge** sustains activity and creates immediate scarcity; Resonance records the significance that choices acquire over time. A Spark may have ample charge yet leave little enduring pattern, while another may become resonant through a costly act of care, inquiry, resolve, repair, or independence.
+
+When a meaningful pattern is repeated at a real location and supported by committed evidence, the place may gradually form a **Resonance Anchor**: a small, original circuit structure grown around remembered action. An Anchor is neither a human statue nor decorative proof of success. It should offer a new social possibility and a corresponding obligation or tension.
+
+| Repeated pattern | Candidate Anchor | Visual character | New possibility and tension |
+| --- | --- | --- | --- |
+| Sparks repeatedly shelter one another | **Shelter Loom** | Interlocking crescent plates and quiet nested light | Makes a shared rest practice durable; raises who may claim access. |
+| A difficult promise is kept over time | **Vow Anchor** | A stable line, ring, or paired marks held in alignment | Makes a public commitment inspectable; makes breaking or revising it consequential. |
+| A discovery is investigated and responsibly shared | **Witness Array** | Small lenses or signal plates oriented toward one another | Preserves evidence; raises who may add, alter, withhold, or interpret a record. |
+| Sparks repeatedly repair a damaged route | **Mending Lattice** | A visible joined seam of circuit fragments, stronger but not pristine | Supports maintenance coordination; raises whose labor is expected. |
+| A group creates marks, music, or stories together | **Echo Garden** | Quiet geometric light marks with gentle presence response | Holds cultural work; raises attribution, copying, and stewardship questions. |
+| A group sustains a disagreement without forced resolution | **Crossing of Voices** | Several near-touching structures with deliberate space between them | Preserves plural viewpoints; raises when a decision must nevertheless be made. |
+
+The system should remain evidence-first:
+
+- A server-validated rule identifies qualifying repeated events, locations, participants, and costs; browser effects never create an Anchor.
+- An Anchor has a recorded creation event, a durable location, an explicit capability, access rules, resource effects where applicable, and failure or alteration conditions.
+- The observer can trace an Anchor from the underlying actions and Spark-local knowledge without turning interpretations into proof.
+- Its art may not imply a new route, entrance, collision boundary, or interaction slot until the authored world data declares one.
+- An Anchor can preserve unresolved tension. It must never silently endorse care, autonomy, inquiry, resolve, or cooperation as the winning philosophy.
+
+Resonance provides a possible bridge from First Glow into the Hearth Circuit: civilization becomes visible where a community has earned durable practices, not merely where it has accumulated resources. It remains later work until the Living Stories gate shows which patterns actually produce meaningful, legible seasons.
+
 ## Candidate personality model
 
 **Candidate:** represent personality as a small, inspectable set of stable tendencies rather than as a fixed destiny. A four-trait starting model could use:

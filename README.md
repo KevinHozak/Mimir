@@ -6,7 +6,7 @@ The active runtime is a schema-3 world bundle with `themeId: living-circuit`, `a
 
 The village prototype is historical and no longer supported. First Glow is the only active runtime; old village saves are rejected rather than relabeled or migrated.
 
-See the [current roadmap](docs/roadmap.md), [project history](docs/history.md), [World theme](docs/world-theme.md), [Current architecture](docs/architecture.md), and the [GitHub development workflow](docs/github-workflow.md).
+See the [current roadmap](docs/roadmap.md), [functional changelog](docs/changelog.md), [project history](docs/history.md), [World theme](docs/world-theme.md), [Current architecture](docs/architecture.md), and the [GitHub development workflow](docs/github-workflow.md).
 
 ## Run locally
 

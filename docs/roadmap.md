@@ -2,26 +2,46 @@
 
 **Current runtime:** The Living Circuit / **The First Glow**. This is the only supported runtime: schema-3 world bundles, `mimir-sim-v3-first-glow`, and `structured-v2`. Sparks—not villagers—explore charge pools, shelter niches, traces, and informal cooperation. The removed village prototype, Hearthmere, First Winter, food economy, and old save paths are historical; do not revive, relabel, or migrate them.
 
-This is the current delivery order. It complements the dated planning documents rather than rewriting their history. For selected setting and visual direction, read [World Theme](world-theme.md); for implemented behavior, read [Current Architecture](architecture.md).
+This is the current delivery order. It complements the dated planning documents rather than rewriting their history. Completed functionality is grouped in the [Changelog](changelog.md). For selected setting and visual direction, read [World Theme](world-theme.md); for implemented behavior, read [Current Architecture](architecture.md).
+
+## Active gates
 
 | Gate | Current work | Status |
 | --- | --- | --- |
-| 1 | [Author First Glow social scenarios and Spark cards](https://github.com/KevinHozak/Mimir/issues/48) | Done — merged in [PR #62](https://github.com/KevinHozak/Mimir/pull/62). |
-| 1a | [Present First Glow social scenarios in the observer](https://github.com/KevinHozak/Mimir/issues/63) | Done — merged in [PR #64](https://github.com/KevinHozak/Mimir/pull/64). |
-| 2 | [Model Spark-local knowledge, trust, and commitments](https://github.com/KevinHozak/Mimir/issues/50) | Ready. Deterministic, replayable social state; no hidden knowledge. |
-| 3 | [Make choices and consequences explainable in the observer](https://github.com/KevinHozak/Mimir/issues/49) | Ready after Gate 2. Show committed evidence, knowledge, choice, and consequence without exposing private state. |
-| 4 | [Establish the season experiment and review loop](https://github.com/KevinHozak/Mimir/issues/51) | Ready after Gates 2–3. Use fixed seeds and preserved evidence to decide what to deepen, simplify, or clarify. |
-| 5 | [Evaluate bounded AI interpretation](https://github.com/KevinHozak/Mimir/issues/52) | Backlog. Compare against the rules-only baseline; never make AI the authority for outcomes. |
-| 6 | [Validate durable hosted-observer readiness](https://github.com/KevinHozak/Mimir/issues/53) | Backlog. Requires compelling local seasons plus backup/restore and single-writer operational evidence. |
-| 7 | [Build reusable art-production tools and skills](https://github.com/KevinHozak/Mimir/issues/61) | Done — merged in [PR #71](https://github.com/KevinHozak/Mimir/pull/71). |
-| 8 | [Define the First Glow art bible and asset pipeline](https://github.com/KevinHozak/Mimir/issues/55) | Done — merged in [PR #73](https://github.com/KevinHozak/Mimir/pull/73). |
-| 8b | [Harden art-pipeline evidence and provenance validation](https://github.com/KevinHozak/Mimir/issues/76) | In progress before P3. Validate actual observer captures, full source-to-bundle provenance, and isolated negative fixtures. |
-| 9 | [Build a polished graphics vertical slice](https://github.com/KevinHozak/Mimir/issues/54) | Backlog after Graphics-P2b. Improve a real First Glow scene while preserving geometry and interaction truth. |
-| 10–12 | [Spark readability](https://github.com/KevinHozak/Mimir/issues/57), [atmosphere](https://github.com/KevinHozak/Mimir/issues/56), and [observer UI art pass](https://github.com/KevinHozak/Mimir/issues/58) | Backlog. Add identity, restrained effects, and readable dark-mode UI only after the vertical slice. |
-| 13 | [Validate art performance, accessibility, and recovery](https://github.com/KevinHozak/Mimir/issues/59) | Backlog. Test desktop/mobile rendering, reduced motion, and historical bundle recovery. |
-| 14 | [Expand through a meaningful second area](https://github.com/KevinHozak/Mimir/issues/60) | Backlog. Add a new First Glow decision space only after the earlier social and visual gates hold. |
+| Audio-P1 | [Establish an accessible, silent-by-default audio foundation](https://github.com/KevinHozak/Mimir/issues/93) | Ready. Next implementation work after the completed Graphics-P8 visual pass. |
+| Resonance-P0 | [Define the evidence-first Resonance and Anchor contract](https://github.com/KevinHozak/Mimir/issues/85) | Ready. Contract and deterministic fixtures only; no Anchor runtime work begins before the Living Stories gate. |
 
-Issue #74 is the runtime completion follow-up for the social gates: normal First Glow ticks now commit bounded dilemma consequences, the observer shows recorded explanation chains in live and historical views, and the season review labels injected choices as controlled interventions. Phase 5 remains an offline, fixture-based evaluation harness; no provider is connected to the runtime.
+## Next non-hosting delivery sequence
+
+With Graphics-P8 complete, **First Glow Audio** is the next workstream. Its phases are scheduled on Mimir Development below.
+
+## Proposed First Glow Audio delivery
+
+Audio should make the observer feel alive and intimate without making the sparse First Glow feel mechanically noisy. It is supporting evidence and atmosphere, never a second simulation or a substitute for readable visual state. Keep the baseline nearly silent: darkness, distance, and pauses should remain part of the experience.
+
+| Phase | Outcome | Scope and acceptance gate | Board status |
+| --- | --- | --- |
+| [Audio-P1](https://github.com/KevinHozak/Mimir/issues/93) | **Establish an accessible, silent-by-default audio foundation.** | Add browser-safe audio initialization that begins only after an observer gesture; persist independent master, music, and effects levels plus mute controls; provide keyboard-accessible controls and clear labels. No sound may be required to understand play, and a first visit remains silent until the observer opts in. | Ready |
+| [Audio-P2](https://github.com/KevinHozak/Mimir/issues/94) | **Create the First Glow sound palette and asset contract.** | Define a small palette: quiet open-space hum, local charge-pool tone, shelter stillness, subtle route/current texture, paired exchange tone, short warning, and restrained selection/focus feedback. Record license/provenance, source format, edits, loudness targets, and intended meaning for every shipped asset. Prefer short, loop-safe, non-fatiguing sources; exclude continuous crackle, alarms, voices, and music that implies human/Originator knowledge. | Backlog after P1 |
+| [Audio-P3](https://github.com/KevinHozak/Mimir/issues/91) | **Attach effects only to committed, observable events.** | Play cues only after the client receives the corresponding committed state or event: explicit selection, completed arrival, recorded charge draw/share, blocked or warning state, and recorded interaction. Do not cue predicted movement, animation-only positions, unrecorded relationships, interpretations, or hidden knowledge. Deduplicate replay/SSE reconnect cues so history navigation and reconnects cannot create false repeated outcomes. | Backlog after P1–P2 |
+| [Audio-P4](https://github.com/KevinHozak/Mimir/issues/92) | **Add restrained place-aware ambience and an optional ambient score.** | Mix sparse local ambience from the currently observed place and add a licensed, provenance-recorded low-intensity score only when it complements—not fills—the quiet. Crossfade gently; avoid a global constant loop. Position or volume changes may reflect rendered observer context, but must not imply new reachability, resource levels, social progress, or an uncommitted transition. | Backlog after P3 |
+| [Audio-P5](https://github.com/KevinHozak/Mimir/issues/90) | **Validate accessibility, performance, and evidentiary honesty.** | Review desktop and mobile with sound on and muted; test autoplay refusal, mute/volume persistence, keyboard use, reduced-motion compatibility, reconnect/history behavior, and long-session fatigue. Capture provenance and representative evidence. The gate passes only when all important states still read without sound, no cue fires before or without its authoritative record, and audio stays within the visual performance budget. | Backlog after P4 |
+
+Audio-P1 is the first implementation step after Graphics-P8. Audio-P2 may prepare the assets alongside P1, but no shipped asset or event integration begins until the control and provenance contract is in place. Audio-P3 is required before effects can be described as evidence-led; Audio-P4 follows only once those effects are trustworthy; Audio-P5 closes the audio workstream.
+
+The next story gate is **Living Stories**: use fixed-seed, multi-season evidence to prove that First Glow produces legible social stories before adding more systems. Its proposed phases are Stories-P1 (long-season validation), Stories-P2 (deepen only the proven missing loops), and Stories-P3 (revalidate and curate scenarios). Audio should be included in review captures where useful, but the scorecard must also pass with sound disabled. These plans are deliberately recorded in the [Incubator](incubator.md#candidate-living-stories), not yet scheduled issues.
+
+The following **Resonance** workstream turns durable, repeated social patterns into evidence-first places only after the Living Stories gate supports it:
+
+| Phase | Current work | Status |
+| --- | --- | --- |
+| Resonance-P1 | [Observe candidate patterns without changing play](https://github.com/KevinHozak/Mimir/issues/84) | Backlog after Stories-P1. |
+| Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | Backlog after P0–P1 and positive story validation. |
+| Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | Backlog after P2 and Stories-P2. |
+| Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | Backlog after P3 and Stories-P3. |
+| Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | Backlog after P4; transition design only, not a new active runtime. |
+
+Hosted-observer work remains intentionally separate from this sequence: [Hosted-P1](https://github.com/KevinHozak/Mimir/issues/3), [Hosted-P2](https://github.com/KevinHozak/Mimir/issues/18), and [Hosted-P3](https://github.com/KevinHozak/Mimir/issues/53) stay in Backlog until the user explicitly chooses to resume hosting.
 
 ## Non-negotiable gates
 
@@ -32,4 +52,4 @@ Issue #74 is the runtime completion follow-up for the social gates: normal First
 
 ## Historical context
 
-The retired Simulation Game Plan and Web Development Plan described the original village-era proposal, including villagers, food, Hearthmere, First Winter, and paths no longer supported. Their essential intent is preserved in [Project History](history.md). Use this roadmap, [World Theme](world-theme.md), and [Current Architecture](architecture.md) for ongoing work.
+The retired Simulation Game Plan and Web Development Plan described the original village-era proposal, including villagers, food, Hearthmere, First Winter, and paths no longer supported. Their essential intent is preserved in [Project History](history.md). Use this roadmap, the [Changelog](changelog.md), [World Theme](world-theme.md), and [Current Architecture](architecture.md) for ongoing work.

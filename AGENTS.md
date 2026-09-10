@@ -15,6 +15,7 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 | [README.md](README.md) | Project introduction, workspace entry points, and local runtime-data layout. |
 | [docs/roadmap.md](docs/roadmap.md) | Current delivery order and gates. Use this to distinguish active First Glow work from historical planning. |
 | [docs/history.md](docs/history.md) | Narrative record of the early village plans, the Living Circuit shift, and the retained long-term vision. Use when historical context is useful. |
+| [docs/changelog.md](docs/changelog.md) | Broad functional record of completed work. It groups related delivery rather than listing every commit or pull request. |
 | [docs/world-theme.md](docs/world-theme.md) | Current consolidated theme reference: First Glow, Sparks, terminology, opening knowledge, blue-and-silver dark-mode aesthetics, and visual rollout. Read first for naming, art, UI, or setting work. |
 | [docs/incubator.md](docs/incubator.md) | Organized, uncommitted possibilities: later ages, alternative worlds, human inspiration, social questions, and visual explorations. It never overrides selected First Glow direction. |
 | [docs/game-simulation.md](docs/game-simulation.md) | Explanation of ticks, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
