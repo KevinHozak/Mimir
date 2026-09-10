@@ -10,6 +10,8 @@ Five user-provided music candidates are retained under [`first-glow/music/`](fir
 
 The extracted SFX library is retained under [`first-glow/sfx/`](first-glow/sfx/) and mirrored under `packages/web/public/audio/first-glow/sfx/`. Its event mapping and intended loudness are recorded in [`first-glow/sfx/manifest.json`](first-glow/sfx/manifest.json). These are review candidates until the event wiring and redistribution rights are confirmed.
 
+The supplied `mimir_mp3_audio_manifest.json` is the metadata source for the current 17-asset set. Its generated export filenames are not present in the download folder, so the project manifests retain its musical metadata while mapping `sourceTrack` names to the actual downloaded MP3/WAV filenames.
+
 ## Provenance requirements
 
 For every promoted asset, record:
