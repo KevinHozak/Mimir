@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "paletteId": "first-glow-audio-v1",
+  "status": "contract-only",
+  "description": "Audio-P2 design contract. No binary audio assets are shipped until each entry reaches shipped status with complete provenance.",
+  "globalRules": {
+    "baseline": "near-silent",
+    "masterPeakDbtp": -6,
+    "silenceMustRemainUnderstandable": true,
+    "forbidden": ["continuous electrical crackle", "alarms", "voices", "music suggesting human or Originator knowledge"],
+    "observerOptInRequired": true
+  },
+  "assets": [
+    {
+      "id": "first-glow-open-space-hum",
+      "kind": "ambience",
+      "intendedUse": "A barely present distant bed while observing open space.",
+      "meaning": "Open space has a quiet presence; it does not signal danger, activity, or a hidden system state.",
+      "allowedWhen": ["observer has explicitly enabled audio", "current view contains open space"],
+      "loudness": { "targetIntegratedLufs": -32, "maxPeakDbtp": -18 },
+      "loop": { "mode": "loop-safe", "targetDurationSeconds": 12, "crossfadeMs": 600 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono or stereo", "runtime": "ogg opus" },
+      "edits": ["high-pass rumble", "gentle fade-in and fade-out", "remove clicks and abrupt transients"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    },
+    {
+      "id": "first-glow-charge-pool-tone",
+      "kind": "ambience",
+      "intendedUse": "A sparse local tone while the observer is focused on an observed charge pool.",
+      "meaning": "The selected place is a charge source; it does not claim that charge was drawn or that supply changed.",
+      "allowedWhen": ["observer has explicitly enabled audio", "charge pool is visibly selected or in view"],
+      "loudness": { "targetIntegratedLufs": -30, "maxPeakDbtp": -16 },
+      "loop": { "mode": "loop-safe", "targetDurationSeconds": 8, "crossfadeMs": 450 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono", "runtime": "ogg opus" },
+      "edits": ["shorten to a calm tonal bed", "remove rhythmic pulse that could imply a tick", "fade loop boundaries"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    },
+    {
+      "id": "first-glow-shelter-stillness",
+      "kind": "ambience",
+      "intendedUse": "A nearly silent local bed while observing a shelter niche.",
+      "meaning": "The niche is a place where rest is possible; it does not claim that a Spark is resting.",
+      "allowedWhen": ["observer has explicitly enabled audio", "shelter niche is visibly selected or in view"],
+      "loudness": { "targetIntegratedLufs": -34, "maxPeakDbtp": -20 },
+      "loop": { "mode": "loop-safe", "targetDurationSeconds": 10, "crossfadeMs": 700 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono or stereo", "runtime": "ogg opus" },
+      "edits": ["remove transients", "preserve long quiet gaps", "fade loop boundaries"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    },
+    {
+      "id": "first-glow-route-current-texture",
+      "kind": "ambience",
+      "intendedUse": "A restrained texture for an explicitly observed active route.",
+      "meaning": "A visible route is present; it does not imply movement, reachability, or a future arrival.",
+      "allowedWhen": ["observer has explicitly enabled audio", "route is visibly active in committed state"],
+      "loudness": { "targetIntegratedLufs": -33, "maxPeakDbtp": -18 },
+      "loop": { "mode": "loop-safe", "targetDurationSeconds": 9, "crossfadeMs": 500 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono or stereo", "runtime": "ogg opus" },
+      "edits": ["remove crackle and alarm-like transients", "keep texture below speech-level attention", "fade loop boundaries"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    },
+    {
+      "id": "first-glow-paired-exchange-tone",
+      "kind": "feedback",
+      "intendedUse": "A brief paired tone after a committed, observable exchange event.",
+      "meaning": "The server recorded an exchange; it never predicts, confirms, or embellishes an uncommitted relationship.",
+      "allowedWhen": ["observer has explicitly enabled audio", "matching committed exchange event is visible to the client"],
+      "loudness": { "targetIntegratedLufs": -24, "maxPeakDbtp": -12 },
+      "loop": { "mode": "one-shot", "targetDurationSeconds": 1.2, "crossfadeMs": 0 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono", "runtime": "ogg opus" },
+      "edits": ["keep attack soft", "avoid triumphant cadence", "trim tail below the near-silent baseline"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    },
+    {
+      "id": "first-glow-short-warning",
+      "kind": "feedback",
+      "intendedUse": "A short identifiable cue after a committed blocked or warning state.",
+      "meaning": "The client received a readable warning; it does not create urgency or hide the written explanation.",
+      "allowedWhen": ["observer has explicitly enabled audio", "matching committed warning state is visible to the client"],
+      "loudness": { "targetIntegratedLufs": -22, "maxPeakDbtp": -10 },
+      "loop": { "mode": "one-shot", "targetDurationSeconds": 0.7, "crossfadeMs": 0 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono", "runtime": "ogg opus" },
+      "edits": ["avoid alarm intervals", "use one soft descending gesture", "trim tail promptly"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    },
+    {
+      "id": "first-glow-selection-focus-feedback",
+      "kind": "feedback",
+      "intendedUse": "A restrained cue for explicit observer selection or focus movement.",
+      "meaning": "The interface focus changed; it does not signal a world event or Spark outcome.",
+      "allowedWhen": ["observer has explicitly enabled audio", "observer explicitly selects or focuses an interface target"],
+      "loudness": { "targetIntegratedLufs": -28, "maxPeakDbtp": -16 },
+      "loop": { "mode": "one-shot", "targetDurationSeconds": 0.25, "crossfadeMs": 0 },
+      "sourceFormat": { "master": "wav 48kHz 24-bit mono", "runtime": "ogg opus" },
+      "edits": ["keep click-free", "avoid repeated stimulation during keyboard traversal", "trim tail"],
+      "status": "planned",
+      "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
+      "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }
+    }
+  ]
+}

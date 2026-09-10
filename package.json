@@ -20,6 +20,8 @@
     "art:validate": "npm run build && node scripts/first-glow-art-validation.mjs",
     "art:validate:test": "node scripts/first-glow-art-validation.test.mjs",
     "art:test": "node scripts/art-production.test.mjs",
+    "audio:check": "node scripts/first-glow-audio-contract.mjs",
+    "audio:test": "node scripts/first-glow-audio-contract.test.mjs",
     "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",
     "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",
     "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",

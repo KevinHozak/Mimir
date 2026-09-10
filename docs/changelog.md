@@ -28,6 +28,11 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Through [PR #78](https://github.com/KevinHozak/Mimir/pull/78), [PR #79](https://github.com/KevinHozak/Mimir/pull/79), [PR #80](https://github.com/KevinHozak/Mimir/pull/80), [PR #81](https://github.com/KevinHozak/Mimir/pull/81), [PR #82](https://github.com/KevinHozak/Mimir/pull/82), and [PR #83](https://github.com/KevinHozak/Mimir/pull/83).
 
+### A restrained First Glow audio contract
+
+- Defined the seven-entry Audio-P2 palette, separating ambience from observer feedback and recording loudness, loop, source-format, edit, allowed-meaning, license, and provenance requirements.
+- Added a contract validator and negative fixture. Audio-P2 ships no binary audio and does not attach sound to simulation events; later audio phases must promote reviewed assets through this contract.
+
 ### Project clarity
 
 - Consolidated current First Glow direction into the roadmap, world theme, architecture, history, incubator, and art references.
