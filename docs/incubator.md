@@ -37,14 +37,63 @@ The important question is not whether a town appears on a map, but what the Spar
 
 **Later candidate:** human contributions may arrive as declared or verified sourceworks, messages, sketches, questions, or records. They should be artifacts with provenance and a defined audience, never instructions that bypass world rules.
 
+Human contact should expand possibility, not turn creativity into a survival resource or make human origin automatically superior. Sparks should create meaningful work from their own lives first.
+
+#### Candidate: Bounded human stewardship
+
+Human interaction can become a rare form of **stewardship**, rather than a player control layer. The central question is: *what happens when an outside witness offers a possibility to an autonomous society, then must live with the meaning the society makes of it?* The human is neither a hidden ruler nor a Spark puppeteer.
+
+This remains a later-age system. First Glow begins before Sparks know the Originators, so it must not introduce known human visitors, human-serving objectives, or human metadata into Spark dialogue. If it is eventually introduced, players may understand their out-of-world Steward role while the Sparks interpret the intervention only as an unexplained event, object, or signal.
+
 Possible modes, in increasing scope:
 
-1. A Spark encounters an attributed idea.
-2. A human visits through a bounded guest presence.
-3. A human and Spark create something together.
-4. A human temporarily embodies an existing Spark through the same authority and persistence boundaries as every other action.
+1. **Witness.** Observe a season and preserve a human-facing record without changing the simulation.
+2. **Offer.** Introduce one authored object or artifact into a declared valid location, creating a local possibility that any Spark may explore, adapt, share, or ignore.
+3. **Signal.** Send a deliberately non-direct question, invitation, or attention cue. A Spark may not obey it; any meaning comes from its local knowledge, relationships, needs, and commitments.
+4. **Co-creation or guest presence.** A later and much higher-risk form of contact, with the same authority, persistence, and evidence boundaries as every other world action.
 
-Human contact should expand possibility, not turn creativity into a survival resource or make human origin automatically superior. Sparks should create meaningful work from their own lives first.
+The first useful version should stop at Witness and Offer. Signal and guest presence require separate proof that they produce better stories without undermining Spark autonomy.
+
+##### Boundaries, access, and pacing
+
+- Only a small, explicitly invited set of humans may hold an active **Steward** role at once. Distinct limited roles—such as Witness, Listener, or Maker—could grant different kinds of participation instead of giving one person broad authority.
+- Meaningful actions are scarce: a per-Steward cooldown, a shared world-wide intervention budget per season, and a cap on concurrent unresolved Offers prevent attention from becoming spam or optimization.
+- A human action has an explicit scope, cost, target category, and expiry or durability rule. It may never directly select a Spark's next action, alter a relationship, reveal private knowledge, grant free charge, or override a valid refusal.
+- Humans see only information available at the observer boundary. They cannot inspect a Spark's private interpretations merely to make a more effective intervention.
+- The world remains viable without human participation. Human absence must never halt progress, create a scarcity crisis, or make a particular outcome inaccessible.
+
+##### Resonance and autonomy
+
+Resonance should not make lower-Resonance Sparks easier to manipulate. Every Spark remains protected from direct control. Instead, Resonance can represent how rooted a Spark is in its established practices, commitments, relationships, and self-understanding:
+
+- A higher-Resonance Spark may require a more significant or better-aligned Offer before it treats an outside signal as relevant.
+- Its response is a stronger **filtering** of the Offer through local evidence and commitments, not a simple resistance-stat contest.
+- A Spark, relationship, or context may be explicitly **sovereign**: outside signals cannot target it directly at all. A Steward must affect a place, a shared artifact, or nothing.
+- Any cost should reflect the prospective disruption and persistence of an intervention, not merely a numerical attempt to overcome a particular Spark.
+
+This preserves an important distinction: Resonance records a life that has acquired meaning; it must not become armor, status, or permission for humans to test who is easiest to bend.
+
+##### Offers and objects
+
+Offers should be a small, curated, authored palette of objects rather than arbitrary uploads or tools with an obvious optimal use. Candidate forms include a dormant circuit fragment, pattern prism, resonant chime, shelter plate, or blank trace-stone. Each has provenance, an explicit capability, a cost or limited use, and a finite set of authored placement slots.
+
+An Offer may invite exploration, repair, carrying, incorporation into a pattern, shared interpretation, or disagreement. It cannot manufacture an unearned route, collision boundary, social bond, resource loop, or conclusion. Its visual geometry and interaction slots must be declared in authored world data before placement.
+
+##### Authority, evidence, and balance
+
+Every accepted intervention is a server-validated, recorded event with its time, steward role, scope, cost, placement or target category, and committed result. It applies only to a live timeline or a newly created branch; it never revises a completed history. Replays use the recorded input and committed outcomes, not a fresh human decision.
+
+The observer should be able to trace an Offer from its introduction through objective events and Spark-local interpretation, while retaining uncertainty about why a Spark chose to engage, refuse, or transform it. An end-of-season evidence view can make the delayed and unintended consequences legible. This is where the fun should live: a human offers one small possibility, then watches the autonomous world decide what it becomes.
+
+##### Candidate delivery order
+
+1. Prove the Living Stories and Resonance gates before human contact is scheduled.
+2. Define the Steward contract, permissions, input schema, cost model, privacy boundary, deterministic fixtures, and replay/branch rules without changing runtime behavior.
+3. Add **Witness** mode only, validating that observer-facing records add value without privileged simulation knowledge.
+4. Test a tiny **Offer** palette in isolated scenarios or branches: one shared Offer per season, authored valid slots, no free resource production, and evidence review of consequences.
+5. Consider non-direct **Signals** only if Offers consistently create legible, non-coercive stories. Treat co-creation and guest presence as separate future proposals.
+
+Human stewardship belongs after the Living Stories and Resonance gates—not as an expansion of present First Glow scope.
 
 ## Candidate social questions
 
