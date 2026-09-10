@@ -59,6 +59,35 @@ These prompts are retained because they can produce genuine disagreement without
 
 Any future dilemma must state objective facts, local knowledge, feasible alternatives, durable effects, and evidence references before it enters simulation behavior.
 
+## Candidate: Living Stories
+
+**Candidate:** after the visual and second-area work has made First Glow readable, treat story quality as its own delivery gate rather than assuming that more systems automatically create better stories. This is a possible **Stories** workstream, not a present First Glow commitment.
+
+Its purpose would be to establish that a season can produce a legible social story: a viewer can see what changed, why a Spark chose as it did, and why the aftermath matters. The proposed order is:
+
+1. **Stories-P1: Long-season story validation.** Run a small set of fixed-seed, multi-season worlds; preserve their evidence, observer captures, and replay inputs; then score the stories that emerge.
+2. **Stories-P2: Deepen proven social loops.** Add only the choices, activities, and consequences that P1 shows are missing, such as repair, refusal, reciprocity, private discovery, or trust recovery.
+3. **Stories-P3: Revalidate and curate scenarios.** Repeat the season review with the new loops and decide whether First Glow has earned a transition toward the Hearth Circuit.
+
+### Proposed story scorecard
+
+Use a 0–2 score for each criterion: **0** absent or confusing, **1** present but inconsistent, **2** clear and repeatable. A story candidate should have no failure on the hard evidence boundaries, score at least 16/20, contain at least one memorable turning point and one persistent consequence, and be accurately retellable by a reviewer who did not author it.
+
+| Criterion | What it means |
+| --- | --- |
+| Clear cause and effect | Important turns can be traced from objective facts to Spark-local knowledge, choice, and committed consequence. |
+| Real dilemma | At least two feasible paths have meaningful costs; no path is silently designated as correct. |
+| Spark distinctiveness | Different responses follow understandable needs, knowledge, trust, commitments, and later tendencies rather than arbitrary randomness. |
+| Persistent consequences | A choice remains relevant through charge, access, trust, a promise, a light mark, knowledge, or a later decision. |
+| Emotional legibility | An observer can say why a moment mattered: aid, refusal, risk, discovery, strain, or repair. |
+| Narrative shape | A season has setup, pressure, a turning point, and aftermath rather than only an activity log. |
+| Variation with integrity | Different fixed seeds yield materially different but plausible stories; the same seed replays identically. |
+| Observer clarity | The observer explains enough to follow events without treating private Spark knowledge or interpretation as public fact. |
+| No designated winner | Care, autonomy, caution, curiosity, and cooperation can each be defensible; the system does not covertly reward one philosophy. |
+| First Glow fidelity | Stories remain grounded in charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge. |
+
+This gate should precede formal institutions, personality systems, discovery arcs, or Hero Sparks. It is meant to reveal which of those later ideas has actually been earned by observed play, not to choose them in advance.
+
 ## Candidate personality model
 
 **Candidate:** represent personality as a small, inspectable set of stable tendencies rather than as a fixed destiny. A four-trait starting model could use:
