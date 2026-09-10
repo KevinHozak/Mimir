@@ -44,5 +44,5 @@ export function firstGlowAmbientContext(input: FirstGlowRenderedAudioInput): Fir
 
 export function planFirstGlowAudioMix(input: FirstGlowRenderedAudioInput): FirstGlowAudioMix {
   const context = firstGlowAmbientContext(input);
-  return { context, ambienceLevel: contextLevels[context], scoreLevel: context === "open-space" ? 0.015 : 0.022 };
+  return { context, ambienceLevel: contextLevels[context], scoreLevel: context === "open-space" ? 0.022 : 0.03 };
 }

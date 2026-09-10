@@ -45,7 +45,7 @@ export class FirstGlowAudioRuntime {
   private ambienceBus: GainNode | null = null;
   private effectsBus: GainNode | null = null;
   private musicBus: GainNode | null = null;
-  private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number }[] = [];
+  private ambientVoices: { oscillator: OscillatorNode; gain: GainNode; frequency: number; kind: "ambience" | "score" }[] = [];
   private ambientPulseTimer: number | null = null;
 
   constructor(preferences: FirstGlowAudioPreferences) { this.preferences = preferences; }
@@ -139,7 +139,7 @@ export class FirstGlowAudioRuntime {
 
   private ensureAmbientVoices(): void {
     if (!this.context || !this.ambienceBus || !this.musicBus || this.ambientVoices.length > 0) return;
-    const makeVoice = (frequency: number, bus: GainNode, type: OscillatorType) => {
+    const makeVoice = (frequency: number, bus: GainNode, type: OscillatorType, kind: "ambience" | "score") => {
       const oscillator = this.context!.createOscillator();
       const gain = this.context!.createGain();
       oscillator.type = type;
@@ -147,11 +147,13 @@ export class FirstGlowAudioRuntime {
       gain.gain.value = 0.0001;
       oscillator.connect(gain).connect(bus);
       oscillator.start();
-      this.ambientVoices.push({ oscillator, gain, frequency });
+      this.ambientVoices.push({ oscillator, gain, frequency, kind });
     };
-    makeVoice(92, this.ambienceBus, "sine");
-    makeVoice(138, this.ambienceBus, "triangle");
-    makeVoice(196, this.musicBus, "sine");
+    makeVoice(92, this.ambienceBus, "sine", "ambience");
+    makeVoice(138, this.ambienceBus, "triangle", "ambience");
+    makeVoice(196, this.musicBus, "sine", "score");
+    makeVoice(246.94, this.musicBus, "sine", "score");
+    makeVoice(293.66, this.musicBus, "sine", "score");
   }
 
   private scheduleAmbientPulse(): void {
@@ -163,13 +165,16 @@ export class FirstGlowAudioRuntime {
       const ambienceTarget = this.preferences.ambienceEnabled ? this.mix.ambienceLevel * this.preferences.master : 0;
       const scoreTarget = this.preferences.scoreEnabled ? this.mix.scoreLevel * this.preferences.master * this.preferences.music : 0;
       this.ambientVoices.forEach((voice, index) => {
-        const target = index < 2 ? ambienceTarget * (index === 0 ? 0.22 : 0.12) : scoreTarget * 0.28;
+        const isScore = voice.kind === "score";
+        const scoreIndex = isScore ? index - 2 : 0;
+        const start = isScore ? now + scoreIndex * 0.52 : now;
+        const target = isScore ? scoreTarget * (scoreIndex === 1 ? 0.78 : 0.62) : ambienceTarget * (index === 0 ? 0.28 : 0.18);
         voice.gain.cancelScheduledValues(now);
-        voice.gain.setValueAtTime(0.0001, now);
-        voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), now + 1.1);
-        voice.gain.linearRampToValueAtTime(0.0001, now + 3.2 + index * 0.3);
+        voice.gain.setValueAtTime(0.0001, start);
+        voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), start + (isScore ? 0.28 : 1.1));
+        voice.gain.linearRampToValueAtTime(0.0001, start + (isScore ? 1.75 : 3.2));
       });
-      this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 5200);
+      this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 7000);
     }, 1200);
   }
 }
