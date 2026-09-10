@@ -177,6 +177,17 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .first-glow-header .season-tick, .first-glow-header .season-sparks { color: #8addf2; font: 700 .9rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .04em; white-space: nowrap; }
 .first-glow-header .season-sparks, .first-glow-header .season-sites { color: #8fa7c3; font-size: .78rem; }
 .first-glow-header .controls, .first-glow .first-glow-header .controls { grid-column: 1 / -1; position: static; max-width: none; padding: 12px 15px; border: 1px solid #52677f; border-radius: 10px; background: linear-gradient(135deg, #101b2d, #0a1322); box-shadow: inset 0 0 18px rgba(138, 221, 242, .05); }
+.first-glow-audio { grid-column: 1 / -1; position: relative; z-index: 30; color: #dceeff; border: 1px solid #52677f; border-radius: 10px; background: #0a1322; }
+.first-glow-audio summary { padding: 10px 14px; color: #edf7ff; cursor: pointer; font-weight: 700; list-style-position: inside; }
+.first-glow-audio summary span { color: #8fa7c3; font-size: .78rem; font-weight: 400; }
+.audio-panel { display: grid; gap: 10px; padding: 0 14px 14px; border-top: 1px solid #263b55; }
+.audio-panel button { justify-self: start; padding: 8px 12px; background: #21445f; }
+.audio-status { margin: 10px 0 0; color: #8fa7c3 !important; font-size: .78rem; }
+.audio-toggle, .audio-slider { display: grid; grid-template-columns: 100px minmax(100px, 1fr) 42px; gap: 8px; align-items: center; color: #c8d8e9; font-size: .8rem; }
+.audio-toggle { display: flex; gap: 8px; }
+.audio-slider input { min-width: 0; accent-color: #8addf2; }
+.audio-slider output { color: #8addf2; text-align: right; font: .75rem ui-monospace, monospace; }
+.audio-panel small { color: #8fa7c3; font-size: .72rem; line-height: 1.4; }
 .first-glow-map-controls { display: none; }
 .first-glow .village-stage > .entity-chooser { grid-column: 1; grid-row: 2; }
 .first-glow .entity-chooser { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; align-items: center; margin-top: 10px; padding: 8px; border: 1px solid #52677f; border-radius: 8px; background: #0b1627; color: var(--fg-muted); }
