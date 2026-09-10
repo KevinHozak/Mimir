@@ -3,6 +3,8 @@ export const FIRST_GLOW_AUDIO_STORAGE_KEY = "mimir:first-glow-audio:v1";
 export type FirstGlowAudioPreferences = {
   enabled: boolean;
   muted: boolean;
+  ambienceEnabled: boolean;
+  scoreEnabled: boolean;
   master: number;
   music: number;
   effects: number;
@@ -11,6 +13,8 @@ export type FirstGlowAudioPreferences = {
 export const DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES: FirstGlowAudioPreferences = {
   enabled: false,
   muted: false,
+  ambienceEnabled: true,
+  scoreEnabled: false,
   master: 0.7,
   music: 0.35,
   effects: 0.5,
@@ -30,6 +34,8 @@ export function loadFirstGlowAudioPreferences(storage: Pick<Storage, "getItem"> 
     return {
       enabled: parsed.enabled === true,
       muted: parsed.muted === true,
+      ambienceEnabled: parsed.ambienceEnabled !== false,
+      scoreEnabled: parsed.scoreEnabled === true,
       master: clamp(parsed.master, DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES.master),
       music: clamp(parsed.music, DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES.music),
       effects: clamp(parsed.effects, DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES.effects),

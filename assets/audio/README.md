@@ -4,7 +4,7 @@ Audio-P2 ships a contract and palette, not audio binaries. The contract is [`fir
 
 Do not add an audio file to the shipped runtime until its palette entry is changed to `shipped` and its license and provenance fields are complete. A shipped entry must also include a stable `file` path, a source identifier or repository-authored source record, and a checksum recorded by the eventual asset pipeline.
 
-The current entries are deliberately `planned`. This prevents placeholder or unreviewed audio from entering a First Glow bundle and keeps Audio-P1's silent mode fully valid. Audio-P3 may connect feedback cues only to committed observable events; Audio-P4 may add place-aware ambience after this contract is accepted.
+The current entries are deliberately `planned`. This prevents placeholder or unreviewed audio binaries from entering a First Glow bundle and keeps Audio-P1's silent mode fully valid. Audio-P3 may connect feedback cues only to committed observable events; Audio-P4 may add place-aware ambience after this contract is accepted. The current P4 implementation uses repository-authored procedural Web Audio sources; their code provenance is recorded in [`assets/licenses/first-glow-audio.md`](../licenses/first-glow-audio.md) while the binary palette remains unpromoted.
 
 ## Provenance requirements
 
