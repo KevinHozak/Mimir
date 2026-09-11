@@ -17,7 +17,16 @@ The following **Resonance** workstream turns durable, repeated social patterns i
 | Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | In review; the authored relay crossing now forms a distinct Crossing of Voices Anchor with witnessed follow/hold consequences. |
 | Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | In review; replayable eligibility and carry-forward design only, not a new active runtime. |
 
-Hosted-observer work remains intentionally separate from this sequence: [Hosted-P1](https://github.com/KevinHozak/Mimir/issues/3) is complete, [Hosted-P2](https://github.com/KevinHozak/Mimir/issues/18) has production-preview evidence in [the dated profile](evidence/2026-09-11-first-glow-production-profile.md) and is in review, and [Hosted-P3](https://github.com/KevinHozak/Mimir/issues/53) remains deferred until the user explicitly chooses to resume hosting.
+Hosted-observer work remains intentionally separate from this sequence and is now ordered as follows:
+
+| Phase | Issue | Status |
+| --- | --- | --- |
+| Hosted-P1 | [Verify independent backup and recovery before durable hosting](https://github.com/KevinHozak/Mimir/issues/3) | Complete; local bundle-inclusive recovery evidence is documented. |
+| Hosted-P2 | [Produce accurate First Glow production performance evidence](https://github.com/KevinHozak/Mimir/issues/18) | Complete; production-preview evidence is in [the dated profile](evidence/2026-09-11-first-glow-production-profile.md). |
+| Hosted-P3 | [Establish Google Cloud hosting readiness and cost guardrails](https://github.com/KevinHozak/Mimir/issues/116) | Planned; project and $10 alert exist, but the phase still requires final pre-provisioning verification. |
+| Hosted-P4 | [Provision an authenticated single-writer Mimir staging observer](https://github.com/KevinHozak/Mimir/issues/115) | Planned; depends on Hosted-P3. |
+| Hosted-P5 | [Validate independent hosted backup and recovery](https://github.com/KevinHozak/Mimir/issues/117) | Planned; depends on Hosted-P4 and Hosted-P1. |
+| Hosted-P6 | [Validate durable hosted-observer readiness after local seasons are compelling](https://github.com/KevinHozak/Mimir/issues/53) | Deferred final readiness gate; depends on Hosted-P3 through Hosted-P5 and compelling local season results. |
 
 ## Non-negotiable gates
 
