@@ -8,6 +8,7 @@ export * from "./design.js";
 export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
 export * from "./first-glow-interpretations.js";
+export * from "./resonance-observation.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
 export interface WorldEvent { id: string; tick: number; kind: "tick" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
