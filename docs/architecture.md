@@ -77,6 +77,8 @@ Resonance-P1's `resonance-observation.ts` is a separate, pure observer-facing ev
 
 Resonance-P2 adds the first bounded stateful Anchor: `resonance-anchor.ts` validates an explicit pending candidate against the authored Shelter Loom object and rest slot, its required capability and walkable placement, and sorted committed evidence. A successful creation records a schema-1 `resonance` candidate/Anchor state inside the checkpoint, emits an objective world-object event, and preserves a bounded shared-rest possibility and access tension. The creation path is deterministic and rejects incomplete, invalid, already-created, or uncommitted-evidence candidates without creating an Anchor.
 
+Resonance-P3 adds `resonance-loom-choice.ts`, a pure server-invoked transition for that Anchor's one bounded social possibility. Two explicit, defensible choices are available when both Sparks are co-present at the authored rest slot and the actor can witness the supplied evidence: `yield-rest` grants the beneficiary readiness while costing the actor charge/readiness, while `hold-rest` keeps the priority and gives the beneficiary a readiness setback. Both paths write an adjustment ledger entry, reciprocal bounded trust evidence, a durable `ShelterLoomDecisionRecord`, and a `shelter-loom-choice` objective event. The owner endpoint commits the whole state transactionally; the observer renders the decision and evidence without fabricating gameplay.
+
 ## 4. World-data pipeline
 
 The implemented source-of-truth boundary is:
@@ -155,6 +157,7 @@ State-changing operations require the configured `OWNER_TOKEN`, supplied through
 - `POST /api/owner/reset-v3` — archive the current timeline and create a schema-3 First Glow world.
 - `POST /api/owner/world/object` — change runtime blocking for a known world object.
 - `POST /api/owner/resonance-anchor` — create the Shelter Loom only from a complete, server-validated candidate whose evidence IDs are already committed on the active timeline.
+- `POST /api/owner/resonance-choice` — commit one witnessed Shelter Loom `yield-rest` or `hold-rest` choice, with explicit eligibility, resource deltas, durable consequence, and objective evidence.
 
 When `OWNER_TOKEN` is unset, owner operations are permitted without authentication. A configured token provides owner authentication, not a multi-user account or role system.
 
@@ -215,7 +218,7 @@ The repository includes three verification layers:
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
 - Engine interpretation tests for stable context hashes, evidence-scoped validation, deterministic fallbacks, budget telemetry, historical replay without provider calls, and a matched 20-encounter rules-only/AI-on review harness using a local fake provider.
 - Engine Resonance-observation tests for deterministic fixture evaluation, distinct candidate statuses, objective-evidence ordering, and private-knowledge exclusion.
-- Engine Shelter Loom tests for deterministic creation and rejection of near-miss, invalid-placement, and already-created candidates; server backup coverage includes the current Anchor-capable world bundle.
+- Engine Shelter Loom tests for deterministic creation, deterministic `yield-rest`/`hold-rest` alternatives, knowledge-boundary rejection, and near-miss/invalid-placement candidates; server backup coverage includes the current Anchor-capable world bundle.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
 - Browser checks for First Glow live/history observers, manifest assets, overlays, playback rates, mobile layout, and audio P5's opt-in behavior, persisted controls, muted-event readability, history silence, and desktop/mobile evidence.

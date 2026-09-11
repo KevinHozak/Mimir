@@ -6,14 +6,14 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Next non-hosting delivery sequence
 
-**Resonance-P2** is the current bounded First Glow delivery gate. It must preserve the completed evidence boundaries. Finished Audio, Living Stories, and Resonance-P1 work is recorded in the [Changelog](changelog.md).
+**Resonance-P3** is the current bounded First Glow delivery gate. It must preserve the completed evidence boundaries. Finished Audio, Living Stories, and Resonance-P1 work is recorded in the [Changelog](changelog.md).
 
 The following **Resonance** workstream turns durable, repeated social patterns into evidence-first places only after the Living Stories gate supports it:
 
 | Phase | Current work | Status |
 | --- | --- | --- |
 | Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | In review; authored placement, server-committed Anchor record, and deterministic failure paths are implemented. |
-| Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | Backlog after P2 and Stories-P2. |
+| Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | In review; server-committed yield/hold rest choices now produce distinct durable resource, trust, and readiness consequences. |
 | Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | Backlog after P3 and Stories-P3. |
 | Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | Backlog after P4; transition design only, not a new active runtime. |
 

@@ -61,6 +61,27 @@ export interface ResonanceState {
   schemaVersion: 1;
   candidates: ResonanceCandidateRecord[];
   anchors: ResonanceAnchorRecord[];
+  decisions?: ShelterLoomDecisionRecord[];
+}
+
+export type ShelterLoomChoice = "yield-rest" | "hold-rest";
+
+export interface ShelterLoomDecisionRecord {
+  id: string;
+  anchorId: string;
+  tick: number;
+  actorSparkId: string;
+  beneficiarySparkId: string;
+  choice: ShelterLoomChoice;
+  accessRuleId: string;
+  chargeCost: number;
+  actorReadinessDelta: number;
+  beneficiaryReadinessDelta: number;
+  actorChargeDelta: number;
+  actorDeficitDelta: number;
+  outcome: "priority-granted" | "priority-refused";
+  durableConsequence: string;
+  evidenceEventIds: string[];
 }
 
 export type ShelterLoomCreationResult =
