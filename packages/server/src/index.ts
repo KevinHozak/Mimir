@@ -6,7 +6,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, CHARACTER_CARDS, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, setObjectBlocked, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, CHARACTER_CARDS, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceObservationEvent, type ResonanceObservationRule, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
@@ -110,6 +110,19 @@ function applyFirstGlowPendingCommands(base: WorldState, tick: number): { state:
 app.get("/health", async () => ({ ok: true, tick: state.tick, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents }));
 app.get("/api/social/config", async () => ({ mode: socialMode, aiEnabled, budgetCents: socialBudgetCents, provider: "none", historicalPlaybackUsesAI: false }));
 app.get("/api/design", async () => state.firstGlowState ? { themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN } : ({ characterCards: CHARACTER_CARDS, dilemmas: FIRST_WINTER_DILEMMAS, sharedStore: state.sharedStore }));
+app.get("/api/resonance", async () => {
+  const fixturePath = resolve(process.cwd(), "docs", "resonance-anchor-fixtures.json");
+  if (!existsSync(fixturePath)) return { source: "committed-objective-events", observations: [], currentTick: state.tick };
+  const fixture = JSON.parse(readFileSync(fixturePath, "utf8")) as { schemaVersion: number; rule: ResonanceObservationRule; cases: Array<{ id: string; events: ResonanceObservationEvent[] }> };
+  return {
+    source: "resonance-contract-fixtures",
+    schemaVersion: fixture.schemaVersion,
+    rule: fixture.rule,
+    currentTick: state.tick,
+    committedEventCount: state.firstGlowState?.events.length ?? 0,
+    observations: fixture.cases.map((item) => ({ fixtureId: item.id, ...observeResonance(item.events, fixture.rule), evidence: item.events.slice().sort((left, right) => left.tick - right.tick || left.id.localeCompare(right.id)) })),
+  };
+});
 app.get("/api/region", async () => ({ settlements: state.settlements, routes: state.routes, tradeHistory: state.tradeHistory, weather: state.weather, hazards: state.hazards, timelineId: activeTimelineId }));
 app.get("/api/timelines", async () => ({ activeTimelineId, timelines: database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines ORDER BY created_at").all() }));
 app.get("/api/world/bundles/:hash", async (request, reply) => { const hash = (request.params as { hash?: string }).hash; if (!hash || !/^sha256-[a-f0-9]{64}$/.test(hash)) return reply.code(400).send({ error: "invalid bundle hash" }); const bundlePath = resolve(worldBundleRoot, hash, "world.json"); const relativeBundlePath = relative(worldBundleRoot, bundlePath); if (relativeBundlePath.startsWith("..") || isAbsolute(relativeBundlePath) || !existsSync(bundlePath)) return reply.code(404).send({ error: "bundle not found" }); try { const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8"))); if (bundleHash(bundle) !== hash) return reply.code(409).send({ error: "bundle content hash mismatch" }); return { bundle }; } catch (error) { return reply.code(409).send({ error: error instanceof Error ? error.message : "invalid bundle" }); } });

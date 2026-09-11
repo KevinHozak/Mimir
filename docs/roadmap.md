@@ -29,13 +29,13 @@ Audio should make the observer feel alive and intimate without making the sparse
 
 Audio-P1 is the first implementation step after Graphics-P8. Audio-P2 may prepare the assets alongside P1, but no shipped asset or event integration begins until the control and provenance contract is in place. Audio-P3 is required before effects can be described as evidence-led; Audio-P4 follows only once those effects are trustworthy; Audio-P5 closes the audio workstream.
 
-The next story gate is **Living Stories**: use fixed-seed, multi-season evidence to prove that First Glow produces legible social stories before adding more systems. [Stories-P1](https://github.com/KevinHozak/Mimir/issues/99) now records that validation; Stories-P2 may deepen only the gaps P1 evidences, and Stories-P3 may revalidate and curate scenarios. The P1 result is partial (13/20): its review controls preserve deterministic evidence, but it has not yet established autonomous distinct Spark choices, meaningful seed variation, or independent observer retellability. Audio may be included in review captures where useful, but the scorecard must also pass with sound disabled. Resonance-P1 therefore remains Backlog until a later story gate earns it.
+The next story gate is **Living Stories**: use fixed-seed, multi-season evidence to prove that First Glow produces legible social stories before adding more systems. [Stories-P1](https://github.com/KevinHozak/Mimir/issues/99) records the initial validation; Stories-P2 deepened the evidenced gaps, and Stories-P3 revalidated the transition gate with a positive 20/20 review. Resonance-P1 now makes contract-defined candidate evidence inspectable without adding Anchor state or changing play. Audio may be included in review captures where useful, but the scorecard must also pass with sound disabled.
 
 The following **Resonance** workstream turns durable, repeated social patterns into evidence-first places only after the Living Stories gate supports it:
 
 | Phase | Current work | Status |
 | --- | --- | --- |
-| Resonance-P1 | [Observe candidate patterns without changing play](https://github.com/KevinHozak/Mimir/issues/84) | Backlog after Stories-P1. |
+| Resonance-P1 | [Observe candidate patterns without changing play](https://github.com/KevinHozak/Mimir/issues/84) | In review after the Stories-P3 gate; observer-only candidate evidence is implemented without Anchor state. |
 | Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | Backlog after P0–P1 and positive story validation. |
 | Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | Backlog after P2 and Stories-P2. |
 | Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | Backlog after P3 and Stories-P3. |
