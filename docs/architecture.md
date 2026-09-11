@@ -130,7 +130,7 @@ The current database stores:
 
 The initial checkpoint is stored at tick 0. Each successful tick stores another complete serialized state snapshot. Branching copies checkpoint, event, and interpretation history through the selected source tick, then activates a new child timeline. `reset-v3` archives the active timeline and creates a new schema-3 First Glow world with a new seed and Spark count.
 
-SQLite WAL checkpoints and scheduled local database copies are supported. The scheduled copies remain on the same disk until an independent backup destination is provisioned and restore-tested.
+SQLite WAL checkpoints and scheduled local database copies are supported. The scheduled copies remain on the same disk; Hosted-P5 also validated an operator transfer to, and recovery from, an independent Google Cloud Storage destination. Automatic cloud-upload scheduling is not yet wired into the service.
 
 ## 6. HTTP and live-update surface
 
@@ -217,7 +217,7 @@ The server can also run independently with `npm run dev:server`, and the browser
 - Daily local backup copies under `/var/data/backups`.
 - An externally supplied `OWNER_TOKEN`.
 
-The hosted model is intentionally single-writer. PostgreSQL or another coordinated persistence layer is required before horizontal scaling.
+The current staging deployment is a private Google Compute Engine `e2-micro` VM in `mimir-realm`, with IAP-only access and a mounted persistent disk. Hosted-P5 uses the separate `mimir-realm-backups` project and a regional Standard Cloud Storage bucket for operator-managed independent copies. The hosted model is intentionally single-writer. PostgreSQL or another coordinated persistence layer is required before horizontal scaling.
 
 ## 9. Verification architecture
 
@@ -253,7 +253,8 @@ Still open:
 - Further asset-version recovery hardening: bundle directories are copied by backup/restore and restored world JSON is validated, but the backup manifest checksums world JSON rather than every copied asset. Independent recovery remains a separate operational requirement.
 - Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.
 - Confirmation of external origin and redistribution rights before the current music and SFX review candidates can be promoted for a public release.
-- Independent disaster-recovery storage and restoration verification.
+- Automatic upload/monitoring of independent backups; Hosted-P5 validated the destination and recovery procedure, not continuous transfer.
+- Public/durable readiness of the private single-writer staging deployment.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
 

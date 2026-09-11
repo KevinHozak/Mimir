@@ -23,9 +23,9 @@ Hosted-observer work remains intentionally separate from this sequence and is no
 | --- | --- | --- |
 | Hosted-P1 | [Verify independent backup and recovery before durable hosting](https://github.com/KevinHozak/Mimir/issues/3) | Complete; local bundle-inclusive recovery evidence is documented. |
 | Hosted-P2 | [Produce accurate First Glow production performance evidence](https://github.com/KevinHozak/Mimir/issues/18) | Complete; production-preview evidence is in [the dated profile](evidence/2026-09-11-first-glow-production-profile.md). |
-| Hosted-P3 | [Establish Google Cloud hosting readiness and cost guardrails](https://github.com/KevinHozak/Mimir/issues/116) | Planned; project and $10 alert exist, but the phase still requires final pre-provisioning verification. |
-| Hosted-P4 | [Provision an authenticated single-writer Mimir staging observer](https://github.com/KevinHozak/Mimir/issues/115) | Planned; depends on Hosted-P3. |
-| Hosted-P5 | [Validate independent hosted backup and recovery](https://github.com/KevinHozak/Mimir/issues/117) | Planned; depends on Hosted-P4 and Hosted-P1. |
+| Hosted-P3 | [Establish Google Cloud hosting readiness and cost guardrails](https://github.com/KevinHozak/Mimir/issues/116) | Complete; project, billing link, VM shape, and $10 alert were verified. |
+| Hosted-P4 | [Provision an authenticated single-writer Mimir staging observer](https://github.com/KevinHozak/Mimir/issues/115) | Complete; private IAP-only staging observer is running. |
+| Hosted-P5 | [Validate independent hosted backup and recovery](https://github.com/KevinHozak/Mimir/issues/117) | In review; independent bucket, keyless access boundary, hosted transfer, fresh restore, and integrity failure evidence are recorded. |
 | Hosted-P6 | [Validate durable hosted-observer readiness after local seasons are compelling](https://github.com/KevinHozak/Mimir/issues/53) | Deferred final readiness gate; depends on Hosted-P3 through Hosted-P5 and compelling local season results. |
 
 ## Non-negotiable gates
