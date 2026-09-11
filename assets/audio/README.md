@@ -12,6 +12,8 @@ The extracted SFX library is retained under [`first-glow/sfx/`](first-glow/sfx/)
 
 The supplied `mimir_mp3_audio_manifest.json` is the metadata source for the current 17-asset set. Its generated export filenames are not present in the download folder, so the project manifests retain its musical metadata while mapping `sourceTrack` names to the actual downloaded MP3/WAV filenames.
 
+The music bus is context-aware: quiet routes use `Weightless Shore`, open space uses `Navigation By Starlight` with `Where Light Dissolves` as its alternate bed, charge pools use `Where the Light Pools`, and shelter niches use `Haven Under Starlight`.
+
 ## Provenance requirements
 
 For every promoted asset, record:

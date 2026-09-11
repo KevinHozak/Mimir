@@ -54,6 +54,12 @@ const musicAssetUrls = [
   "/audio/first-glow/where-the-light-pools.mp3",
   "/audio/first-glow/where-light-dissolves.mp3",
 ];
+const musicTracksByContext: Record<FirstGlowAudioMix["context"], number[]> = {
+  "open-space": [1, 4],
+  "charge-pool": [3],
+  "shelter-niche": [2],
+  "quiet-route": [0],
+};
 const effectAssetUrls: Partial<Record<FirstGlowAudioCue, string>> = {
   selection: "/audio/first-glow/sfx/sfx_spark_select.wav",
   arrival: "/audio/first-glow/sfx/sfx_spark_arrive.wav",
@@ -174,7 +180,9 @@ export class FirstGlowAudioRuntime {
   }
   playCommittedEvents(events: FirstGlowCommittedEvent[]): void { for (const cue of this.ledger.accept(events)) this.playCue(cue); }
   updateAmbientMix(mix: FirstGlowAudioMix): void {
+    const contextChanged = this.mix.context !== mix.context;
     this.mix = mix;
+    if (contextChanged) this.switchMusicContext();
     this.refreshAmbientVoices();
   }
   close(): void {
@@ -327,16 +335,28 @@ export class FirstGlowAudioRuntime {
 
   private startMusicAsset(): void {
     if (!this.context || !this.musicBus || !this.preferences.enabled || this.preferences.muted || !this.preferences.scoreEnabled || this.musicBuffers.length === 0 || this.musicSource) return;
+    const contextTracks = musicTracksByContext[this.mix.context];
+    if (contextTracks.length === 0) return;
     const source = this.context.createBufferSource();
-    source.buffer = this.musicBuffers[this.musicTrackIndex % this.musicBuffers.length];
+    source.buffer = this.musicBuffers[contextTracks[this.musicTrackIndex % contextTracks.length] % this.musicBuffers.length];
     source.connect(this.musicBus);
     source.onended = () => {
       if (this.musicSource !== source) return;
       this.musicSource = null;
-      this.musicTrackIndex = (this.musicTrackIndex + 1) % this.musicBuffers.length;
+      this.musicTrackIndex = (this.musicTrackIndex + 1) % contextTracks.length;
       this.startMusicAsset();
     };
     this.musicSource = source;
     source.start();
+  }
+
+  private switchMusicContext(): void {
+    this.musicTrackIndex = 0;
+    if (this.musicSource) {
+      this.musicSource.onended = null;
+      try { this.musicSource.stop(); } catch { /* already stopped */ }
+      this.musicSource = null;
+    }
+    this.startMusicAsset();
   }
 }
