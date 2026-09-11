@@ -19,7 +19,7 @@ Last verified: 2026-09-11.
 
 This budget is an alert, not a hard spending cap. The existing Codex Realm project remains separate from Mimir hosting. Local Application Default Credentials still use a different quota project; align that before application-level cloud calls if needed.
 
-The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a standard persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Hosted-P4 has provisioned and tested the private staging VM; external backup storage and public/durable readiness remain separately authorized phases.
+The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a standard persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Hosted-P4 provisioned and tested the private staging VM, and Hosted-P5 has now provisioned and recovery-tested the independent backup destination. Public/durable readiness remains a later phase.
 
 ## Google Cloud cost and eligibility decision
 
@@ -43,12 +43,14 @@ The first provisioning envelope is: one non-preemptible `e2-micro`, one 30 GB st
 
 ## Independent backup boundary
 
-The backup destination is intentionally separate from the runtime project. Before Hosted-P4 or Hosted-P5 creates it, select or create a dedicated backup project (proposed ID: `mimir-realm-backups`, subject to project-ID availability) under the same billing account, and create a regional Standard Cloud Storage bucket in `us-central1` (final globally unique bucket name to be chosen at provisioning). Add a separate `$10/month` project-scoped budget alert before the first bucket write; the existing `mimir-realm` alert does not cover a future backup project.
+The backup destination is intentionally separate from the runtime project. Hosted-P5 provisioned project `mimir-realm-backups` (`172815598347`) under billing account `01E836-7FDB98-C1FD83`, with bucket `gs://mimir-realm-backups-uscentral1-172815598347` in `US-CENTRAL1`. A separate `$10/month` project-scoped budget alert (`3d88a91f-0b28-4997-9a8c-2955e73e1923`) covers this project; the existing `mimir-realm` alert does not cover it.
 
-The intended backup controls are:
+The configured backup controls are:
 
 - at least 30 daily and 12 monthly retained copies through bucket lifecycle rules;
 - object versioning and the provider's recoverable-deletion/soft-delete protection where available;
+- Standard storage with Google-managed encryption at rest, uniform bucket-level access, seven-day soft delete, and 395-day deletion lifecycle rules for live and noncurrent objects;
+- separate keyless writer and recovery service accounts, with no service-account key copied to the VM; the writer can create/read objects but cannot delete them, while recovery is read-only.
 - a deployment backup identity that can create new backup objects but cannot delete or purge versions;
 - a separate recovery identity that can read and restore but is not used by the running service;
 - bucket/project administration and retention-policy changes reserved for a separate administrator identity; and
@@ -82,11 +84,11 @@ The first hosted service is intentionally one simulation writer. Do not scale it
 6. For a structured timeline, verify `/api/world` reports `spatialModel: "structured-v2"`, the expected bundle hash is present in `structuredState`, and a queued `/api/owner/world/object` command returns 202 with an effective next tick. Retry its idempotency key and verify no duplicate command is created.
 7. For a First Glow timeline, verify `/api/world` reports `simulationVersion: "mimir-sim-v3-first-glow"`, `themeId: "living-circuit"`, and `ageId: "first-glow"`. Use `/api/owner/reset-v3` with the schema-3 bundle hash; do not relabel or rewrite an older timeline. A clean bundle-inclusive restore must replay the supported First Glow checkpoint and fail before startup when referenced assets are missing or checksum-mismatched.
 
-The scheduled backup in `render.yaml` is a local disk copy only. It is not an independent disaster-recovery backup until the selected object-storage destination is configured and restoration is tested from that copy. Manual and scheduled backups share the same bundle-inclusive implementation and manifest format, but neither should be treated as off-host protection without an external copy. Storage-provider selection, credentials, bucket creation, and deployment wiring remain separate authorized work.
+The scheduled backup in `render.yaml` remains a local disk copy. Hosted-P5 separately validated an operator transfer of a bundle-inclusive backup from the private staging VM to the configured Cloud Storage destination and a recovery download using the read-only identity. Manual and scheduled backups share the same bundle-inclusive implementation and manifest format. Automatic cloud-upload wiring remains separate work, so the service must not yet be described as continuously protected by the bucket.
 
 ## Independent-backup validation evidence
 
-The dated local validation record is [hosted-backup-recovery-2026-09-11.md](evidence/hosted-backup-recovery-2026-09-11.md). It verifies the bundle-inclusive manifest, fresh restore, latest First Glow checkpoint recovery, one continued tick from the restored database, and pre-startup failure when a referenced asset is missing. The test uses an isolated disposable staging directory as a stand-in for the transfer boundary; it does not claim that an external object-storage copy is configured or that the hosted service is durable.
+The dated validation record is [hosted-backup-recovery-2026-09-11.md](evidence/hosted-backup-recovery-2026-09-11.md). It verifies the actual independent object-storage transfer, bundle-inclusive manifest, fresh restore, latest First Glow checkpoint recovery, one continued tick from the restored database, and pre-startup failure when a referenced asset is missing. It does not claim automatic cloud upload, public availability, durable multi-writer operation, or final production readiness.
 
 Authoring and verification commands from a checkout are:
 
