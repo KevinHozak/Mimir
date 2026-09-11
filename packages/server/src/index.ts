@@ -12,7 +12,8 @@ import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 
 const port = Number(process.env.PORT ?? 8888);
-let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
+const DEFAULT_TICK_INTERVAL_MS = 4000;
+let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? DEFAULT_TICK_INTERVAL_MS);
 const autoTick = process.env.AUTO_TICK !== "false";
 const seasonTickLimit = Number(process.env.SEASON_TICK_LIMIT ?? 360);
 const aiEnabled = process.env.AI_ENABLED === "true";
