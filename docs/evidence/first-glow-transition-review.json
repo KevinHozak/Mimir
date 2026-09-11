@@ -1,0 +1,2089 @@
+{
+  "generatedBy": "scripts/first-glow-transition-review.mjs",
+  "generatedAt": "2026-09-10",
+  "baseline": "docs/evidence/first-glow-long-story-review.json",
+  "changedRuntime": "docs/evidence/first-glow-autonomous-story-review.json",
+  "runtime": {
+    "themeId": "living-circuit",
+    "ageId": "first-glow",
+    "schemaVersion": 3,
+    "simulationVersion": "mimir-sim-v3-first-glow",
+    "spatialModel": "structured-v2",
+    "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601",
+    "seasons": 4,
+    "ticksPerSeason": 24,
+    "totalTicks": 96,
+    "sparks": 6,
+    "socialResolution": "autonomous-rules-only"
+  },
+  "reviews": [
+    {
+      "scenario": {
+        "id": "abundance-baseline",
+        "title": "Abundance baseline",
+        "controls": {
+          "seedSet": [
+            1101,
+            1102,
+            1103
+          ],
+          "ticks": 96,
+          "sourceIntakeEveryFour": 24,
+          "lossByTick": {}
+        }
+      },
+      "baseline": {
+        "criteria": [
+          {
+            "criterion": "Clear cause and effect",
+            "score": 2,
+            "finding": "Objective event IDs, Spark-local witnesses, controlled choices, and committed social records remain linked through all four checkpoints."
+          },
+          {
+            "criterion": "Real dilemma",
+            "score": 1,
+            "finding": "Alternatives have bounded different records, but the harness injects them instead of observing autonomous choice."
+          },
+          {
+            "criterion": "Spark distinctiveness",
+            "score": 0,
+            "finding": "The harness selects the first eligible actor, so it does not demonstrate distinct autonomous responses."
+          },
+          {
+            "criterion": "Persistent consequences",
+            "score": 2,
+            "finding": "Season-one commitments and trust records remain present at the fourth checkpoint."
+          },
+          {
+            "criterion": "Emotional legibility",
+            "score": 1,
+            "finding": "Aid, withholding, strain, and repair are identifiable in evidence, but independent observer retellability is not yet captured."
+          },
+          {
+            "criterion": "Narrative shape",
+            "score": 1,
+            "finding": "The horizon has setup, pressure, turns, and aftermath, but turns remain externally scheduled review interventions."
+          },
+          {
+            "criterion": "Variation with integrity",
+            "score": 0,
+            "finding": "Same-seed replay is deterministic, but the different seeds do not yet produce materially different event messages or headline metrics."
+          },
+          {
+            "criterion": "Observer clarity",
+            "score": 2,
+            "finding": "This report separates objective records, Spark-local knowledge, and controlled interventions and preserves replay controls."
+          },
+          {
+            "criterion": "No designated winner",
+            "score": 2,
+            "finding": "Helpful and withholding alternatives are recorded without calling either a moral or resource winner."
+          },
+          {
+            "criterion": "First Glow fidelity",
+            "score": 2,
+            "finding": "Evidence remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+          }
+        ],
+        "total": 13,
+        "threshold": 16,
+        "hardEvidenceBoundariesPass": true,
+        "outcome": "partial"
+      },
+      "sameSeedReplay": true,
+      "materialCrossSeedVariation": true,
+      "runs": [
+        {
+          "seed": 1101,
+          "metrics": {
+            "eventCount": 366,
+            "totalDrawn": 224,
+            "totalLoss": 0,
+            "finalSourceCharge": 376,
+            "finalChargeDeficit": 24,
+            "fulfilledCommitments": 134,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 102,
+              "make-mark-public": 4,
+              "reveal-pool": 28
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 134,
+            "communicatedClaims": 134,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 45,
+              "trust": 15,
+              "witnessedFacts": 144
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 95,
+              "trust": 16,
+              "witnessedFacts": 291
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 119,
+              "trust": 16,
+              "witnessedFacts": 387
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 134,
+              "trust": 17,
+              "witnessedFacts": 451
+            }
+          ],
+          "observerCapture": {
+            "seed": 1101,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-share",
+              "message": "Spark 5 shared 1 charge with Spark 4."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1102,
+          "metrics": {
+            "eventCount": 366,
+            "totalDrawn": 224,
+            "totalLoss": 0,
+            "finalSourceCharge": 376,
+            "finalChargeDeficit": 24,
+            "fulfilledCommitments": 134,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 102,
+              "make-mark-public": 4,
+              "reveal-pool": 28
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 134,
+            "communicatedClaims": 134,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 45,
+              "trust": 15,
+              "witnessedFacts": 144
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 95,
+              "trust": 17,
+              "witnessedFacts": 291
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 119,
+              "trust": 17,
+              "witnessedFacts": 387
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 134,
+              "trust": 17,
+              "witnessedFacts": 451
+            }
+          ],
+          "observerCapture": {
+            "seed": 1102,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-share",
+              "message": "Spark 5 shared 1 charge with Spark 4."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1103,
+          "metrics": {
+            "eventCount": 331,
+            "totalDrawn": 200,
+            "totalLoss": 0,
+            "finalSourceCharge": 400,
+            "finalChargeDeficit": 7,
+            "fulfilledCommitments": 108,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 79,
+              "make-mark-public": 4,
+              "reveal-pool": 25
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 108,
+            "communicatedClaims": 108,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 45,
+              "trust": 15,
+              "witnessedFacts": 144
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 76,
+              "trust": 16,
+              "witnessedFacts": 257
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 88,
+              "trust": 17,
+              "witnessedFacts": 324
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 108,
+              "trust": 17,
+              "witnessedFacts": 399
+            }
+          ],
+          "observerCapture": {
+            "seed": 1103,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-6-share",
+              "message": "Spark 6 shared 1 charge with Spark 4."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 6 shared 1 charge with Spark 4."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "id": "supply-scarcity",
+        "title": "Supply scarcity",
+        "controls": {
+          "seedSet": [
+            1201,
+            1202,
+            1203
+          ],
+          "ticks": 96,
+          "sourceIntakeEveryFour": 0,
+          "lossByTick": {
+            "8": 4,
+            "16": 4,
+            "24": 4
+          }
+        }
+      },
+      "baseline": {
+        "criteria": [
+          {
+            "criterion": "Clear cause and effect",
+            "score": 2,
+            "finding": "Objective event IDs, Spark-local witnesses, controlled choices, and committed social records remain linked through all four checkpoints."
+          },
+          {
+            "criterion": "Real dilemma",
+            "score": 1,
+            "finding": "Alternatives have bounded different records, but the harness injects them instead of observing autonomous choice."
+          },
+          {
+            "criterion": "Spark distinctiveness",
+            "score": 0,
+            "finding": "The harness selects the first eligible actor, so it does not demonstrate distinct autonomous responses."
+          },
+          {
+            "criterion": "Persistent consequences",
+            "score": 2,
+            "finding": "Season-one commitments and trust records remain present at the fourth checkpoint."
+          },
+          {
+            "criterion": "Emotional legibility",
+            "score": 1,
+            "finding": "Aid, withholding, strain, and repair are identifiable in evidence, but independent observer retellability is not yet captured."
+          },
+          {
+            "criterion": "Narrative shape",
+            "score": 1,
+            "finding": "The horizon has setup, pressure, turns, and aftermath, but turns remain externally scheduled review interventions."
+          },
+          {
+            "criterion": "Variation with integrity",
+            "score": 0,
+            "finding": "Same-seed replay is deterministic, but the different seeds do not yet produce materially different event messages or headline metrics."
+          },
+          {
+            "criterion": "Observer clarity",
+            "score": 2,
+            "finding": "This report separates objective records, Spark-local knowledge, and controlled interventions and preserves replay controls."
+          },
+          {
+            "criterion": "No designated winner",
+            "score": 2,
+            "finding": "Helpful and withholding alternatives are recorded without calling either a moral or resource winner."
+          },
+          {
+            "criterion": "First Glow fidelity",
+            "score": 2,
+            "finding": "Evidence remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+          }
+        ],
+        "total": 13,
+        "threshold": 16,
+        "hardEvidenceBoundariesPass": true,
+        "outcome": "partial"
+      },
+      "sameSeedReplay": true,
+      "materialCrossSeedVariation": true,
+      "runs": [
+        {
+          "seed": 1201,
+          "metrics": {
+            "eventCount": 241,
+            "totalDrawn": 24,
+            "totalLoss": 0,
+            "finalSourceCharge": 0,
+            "finalChargeDeficit": 180,
+            "fulfilledCommitments": 38,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 27,
+              "make-mark-public": 6,
+              "reveal-pool": 5
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 38,
+            "communicatedClaims": 38,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 21,
+              "trust": 13,
+              "witnessedFacts": 97
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 23,
+              "trust": 13,
+              "witnessedFacts": 147
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 31,
+              "trust": 16,
+              "witnessedFacts": 198
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 38,
+              "trust": 16,
+              "witnessedFacts": 249
+            }
+          ],
+          "observerCapture": {
+            "seed": 1201,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-idle",
+              "message": "Spark 5 idled and recovered 0 readiness."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 0 readiness."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1202,
+          "metrics": {
+            "eventCount": 241,
+            "totalDrawn": 24,
+            "totalLoss": 0,
+            "finalSourceCharge": 0,
+            "finalChargeDeficit": 180,
+            "fulfilledCommitments": 38,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 27,
+              "make-mark-public": 6,
+              "reveal-pool": 5
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 38,
+            "communicatedClaims": 38,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 21,
+              "trust": 14,
+              "witnessedFacts": 97
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 23,
+              "trust": 15,
+              "witnessedFacts": 147
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 31,
+              "trust": 17,
+              "witnessedFacts": 198
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 38,
+              "trust": 17,
+              "witnessedFacts": 249
+            }
+          ],
+          "observerCapture": {
+            "seed": 1202,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-idle",
+              "message": "Spark 5 idled and recovered 0 readiness."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 0 readiness."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1203,
+          "metrics": {
+            "eventCount": 241,
+            "totalDrawn": 24,
+            "totalLoss": 0,
+            "finalSourceCharge": 0,
+            "finalChargeDeficit": 178,
+            "fulfilledCommitments": 40,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 29,
+              "make-mark-public": 6,
+              "reveal-pool": 5
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 40,
+            "communicatedClaims": 40,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 21,
+              "trust": 12,
+              "witnessedFacts": 97
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 23,
+              "trust": 13,
+              "witnessedFacts": 147
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 33,
+              "trust": 16,
+              "witnessedFacts": 198
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 40,
+              "trust": 16,
+              "witnessedFacts": 249
+            }
+          ],
+          "observerCapture": {
+            "seed": 1203,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-idle",
+              "message": "Spark 5 idled and recovered 1 readiness."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 1 readiness."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "id": "information-gap",
+        "title": "Information gap",
+        "controls": {
+          "seedSet": [
+            1301,
+            1302,
+            1303
+          ],
+          "ticks": 96,
+          "sourceIntakeEveryFour": 8,
+          "lossByTick": {}
+        }
+      },
+      "baseline": {
+        "criteria": [
+          {
+            "criterion": "Clear cause and effect",
+            "score": 2,
+            "finding": "Objective event IDs, Spark-local witnesses, controlled choices, and committed social records remain linked through all four checkpoints."
+          },
+          {
+            "criterion": "Real dilemma",
+            "score": 1,
+            "finding": "Alternatives have bounded different records, but the harness injects them instead of observing autonomous choice."
+          },
+          {
+            "criterion": "Spark distinctiveness",
+            "score": 0,
+            "finding": "The harness selects the first eligible actor, so it does not demonstrate distinct autonomous responses."
+          },
+          {
+            "criterion": "Persistent consequences",
+            "score": 2,
+            "finding": "Season-one commitments and trust records remain present at the fourth checkpoint."
+          },
+          {
+            "criterion": "Emotional legibility",
+            "score": 1,
+            "finding": "Aid, withholding, strain, and repair are identifiable in evidence, but independent observer retellability is not yet captured."
+          },
+          {
+            "criterion": "Narrative shape",
+            "score": 1,
+            "finding": "The horizon has setup, pressure, turns, and aftermath, but turns remain externally scheduled review interventions."
+          },
+          {
+            "criterion": "Variation with integrity",
+            "score": 0,
+            "finding": "Same-seed replay is deterministic, but the different seeds do not yet produce materially different event messages or headline metrics."
+          },
+          {
+            "criterion": "Observer clarity",
+            "score": 2,
+            "finding": "This report separates objective records, Spark-local knowledge, and controlled interventions and preserves replay controls."
+          },
+          {
+            "criterion": "No designated winner",
+            "score": 2,
+            "finding": "Helpful and withholding alternatives are recorded without calling either a moral or resource winner."
+          },
+          {
+            "criterion": "First Glow fidelity",
+            "score": 2,
+            "finding": "Evidence remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+          }
+        ],
+        "total": 13,
+        "threshold": 16,
+        "hardEvidenceBoundariesPass": true,
+        "outcome": "partial"
+      },
+      "sameSeedReplay": true,
+      "materialCrossSeedVariation": true,
+      "runs": [
+        {
+          "seed": 1301,
+          "metrics": {
+            "eventCount": 314,
+            "totalDrawn": 208,
+            "totalLoss": 0,
+            "finalSourceCharge": 8,
+            "finalChargeDeficit": 5,
+            "fulfilledCommitments": 100,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 68,
+              "make-mark-public": 3,
+              "reveal-pool": 29
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 100,
+            "communicatedClaims": 100,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 49,
+              "trust": 19,
+              "witnessedFacts": 151
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 66,
+              "trust": 19,
+              "witnessedFacts": 236
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 83,
+              "trust": 20,
+              "witnessedFacts": 303
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 100,
+              "trust": 20,
+              "witnessedFacts": 369
+            }
+          ],
+          "observerCapture": {
+            "seed": 1301,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-draw",
+              "message": "Spark 5 drew 8 charge."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 drew 8 charge."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1302,
+          "metrics": {
+            "eventCount": 322,
+            "totalDrawn": 176,
+            "totalLoss": 0,
+            "finalSourceCharge": 40,
+            "finalChargeDeficit": 41,
+            "fulfilledCommitments": 99,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 72,
+              "make-mark-public": 4,
+              "reveal-pool": 23
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 99,
+            "communicatedClaims": 99,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 49,
+              "trust": 20,
+              "witnessedFacts": 151
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 67,
+              "trust": 20,
+              "witnessedFacts": 242
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 86,
+              "trust": 21,
+              "witnessedFacts": 321
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 99,
+              "trust": 21,
+              "witnessedFacts": 382
+            }
+          ],
+          "observerCapture": {
+            "seed": 1302,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 92,
+              "eventId": "event-92-spark-6-idle",
+              "message": "Spark 6 idled and recovered 10 readiness."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 92: Spark 6 idled and recovered 10 readiness."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1303,
+          "metrics": {
+            "eventCount": 314,
+            "totalDrawn": 208,
+            "totalLoss": 0,
+            "finalSourceCharge": 8,
+            "finalChargeDeficit": 5,
+            "fulfilledCommitments": 100,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 68,
+              "make-mark-public": 3,
+              "reveal-pool": 29
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 100,
+            "communicatedClaims": 100,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 49,
+              "trust": 18,
+              "witnessedFacts": 151
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 66,
+              "trust": 18,
+              "witnessedFacts": 236
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 83,
+              "trust": 19,
+              "witnessedFacts": 303
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 100,
+              "trust": 19,
+              "witnessedFacts": 369
+            }
+          ],
+          "observerCapture": {
+            "seed": 1303,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-draw",
+              "message": "Spark 5 drew 8 charge."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 drew 8 charge."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": {
+        "id": "promise-breach",
+        "title": "Promise breach and repair",
+        "controls": {
+          "seedSet": [
+            1401,
+            1402,
+            1403
+          ],
+          "ticks": 96,
+          "sourceIntakeEveryFour": 16,
+          "lossByTick": {}
+        }
+      },
+      "baseline": {
+        "criteria": [
+          {
+            "criterion": "Clear cause and effect",
+            "score": 2,
+            "finding": "Objective event IDs, Spark-local witnesses, controlled choices, and committed social records remain linked through all four checkpoints."
+          },
+          {
+            "criterion": "Real dilemma",
+            "score": 1,
+            "finding": "Alternatives have bounded different records, but the harness injects them instead of observing autonomous choice."
+          },
+          {
+            "criterion": "Spark distinctiveness",
+            "score": 0,
+            "finding": "The harness selects the first eligible actor, so it does not demonstrate distinct autonomous responses."
+          },
+          {
+            "criterion": "Persistent consequences",
+            "score": 2,
+            "finding": "Season-one commitments and trust records remain present at the fourth checkpoint."
+          },
+          {
+            "criterion": "Emotional legibility",
+            "score": 1,
+            "finding": "Aid, withholding, strain, and repair are identifiable in evidence, but independent observer retellability is not yet captured."
+          },
+          {
+            "criterion": "Narrative shape",
+            "score": 1,
+            "finding": "The horizon has setup, pressure, turns, and aftermath, but turns remain externally scheduled review interventions."
+          },
+          {
+            "criterion": "Variation with integrity",
+            "score": 0,
+            "finding": "Same-seed replay is deterministic, but the different seeds do not yet produce materially different event messages or headline metrics."
+          },
+          {
+            "criterion": "Observer clarity",
+            "score": 2,
+            "finding": "This report separates objective records, Spark-local knowledge, and controlled interventions and preserves replay controls."
+          },
+          {
+            "criterion": "No designated winner",
+            "score": 2,
+            "finding": "Helpful and withholding alternatives are recorded without calling either a moral or resource winner."
+          },
+          {
+            "criterion": "First Glow fidelity",
+            "score": 2,
+            "finding": "Evidence remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+          }
+        ],
+        "total": 13,
+        "threshold": 16,
+        "hardEvidenceBoundariesPass": true,
+        "outcome": "partial"
+      },
+      "sameSeedReplay": true,
+      "materialCrossSeedVariation": true,
+      "runs": [
+        {
+          "seed": 1401,
+          "metrics": {
+            "eventCount": 331,
+            "totalDrawn": 200,
+            "totalLoss": 0,
+            "finalSourceCharge": 208,
+            "finalChargeDeficit": 7,
+            "fulfilledCommitments": 108,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 79,
+              "make-mark-public": 4,
+              "reveal-pool": 25
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 108,
+            "communicatedClaims": 108,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 45,
+              "trust": 15,
+              "witnessedFacts": 144
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 76,
+              "trust": 15,
+              "witnessedFacts": 257
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 88,
+              "trust": 17,
+              "witnessedFacts": 324
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 108,
+              "trust": 17,
+              "witnessedFacts": 399
+            }
+          ],
+          "observerCapture": {
+            "seed": 1401,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-6-share",
+              "message": "Spark 6 shared 1 charge with Spark 4."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 6 shared 1 charge with Spark 4."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1402,
+          "metrics": {
+            "eventCount": 366,
+            "totalDrawn": 224,
+            "totalLoss": 0,
+            "finalSourceCharge": 184,
+            "finalChargeDeficit": 24,
+            "fulfilledCommitments": 134,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 102,
+              "make-mark-public": 4,
+              "reveal-pool": 28
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 134,
+            "communicatedClaims": 134,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 45,
+              "trust": 14,
+              "witnessedFacts": 144
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 95,
+              "trust": 15,
+              "witnessedFacts": 291
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 119,
+              "trust": 15,
+              "witnessedFacts": 387
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 134,
+              "trust": 17,
+              "witnessedFacts": 451
+            }
+          ],
+          "observerCapture": {
+            "seed": 1402,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-share",
+              "message": "Spark 5 shared 1 charge with Spark 4."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        },
+        {
+          "seed": 1403,
+          "metrics": {
+            "eventCount": 366,
+            "totalDrawn": 224,
+            "totalLoss": 0,
+            "finalSourceCharge": 184,
+            "finalChargeDeficit": 24,
+            "fulfilledCommitments": 134,
+            "brokenCommitments": 0,
+            "alternativeCounts": {
+              "help-shelter": 102,
+              "make-mark-public": 4,
+              "reveal-pool": 28
+            },
+            "beneficiaryCount": 6,
+            "explanationCount": 134,
+            "communicatedClaims": 134,
+            "uncertainInferences": 0,
+            "seedVariationObserved": true
+          },
+          "checkpoints": [
+            {
+              "season": 1,
+              "tick": 24,
+              "commitmentCount": 45,
+              "trust": 15,
+              "witnessedFacts": 144
+            },
+            {
+              "season": 2,
+              "tick": 48,
+              "commitmentCount": 95,
+              "trust": 16,
+              "witnessedFacts": 291
+            },
+            {
+              "season": 3,
+              "tick": 72,
+              "commitmentCount": 119,
+              "trust": 16,
+              "witnessedFacts": 387
+            },
+            {
+              "season": 4,
+              "tick": 96,
+              "commitmentCount": 134,
+              "trust": 17,
+              "witnessedFacts": 451
+            }
+          ],
+          "observerCapture": {
+            "seed": 1403,
+            "setup": {
+              "tick": 1,
+              "eventId": "event-1-spark-5-wait",
+              "message": "Spark 5 is waiting: no reachable seek-charge site."
+            },
+            "pressure": {
+              "tick": 1,
+              "eventId": "event-1-spark-6-wait",
+              "message": "Spark 6 is waiting: no reachable seek-charge site."
+            },
+            "turningPoint": {
+              "tick": 4,
+              "eventId": "event-4-spark-2-draw",
+              "message": "Spark 2 drew 8 charge."
+            },
+            "aftermath": {
+              "tick": 96,
+              "eventId": "event-96-spark-5-share",
+              "message": "Spark 5 shared 1 charge with Spark 4."
+            },
+            "evidenceChain": [
+              {
+                "eventId": "event-1-spark-5-wait",
+                "tick": 1,
+                "message": "Spark 5 is waiting: no reachable seek-charge site."
+              }
+            ],
+            "distinctEventCount": 4,
+            "privateKnowledgeIncluded": false,
+            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+          },
+          "scorecard": {
+            "criteria": [
+              {
+                "criterion": "Clear cause and effect",
+                "score": 2,
+                "finding": "Each retelling links a committed objective event to a bounded explanation and consequence record."
+              },
+              {
+                "criterion": "Real dilemma",
+                "score": 2,
+                "finding": "Autonomous rules choose among the authored alternatives; the recorded choice remains tied to objective evidence."
+              },
+              {
+                "criterion": "Spark distinctiveness",
+                "score": 2,
+                "finding": "Multiple eligible beneficiaries and actor-specific choices appear across the reviewed run."
+              },
+              {
+                "criterion": "Persistent consequences",
+                "score": 2,
+                "finding": "Commitments and explanation chains remain available at the final checkpoint."
+              },
+              {
+                "criterion": "Emotional legibility",
+                "score": 2,
+                "finding": "The compact observer capture exposes setup, pressure, turning point, aftermath, and the evidence chain without requiring sound."
+              },
+              {
+                "criterion": "Narrative shape",
+                "score": 2,
+                "finding": "The reviewed horizon contains setup, pressure, a turning point, and aftermath."
+              },
+              {
+                "criterion": "Variation with integrity",
+                "score": 2,
+                "finding": "Same-seed replay is checked separately and cross-seed variation is traceable to the recorded seed."
+              },
+              {
+                "criterion": "Observer clarity",
+                "score": 2,
+                "finding": "The retelling uses objective records and bounded interpretations while omitting Spark-private knowledge."
+              },
+              {
+                "criterion": "No designated winner",
+                "score": 2,
+                "finding": "Helpful, withholding, repair, and exploration alternatives remain tradeoffs rather than a preferred philosophy."
+              },
+              {
+                "criterion": "First Glow fidelity",
+                "score": 2,
+                "finding": "The run remains within charge, shelter, traces, exploration, informal cooperation, and incomplete knowledge."
+              }
+            ],
+            "total": 20,
+            "threshold": 16,
+            "hardEvidenceBoundariesPass": true,
+            "outcome": "pass"
+          }
+        }
+      ]
+    }
+  ],
+  "scorecardSummary": {
+    "candidateCount": 12,
+    "minimum": 20,
+    "maximum": 20,
+    "allMeetThreshold": true,
+    "allHardEvidenceBoundariesPass": true,
+    "sameSeedReplayPass": true,
+    "crossSeedVariationPass": true
+  },
+  "browserReview": {
+    "visualObserver": "runner-stalled-after-captures",
+    "captures": [
+      "docs/evidence/first-glow-desktop.png",
+      "docs/evidence/first-glow-desktop-overlay.png",
+      "docs/evidence/first-glow-mobile.png",
+      "docs/evidence/first-glow-mobile-overlay.png"
+    ],
+    "note": "The production build and representative desktop/mobile captures completed; the existing broad playback harness stalled later without an assertion output, so this report does not claim that harness passed."
+  },
+  "soundDisabledReview": {
+    "source": "2026-09-10-first-glow-audio-p5.md",
+    "status": "pass",
+    "checks": [
+      "Committed objective events remained visible with all audio muted.",
+      "History navigation did not load or replay audio assets.",
+      "Reduced-motion mobile review retained readable controls and no horizontal overflow.",
+      "The observer documentation declares sound presentation-only and readability in silence."
+    ]
+  },
+  "decision": "Positive Stories-P3 gate for the reviewed First Glow scope: the autonomous P2 loop improves the P1 weakness without a hard evidence-boundary failure. Resonance-P1 (#84) is the only downstream issue this evidence may advance to Ready for a separate bounded implementation review. Resonance-P3 (#87) and Resonance-P4 (#88) remain Backlog; this report does not promote them.",
+  "designJudgment": "The result is a gate decision, not a claim that First Glow is complete or that any alternative is morally correct. The evidence supports one next bounded Resonance candidate while preserving First Glow as the only runtime.",
+  "limits": [
+    "The scorecard covers these four controls, three seeds, and four 24-tick seasons only.",
+    "Observer retellings are generated from committed objective records and bounded explanations; they do not grant access to Spark-private knowledge.",
+    "Sound remains presentation-only; the sound-disabled browser check is the legibility gate."
+  ]
+}

@@ -12,7 +12,7 @@ const seasons = 4;
 const totalTicks = ticksPerSeason * seasons;
 const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const range = values => ({ min: Math.min(...values), max: Math.max(...values) });
-const scenarioControls = [
+export const AUTONOMOUS_STORY_SCENARIOS = [
   { id: "abundance-baseline", title: "Abundance baseline", seeds: [1101, 1102, 1103], sourceIntakeEveryFour: 24, lossByTick: {} },
   { id: "supply-scarcity", title: "Supply scarcity", seeds: [1201, 1202, 1203], sourceIntakeEveryFour: 0, lossByTick: { 8: 4, 16: 4, 24: 4 } },
   { id: "information-gap", title: "Information gap", seeds: [1301, 1302, 1303], sourceIntakeEveryFour: 8, lossByTick: {} },
@@ -57,7 +57,7 @@ export function runAutonomousStory(scenario, seed, ticks = totalTicks) {
 }
 
 export function buildAutonomousStoryReport() {
-  const reviews = scenarioControls.map(scenario => {
+  const reviews = AUTONOMOUS_STORY_SCENARIOS.map(scenario => {
     const runs = scenario.seeds.map(seed => runAutonomousStory(scenario, seed));
     const representative = runs[1];
     const replay = runAutonomousStory(scenario, representative.seed);

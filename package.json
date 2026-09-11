@@ -25,6 +25,7 @@
     "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",
     "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",
     "first-glow:autonomous-story-review": "npm run build && node scripts/first-glow-autonomous-story-review.mjs",
+    "first-glow:transition-review": "npm run build && node scripts/first-glow-transition-review.mjs",
     "first-glow:long-story-review": "npm run build && node scripts/first-glow-long-story-review.mjs",
     "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",
     "dev:server": "npm run dev --workspace @mimir/server",
