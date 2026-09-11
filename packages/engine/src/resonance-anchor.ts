@@ -46,7 +46,7 @@ export interface ResonanceCandidateRecord {
 export interface ResonanceAnchorRecord {
   id: string;
   candidateId: string;
-  anchorKind: "shelter-loom";
+  anchorKind: "shelter-loom" | "crossing-voices";
   authoredObjectId: string;
   authoredSlotId: string;
   createdTick: number;
@@ -62,6 +62,7 @@ export interface ResonanceState {
   candidates: ResonanceCandidateRecord[];
   anchors: ResonanceAnchorRecord[];
   decisions?: ShelterLoomDecisionRecord[];
+  crossingDecisions?: CrossingVoicesDecisionRecord[];
 }
 
 export type ShelterLoomChoice = "yield-rest" | "hold-rest";
@@ -80,6 +81,21 @@ export interface ShelterLoomDecisionRecord {
   actorChargeDelta: number;
   actorDeficitDelta: number;
   outcome: "priority-granted" | "priority-refused";
+  durableConsequence: string;
+  evidenceEventIds: string[];
+}
+
+export interface CrossingVoicesDecisionRecord {
+  id: string;
+  anchorId: string;
+  tick: number;
+  actorSparkId: string;
+  choice: "follow-signal" | "hold-course";
+  accessRuleId: string;
+  chargeCost: number;
+  readinessDelta: number;
+  intendedActivity: string;
+  outcome: "new-signal-followed" | "known-course-held";
   durableConsequence: string;
   evidenceEventIds: string[];
 }

@@ -11,6 +11,8 @@ export * from "./first-glow-interpretations.js";
 export * from "./resonance-observation.js";
 export * from "./resonance-anchor.js";
 export * from "./resonance-loom-choice.js";
+export * from "./resonance-crossing.js";
+export * from "./resonance-crossing-rule.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
 export interface WorldEvent { id: string; tick: number; kind: "tick" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
@@ -44,7 +46,7 @@ export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-g
 }
 
 function toWorldEvents(state: FirstGlowState, priorIds = new Set<string>()): WorldEvent[] {
-  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, tick: state.tick, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" ? "world-object" : "tick", message: event.message, villagerIds: [], settlementIds: [] }));
+  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, tick: state.tick, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "tick", message: event.message, villagerIds: [], settlementIds: [] }));
 }
 
 function openingChargeIntake(world: WorldState): number {
