@@ -13,6 +13,15 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Through [PR #62](https://github.com/KevinHozak/Mimir/pull/62), [PR #64](https://github.com/KevinHozak/Mimir/pull/64), [PR #65](https://github.com/KevinHozak/Mimir/pull/65), [PR #67](https://github.com/KevinHozak/Mimir/pull/67), [PR #68](https://github.com/KevinHozak/Mimir/pull/68), [PR #70](https://github.com/KevinHozak/Mimir/pull/70), and [PR #75](https://github.com/KevinHozak/Mimir/pull/75).
 
+### A validated Living Stories gate
+
+- Expanded the fixed-seed review from one 24-tick season to four 24-tick seasons, preserving controls, histories, replay inputs, observer artifacts, and scorecards.
+- Used the resulting 13/20 partial baseline to add only an evidence-supported autonomous social-choice loop, then reran the review with deterministic replay and cross-seed variation checks.
+- Recorded a positive 20/20 transition review without treating care, autonomy, exploration, or cooperation as the designated winner.
+- Made Resonance-P1 candidate patterns observable without adding Anchor state or changing play.
+
+  - Through [PR #102](https://github.com/KevinHozak/Mimir/pull/102), [PR #106](https://github.com/KevinHozak/Mimir/pull/106), [PR #108](https://github.com/KevinHozak/Mimir/pull/108), and [PR #84](https://github.com/KevinHozak/Mimir/pull/84).
+
 ### A safe, cohesive visual production path
 
 - Defined the First Glow art bible: near-black space, local blue-and-silver circuitry, luminous non-human Sparks, color-independent state cues, and reduced-motion direction.
