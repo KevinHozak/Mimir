@@ -37,10 +37,14 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Through [PR #78](https://github.com/KevinHozak/Mimir/pull/78), [PR #79](https://github.com/KevinHozak/Mimir/pull/79), [PR #80](https://github.com/KevinHozak/Mimir/pull/80), [PR #81](https://github.com/KevinHozak/Mimir/pull/81), [PR #82](https://github.com/KevinHozak/Mimir/pull/82), and [PR #83](https://github.com/KevinHozak/Mimir/pull/83).
 
-### A restrained First Glow audio contract
+### A complete First Glow audio pass
 
-- Defined the seven-entry Audio-P2 palette, separating ambience from observer feedback and recording loudness, loop, source-format, edit, allowed-meaning, license, and provenance requirements.
-- Added a contract validator and negative fixture. Audio-P2 ships no binary audio and does not attach sound to simulation events; later audio phases must promote reviewed assets through this contract.
+- Established silent-by-default, browser-safe audio controls with persisted master, music, and effects preferences.
+- Defined the provenance-recorded First Glow palette, then attached effects only to committed, observer-visible events.
+- Added sparse place-aware ambience and optional score without using sound to imply hidden state, reachability, or uncommitted outcomes.
+- Validated mute-first readability, keyboard controls, replay/reconnect behavior, performance, and desktop/mobile evidence.
+
+  - Through [PR #95](https://github.com/KevinHozak/Mimir/pull/95), [PR #96](https://github.com/KevinHozak/Mimir/pull/96), [PR #98](https://github.com/KevinHozak/Mimir/pull/98), [PR #103](https://github.com/KevinHozak/Mimir/pull/103), [PR #104](https://github.com/KevinHozak/Mimir/pull/104), [PR #105](https://github.com/KevinHozak/Mimir/pull/105), and [PR #107](https://github.com/KevinHozak/Mimir/pull/107).
 
 ### Project clarity
 
