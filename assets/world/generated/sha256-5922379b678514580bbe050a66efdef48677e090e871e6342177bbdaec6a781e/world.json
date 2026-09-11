@@ -1,0 +1,1967 @@
+{
+  "schemaVersion": 3,
+  "spatialModel": "structured-v2",
+  "simulationVersion": "mimir-sim-v3-first-glow",
+  "themeId": "living-circuit",
+  "ageId": "first-glow",
+  "id": "first-glow-v3",
+  "width": 32,
+  "height": 32,
+  "cellSizePx": 24,
+  "terrain": [
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "gap",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ],
+    [
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open",
+      "open"
+    ]
+  ],
+  "terrainDefinitions": {
+    "open": {
+      "id": "open",
+      "label": "Open space",
+      "walkable": true,
+      "movementCost": 2,
+      "visualAsset": ""
+    },
+    "gap": {
+      "id": "gap",
+      "label": "Circuit gap",
+      "walkable": false,
+      "visualAsset": ""
+    }
+  },
+  "surfaces": [
+    {
+      "id": "trace-main",
+      "cells": [
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": 6,
+          "y": 4
+        },
+        {
+          "x": 7,
+          "y": 4
+        },
+        {
+          "x": 8,
+          "y": 4
+        },
+        {
+          "x": 9,
+          "y": 4
+        },
+        {
+          "x": 10,
+          "y": 4
+        },
+        {
+          "x": 11,
+          "y": 4
+        },
+        {
+          "x": 12,
+          "y": 4
+        },
+        {
+          "x": 13,
+          "y": 4
+        },
+        {
+          "x": 18,
+          "y": 4
+        },
+        {
+          "x": 19,
+          "y": 4
+        },
+        {
+          "x": 20,
+          "y": 4
+        },
+        {
+          "x": 21,
+          "y": 4
+        },
+        {
+          "x": 22,
+          "y": 4
+        },
+        {
+          "x": 23,
+          "y": 4
+        },
+        {
+          "x": 24,
+          "y": 4
+        },
+        {
+          "x": 25,
+          "y": 4
+        },
+        {
+          "x": 26,
+          "y": 4
+        },
+        {
+          "x": 27,
+          "y": 4
+        },
+        {
+          "x": 28,
+          "y": 4
+        },
+        {
+          "x": 29,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        },
+        {
+          "x": 6,
+          "y": 5
+        },
+        {
+          "x": 7,
+          "y": 5
+        },
+        {
+          "x": 16,
+          "y": 5
+        },
+        {
+          "x": 24,
+          "y": 5
+        },
+        {
+          "x": 25,
+          "y": 5
+        },
+        {
+          "x": 26,
+          "y": 5
+        },
+        {
+          "x": 27,
+          "y": 5
+        },
+        {
+          "x": 28,
+          "y": 5
+        },
+        {
+          "x": 16,
+          "y": 6
+        },
+        {
+          "x": 16,
+          "y": 7
+        },
+        {
+          "x": 16,
+          "y": 8
+        },
+        {
+          "x": 16,
+          "y": 9
+        },
+        {
+          "x": 16,
+          "y": 17
+        },
+        {
+          "x": 16,
+          "y": 18
+        },
+        {
+          "x": 16,
+          "y": 19
+        },
+        {
+          "x": 16,
+          "y": 20
+        },
+        {
+          "x": 7,
+          "y": 21
+        },
+        {
+          "x": 8,
+          "y": 21
+        },
+        {
+          "x": 9,
+          "y": 21
+        },
+        {
+          "x": 10,
+          "y": 21
+        },
+        {
+          "x": 11,
+          "y": 21
+        },
+        {
+          "x": 16,
+          "y": 21
+        },
+        {
+          "x": 20,
+          "y": 21
+        },
+        {
+          "x": 21,
+          "y": 21
+        },
+        {
+          "x": 22,
+          "y": 21
+        },
+        {
+          "x": 23,
+          "y": 21
+        },
+        {
+          "x": 24,
+          "y": 21
+        },
+        {
+          "x": 8,
+          "y": 22
+        },
+        {
+          "x": 9,
+          "y": 22
+        },
+        {
+          "x": 10,
+          "y": 22
+        },
+        {
+          "x": 11,
+          "y": 22
+        },
+        {
+          "x": 12,
+          "y": 22
+        },
+        {
+          "x": 13,
+          "y": 22
+        },
+        {
+          "x": 14,
+          "y": 22
+        },
+        {
+          "x": 15,
+          "y": 22
+        },
+        {
+          "x": 16,
+          "y": 22
+        },
+        {
+          "x": 17,
+          "y": 22
+        },
+        {
+          "x": 18,
+          "y": 22
+        },
+        {
+          "x": 19,
+          "y": 22
+        },
+        {
+          "x": 20,
+          "y": 22
+        },
+        {
+          "x": 21,
+          "y": 22
+        },
+        {
+          "x": 22,
+          "y": 22
+        },
+        {
+          "x": 23,
+          "y": 22
+        },
+        {
+          "x": 24,
+          "y": 22
+        }
+      ],
+      "movementCost": 1,
+      "enabled": true
+    },
+    {
+      "id": "tiled-103-surface",
+      "cells": [
+        {
+          "x": 16,
+          "y": 12
+        },
+        {
+          "x": 17,
+          "y": 12
+        },
+        {
+          "x": 18,
+          "y": 12
+        }
+      ],
+      "movementCost": 1,
+      "enabled": true,
+      "visualAsset": "assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg"
+    },
+    {
+      "id": "tiled-106-surface",
+      "cells": [
+        {
+          "x": 25,
+          "y": 22
+        },
+        {
+          "x": 26,
+          "y": 22
+        },
+        {
+          "x": 27,
+          "y": 22
+        },
+        {
+          "x": 28,
+          "y": 22
+        },
+        {
+          "x": 29,
+          "y": 22
+        },
+        {
+          "x": 29,
+          "y": 23
+        },
+        {
+          "x": 29,
+          "y": 24
+        },
+        {
+          "x": 29,
+          "y": 25
+        },
+        {
+          "x": 28,
+          "y": 26
+        }
+      ],
+      "movementCost": 1,
+      "enabled": true,
+      "visualAsset": "assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg"
+    }
+  ],
+  "objectDefinitions": {
+    "charge-pool": {
+      "id": "charge-pool",
+      "label": "Charge pool",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "draw-south",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "draw-west",
+          "offset": {
+            "x": -1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "draw-east",
+          "offset": {
+            "x": 1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "draw-far",
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "charge-pool"
+      ],
+      "capacity": 4,
+      "visualAsset": "assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "shelter-niche": {
+      "id": "shelter-niche",
+      "label": "Shelter niche",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "rest-south",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-west",
+          "offset": {
+            "x": -1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-east",
+          "offset": {
+            "x": 1,
+            "y": 1
+          },
+          "capacity": 1
+        },
+        {
+          "id": "rest-far",
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "shelter-niche"
+      ],
+      "capacity": 4,
+      "visualAsset": "assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "shelter-loom": {
+      "id": "shelter-loom",
+      "label": "Shelter Loom",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "rest",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "shelter-niche"
+      ],
+      "capacity": 1,
+      "visualAsset": "assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true,
+      "anchorKind": "shelter-loom"
+    },
+    "relay-crossing": {
+      "id": "relay-crossing",
+      "label": "Relay crossing",
+      "footprint": [],
+      "slots": [],
+      "capabilities": [
+        "relay-crossing"
+      ],
+      "capacity": 0,
+      "visualAsset": "assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+      "groundContact": {
+        "x": 36,
+        "y": 24
+      },
+      "blocksMovement": false
+    },
+    "pattern-shard": {
+      "id": "pattern-shard",
+      "label": "Pattern shard",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "examine",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "pattern-shard"
+      ],
+      "capacity": 1,
+      "visualAsset": "assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    },
+    "light-mark": {
+      "id": "light-mark",
+      "label": "Light mark",
+      "footprint": [],
+      "slots": [
+        {
+          "id": "mark",
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "light-mark"
+      ],
+      "capacity": 1,
+      "visualAsset": "assets/805a9b1d8624ba561063a97aa8fc28a74b4eafd8c427a7c6d0b84b3a60202447-first-glow-light-mark.svg",
+      "groundContact": {
+        "x": 12,
+        "y": 12
+      },
+      "blocksMovement": false
+    },
+    "wild-cache": {
+      "id": "wild-cache",
+      "label": "Wild Cache",
+      "footprint": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "slots": [
+        {
+          "id": "probe-west",
+          "offset": {
+            "x": -1,
+            "y": 0
+          },
+          "capacity": 1
+        }
+      ],
+      "capabilities": [
+        "wild-cache"
+      ],
+      "capacity": 1,
+      "visualAsset": "assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+      "groundContact": {
+        "x": 24,
+        "y": 48
+      },
+      "blocksMovement": true
+    }
+  },
+  "objects": [
+    {
+      "id": "tiled-101",
+      "definitionId": "charge-pool",
+      "origin": {
+        "x": 4,
+        "y": 4
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-102",
+      "definitionId": "shelter-niche",
+      "origin": {
+        "x": 26,
+        "y": 4
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-107",
+      "definitionId": "shelter-loom",
+      "origin": {
+        "x": 27,
+        "y": 4
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-103",
+      "definitionId": "relay-crossing",
+      "origin": {
+        "x": 16,
+        "y": 12
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-104",
+      "definitionId": "pattern-shard",
+      "origin": {
+        "x": 22,
+        "y": 22
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-105",
+      "definitionId": "light-mark",
+      "origin": {
+        "x": 8,
+        "y": 22
+      },
+      "orientation": 0
+    },
+    {
+      "id": "tiled-106",
+      "definitionId": "wild-cache",
+      "origin": {
+        "x": 29,
+        "y": 26
+      },
+      "orientation": 0
+    }
+  ],
+  "layers": [
+    {
+      "id": "1",
+      "role": "ground",
+      "order": 1
+    },
+    {
+      "id": "2",
+      "role": "surface",
+      "order": 2
+    },
+    {
+      "id": "3",
+      "role": "objects",
+      "order": 3
+    },
+    {
+      "id": "4",
+      "role": "foreground",
+      "order": 4
+    },
+    {
+      "id": "5",
+      "role": "spawns",
+      "order": 5
+    }
+  ],
+  "spawns": [
+    {
+      "id": "spawn-spark-spawn-01",
+      "cell": {
+        "x": 1,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-02",
+      "cell": {
+        "x": 3,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-03",
+      "cell": {
+        "x": 6,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-04",
+      "cell": {
+        "x": 9,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-05",
+      "cell": {
+        "x": 12,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-06",
+      "cell": {
+        "x": 19,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-07",
+      "cell": {
+        "x": 22,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-08",
+      "cell": {
+        "x": 25,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-09",
+      "cell": {
+        "x": 28,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-10",
+      "cell": {
+        "x": 30,
+        "y": 1
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-11",
+      "cell": {
+        "x": 4,
+        "y": 28
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    },
+    {
+      "id": "spawn-spark-spawn-12",
+      "cell": {
+        "x": 27,
+        "y": 28
+      },
+      "settlementId": "first-glow-region",
+      "entrance": false
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+      "sha256": "sha256-ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg",
+      "sha256": "sha256-fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+      "sha256": "sha256-6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+      "sha256": "sha256-673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+      "sha256": "sha256-f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/805a9b1d8624ba561063a97aa8fc28a74b4eafd8c427a7c6d0b84b3a60202447-first-glow-light-mark.svg",
+      "sha256": "sha256-805a9b1d8624ba561063a97aa8fc28a74b4eafd8c427a7c6d0b84b3a60202447",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    }
+  ],
+  "bundle": {
+    "bundleId": "first-glow-v3",
+    "contentHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+    "schemaVersion": 3,
+    "assetVersion": "first-glow-v3"
+  }
+}

@@ -13,8 +13,8 @@ const backup = join(tempRoot, "backup.db");
 const restored = join(tempRoot, "restored.db");
 const restoredBundles = `${restored}.bundles`;
 const bundleRoot = join(root, "assets", "world", "generated");
-const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
-const secondHash = "sha256-92cc5cee6d8859375c046057ef6341fa6844cf6cbe610177d1d81726af0decf3";
+const hash = "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e";
+const secondHash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 let child: ReturnType<typeof spawn> | undefined;
 const waitFor = async (port: number, output: string[] = []) => { for (let i = 0; i < 80; i += 1) { if (child?.exitCode !== null && child?.exitCode !== undefined) throw new Error(`First Glow backup server exited: ${output.join("")}`); try { if ((await fetch(`http://127.0.0.1:${port}/health`)).ok) return; } catch {} await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error(`First Glow backup server did not start: ${output.join("")}`); };
 try {

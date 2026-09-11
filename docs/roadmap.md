@@ -39,7 +39,7 @@ The following **Resonance** workstream turns durable, repeated social patterns i
 | Phase | Current work | Status |
 | --- | --- | --- |
 | Resonance-P1 | [Observe candidate patterns without changing play](https://github.com/KevinHozak/Mimir/issues/84) | Done. Observer-only candidate evidence is implemented without Anchor state. |
-| Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | Next candidate after completed P0–P1 and positive story validation; board prioritization still applies. |
+| Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | In review; authored placement, server-committed Anchor record, and deterministic failure paths are implemented. |
 | Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | Backlog after P2 and Stories-P2. |
 | Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | Backlog after P3 and Stories-P3. |
 | Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | Backlog after P4; transition design only, not a new active runtime. |

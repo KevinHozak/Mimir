@@ -36,11 +36,11 @@ npm run backup --workspace @mimir/server -- restore <backup.db> <restored.db>
 npm run profile:first-glow
 ```
 
-The current First Glow bundle is `sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601`. Start a new First Glow timeline with an owner-authenticated request such as:
+The current First Glow bundle is `sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e`. Start a new First Glow timeline with an owner-authenticated request such as:
 
 ```powershell
 $headers = @{ "x-owner-token" = $env:OWNER_TOKEN; "content-type" = "application/json" }
-Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -Headers $headers -Body '{"bundleHash":"sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601","seed":31,"sparkCount":12}'
+Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -Headers $headers -Body '{"bundleHash":"sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e","seed":31,"sparkCount":12}'
 ```
 
 For local runs, the default database is `data/local/mimir.db` and scheduled backups default to `data/backups/`. When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.

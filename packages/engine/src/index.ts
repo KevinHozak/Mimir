@@ -9,12 +9,14 @@ export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
 export * from "./first-glow-interpretations.js";
 export * from "./resonance-observation.js";
+export * from "./resonance-anchor.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
 export interface WorldEvent { id: string; tick: number; kind: "tick" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
 export interface SocialInterpretation { id: string; tick: number; eventId: string; sparkId?: string; villagerId?: string; source: "rules" | "ai"; summary: string; evidenceEventIds: string[]; [key: string]: unknown; }
 export interface WorldState {
   worldId: string; seed: number; tick: number; simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION; spatialModel: "structured-v2"; firstGlowState: FirstGlowState;
+  resonance?: import("./resonance-anchor.js").ResonanceState;
   [key: string]: any;
 }
 

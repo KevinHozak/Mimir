@@ -2102,6 +2102,13 @@
           "y": 96
         },
         {
+          "id": 107,
+          "name": "shelter-loom-a",
+          "template": "../templates/first-glow-shelter-loom.json",
+          "x": 648,
+          "y": 96
+        },
+        {
           "id": 103,
           "name": "relay-a",
           "template": "../templates/first-glow-relay-crossing.json",
