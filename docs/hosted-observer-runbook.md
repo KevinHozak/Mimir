@@ -8,21 +8,63 @@ Last verified: 2026-09-11.
 
 - Google account: `khozak@gmail.com`
 - Dedicated project: **Mimir** (`mimir-realm`, project number `487827684488`)
-- Region under consideration: `us-central1`
-- Billing: enabled on the verified Mimir billing account
+- Target region: `us-central1` (Iowa), selected because it is an eligible US region for the Compute Engine free tier and keeps the runtime and planned bucket in the same location
+- Billing: enabled on billing account `billingAccounts/01E836-7FDB98-C1FD83`
 - Enabled services: `compute.googleapis.com`, `storage.googleapis.com`, and `billingbudgets.googleapis.com`
 - Monthly budget alert: `$10 USD`, scoped to `mimir-realm`, with current-spend thresholds at 50%, 75%, 90%, and 100%
 - Budget resource ID: `6b5b23a7-494e-4ef6-9a1e-e09eec716a5f`
-- `us-central1` quota was empty during audit: 0 instances, 0 E2 CPUs, and 0 external addresses in use
+- `us-central1` quota during audit: 24 instances, 24 E2 CPUs, 4,096 GB total disks, and 8 external addresses allowed; current usage was 0 for each relevant resource
 - No VM, persistent disk, public IP, or Cloud Storage bucket has been created yet
+- A separate existing project named `mimir-20260911` is not part of this plan; only `mimir-realm` is the Mimir hosting project
 
 This budget is an alert, not a hard spending cap. The existing Codex Realm project remains separate from Mimir hosting. Local Application Default Credentials still use a different quota project; align that before application-level cloud calls if needed.
 
-The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Runtime provisioning, external backup storage, and deployment still require explicit authorization.
+The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a standard persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Runtime provisioning, external backup storage, and deployment still require explicit authorization.
+
+## Google Cloud cost and eligibility decision
+
+The 2026-09-11 pricing check supports `e2-micro` in `us-central1` as the first staging shape, subject to account eligibility and monthly free-tier limits:
+
+| Component | Current published basis | Mimir decision |
+| --- | --- | --- |
+| Compute Engine | `e2-micro` on-demand list price is `$0.008376428/hour`, approximately `$6.11` for 730 hours before credits/free tier. The Always Free allowance covers one non-preemptible `e2-micro` equivalent of the month's hours in one supported US region, including `us-central1`, for eligible accounts. | Use one non-preemptible `e2-micro`; do not rely on free-tier eligibility as a spending cap. |
+| Boot/runtime disk | Standard persistent disk list price is `$0.04/GiB-month`; the Always Free allowance includes 30 GB-months. | Start with a 30 GB standard persistent disk; size increases require a cost review. |
+| Public IPv4 | An external IPv4 address in use by a standard VM is `$0.005/hour`, approximately `$3.65` for 730 hours; the network free tier only covers one hour per month. | Prefer a single ephemeral external IPv4 only if public browser access is required; do not reserve an unused static address. Recheck this charge immediately before provisioning. |
+| Egress | Compute Engine Always Free includes 1 GB/month of outbound transfer from North America to eligible destinations. | Keep the first deployment a small observer/staging service and treat traffic above that allowance as billable. |
+| Backup storage | Cloud Storage Standard in `us-central1` is `$0.000027397/GiB-hour`, approximately `$0.02/GiB-month`; Always Free includes 5 GB-months in supported US regions, plus limited operations and North America transfer. | Use a Standard bucket in an independent backup project, with lifecycle retention and a size cap reviewed before creation. |
+
+An eligible account staying within the documented allowances could keep the initial VM and 30 GB disk at approximately `$0` in service charges, but the public IPv4, overage traffic, backup retention, operations, logging, and any ineligible-account usage can still bill. The `$10/month` alert is therefore a warning threshold, not a hard cap. Pricing and free-tier terms are drift-prone and must be rechecked immediately before provisioning.
+
+Without applicable free-tier credit, the simple 730-hour baseline is approximately `$10.96/month` before backup storage, egress, logging, or operations (`$6.11` VM + `$1.20` for 30 GiB-months of disk + `$3.65` IPv4). Therefore, Hosted-P4 must not provision a continuously public VM under the `$10` plan until free-tier eligibility or a revised budget is explicitly confirmed.
+
+Pricing sources checked on 2026-09-11: [Compute Engine general-purpose VM pricing](https://cloud.google.com/products/compute/pricing/general-purpose), [Google Cloud Free Tier limits](https://cloud.google.com/free/docs/free-cloud-features), [VPC network pricing](https://cloud.google.com/vpc/network-pricing), and [Cloud Storage pricing](https://cloud.google.com/storage/pricing).
+
+The first provisioning envelope is: one non-preemptible `e2-micro`, one 30 GB standard persistent disk, one regionally scoped firewall path for HTTP/HTTPS, no load balancer, no Cloud NAT, no GPU, no static external IPv4 reservation, and no second runtime writer. SSH administration should use IAP or another authenticated administrative path where practical; public owner endpoints remain protected by `OWNER_TOKEN` and should not be exposed as an unauthenticated control surface.
+
+## Independent backup boundary
+
+The backup destination is intentionally separate from the runtime project. Before Hosted-P4 or Hosted-P5 creates it, select or create a dedicated backup project (proposed ID: `mimir-realm-backups`, subject to project-ID availability) under the same billing account, and create a regional Standard Cloud Storage bucket in `us-central1` (final globally unique bucket name to be chosen at provisioning). Add a separate `$10/month` project-scoped budget alert before the first bucket write; the existing `mimir-realm` alert does not cover a future backup project.
+
+The intended backup controls are:
+
+- at least 30 daily and 12 monthly retained copies through bucket lifecycle rules;
+- object versioning and the provider's recoverable-deletion/soft-delete protection where available;
+- a deployment backup identity that can create new backup objects but cannot delete or purge versions;
+- a separate recovery identity that can read and restore but is not used by the running service;
+- bucket/project administration and retention-policy changes reserved for a separate administrator identity; and
+- no long-lived service-account key committed to the repository or copied into the VM image.
+
+The project ID, bucket name, identities, retention settings, and budget must be re-read after creation and recorded as dated evidence. This phase defines the boundary only; it does not create the backup project, bucket, credentials, or runtime.
+
+## Hosted-P3 verification record
+
+The 2026-09-11 audit used the active `gcloud` account `khozak@gmail.com` and project `mimir-realm`. It confirmed the project is `ACTIVE`, billing is enabled on `billingAccounts/01E836-7FDB98-C1FD83`, the relevant Compute Engine, Cloud Storage, and Billing Budgets services are enabled, and the project-scoped `$10` budget has 50%, 75%, 90%, and 100% current-spend thresholds. Resource listings returned no Compute Engine instances, persistent disks, external addresses, or Cloud Storage buckets.
+
+The following claims remain unproven until a separately authorized provisioning phase: the account's actual Free Tier eligibility, the final globally available bucket name, the final backup-project ID, the exact billed amount after public access and traffic, billing-alert delivery timing, and a successful external backup/restore. No owner token was created, printed, or stored by Hosted-P3.
 
 ## Provisioning boundary
 
-Before creating the service, verify the current Render plan and disk pricing. The `starter` plan and 1 GB disk are configuration defaults, not a price claim. Keep the service private or protect owner operations with a long random `OWNER_TOKEN`.
+Before creating the service, verify the current Google Cloud Compute Engine, persistent-disk, IPv4, network-egress, and Cloud Storage prices and recheck the account's free-tier eligibility. The figures above are a dated planning snapshot, not a price lock. Keep the service private during staging where possible, and protect all owner operations with a long random `OWNER_TOKEN` supplied through deployment secret configuration.
 
 The first hosted service is intentionally one simulation writer. Do not scale it horizontally while SQLite remains the authoritative store. A later multi-process deployment should migrate the persistence boundary to PostgreSQL or another coordinated database.
 
