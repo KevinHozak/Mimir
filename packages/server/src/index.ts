@@ -311,11 +311,11 @@ app.post("/api/owner/reset-v3", async (request, reply) => { if (!requireOwner(re
 
 if (serveWeb) {
   app.get("/*", async (request, reply) => {
-    const requestedPath = decodeURIComponent((request.raw.url ?? "/").split("?", 1)[0]);
+    const requestedPath = decodeURIComponent((request.url ?? "/").split("?", 1)[0]);
     if (requestedPath.startsWith("/api/") || requestedPath === "/health") return reply.code(404).send({ error: "not found" });
     const relativePath = requestedPath === "/" ? "index.html" : requestedPath.replace(/^\/+/, "");
     const candidate = resolve(webDistDirectory, relativePath);
-    const safePath = relative(candidate, webDistDirectory);
+    const safePath = relative(webDistDirectory, candidate);
     const safe = safePath === "" || (!safePath.startsWith("..") && !isAbsolute(safePath));
     const indexPath = join(webDistDirectory, "index.html");
     const filePath = safe && existsSync(candidate) && statSync(candidate).isFile() ? candidate : indexPath;

@@ -1,6 +1,6 @@
 # Hosted observer runbook
 
-The pre-hosting slice is ready for a single-instance Render deployment. `render.yaml` defines one paid Node web service, serves the built Vite client from Fastify, and places the SQLite database and scheduled local copies on the mounted persistent disk.
+The pre-hosting slice remains compatible with a single-instance Render deployment, but Hosted-P4 now also has a private Google Cloud staging observer. `render.yaml` defines one paid Node web service, serves the built Vite client from Fastify, and places the SQLite database and scheduled local copies on the mounted persistent disk.
 
 ## Google Cloud pre-provisioning snapshot
 
@@ -10,16 +10,16 @@ Last verified: 2026-09-11.
 - Dedicated project: **Mimir** (`mimir-realm`, project number `487827684488`)
 - Target region: `us-central1` (Iowa), selected because it is an eligible US region for the Compute Engine free tier and keeps the runtime and planned bucket in the same location
 - Billing: enabled on billing account `billingAccounts/01E836-7FDB98-C1FD83`
-- Enabled services: `compute.googleapis.com`, `storage.googleapis.com`, and `billingbudgets.googleapis.com`
+- Enabled services: `compute.googleapis.com`, `storage.googleapis.com`, `billingbudgets.googleapis.com`, and `iap.googleapis.com`
 - Monthly budget alert: `$10 USD`, scoped to `mimir-realm`, with current-spend thresholds at 50%, 75%, 90%, and 100%
 - Budget resource ID: `6b5b23a7-494e-4ef6-9a1e-e09eec716a5f`
 - `us-central1` quota during audit: 24 instances, 24 E2 CPUs, 4,096 GB total disks, and 8 external addresses allowed; current usage was 0 for each relevant resource
-- No VM, persistent disk, public IP, or Cloud Storage bucket has been created yet
+- Hosted-P4 staging resources: `mimir-staging` in `us-central1-a`, one `e2-micro`, and one 30 GB standard persistent disk; the VM has no external address and no backup bucket has been created
 - A separate existing project named `mimir-20260911` is not part of this plan; only `mimir-realm` is the Mimir hosting project
 
 This budget is an alert, not a hard spending cap. The existing Codex Realm project remains separate from Mimir hosting. Local Application Default Credentials still use a different quota project; align that before application-level cloud calls if needed.
 
-The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a standard persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Runtime provisioning, external backup storage, and deployment still require explicit authorization.
+The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a standard persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Hosted-P4 has provisioned and tested the private staging VM; external backup storage and public/durable readiness remain separately authorized phases.
 
 ## Google Cloud cost and eligibility decision
 
@@ -39,7 +39,7 @@ Without applicable free-tier credit, the simple 730-hour baseline is approximate
 
 Pricing sources checked on 2026-09-11: [Compute Engine general-purpose VM pricing](https://cloud.google.com/products/compute/pricing/general-purpose), [Google Cloud Free Tier limits](https://cloud.google.com/free/docs/free-cloud-features), [VPC network pricing](https://cloud.google.com/vpc/network-pricing), and [Cloud Storage pricing](https://cloud.google.com/storage/pricing).
 
-The first provisioning envelope is: one non-preemptible `e2-micro`, one 30 GB standard persistent disk, one regionally scoped firewall path for HTTP/HTTPS, no load balancer, no Cloud NAT, no GPU, no static external IPv4 reservation, and no second runtime writer. SSH administration should use IAP or another authenticated administrative path where practical; public owner endpoints remain protected by `OWNER_TOKEN` and should not be exposed as an unauthenticated control surface.
+The first provisioning envelope is: one non-preemptible `e2-micro`, one 30 GB standard persistent disk, one private IAP-only firewall path for staging HTTP, no load balancer, no Cloud NAT, no GPU, no external IPv4 address, and no second runtime writer. SSH administration uses IAP; the staging observer is reached through a temporary local IAP tunnel. Public owner endpoints remain protected by `OWNER_TOKEN` and are not exposed as an unauthenticated control surface.
 
 ## Independent backup boundary
 
@@ -60,11 +60,15 @@ The project ID, bucket name, identities, retention settings, and budget must be 
 
 The 2026-09-11 audit used the active `gcloud` account `khozak@gmail.com` and project `mimir-realm`. It confirmed the project is `ACTIVE`, billing is enabled on `billingAccounts/01E836-7FDB98-C1FD83`, the relevant Compute Engine, Cloud Storage, and Billing Budgets services are enabled, and the project-scoped `$10` budget has 50%, 75%, 90%, and 100% current-spend thresholds. Resource listings returned no Compute Engine instances, persistent disks, external addresses, or Cloud Storage buckets.
 
-The following claims remain unproven until a separately authorized provisioning phase: the account's actual Free Tier eligibility, the final globally available bucket name, the final backup-project ID, the exact billed amount after public access and traffic, billing-alert delivery timing, and a successful external backup/restore. No owner token was created, printed, or stored by Hosted-P3.
+The following claims remain unproven until a separately authorized follow-up phase: the account's actual Free Tier eligibility, the final globally available bucket name, the final backup-project ID, the exact billed amount after public access and traffic, billing-alert delivery timing, and a successful external backup/restore. Hosted-P3 did not create an owner token. Hosted-P4 created a staging-only owner token in root-readable secret configuration and did not print or commit it.
+
+## Hosted-P4 staging evidence
+
+The private staging observer was provisioned on 2026-09-11 from verified commit `792dab516b61b4ce7698545963c33e6da9b52609`. It runs the First Glow production build with the scheduler paused, one SQLite writer, authenticated owner operations, no public address, and IAP-only access. Controlled reset/tick, unauthenticated rejection, clean restart, checkpoint recovery, and post-restart tick checks passed. The dated resource, behavior, and cost record is [hosted-staging-2026-09-11.md](evidence/hosted-staging-2026-09-11.md).
 
 ## Provisioning boundary
 
-Before creating the service, verify the current Google Cloud Compute Engine, persistent-disk, IPv4, network-egress, and Cloud Storage prices and recheck the account's free-tier eligibility. The figures above are a dated planning snapshot, not a price lock. Keep the service private during staging where possible, and protect all owner operations with a long random `OWNER_TOKEN` supplied through deployment secret configuration.
+Before creating or changing hosted resources, verify the current Google Cloud Compute Engine, persistent-disk, IPv4, network-egress, and Cloud Storage prices and recheck the account's free-tier eligibility. The figures above are a dated planning snapshot, not a price lock. Keep the service private during staging where possible, and protect all owner operations with a long random `OWNER_TOKEN` supplied through deployment secret configuration. The current P4 VM is intentionally private and must not be described as durable or public-ready until P5/P6 gates pass.
 
 The first hosted service is intentionally one simulation writer. Do not scale it horizontally while SQLite remains the authoritative store. A later multi-process deployment should migrate the persistence boundary to PostgreSQL or another coordinated database.
 
