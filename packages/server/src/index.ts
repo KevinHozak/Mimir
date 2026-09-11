@@ -11,7 +11,7 @@ import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBu
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 
-const port = Number(process.env.PORT ?? 3000);
+const port = Number(process.env.PORT ?? 8888);
 let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? 15000);
 const autoTick = process.env.AUTO_TICK !== "false";
 const seasonTickLimit = Number(process.env.SEASON_TICK_LIMIT ?? 360);

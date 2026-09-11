@@ -198,7 +198,7 @@ Repository-authored procedural Web Audio provides the baseline effects, ambience
 ```text
 npm start
   -> npm run build (only when required output is missing)
-  -> Node packages/server/dist/index.js
+  -> Node packages/server/dist/index.js on 127.0.0.1:8888
   -> Vite preview on 127.0.0.1:4173
 ```
 

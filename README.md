@@ -16,7 +16,7 @@ npm run build
 npm start
 ```
 
-Open the URL printed by the launcher. The server owns simulation outcomes, SQLite stores committed history, and the browser renders the current or replayed First Glow state.
+Open the URL printed by the launcher. The local API listens on `127.0.0.1:8888` by default, and the browser preview is served at `127.0.0.1:4173`. The server owns simulation outcomes, SQLite stores committed history, and the browser renders the current or replayed First Glow state. Override the API port with `PORT` when needed.
 
 ## Local data
 

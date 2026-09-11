@@ -20,7 +20,7 @@ if (!existsSync(serverEntry) || !existsSync(resolve(root, "packages/web/dist/ind
 
 const server = run(node, [serverEntry], {
   env: {
-    PORT: process.env.PORT ?? "3000",
+    PORT: process.env.PORT ?? "8888",
     AUTO_TICK: process.env.AUTO_TICK ?? "true",
     TICK_INTERVAL_MS: process.env.TICK_INTERVAL_MS ?? "3000",
     DATABASE_PATH: process.env.DATABASE_PATH ?? join(root, "data", "local", "mimir.db"),

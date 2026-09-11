@@ -62,7 +62,7 @@ type Interpretation = { id: string; tick: number; eventId: string; sparkId?: str
 function interpretationConfidence(value: Interpretation["confidence"]): string { if (typeof value === "number") return Number.isFinite(value) ? `${Math.round(value * 100)}%` : "not recorded"; return value === "provider-proposed" ? "provider proposed" : value === "rules-baseline" ? "rules baseline" : "deterministic fallback"; }
 type HoveredCell = { x: number; y: number; clientX: number; clientY: number };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number; dilemmasResolved?: number; latestDilemma?: DilemmaResolution | null; firstGlow?: { sourceCharge: number; communalCharge: number; carriedCharge: number; chargeDeficit: number; sparks: number } } };
-const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:3000";
+const api = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8888";
 const FIRST_GLOW_MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const firstGlowAudioRuntime = new FirstGlowAudioRuntime(loadFirstGlowAudioPreferences());
