@@ -17,7 +17,7 @@ The following **Resonance** workstream turns durable, repeated social patterns i
 | Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | In review; the authored relay crossing now forms a distinct Crossing of Voices Anchor with witnessed follow/hold consequences. |
 | Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | In review; replayable eligibility and carry-forward design only, not a new active runtime. |
 
-Hosted-observer work remains intentionally separate from this sequence: [Hosted-P1](https://github.com/KevinHozak/Mimir/issues/3), [Hosted-P2](https://github.com/KevinHozak/Mimir/issues/18), and [Hosted-P3](https://github.com/KevinHozak/Mimir/issues/53) stay in Backlog until the user explicitly chooses to resume hosting.
+Hosted-observer work remains intentionally separate from this sequence: [Hosted-P1](https://github.com/KevinHozak/Mimir/issues/3) is complete, [Hosted-P2](https://github.com/KevinHozak/Mimir/issues/18) has production-preview evidence in [the dated profile](evidence/2026-09-11-first-glow-production-profile.md) and is in review, and [Hosted-P3](https://github.com/KevinHozak/Mimir/issues/53) remains deferred until the user explicitly chooses to resume hosting.
 
 ## Non-negotiable gates
 
