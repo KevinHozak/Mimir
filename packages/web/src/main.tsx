@@ -545,7 +545,7 @@ function App() {
     saveFirstGlowViewerSettings(updated);
     return updated;
   });
-  const debugOverlay = import.meta.env.VITE_DEBUG_OVERLAY === "true";
+  const debugOverlay = import.meta.env.VITE_DEBUG_OVERLAY === "true" || new URLSearchParams(window.location.search).get("debug") === "1";
   const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
   const [selectedVillagerId, setSelectedVillagerId] = useState<string | null>(null);
   const [ownerToken, setOwnerToken] = useState("");

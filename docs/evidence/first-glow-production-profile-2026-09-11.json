@@ -1,0 +1,108 @@
+{
+  "generatedAt": "2026-09-11T17:13:16.749Z",
+  "commit": "ebdadbf2ff7e32177d49c50dde2f226f5f2c950b",
+  "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601",
+  "themeId": "living-circuit",
+  "ageId": "first-glow",
+  "map": {
+    "width": 32,
+    "height": 32,
+    "objectCount": 5,
+    "assetCount": 5,
+    "spawnCount": 12
+  },
+  "seed": 20260911,
+  "sparks": 12,
+  "ticks": 120,
+  "build": "production Vite preview of packages/web/dist",
+  "runtime": {
+    "apiPort": 34144,
+    "webPort": 5179,
+    "database": ".tmp/first-glow-profile-*/runtime.db",
+    "productionPreview": true
+  },
+  "engineRuns": [
+    {
+      "medianMs": 44.684400000000096,
+      "p95Ms": 302.7633000000005,
+      "maxMs": 1989.1941000000002,
+      "finalTick": 120
+    },
+    {
+      "medianMs": 45.28770000000077,
+      "p95Ms": 75.76749999999993,
+      "maxMs": 88.20809999999983,
+      "finalTick": 120
+    }
+  ],
+  "environment": {
+    "os": "win32 10.0.26200",
+    "hardware": "11th Gen Intel(R) Core(TM) i7-1195G7 @ 2.90GHz",
+    "logicalCpuCount": 8,
+    "totalMemoryBytes": 68475740160,
+    "node": "v24.14.0",
+    "browser": "Playwright Chromium 153.0.8010.12",
+    "browserVersion": "153.0.8010.12",
+    "viewports": [
+      "1280x900",
+      "1280x900",
+      "390x844"
+    ]
+  },
+  "views": [
+    {
+      "name": "desktop",
+      "viewport": "1280x900",
+      "deviceScaleFactor": 1,
+      "reducedMotion": "no-preference",
+      "overlay": false,
+      "capture": "docs/evidence/first-glow-production-desktop.png",
+      "metrics": {
+        "frameMedianMs": 50,
+        "frameP95Ms": 50.100000000000364,
+        "frameMaxMs": 166.60000000000014,
+        "longTaskCount": 5,
+        "longTaskTotalMs": 403,
+        "memoryBeforeBytes": 37300000,
+        "memoryAfterBytes": 37300000,
+        "memoryGrowthBytes": 0
+      }
+    },
+    {
+      "name": "desktop-overlay",
+      "viewport": "1280x900",
+      "deviceScaleFactor": 1,
+      "reducedMotion": "no-preference",
+      "overlay": true,
+      "capture": "docs/evidence/first-glow-production-desktop-overlay.png",
+      "metrics": {
+        "frameMedianMs": 16.699999999999818,
+        "frameP95Ms": 33.40000000000009,
+        "frameMaxMs": 166.69999999999982,
+        "longTaskCount": 1,
+        "longTaskTotalMs": 164,
+        "memoryBeforeBytes": 37300000,
+        "memoryAfterBytes": 37300000,
+        "memoryGrowthBytes": 0
+      }
+    },
+    {
+      "name": "mobile",
+      "viewport": "390x844",
+      "deviceScaleFactor": 2,
+      "reducedMotion": "reduce",
+      "overlay": false,
+      "capture": "docs/evidence/first-glow-production-mobile.png",
+      "metrics": {
+        "frameMedianMs": 100,
+        "frameP95Ms": 116.69999999999982,
+        "frameMaxMs": 216.69999999999982,
+        "longTaskCount": 118,
+        "longTaskTotalMs": 11182,
+        "memoryBeforeBytes": 39600000,
+        "memoryAfterBytes": 39600000,
+        "memoryGrowthBytes": 0
+      }
+    }
+  ]
+}
