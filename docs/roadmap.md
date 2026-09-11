@@ -8,14 +8,14 @@ This is the current delivery order. It complements the dated planning documents 
 
 **Resonance-P4** is the current bounded First Glow delivery gate. It must preserve the completed evidence boundaries. Finished Audio, Living Stories, and Resonance-P1 work is recorded in the [Changelog](changelog.md).
 
-The following **Resonance** workstream turns durable, repeated social patterns into evidence-first places only after the Living Stories gate supports it:
+The following **Resonance** workstream turns durable, repeated social patterns into evidence-first places only after the Living Stories gate supports it. Resonance-P5 is now the active bounded gate; its transition contract is design-only and deferred transitions remain valid First Glow stories.
 
 | Phase | Current work | Status |
 | --- | --- | --- |
 | Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | In review; authored placement, server-committed Anchor record, and deterministic failure paths are implemented. |
 | Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | In review; server-committed yield/hold rest choices now produce distinct durable resource, trust, and readiness consequences. |
 | Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | In review; the authored relay crossing now forms a distinct Crossing of Voices Anchor with witnessed follow/hold consequences. |
-| Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | Backlog after P4; transition design only, not a new active runtime. |
+| Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | In review; replayable eligibility and carry-forward design only, not a new active runtime. |
 
 Hosted-observer work remains intentionally separate from this sequence: [Hosted-P1](https://github.com/KevinHozak/Mimir/issues/3), [Hosted-P2](https://github.com/KevinHozak/Mimir/issues/18), and [Hosted-P3](https://github.com/KevinHozak/Mimir/issues/53) stay in Backlog until the user explicitly chooses to resume hosting.
 
