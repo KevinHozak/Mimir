@@ -20,6 +20,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Recorded a positive 20/20 transition review without treating care, autonomy, exploration, or cooperation as the designated winner.
 - Made Resonance-P1 candidate patterns observable without adding Anchor state or changing play.
 - Added Resonance-P3's bounded Shelter Loom choice: witnessed Sparks can yield or hold a shared rest priority, with explicit charge/readiness costs, reciprocal trust evidence, durable decisions, and observer-visible objective aftermath.
+- Added Resonance-P4's contrasting Crossing of Voices Anchor at the authored relay: plural meet/trace/explore evidence can support either following a newer signal or holding the known course, with distinct charge, readiness, activity, and evidence consequences rather than a designated winning philosophy.
 
   - Through [PR #102](https://github.com/KevinHozak/Mimir/pull/102), [PR #106](https://github.com/KevinHozak/Mimir/pull/106), [PR #108](https://github.com/KevinHozak/Mimir/pull/108), and [PR #84](https://github.com/KevinHozak/Mimir/pull/84).
 

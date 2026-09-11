@@ -6,7 +6,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, applyShelterLoomChoice, CHARACTER_CARDS, createShelterLoomAnchor, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, CHARACTER_CARDS, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
@@ -183,6 +183,50 @@ app.post("/api/owner/resonance-choice", async (request, reply) => {
   if (!result.ok) return reply.code(409).send({ error: `Shelter Loom choice rejected: ${result.code}`, code: result.code });
   const nextResonance: ResonanceState = { schemaVersion: 1, candidates: resonance?.candidates ?? [], anchors: resonance?.anchors ?? [], decisions: [...(resonance?.decisions ?? []), result.decision].sort((left, right) => left.id.localeCompare(right.id)) };
   const nextState = { ...state, firstGlowState: result.state, resonance: nextResonance, events: [...(state.events ?? []), { id: result.event.id, tick: result.event.tick, kind: "world-object" as const, message: result.event.message, villagerIds: [body.actorSparkId, body.beneficiarySparkId], settlementIds: [state.firstGlowState.settlements[0].id] }] };
+  const worldEvent = nextState.events[nextState.events.length - 1] as WorldEvent;
+  database.exec("BEGIN IMMEDIATE");
+  try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND tick = ?").run(JSON.stringify(nextState), activeTimelineId, state.tick); database.prepare("INSERT INTO timeline_events (timeline_id, id, tick, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, worldEvent.id, worldEvent.tick, JSON.stringify(worldEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
+  state = nextState;
+  for (const client of liveClients) { if (!client.destroyed) client.write(`data: ${JSON.stringify({ state, events: [worldEvent], interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`); else liveClients.delete(client); }
+  return { decision: result.decision, event: worldEvent };
+});
+app.post("/api/owner/resonance-crossing-anchor", async (request, reply) => {
+  if (!requireOwner(request, reply)) return;
+  const body = request.body as { candidate?: unknown } | undefined;
+  const candidate = body?.candidate as ResonanceCandidateRecord | undefined;
+  if (!candidate || typeof candidate.id !== "string" || typeof candidate.ruleId !== "string" || !candidate.location || !Array.isArray(candidate.qualifyingEventIds) || !Array.isArray(candidate.participantSparkIds) || !Array.isArray(candidate.auditEvidenceEventIds) || !Number.isInteger(candidate.totalChargeCost) || !Number.isInteger(candidate.formedTick)) return reply.code(400).send({ error: "a complete Crossing of Voices candidate is required" });
+  const settlement = state.firstGlowState.settlements[0];
+  const knownEventIds = new Set((database.prepare("SELECT id FROM timeline_events WHERE timeline_id = ?").all(activeTimelineId) as { id: string }[]).map(event => event.id));
+  const missingEvidence = [...new Set([...candidate.qualifyingEventIds, ...candidate.auditEvidenceEventIds])].filter(id => !knownEventIds.has(id)).sort();
+  if (missingEvidence.length) return reply.code(409).send({ error: "candidate references uncommitted evidence", missingEvidence });
+  const existing = state.resonance?.candidates.find(item => item.id === candidate.id);
+  if (existing?.status === "created") return { candidate: existing, anchor: state.resonance?.anchors.find(item => item.candidateId === candidate.id), idempotent: true };
+  const result = createCrossingVoicesAnchor(candidate, settlement.bundle, state.tick);
+  if (!result.ok) return reply.code(409).send({ error: `Crossing of Voices creation failed: ${result.code}`, code: result.code });
+  const resonance: ResonanceState = { schemaVersion: 1, candidates: [...(state.resonance?.candidates ?? []).filter(item => item.id !== candidate.id), result.candidate].sort((left, right) => left.id.localeCompare(right.id)), anchors: [...(state.resonance?.anchors ?? []).filter(item => item.id !== result.anchor.id), result.anchor].sort((left, right) => left.id.localeCompare(right.id)), decisions: state.resonance?.decisions, crossingDecisions: state.resonance?.crossingDecisions };
+  const creationEvent: WorldEvent = { id: `event-${state.tick}-resonance-${result.anchor.id}`, tick: state.tick, kind: "world-object", message: `The Crossing of Voices was formed at ${result.anchor.authoredObjectId}:${result.anchor.authoredSlotId}.`, villagerIds: [], settlementIds: [settlement.id] };
+  const nextState = { ...state, resonance, events: [...(state.events ?? []), creationEvent] };
+  database.exec("BEGIN IMMEDIATE");
+  try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND tick = ?").run(JSON.stringify(nextState), activeTimelineId, state.tick); database.prepare("INSERT INTO timeline_events (timeline_id, id, tick, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, creationEvent.id, creationEvent.tick, JSON.stringify(creationEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
+  state = nextState;
+  for (const client of liveClients) { if (!client.destroyed) client.write(`data: ${JSON.stringify({ state, events: [creationEvent], interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`); else liveClients.delete(client); }
+  return { candidate: result.candidate, anchor: result.anchor, event: creationEvent };
+});
+app.post("/api/owner/resonance-crossing-choice", async (request, reply) => {
+  if (!requireOwner(request, reply)) return;
+  const body = request.body as { anchorId?: unknown; actorSparkId?: unknown; choice?: unknown; evidenceEventIds?: unknown } | undefined;
+  if (typeof body?.anchorId !== "string" || typeof body.actorSparkId !== "string" || (body.choice !== "follow-signal" && body.choice !== "hold-course") || !Array.isArray(body.evidenceEventIds) || !body.evidenceEventIds.every(item => typeof item === "string")) return reply.code(400).send({ error: "anchorId, actorSparkId, choice, and evidenceEventIds are required" });
+  const resonance = state.resonance;
+  const anchor = resonance?.anchors.find(item => item.id === body.anchorId);
+  if (resonance?.crossingDecisions?.some(item => item.anchorId === body.anchorId && item.actorSparkId === body.actorSparkId)) return reply.code(409).send({ error: "a Crossing of Voices choice already exists for this Spark" });
+  const evidenceIds = body.evidenceEventIds as string[];
+  const knownEventIds = new Set((database.prepare("SELECT id FROM timeline_events WHERE timeline_id = ?").all(activeTimelineId) as { id: string }[]).map(event => event.id));
+  const missingEvidence = evidenceIds.filter(id => !knownEventIds.has(id)).sort();
+  if (missingEvidence.length) return reply.code(409).send({ error: "choice references uncommitted evidence", missingEvidence });
+  const result = applyCrossingVoicesChoice(state.firstGlowState, anchor, body.actorSparkId, body.choice as "follow-signal" | "hold-course", evidenceIds);
+  if (!result.ok) return reply.code(409).send({ error: `Crossing of Voices choice rejected: ${result.code}`, code: result.code });
+  const nextResonance: ResonanceState = { schemaVersion: 1, candidates: resonance?.candidates ?? [], anchors: resonance?.anchors ?? [], decisions: resonance?.decisions, crossingDecisions: [...(resonance?.crossingDecisions ?? []), result.decision].sort((left, right) => left.id.localeCompare(right.id)) };
+  const nextState = { ...state, firstGlowState: result.state, resonance: nextResonance, events: [...(state.events ?? []), { id: result.event.id, tick: result.event.tick, kind: "world-object" as const, message: result.event.message, villagerIds: [body.actorSparkId], settlementIds: [state.firstGlowState.settlements[0].id] }] };
   const worldEvent = nextState.events[nextState.events.length - 1] as WorldEvent;
   database.exec("BEGIN IMMEDIATE");
   try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND tick = ?").run(JSON.stringify(nextState), activeTimelineId, state.tick); database.prepare("INSERT INTO timeline_events (timeline_id, id, tick, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, worldEvent.id, worldEvent.tick, JSON.stringify(worldEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
