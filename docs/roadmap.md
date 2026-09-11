@@ -6,25 +6,14 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Next non-hosting delivery sequence
 
-**Resonance-P4** is the current bounded First Glow delivery gate. It must preserve the completed evidence boundaries. Finished Audio, Living Stories, and Resonance-P1 work is recorded in the [Changelog](changelog.md).
+No non-hosting implementation gate is currently scheduled. Resonance-P1 through P5 are merged with their fixed evidence and recorded in the [Changelog](changelog.md). The Hearth Circuit remains a future transition contract, not a second active runtime; selecting a later First Glow workstream requires an explicit new delivery decision.
 
-The following **Resonance** workstream turns durable, repeated social patterns into evidence-first places only after the Living Stories gate supports it. Resonance-P5 is now the active bounded gate; its transition contract is design-only and deferred transitions remain valid First Glow stories.
+## Next hosted-observer sequence
 
-| Phase | Current work | Status |
-| --- | --- | --- |
-| Resonance-P2 | [Introduce the Shelter Loom as the first real Anchor](https://github.com/KevinHozak/Mimir/issues/86) | In review; authored placement, server-committed Anchor record, and deterministic failure paths are implemented. |
-| Resonance-P3 | [Give the Shelter Loom a bounded social possibility and tension](https://github.com/KevinHozak/Mimir/issues/87) | In review; server-committed yield/hold rest choices now produce distinct durable resource, trust, and readiness consequences. |
-| Resonance-P4 | [Validate a contrasting Anchor without a designated winner](https://github.com/KevinHozak/Mimir/issues/88) | In review; the authored relay crossing now forms a distinct Crossing of Voices Anchor with witnessed follow/hold consequences. |
-| Resonance-P5 | [Earn the Hearth Circuit transition through maintained Anchors](https://github.com/KevinHozak/Mimir/issues/89) | In review; replayable eligibility and carry-forward design only, not a new active runtime. |
-
-Hosted-observer work remains intentionally separate from this sequence and is now ordered as follows:
+Hosted-P1 through Hosted-P4 are complete and recorded in the [Changelog](changelog.md). The remaining hosted-observer work is intentionally separate from First Glow feature selection:
 
 | Phase | Issue | Status |
 | --- | --- | --- |
-| Hosted-P1 | [Verify independent backup and recovery before durable hosting](https://github.com/KevinHozak/Mimir/issues/3) | Complete; local bundle-inclusive recovery evidence is documented. |
-| Hosted-P2 | [Produce accurate First Glow production performance evidence](https://github.com/KevinHozak/Mimir/issues/18) | Complete; production-preview evidence is in [the dated profile](evidence/2026-09-11-first-glow-production-profile.md). |
-| Hosted-P3 | [Establish Google Cloud hosting readiness and cost guardrails](https://github.com/KevinHozak/Mimir/issues/116) | Complete; project, billing link, VM shape, and $10 alert were verified. |
-| Hosted-P4 | [Provision an authenticated single-writer Mimir staging observer](https://github.com/KevinHozak/Mimir/issues/115) | Complete; private IAP-only staging observer is running. |
 | Hosted-P5 | [Validate independent hosted backup and recovery](https://github.com/KevinHozak/Mimir/issues/117) | In review; independent bucket, keyless access boundary, hosted transfer, fresh restore, and integrity failure evidence are recorded. |
 | Hosted-P6 | [Validate durable hosted-observer readiness after local seasons are compelling](https://github.com/KevinHozak/Mimir/issues/53) | In review; private hosted-observer readiness, restart continuity, token protection, and short-season evidence are recorded. Public exposure and durable production hosting remain unproven. |
 

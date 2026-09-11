@@ -1,6 +1,6 @@
 # Mimir: A Light of Our Own — Current Architecture
 
-Date: 2026-09-10
+Date: 2026-09-11
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -228,6 +228,7 @@ The repository includes three verification layers:
 - Engine Resonance-observation tests for deterministic fixture evaluation, distinct candidate statuses, objective-evidence ordering, and private-knowledge exclusion.
 - Engine Resonance tests cover deterministic Shelter Loom and Crossing of Voices creation, knowledge-boundary rejection, distinct durable choice paths, and near-miss/invalid-placement candidates; server backup coverage includes the current Anchor-capable world bundle.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
+- The production-profile harness measures two deterministic engine runs and built-preview desktop/mobile observer views with an explicit bundle, seed, workload, and isolated runtime. Its 2026-09-11 evidence records desktop results and the current mobile DPR2 limitation rather than claiming general device readiness.
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
 - Browser checks for First Glow live/history observers, manifest assets, overlays, playback rates, mobile layout, and audio P5's opt-in behavior, persisted controls, muted-event readability, history silence, and desktop/mobile evidence.
 

@@ -2,8 +2,6 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
-- Added the dedicated First Glow History & scenarios viewer at `?view=history`. It browses recorded timelines and checkpoints with parent lineage and simulation/spatial/bundle identity, preserves objective events and interpretations without fresh replay generation, and gives explicit empty, unavailable, and incompatible-history states.
-
 ## 2026-09 — First Glow foundation
 
 ### A readable social simulation
@@ -21,11 +19,27 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Used the resulting 13/20 partial baseline to add only an evidence-supported autonomous social-choice loop, then reran the review with deterministic replay and cross-seed variation checks.
 - Recorded a positive 20/20 transition review without treating care, autonomy, exploration, or cooperation as the designated winner.
 - Made Resonance-P1 candidate patterns observable without adding Anchor state or changing play.
-- Added Resonance-P3's bounded Shelter Loom choice: witnessed Sparks can yield or hold a shared rest priority, with explicit charge/readiness costs, reciprocal trust evidence, durable decisions, and observer-visible objective aftermath.
-- Added Resonance-P4's contrasting Crossing of Voices Anchor at the authored relay: plural meet/trace/explore evidence can support either following a newer signal or holding the known course, with distinct charge, readiness, activity, and evidence consequences rather than a designated winning philosophy.
-- Added Resonance-P5's replayable Hearth Circuit transition design: maintained, distinct Anchors and season evidence can earn eligibility while unresolved tensions remain visible; carry-forward preserves Spark, relationship, commitment, record, place, timeline, and bundle identity without activating a new age runtime.
 
   - Through [PR #102](https://github.com/KevinHozak/Mimir/pull/102), [PR #106](https://github.com/KevinHozak/Mimir/pull/106), [PR #108](https://github.com/KevinHozak/Mimir/pull/108), and [PR #84](https://github.com/KevinHozak/Mimir/pull/84).
+
+### A completed Resonance arc
+
+- Formed the Shelter Loom only from committed, thresholded evidence at its authored rest niche, preserving exact evidence IDs and safe failure paths.
+- Added its bounded yield-or-hold practice, where both witnessed choices make durable readiness, charge, trust, and evidence consequences visible without selecting a correct philosophy.
+- Added the contrasting Crossing of Voices Anchor and its follow-or-hold choice, so its different consequences remain replayable and auditable.
+- Defined, but did not activate, Hearth Circuit eligibility and carry-forward. A deferred transition remains a valid First Glow story; no second runtime, institutions, markets, or credits were created.
+
+  - Through [PR #86](https://github.com/KevinHozak/Mimir/pull/86), [PR #109](https://github.com/KevinHozak/Mimir/pull/109), [PR #110](https://github.com/KevinHozak/Mimir/pull/110), and [PR #111](https://github.com/KevinHozak/Mimir/pull/111).
+
+### Durable observation and readiness evidence
+
+- Added the dedicated First Glow History & scenarios viewer at `?view=history`. It browses recorded timelines and checkpoints with parent lineage and simulation/spatial/bundle identity, preserves objective events and interpretations without fresh replay generation, and gives explicit empty, unavailable, and incompatible-history states.
+- Verified local bundle-inclusive backup and restore, including referenced bundle recovery and integrity failure behavior. Independent external disaster-recovery storage remains unconfigured.
+- Captured a production-preview profile with fixed First Glow inputs and desktop/mobile evidence. The mobile DPR2 result remains a documented performance limitation, not a broad readiness claim.
+- Established the Google Cloud staging guardrails, including the selected project, billing connection, small VM shape, and $10 budget alert.
+- Provisioned the private IAP-only, single-writer staging observer with same-origin web serving and persistent state. It is not public or durable production hosting.
+
+  - Through [PR #112](https://github.com/KevinHozak/Mimir/pull/112), [PR #113](https://github.com/KevinHozak/Mimir/pull/113), [PR #114](https://github.com/KevinHozak/Mimir/pull/114), [PR #118](https://github.com/KevinHozak/Mimir/pull/118), and [PR #119](https://github.com/KevinHozak/Mimir/pull/119).
 
 ### A safe, cohesive visual production path
 
