@@ -26,7 +26,7 @@ Hosted-observer work remains intentionally separate from this sequence and is no
 | Hosted-P3 | [Establish Google Cloud hosting readiness and cost guardrails](https://github.com/KevinHozak/Mimir/issues/116) | Complete; project, billing link, VM shape, and $10 alert were verified. |
 | Hosted-P4 | [Provision an authenticated single-writer Mimir staging observer](https://github.com/KevinHozak/Mimir/issues/115) | Complete; private IAP-only staging observer is running. |
 | Hosted-P5 | [Validate independent hosted backup and recovery](https://github.com/KevinHozak/Mimir/issues/117) | In review; independent bucket, keyless access boundary, hosted transfer, fresh restore, and integrity failure evidence are recorded. |
-| Hosted-P6 | [Validate durable hosted-observer readiness after local seasons are compelling](https://github.com/KevinHozak/Mimir/issues/53) | Deferred final readiness gate; depends on Hosted-P3 through Hosted-P5 and compelling local season results. |
+| Hosted-P6 | [Validate durable hosted-observer readiness after local seasons are compelling](https://github.com/KevinHozak/Mimir/issues/53) | In review; private hosted-observer readiness, restart continuity, token protection, and short-season evidence are recorded. Public exposure and durable production hosting remain unproven. |
 
 ## Non-negotiable gates
 
