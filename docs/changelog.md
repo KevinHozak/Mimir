@@ -2,6 +2,8 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+- Added the dedicated First Glow History & scenarios viewer at `?view=history`. It browses recorded timelines and checkpoints with parent lineage and simulation/spatial/bundle identity, preserves objective events and interpretations without fresh replay generation, and gives explicit empty, unavailable, and incompatible-history states.
+
 ## 2026-09 — First Glow foundation
 
 ### A readable social simulation

@@ -54,6 +54,12 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
   .first-glow .village-zoom { width: 100%; }
 }
 
+.history-entry-float { position: fixed; right: 18px; bottom: 18px; z-index: 20; padding: 9px 12px; color: #d9f6ff; background: #15283d; border: 1px solid #5e9fba; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 18px #0008; }
+.history-viewer { min-height: 100vh; padding: 36px max(20px, 6vw); background: #050912; color: #edf7ff; }
+.history-viewer header { display: flex; justify-content: space-between; align-items: start; gap: 24px; max-width: 1100px; margin: 0 auto 28px; }
+.history-viewer h1 { margin: 4px 0 8px; font-size: clamp(2rem, 5vw, 3.4rem); }.history-viewer h2 { margin-top: 0; color: #d9f6ff; }.history-kicker { color: #8addf2; text-transform: uppercase; letter-spacing: .12em; font-size: .8rem; }.history-live-link { color: #d8c9ff; }.history-toolbar, .history-identity, .history-columns > section { max-width: 1100px; margin: 0 auto 18px; padding: 18px; background: #101a2a; border: 1px solid #52677f; border-radius: 10px; }.history-toolbar { display: flex; flex-wrap: wrap; gap: 20px; }.history-toolbar label { display: grid; gap: 6px; color: #9fb5cc; }.history-toolbar select { min-width: 220px; padding: 8px; color: #edf7ff; background: #07101d; border: 1px solid #5e9fba; border-radius: 6px; }.history-notice { color: #d8c9ff; }.history-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 1100px; margin: 0 auto; }.history-columns > section { margin: 0; }.history-columns p, .history-columns article { color: #b4c4d4; border-top: 1px solid #2b3e54; padding-top: 9px; }.history-columns p:first-of-type, .history-columns article:first-of-type { border-top: 0; }.history-muted, .history-state { color: #9fb5cc; }.history-state { max-width: 1100px; margin: 30px auto; padding: 18px; background: #201d32; border: 1px solid #8d78bf; border-radius: 10px; }
+@media (max-width: 700px) { .history-viewer header, .history-columns { display: block; }.history-live-link { display: inline-block; margin-top: 18px; }.history-columns > section { margin-bottom: 18px; }.history-toolbar select { min-width: min(100%, 280px); } }
+
 @media (max-width: 520px) {
   .first-glow .first-glow-header { grid-template-columns: 1fr; gap: 8px; }
   .first-glow-header .identity-panel { min-height: 64px; }
