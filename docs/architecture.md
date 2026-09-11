@@ -81,6 +81,8 @@ Resonance-P3 adds `resonance-loom-choice.ts`, a pure server-invoked transition f
 
 Resonance-P4 adds `resonance-crossing-rule.ts` and `resonance-crossing.ts` for a substantively different Anchor at the authored `relay-crossing` object (`tiled-103`). A candidate must contain plural `meet`, `mark-trace`, and `explore` evidence from at least three Sparks, with explicit charge and tick-span thresholds. Once formed, the Crossing of Voices offers a witnessed `follow-signal` or `hold-course` choice: the former spends charge/readiness and changes the actor toward exploration, while the latter preserves readiness and the known-course activity. Both are durable, replayable objective consequences; neither is treated as the winning philosophy.
 
+Resonance-P5 adds `resonance-transition.ts` as a pure eligibility and carry-forward contract for a future Hearth Circuit age. It requires two distinct active Anchor kinds, two maintained season windows, objective evidence, and recorded practice decisions from committed First Glow history; unresolved tensions remain evidence rather than disqualifiers. Carry-forward preserves Sparks, relationships, commitments, objective and interpretation records, Anchor places/evidence, source timeline and bundle hashes, and explicit schema/runtime identifiers. A deferred result is still a valid First Glow story. This does not activate a Hearth Circuit runtime, institutions, markets, or credits.
+
 ## 4. World-data pipeline
 
 The implemented source-of-truth boundary is:
