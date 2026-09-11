@@ -2,6 +2,24 @@
 
 The pre-hosting slice is ready for a single-instance Render deployment. `render.yaml` defines one paid Node web service, serves the built Vite client from Fastify, and places the SQLite database and scheduled local copies on the mounted persistent disk.
 
+## Google Cloud pre-provisioning snapshot
+
+Last verified: 2026-09-11.
+
+- Google account: `khozak@gmail.com`
+- Dedicated project: **Mimir** (`mimir-realm`, project number `487827684488`)
+- Region under consideration: `us-central1`
+- Billing: enabled on the verified Mimir billing account
+- Enabled services: `compute.googleapis.com`, `storage.googleapis.com`, and `billingbudgets.googleapis.com`
+- Monthly budget alert: `$10 USD`, scoped to `mimir-realm`, with current-spend thresholds at 50%, 75%, 90%, and 100%
+- Budget resource ID: `6b5b23a7-494e-4ef6-9a1e-e09eec716a5f`
+- `us-central1` quota was empty during audit: 0 instances, 0 E2 CPUs, and 0 external addresses in use
+- No VM, persistent disk, public IP, or Cloud Storage bucket has been created yet
+
+This budget is an alert, not a hard spending cap. The existing Codex Realm project remains separate from Mimir hosting. Local Application Default Credentials still use a different quota project; align that before application-level cloud calls if needed.
+
+The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Runtime provisioning, external backup storage, and deployment still require explicit authorization.
+
 ## Provisioning boundary
 
 Before creating the service, verify the current Render plan and disk pricing. The `starter` plan and 1 GB disk are configuration defaults, not a price claim. Keep the service private or protect owner operations with a long random `OWNER_TOKEN`.
