@@ -147,6 +147,7 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/resonance/anchors` — the active timeline's persisted Resonance candidates and Anchors.
 - `GET /api/region` — settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
 - `GET /api/timelines` — available timeline metadata.
+- `GET /api/history` — a bounded historical-view response for one timeline and checkpoint, including lineage, version identity, recorded objective events, and recorded interpretations. Empty timelines, missing checkpoints, and incompatible checkpoints return explicit states; no replay or new interpretation is generated.
 - `GET /api/live` — Server-Sent Events stream with the current state and committed tick updates.
 
 ### Owner operations
@@ -180,6 +181,7 @@ The browser:
 - Displays First Glow nodes and Sparks, routes, event history, interpretations, charge/readiness metrics, bundle assets, and owner controls.
 - Animates committed movement for presentation; the authoritative route and outcome come from the server.
 - Supports playback rate, map zoom, timeline scrubbing, Return to Live, settlement selection, and mobile-width layout checks.
+- Provides a separate `?view=history` History & scenarios entry point. The history viewer lists recorded timelines and checkpoints, labels the selected state as historical, shows parent lineage plus simulation/spatial/bundle identity, and keeps recorded facts separate from readings. Empty, unavailable, and incompatible-history states are explicit and link back to the live observer.
 - Displays persisted Resonance Anchors with their authored location, bounded possibility and tension, access rule, and objective evidence IDs.
 - Provides optional First Glow audio controls. Browser-local preferences govern master, music, effects, ambience, mute, and opt-in session activation; they do not affect server state or a timeline.
 
