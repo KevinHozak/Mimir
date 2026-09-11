@@ -254,7 +254,7 @@ Still open:
 - Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.
 - Confirmation of external origin and redistribution rights before the current music and SFX review candidates can be promoted for a public release.
 - Automatic upload/monitoring of independent backups; Hosted-P5 validated the destination and recovery procedure, not continuous transfer.
-- Public/durable readiness of the private single-writer staging deployment.
+- Public exposure and durable production readiness of the private single-writer staging deployment; Hosted-P6 validates continued private observation only.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
 
