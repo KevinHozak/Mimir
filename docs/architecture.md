@@ -79,6 +79,8 @@ Resonance-P2 adds the first bounded stateful Anchor: `resonance-anchor.ts` valid
 
 Resonance-P3 adds `resonance-loom-choice.ts`, a pure server-invoked transition for that Anchor's one bounded social possibility. Two explicit, defensible choices are available when both Sparks are co-present at the authored rest slot and the actor can witness the supplied evidence: `yield-rest` grants the beneficiary readiness while costing the actor charge/readiness, while `hold-rest` keeps the priority and gives the beneficiary a readiness setback. Both paths write an adjustment ledger entry, reciprocal bounded trust evidence, a durable `ShelterLoomDecisionRecord`, and a `shelter-loom-choice` objective event. The owner endpoint commits the whole state transactionally; the observer renders the decision and evidence without fabricating gameplay.
 
+Resonance-P4 adds `resonance-crossing-rule.ts` and `resonance-crossing.ts` for a substantively different Anchor at the authored `relay-crossing` object (`tiled-103`). A candidate must contain plural `meet`, `mark-trace`, and `explore` evidence from at least three Sparks, with explicit charge and tick-span thresholds. Once formed, the Crossing of Voices offers a witnessed `follow-signal` or `hold-course` choice: the former spends charge/readiness and changes the actor toward exploration, while the latter preserves readiness and the known-course activity. Both are durable, replayable objective consequences; neither is treated as the winning philosophy.
+
 ## 4. World-data pipeline
 
 The implemented source-of-truth boundary is:
@@ -158,6 +160,8 @@ State-changing operations require the configured `OWNER_TOKEN`, supplied through
 - `POST /api/owner/world/object` — change runtime blocking for a known world object.
 - `POST /api/owner/resonance-anchor` — create the Shelter Loom only from a complete, server-validated candidate whose evidence IDs are already committed on the active timeline.
 - `POST /api/owner/resonance-choice` — commit one witnessed Shelter Loom `yield-rest` or `hold-rest` choice, with explicit eligibility, resource deltas, durable consequence, and objective evidence.
+- `POST /api/owner/resonance-crossing-anchor` — create the contrasting Crossing of Voices only from a complete candidate whose committed evidence meets the relay-crossing rule.
+- `POST /api/owner/resonance-crossing-choice` — commit one witnessed `follow-signal` or `hold-course` decision with explicit resource, activity, and evidence consequences.
 
 When `OWNER_TOKEN` is unset, owner operations are permitted without authentication. A configured token provides owner authentication, not a multi-user account or role system.
 
@@ -218,7 +222,7 @@ The repository includes three verification layers:
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
 - Engine interpretation tests for stable context hashes, evidence-scoped validation, deterministic fallbacks, budget telemetry, historical replay without provider calls, and a matched 20-encounter rules-only/AI-on review harness using a local fake provider.
 - Engine Resonance-observation tests for deterministic fixture evaluation, distinct candidate statuses, objective-evidence ordering, and private-knowledge exclusion.
-- Engine Shelter Loom tests for deterministic creation, deterministic `yield-rest`/`hold-rest` alternatives, knowledge-boundary rejection, and near-miss/invalid-placement candidates; server backup coverage includes the current Anchor-capable world bundle.
+- Engine Resonance tests cover deterministic Shelter Loom and Crossing of Voices creation, knowledge-boundary rejection, distinct durable choice paths, and near-miss/invalid-placement candidates; server backup coverage includes the current Anchor-capable world bundle.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
 - Browser checks for First Glow live/history observers, manifest assets, overlays, playback rates, mobile layout, and audio P5's opt-in behavior, persisted controls, muted-event readability, history silence, and desktop/mobile evidence.
