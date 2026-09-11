@@ -1,6 +1,6 @@
 # Mimir: A Light of Our Own — Current Architecture
 
-Date: 2026-09-07
+Date: 2026-09-10
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -42,8 +42,9 @@ An initial Godot experiment should consume the versioned world/state contract as
 packages/world-data/  Shared schema-3 bundle types, canonical hashing, spatial queries, validation
 packages/engine/      Deterministic First Glow actions, Spark state, charge/readiness rules
 packages/server/      Fastify API/SSE, scheduler, SQLite timelines, owner commands, backups
-packages/web/         React panels, Phaser scene, Vite build, browser E2E test
+packages/web/         React panels, Phaser scene, opt-in Web Audio presentation, Vite build, browser E2E tests
 assets/world/         Authored Tiled source, templates, fixtures, immutable generated bundles
+assets/audio/         First Glow palette, review-candidate media, and audio provenance inputs
 assets/licenses/      Active First Glow asset provenance
 data/                 Ignored local databases, settings/game state, and backup output
 .tmp/                 Ignored disposable test/profile output
@@ -71,6 +72,10 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 The engine currently contains deterministic First Glow creation/advance, charge pools and charge accounting, shelter niches, traces, exploration, drawing, rest/readiness, sharing, structured object footprints, contacts/reservations, navigation revisions, runtime blockers, and bounded event records. Legacy creation entry points remain explicit failures or compatibility-shaped fields; they are not supported new timelines.
 
 `advanceWorld()` and `runTicks()` return deterministic rules-only interpretation records for selected First Glow social encounters. Normal First Glow ticks also resolve witnessed dilemma events into bounded social state before explanation records are appended, so trust, commitments, and Spark-local knowledge can affect later autonomous activity selection. `first-glow-interpretations.ts` defines the bounded provider adapter contract, context hashing, evidence/knowledge validation, budget telemetry, and deterministic fallbacks. No live or paid model provider is connected; provider proposals are review-harness inputs only. Sharing is an explicit deterministic First Glow action.
+
+Resonance-P1's `resonance-observation.ts` is a separate, pure observer-facing evaluator. It derives qualifying, near-miss, conflicting, or unresolved candidate status from ordered objective-evidence fixtures, while excluding Spark-private knowledge. It does not mutate First Glow state or create an Anchor.
+
+Resonance-P2 adds the first bounded stateful Anchor: `resonance-anchor.ts` validates an explicit pending candidate against the authored Shelter Loom object and rest slot, its required capability and walkable placement, and sorted committed evidence. A successful creation records a schema-1 `resonance` candidate/Anchor state inside the checkpoint, emits an objective world-object event, and preserves a bounded shared-rest possibility and access tension. The creation path is deterministic and rejects incomplete, invalid, already-created, or uncommitted-evidence candidates without creating an Anchor.
 
 ## 4. World-data pipeline
 
@@ -132,6 +137,8 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/metrics` — checkpoint-derived charge, readiness, deficit, travel, and collection metrics.
 - `GET /api/report` — current timeline and season summary.
 - `GET /api/design` — Living Circuit/First Glow identity and `FIRST_GLOW_DESIGN` cards, event prompts, opening question, and knowledge boundary under `firstGlow`; legacy card/dilemma arrays are empty and the shared store is omitted.
+- `GET /api/resonance` — the authored Resonance observation-rule fixture review and its evidence projection, plus the live First Glow objective-event count. It is an observer diagnostic, not a state-changing Anchor endpoint.
+- `GET /api/resonance/anchors` — the active timeline's persisted Resonance candidates and Anchors.
 - `GET /api/region` — settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
 - `GET /api/timelines` — available timeline metadata.
 - `GET /api/live` — Server-Sent Events stream with the current state and committed tick updates.
@@ -147,6 +154,7 @@ State-changing operations require the configured `OWNER_TOKEN`, supplied through
 - `POST /api/owner/branch` — branch from a selected checkpoint.
 - `POST /api/owner/reset-v3` — archive the current timeline and create a schema-3 First Glow world.
 - `POST /api/owner/world/object` — change runtime blocking for a known world object.
+- `POST /api/owner/resonance-anchor` — create the Shelter Loom only from a complete, server-validated candidate whose evidence IDs are already committed on the active timeline.
 
 When `OWNER_TOKEN` is unset, owner operations are permitted without authentication. A configured token provides owner authentication, not a multi-user account or role system.
 
@@ -163,8 +171,16 @@ The browser:
 - Displays First Glow nodes and Sparks, routes, event history, interpretations, charge/readiness metrics, bundle assets, and owner controls.
 - Animates committed movement for presentation; the authoritative route and outcome come from the server.
 - Supports playback rate, map zoom, timeline scrubbing, Return to Live, settlement selection, and mobile-width layout checks.
+- Displays persisted Resonance Anchors with their authored location, bounded possibility and tension, access rule, and objective evidence IDs.
+- Provides optional First Glow audio controls. Browser-local preferences govern master, music, effects, ambience, mute, and opt-in session activation; they do not affect server state or a timeline.
 
 Historical playback reads persisted interpretation records and does not call an AI provider.
+
+### Audio presentation boundary
+
+First Glow audio is a browser-only presentation layer. It starts only after an observer gesture, remains silent by default, and the observer remains readable with every channel muted. The event ledger maps only newly received committed event IDs to effects, preventing cues from initial snapshots, historical scrubbing, replay, or SSE reconnect batches. Selection feedback is an explicit observer action; place-aware ambience and optional score derive only from rendered, visible selection context (open space, charge pool, shelter niche, or quiet route). Audio never supplies simulation inputs, hidden knowledge, predicted travel, or evidence of an uncommitted outcome.
+
+Repository-authored procedural Web Audio provides the baseline effects, ambience, and score fallback. The optional music and SFX files in the web public directory are review candidates whose external origins and redistribution rights remain unverified; their provenance is tracked separately and they must not be promoted as approved public-release assets without that verification.
 
 ## 8. Local and hosted runtime
 
@@ -198,9 +214,11 @@ The repository includes three verification layers:
 
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
 - Engine interpretation tests for stable context hashes, evidence-scoped validation, deterministic fallbacks, budget telemetry, historical replay without provider calls, and a matched 20-encounter rules-only/AI-on review harness using a local fake provider.
+- Engine Resonance-observation tests for deterministic fixture evaluation, distinct candidate statuses, objective-evidence ordering, and private-knowledge exclusion.
+- Engine Shelter Loom tests for deterministic creation and rejection of near-miss, invalid-placement, and already-created candidates; server backup coverage includes the current Anchor-capable world bundle.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
 - Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
-- Playwright browser tests for First Glow live/history observers, manifest assets, overlays, playback rates, and mobile layout.
+- Browser checks for First Glow live/history observers, manifest assets, overlays, playback rates, mobile layout, and audio P5's opt-in behavior, persisted controls, muted-event readability, history silence, and desktop/mobile evidence.
 
 Use the current package scripts for verification; this documentation update does not establish a fresh build or test result. Running tests and the Vite build requires child-process creation for `tsx`, esbuild, and Playwright; restricted environments may fail those commands with `spawn EPERM` before application assertions execute.
 
@@ -223,6 +241,7 @@ Still open:
 - Extensions to the existing capability-based slot selection, reservations, and arrival-gated interactions, if selected in future design work.
 - Further asset-version recovery hardening: bundle directories are copied by backup/restore and restored world JSON is validated, but the backup manifest checksums world JSON rather than every copied asset. Independent recovery remains a separate operational requirement.
 - Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.
+- Confirmation of external origin and redistribution rights before the current music and SFX review candidates can be promoted for a public release.
 - Independent disaster-recovery storage and restoration verification.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
