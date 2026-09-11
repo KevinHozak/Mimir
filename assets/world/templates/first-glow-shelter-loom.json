@@ -1,0 +1,12 @@
+{
+  "id": "shelter-loom",
+  "label": "Shelter Loom",
+  "footprint": [{ "x": 0, "y": 0 }],
+  "slots": [{ "id": "rest", "offset": { "x": 0, "y": 1 }, "capacity": 1 }],
+  "capabilities": ["shelter-niche"],
+  "capacity": 1,
+  "visualAsset": "first-glow-shelter-loom.svg",
+  "groundContact": { "x": 24, "y": 48 },
+  "blocksMovement": true,
+  "anchorKind": "shelter-loom"
+}

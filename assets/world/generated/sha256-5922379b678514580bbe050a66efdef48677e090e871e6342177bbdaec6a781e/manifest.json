@@ -1,0 +1,54 @@
+{
+  "bundle": {
+    "bundleId": "first-glow-v3",
+    "contentHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+    "schemaVersion": 3,
+    "assetVersion": "first-glow-v3"
+  },
+  "source": "C:\\Projects\\Mimir\\.worktrees\\issue-86-resonance-p2\\assets\\world\\maps\\first-glow.tiled.json",
+  "generatedAt": "source-independent",
+  "assets": [
+    {
+      "path": "assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+      "sha256": "sha256-ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg",
+      "sha256": "sha256-fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+      "sha256": "sha256-6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+      "sha256": "sha256-673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+      "sha256": "sha256-f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    },
+    {
+      "path": "assets/805a9b1d8624ba561063a97aa8fc28a74b4eafd8c427a7c6d0b84b3a60202447-first-glow-light-mark.svg",
+      "sha256": "sha256-805a9b1d8624ba561063a97aa8fc28a74b4eafd8c427a7c6d0b84b3a60202447",
+      "mediaType": "image/svg+xml",
+      "version": "first-glow-v3",
+      "provenance": "assets/licenses/first-glow-assets.md"
+    }
+  ]
+}

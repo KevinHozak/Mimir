@@ -1,0 +1,11 @@
+{
+  "report": "first-glow-resonance-anchor-review",
+  "simulationVersion": "mimir-sim-v3-first-glow",
+  "seed": 20260906,
+  "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+  "authoredPlacement": { "objectId": "tiled-107", "slotId": "rest", "definitionId": "shelter-loom" },
+  "rule": { "id": "shelter-loom-v1", "requiredOccurrences": 3, "distinctParticipantMinimum": 2, "minimumChargeCost": 6, "maximumTickSpan": 12 },
+  "creation": { "status": "active", "stateMutation": "server-committed resonance state and objective creation event", "resourceEffect": "none" },
+  "failureCoverage": ["near-miss insufficient charge", "non-pending candidate", "missing authored location", "missing committed evidence"],
+  "recovery": "Anchor records and the referenced content-addressed bundle are included in serialized checkpoints and bundle-inclusive backups."
+}
