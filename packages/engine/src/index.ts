@@ -50,7 +50,7 @@ function openingChargeIntake(world: WorldState): number {
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   validateFirstGlowState(input.firstGlowState);
   const previousIds = new Set(input.firstGlowState.events.map(event => event.id));
-  const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input) });
+  const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input), deterministicSeed: input.seed });
   const state: WorldState = { ...input, tick: firstGlowState.tick, firstGlowState };
   const interpretations = firstGlowState.events.filter(event => !previousIds.has(event.id)).slice().sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0).flatMap(event => { const context = buildFirstGlowInterpretationContext(firstGlowState, event); return context ? [createRulesOnlyFirstGlowInterpretation(context)] : []; });
   return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations };

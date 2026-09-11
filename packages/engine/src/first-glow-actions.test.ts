@@ -55,3 +55,13 @@ test("normal First Glow ticks commit all three social dilemma chains autonomousl
   assert.deepEqual([...new Set(state.explanations.map(item => item.dilemmaId))].sort(), ["public-or-private-mark", "shelter-or-trace", "weakening-pool-report"]);
   assert.ok(state.social.commitments.every(item => item.evidenceEventIds.length > 0));
 });
+
+test("autonomous social choices are deterministic per seed and can vary across seeds", () => {
+  const run = (seed: number) => {
+    let state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 6);
+    for (let tick = 0; tick < 24; tick += 1) state = advanceFirstGlow(state, { sourceCharge: tick % 4 === 0 ? 24 : 0, deterministicSeed: seed });
+    return state.social.commitments.map(commitment => `${commitment.dilemmaId}:${commitment.alternativeId}:${commitment.beneficiarySparkId}`).sort();
+  };
+  assert.deepEqual(run(1701), run(1701));
+  assert.notDeepEqual(run(1701), run(1702));
+});

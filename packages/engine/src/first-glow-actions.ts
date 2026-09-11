@@ -3,7 +3,7 @@ import { applyFirstGlowDilemmaChoice, firstGlowActionScore, recordFirstGlowWitne
 import { appendFirstGlowExplanations } from "./first-glow-explanations.js";
 import type { FirstGlowActivity } from "@mimir/world-data";
 
-export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; validate?: boolean; }
+export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; validate?: boolean; deterministicSeed?: number; }
 
 function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][number], activity: FirstGlowActivity): boolean {
   return spark.knownEvidenceEventIds.some((eventId) => eventId.endsWith(`-${activity}`));
@@ -31,7 +31,20 @@ function chooseAutonomousActivities(state: FirstGlowState): void {
   }
 }
 
-function resolveAutonomousSocialChoices(state: FirstGlowState): void {
+function seededChoicePressure(seed: number, tick: number, eventId: string): number {
+  let hash = (Math.trunc(seed) >>> 0) ^ Math.imul(tick, 0x45d9f3b);
+  for (const character of eventId) hash = Math.imul(hash ^ character.charCodeAt(0), 0x45d9f3b) | 0;
+  return ((hash >>> 0) % 3) - 1;
+}
+
+function seededTargetId(seed: number, tick: number, eventId: string, candidates: string[]): string | undefined {
+  if (!candidates.length) return undefined;
+  let hash = (Math.trunc(seed) >>> 0) ^ Math.imul(tick, 0x27d4eb2d);
+  for (const character of eventId) hash = Math.imul(hash ^ character.charCodeAt(0), 0x165667b1) | 0;
+  return candidates[(hash >>> 0) % candidates.length];
+}
+
+function resolveAutonomousSocialChoices(state: FirstGlowState, deterministicSeed = 0): void {
   const sparks = state.settlements.flatMap(settlement => settlement.sparks).slice().sort((a, b) => a.id.localeCompare(b.id));
   for (const event of state.events.slice().sort((a, b) => a.id.localeCompare(b.id))) {
     const dilemmaId: FirstGlowDilemmaChoice["dilemmaId"] | undefined = event.kind === "draw"
@@ -45,7 +58,8 @@ function resolveAutonomousSocialChoices(state: FirstGlowState): void {
           : undefined;
     if (!dilemmaId) continue;
     const actor = sparks.find(spark => spark.id === event.actorId);
-    const target = event.participants?.slice().sort((a, b) => a.localeCompare(b)).find(id => id !== event.actorId) ?? sparks.find(spark => spark.id !== event.actorId)?.id;
+    const targetCandidates = event.participants?.slice().sort((a, b) => a.localeCompare(b)).filter(id => id !== event.actorId) ?? sparks.filter(spark => spark.id !== event.actorId).map(spark => spark.id);
+    const target = seededTargetId(deterministicSeed, state.tick, event.id, targetCandidates);
     if (!actor || !target) continue;
     const choices: Record<FirstGlowDilemmaChoice["dilemmaId"], [string, string]> = {
       "weakening-pool-report": ["reveal-pool", "withhold-pool"],
@@ -54,7 +68,8 @@ function resolveAutonomousSocialChoices(state: FirstGlowState): void {
       "wild-cache-risk": ["enter-wild-cache", "stay-on-trace"]
     };
     const [first, second] = choices[dilemmaId];
-    const alternativeId = firstGlowActionScore(state.social, actor.id, target, dilemmaId) >= 0 ? first : second;
+    const score = firstGlowActionScore(state.social, actor.id, target, dilemmaId);
+    const alternativeId = score + seededChoicePressure(deterministicSeed, state.tick, event.id) >= 0 ? first : second;
     state.social = applyFirstGlowDilemmaChoice(state.social, { dilemmaId, alternativeId, actorSparkId: actor.id, targetSparkId: target, evidenceEventIds: [event.id], tick: state.tick });
   }
 }
@@ -118,7 +133,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     else { spark.chargeDeficit += 1; state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: "charge-deficit" }); }
   }
   for (const event of state.events) recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants ?? [], state.tick);
-  if (external.resolveSocial !== false) resolveAutonomousSocialChoices(state);
+  if (external.resolveSocial !== false) resolveAutonomousSocialChoices(state, external.deterministicSeed ?? 0);
   appendFirstGlowExplanations(state, state.events);
   return state;
 }
