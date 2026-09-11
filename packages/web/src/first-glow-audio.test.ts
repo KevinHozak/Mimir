@@ -29,6 +29,14 @@ assert.deepEqual(ledger.accept([
   { id: "draw", tick: 2, kind: "collection", message: "Spark 1 drew 2 charge." },
 ]), ["charge-draw", "charge-share"]);
 assert.deepEqual(ledger.accept([{ id: "share", tick: 3, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." }]), []);
+const replayLedger = new FirstGlowAudioEventLedger();
+const committedBatch = [
+  { id: "arrival-1", tick: 4, kind: "activity", message: "Spark 1 completed explore." },
+  { id: "warning-1", tick: 5, kind: "activity", message: "Spark 2 is waiting: no reachable shelter site." },
+];
+assert.deepEqual(replayLedger.accept(committedBatch), ["arrival", "warning"]);
+assert.deepEqual(replayLedger.accept(committedBatch), [], "history/replay or SSE reconnect must not replay committed cues");
+assert.deepEqual(replayLedger.accept([{ ...committedBatch[0], message: "Spark 1 completed explore again." }]), [], "event IDs remain the dedupe boundary");
 const renderedContext = {
   selectedEntityId: "spark:spark-1",
   sparks: [{ id: "spark-1", position: { x: 2, y: 1 } }],

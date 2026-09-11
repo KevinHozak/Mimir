@@ -42,3 +42,9 @@ Audio-P4 keeps the same provenance boundary. The shipped sources are repository-
 The observer derives one sparse context from the rendered First Glow selection: open space, a charge pool, a shelter niche, or a quiet route. The mapping uses only visible object positions, visible route cells, and the selected entity. It does not inspect charge quantity, hidden knowledge, future destinations, social progress, or uncommitted transitions. Ambient voices use short, low-level pulses with long quiet gaps and gentle fades, rather than a constant loop. The optional score is a separate bus and can be disabled independently from ambience; both remain subordinate to master, mute, and the existing effects controls.
 
 The score and ambience are presentation layers only. Initial snapshots, history views, reconnects, and muted sessions remain silent and readable through the existing visual and written evidence.
+
+## Audio-P5 validation evidence
+
+The current Audio-P5 browser validation is recorded in [`docs/evidence/2026-09-10-first-glow-audio-p5.md`](evidence/2026-09-10-first-glow-audio-p5.md). The automated check covers opt-in autoplay behavior, the complete shipped asset library, persisted controls, muted event readability, history silence, reduced-motion mobile layout, and desktop/mobile captures. The event-ledger regression also treats committed event IDs as the boundary for preventing duplicate cues across replay and SSE reconnect batches.
+
+Physical listening remains a review responsibility: automated browser checks cannot prove speaker balance, perceived loudness, or fatigue over a ten-minute session. Those observations are explicitly separated from the automated results in the evidence record.
