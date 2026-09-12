@@ -14,10 +14,16 @@ Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changel
 
 | Phase | Issue | Status |
 | --- | --- | --- |
-| Hosted-P7 | [Define the public observer operating contract](https://github.com/KevinHozak/Mimir/issues/122) | Selected decision gate. It defines a public-access model or explicitly defers it; it creates no public resource or credential. |
-| Hosted-P8 | [Automate independent bundle-inclusive backup replication and freshness checks](https://github.com/KevinHozak/Mimir/issues/123) | Follows the P7 operating contract; preserves keyless, separate-project recovery and proves freshness by restore evidence. |
-| Hosted-P9 | [Implement the approved public read-only observer boundary](https://github.com/KevinHozak/Mimir/issues/124) | Requires P7 approval. It cannot expose owner operations, put an owner secret in the browser, or add a second writer. |
-| Hosted-P10 | [Validate the limited public observer release and durable operations](https://github.com/KevinHozak/Mimir/issues/125) | Requires P8 automated recovery evidence and P9's approved public boundary before a production-readiness decision. |
+| Hosted-P7 | [Define the public observer operating contract](https://github.com/KevinHozak/Mimir/issues/122) | **Decision: defer public exposure.** Keep the staging observer private and create no public resource or credential. |
+| Hosted-P8 | [Automate independent bundle-inclusive backup replication and freshness checks](https://github.com/KevinHozak/Mimir/issues/123) | Next actionable phase. It improves private-hosting durability while preserving keyless, separate-project recovery and proving freshness by restore evidence. |
+| Hosted-P9 | [Implement the approved public read-only observer boundary](https://github.com/KevinHozak/Mimir/issues/124) | Deferred until a later explicit go decision. If reopened, it must expose only bounded reads, no owner operations or browser-held owner secret, and no second writer. |
+| Hosted-P10 | [Validate the limited public observer release and durable operations](https://github.com/KevinHozak/Mimir/issues/125) | Deferred with P9; requires P8 recovery evidence and a later approved public boundary before any production-readiness decision. |
+
+### Hosted-P7 decision
+
+As of 2026-09-11, Mimir defers public exposure. The intended future audience is a limited, read-only observer, but there is not yet enough operational evidence to justify making the staging VM public or creating another public hosting surface. The current private IAP-only observer remains the supported hosted experience.
+
+P8 may proceed because independent, bundle-inclusive recovery strengthens the private deployment regardless of whether public access is later approved. P9 and P10 remain deferred until a future decision rechecks pricing, free-tier eligibility, privacy, support capacity, and the recovery evidence, then explicitly authorizes a bounded public read-only model.
 
 ## Non-negotiable gates
 

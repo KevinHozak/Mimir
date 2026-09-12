@@ -41,6 +41,20 @@ Pricing sources checked on 2026-09-11: [Compute Engine general-purpose VM pricin
 
 The first provisioning envelope is: one non-preemptible `e2-micro`, one 30 GB standard persistent disk, one private IAP-only firewall path for staging HTTP, no load balancer, no Cloud NAT, no GPU, no external IPv4 address, and no second runtime writer. SSH administration uses IAP; the staging observer is reached through a temporary local IAP tunnel. Public owner endpoints remain protected by `OWNER_TOKEN` and are not exposed as an unauthenticated control surface.
 
+## Hosted-P7 public observer contract
+
+Decision recorded 2026-09-11: **defer public exposure**. The intended future model is a limited, read-only observer for people who want to watch a First Glow history, but the current evidence does not justify exposing the staging VM or creating a second public service. Until a later go decision, access remains private and IAP-only through an operator-created local tunnel.
+
+The boundary for any future public model is explicit:
+
+- Public clients may receive observer reads only: the rendered application, current committed observer state, recorded events, and explicitly supported historical reads.
+- Owner operations remain private and authenticated. The `OWNER_TOKEN` must never be shipped to the browser, placed in a public URL, or accepted through an unauthenticated public route.
+- The server remains the sole simulation writer. A public client cannot tick, reset, branch, archive, continue, or otherwise create outcomes, and the deployment remains one SQLite writer unless a separate persistence decision is made.
+- No public deployment, endpoint, credential, service account, load balancer, external IPv4 address, or other billable resource is created by this phase.
+- Before reconsidering the decision, recheck current Google Cloud prices and free-tier eligibility, privacy/support expectations, traffic and egress assumptions, backup freshness evidence, and the `$10` alert configuration. The alert is not a spending cap.
+
+P8 is the next actionable phase because independent bundle-inclusive backup replication improves the private deployment and does not require public access. P9 is deferred until a future explicit go decision approves the bounded read-only boundary and its cost/privacy envelope. P10 is deferred until P8 recovery evidence and P9 implementation are complete. A later go decision must be recorded in both this runbook and the roadmap before any public resource is provisioned.
+
 ## Independent backup boundary
 
 The backup destination is intentionally separate from the runtime project. Hosted-P5 provisioned project `mimir-realm-backups` (`172815598347`) under billing account `01E836-7FDB98-C1FD83`, with bucket `gs://mimir-realm-backups-uscentral1-172815598347` in `US-CENTRAL1`. A separate `$10/month` project-scoped budget alert (`3d88a91f-0b28-4997-9a8c-2955e73e1923`) covers this project; the existing `mimir-realm` alert does not cover it.
