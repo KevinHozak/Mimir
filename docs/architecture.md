@@ -64,6 +64,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 - `FirstGlowExplanation`: deterministic, committed choice rationale with scored need, values, local knowledge, trust, commitments, cost, and risk factors plus evidence and consequences. It is serialized with the First Glow checkpoint for live and historical observer reads.
 - `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
 - `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Selected ambiguous First Glow events also produce deterministic rules-only baseline records with Spark-local evidence, stable context hashes, and no world-state authority.
+- `FirstGlowAttentionDecision`: a deterministic, auditable policy record that identifies novelty, encounters, scarcity, conflict, relationship events, or repeated routine failure as possible attention triggers while keeping travel, replanning, rest, familiar charge gathering, and ordinary waiting rules-only. Per-Spark daily budgets, a separate global daily cap, duplicate-event protection, repeated-event cooldowns, timeout configuration, and historical-playback suppression are all policy state; none can change simulation authority.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
 - `WorldRuntimeState`: mutable navigation revision, object blocking state, and reservations.
 
@@ -235,6 +236,7 @@ The repository includes three verification layers:
 
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
 - Engine interpretation tests for stable context hashes, evidence-scoped validation, deterministic fallbacks, budget telemetry, historical replay without provider calls, and a matched 20-encounter rules-only/AI-on review harness using a local fake provider.
+- Engine attention-policy tests for deterministic trigger classification, auditable suppression reasons, replenishing per-Spark/global caps, duplicate-event and cooldown handling, timeout configuration, and historical playback without opportunity creation.
 - Engine Resonance-observation tests for deterministic fixture evaluation, distinct candidate statuses, objective-evidence ordering, and private-knowledge exclusion.
 - Engine Resonance tests cover deterministic Shelter Loom and Crossing of Voices creation, knowledge-boundary rejection, distinct durable choice paths, and near-miss/invalid-placement candidates; server backup coverage includes the current Anchor-capable world bundle.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.

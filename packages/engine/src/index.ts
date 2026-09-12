@@ -8,6 +8,7 @@ export * from "./design.js";
 export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
 export * from "./first-glow-interpretations.js";
+export * from "./first-glow-attention.js";
 export * from "./resonance-observation.js";
 export * from "./resonance-anchor.js";
 export * from "./resonance-loom-choice.js";
