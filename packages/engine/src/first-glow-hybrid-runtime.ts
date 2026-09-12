@@ -60,8 +60,9 @@ export async function runFirstGlowHybridRuntime(
       { ...options.attentionPolicy, historicalPlayback: options.historicalPlayback },
       priorEvents.slice(0, index)
     );
-    const shouldEvaluate = options.historicalPlayback || attention.created;
-    const evaluation = shouldEvaluate
+    const shouldUseProvider = Boolean(provider && attention.created);
+    const shouldReplay = Boolean(options.historicalPlayback);
+    const evaluation = shouldReplay || shouldUseProvider
       ? await evaluateFirstGlowInterpretation(context, {
           provider,
           budget: interpretationBudget,
@@ -89,7 +90,7 @@ export async function runFirstGlowHybridRuntime(
         attention,
         evaluation.record,
         evaluation.usage,
-        provider && evaluation.record.source === "ai" ? provider.providerId : undefined
+        shouldUseProvider && evaluation.record.source === "ai" ? provider?.providerId : undefined
       )
     });
   }
