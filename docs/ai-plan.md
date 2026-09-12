@@ -1,6 +1,6 @@
 # Mimir AI Plan
 
-This is a future implementation plan for selective AI-assisted First Glow decisions. It does not activate an external provider, add credentials, or change the current runtime. The rules-only engine remains the normal-operation product path until a separately authorized evaluation proves that the hybrid model improves the observer experience.
+This is the implementation plan for selective AI-assisted First Glow decisions. It does not add credentials or make a provider call by itself. AI-P11 defines the bounded Vertex AI contract; the rules-only engine remains the fallback and the public/historical path while the internal runtime boundary is implemented.
 
 ## Direction
 
@@ -124,7 +124,7 @@ The current planning estimate for Gemini 2.5 Flash-Lite is $0.10 per million inp
 3. Add deterministic attention-trigger and per-Spark/global budget state.
 4. Extend event and decision records for movement, personality, provider metadata, and validation results.
 5. Add a Flash-Lite evaluation adapter behind explicit configuration and an operator kill switch.
-6. Run the matched evaluation and review evidence before considering any normal-operation provider use.
-7. Define and prove an allowlisted downstream-effects adapter in an isolated staging timeline; the server remains authoritative and canonical/public paths remain rules-only.
-8. Run the limited isolated hybrid staging pilot with recorded state diffs, replay suppression, budgets, and kill-switch evidence.
-9. Make a separate adopt, defer, or retire decision before any broader hybrid runtime use.
+6. Define the explicit provider/model, project, billing, privacy/retention, hard-cap, kill-switch, and telemetry contract without making a live call.
+7. Implement the provider adapter behind the deterministic attention gate, validation, fallback, and replay-safe records.
+8. Prove the adapter in an isolated internal runtime pilot with recorded state diffs, replay suppression, budgets, and kill-switch evidence.
+9. Enable bounded AI-assisted First Glow play only behind an operator-controlled rollout; public exposure remains separately decided.
