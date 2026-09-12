@@ -8,6 +8,14 @@ This is the current delivery order. It complements the dated planning documents 
 
 No non-hosting implementation gate is currently scheduled. Resonance-P1 through P5 are merged with their fixed evidence and recorded in the [Changelog](changelog.md). The Hearth Circuit remains a future transition contract, not a second active runtime; selecting a later First Glow workstream requires an explicit new delivery decision.
 
+### AI-P1 decision: defer external interpretation
+
+The bounded external-interpretation adapter is deferred. The completed comparison established a useful deterministic rules-only baseline and a local-fake-provider harness, but it did not establish that a provider improves observable choices or evidence-grounded understanding enough to justify runtime complexity, privacy exposure, reliability risk, or spend. The rules-only baseline therefore remains the product path and the only normal-operation path.
+
+The local fake provider is an offline evaluation fixture, not an external service and not evidence of provider readiness. Historical playback remains provider-free, and deterministic fallback remains mandatory for invalid or unsupported proposals, timeouts, budget exhaustion, and unavailable evaluation inputs.
+
+Reconsidering this decision requires a separately authorized, isolated evaluation only: no credentials or paid calls by implication; an explicit provider/model, privacy and retention review; a hard experiment budget cap; operator kill switch and usage telemetry; and a preregistered matched comparison against rules-only. The provider would need to improve a defined observer-facing measure of evidence-grounded understanding and change plausible downstream choices, not merely produce more fluent narration, without violating Spark knowledge boundaries or replay determinism. Until that evidence exists, no later provider implementation phase is scheduled.
+
 ## Next hosted-observer sequence
 
 Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changelog.md). The private, single-writer staging observer has independently recovered a bundle-inclusive backup and completed a restart-continuity season; it is not public or durable production hosting. The following sequence must preserve that boundary until its explicit decision and validation gates pass:
