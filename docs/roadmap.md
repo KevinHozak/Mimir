@@ -45,8 +45,9 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 | AI-P5 | [Build the offline hybrid fake-provider loop](https://github.com/KevinHozak/Mimir/issues/133) | Follows AI-P2 through AI-P4; no network, credentials, or paid usage. |
 | AI-P6 | [Run the authorized Gemini 2.5 Flash-Lite evaluation](https://github.com/KevinHozak/Mimir/issues/134) | Follows AI-P5 plus separate provider, privacy, retention, and budget authorization. |
 | AI-P7 | [Evaluate hybrid choice quality and behavioral value](https://github.com/KevinHozak/Mimir/issues/135) | Follows AI-P6; produces the evidence-based adopt/defer/retire recommendation. |
-| AI-P8 | [Run a limited isolated hybrid staging pilot](https://github.com/KevinHozak/Mimir/issues/136) | Conditional on AI-P7 approval; cannot affect the canonical timeline or public observer. |
-| AI-P9 | [Decide whether to expand hybrid runtime use](https://github.com/KevinHozak/Mimir/issues/137) | Conditional on AI-P8; no broader deployment is included. |
+| AI-P8 | [Apply validated hybrid choices in isolated staging](https://github.com/KevinHozak/Mimir/issues/145) | Follows AI-P7 evidence plus explicit authorization; proves bounded downstream effects without provider authority. |
+| AI-P9 | [Run a limited isolated hybrid staging pilot](https://github.com/KevinHozak/Mimir/issues/136) | Conditional on AI-P8; cannot affect the canonical timeline or public observer. |
+| AI-P10 | [Decide whether to expand hybrid runtime use](https://github.com/KevinHozak/Mimir/issues/137) | Conditional on AI-P9; no broader deployment is included. |
 
 ## Next hosted-observer sequence
 
