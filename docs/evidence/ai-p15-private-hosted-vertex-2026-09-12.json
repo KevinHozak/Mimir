@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T20:37:27.532Z",
+  "evaluation": "AI-P15 private hosted Vertex rehearsal and value evaluation",
+  "fixedSeed": 20260912,
+  "encounters": 32,
+  "authorization": {
+    "execution": "vertex-live",
+    "provider": "Google Vertex AI",
+    "model": "gemini-2.5-flash-lite",
+    "location": "us-central1",
+    "accountId": "redacted from evidence",
+    "projectId": "redacted from evidence",
+    "hardCapCents": 100
+  },
+  "budgets": {
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "perSparkMaximumUsed": 4,
+    "globalUsed": 8,
+    "providerOpportunities": 8,
+    "interpretationUnitsUsed": 8,
+    "hardCapCents": 100,
+    "withinCaps": true
+  },
+  "outcomes": {
+    "rulesOnly": 32,
+    "pilotRecorded": 0,
+    "pilotFallbacks": 8,
+    "acceptedStaging": 32,
+    "changedChoices": 0,
+    "changedDownstream": 0,
+    "canonicalRuntimeAuthorityChanges": 0
+  },
+  "provider": {
+    "calls": 6,
+    "model": "gemini-2.5-flash-lite",
+    "telemetry": [
+      {
+        "requestId": "gemini-encounter-3-event-ai-p15-3-37a563380cbf",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 453,
+        "outputTokens": 0,
+        "latencyMs": 2541,
+        "costCents": 0,
+        "cumulativeCostCents": 0,
+        "outcome": "fallback",
+        "error": "fetch failed"
+      },
+      {
+        "requestId": "gemini-encounter-4-event-ai-p15-4-e805dd840fa9",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 441,
+        "outputTokens": 0,
+        "latencyMs": 2014,
+        "costCents": 0,
+        "cumulativeCostCents": 0,
+        "outcome": "fallback",
+        "error": "fetch failed"
+      },
+      {
+        "requestId": "gemini-encounter-7-event-ai-p15-7-285d36f3090c",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 453,
+        "outputTokens": 0,
+        "latencyMs": 2012,
+        "costCents": 0,
+        "cumulativeCostCents": 0,
+        "outcome": "fallback",
+        "error": "fetch failed"
+      },
+      {
+        "requestId": "gemini-encounter-8-event-ai-p15-8-d741f9b29798",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 441,
+        "outputTokens": 0,
+        "latencyMs": 2013,
+        "costCents": 0,
+        "cumulativeCostCents": 0,
+        "outcome": "fallback",
+        "error": "fetch failed"
+      },
+      {
+        "requestId": "gemini-encounter-11-event-ai-p15-11-1601372e8485",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 455,
+        "outputTokens": 0,
+        "latencyMs": 2013,
+        "costCents": 0,
+        "cumulativeCostCents": 0,
+        "outcome": "fallback",
+        "error": "fetch failed"
+      },
+      {
+        "requestId": "gemini-encounter-12-event-ai-p15-12-aa54f4d24916",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 443,
+        "outputTokens": 0,
+        "latencyMs": 2011,
+        "costCents": 0,
+        "cumulativeCostCents": 0,
+        "outcome": "fallback",
+        "error": "fetch failed"
+      }
+    ]
+  },
+  "replay": {
+    "providerCalls": 0,
+    "budgetUnitsUsed": 0,
+    "recordsMatched": 32,
+    "providerFree": true
+  },
+  "decision": "live-rehearsal-blocked",
+  "acceptance": {
+    "privateHostedOnly": true,
+    "deterministicAuthority": true,
+    "capsAdhered": true,
+    "replayProviderFree": true,
+    "noBroaderDeployment": true
+  }
+}
+
