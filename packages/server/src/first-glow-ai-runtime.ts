@@ -93,7 +93,7 @@ export class FirstGlowServerAIRuntime {
     const day = Math.floor(Math.max(0, tick) / 4);
     if (day === this.simulatedDay) return;
     this.simulatedDay = day;
-    this.interpretationBudget = { limit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, reserved: 0, used: 0, telemetry: [] as FirstGlowServerAIResult["interpretations"] };
+    this.interpretationBudget = { limit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, reserved: 0, used: 0, telemetry: [] as FirstGlowInterpretationUsage[] };
   }
 
   async evaluate(state: FirstGlowState, events: StructuredEvent[]): Promise<FirstGlowServerAIResult> {
