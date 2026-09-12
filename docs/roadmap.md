@@ -57,7 +57,7 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 
 AI-P15 is complete through [PR #159](https://github.com/KevinHozak/Mimir/pull/159). Its private hosted Vertex rehearsal recorded bounded proposals that changed staged choices and downstream social outcomes while preserving deterministic authority, caps, private hosting, and provider-free replay. AI-P16 is the current follow-up gate: repeat the evaluation across four fixed seeds and distinguish repeatable value from a one-seed signal.
 
-AI-P17 adds the missing quality adjudication layer. It keeps each encounter's bounded interpretation, evidence references, fallback category, staging comparison, and replay result in a review artifact. The deterministic control proves the rubric and reporting path without provider calls; the private Vertex batch remains a separately authorized evaluation because it can create billable usage.
+AI-P17 adds the missing quality adjudication layer. It keeps each encounters bounded interpretation, evidence references, fallback category, staging comparison, and replay result in a review artifact. The deterministic control proves the rubric and reporting path without provider calls; the private Vertex batch remains a separately authorized evaluation because it can create billable usage.
 
 ### AI-P10 decision: proceed with bounded hybrid runtime implementation
 
