@@ -1,5 +1,7 @@
 import { advanceFirstGlow } from "./first-glow-actions.js";
 import { buildFirstGlowInterpretationContext, createRulesOnlyFirstGlowInterpretation } from "./first-glow-interpretations.js";
+import { appendFirstGlowDecision, createFirstGlowHistory } from "./first-glow-history.js";
+import { classifyFirstGlowAttentionTrigger } from "./first-glow-attention.js";
 import { createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState } from "./structured.js";
 import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data";
 export { queryCell } from "@mimir/world-data";
@@ -9,6 +11,7 @@ export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
 export * from "./first-glow-interpretations.js";
 export * from "./first-glow-attention.js";
+export * from "./first-glow-history.js";
 export * from "./resonance-observation.js";
 export * from "./resonance-anchor.js";
 export * from "./resonance-loom-choice.js";
@@ -60,7 +63,16 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
   const previousIds = new Set(input.firstGlowState.events.map(event => event.id));
   const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input), deterministicSeed: input.seed });
   const state: WorldState = { ...input, tick: firstGlowState.tick, firstGlowState };
-  const interpretations = firstGlowState.events.filter(event => !previousIds.has(event.id)).slice().sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0).flatMap(event => { const context = buildFirstGlowInterpretationContext(firstGlowState, event); return context ? [createRulesOnlyFirstGlowInterpretation(context)] : []; });
+  firstGlowState.history ??= createFirstGlowHistory();
+  const committedEvents = firstGlowState.events.filter(event => !previousIds.has(event.id)).slice().sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  const interpretations: SocialInterpretation[] = [];
+  for (const event of committedEvents) {
+    const context = buildFirstGlowInterpretationContext(firstGlowState, event);
+    const interpretation = context ? createRulesOnlyFirstGlowInterpretation(context) : undefined;
+    if (interpretation) interpretations.push(interpretation);
+    const candidates = context?.supportedAlternatives ?? [event.kind];
+    appendFirstGlowDecision(firstGlowState.history, { id: `decision-${firstGlowState.tick}-${event.id}`, tick: firstGlowState.tick, sparkId: event.actorId, eventId: event.id, trigger: classifyFirstGlowAttentionTrigger(event) ?? "ordinary-rules-only", candidates, selectedAlternative: interpretation ? String(interpretation.alternativeId) : event.kind, source: interpretation?.source ?? "rules", profileVersion: interpretation?.personalityProfileVersion ?? 1, evidenceEventIds: interpretation?.evidenceEventIds ?? (event.evidenceEventIds ?? [event.id]), contextHash: interpretation?.contextHash ?? `rules-${event.id}`, validation: "valid", fallbackReason: interpretation?.fallbackReason, latencyMs: 0, usage: { requestId: interpretation ? `rules-${interpretation.encounterId}` : `rules-${event.id}`, outcome: "rules-only", reservedUnits: 0, usedUnits: 0 }, resultingEventId: event.id });
+  }
   return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations };
 }
 

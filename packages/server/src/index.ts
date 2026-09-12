@@ -172,7 +172,7 @@ app.get("/api/history", async (request, reply) => {
     const world = normalizeState(JSON.parse(checkpoint.state_json) as WorldState);
     const eventRows = database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND tick <= ? ORDER BY tick ASC, id ASC").all(timelineId, selectedTick) as { event_json: string }[];
     const interpretationRows = database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND tick <= ? ORDER BY tick ASC, id ASC").all(timelineId, selectedTick) as { interpretation_json: string }[];
-    return { state: "ready", activeTimelineId, timeline, checkpoints: checkpoints.map(item => item.tick), selectedTick, world, events: eventRows.map(row => JSON.parse(row.event_json) as WorldEvent[]).flat(), interpretations: interpretationRows.map(row => JSON.parse(row.interpretation_json) as SocialInterpretation) };
+    return { state: "ready", activeTimelineId, timeline, checkpoints: checkpoints.map(item => item.tick), selectedTick, world, events: eventRows.map(row => JSON.parse(row.event_json) as WorldEvent[]).flat(), interpretations: interpretationRows.map(row => JSON.parse(row.interpretation_json) as SocialInterpretation), movementRecords: world.firstGlowState.history?.movements ?? [], decisionRecords: world.firstGlowState.history?.decisions ?? [] };
   } catch (error) {
     return reply.code(409).send({ state: "incompatible", activeTimelineId, timeline, checkpoints: checkpoints.map(item => item.tick), error: error instanceof Error ? error.message : "checkpoint is incompatible with First Glow" });
   }

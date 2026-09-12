@@ -65,6 +65,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 - `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
 - `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Selected ambiguous First Glow events also produce deterministic rules-only baseline records with Spark-local evidence, stable context hashes, and no world-state authority.
 - `FirstGlowAttentionDecision`: a deterministic, auditable policy record that identifies novelty, encounters, scarcity, conflict, relationship events, or repeated routine failure as possible attention triggers while keeping travel, replanning, rest, familiar charge gathering, and ordinary waiting rules-only. Per-Spark daily budgets, a separate global daily cap, duplicate-event protection, repeated-event cooldowns, timeout configuration, and historical-playback suppression are all policy state; none can change simulation authority.
+- `FirstGlowHistory`: canonical checkpoint history for committed movement and decision records. Movement records preserve traversed cells, route revision, cost, resource effects, and the resulting event. Decision records preserve candidates, selection, rules/provider source, profile version, evidence IDs, context hash, validation, fallback, latency, and usage metadata without storing hidden model reasoning or animation frames.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
 - `WorldRuntimeState`: mutable navigation revision, object blocking state, and reservations.
 
@@ -151,6 +152,7 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/world` — current state; `?tick=` retrieves a stored checkpoint.
 - `GET /api/events` — objective events for the active timeline.
 - `GET /api/interpretations` — persisted social interpretations.
+- `GET /api/history` — persisted timeline/checkpoint history plus canonical movement and decision records from the selected historical state. The viewer reads these records directly; it does not reconstruct them through AI.
 - `GET /api/metrics` — checkpoint-derived charge, readiness, deficit, travel, and collection metrics.
 - `GET /api/report` — current timeline and season summary.
 - `GET /api/design` — Living Circuit/First Glow identity and `FIRST_GLOW_DESIGN` cards, event prompts, opening question, and knowledge boundary under `firstGlow`; legacy card/dilemma arrays are empty and the shared store is omitted.

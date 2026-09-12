@@ -1,7 +1,9 @@
 import { advanceFirstGlowState, canFirstGlowReach, type FirstGlowState } from "./structured.js";
 import { applyFirstGlowDilemmaChoice, firstGlowActionScore, recordFirstGlowWitnesses, type FirstGlowDilemmaChoice } from "./first-glow-social.js";
 import { appendFirstGlowExplanations } from "./first-glow-explanations.js";
+import { appendFirstGlowMovement } from "./first-glow-history.js";
 import type { FirstGlowActivity } from "@mimir/world-data";
+import { canTraverse } from "@mimir/world-data";
 
 export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; validate?: boolean; deterministicSeed?: number; }
 
@@ -83,7 +85,8 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     ledger: structuredClone(input.ledger),
     events: structuredClone(input.events),
     social: structuredClone(input.social),
-    explanations: structuredClone(input.explanations)
+    explanations: structuredClone(input.explanations),
+    history: structuredClone(input.history)
   };
   chooseAutonomousActivities(working);
   const previous = new Map(working.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, { status: spark.status, activity: spark.intendedActivity }] as const)));
@@ -96,6 +99,13 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     if (recipient) { shares.push({ actorId: spark.id, recipientId: recipient.id }); claimedRecipients.add(recipient.id); spark.status = "waiting"; recipient.status = "waiting"; restoredActivities.set(recipient.id, recipient.intendedActivity); recipient.intendedActivity = "share-charge"; }
   }
   const state = advanceFirstGlowState(working, external.validate !== false);
+  for (const event of state.events.filter(event => event.kind === "movement" && event.cells && event.cells.length > 1)) {
+    const spark = state.settlements.flatMap(settlement => settlement.sparks).find(candidate => candidate.id === event.actorId);
+    const settlement = state.settlements.find(candidate => candidate.sparks.some(spark => spark.id === event.actorId));
+    if (!spark || !settlement || !state.history) continue;
+    const movementCost = event.cells!.slice(1).reduce((total, cell, index) => { const edge = canTraverse(settlement.bundle, settlement.runtime, event.cells![index], cell); return total + (edge.walkable ? edge.cost : 0); }, 0);
+    appendFirstGlowMovement(state.history, { id: `movement-${state.tick}-${event.actorId}`, tick: state.tick, sparkId: event.actorId, eventId: event.id, cells: event.cells!.map(cell => ({ ...cell })), routeRevision: spark.plannedNavigationRevision, movementCost, resourceEffects: [], resultingEventId: event.id });
+  }
   const sourceInput = external.sourceCharge ?? 0;
   const communalInput = external.communalCharge ?? 0;
   const lossInput = external.loss ?? 0;
@@ -115,6 +125,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     const drawn = state.ledger.find((entry) => entry.kind === "draw" && entry.actorId === spark.id)?.amount ?? 0;
     if (drawn > 0) spark.chargeDeficit = Math.max(0, spark.chargeDeficit - drawn);
   }
+  if (state.history) for (const movement of state.history.movements.filter(item => item.tick === state.tick)) movement.resourceEffects = state.ledger.filter(entry => entry.actorId === movement.sparkId).map(entry => ({ kind: entry.kind, amount: entry.amount, reason: entry.reason }));
   for (const settlement of state.settlements) for (const spark of settlement.sparks) {
     const before = previous.get(spark.id);
     if ((before?.status === "traveling" || before?.status === "interacting") && spark.status === "choosing" && (before.activity === "explore" || before.activity === "mark-trace" || before.activity === "shape-pattern")) {
