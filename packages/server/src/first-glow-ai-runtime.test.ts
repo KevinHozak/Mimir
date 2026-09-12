@@ -29,7 +29,7 @@ test("server runtime accepts an injected bounded provider without exposing canon
     provider: createFirstGlowFakeProvider({ providerId: "local-test" })
   };
   const runtime = new FirstGlowServerAIRuntime(config);
-  const bundlePath = resolve(process.cwd(), "assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json");
+  const bundlePath = resolve(process.cwd(), "../../assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json");
   const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8"))) as any;
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
   state.tick = 1;
