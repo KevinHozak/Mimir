@@ -67,7 +67,7 @@ The next implementation steps are:
 - Add a kill switch, privacy/retention policy, data-scope review, and cost telemetry before any live provider call.
 
 This is an implementation path toward AI-assisted play, not authorization for broad deployment or uncontrolled spending.
-The concrete contract for the next implementation phase is recorded in [AI-P11 bounded live provider contract](evidence/ai-p11-bounded-live-provider-contract-2026-09-12.md). AI-P11 selects Vertex AI with Gemini 2.5 Flash-Lite, the previously authorized $0.04 hard cap, four-per-Spark and sixteen-global limits, explicit privacy/retention controls, and a disabled-by-default live boundary.
+The concrete contract for the next implementation phase is recorded in [AI-P11 bounded live provider contract](evidence/ai-p11-bounded-live-provider-contract-2026-09-12.md). AI-P11 selects Vertex AI with Gemini 2.5 Flash-Lite, the explicit $1.00 hard cap, superseding the smaller AI-P6 evaluation cap, four-per-Spark and sixteen-global limits, explicit privacy/retention controls, and a disabled-by-default live boundary.
 
 
 ## Next hosted-observer sequence
