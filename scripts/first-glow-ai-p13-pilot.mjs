@@ -121,7 +121,7 @@ assert(report.acceptance.deterministicAuthority, "pilot changed canonical runtim
 assert(report.acceptance.capsAdhered, "pilot exceeded a daily cap");
 assert(report.acceptance.replayProviderFree, "replay was not provider-free");
 mkdirSync(dirname(outputPath), { recursive: true });
-writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\\n`, "utf8");
+writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 const markdownPath = outputPath.replace(/\.json$/, ".md");
 writeFileSync(markdownPath, [
   "# AI-P13 bounded internal hybrid runtime pilot",
@@ -148,5 +148,5 @@ writeFileSync(markdownPath, [
   `- Provider-free replay: **${report.acceptance.replayProviderFree ? "pass" : "fail"}**`,
   "- Broader deployment: **none**",
   ""
-].join("\\n"), "utf8");
+].join("\n"), "utf8");
 console.log(JSON.stringify({ outputPath, markdownPath, execution: report.authorization.execution, provider: report.authorization.provider, model: report.authorization.model, calls: report.provider.calls, costCents: report.provider.telemetry.at(-1)?.cumulativeCostCents ?? 0, changedFromRulesOnly, replayProviderCalls: replayCalls }, null, 2));
