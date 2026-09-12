@@ -15,6 +15,7 @@ export * from "./first-glow-fake-provider.js";
 export * from "./first-glow-gemini-provider.js";
 export * from "./first-glow-history.js";
 export * from "./first-glow-staging-effects.js";
+export * from "./first-glow-hybrid-runtime.js";
 export * from "./resonance-observation.js";
 export * from "./resonance-anchor.js";
 export * from "./resonance-loom-choice.js";
