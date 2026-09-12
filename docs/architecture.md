@@ -1,6 +1,6 @@
 # Mimir: A Light of Our Own — Current Architecture
 
-Date: 2026-09-11
+Date: 2026-09-12
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -79,6 +79,10 @@ The engine currently contains deterministic First Glow creation/advance, charge 
 The versioned First Glow personality profile is materialized from authored Spark cards into each interpretation context and its hash, then recorded on the interpretation. It carries value tendencies, practical needs, relevant relationship tendencies, and the authored knowledge boundary; it is separate from mutable Spark-local knowledge and never exposes another Spark's private knowledge.
 
 The product decision for AI-P1 is to defer any external provider runtime role. The local fake provider and matched review harness are offline evaluation tools only; they do not transmit data, require credentials, or establish provider readiness. The rules-only resolver remains the normal-operation product path and the simulation authority. Historical playback never requests a provider, and invalid or unsupported proposals, unavailable evaluation inputs, timeouts, and budget exhaustion use the deterministic fallback.
+
+AI-P7 through AI-P9 have now established the bounded path for AI-assisted play. AI-P8 proved that retained validated alternatives can produce downstream social diffs through the existing deterministic social transition in disposable staging. AI-P9 verified the four-per-Spark and sixteen-global budget boundary, rules-only fallback, and provider-free replay under a local rehearsal plus retained model outcomes. AI-P10 proceeds with implementing this path behind the server-owned attention gate, deterministic transition adapter, explicit budget controls, and replay-safe decision records. This remains a narrow internal runtime pilot boundary: the provider supplies proposals only, the server commits consequences, and the public observer and historical playback remain provider-free.
+
+
 
 A future provider experiment is a separate authorization boundary. Before it can run, an operator must approve the provider/model and evaluation purpose, an isolated hard budget cap, data minimization plus privacy/retention rules, usage telemetry, an operator kill switch, and evidence-grounded success criteria. The minimum product case is a measured improvement in observer-facing evidence-grounded understanding and plausible downstream choices over a matched rules-only control, while preserving Spark-local knowledge boundaries, replay without provider calls, and deterministic fallback. Fluency or additional narration alone is not sufficient, so no provider implementation phase is scheduled by this decision.
 

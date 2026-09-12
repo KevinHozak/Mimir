@@ -49,6 +49,22 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 | AI-P9 | [Run a limited isolated hybrid staging pilot](https://github.com/KevinHozak/Mimir/issues/136) | Conditional on AI-P8; cannot affect the canonical timeline or public observer. |
 | AI-P10 | [Decide whether to expand hybrid runtime use](https://github.com/KevinHozak/Mimir/issues/137) | Conditional on AI-P9; no broader deployment is included. |
 
+### AI-P10 decision: proceed with bounded hybrid runtime implementation
+
+AI-P7, AI-P8, and AI-P9 establish the safe path needed to make AI-assisted play real: validated proposals can create bounded downstream social changes in isolated staging while preserving rules-only authority, budget caps, and provider-free replay. AI-P10 therefore **proceeds with the next implementation steps**, while keeping the boundary narrow and non-public. The goal is to put AI behind the server-owned attention gate and deterministic transition adapter, so AI can influence selected Spark decisions without becoming simulation authority. The full implementation direction is recorded in [AI-P10 hybrid runtime implementation evidence](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
+
+The next implementation steps are:
+
+- Connect one explicitly authorized, pinned provider/model to the existing bounded interpretation path behind the per-Spark and global daily caps.
+- Keep the provider output limited to a validated proposal; let the deterministic adapter commit every world consequence.
+- Record provider source, model/version, context hash, validation, fallback, latency, and usage metadata with the committed decision.
+- Preserve rules-only fallback for timeout, failure, invalid output, unsupported claims, budget exhaustion, and unavailable provider access.
+- Keep historical playback, branching, and the public observer provider-free until a separate bounded runtime pilot is complete.
+- Add a kill switch, privacy/retention policy, data-scope review, and cost telemetry before any live provider call.
+
+This is an implementation path toward AI-assisted play, not authorization for broad deployment or uncontrolled spending.
+
+
 ## Next hosted-observer sequence
 
 Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changelog.md). The private, single-writer staging observer has independently recovered a bundle-inclusive backup and completed a restart-continuity season; it is not public or durable production hosting. The following sequence must preserve that boundary until its explicit decision and validation gates pass:
