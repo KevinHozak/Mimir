@@ -2,8 +2,10 @@ name: CI
 
 on:
   pull_request:
-  push:
-    branches: [main]
+    # Documentation-only pull requests do not need the full build/browser suite.
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
   workflow_dispatch:
 
 permissions:
