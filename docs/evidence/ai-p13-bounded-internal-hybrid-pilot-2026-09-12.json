@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T16:58:11.427Z",
+  "evaluation": "AI-P13 bounded internal hybrid runtime pilot",
+  "fixedSeed": 20260912,
+  "encounters": 32,
+  "authorization": {
+    "execution": "deterministic-rehearsal",
+    "provider": "local fake provider",
+    "model": "local-deterministic-rehearsal",
+    "location": "local",
+    "accountId": "not applicable",
+    "identity": "not applicable"
+  },
+  "budgets": {
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "perSparkMaximumUsed": 4,
+    "globalUsed": 16,
+    "providerOpportunities": 16,
+    "interpretationUnitsUsed": 16,
+    "withinCaps": true
+  },
+  "outcomes": {
+    "rulesOnly": 32,
+    "pilotRecorded": 16,
+    "pilotFallbacks": 0,
+    "acceptedStaging": 32,
+    "changedFromRulesOnly": 31,
+    "canonicalRuntimeAuthorityChanges": 0
+  },
+  "provider": {
+    "calls": 0,
+    "model": "local-deterministic-rehearsal",
+    "telemetry": []
+  },
+  "replay": {
+    "providerCalls": 0,
+    "budgetUnitsUsed": 0,
+    "recordsMatched": 32,
+    "providerFree": true
+  },
+  "stateDiffs": [
+    {
+      "encounterId": "encounter-1-event-ai-p13-1",
+      "alternativeId": "reveal-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-f2f5f8d3e31e8ddde3b03f223b6a8d1474119041a1af990312ee117edaa8dab4",
+      "afterStateFingerprint": "sha256-77ba1c91593d86bcb2fa54e34d97af5590c359e1cdd95e62adcce0fcb1e41656"
+    },
+    {
+      "encounterId": "encounter-2-event-ai-p13-2",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-59fc3ee7a9aaf651b2cf451b9be0a8fe52816c77057a061d064ed19051b2ea4d",
+      "afterStateFingerprint": "sha256-9493cd2c5d52899c3cd278adbf2d839b56485438ed0bbffa1424e79b9bd240b7"
+    },
+    {
+      "encounterId": "encounter-3-event-ai-p13-3",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-1c569138638bf8ac79def9dedfc9a26cfb3a79e10ec017ef02fb18b5ed236952",
+      "afterStateFingerprint": "sha256-4cb11da414a869ea1213fab7e262c9b330e2ca7a6db9cb8207dc4f5d621cbf36"
+    },
+    {
+      "encounterId": "encounter-4-event-ai-p13-4",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-a18ff157cecd568d93ed1fbca062e8f96dd24a3afdf9304ec51378fdeddd2b3c",
+      "afterStateFingerprint": "sha256-06fa2814a358bb5f8357be9d1d2dcd2082416a2f7e0895b3c0168579210dae62"
+    },
+    {
+      "encounterId": "encounter-5-event-ai-p13-5",
+      "alternativeId": "reveal-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-181433b903f3a5d1650268438ad52f30805b2452ca0f0487f0b929a0e696abb0",
+      "afterStateFingerprint": "sha256-d0949a3e70806e2c3016f4acac0e2a254e5ebc0b72c25df78f85788407a466ff"
+    },
+    {
+      "encounterId": "encounter-6-event-ai-p13-6",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-b909774ad9e8bf7be1a325f10d995c77f00260602647ee08a1a9dc2ace45a395",
+      "afterStateFingerprint": "sha256-123b20d9d5b9e804c1e1de9abd46fdebe75aa9be8115c3e62c2934f9d0c59d9f"
+    },
+    {
+      "encounterId": "encounter-7-event-ai-p13-7",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-f5871ec0897cc3d6d90498d622df444ba425d66589035a9ee08e04536caaf877",
+      "afterStateFingerprint": "sha256-f2876becf8e7f328e8757bde9e4cad6aa0065e4a71d3b3f088b004e7a7377430"
+    },
+    {
+      "encounterId": "encounter-8-event-ai-p13-8",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-5c5d10b886b9a1165036bbe3bdbe3785fe02a5b1d02da8a3c9f8e37da5d54c56",
+      "afterStateFingerprint": "sha256-58949cb081c4544cd1c027b0c385f1ab0415677889c0631fdb333b521bc9a44f"
+    },
+    {
+      "encounterId": "encounter-9-event-ai-p13-9",
+      "alternativeId": "reveal-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-ee4ed354fad3131b1edf5345a8b86b50778b1fc20c3bb5ae91e6c468b5ec7ebd",
+      "afterStateFingerprint": "sha256-2e535665a0266ce78b3e58d12b7473535d937fcdb6d3cf362bc5b50315d6a77c"
+    },
+    {
+      "encounterId": "encounter-10-event-ai-p13-10",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-ae2420e24413060fa5ded950c443eb82a49900a72ace401735b333f7d393aa8e",
+      "afterStateFingerprint": "sha256-812621dfad9a671acf78314a0d972653b88ba0b4d21085f69c96d2324c9f3526"
+    },
+    {
+      "encounterId": "encounter-11-event-ai-p13-11",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-2844576647541458df956406e331d7ea2507335ce4b48f09093aa63983bf5d30",
+      "afterStateFingerprint": "sha256-d5998fc7153641ab2e8ec308a5f0ad145763a055621335ae556bfbab560bedf8"
+    },
+    {
+      "encounterId": "encounter-12-event-ai-p13-12",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-e534b4de06600211e50e9d3872db3f8166c831850549d38b95d6b46029a61d31",
+      "afterStateFingerprint": "sha256-1d0780a904ca5e4b5658d65566b1597fecc28cb8dfbe08dbc624f51bfc5233c0"
+    },
+    {
+      "encounterId": "encounter-13-event-ai-p13-13",
+      "alternativeId": "reveal-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-8d8bffb0d7a0e31b5fba31664cd9dd37d1ff9236a502eb14439ba63bc2418fe7",
+      "afterStateFingerprint": "sha256-32cdae7cbe2ffb5d37c31f43d82019ce85d9289b6448f90af2435a733adae8ac"
+    },
+    {
+      "encounterId": "encounter-14-event-ai-p13-14",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-85259831d7c0770078b0ecd4e846a674a3b10b4e5627974a48722eb9e1f2ae25",
+      "afterStateFingerprint": "sha256-2da36fa2afe34a5de606adee0baa23daf7a816aa0067601fc98957e504512e25"
+    },
+    {
+      "encounterId": "encounter-15-event-ai-p13-15",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-efacd9dcc167f2cfacf5b9249917b92d8ac5b15be0febdd49e5ebbc7ff5edf91",
+      "afterStateFingerprint": "sha256-efeabaa1e10dccbdc832dccd28c04d865f0f4a0c45131c623406e19839670461"
+    },
+    {
+      "encounterId": "encounter-16-event-ai-p13-16",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-c8eee86ac5fd78a128cb52012304519671b11f6bb2a6190d88855833e1b7cb04",
+      "afterStateFingerprint": "sha256-1038c33c513812bf37e8fb95c474099f41bf582d6b11fcd32f6dc0300c9f0dbc"
+    },
+    {
+      "encounterId": "encounter-17-event-ai-p13-17",
+      "alternativeId": "reveal-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-c39de6d39d9007fe450337f68cf48dc9cdacad6143190e3dfa11378404744ac6",
+      "afterStateFingerprint": "sha256-87418bafd4e7f8a86f5624d574d7746ef29d2584098fff480c94601e90cf68a5"
+    },
+    {
+      "encounterId": "encounter-18-event-ai-p13-18",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-e7290eb63f9faaf6130f8574cb4cb475b8b4616e440cddd69a6507c2e488aa92",
+      "afterStateFingerprint": "sha256-ddd2e0ccae4fad1be28876aaa95043094ef6bb5564fe42c921e65c32a17aa9cb"
+    },
+    {
+      "encounterId": "encounter-19-event-ai-p13-19",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-e8db1ce776059dc59a7d43ef8c824a2e05ba0cd9f18bcae8c6d7ee8d2f62ded5",
+      "afterStateFingerprint": "sha256-4034d1821f46ca1be57ba66a8c8017185bd289f7527d0580d7879b63d4e13902"
+    },
+    {
+      "encounterId": "encounter-20-event-ai-p13-20",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-f45b26e0e01bed6f0eb1bb924eb67d0457ab960cc5519c954e25233890266e76",
+      "afterStateFingerprint": "sha256-51b0c33a9c6b3ccc4ae5634d5f9c1458ce7fdb9ed2acf5a5b923aeec2504ea50"
+    },
+    {
+      "encounterId": "encounter-21-event-ai-p13-21",
+      "alternativeId": "reveal-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-9c4b29a2637d79ab28e84882be067016e3066ec419efd5e8eb89513abc12cb8a",
+      "afterStateFingerprint": "sha256-7755fa6bf8cd4d960de031fd7d14c10f5fb6186b8047f4f2135795f392b8b7d7"
+    },
+    {
+      "encounterId": "encounter-22-event-ai-p13-22",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-68e5d0578cff6ed22e3c626042408b4c42ae16b77a1f397e1c1ad37e58c7cb43",
+      "afterStateFingerprint": "sha256-6d60cd34dc6238dc92cd04b59c55f9f4539e714bb2dc14f86352188283cc7c37"
+    },
+    {
+      "encounterId": "encounter-23-event-ai-p13-23",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-44ac92fc5732744dd89b11ee412152561b50e7bf05c2c32084323ba20a20cece",
+      "afterStateFingerprint": "sha256-b51d13de64a8478a2a0bc923d5ffc6ead5a81c3bc941651679f576d2b7ee8ff0"
+    },
+    {
+      "encounterId": "encounter-24-event-ai-p13-24",
+      "alternativeId": "enter-wild-cache",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-3ff3103604543bfcbb9fe36cb2f1eebd6f8f5fa90945d93da95fd8724dfb2238",
+      "afterStateFingerprint": "sha256-afd5096549bd8fa5c83f3c8c7076b880251725664a4281be6b976e354437d311"
+    },
+    {
+      "encounterId": "encounter-25-event-ai-p13-25",
+      "alternativeId": "withhold-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-ae25139a65c2b286ed2e463ce993f316ce7f4c2ee44fb24444c6d0d06978d66a",
+      "afterStateFingerprint": "sha256-59822b75bccbca601c6a5a791987ab96541d0dad424d2a32b016b86d9595ebf6"
+    },
+    {
+      "encounterId": "encounter-26-event-ai-p13-26",
+      "alternativeId": "help-shelter",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-40397de997d9c41c826803d09a02711825a5452a782b86e6d14e43b517ac5870",
+      "afterStateFingerprint": "sha256-b3d92ca524a1ed4f57c94822b4a695be6d0f294924461b806df99afb3ff7f306"
+    },
+    {
+      "encounterId": "encounter-27-event-ai-p13-27",
+      "alternativeId": "keep-mark-private",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-627a37ae9226e492c6cda0893c5aa50a484e03bd96ad270d6fa8bdcc66309ab2",
+      "afterStateFingerprint": "sha256-022df876b8f8a6dc15bb9b7b79c3a8e93656c546be6dcd3a2255e8388b0a262e"
+    },
+    {
+      "encounterId": "encounter-28-event-ai-p13-28",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-e1b3f6fe66729a088785d5f9659db33d86e903f5c2091e4277b294ad94660e94",
+      "afterStateFingerprint": "sha256-63de30e36292724a93ff1bc26122029d701efdd221bc437ffb960fe9d2a7a914"
+    },
+    {
+      "encounterId": "encounter-29-event-ai-p13-29",
+      "alternativeId": "withhold-pool",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-b0d7cf5d97f6f60599db3a84b3c1ff66ba1f8d6f2b4c88934fe237b963988890",
+      "afterStateFingerprint": "sha256-6b1fc8262d0a522b5ca0f09da4c6920e9a8b93c059719fe50cce60c638055ae7"
+    },
+    {
+      "encounterId": "encounter-30-event-ai-p13-30",
+      "alternativeId": "continue-exploration",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-875612b699ef1949274e60c7fce3069d2d5e872d4e99d3f9d2a149373eefe953",
+      "afterStateFingerprint": "sha256-ca63c5b95e5f2f13754569b294c11a60213b6c075c92e05d8662d343e933c1b5"
+    },
+    {
+      "encounterId": "encounter-31-event-ai-p13-31",
+      "alternativeId": "make-mark-public",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-950b3efa60f9e1671536aef401ec1449350a16065cd7621a0d001347591fe991",
+      "afterStateFingerprint": "sha256-37f1933d948d09bb6bdaf1b3bfb7b8994b1a59f5823221e702f761286297f149"
+    },
+    {
+      "encounterId": "encounter-32-event-ai-p13-32",
+      "alternativeId": "stay-on-trace",
+      "changedFields": [
+        "social"
+      ],
+      "beforeStateFingerprint": "sha256-6cde2dbe35fd9f1327a59610d280883028323e0975e6dcc84792ff090f54fe13",
+      "afterStateFingerprint": "sha256-749129f45f9751827e70a355e2314499a4e3ae5ed206b60bb3a571a39c9afd9e"
+    }
+  ],
+  "decision": "pilot-evidence-captured",
+  "acceptance": {
+    "isolated": true,
+    "deterministicAuthority": true,
+    "capsAdhered": true,
+    "replayProviderFree": true,
+    "noBroaderDeployment": true
+  }
+}
+
