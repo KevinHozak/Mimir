@@ -11,6 +11,7 @@ import {
   runFirstGlowHybridRuntime,
   type FirstGlowInterpretationProvider,
   type FirstGlowInterpretationRecord,
+  type FirstGlowInterpretationUsage,
   type FirstGlowState,
   type FirstGlowDecisionRecord,
   type StructuredEvent
@@ -83,7 +84,7 @@ export class FirstGlowServerAIRuntime {
     globalDailyLimit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY,
     timeoutMs: FIRST_GLOW_ATTENTION_TIMEOUT_MS
   });
-  private interpretationBudget = { limit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, reserved: 0, used: 0, telemetry: [] as FirstGlowServerAIResult["interpretations"] };
+  private interpretationBudget = { limit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, reserved: 0, used: 0, telemetry: [] as FirstGlowInterpretationUsage[] };
   private simulatedDay = this.attentionBudget.simulatedDay;
 
   constructor(private readonly config: FirstGlowServerAIConfig) {}
