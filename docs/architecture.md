@@ -282,9 +282,11 @@ Still open:
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
 
-## AI-P15 rehearsal procedures
+## AI-P15 and AI-P16 rehearsal procedures
 
-The private hosted Vertex rehearsal and its deterministic control arm are documented in [docs/ai-p15-rehearsal-runbook.md](ai-p15-rehearsal-runbook.md). The live arm remains explicitly gated by runtime-only provider access, private-hosted boundary confirmation, the $1.00 hard cap, the kill switch, and approved data/retention settings.
+The private hosted Vertex rehearsal and its deterministic control arm are documented in [docs/ai-p15-rehearsal-runbook.md](ai-p15-rehearsal-runbook.md). AI-P15's successful private rehearsal is recorded in [AI-P15 evidence](evidence/ai-p15-private-hosted-vertex-2026-09-12.md): Vertex proposals remained staged, changed bounded choices and downstream social state, and made no canonical runtime changes.
+
+AI-P16 extends that path with a four-seed repeatability runner documented in [docs/ai-p16-repeatability-runbook.md](ai-p16-repeatability-runbook.md). Both live arms remain explicitly gated by runtime-only provider access, private-hosted boundary confirmation, the $1.00 hard cap, the kill switch, and approved data/retention settings. The public observer and historical playback remain provider-free.
 
 ## 11. Architectural invariants
 
@@ -298,4 +300,5 @@ Future changes should preserve these rules:
 6. New world definitions must be validated before entering simulation state.
 7. Any persistence-schema or rules change must declare compatibility behavior for old checkpoints.
 8. Scaling beyond one simulation writer requires a deliberate persistence architecture change.
+
 
