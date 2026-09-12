@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12",
+  "evaluation": "AI-P8 validated hybrid choices in isolated staging",
+  "source": {
+    "artifact": "AI-P6 Vertex review artifact",
+    "provider": "Google Vertex AI",
+    "model": "gemini-2.5-flash-lite",
+    "location": "us-central1",
+    "identity": "redacted from committed evidence"
+  },
+  "design": {
+    "matchedEncounters": 16,
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "stagingAuthority": "existing applyFirstGlowDilemmaChoice on cloned social state",
+    "runtimeWiring": "none"
+  },
+  "results": {
+    "baselineAccepted": 16,
+    "hybridAccepted": 16,
+    "rejected": 0,
+    "hybridDownstreamSocialChanges": 16,
+    "hybridDifferentFromRulesOnly": 14,
+    "interpretationChoiceChanges": 6,
+    "runtimeAuthorityChanges": 0,
+    "stateDiffs": [
+      {
+        "encounterId": "encounter-1-event-ai-p6-1",
+        "alternativeId": "withhold-pool",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": false
+      },
+      {
+        "encounterId": "encounter-2-event-ai-p6-2",
+        "alternativeId": "help-shelter",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": false
+      },
+      {
+        "encounterId": "encounter-3-event-ai-p6-3",
+        "alternativeId": "make-mark-public",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-4-event-ai-p6-4",
+        "alternativeId": "enter-wild-cache",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-5-event-ai-p6-5",
+        "alternativeId": "withhold-pool",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-6-event-ai-p6-6",
+        "alternativeId": "continue-exploration",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-7-event-ai-p6-7",
+        "alternativeId": "keep-mark-private",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-8-event-ai-p6-8",
+        "alternativeId": "enter-wild-cache",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-9-event-ai-p6-9",
+        "alternativeId": "withhold-pool",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-10-event-ai-p6-10",
+        "alternativeId": "help-shelter",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-11-event-ai-p6-11",
+        "alternativeId": "keep-mark-private",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-12-event-ai-p6-12",
+        "alternativeId": "enter-wild-cache",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-13-event-ai-p6-13",
+        "alternativeId": "reveal-pool",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-14-event-ai-p6-14",
+        "alternativeId": "continue-exploration",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-15-event-ai-p6-15",
+        "alternativeId": "make-mark-public",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      },
+      {
+        "encounterId": "encounter-16-event-ai-p6-16",
+        "alternativeId": "enter-wild-cache",
+        "changedFields": [
+          "social"
+        ],
+        "differsFromRulesOnly": true
+      }
+    ]
+  },
+  "replay": {
+    "historicalReplayProviderCalls": 0,
+    "historicalReplayBudgetUnits": 0,
+    "providerFree": true
+  },
+  "cost": {
+    "inheritedProviderCalls": 8,
+    "inheritedActualCostCents": 0.06272,
+    "newProviderCalls": 0,
+    "newCostCents": 0,
+    "hardCapCents": 4
+  },
+  "decision": "proceed-to-limited-pilot",
+  "recommendation": "Proceed to the limited isolated hybrid staging pilot in AI-P9. This harness proved that validated alternatives can create bounded downstream social diffs without changing canonical runtime authority or replay behavior.",
+  "acceptance": {
+    "allowlistedTransitionsOnly": true,
+    "malformedAndUnknownRejectedByUnitTest": true,
+    "canonicalRuntimeUnchanged": true,
+    "historicalReplayProviderFree": true,
+    "budgetAdherenceRecorded": true,
+    "providerCallsDuringStaging": 0
+  }
+}
+
