@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFirstGlowFakeProvider } from "@mimir/engine";
+import { createFirstGlowFakeProvider, createFirstGlowState, recordFirstGlowWitnesses } from "@mimir/engine";
+import { decodeWorldBundle } from "@mimir/world-data";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 
 test("server AI config is rules-only unless every operator gate is explicit", () => {
@@ -26,23 +29,13 @@ test("server runtime accepts an injected bounded provider without exposing canon
     provider: createFirstGlowFakeProvider({ providerId: "local-test" })
   };
   const runtime = new FirstGlowServerAIRuntime(config);
-  const state = {
-    tick: 1,
-    social: { knowledge: [{ sparkId: "spark-1", witnessedFacts: [{ eventId: "event-1", tick: 1 }], communicatedClaims: [], uncertainInferences: [] }] },
-    events: [{ id: "event-1", kind: "draw", actorId: "spark-1", participants: ["spark-1"], message: "A weakening pool dims.", evidenceEventIds: ["event-1"] }],
-    settlements: [{
-      id: "settlement-1",
-      sparks: [{
-        id: "spark-1", name: "Lumen", carriedCharge: 4, chargeDeficit: 0, readiness: 4, position: { x: 0, y: 0 }, activity: "idle",
-        valueTendencies: ["care"], practicalNeeds: ["charge"], relationships: [], knowledgeBoundary: { knows: ["event-1"], doesNotKnow: [] }
-      }, {
-        id: "spark-2", name: "Glow", carriedCharge: 4, chargeDeficit: 0, readiness: 4, position: { x: 1, y: 0 }, activity: "idle",
-        valueTendencies: ["caution"], practicalNeeds: ["charge"], relationships: [], knowledgeBoundary: { knows: ["event-1"], doesNotKnow: [] }
-      }],
-      bundle: { schemaVersion: 3, bundle: { contentHash: "sha256-test" }, objects: [], objectDefinitions: {}, spawns: [], width: 1, height: 1, layers: [] },
-      runtime: { navigationRevision: 0, objects: [] }
-    }]
-  } as any;
+  const bundlePath = resolve(process.cwd(), "assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json");
+  const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8")));
+  const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
+  state.tick = 1;
+  const event = { id: "event-1", kind: "draw", actorId: "spark-1", participants: ["spark-1"], message: "A weakening pool dims.", evidenceEventIds: [] };
+  state.events = [event];
+  recordFirstGlowWitnesses(state.social, [event.id], event.actorId, [], state.tick);
   const result = await runtime.evaluate(state, state.events);
   assert.equal(result.interpretations.length, 1);
   assert.equal(result.decisions[0].source, "ai");
