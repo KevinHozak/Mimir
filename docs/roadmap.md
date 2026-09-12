@@ -35,6 +35,8 @@ For a comparable Mimir evaluation request of 2,000 input tokens and 150 output t
 
 The recommended evaluation sequence is Flash-Lite as a cheap screening arm, Flash as the primary quality/cost comparison, and Pro only as a small adjudication or upper-bound arm. The likely benefit is improved observer-facing explanation and uncertainty calibration, not new simulation authority. A model should advance only if blinded reviewers show a meaningful improvement in evidence-grounded understanding and plausible downstream choices over rules-only, with zero knowledge leakage, zero authority changes, complete replay without provider calls, and acceptable latency and fallback rates.
 
+The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Gemini 2.5 Flash-Lite for planning, uses deterministic attention triggers and rules-based authority, supplies versioned Spark personality context, and records committed movement and decision history for provider-free historical playback. This remains a plan; it does not activate external calls.
+
 ## Next hosted-observer sequence
 
 Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changelog.md). The private, single-writer staging observer has independently recovered a bundle-inclusive backup and completed a restart-continuity season; it is not public or durable production hosting. The following sequence must preserve that boundary until its explicit decision and validation gates pass:
