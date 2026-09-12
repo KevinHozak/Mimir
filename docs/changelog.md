@@ -73,6 +73,15 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Through [PR #66](https://github.com/KevinHozak/Mimir/pull/66) and the documentation work that followed it.
 
+### A deferred hybrid runtime decision
+
+- Completed AI-P7 through AI-P9 as bounded evaluation gates: quality review, isolated downstream-effects staging, and a limited budget/replay pilot.
+- Confirmed that validated model-shaped choices can produce bounded social differences through existing deterministic transitions without changing canonical runtime authority.
+- Deferred expansion into normal runtime because the evidence does not yet include a fresh external-model effectiveness sample or independent observer-facing study sufficient to justify provider complexity, privacy exposure, reliability risk, and spend.
+- Preserved rules-only simulation, public observation, historical playback, and branching as provider-free paths.
+
+  - Evidence: [AI-P10 hybrid runtime decision](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
+
 ## Earlier project direction
 
 - Mimir began as a broader village-simulation concept and evolved into an observer simulation about Sparks, values, relationships, cooperation, conflict, and consequences in the Living Circuit.
