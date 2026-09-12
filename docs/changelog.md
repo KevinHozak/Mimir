@@ -81,10 +81,14 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Kept the implementation boundary internal and controlled: explicit provider/model authorization, per-Spark and global caps, privacy/retention review, cost telemetry, kill switch, rules-only fallback, and provider-free replay remain required.
 - Preserved public observation and historical playback as provider-free paths until a separate bounded runtime pilot is complete.
 
+- Completed AI-P15's private hosted Vertex rehearsal with 8/8 recorded bounded interpretations, 3 changed choices, 29 downstream staged changes, zero canonical runtime changes, and provider-free replay under the $1.00 cap. The result supports a repeatability evaluation, not public or unbounded rollout.
+
   - Evidence: [AI-P10 hybrid runtime implementation path](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
+  - Follow-up: [PR #159 / AI-P15](https://github.com/KevinHozak/Mimir/pull/159); [AI-P15 evidence](evidence/ai-p15-private-hosted-vertex-2026-09-12.md).
 
 
 ## Earlier project direction
 
 - Mimir began as a broader village-simulation concept and evolved into an observer simulation about Sparks, values, relationships, cooperation, conflict, and consequences in the Living Circuit.
 - The First Glow was selected as the opening age: a quiet, sparse world of charge pools, shelter niches, traces, exploration, and informal cooperation before formal institutions or known Originators.
+
