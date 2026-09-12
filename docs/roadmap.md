@@ -52,6 +52,9 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 | AI-P12 | [Implement the bounded live interpretation adapter](https://github.com/KevinHozak/Mimir/issues/150) | Follows AI-P11; provider proposes only, deterministic transitions commit consequences. |
 | AI-P13 | [Run the bounded internal hybrid runtime pilot](https://github.com/KevinHozak/Mimir/issues/151) | Follows AI-P12; isolated, fixed-seed, capped, and provider-free on replay. |
 | AI-P14 | [Enable bounded AI-assisted First Glow play](https://github.com/KevinHozak/Mimir/issues/152) | Follows AI-P13; operator-controlled rollout, with public exposure still separately decided. |
+| AI-P16 | [Validate repeatable bounded Vertex value across fixed-seed rehearsals](https://github.com/KevinHozak/Mimir/issues/160) | Current gate after the successful private AI-P15 rehearsal; requires four fixed seeds before any broader AI integration decision. |
+
+AI-P15 is complete through [PR #159](https://github.com/KevinHozak/Mimir/pull/159). Its private hosted Vertex rehearsal recorded bounded proposals that changed staged choices and downstream social outcomes while preserving deterministic authority, caps, private hosting, and provider-free replay. AI-P16 is the current follow-up gate: repeat the evaluation across four fixed seeds and distinguish repeatable value from a one-seed signal.
 
 ### AI-P10 decision: proceed with bounded hybrid runtime implementation
 
@@ -97,3 +100,4 @@ P8 may proceed because independent, bundle-inclusive recovery strengthens the pr
 ## Historical context
 
 The retired Simulation Game Plan and Web Development Plan described the original village-era proposal, including villagers, food, Hearthmere, First Winter, and paths no longer supported. Their essential intent is preserved in [Project History](history.md). Use this roadmap, the [Changelog](changelog.md), [World Theme](world-theme.md), and [Current Architecture](architecture.md) for ongoing work.
+
