@@ -95,7 +95,7 @@ The historical viewer reads these persisted records. It never asks Gemini to rec
 
 ## Evaluation plan
 
-The existing 20-encounter local-fake-provider harness proves adapter boundaries, not real-model effectiveness. A future evaluation should compare matched rules-only and Flash-Lite runs across a larger, blinded sample.
+The local offline hybrid loop and its 20-encounter fake-provider harness prove adapter boundaries, attention gating, fallback recording, and replay suppression, not real-model effectiveness. A future evaluation should compare matched rules-only and Flash-Lite runs across a larger, blinded sample.
 
 Measure:
 

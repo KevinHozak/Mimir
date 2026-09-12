@@ -51,7 +51,7 @@ export interface FirstGlowInterpretationUsage {
   requestId: string;
   encounterId: string;
   contextHash: string;
-  outcome: "recorded" | "fallback" | "historical-replay";
+  outcome: "rules-only" | "recorded" | "fallback" | "historical-replay";
   reason?: FirstGlowInterpretationFallbackReason;
   reservedUnits: number;
   usedUnits: number;
