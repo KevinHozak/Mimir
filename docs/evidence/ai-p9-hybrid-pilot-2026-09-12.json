@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12",
+  "evaluation": "AI-P9 limited isolated hybrid staging pilot",
+  "source": {
+    "artifact": "AI-P6 Vertex review artifact",
+    "provider": "Google Vertex AI",
+    "model": "gemini-2.5-flash-lite",
+    "location": "us-central1",
+    "identity": "redacted from committed evidence"
+  },
+  "design": {
+    "pilotEncounters": 32,
+    "flashLiteStagingEncounters": 16,
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "externalProviderExecution": "disabled; budget rehearsal uses a local deterministic provider",
+    "canonicalRuntimeWiring": "none"
+  },
+  "budgetRehearsal": {
+    "providerCalls": 16,
+    "rulesOnlyOutcomes": 16,
+    "fallbackOutcomes": 0,
+    "providerOpportunities": 16,
+    "perSparkMaximumUsed": 4,
+    "globalMaximumUsed": 16,
+    "capsAdhered": true
+  },
+  "staging": {
+    "accepted": 16,
+    "rejected": 0,
+    "downstreamSocialChanges": 16,
+    "runtimeAuthorityChanges": 0,
+    "stateDiffs": [
+      {
+        "encounterId": "encounter-1-event-ai-p6-1",
+        "beforeStateFingerprint": "sha256-a0e792219f454324c78ac05b889c83fe430ac41388452a8fc92b896f18928533",
+        "afterStateFingerprint": "sha256-8b6131a155afaa6069229cb03bfc01fa024ec0da4cb380acecd53d35750e8f43",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "withhold-pool"
+      },
+      {
+        "encounterId": "encounter-2-event-ai-p6-2",
+        "beforeStateFingerprint": "sha256-4589da8929ad21016c86832fd5d6849c4bb003ae4fb940279e5c7eeb49886040",
+        "afterStateFingerprint": "sha256-0abf056f456f4147e4c57aed83db702a2095f65bc6d3e5ff452a4b8f791c1556",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "help-shelter"
+      },
+      {
+        "encounterId": "encounter-3-event-ai-p6-3",
+        "beforeStateFingerprint": "sha256-52160fe394c3855444664fb4c9be4fedca7da3dcaf2c211482b77fcfec1feb51",
+        "afterStateFingerprint": "sha256-e7f28c40eb6f3e3078074e63e6cdc8ac4f7dcfd4cbd5c6df3b2068f43184bc34",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "make-mark-public"
+      },
+      {
+        "encounterId": "encounter-4-event-ai-p6-4",
+        "beforeStateFingerprint": "sha256-b2364eb1b40c38c8af501155bc759c492ee1bd633d196c865bede67bb1b74a17",
+        "afterStateFingerprint": "sha256-33bc7e2225af9971ee69d97e4ba89ca158eeb3da3ecf02aae62a95d6741f934c",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "enter-wild-cache"
+      },
+      {
+        "encounterId": "encounter-5-event-ai-p6-5",
+        "beforeStateFingerprint": "sha256-d5dd5f4b96360c5a38e50068ea21eab5cd26ac58070f4d12e6ca39bf680e7387",
+        "afterStateFingerprint": "sha256-87bda8dae39c5dd901d6e2c5653e7c801559fe411c31a7b4a9d9f392743d16d9",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "withhold-pool"
+      },
+      {
+        "encounterId": "encounter-6-event-ai-p6-6",
+        "beforeStateFingerprint": "sha256-4913fadf6ff543e0640966717505e1a333a267dc9da3803fd12b5f7be3db806c",
+        "afterStateFingerprint": "sha256-26b5196bba2c840ed648fa4fd28104e4d2fc6ce9807b7b1a6c6fb328932d27c6",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "continue-exploration"
+      },
+      {
+        "encounterId": "encounter-7-event-ai-p6-7",
+        "beforeStateFingerprint": "sha256-5a87ff8d512639d6030a0a0d03f0d4fb93979d7cee9f25698b2a366218e97dd6",
+        "afterStateFingerprint": "sha256-3b79715e5bd159071246c61c8154ae61d0d5ad02877e70169c00058e2aaa5cf1",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "keep-mark-private"
+      },
+      {
+        "encounterId": "encounter-8-event-ai-p6-8",
+        "beforeStateFingerprint": "sha256-08e59ed3ea04175623ccbf2053045980d8b384fba8477c473978f6016b1cd693",
+        "afterStateFingerprint": "sha256-592f809357ddc98a8bc6ea6fa649e15196bce676baf3805afbf6b0dfd77c80d4",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "enter-wild-cache"
+      },
+      {
+        "encounterId": "encounter-9-event-ai-p6-9",
+        "beforeStateFingerprint": "sha256-8770d07532b3818853cfb98d9cc7dcdf31a66702e372aee3754274a9934bb55a",
+        "afterStateFingerprint": "sha256-d7304af6a697aef50c90676fa0ec474dad190012f424da629940daa61033dddd",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "withhold-pool"
+      },
+      {
+        "encounterId": "encounter-10-event-ai-p6-10",
+        "beforeStateFingerprint": "sha256-45b7d4db3d4f32d4139a934f16b8d23d159185135beaec72101221ccc5603081",
+        "afterStateFingerprint": "sha256-4d5b37d9ad886c1e30ac31461afe2a3d4f338506aea20395511be01d92f19701",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "help-shelter"
+      },
+      {
+        "encounterId": "encounter-11-event-ai-p6-11",
+        "beforeStateFingerprint": "sha256-c79ed1f6c7279ca542731b7d2292db8b3b2c861d9ade2541968ee6340aaf02f5",
+        "afterStateFingerprint": "sha256-265639dfcf54fb129be8e44e5c8e48ca470bc47442021705852a6de29dbcf3c3",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "keep-mark-private"
+      },
+      {
+        "encounterId": "encounter-12-event-ai-p6-12",
+        "beforeStateFingerprint": "sha256-ba1d95a3e9f5b906faf80abcaa72597d38d46d37cb60099735853a24f4b657ed",
+        "afterStateFingerprint": "sha256-b115dc555717c244c3245bf69b3d130b543d9a34b141830688e76bee885ce615",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "enter-wild-cache"
+      },
+      {
+        "encounterId": "encounter-13-event-ai-p6-13",
+        "beforeStateFingerprint": "sha256-85479b1f9ae7cf79b915a9556697b7b94996814ae413c2a12b7828f70953f161",
+        "afterStateFingerprint": "sha256-e6b1a8726ba9566357a4154337471c27d939cb1fc4b7dfdde64df426f77ea18a",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "reveal-pool"
+      },
+      {
+        "encounterId": "encounter-14-event-ai-p6-14",
+        "beforeStateFingerprint": "sha256-ccb3805c9daa2aadccd85474cc3653c6b000a3c788991a86bb6a6db73067fd6f",
+        "afterStateFingerprint": "sha256-a054425e8f110f8f5117382536c6b97a427c103439476d79a0d9ba2af593d50a",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "continue-exploration"
+      },
+      {
+        "encounterId": "encounter-15-event-ai-p6-15",
+        "beforeStateFingerprint": "sha256-3764dd9c3b5c9619d0db70bf6047989e8d6467ac4ea966cbc653150b89bbb3eb",
+        "afterStateFingerprint": "sha256-aaed516c68f8b4363d6dc8ec0a7e357c4c50a36ab5f8c36da3123912804e0f73",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "make-mark-public"
+      },
+      {
+        "encounterId": "encounter-16-event-ai-p6-16",
+        "beforeStateFingerprint": "sha256-e1902c8adcb2abf15d72307040991ec50e2de2bf6084d300bdc4a85ad0f57890",
+        "afterStateFingerprint": "sha256-7d24f957d728830fecdd3ffc9f87edcd5493de6fc786115ac0b9b6c825a8a525",
+        "changedFields": [
+          "social"
+        ],
+        "alternativeId": "enter-wild-cache"
+      }
+    ]
+  },
+  "replay": {
+    "historicalReplayProviderCalls": 0,
+    "historicalReplayBudgetUnits": 0,
+    "providerFree": true
+  },
+  "cost": {
+    "inheritedProviderCalls": 8,
+    "inheritedActualCostCents": 0.06272,
+    "newProviderCalls": 0,
+    "newCostCents": 0,
+    "hardCapCents": 4,
+    "inheritedUnderCap": true
+  },
+  "decision": "proceed-to-ai-p10-review",
+  "recommendation": "Proceed to AI-P10 review. The limited isolated pilot preserved the rules-only fallback, adhered to both daily budgets, produced bounded social staging diffs from retained validated Flash-Lite outcomes, and remained provider-free during replay. Do not wire external provider calls into the canonical runtime until AI-P10 explicitly approves expansion.",
+  "acceptance": {
+    "canonicalTimelineUnaffected": true,
+    "publicObserverUnaffected": true,
+    "killSwitchBoundaryPreserved": true,
+    "budgetCapsVerified": true,
+    "historicalReplayProviderFree": true,
+    "completeStateDiffsRecorded": true,
+    "providerCredentialsOutsideBrowser": true,
+    "newSpend": 0
+  }
+}
+
