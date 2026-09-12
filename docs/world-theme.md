@@ -80,6 +80,12 @@ The Collector Garden, Charge Commons, permanent Nests, and the name Emberhaven g
 
 Use **Readiness** for the rest meter. Strain is its conceptual opposite, not a second name for the same increasing value. The word cycle does not imply a fixed number of simulation ticks unless a scenario defines one.
 
+### Binary rhythm for authored numbers
+
+The Living Circuit has a quiet binary rhythm. When a quantity is being designed rather than discovered from a real-world constraint, prefer powers of two such as **2, 4, 8, 16, 32,** and **64**. This applies especially to charge amounts, attention or action budgets, capacities, route or map scales, upgrade steps, and other authored thresholds. The pattern should make the world feel computational without turning the fiction into a spreadsheet.
+
+This is a strong design tendency, not a universal runtime invariant. Use **1** for a singular action or minimum unit, and keep other values when they express a meaningful asymmetry, authored geometry, timing constraint, or observed result. Do not force existing state, evidence, or compatibility boundaries into binary values after the fact; new mechanics should choose a nearby power of two unless the design has a clear reason not to.
+
 ## Sparks
 
 Sparks are people to follow and understand. They have personal names, preferences, relationships, memories, values, and unfinished business. Their identity is more than their role or technical function.
