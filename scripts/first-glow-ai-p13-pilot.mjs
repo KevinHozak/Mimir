@@ -122,7 +122,7 @@ assert(report.acceptance.capsAdhered, "pilot exceeded a daily cap");
 assert(report.acceptance.replayProviderFree, "replay was not provider-free");
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\\n`, "utf8");
-const markdownPath = outputPath.replace(/\\.json$/, ".md");
+const markdownPath = outputPath.replace(/\.json$/, ".md");
 writeFileSync(markdownPath, [
   "# AI-P13 bounded internal hybrid runtime pilot",
   "",
