@@ -10,9 +10,7 @@ import {
   createFirstGlowState,
   createFirstGlowVertexGeminiPilotProvider,
   recordFirstGlowWitnesses,
-  runFirstGlowHybridRuntime,
-  type FirstGlowInterpretationContext,
-  type FirstGlowInterpretationProvider
+  runFirstGlowHybridRuntime
 } from "@mimir/engine";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
