@@ -273,6 +273,16 @@ The Living Circuit can grow into more than one place, but a new community or wor
 
 Settlement, world, and timeline remain different concepts. Travel is an in-fiction action; a branch is an observer operation on recorded history. Cross-world systems require deliberate shared-state and persistence design before they become gameplay.
 
+### Candidate: Shards and visiting realms
+
+**Later candidate:** Sparks might eventually enter distinct worlds—shards or realms—with their own rules, environments, histories, and kinds of inhabitants. A realm could be bright wilderness, a human settlement, an oceanic system, or something stranger; its local physics and social pressures would matter rather than serving as a reskinned First Glow map.
+
+Arrival could involve a bounded transformation into a realm-appropriate character or form. A Spark might appear as a human, an animal-like being, a machine, or another authored inhabitant while retaining a recoverable relationship to its Mimir identity. The transformation should change what the visitor can perceive and do, not grant universal knowledge or bypass the realm's rules. Local characters should have their own agency, knowledge boundaries, and histories rather than existing only as costumes for Sparks.
+
+Death within a visiting realm would end that realm-incarnation and return the Spark to Mimir. This return is a proposed cross-world rule, not a promise of consequence-free play: the realm should record the death, the Spark's memories or knowledge should follow an explicit boundary, and relationships, resources, injuries, or changed commitments should only cross back when the shared-state contract says they do. A return must never rewrite the realm's completed history or make death an optimization loop.
+
+Before this becomes a system, define whether realms are separate timelines, shared worlds, or authored scenarios; who owns canonical state; how travel and return are recorded; what can be remembered; how backups and replay work; and how a realm can be retired without corrupting Mimir history. This belongs after the core social model and a deliberate cross-world persistence gate, not in First Glow.
+
 ## Candidate visual explorations
 
 The selected First Glow art direction is not reopened here. Future art experiments may explore:
