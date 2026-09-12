@@ -36,7 +36,8 @@ test("server runtime accepts an injected bounded provider without exposing canon
   const event = { id: "event-1", kind: "draw" as const, actorId: "spark-1", participants: ["spark-1"], message: "A weakening pool dims.", evidenceEventIds: [] };
   state.events = [event];
   recordFirstGlowWitnesses(state.social, [event.id], event.actorId, [], state.tick);
-  const beforeKnowledge = structuredClone(state.social.knowledge);\n  const result = await runtime.evaluate(state, state.events);
+  const beforeKnowledge = structuredClone(state.social.knowledge);
+  const result = await runtime.evaluate(state, state.events);
   assert.equal(result.interpretations.length, 1);
   assert.equal(result.decisions[0].source, "ai");
   assert.equal(result.transitions[0].accepted, true);
