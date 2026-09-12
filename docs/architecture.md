@@ -262,7 +262,7 @@ Still open:
 - Further asset-version recovery hardening: bundle directories are copied by backup/restore and restored world JSON is validated, but the backup manifest checksums world JSON rather than every copied asset. Independent recovery remains a separate operational requirement.
 - Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.
 - Confirmation of external origin and redistribution rights before the current music and SFX review candidates can be promoted for a public release.
-- Automatic upload/monitoring of independent backups; Hosted-P5 validated the destination and recovery procedure, not continuous transfer.
+- Hosted-P8 adds optional scheduled replication and freshness status for independent backups through the attached VM identity and `BACKUP_GCS_URI`; it still requires a separate recovery identity and fresh isolated restore evidence before recovery is trusted.
 - Public exposure and durable production readiness of the private single-writer staging deployment; Hosted-P6 validates continued private observation only.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
