@@ -100,6 +100,7 @@ const replay = await runFirstGlowHybridRuntime(contexts, { runtimeMode: "bounded
 const telemetry = "telemetry" in selected.provider ? selected.provider.telemetry : [];
 const perSparkMaximum = Math.max(...Object.values(pilot.attentionBudget.perSparkUsed));
 const costCents = telemetry.at(-1)?.cumulativeCostCents ?? 0;
+const liveRehearsalBlocked = selected.authorization.execution === "vertex-live" && pilot.outcomes.every(outcome => outcome.usage.outcome !== "recorded");
 const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
@@ -111,7 +112,7 @@ const report = {
   outcomes: { rulesOnly: baseline.outcomes.filter(item => item.usage.outcome === "rules-only").length, pilotRecorded: pilot.outcomes.filter(item => item.usage.outcome === "recorded").length, pilotFallbacks: pilot.outcomes.filter(item => item.usage.outcome === "fallback").length, acceptedStaging: pilotStages.length, changedChoices, changedDownstream, canonicalRuntimeAuthorityChanges: pilotStages.filter(item => item.changedFields.some(field => field !== "social")).length },
   provider: { calls: telemetry.length, model: selected.authorization.model, telemetry: telemetry.map(item => ({ requestId: item.requestId, model: item.model, inputTokens: item.inputTokens, outputTokens: item.outputTokens, latencyMs: item.latencyMs, costCents: item.costCents, cumulativeCostCents: item.cumulativeCostCents, outcome: item.outcome, error: item.error })) },
   replay: { providerCalls: replayCalls, budgetUnitsUsed: replay.interpretationBudget.used, recordsMatched: replay.outcomes.length, providerFree: replayCalls === 0 && replay.interpretationBudget.used === 0 },
-  decision: selected.authorization.execution === "vertex-live" ? (changedDownstream > 0 ? "proceed-to-next-review" : "defer-for-value") : "live-rehearsal-required",
+  decision: selected.authorization.execution === "vertex-live" ? (liveRehearsalBlocked ? "live-rehearsal-blocked" : changedDownstream > 0 ? "proceed-to-next-review" : "defer-for-value") : "live-rehearsal-required",
   acceptance: { privateHostedOnly: selected.authorization.execution === "deterministic-control" || process.env.MIMIR_AI_P15_HOSTED_BOUNDARY === "private", deterministicAuthority: pilotStages.every(item => item.changedFields.every(field => field === "social")), capsAdhered: perSparkMaximum <= 4 && pilot.attentionBudget.globalUsed <= 16 && pilot.interpretationBudget.used <= 16 && costCents <= 100, replayProviderFree: replayCalls === 0 && replay.interpretationBudget.used === 0, noBroaderDeployment: true }
 };
 assert(report.acceptance.deterministicAuthority, "pilot changed canonical runtime authority");
