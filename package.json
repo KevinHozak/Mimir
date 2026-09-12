@@ -28,6 +28,7 @@
     "first-glow:transition-review": "npm run build && node scripts/first-glow-transition-review.mjs",
     "first-glow:long-story-review": "npm run build && node scripts/first-glow-long-story-review.mjs",
     "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",
+    "ai-p6:vertex-evaluation": "npm run build && node scripts/first-glow-gemini-evaluation.mjs",
     "dev:server": "npm run dev --workspace @mimir/server",
     "dev:web": "npm run dev --workspace @mimir/web"
   },
