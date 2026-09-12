@@ -1,0 +1,21 @@
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { decodeWorldBundle } from "@mimir/world-data";
+import { buildFirstGlowInterpretationContext, createFirstGlowState, createFirstGlowVertexGeminiFlashLiteProvider, createRulesOnlyFirstGlowInterpretation, recordFirstGlowWitnesses, runFirstGlowOfflineHybrid } from "@mimir/engine";
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const required = name => { const value = process.env[name]?.trim(); if (!value) throw new Error(`${name} is required; evaluation fails closed`); return value; };
+const bundlePath = resolve(root, "assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json");
+const config = { accessToken: required("MIMIR_VERTEX_ACCESS_TOKEN"), projectId: required("MIMIR_GEMINI_PROJECT_ID"), accountId: required("MIMIR_GEMINI_ACCOUNT_ID"), location: process.env.MIMIR_VERTEX_LOCATION ?? "us-central1", hardCapCents: Number(required("MIMIR_GEMINI_HARD_CAP_CENTS")), killSwitch: required("MIMIR_GEMINI_EVALUATION_KILL_SWITCH"), model: "gemini-2.5-flash-lite" };
+if (!Number.isInteger(config.hardCapCents) || config.hardCapCents <= 0) throw new Error("MIMIR_GEMINI_HARD_CAP_CENTS must be a positive integer");
+if (config.killSwitch !== "enabled") throw new Error("MIMIR_GEMINI_EVALUATION_KILL_SWITCH must be enabled");
+if (required("MIMIR_GEMINI_DATA_SCOPE") !== "spark-local-context-only") throw new Error("MIMIR_GEMINI_DATA_SCOPE must be spark-local-context-only");
+if (required("MIMIR_GEMINI_RETENTION_MODE") !== "review-artifact") throw new Error("MIMIR_GEMINI_RETENTION_MODE must be review-artifact");
+const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8")));
+const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 4);
+const contexts = [];
+for (let index = 0; index < 16; index += 1) { const actorId = `spark-${(index % 4) + 1}`; const kind = ["draw", "idle", "explore", "wild-cache"][index % 4]; state.tick = index + 1; const event = { id: `event-ai-p6-${index + 1}`, kind, actorId, participants: [actorId], message: `Matched evaluation encounter ${index + 1}.`, evidenceEventIds: [] }; state.events = [event]; recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.tick); const context = buildFirstGlowInterpretationContext(state, event); if (!context) throw new Error(`Could not build context for ${event.id}`); contexts.push(context); }
+const provider = createFirstGlowVertexGeminiFlashLiteProvider(config);
+const result = await runFirstGlowOfflineHybrid(contexts, { provider, attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, repeatedEventCooldownTicks: 0, timeoutMs: 10000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
+const artifact = { schemaVersion: 1, generatedAt: new Date().toISOString(), authorization: { provider: "Google Vertex AI", channel: "vertex-ai", model: config.model, sku: config.model, projectId: config.projectId, accountId: config.accountId, location: config.location, dataScope: "spark-local-context-only", retention: "review-artifact", hardCapCents: config.hardCapCents, killSwitch: config.killSwitch }, matchedEncounterCount: 16, perSparkDailyLimit: 4, globalDailyLimit: 16, baseline: contexts.map(createRulesOnlyFirstGlowInterpretation), outcomes: result.outcomes, providerTelemetry: provider.telemetry, validation: { historicalReplayProviderFree: true, normalRuntimeProviderFree: true }, cost: { cumulativeCostCents: provider.telemetry.at(-1)?.cumulativeCostCents ?? 0, hardCapCents: config.hardCapCents } };
+const artifactPath = resolve(root, process.env.MIMIR_GEMINI_EVALUATION_ARTIFACT ?? ".tmp/ai-p6-gemini-evaluation.json"); mkdirSync(dirname(artifactPath), { recursive: true }); writeFileSync(artifactPath, `${JSON.stringify(artifact, null, 2)}\n`, "utf8"); console.log(JSON.stringify({ artifactPath, matchedEncounterCount: 16, providerCalls: provider.telemetry.length, cumulativeCostCents: artifact.cost.cumulativeCostCents, fallbacks: result.outcomes.filter(item => item.usage.outcome === "fallback").length }, null, 2));
