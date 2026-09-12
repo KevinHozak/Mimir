@@ -22,11 +22,11 @@ The selected route is Google Vertex AI with Gemini 2.5 Flash-Lite. AI may propos
 | Maximum provider output | 128 tokens |
 | Provider timeout | 1 second |
 | Retries | 0; fall back immediately |
-| Hard experiment cap | $0.04 |
+| Hard experiment cap | $1.00 |
 | Kill switch | Required and must be enabled explicitly |
 | Normal runtime default | Disabled; rules-only |
 
-The project/account and $0.04 cap match the previously authorized AI-P6 Vertex evaluation contract. That authorization is not extended implicitly: enabling live calls still requires an operator to set the explicit configuration and verify billing state immediately before use.
+The project/account match the previously authorized AI-P6 Vertex evaluation route. The AI-P11 hard cap is now $1.00, superseding the smaller $0.04 AI-P6 evaluation cap. This changes the ceiling only: enabling live calls still requires an operator to set the explicit configuration and verify billing state immediately before use.
 
 ## Data minimization, privacy, and retention
 
@@ -54,7 +54,7 @@ Historical playback and branching never call Vertex AI. They replay recorded dec
 Before enabling a live call, the operator must verify:
 
 1. The active Vertex project, account, billing mode, model/SKU, and current price snapshot.
-2. The $0.04 hard cap, 4-per-Spark cap, 16-global cap, 1-second timeout, zero retries, and enabled kill switch.
+2. The $1.00 hard cap, 4-per-Spark cap, 16-global cap, 1-second timeout, zero retries, and enabled kill switch.
 3. The minimized data scope and provider retention/data-use settings.
 4. Usage/cost telemetry and an immediate rules-only fallback path.
 5. An isolated disposable runtime target, never the canonical timeline or public observer.
