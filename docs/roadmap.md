@@ -47,7 +47,11 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 | AI-P7 | [Evaluate hybrid choice quality and behavioral value](https://github.com/KevinHozak/Mimir/issues/135) | Follows AI-P6; produces the evidence-based adopt/defer/retire recommendation. |
 | AI-P8 | [Apply validated hybrid choices in isolated staging](https://github.com/KevinHozak/Mimir/issues/145) | Follows AI-P7 evidence plus explicit authorization; proves bounded downstream effects without provider authority. |
 | AI-P9 | [Run a limited isolated hybrid staging pilot](https://github.com/KevinHozak/Mimir/issues/136) | Conditional on AI-P8; cannot affect the canonical timeline or public observer. |
-| AI-P10 | [Decide whether to expand hybrid runtime use](https://github.com/KevinHozak/Mimir/issues/137) | Conditional on AI-P9; no broader deployment is included. |
+| AI-P10 | [Plan bounded hybrid runtime implementation](https://github.com/KevinHozak/Mimir/issues/137) | Proceeds toward AI-assisted play behind server-owned authority; no broad deployment is included. |
+| AI-P11 | [Define and authorize the bounded live provider contract](https://github.com/KevinHozak/Mimir/issues/149) | Next actionable phase; requires explicit provider/model, privacy, data-scope, budget, kill-switch, and telemetry decisions. |
+| AI-P12 | [Implement the bounded live interpretation adapter](https://github.com/KevinHozak/Mimir/issues/150) | Follows AI-P11; provider proposes only, deterministic transitions commit consequences. |
+| AI-P13 | [Run the bounded internal hybrid runtime pilot](https://github.com/KevinHozak/Mimir/issues/151) | Follows AI-P12; isolated, fixed-seed, capped, and provider-free on replay. |
+| AI-P14 | [Enable bounded AI-assisted First Glow play](https://github.com/KevinHozak/Mimir/issues/152) | Follows AI-P13; operator-controlled rollout, with public exposure still separately decided. |
 
 ### AI-P10 decision: proceed with bounded hybrid runtime implementation
 
