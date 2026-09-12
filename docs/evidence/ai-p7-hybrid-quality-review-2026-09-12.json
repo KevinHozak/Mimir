@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12",
+  "evaluation": "AI-P7 blinded hybrid choice quality and behavioral value",
+  "source": {
+    "artifact": "AI-P6 Vertex review artifact",
+    "provider": "Google Vertex AI",
+    "model": "gemini-2.5-flash-lite",
+    "projectId": "mimir-realm",
+    "accountId": "khozak@gmail.com",
+    "location": "us-central1",
+    "dataScope": "spark-local-context-only",
+    "retention": "review-artifact"
+  },
+  "design": {
+    "matchedEncounters": 16,
+    "providerEncounters": 8,
+    "rulesOnlyEncounters": 8,
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "blindedVariants": "Each matched pair was scored without a source label; deterministic ordering alternated by encounter index.",
+    "observerUnderstandingMeasure": "bounded readability proxy, not a human observer study",
+    "personalityConsistencyMeasure": "profile-anchor proxy, not an independent human judgment"
+  },
+  "results": {
+    "rulesOnly": {
+      "understandable": "16/16",
+      "evidenceGrounded": "16/16",
+      "personalityConsistentProxy": "0/16"
+    },
+    "flashLite": {
+      "understandable": "8/8",
+      "evidenceGrounded": "8/8",
+      "personalityConsistentProxy": "8/8",
+      "valid": "8/8",
+      "fallbacks": 0,
+      "meaningfulDownstreamChoiceChanges": 0,
+      "interpretationChoiceChanges": 6,
+      "hiddenKnowledgeLeakage": 0,
+      "simulationAuthorityViolations": 0,
+      "latencyMs": {
+        "min": 582,
+        "p50": 687,
+        "max": 929
+      }
+    }
+  },
+  "replay": {
+    "historicalReplayProviderCalls": 0,
+    "normalRuntimeProviderCalls": 0,
+    "evidenceVerified": true
+  },
+  "cost": {
+    "inputTokens": 3708,
+    "outputTokens": 641,
+    "providerCalls": 8,
+    "actualCostCents": 0.06272,
+    "hardCapCents": 4,
+    "adhered": true
+  },
+  "decision": "defer",
+  "recommendation": "Defer a later hybrid runtime phase. Flash-Lite produced bounded, valid, evidence-grounded interpretation proposals and changed 6 interpretation choices, but this evaluation recorded no committed downstream behavior change and did not include independent observer comprehension. Keep provider use evaluation-only until a later study demonstrates meaningful behavioral value under the same zero-leakage, zero-authority-violation, replay-free boundary.",
+  "acceptance": {
+    "hiddenKnowledgeLeakageZero": true,
+    "simulationAuthorityViolationsZero": true,
+    "historicalReplayProviderFree": true,
+    "actualTokenCostRecorded": true,
+    "budgetAdherenceRecorded": true,
+    "explicitLaterPhaseDecision": true
+  },
+  "blindedPairCount": 16,
+  "encounterIds": [
+    "encounter-11-event-ai-p6-11",
+    "encounter-12-event-ai-p6-12",
+    "encounter-15-event-ai-p6-15",
+    "encounter-16-event-ai-p6-16",
+    "encounter-3-event-ai-p6-3",
+    "encounter-4-event-ai-p6-4",
+    "encounter-7-event-ai-p6-7",
+    "encounter-8-event-ai-p6-8"
+  ]
+}
+
