@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T21:38:11.091Z",
+  "evaluation": "AI-P16 repeatability evaluation of bounded private-hosted Vertex value",
+  "fixedSeeds": [2, 4, 8, 16],
+  "encountersPerSeed": 32,
+  "authorization": { "execution": "deterministic-control", "provider": "local fake provider", "model": "local-deterministic-control", "location": "local", "accountId": "not applicable" },
+  "budgets": { "perSparkDailyLimit": 4, "globalDailyLimit": 16, "hardCapCents": 100, "costCents": 0, "withinCaps": true },
+  "seeds": [
+    { "seed": 2, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 8, "fallbacks": 0, "changedChoices": 3, "changedDownstream": 31, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false },
+    { "seed": 4, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 8, "fallbacks": 0, "changedChoices": 6, "changedDownstream": 29, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false },
+    { "seed": 8, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 8, "fallbacks": 0, "changedChoices": 5, "changedDownstream": 30, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false },
+    { "seed": 16, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 8, "fallbacks": 0, "changedChoices": 5, "changedDownstream": 29, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false }
+  ],
+  "summary": { "seedCount": 4, "usefulSeeds": 4, "validSeeds": 4, "totalRecorded": 32, "totalFallbacks": 0, "totalChangedChoices": 19, "totalChangedDownstream": 119 },
+  "provider": { "calls": 0, "model": "local-deterministic-control", "telemetry": [] },
+  "decision": "live-rehearsal-required",
+  "acceptance": { "safetyPassed": true, "repeatableUsefulValue": true, "providerFreeReplay": true, "noBroaderDeployment": true }
+}
+
