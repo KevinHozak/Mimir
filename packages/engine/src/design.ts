@@ -1,3 +1,5 @@
+import { canonicalize } from "@mimir/world-data";
+
 export type FirstGlowValueTendency = "care" | "caution" | "curiosity" | "independence" | "patience" | "reciprocity";
 export interface FirstGlowRelationship { sparkId: string; kind: "companionship" | "reliance" | "tension" | "curiosity"; note: string; }
 export interface FirstGlowKnowledgeBoundary { knows: string[]; doesNotKnow: string[]; }
@@ -7,6 +9,18 @@ export interface FirstGlowCard {
   valueTendencies: FirstGlowValueTendency[];
   practicalNeeds: string[];
   initialRelationships: FirstGlowRelationship[];
+  knowledgeBoundary: FirstGlowKnowledgeBoundary;
+  description: string;
+  openingQuestion: string;
+}
+export const FIRST_GLOW_PERSONALITY_PROFILE_VERSION = 1 as const;
+export interface FirstGlowSparkPersonalityProfile {
+  profileVersion: typeof FIRST_GLOW_PERSONALITY_PROFILE_VERSION;
+  sparkId: string;
+  name: string;
+  valueTendencies: FirstGlowValueTendency[];
+  practicalNeeds: string[];
+  relevantRelationships: FirstGlowRelationship[];
   knowledgeBoundary: FirstGlowKnowledgeBoundary;
   description: string;
   openingQuestion: string;
@@ -106,6 +120,36 @@ export const FIRST_GLOW_DESIGN: FirstGlowDesign = {
     { id: "spark-sel", name: "Sel", valueTendencies: ["care", "independence"], practicalNeeds: ["a sheltered rest point", "a useful task with a visible result"], initialRelationships: [{ sparkId: "spark-rill", kind: "companionship", note: "Shares quiet rest without needing a full explanation." }, { sparkId: "spark-nix", kind: "curiosity", note: "Wonders why Nix keeps findings close." }], knowledgeBoundary: { knows: ["Visible tiredness, shelter access, and marks on the route."], doesNotKnow: ["A Spark's private intention when it leaves no mark."] }, description: "Offers practical help, but keeps its own next route open.", openingQuestion: "What small action would make the next choice easier?" }
   ]
 };
+
+function cardForSparkId(sparkId: string, design: FirstGlowDesign): FirstGlowCard {
+  const direct = design.cards.find(card => card.id === sparkId);
+  if (direct) return direct;
+  const numericId = Number(sparkId.replace(/^spark-/, ""));
+  return design.cards[(Number.isInteger(numericId) && numericId > 0 ? numericId - 1 : 0) % design.cards.length];
+}
+
+function compareStable(left: string, right: string): number {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
+export function firstGlowSparkPersonalityProfile(sparkId: string, design: FirstGlowDesign = FIRST_GLOW_DESIGN): FirstGlowSparkPersonalityProfile {
+  const card = cardForSparkId(sparkId, design);
+  return {
+    profileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION,
+    sparkId,
+    name: card.name,
+    valueTendencies: card.valueTendencies.slice(),
+    practicalNeeds: card.practicalNeeds.slice(),
+    relevantRelationships: card.initialRelationships.slice().sort((a, b) => compareStable(a.sparkId, b.sparkId) || compareStable(a.kind, b.kind) || compareStable(a.note, b.note)).map(relationship => ({ ...relationship })),
+    knowledgeBoundary: { knows: card.knowledgeBoundary.knows.slice(), doesNotKnow: card.knowledgeBoundary.doesNotKnow.slice() },
+    description: card.description,
+    openingQuestion: card.openingQuestion
+  };
+}
+
+export function serializeFirstGlowSparkPersonalityProfile(profile: FirstGlowSparkPersonalityProfile): string {
+  return JSON.stringify(canonicalize(profile));
+}
 
 export function validateFirstGlowDesign(design: FirstGlowDesign = FIRST_GLOW_DESIGN): void {
   const cardIds = new Set<string>();
