@@ -73,14 +73,16 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Through [PR #66](https://github.com/KevinHozak/Mimir/pull/66) and the documentation work that followed it.
 
-### A deferred hybrid runtime decision
+### A bounded hybrid runtime implementation path
 
 - Completed AI-P7 through AI-P9 as bounded evaluation gates: quality review, isolated downstream-effects staging, and a limited budget/replay pilot.
 - Confirmed that validated model-shaped choices can produce bounded social differences through existing deterministic transitions without changing canonical runtime authority.
-- Deferred expansion into normal runtime because the evidence does not yet include a fresh external-model effectiveness sample or independent observer-facing study sufficient to justify provider complexity, privacy exposure, reliability risk, and spend.
-- Preserved rules-only simulation, public observation, historical playback, and branching as provider-free paths.
+- Proceeded with the next implementation steps toward AI-assisted play: provider proposals remain bounded and validated, while deterministic server transitions commit all consequences.
+- Kept the implementation boundary internal and controlled: explicit provider/model authorization, per-Spark and global caps, privacy/retention review, cost telemetry, kill switch, rules-only fallback, and provider-free replay remain required.
+- Preserved public observation and historical playback as provider-free paths until a separate bounded runtime pilot is complete.
 
-  - Evidence: [AI-P10 hybrid runtime decision](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
+  - Evidence: [AI-P10 hybrid runtime implementation path](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
+
 
 ## Earlier project direction
 
