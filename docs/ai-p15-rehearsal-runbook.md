@@ -35,7 +35,7 @@ Run it only from the private operator-controlled host or an equivalent isolated 
 
 The report compares the live arm with the same fixed-seed rules-only baseline. Review choice changes, downstream social-state changes, fallbacks, latency, token usage, cumulative cost, knowledge-boundary checks, and provider-free replay. A live result may recommend `proceed-to-next-review` only when the bounded path shows meaningful value and all safety gates pass. Otherwise recommend `defer-for-value`, `tune`, or `retire`.
 
-The deterministic control result is not sufficient to authorize live use. If the required runtime configuration is absent, the correct decision is `live-rehearsal-required` and no provider call is attempted.
+The deterministic control result is not sufficient to authorize live use. If the required runtime configuration is absent, the correct decision is `live-rehearsal-required` and no provider call is attempted. If the live arm can reach the provider path but every request falls back before recording an interpretation, the correct decision is `live-rehearsal-blocked`; diagnose egress or provider availability before judging model value.
 
 ## Recovery
 
