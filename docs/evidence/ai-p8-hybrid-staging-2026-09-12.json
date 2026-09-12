@@ -24,10 +24,19 @@
     "hybridDifferentFromRulesOnly": 14,
     "interpretationChoiceChanges": 6,
     "runtimeAuthorityChanges": 0,
+    "latencyMs": {
+      "min": 582,
+      "p50": 687,
+      "max": 929
+    },
+    "fallbackCount": 0,
+    "hiddenKnowledgeLeakage": 0,
     "stateDiffs": [
       {
         "encounterId": "encounter-1-event-ai-p6-1",
         "alternativeId": "withhold-pool",
+        "beforeStateFingerprint": "sha256-a0e792219f454324c78ac05b889c83fe430ac41388452a8fc92b896f18928533",
+        "afterStateFingerprint": "sha256-c6f69b7f69e6fd04d37c016e148724e004e2084f281b0c92b44a4a4814384700",
         "changedFields": [
           "social"
         ],
@@ -36,6 +45,8 @@
       {
         "encounterId": "encounter-2-event-ai-p6-2",
         "alternativeId": "help-shelter",
+        "beforeStateFingerprint": "sha256-4589da8929ad21016c86832fd5d6849c4bb003ae4fb940279e5c7eeb49886040",
+        "afterStateFingerprint": "sha256-6a66ea18e86dd8d7b5c19f1b7aeaf27df110e935c48ec23a5cdc14056bfeee69",
         "changedFields": [
           "social"
         ],
@@ -44,6 +55,8 @@
       {
         "encounterId": "encounter-3-event-ai-p6-3",
         "alternativeId": "make-mark-public",
+        "beforeStateFingerprint": "sha256-52160fe394c3855444664fb4c9be4fedca7da3dcaf2c211482b77fcfec1feb51",
+        "afterStateFingerprint": "sha256-c024409a8acbc07085fc1f8050d8b10a61bf823c0bd83ca2bfcdb7763ab9a997",
         "changedFields": [
           "social"
         ],
@@ -52,6 +65,8 @@
       {
         "encounterId": "encounter-4-event-ai-p6-4",
         "alternativeId": "enter-wild-cache",
+        "beforeStateFingerprint": "sha256-b2364eb1b40c38c8af501155bc759c492ee1bd633d196c865bede67bb1b74a17",
+        "afterStateFingerprint": "sha256-0e23e604d2143011967bd1e221a26ec085caff6acc24611683325037e64761fa",
         "changedFields": [
           "social"
         ],
@@ -60,6 +75,8 @@
       {
         "encounterId": "encounter-5-event-ai-p6-5",
         "alternativeId": "withhold-pool",
+        "beforeStateFingerprint": "sha256-d5dd5f4b96360c5a38e50068ea21eab5cd26ac58070f4d12e6ca39bf680e7387",
+        "afterStateFingerprint": "sha256-cc6583965db41e72a5dc97506311e9a809ed21f7169bb8658d7fba51eb4effeb",
         "changedFields": [
           "social"
         ],
@@ -68,6 +85,8 @@
       {
         "encounterId": "encounter-6-event-ai-p6-6",
         "alternativeId": "continue-exploration",
+        "beforeStateFingerprint": "sha256-4913fadf6ff543e0640966717505e1a333a267dc9da3803fd12b5f7be3db806c",
+        "afterStateFingerprint": "sha256-7dfd2293712ec74beacb12ca68e0af74d828a3a4301082d34b60bd005236c81d",
         "changedFields": [
           "social"
         ],
@@ -76,6 +95,8 @@
       {
         "encounterId": "encounter-7-event-ai-p6-7",
         "alternativeId": "keep-mark-private",
+        "beforeStateFingerprint": "sha256-5a87ff8d512639d6030a0a0d03f0d4fb93979d7cee9f25698b2a366218e97dd6",
+        "afterStateFingerprint": "sha256-84621155fa9d26fc593cdbbc8a963bbc3aff87a8120c76f022ce306dee541848",
         "changedFields": [
           "social"
         ],
@@ -84,6 +105,8 @@
       {
         "encounterId": "encounter-8-event-ai-p6-8",
         "alternativeId": "enter-wild-cache",
+        "beforeStateFingerprint": "sha256-08e59ed3ea04175623ccbf2053045980d8b384fba8477c473978f6016b1cd693",
+        "afterStateFingerprint": "sha256-cd48f499085455c12e6e550e2b7b26084d9eab348ae91008bf378116639d1eff",
         "changedFields": [
           "social"
         ],
@@ -92,6 +115,8 @@
       {
         "encounterId": "encounter-9-event-ai-p6-9",
         "alternativeId": "withhold-pool",
+        "beforeStateFingerprint": "sha256-8770d07532b3818853cfb98d9cc7dcdf31a66702e372aee3754274a9934bb55a",
+        "afterStateFingerprint": "sha256-de5f9f82c8591389dd8bf3d5d67b7d7d6f282929f923a5126183c12e0a5c1657",
         "changedFields": [
           "social"
         ],
@@ -100,6 +125,8 @@
       {
         "encounterId": "encounter-10-event-ai-p6-10",
         "alternativeId": "help-shelter",
+        "beforeStateFingerprint": "sha256-45b7d4db3d4f32d4139a934f16b8d23d159185135beaec72101221ccc5603081",
+        "afterStateFingerprint": "sha256-5ea48b63fc41f331d7cab7209762e7e7333daae81043b604a067a8856c5241f6",
         "changedFields": [
           "social"
         ],
@@ -108,6 +135,8 @@
       {
         "encounterId": "encounter-11-event-ai-p6-11",
         "alternativeId": "keep-mark-private",
+        "beforeStateFingerprint": "sha256-c79ed1f6c7279ca542731b7d2292db8b3b2c861d9ade2541968ee6340aaf02f5",
+        "afterStateFingerprint": "sha256-fff6b2e5a3d188c91b5fc48a769fc9d575e0eb382469babb6949e9420e691ba7",
         "changedFields": [
           "social"
         ],
@@ -116,6 +145,8 @@
       {
         "encounterId": "encounter-12-event-ai-p6-12",
         "alternativeId": "enter-wild-cache",
+        "beforeStateFingerprint": "sha256-ba1d95a3e9f5b906faf80abcaa72597d38d46d37cb60099735853a24f4b657ed",
+        "afterStateFingerprint": "sha256-37d1604b9c271053caca4aaa6efca84918ca3c2f17ae3588b647ea7f40b2f2c0",
         "changedFields": [
           "social"
         ],
@@ -124,6 +155,8 @@
       {
         "encounterId": "encounter-13-event-ai-p6-13",
         "alternativeId": "reveal-pool",
+        "beforeStateFingerprint": "sha256-85479b1f9ae7cf79b915a9556697b7b94996814ae413c2a12b7828f70953f161",
+        "afterStateFingerprint": "sha256-2b70f350ffe5c5ace0e3d4804f14fa313a4ac152803a7cb07a953eb385e5774a",
         "changedFields": [
           "social"
         ],
@@ -132,6 +165,8 @@
       {
         "encounterId": "encounter-14-event-ai-p6-14",
         "alternativeId": "continue-exploration",
+        "beforeStateFingerprint": "sha256-ccb3805c9daa2aadccd85474cc3653c6b000a3c788991a86bb6a6db73067fd6f",
+        "afterStateFingerprint": "sha256-b7ac4c6919b2085e3b0161341f5c329b1dcc832d2dc59eb40399492a6dc993ac",
         "changedFields": [
           "social"
         ],
@@ -140,6 +175,8 @@
       {
         "encounterId": "encounter-15-event-ai-p6-15",
         "alternativeId": "make-mark-public",
+        "beforeStateFingerprint": "sha256-3764dd9c3b5c9619d0db70bf6047989e8d6467ac4ea966cbc653150b89bbb3eb",
+        "afterStateFingerprint": "sha256-4e825b38e19a4943f0b60726b74f1b853dfba12ea23b18e5355bf33010615875",
         "changedFields": [
           "social"
         ],
@@ -148,6 +185,8 @@
       {
         "encounterId": "encounter-16-event-ai-p6-16",
         "alternativeId": "enter-wild-cache",
+        "beforeStateFingerprint": "sha256-e1902c8adcb2abf15d72307040991ec50e2de2bf6084d300bdc4a85ad0f57890",
+        "afterStateFingerprint": "sha256-7d24f957d728830fecdd3ffc9f87edcd5493de6fc786115ac0b9b6c825a8a525",
         "changedFields": [
           "social"
         ],
@@ -162,6 +201,8 @@
   },
   "cost": {
     "inheritedProviderCalls": 8,
+    "inputTokens": 3708,
+    "outputTokens": 641,
     "inheritedActualCostCents": 0.06272,
     "newProviderCalls": 0,
     "newCostCents": 0,
