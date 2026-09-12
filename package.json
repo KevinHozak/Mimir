@@ -34,7 +34,9 @@
     "ai-p7:hybrid-quality-review": "node scripts/first-glow-hybrid-quality-review.mjs",
     "dev:server": "npm run dev --workspace @mimir/server",
     "dev:web": "npm run dev --workspace @mimir/web",
-    "ai-p8:hybrid-staging": "npm run build && node scripts/first-glow-hybrid-staging.mjs"
+    "ai-p8:hybrid-staging": "npm run build && node scripts/first-glow-hybrid-staging.mjs",
+    "ai-p9:hybrid-pilot": "npm run build && node scripts/first-glow-hybrid-pilot.mjs",
+    "ai-p9:hybrid-pilot:test": "node scripts/first-glow-hybrid-pilot.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
