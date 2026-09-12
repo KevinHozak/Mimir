@@ -2,7 +2,9 @@
   "name": "mimir",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && npm run build --workspace @mimir/server && npm run build --workspace @mimir/web",
     "test": "npm run test --workspace @mimir/world-data && npm run test --workspace @mimir/engine",
@@ -31,7 +33,8 @@
     "ai-p6:vertex-evaluation": "npm run build && node scripts/first-glow-gemini-evaluation.mjs",
     "ai-p7:hybrid-quality-review": "node scripts/first-glow-hybrid-quality-review.mjs",
     "dev:server": "npm run dev --workspace @mimir/server",
-    "dev:web": "npm run dev --workspace @mimir/web"
+    "dev:web": "npm run dev --workspace @mimir/web",
+    "ai-p8:hybrid-staging": "npm run build && node scripts/first-glow-hybrid-staging.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
