@@ -1,6 +1,7 @@
 import { FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, createFirstGlowAttentionBudget, requestFirstGlowAttention, type FirstGlowAttentionBudgetState, type FirstGlowAttentionPolicyOptions } from "./first-glow-attention.js";
 import { createRulesOnlyFirstGlowInterpretation, evaluateFirstGlowInterpretation, type FirstGlowInterpretationBudget, type FirstGlowInterpretationContext, type FirstGlowInterpretationProvider, type FirstGlowInterpretationRecord } from "./first-glow-interpretations.js";
-import { firstGlowDecisionRecord, type FirstGlowDecisionRecord } from "./first-glow-fake-provider.js";
+import { firstGlowDecisionRecord } from "./first-glow-fake-provider.js";
+import type { FirstGlowDecisionRecord } from "./first-glow-history.js";
 import type { StructuredEvent } from "./structured.js";
 
 export type FirstGlowRuntimeMode = "rules-only" | "bounded-internal-pilot";
