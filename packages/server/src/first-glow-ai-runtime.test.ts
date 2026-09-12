@@ -42,7 +42,7 @@ test("server runtime accepts an injected bounded provider without exposing canon
       bundle: { schemaVersion: 3, bundle: { contentHash: "sha256-test" }, objects: [], objectDefinitions: {}, spawns: [], width: 1, height: 1, layers: [] },
       runtime: { navigationRevision: 0, objects: [] }
     }]
-  };
+  } as any;
   const result = await runtime.evaluate(state, state.events);
   assert.equal(result.interpretations.length, 1);
   assert.equal(result.decisions[0].source, "ai");
