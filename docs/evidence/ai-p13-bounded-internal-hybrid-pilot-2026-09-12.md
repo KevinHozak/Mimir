@@ -21,4 +21,3 @@ Encounters: **32**, fixed seed: **20260912**
 - Per-Spark/global caps adhered to: **pass**
 - Provider-free replay: **pass**
 - Broader deployment: **none**
-
