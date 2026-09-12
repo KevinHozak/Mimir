@@ -125,4 +125,6 @@ The current planning estimate for Gemini 2.5 Flash-Lite is $0.10 per million inp
 4. Extend event and decision records for movement, personality, provider metadata, and validation results.
 5. Add a Flash-Lite evaluation adapter behind explicit configuration and an operator kill switch.
 6. Run the matched evaluation and review evidence before considering any normal-operation provider use.
-7. Only after a successful evaluation, separately authorize a limited hybrid runtime phase.
+7. Define and prove an allowlisted downstream-effects adapter in an isolated staging timeline; the server remains authoritative and canonical/public paths remain rules-only.
+8. Run the limited isolated hybrid staging pilot with recorded state diffs, replay suppression, budgets, and kill-switch evidence.
+9. Make a separate adopt, defer, or retire decision before any broader hybrid runtime use.
