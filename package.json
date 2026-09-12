@@ -38,7 +38,9 @@
     "ai-p9:hybrid-pilot": "npm run build && node scripts/first-glow-hybrid-pilot.mjs",
     "ai-p9:hybrid-pilot:test": "node scripts/first-glow-hybrid-pilot.test.mjs",
     "ai-p13:pilot": "npm run build && node scripts/first-glow-ai-p13-pilot.mjs",
-    "ai-p13:pilot:test": "node scripts/first-glow-ai-p13-pilot.test.mjs"
+    "ai-p13:pilot:test": "node scripts/first-glow-ai-p13-pilot.test.mjs",
+    "ai-p15:rehearsal": "npm run build && node scripts/first-glow-ai-p15-rehearsal.mjs",
+    "ai-p15:rehearsal:test": "node scripts/first-glow-ai-p15-rehearsal.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
@@ -46,3 +48,4 @@
     "typescript": "^5.7.2"
   }
 }
+

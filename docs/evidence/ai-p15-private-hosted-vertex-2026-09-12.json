@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T21:00:54.585Z",
+  "evaluation": "AI-P15 private hosted Vertex rehearsal and value evaluation",
+  "fixedSeed": 20260912,
+  "encounters": 32,
+  "authorization": { "execution": "vertex-live", "provider": "Google Vertex AI", "model": "gemini-2.5-flash-lite", "location": "us-central1", "accountId": "redacted from evidence", "projectId": "redacted from evidence", "hardCapCents": 100 },
+  "budgets": { "perSparkDailyLimit": 4, "globalDailyLimit": 16, "perSparkMaximumUsed": 4, "globalUsed": 8, "providerOpportunities": 8, "interpretationUnitsUsed": 8, "hardCapCents": 100, "withinCaps": true },
+  "outcomes": { "rulesOnly": 32, "pilotRecorded": 8, "pilotFallbacks": 0, "acceptedStaging": 32, "changedChoices": 3, "changedDownstream": 29, "canonicalRuntimeAuthorityChanges": 0 },
+  "provider": {
+    "calls": 8,
+    "model": "gemini-2.5-flash-lite",
+    "telemetry": [
+      { "requestId": "gemini-encounter-3-event-ai-p15-3-37a563380cbf", "model": "gemini-2.5-flash-lite", "inputTokens": 468, "outputTokens": 73, "latencyMs": 896, "costCents": 0.0076, "cumulativeCostCents": 0.0076, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-4-event-ai-p15-4-e805dd840fa9", "model": "gemini-2.5-flash-lite", "inputTokens": 466, "outputTokens": 88, "latencyMs": 566, "costCents": 0.00818, "cumulativeCostCents": 0.01578, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-7-event-ai-p15-7-285d36f3090c", "model": "gemini-2.5-flash-lite", "inputTokens": 468, "outputTokens": 87, "latencyMs": 759, "costCents": 0.00816, "cumulativeCostCents": 0.02394, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-8-event-ai-p15-8-d741f9b29798", "model": "gemini-2.5-flash-lite", "inputTokens": 466, "outputTokens": 86, "latencyMs": 627, "costCents": 0.0081, "cumulativeCostCents": 0.03204, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-11-event-ai-p15-11-1601372e8485", "model": "gemini-2.5-flash-lite", "inputTokens": 475, "outputTokens": 93, "latencyMs": 584, "costCents": 0.00847, "cumulativeCostCents": 0.04051, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-12-event-ai-p15-12-aa54f4d24916", "model": "gemini-2.5-flash-lite", "inputTokens": 473, "outputTokens": 87, "latencyMs": 505, "costCents": 0.00821, "cumulativeCostCents": 0.04872, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-15-event-ai-p15-15-4b70f15d021c", "model": "gemini-2.5-flash-lite", "inputTokens": 475, "outputTokens": 91, "latencyMs": 623, "costCents": 0.00839, "cumulativeCostCents": 0.05711, "outcome": "recorded" },
+      { "requestId": "gemini-encounter-16-event-ai-p15-16-8da42486d2da", "model": "gemini-2.5-flash-lite", "inputTokens": 473, "outputTokens": 87, "latencyMs": 517, "costCents": 0.00821, "cumulativeCostCents": 0.06532, "outcome": "recorded" }
+    ]
+  },
+  "replay": { "providerCalls": 0, "budgetUnitsUsed": 0, "recordsMatched": 32, "providerFree": true },
+  "decision": "proceed-to-next-review",
+  "acceptance": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "noBroaderDeployment": true }
+}
+

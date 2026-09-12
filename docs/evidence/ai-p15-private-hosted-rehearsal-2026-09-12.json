@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T19:59:06.699Z",
+  "evaluation": "AI-P15 private hosted Vertex rehearsal and value evaluation",
+  "fixedSeed": 20260912,
+  "encounters": 32,
+  "authorization": {
+    "execution": "deterministic-control",
+    "provider": "local fake provider",
+    "model": "local-deterministic-control",
+    "location": "local",
+    "accountId": "not applicable"
+  },
+  "budgets": {
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "perSparkMaximumUsed": 4,
+    "globalUsed": 8,
+    "providerOpportunities": 8,
+    "interpretationUnitsUsed": 8,
+    "hardCapCents": 100,
+    "withinCaps": true
+  },
+  "outcomes": {
+    "rulesOnly": 32,
+    "pilotRecorded": 8,
+    "pilotFallbacks": 0,
+    "acceptedStaging": 32,
+    "changedChoices": 5,
+    "changedDownstream": 26,
+    "canonicalRuntimeAuthorityChanges": 0
+  },
+  "provider": {
+    "calls": 0,
+    "model": "local-deterministic-control",
+    "telemetry": []
+  },
+  "replay": {
+    "providerCalls": 0,
+    "budgetUnitsUsed": 0,
+    "recordsMatched": 32,
+    "providerFree": true
+  },
+  "decision": "live-rehearsal-required",
+  "acceptance": {
+    "privateHostedOnly": true,
+    "deterministicAuthority": true,
+    "capsAdhered": true,
+    "replayProviderFree": true,
+    "noBroaderDeployment": true
+  }
+}
+
