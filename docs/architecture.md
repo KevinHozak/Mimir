@@ -266,6 +266,10 @@ Implemented boundaries:
 - Capability-filtered interaction slots, reservations, and arrival-gated First Glow actions.
 - Content-addressed generated bundles with asset manifests and bundle-inclusive backup/restore tooling.
 
+## AI-P14 bounded rollout
+
+AI-assisted First Glow evaluation is server-owned and disabled by default. The bounded internal pilot is enabled only when the operator explicitly supplies the runtime, rollout, provider-access, data-scope, retention, kill-switch, and $1.00 hard-cap gates described in [docs/ai-p14-rollout-runbook.md](ai-p14-rollout-runbook.md). Routine activity remains rules-only; the browser never calls a provider. The server records bounded, explainable outcomes and telemetry, while playback and branching continue to use persisted records without fresh provider calls.
+
 Still open:
 
 - Selection and authorization of any real provider, model, and spending limit. No external AI calls are made by the First Glow runtime; the bounded adapter and local fake-provider review harness are the complete current implementation.

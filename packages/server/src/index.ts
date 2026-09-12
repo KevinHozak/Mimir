@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
 import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, CHARACTER_CARDS, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
@@ -17,9 +18,11 @@ const DEFAULT_TICK_INTERVAL_MS = 4000;
 let tickIntervalMs = Number(process.env.TICK_INTERVAL_MS ?? DEFAULT_TICK_INTERVAL_MS);
 const autoTick = process.env.AUTO_TICK !== "false";
 const seasonTickLimit = Number(process.env.SEASON_TICK_LIMIT ?? 360);
-const aiEnabled = process.env.AI_ENABLED === "true";
 const socialBudgetCents = Number(process.env.SOCIAL_BUDGET_CENTS ?? 0);
-const socialMode = aiEnabled && socialBudgetCents > 0 ? "ai-fallback" : "rules-only";
+const aiRuntimeConfig = createFirstGlowServerAIConfig();
+const aiRuntime = new FirstGlowServerAIRuntime(aiRuntimeConfig);
+const aiEnabled = aiRuntimeConfig.enabled;
+const socialMode = aiEnabled ? "ai-bounded" : "rules-only";
 const ownerToken = process.env.OWNER_TOKEN;
 const databasePath = process.env.DATABASE_PATH ?? join(process.cwd(), "data", "local", "mimir.db");
 const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
@@ -139,7 +142,7 @@ function applyFirstGlowPendingCommands(base: WorldState, tick: number): { state:
 
 app.get("/health", async () => ({ ok: true, tick: state.tick, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents, backupReplication: currentBackupReplicationStatus() }));
 app.get("/api/backup/status", async () => currentBackupReplicationStatus());
-app.get("/api/social/config", async () => ({ mode: socialMode, aiEnabled, budgetCents: socialBudgetCents, provider: "none", historicalPlaybackUsesAI: false }));
+app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: socialBudgetCents }));
 app.get("/api/design", async () => state.firstGlowState ? { themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN } : ({ characterCards: CHARACTER_CARDS, dilemmas: FIRST_WINTER_DILEMMAS, sharedStore: state.sharedStore }));
 app.get("/api/resonance", async () => {
   const fixturePath = resolve(process.cwd(), "docs", "resonance-anchor-fixtures.json");
@@ -308,11 +311,24 @@ app.post("/api/owner/resonance-anchor", async (request, reply) => {
   return { candidate: result.candidate, anchor: result.anchor, event: creationEvent };
 });
 
-function commitTick(): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null {
+async function commitTick(): Promise<{ state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null> {
   if (state.tick >= seasonTickLimit || currentTimeline().status !== "active") return null;
   const pending = state.firstGlowState ? applyFirstGlowPendingCommands(state, state.tick + 1) : applyPendingCommands(state, state.tick + 1);
   const advanced = advanceWorld(pending.state);
-  const result = { ...advanced, events: [...pending.events, ...advanced.events].map(event => ({ ...event, tick: advanced.state.tick })) };
+  let result = { ...advanced, events: [...pending.events, ...advanced.events].map(event => ({ ...event, tick: advanced.state.tick })) };
+  if (advanced.state.firstGlowState) {
+    const previousIds = new Set(pending.state.firstGlowState.events.map(event => event.id));
+    const committedStructuredEvents = advanced.state.firstGlowState.events.filter(event => !previousIds.has(event.id));
+    const evaluated = await aiRuntime.evaluate(advanced.state.firstGlowState, committedStructuredEvents);
+    if (evaluated.interpretations.length) {
+      const replacedEventIds = new Set(evaluated.interpretations.map(interpretation => interpretation.eventId));
+      result = {
+        ...result,
+        state: { ...result.state, firstGlowState: evaluated.state },
+        interpretations: [...result.interpretations.filter(interpretation => !replacedEventIds.has(interpretation.eventId)), ...evaluated.interpretations]
+      };
+    }
+  }
   database.exec("BEGIN IMMEDIATE");
   try {
     database.prepare("INSERT INTO timeline_checkpoints (timeline_id, tick, state_json) VALUES (?, ?, ?)").run(activeTimelineId, result.state.tick, JSON.stringify(result.state));
@@ -329,7 +345,7 @@ function commitTick(): { state: WorldState; events: WorldEvent[]; interpretation
   for (const client of liveClients) { if (!client.destroyed) client.write(message); else liveClients.delete(client); }
   return result;
 }
-app.post("/api/tick", async (request, reply) => { if (!requireOwner(request, reply)) return; const result = commitTick(); if (!result) return reply.code(409).send({ error: "timeline is archived or season boundary reached", state }); return result; });
+app.post("/api/tick", async (request, reply) => { if (!requireOwner(request, reply)) return; const result = await commitTick(); if (!result) return reply.code(409).send({ error: "timeline is archived or season boundary reached", state }); return result; });
 app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), activeTimelineId); schedulerPaused = true; return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/continue", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'active', archived_at = NULL WHERE id = ?").run(activeTimelineId); return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/branch", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { tick?: unknown } | undefined; const branchTick = body?.tick === undefined ? state.tick : Number(body.tick); if (!Number.isInteger(branchTick) || branchTick < 0) return reply.code(400).send({ error: "tick must be a non-negative integer" }); const source = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND tick = ?").get(activeTimelineId, branchTick) as { state_json: string } | undefined; if (!source) return reply.code(404).send({ error: "branch source checkpoint not found" }); const newId = `timeline-${randomUUID()}`; database.exec("BEGIN IMMEDIATE"); try { database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(newId, activeTimelineId, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, tick, state_json) SELECT ?, tick, state_json FROM timeline_checkpoints WHERE timeline_id = ? AND tick <= ?").run(newId, activeTimelineId, branchTick); database.prepare("INSERT INTO timeline_events (timeline_id, id, tick, event_json) SELECT ?, id, tick, event_json FROM timeline_events WHERE timeline_id = ? AND tick <= ?").run(newId, activeTimelineId, branchTick); database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, tick, interpretation_json) SELECT ?, id, tick, interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND tick <= ?").run(newId, activeTimelineId, branchTick); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; } activeTimelineId = newId; state = { ...normalizeState(JSON.parse(source.state_json) as WorldState), worldId: newId }; saveActiveTimeline(); return { timeline: currentTimeline(), state }; });
