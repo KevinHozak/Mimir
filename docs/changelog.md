@@ -34,12 +34,12 @@ This is a functional record of meaningful delivered changes. It groups related w
 ### Durable observation and readiness evidence
 
 - Added the dedicated First Glow History & scenarios viewer at `?view=history`. It browses recorded timelines and checkpoints with parent lineage and simulation/spatial/bundle identity, preserves objective events and interpretations without fresh replay generation, and gives explicit empty, unavailable, and incompatible-history states.
-- Verified local bundle-inclusive backup and restore, including referenced bundle recovery and integrity failure behavior. Independent external disaster-recovery storage remains unconfigured.
+- Verified local bundle-inclusive backup and restore, including referenced bundle recovery and integrity failure behavior, then transferred a hosted bundle-inclusive backup to independent Cloud Storage and restored it with a separate recovery identity. Automatic cloud upload and freshness monitoring remain unimplemented.
 - Captured a production-preview profile with fixed First Glow inputs and desktop/mobile evidence. The mobile DPR2 result remains a documented performance limitation, not a broad readiness claim.
 - Established the Google Cloud staging guardrails, including the selected project, billing connection, small VM shape, and $10 budget alert.
-- Provisioned the private IAP-only, single-writer staging observer with same-origin web serving and persistent state. It is not public or durable production hosting.
+- Provisioned the private IAP-only, single-writer staging observer with same-origin web serving and persistent state, then verified 24 authenticated ticks, restart continuity, and owner-token protection. It is not public or durable production hosting.
 
-  - Through [PR #112](https://github.com/KevinHozak/Mimir/pull/112), [PR #113](https://github.com/KevinHozak/Mimir/pull/113), [PR #114](https://github.com/KevinHozak/Mimir/pull/114), [PR #118](https://github.com/KevinHozak/Mimir/pull/118), and [PR #119](https://github.com/KevinHozak/Mimir/pull/119).
+  - Through [PR #112](https://github.com/KevinHozak/Mimir/pull/112), [PR #113](https://github.com/KevinHozak/Mimir/pull/113), [PR #114](https://github.com/KevinHozak/Mimir/pull/114), [PR #118](https://github.com/KevinHozak/Mimir/pull/118), [PR #119](https://github.com/KevinHozak/Mimir/pull/119), [PR #120](https://github.com/KevinHozak/Mimir/pull/120), and [PR #121](https://github.com/KevinHozak/Mimir/pull/121).
 
 ### A safe, cohesive visual production path
 

@@ -10,12 +10,14 @@ No non-hosting implementation gate is currently scheduled. Resonance-P1 through 
 
 ## Next hosted-observer sequence
 
-Hosted-P1 through Hosted-P4 are complete and recorded in the [Changelog](changelog.md). The remaining hosted-observer work is intentionally separate from First Glow feature selection:
+Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changelog.md). The private, single-writer staging observer has independently recovered a bundle-inclusive backup and completed a restart-continuity season; it is not public or durable production hosting. The following sequence must preserve that boundary until its explicit decision and validation gates pass:
 
 | Phase | Issue | Status |
 | --- | --- | --- |
-| Hosted-P5 | [Validate independent hosted backup and recovery](https://github.com/KevinHozak/Mimir/issues/117) | In review; independent bucket, keyless access boundary, hosted transfer, fresh restore, and integrity failure evidence are recorded. |
-| Hosted-P6 | [Validate durable hosted-observer readiness after local seasons are compelling](https://github.com/KevinHozak/Mimir/issues/53) | In review; private hosted-observer readiness, restart continuity, token protection, and short-season evidence are recorded. Public exposure and durable production hosting remain unproven. |
+| Hosted-P7 | [Define the public observer operating contract](https://github.com/KevinHozak/Mimir/issues/122) | Selected decision gate. It defines a public-access model or explicitly defers it; it creates no public resource or credential. |
+| Hosted-P8 | [Automate independent bundle-inclusive backup replication and freshness checks](https://github.com/KevinHozak/Mimir/issues/123) | Follows the P7 operating contract; preserves keyless, separate-project recovery and proves freshness by restore evidence. |
+| Hosted-P9 | [Implement the approved public read-only observer boundary](https://github.com/KevinHozak/Mimir/issues/124) | Requires P7 approval. It cannot expose owner operations, put an owner secret in the browser, or add a second writer. |
+| Hosted-P10 | [Validate the limited public observer release and durable operations](https://github.com/KevinHozak/Mimir/issues/125) | Requires P8 automated recovery evidence and P9's approved public boundary before a production-readiness decision. |
 
 ## Non-negotiable gates
 
