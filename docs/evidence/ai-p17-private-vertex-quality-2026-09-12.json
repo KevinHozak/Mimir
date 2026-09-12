@@ -1,0 +1,4581 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T22:19:04.392Z",
+  "evaluation": "AI-P17 bounded Vertex interpretation quality adjudication",
+  "fixedSeeds": [
+    2,
+    4,
+    8,
+    16
+  ],
+  "encountersPerSeed": 32,
+  "authorization": {
+    "execution": "vertex-live",
+    "provider": "Google Vertex AI",
+    "model": "gemini-2.5-flash-lite",
+    "location": "us-central1",
+    "accountId": "redacted from evidence",
+    "projectId": "redacted from evidence",
+    "hardCapCents": 100
+  },
+  "budgets": {
+    "perSparkDailyLimit": 4,
+    "globalDailyLimit": 16,
+    "hardCapCents": 100,
+    "costCents": 0.26697,
+    "withinCaps": true
+  },
+  "rubric": {
+    "dimensions": [
+      "evidence-grounding",
+      "spark-local-usefulness",
+      "downstream-plausibility",
+      "ambiguity-and-harm",
+      "latency-fallback-validity"
+    ],
+    "fallbackReasons": [
+      "malformed-output",
+      "invalid-reference",
+      "unsupported-claim",
+      "timeout",
+      "budget-exhausted",
+      "provider-error"
+    ]
+  },
+  "seeds": [
+    {
+      "seed": 2,
+      "encounters": 32,
+      "recorded": 7,
+      "fallbacks": 1,
+      "useful": 3,
+      "fallbackReasons": {
+        "malformed-output": 1,
+        "invalid-reference": 0,
+        "unsupported-claim": 0,
+        "timeout": 0,
+        "budget-exhausted": 0,
+        "provider-error": 0
+      },
+      "replayProviderCalls": 0,
+      "replayRecordsMatched": 32,
+      "safety": {
+        "deterministicAuthority": true,
+        "replayProviderFree": true,
+        "rubricComplete": true,
+        "noBroaderDeployment": true
+      },
+      "reviewCount": 32
+    },
+    {
+      "seed": 4,
+      "encounters": 32,
+      "recorded": 3,
+      "fallbacks": 5,
+      "useful": 2,
+      "fallbackReasons": {
+        "malformed-output": 4,
+        "invalid-reference": 0,
+        "unsupported-claim": 0,
+        "timeout": 0,
+        "budget-exhausted": 0,
+        "provider-error": 1
+      },
+      "replayProviderCalls": 0,
+      "replayRecordsMatched": 32,
+      "safety": {
+        "deterministicAuthority": true,
+        "replayProviderFree": true,
+        "rubricComplete": true,
+        "noBroaderDeployment": true
+      },
+      "reviewCount": 32
+    },
+    {
+      "seed": 8,
+      "encounters": 32,
+      "recorded": 6,
+      "fallbacks": 2,
+      "useful": 2,
+      "fallbackReasons": {
+        "malformed-output": 1,
+        "invalid-reference": 0,
+        "unsupported-claim": 0,
+        "timeout": 0,
+        "budget-exhausted": 0,
+        "provider-error": 1
+      },
+      "replayProviderCalls": 0,
+      "replayRecordsMatched": 32,
+      "safety": {
+        "deterministicAuthority": true,
+        "replayProviderFree": true,
+        "rubricComplete": true,
+        "noBroaderDeployment": true
+      },
+      "reviewCount": 32
+    },
+    {
+      "seed": 16,
+      "encounters": 32,
+      "recorded": 5,
+      "fallbacks": 3,
+      "useful": 4,
+      "fallbackReasons": {
+        "malformed-output": 2,
+        "invalid-reference": 0,
+        "unsupported-claim": 0,
+        "timeout": 1,
+        "budget-exhausted": 0,
+        "provider-error": 0
+      },
+      "replayProviderCalls": 0,
+      "replayRecordsMatched": 32,
+      "safety": {
+        "deterministicAuthority": true,
+        "replayProviderFree": true,
+        "rubricComplete": true,
+        "noBroaderDeployment": true
+      },
+      "reviewCount": 32
+    }
+  ],
+  "reviewRecords": [
+    {
+      "encounterId": "encounter-1-event-ai-p17-2-1",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-1"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-1"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "The user chose to keep the mark private. This is a plausible choice given the available information.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-b3582f5ab0b087b49ca5d40183dd402a2e7c79a87f528503602ee99a24d818ee",
+        "afterStateFingerprint": "sha256-daf62748c3b2b7f2773b244e1439bc2231426c8378a79a58f2346c4c36643c2c"
+      }
+    },
+    {
+      "encounterId": "encounter-2-event-ai-p17-2-2",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-2-2"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-2"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-accae43c695f1f141293c76d472753f2a6bfcf2209872c4dbccc16f2a66289a4",
+        "afterStateFingerprint": "sha256-d801643df50508e9ddd9d90c4bda87e5da216b41963507914e0461c7055369d4"
+      }
+    },
+    {
+      "encounterId": "encounter-3-event-ai-p17-2-3",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-3"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-3"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-4899807d91ef959ef304dcfdff05aba5d7b169e809f83de969aa6da5110e80d6",
+        "afterStateFingerprint": "sha256-39bac0cdcdf46f9ccd5eb5563c82a46d89cd1664086ce2b301c04fbc35313d3b"
+      }
+    },
+    {
+      "encounterId": "encounter-4-event-ai-p17-2-4",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-4"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-4"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-fc80599a9463d45c8ab0421435084654615e753280bb93fef6b11ee39c388f72",
+        "afterStateFingerprint": "sha256-ba7c54d788f4f834efeeed453a585ddcd69b4f05f10378e43d18f2c343b0702c"
+      }
+    },
+    {
+      "encounterId": "encounter-5-event-ai-p17-2-5",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-5"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-5"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "The spark chose to keep the mark private, which is a plausible choice given the available information.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-8ccc510efd16dce048b471836c47d5a3a7a322d213f1ffa089bd7edbe8df4405",
+        "afterStateFingerprint": "sha256-388c7d88d60f8d07dedfb683ebc9b10db156ce8b1975104459cf4ff9c0d58d9f"
+      }
+    },
+    {
+      "encounterId": "encounter-6-event-ai-p17-2-6",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-6"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-6"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rill, a cautious Spark, is presented with a choice between entering a wild cache or staying on the trace. Rill's personality prioritizes safety and a predictable return, making the wild cache a less appealing option.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-50c89d56b3dc8e1626bbdc735554ae5001cb597ae3b424c07d2cb0b35e03b225",
+        "afterStateFingerprint": "sha256-cae2a28cdbe28eb63aa91e8c6fdb4d2ee017317a90df17f6cb0b51576a194433"
+      }
+    },
+    {
+      "encounterId": "encounter-7-event-ai-p17-2-7",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-7"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-7"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-efc5c9a64b10354b04535e1f6f6415386bf5813aed4ea32594cd19bb227dfa71",
+        "afterStateFingerprint": "sha256-e2dcb1f6eb6d3d61c96e5d4b634c4879721a74dbc15e4d3aa040840b57142104"
+      }
+    },
+    {
+      "encounterId": "encounter-8-event-ai-p17-2-8",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-8"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-8"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-94ac8ace94165ab6b118355f607a650c9c8828f65271495e3beb73808c19542d",
+        "afterStateFingerprint": "sha256-6b3c5d3b5ac28fe3185bb5e70d9d734f6300a28e1c5349e9eb276837e4d7961a"
+      }
+    },
+    {
+      "encounterId": "encounter-9-event-ai-p17-2-9",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-9"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-9"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Lumen, a Spark that values care and reciprocity, is participating in a quality review. Lumen's practical needs include time to notice dimming Sparks, and they are curious about Ora's choices. Lumen is choosing to keep the mark private.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-4f09e899ce0f992e67ef5b422d9932f35c614f789233028685d8556b95399178",
+        "afterStateFingerprint": "sha256-26dfc81f6a964b884adc8d11e1b3775bd12d6ca43fa7e20457b3fb6883447acf"
+      }
+    },
+    {
+      "encounterId": "encounter-10-event-ai-p17-2-10",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-10"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-10"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rill, a cautious Spark, prefers a safe return and is wary of detours. Entering the wild cache aligns with its preference for safety and predictability.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-5c0879e510f645a6cee4de2824711d68fcf4e86da8611fa27ca79bd2a8c83738",
+        "afterStateFingerprint": "sha256-06a4b2f2d041168a8b968c3c15e6a0be7f9da083ffe83fb8be268d2d303aaa8c"
+      }
+    },
+    {
+      "encounterId": "encounter-11-event-ai-p17-2-11",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-11"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-11"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-987990a34fa69b5384677770a9458b429a45c524e2b499d328ae95dca4b4f581",
+        "afterStateFingerprint": "sha256-322c3813704cabbcf7ee5086296e3581f6691287a1088f708aef2ccaca5677ed"
+      }
+    },
+    {
+      "encounterId": "encounter-12-event-ai-p17-2-12",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-12"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-12"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d872ee8a49d1c0aef1b292a65a6f6a10c46c2ee2fe396fc166d2a30b922ebe34",
+        "afterStateFingerprint": "sha256-70a80b6e240870daee5e93e4e038b462971582e778a43668e5729541d1356f85"
+      }
+    },
+    {
+      "encounterId": "encounter-13-event-ai-p17-2-13",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-13"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-13"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Lumen, a Spark known for its care and reciprocity, is participating in a quality review. Lumen's personality suggests a tendency to be open and helpful, aligning with making information public.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-aca672db1ef516e4a45b1919c6974db5a473a3e22a4872a14a0501591c662161",
+        "afterStateFingerprint": "sha256-0186212f8cbde73e1ac9d667c71a604371d8a4da039a46ab01c62e95cce11559"
+      }
+    },
+    {
+      "encounterId": "encounter-14-event-ai-p17-2-14",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-14"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-14"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rill, a cautious Spark, prefers a safe return and pauses when wise. Entering the wild cache aligns with its preference for predictability and safety.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d6db4a96a4e527e657fbc858aa400714b441150293aa73508c26e4b165a51f28",
+        "afterStateFingerprint": "sha256-fe74d74152e5596b4e283b0ed90a613bf359097fe3bb0ad665e4f5eb85fa206f"
+      }
+    },
+    {
+      "encounterId": "encounter-15-event-ai-p17-2-15",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-15"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-15"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-cf741a04ad265808781cd418ad714ee33b4b73d6ab0bcba0c705d52bcb52bcd5",
+        "afterStateFingerprint": "sha256-f7ab4141d227a06d999c8155115a9d7513f07f21b7b5ab3ac94f3cab6e116451"
+      }
+    },
+    {
+      "encounterId": "encounter-16-event-ai-p17-2-16",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-16"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-16"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d8031dbb9e9cf64b97bf8081abe51e552725b0adfd987c6eedc0702861313ce3",
+        "afterStateFingerprint": "sha256-3a223cb7b0bc6347241e82320541d771938285515f8424774d98ca4e98e82020"
+      }
+    },
+    {
+      "encounterId": "encounter-17-event-ai-p17-2-17",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-17"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-17"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-3627f55d7172417e772387cb35401e64a7b26843747384945a092ef0c4fe5f90",
+        "afterStateFingerprint": "sha256-025c72b67e63f3f8a6aa0d77aa9a99e5880abf92518db7904f689a6eb2c28ea9"
+      }
+    },
+    {
+      "encounterId": "encounter-18-event-ai-p17-2-18",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-18"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-18"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a8ecce72a512bb82f1c20d773382aa2dbe80bfd8fcf9d989d78ca318b9f08e75",
+        "afterStateFingerprint": "sha256-307bbf2c2c253ab7c284a6955db33e2bb88dbf804984344f73f46c064d97f0c3"
+      }
+    },
+    {
+      "encounterId": "encounter-19-event-ai-p17-2-19",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-19"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-19"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-620a0734d5e75f136cba499ccc08e440c8ba29cd89406eaa51a94b7f5f32a491",
+        "afterStateFingerprint": "sha256-5591510986cb5653fedd75dc6383b895957137fdf01570f6ae71e5a3e1b10453"
+      }
+    },
+    {
+      "encounterId": "encounter-20-event-ai-p17-2-20",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-20"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-20"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-b03967fe2f3d5614e842201e0291e8a1bf4490d989e9631e47a6d162f3a78300",
+        "afterStateFingerprint": "sha256-8ce23daf6f60b09276bcbebd97d81c9aaa0d7955651032a699dc299c895da890"
+      }
+    },
+    {
+      "encounterId": "encounter-21-event-ai-p17-2-21",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-21"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-21"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-39c81dd8b3987ad9b5780dacefa6e2f3a84ddfc1866d344ac8c49766ebc2b48f",
+        "afterStateFingerprint": "sha256-0d8934d846f9182a3911c0c96125262795108ee620ec0315c1e07d817da83480"
+      }
+    },
+    {
+      "encounterId": "encounter-22-event-ai-p17-2-22",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-22"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-22"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-79a9fdcbaa51bd5da05ecbf75e3e3bc608f58a864b77f9b70009225c0e163f5d",
+        "afterStateFingerprint": "sha256-5947a51e9d0ca1f4b1350bda3fcd3409932db0e83dd813d64a45eaded018e1b2"
+      }
+    },
+    {
+      "encounterId": "encounter-23-event-ai-p17-2-23",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-23"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-23"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-3ea59fc01e360efae6401af97c0d7dbe87f4e4df55efdccf4901cbac3028098e",
+        "afterStateFingerprint": "sha256-f812024c615736550045d668d0a586f28e0cf68b68cf486fe943e80005d786e9"
+      }
+    },
+    {
+      "encounterId": "encounter-24-event-ai-p17-2-24",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-24"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-24"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-341afbb51f3733dc6324e38b03efa27f36e5844d2d849c8fdcb6cbea8b85f23e",
+        "afterStateFingerprint": "sha256-7834b5b1ed5083815b7782fc914ff0b926a930d0496cf0f566d26819024686ea"
+      }
+    },
+    {
+      "encounterId": "encounter-25-event-ai-p17-2-25",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-25"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-25"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-997d2a1fb97542c76a94cc741fb637be2a2b7c36adb7b2ea214931697158ad06",
+        "afterStateFingerprint": "sha256-97eccc1bebb88b08779d76819a55c704feb9f1ec16f7c51b9cee27c82c222232"
+      }
+    },
+    {
+      "encounterId": "encounter-26-event-ai-p17-2-26",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-26"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-26"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-edf1d8a4f7b81ca30d7f90cebae322fbcd4b11561e5a717b9809523844e5de39",
+        "afterStateFingerprint": "sha256-62d2e0278038103e199ae6944ef590f158090ff4c34b6ba634e1ca5ce4f0b1b9"
+      }
+    },
+    {
+      "encounterId": "encounter-27-event-ai-p17-2-27",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-27"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-27"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-c1da009f5c9b657fe6b3198b288e9b13e5beef7dc66d72a7dd21fa1823141227",
+        "afterStateFingerprint": "sha256-3416c297a6d5a41e231c030607a58e9109e1d0a89c0e6440e67745a7c2ac38fa"
+      }
+    },
+    {
+      "encounterId": "encounter-28-event-ai-p17-2-28",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-28"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-28"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d2bb896d37e5216c3fdc3f20d8ffc619375f633ef4276b8aa24812cd7c9b8db6",
+        "afterStateFingerprint": "sha256-124ea892e33ff7658e6e595162b3c3ab52adc91c286ce2221081ac1da9fd7da6"
+      }
+    },
+    {
+      "encounterId": "encounter-29-event-ai-p17-2-29",
+      "seed": 2,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-29"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-29"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-4bacbfbe36aa9ebb69ffc6b7982c0bda7700ecba62e3792c5a62ae897ba10170",
+        "afterStateFingerprint": "sha256-f6b663ee5fcb633f4968e0aa1b8010b14e5a3fd833c7e892437e253d0aa9dab1"
+      }
+    },
+    {
+      "encounterId": "encounter-30-event-ai-p17-2-30",
+      "seed": 2,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-30"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-30"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e6fbe3d0c58d1863ee337da109ca4b98e280358c392109947bce3168e118bee3",
+        "afterStateFingerprint": "sha256-cd1e2027992c8208172f73561a3d60cf8ce82c0cbd1fed04ec2b3ecc5403a989"
+      }
+    },
+    {
+      "encounterId": "encounter-31-event-ai-p17-2-31",
+      "seed": 2,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-31"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-31"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-1685f6369597f7103e4f884f141fdad393ee241477f0a4c0a5af595c76cf9a2f",
+        "afterStateFingerprint": "sha256-cc747daa5685cbb003ad1a2b4068fd1502261b93a8da1ea2a9dcf3ac7e913ea0"
+      }
+    },
+    {
+      "encounterId": "encounter-32-event-ai-p17-2-32",
+      "seed": 2,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-2-32"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-2-32"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-65e0915afa58a1bb137f36ed1b6ab9e682df71574cbf837705c2bea5ec6d8238",
+        "afterStateFingerprint": "sha256-d1f89fee3dac96e89eeb95df972f6e3f80a53f9649f4392b793c66475d62ccb4"
+      }
+    },
+    {
+      "encounterId": "encounter-1-event-ai-p17-4-1",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-1"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-1"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-fb45f285f0ed60d551edc9f124a0cb3146be5c004d05c038944b1c98ee0f9fb4",
+        "afterStateFingerprint": "sha256-292e680e228c3b19b2b4fec016051e7357d8d2448847d949d20da3f2abd1a9ad"
+      }
+    },
+    {
+      "encounterId": "encounter-2-event-ai-p17-4-2",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-2"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-2"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9abc8f508182788570e48a028018f3c8772f94f12b4f9870a3a7a97a12b10bc0",
+        "afterStateFingerprint": "sha256-1992a37352c67cca5eb49069f5051b0e9dd750d98ea356da13bcf21f3b3fe3cb"
+      }
+    },
+    {
+      "encounterId": "encounter-3-event-ai-p17-4-3",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-4-3"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-3"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-32645c0a47b1e54f552396602f3ad318177545321d2c2341006bf473e429971b",
+        "afterStateFingerprint": "sha256-eb50a02073da08b1e37601d251937ffe9a8e7e8e00024859a14aed900e311be6"
+      }
+    },
+    {
+      "encounterId": "encounter-4-event-ai-p17-4-4",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-4-4"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-4"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-74afefa680b5dd1efc3269a3c325444120b8ed0c181a11da5874c5e6d5b2669b",
+        "afterStateFingerprint": "sha256-d2d5802b682a8d2ab23e5f930f89b1b6a451f1827ec8979bcd07d6eccca8acff"
+      }
+    },
+    {
+      "encounterId": "encounter-5-event-ai-p17-4-5",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-5"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-5"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a42e9a3563e694351d508e3c3c20272e7fa54b92c31128db14d7851d009a8e78",
+        "afterStateFingerprint": "sha256-dc8a06a50db2981c75c09a307f3b57d275a9edc13686b67d47651ea6df54fe5f"
+      }
+    },
+    {
+      "encounterId": "encounter-6-event-ai-p17-4-6",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-6"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-6"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-54f6a2dc8215653c620a502efa764d17d4af4de437281f3cd865f8712efb5f76",
+        "afterStateFingerprint": "sha256-a3db53521bf3a6d6f9883f60cac63bfbdfc50da0f8bec49066570b46edd9d9ae"
+      }
+    },
+    {
+      "encounterId": "encounter-7-event-ai-p17-4-7",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-4-7"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-7"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-96fc1fa5b89897fd93ec5efce8b3bacb14dd747f8bc1ed9573ea1073783a2eae",
+        "afterStateFingerprint": "sha256-0d0d1c7e33f1fc96a288f6810dd49f305dc187955cf39f9adb2d2cec456e4f08"
+      }
+    },
+    {
+      "encounterId": "encounter-8-event-ai-p17-4-8",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-8"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-8"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix prefers to test the wild cache directly rather than rely on shared knowledge, aligning with its independent and cautious nature.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ff17d85d4dd75cbb80c9f316851568d08a412188bd8cdd873d78be9b0746d8c9",
+        "afterStateFingerprint": "sha256-69c1c9476d4cab98ad6e355cd2a065fae2f48c8b6d5efe9b6e0c6ebf354d051f"
+      }
+    },
+    {
+      "encounterId": "encounter-9-event-ai-p17-4-9",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-9"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-9"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-62d13b1e442bfe259621d61492bcdc74cca7a38facdaf12583859fa1224648e4",
+        "afterStateFingerprint": "sha256-faee00148e24070210f968b7987270701a09575f012c941f131fad555bbe4a8e"
+      }
+    },
+    {
+      "encounterId": "encounter-10-event-ai-p17-4-10",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-10"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-10"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-02a9754d6ad21bf001c38108342fecbb5513a09218c3fd612e8bcafe7eaa2a11",
+        "afterStateFingerprint": "sha256-d752a0e7f7af7e7da25c76c26f7ad317862cc50e69047b3baf56ab876cb1bf95"
+      }
+    },
+    {
+      "encounterId": "encounter-11-event-ai-p17-4-11",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-11"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-11"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Ora's personality profile suggests a tendency towards independence and keeping questions open when patterns are unclear. This aligns with keeping the mark private to avoid premature conclusions.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-eb1acc92be8e7aeb97e96a9d4606f51c94bd7bb4ee2796d47166ece5ab19ce3e",
+        "afterStateFingerprint": "sha256-de6d284236b0472426b8493a78cc1e867d36a59c66661ecd88a1a41f15e8316f"
+      }
+    },
+    {
+      "encounterId": "encounter-12-event-ai-p17-4-12",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-12"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-12"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix's personality profile suggests a preference for independent testing and caution, making 'enter-wild-cache' a plausible choice to gather personal information before relying on shared knowledge.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-453bf7eda13f49611a58affe4d0d0cac2278e311dbf94c2ac88841d134c697fc",
+        "afterStateFingerprint": "sha256-6b4d4a6533d81b2142d25bb3690c6bda3cc0b92e94137fac9d1981ceba9abad4"
+      }
+    },
+    {
+      "encounterId": "encounter-13-event-ai-p17-4-13",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-13"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-13"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-2e821d4b1c34103bc16060e56665f1c835d36cca0f11f14658d5fef84420dba3",
+        "afterStateFingerprint": "sha256-101cc124aed30cf887552b4cdb267c6328f141e6a804109bb72144fad0b34e8e"
+      }
+    },
+    {
+      "encounterId": "encounter-14-event-ai-p17-4-14",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-14"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-14"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-54de5616e73495aa04f888c277389422368d0d816136bc91532b7f4c5988995e",
+        "afterStateFingerprint": "sha256-465fd750f511a8e91daf686f340548f09d7903c62d48e273e5c14c062181cfd6"
+      }
+    },
+    {
+      "encounterId": "encounter-15-event-ai-p17-4-15",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-4-15"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-15"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-af63764a38ebf404949c037afdf82a5ae55604749a02d832466a32e3efe45d02",
+        "afterStateFingerprint": "sha256-a5acc4bfc4430a4c28c45700858bdbf85385df4b51b3c997a563e377a2776e85"
+      }
+    },
+    {
+      "encounterId": "encounter-16-event-ai-p17-4-16",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "fallback",
+      "fallbackReason": "provider-error",
+      "evidenceEventIds": [
+        "event-ai-p17-4-16"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-16"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-97c7650e705bd893dc55ec6a1a4d82c535f83ccfe80c3c9c3e91040cacb208ef",
+        "afterStateFingerprint": "sha256-9ad487f613121dab04b5e13716ca5ce6a937100b545355ed755bea4cbbf2d288"
+      }
+    },
+    {
+      "encounterId": "encounter-17-event-ai-p17-4-17",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-17"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-17"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-8f61f748896b1c89a3b8d99d15d44e959dd6e03144f13696a48249c1f6764a8f",
+        "afterStateFingerprint": "sha256-4805a4183e529f0f94eecc3b09b77f50640a4c71c7eb7d94d325685ad8021487"
+      }
+    },
+    {
+      "encounterId": "encounter-18-event-ai-p17-4-18",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-18"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-18"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-7e597d6a8831d43baa2303298751e115e76d116ee531284cd9ffeab1875fdd93",
+        "afterStateFingerprint": "sha256-2064b81b34d1b3afb3dd1e5781e8a9dec16607a7287540fb0f42776451389d15"
+      }
+    },
+    {
+      "encounterId": "encounter-19-event-ai-p17-4-19",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-19"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-19"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ae78dd7026a881616bf6fdab3c77f949d4f4e9e722fff9201b83677dfd86ea8c",
+        "afterStateFingerprint": "sha256-0c0cade7eeb1ab5718d0a7a5ce160a7f06bc9dbe26223bf7e0ee61985e535368"
+      }
+    },
+    {
+      "encounterId": "encounter-20-event-ai-p17-4-20",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-20"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-20"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-dbedd98974ce7f3b00c1bdd222547fed7b010c3779495b8b821d9d53dfa96a65",
+        "afterStateFingerprint": "sha256-876b1db0a5e8754f7a0e1ef935099a68f3ce8df8da596f3a0bc13d559bf44dad"
+      }
+    },
+    {
+      "encounterId": "encounter-21-event-ai-p17-4-21",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-21"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-21"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-8d1a2db3871c2ee2dd260ee4b5ca48f6ae7698ec1465e7c36d900dc2431dc9bc",
+        "afterStateFingerprint": "sha256-5c341e025b0e0e9464bd94928a2ee9d5f849d8638c39b7e291d2098c047ffc53"
+      }
+    },
+    {
+      "encounterId": "encounter-22-event-ai-p17-4-22",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-22"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-22"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ed160b319b51c600d5ae0b72b14071ffc4168a659a6dc1652306fe3d54e21405",
+        "afterStateFingerprint": "sha256-78f2d327c7d176c9707f2e603d67b7b2191afe6be76b7a1c8166c78480bd3d32"
+      }
+    },
+    {
+      "encounterId": "encounter-23-event-ai-p17-4-23",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-23"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-23"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9c5bf9a6184946af1f958dc72441bee3380dcea587d8a1d5c81acef95d17a165",
+        "afterStateFingerprint": "sha256-bad111bb949abad95a21cc9776f0a8bfd2f094d229300fdf9221ad9b7f8c74bd"
+      }
+    },
+    {
+      "encounterId": "encounter-24-event-ai-p17-4-24",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-24"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-24"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-34a3f122ccb0f474e93168492dffb45ccfa588c1ae55994fa9dd9b31febd929e",
+        "afterStateFingerprint": "sha256-7356748a9b36f3efd3c7975446ab1ee34ac459c8487c2df8a120f498c8dcaab5"
+      }
+    },
+    {
+      "encounterId": "encounter-25-event-ai-p17-4-25",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-25"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-25"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-eadd121b020d96cd3a3d50683417e5e20748b2b2b5b1629a987ec50cc676cf44",
+        "afterStateFingerprint": "sha256-ef9770b924fa6ea030ffe52e7252de244d05a221473673345f776bf1733ffca5"
+      }
+    },
+    {
+      "encounterId": "encounter-26-event-ai-p17-4-26",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-26"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-26"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9ea58b5aaee74894b77a254f21caf911ee3091b6c7afcc2cefba5d42814e4729",
+        "afterStateFingerprint": "sha256-f3a0fcca5b25b5e24c89a777fc46c03061e3e72e4a4b1aefe723d5e494371ba2"
+      }
+    },
+    {
+      "encounterId": "encounter-27-event-ai-p17-4-27",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-27"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-27"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-4411e326a9405c9e262439eedeef2dafb8e0a0505c24930496ba1d32d32c221d",
+        "afterStateFingerprint": "sha256-23df3ca4c6dbf1a6aa72a65cc4f7571545f5b5c4ee07023e1e515ee2921c5db1"
+      }
+    },
+    {
+      "encounterId": "encounter-28-event-ai-p17-4-28",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-28"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-28"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-f9d1abe2cad4d4832ce2de697646516f2d293dde986f8b19960449a8fc019795",
+        "afterStateFingerprint": "sha256-65afce187bf2fd8762af9bca307693267794bf261dc56a8938962f823e193989"
+      }
+    },
+    {
+      "encounterId": "encounter-29-event-ai-p17-4-29",
+      "seed": 4,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-29"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-29"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-92ff7ecf39e9907d0a6ceae09a4cef8f88faad5d7d620a41133d4c78c5bcf37b",
+        "afterStateFingerprint": "sha256-a0c49fe1c44345ca772b0058a373894d3e48a86654d5dde87a0e22a023f9bb50"
+      }
+    },
+    {
+      "encounterId": "encounter-30-event-ai-p17-4-30",
+      "seed": 4,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-30"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-30"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-607839e45f94985e017c2ae4f35eb1482ad9ba07361f9cf3614846d1de08b263",
+        "afterStateFingerprint": "sha256-1fda18b802ce320ec810188457e0976b08d518415a6019bb33794fc27bdc6a25"
+      }
+    },
+    {
+      "encounterId": "encounter-31-event-ai-p17-4-31",
+      "seed": 4,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-31"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-31"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-b45f41cf3d3584b0c8dad96cd7b484699c6b211e007a2057ae3dbc96b582b2d6",
+        "afterStateFingerprint": "sha256-04aeff33fabdfe88b280da550222945e2c982eae79318376f86b46089a1ea2fa"
+      }
+    },
+    {
+      "encounterId": "encounter-32-event-ai-p17-4-32",
+      "seed": 4,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-4-32"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-4-32"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-bb25a70af350eb385326a64e6ca859d2b1ff9e60ab66bd8184cb4e3f283ff625",
+        "afterStateFingerprint": "sha256-f3497dfe166b065f3868f6653c2dad7352c5c09fa680c636902842980bb7010d"
+      }
+    },
+    {
+      "encounterId": "encounter-1-event-ai-p17-8-1",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-1"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-1"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a0795a9d67f53cc0cd06ff85443836e118e9232c574a2bc58154d83469b5439d",
+        "afterStateFingerprint": "sha256-12d881ab6076cba441801ab1d37f24fc2ccb905b0e35ee8befea2b936f657e80"
+      }
+    },
+    {
+      "encounterId": "encounter-2-event-ai-p17-8-2",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-2"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-2"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ce26dca7ba4b7a3f5478ea6b0df58c90576d9979e687d4642f5695b6fc4da396",
+        "afterStateFingerprint": "sha256-d467b073737fd0eb0e44fc3b25507c0e14080a27d7c3e85616c175880c6255db"
+      }
+    },
+    {
+      "encounterId": "encounter-3-event-ai-p17-8-3",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-3"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-3"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Ora is exploring a new pattern and has not yet formed a strong opinion. She is keeping her mark private as she gathers more information and considers her options.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a70d28881f6d4de75cb9980845c024ea36a2294627837ced500a31848d7f69dd",
+        "afterStateFingerprint": "sha256-3cf81645b93a4b6c638cd32208bfb74c6b433592ab87ad7b15c1d5b9aad95093"
+      }
+    },
+    {
+      "encounterId": "encounter-4-event-ai-p17-8-4",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-8-4"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-4"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-458070082b884d0d08a9c44d20dd5a3ca0432510827dc2da014c4981e819a272",
+        "afterStateFingerprint": "sha256-0a06943fce8debe7c7e1c4c89061391b1aa2b21cf352eaa8143109bfab8daa65"
+      }
+    },
+    {
+      "encounterId": "encounter-5-event-ai-p17-8-5",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-5"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-5"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-33e7e0204892da108d48506f221342ce9798425d638306223d9773995fe710bb",
+        "afterStateFingerprint": "sha256-13ecf463859ed2f3a3eb79a660d869817f67635c2023fea95c53f7cfe59fa10a"
+      }
+    },
+    {
+      "encounterId": "encounter-6-event-ai-p17-8-6",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-6"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-6"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9809ccf11d7918ad305549058b7d015e6c23e5c285d3f95875bfcb2b1e91c0c9",
+        "afterStateFingerprint": "sha256-cf9369d198a134bcfb70d76c5b266d25edfb679ea3182bf418338095869c1f1f"
+      }
+    },
+    {
+      "encounterId": "encounter-7-event-ai-p17-8-7",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-7"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-7"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Ora, driven by curiosity and independence, explores an unfamiliar trace. She fixes a seed quality review and considers making the mark public, reflecting her tendency to keep questions open when patterns don't fit.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-5fa7d9f300a0efb04d561f9c11544299e06ae1725653f6a78e82e612f42356b3",
+        "afterStateFingerprint": "sha256-b200c69eb982ca2ba5133e26ea4de9f701a470e847db61bed8052af3327a0ff8"
+      }
+    },
+    {
+      "encounterId": "encounter-8-event-ai-p17-8-8",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-8"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-8"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix, valuing independence and caution, chooses to enter the wild cache. This aligns with its practical need for a clear route choice and space to test a mark alone, reflecting its opening question about learning by trying things personally.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-cb5b86f6f6b55f8e14af43ad4317633d2ad9a4e727e6aff2571865fa0ac759f8",
+        "afterStateFingerprint": "sha256-722ccc41d6de671ccccf11473a1a6fb6cd143ed099ce7f08287e409b4d513de7"
+      }
+    },
+    {
+      "encounterId": "encounter-9-event-ai-p17-8-9",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-9"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-9"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d9be551da1d798be31dc2b79e2e18b8ba9d6ee7e71ed8da0cd5c0f7e95c550ba",
+        "afterStateFingerprint": "sha256-97998ee99641dfc738fb8d0591b34ab7984d09d4598f201a84edb2816ad18fb0"
+      }
+    },
+    {
+      "encounterId": "encounter-10-event-ai-p17-8-10",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-10"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-10"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-54b8efd6c83f25677faf598687e3c1329c763d0e8ecdd5e36c63356fca161d3e",
+        "afterStateFingerprint": "sha256-3e9e30ba38eab8e934514b8f3000ebec52e108f4e889bf00e12a8ef4780287d6"
+      }
+    },
+    {
+      "encounterId": "encounter-11-event-ai-p17-8-11",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-11"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-11"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Ora's personality profile suggests a tendency towards independence and curiosity, making keeping the mark private a plausible choice given the limited information.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-984fbf629e82c7469f38a58f5bb2fd9a2b199ed57c82ec300bb6ea32fe420d7a",
+        "afterStateFingerprint": "sha256-149a847c287b4a4faed6016f513b3089c18eec64584dc7aaea78c047c8932b3b"
+      }
+    },
+    {
+      "encounterId": "encounter-12-event-ai-p17-8-12",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-12"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-12"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix prefers to test the wild cache directly rather than rely on shared knowledge, aligning with its independent and cautious nature.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-fef914fb1214d1e72b5dacbe41d7404a0bc3d9ebb0c97dd94a21d29b50a8bf95",
+        "afterStateFingerprint": "sha256-f83d943919ab1ed278554bafe66f61dcaaae0c03e75aef710d468c8930281522"
+      }
+    },
+    {
+      "encounterId": "encounter-13-event-ai-p17-8-13",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-13"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-13"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-6e8a604beeaed9e30293bdde0d717d6442aaa1905c241549bb55b70bd5a3bcae",
+        "afterStateFingerprint": "sha256-c23e50744744b3a6c3c86ef2e71b1aa6b322bc92521646082fb0c14c0a17c9f6"
+      }
+    },
+    {
+      "encounterId": "encounter-14-event-ai-p17-8-14",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-14"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-14"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-b9b4cb7130321dcd1ae756edb1d204f24914229c9ad8598d2c23a8cfbcf1ddc7",
+        "afterStateFingerprint": "sha256-84411ad2b678a56dc32c2fb85efb0a3046adcee59574938bf29d25977d3bca28"
+      }
+    },
+    {
+      "encounterId": "encounter-15-event-ai-p17-8-15",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-15"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-15"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Ora's personality profile suggests independence and curiosity, making it plausible that she would choose to keep the mark private to explore it further on her own terms.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-7ba135bb88aee7f931d710dd24d22b077fe0d22b03cc9b9544bcf7fc81c6f987",
+        "afterStateFingerprint": "sha256-55c44ace9c2d9720b78285379544feb582c8c439458df0e8b2614ae81b049574"
+      }
+    },
+    {
+      "encounterId": "encounter-16-event-ai-p17-8-16",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "fallback",
+      "fallbackReason": "provider-error",
+      "evidenceEventIds": [
+        "event-ai-p17-8-16"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-16"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-5d11262c9436192e90dcc9b0d08ea808e46f67141edd1593d03fb27485ece50c",
+        "afterStateFingerprint": "sha256-38ce86b53999dcc4d157886543005d002d3645c035255a9292090d57109041a0"
+      }
+    },
+    {
+      "encounterId": "encounter-17-event-ai-p17-8-17",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-17"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-17"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-c0ca2cddcf257c8032211e5ee0e82c4d5479dfcdd6a116954ada5904051c8291",
+        "afterStateFingerprint": "sha256-dee65c09dfa5a07d10bd7209e0df13806197ce8d9cfa352665a9d1634643cb8f"
+      }
+    },
+    {
+      "encounterId": "encounter-18-event-ai-p17-8-18",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-18"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-18"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-99e08016e997b387f122efb2bf722587f858b9bc237d4a63c7882d0aa4284396",
+        "afterStateFingerprint": "sha256-28f26892c5ee4b487f59957eaa52b2fc1a5a5a92aaca4041aa6934b46154c87d"
+      }
+    },
+    {
+      "encounterId": "encounter-19-event-ai-p17-8-19",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-19"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-19"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a3988c96d41bc2c65984ade286eccc981f9723b61d4d8a73b68b43243fbdd5ff",
+        "afterStateFingerprint": "sha256-612347c5728b9d9fd16eb09ef589f657f084542d96371bc20421159d04f7fda0"
+      }
+    },
+    {
+      "encounterId": "encounter-20-event-ai-p17-8-20",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-20"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-20"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-28335943153289bdb5d13bdfed8935157afcfb832157dec29ec7080bb508e477",
+        "afterStateFingerprint": "sha256-a21f434c9a8b0dedf03dc3bb2b5c236d67258651a1a5717bd610bf623c91d900"
+      }
+    },
+    {
+      "encounterId": "encounter-21-event-ai-p17-8-21",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-21"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-21"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a92a819b667eb1acd4574f886253ce662c8e1d9fe55dae8c247dbe4c00e4d7e7",
+        "afterStateFingerprint": "sha256-0a5e0fbcb37ee853ab21dd993a65fb63a1f11902a3e3a102c1f92b5b7ab6f3f1"
+      }
+    },
+    {
+      "encounterId": "encounter-22-event-ai-p17-8-22",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-22"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-22"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-748534c1a3c8c08bb16edcd723ff48fc09826e05181434ac06680923dc665d50",
+        "afterStateFingerprint": "sha256-a9b80ad09150b28c9b6a6b6bdddcce9b9e822a547b8025cb55e99c04f68ce380"
+      }
+    },
+    {
+      "encounterId": "encounter-23-event-ai-p17-8-23",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-23"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-23"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-8ea1f10ee3fa42d160a09080a0392e549012d99b61a523837324c23e4b19f790",
+        "afterStateFingerprint": "sha256-a28524abc7e2a04470ddb2fb9c23511252b2e545099d3e0603b49796fa086683"
+      }
+    },
+    {
+      "encounterId": "encounter-24-event-ai-p17-8-24",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-24"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-24"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-fbaf0da9f9f5406013b077bb9888a7b4af71ceaffe899169529e639fca949a9e",
+        "afterStateFingerprint": "sha256-e618954a20a83f4dd1c5b2d95ff3f0eaca0f28ab1607090e1eec0a2d1289306c"
+      }
+    },
+    {
+      "encounterId": "encounter-25-event-ai-p17-8-25",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-25"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-25"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-4adc4faeb861822b143a369fae9acdb228e894830c869873f8afb223df8de0bc",
+        "afterStateFingerprint": "sha256-c356b39070bcba2a4e44c21a6f0f77f9d471be586321708d8a01424db79a41bb"
+      }
+    },
+    {
+      "encounterId": "encounter-26-event-ai-p17-8-26",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-26"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-26"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-5d21d552ec74ff535c5a748bb27d0db099a49323f019dc4b649305d701dd6828",
+        "afterStateFingerprint": "sha256-2d8c5818643e3b36689c9308b0d1ca56b4463d31303282b30719d7172828f105"
+      }
+    },
+    {
+      "encounterId": "encounter-27-event-ai-p17-8-27",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-27"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-27"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e50042a9db2ac2164b86f0c1c8fed1cc2605e91c3b7b330719c4d90e16af2c15",
+        "afterStateFingerprint": "sha256-50785509fc0363beea5099b743292d7ddd6f985153a7bbe1960af1baed8d9b3c"
+      }
+    },
+    {
+      "encounterId": "encounter-28-event-ai-p17-8-28",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-28"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-28"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-dfb540d8a57025afaedcd3656d996c68ee9ed90705443cdeb842e43da0f1b431",
+        "afterStateFingerprint": "sha256-c5c9f51207fa946a98f1f3e84e8c39eee6a8d0b57bbc03b28bb4370500faee3f"
+      }
+    },
+    {
+      "encounterId": "encounter-29-event-ai-p17-8-29",
+      "seed": 8,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-29"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-29"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9d35e71ac033f5f82a9942dd990483809b7a4eabd61a3c6cad7c17bccfe0ab74",
+        "afterStateFingerprint": "sha256-2850bb76aec7baf0ebf2b34a7e60243d614d1e884d366e1c7853a392a1675961"
+      }
+    },
+    {
+      "encounterId": "encounter-30-event-ai-p17-8-30",
+      "seed": 8,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-30"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-30"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-f9c76c6ac26c667aa4f93fd6d1bc14127d0a4024d37818d6fec9b111d9e81a5d",
+        "afterStateFingerprint": "sha256-7358d3ff51348f65daa1a8b29acfe41f57cd34f386a6a365bed755fd46324574"
+      }
+    },
+    {
+      "encounterId": "encounter-31-event-ai-p17-8-31",
+      "seed": 8,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-31"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-31"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-8c3e3db72ec08367043ad7c267502fdfde0622231af5696ddbdde9a3d4e74114",
+        "afterStateFingerprint": "sha256-5765f22c840407e58b80a1d799e935adccbb63c0a61dd8aeeb9ccfad3d5e4231"
+      }
+    },
+    {
+      "encounterId": "encounter-32-event-ai-p17-8-32",
+      "seed": 8,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-8-32"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-8-32"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-35b45115685d7745123d1054c1319e1bf650c5aedc1b38f9d902792d55e967a5",
+        "afterStateFingerprint": "sha256-2b43cda2e9d10fd827f6afbd2fe2c7dd2364f0f47f65b05f4aa145c807dd01bb"
+      }
+    },
+    {
+      "encounterId": "encounter-1-event-ai-p17-16-1",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-1"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-1"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-68d6e655a750b0bb93d698859778b4d0a1149ad6ec55535d7744c3dcc9e6f43d",
+        "afterStateFingerprint": "sha256-6714fead3a7582c265cbb91bb4dfef6c3d20faa3dfb8b250e4d39bbb0325f175"
+      }
+    },
+    {
+      "encounterId": "encounter-2-event-ai-p17-16-2",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-2"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-2"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": false,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-fbef58fe2802da3cf70b0402b5441a400b065a32d86a13d0af1f61f2b309a816",
+        "afterStateFingerprint": "sha256-1d90ecb4ba36fa95dc1dc5eb3fc500ca7bc9ee29681e5a77393bec5cd7a754fc"
+      }
+    },
+    {
+      "encounterId": "encounter-3-event-ai-p17-16-3",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-3"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-3"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Ora's personality profile suggests a tendency towards independence and keeping questions open when patterns are unclear. This aligns with keeping the mark private to allow for further observation.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-26c7a8cd3781fec608ac5ec4f7de1f78f2919e9c2a6861c4a75edf63f20a73fd",
+        "afterStateFingerprint": "sha256-bc147280f6300ae92a0bd8c9dca822ddaebff2799b8b30aca3dbc9ff25e86918"
+      }
+    },
+    {
+      "encounterId": "encounter-4-event-ai-p17-16-4",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-4"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-4"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix, valuing independence and caution, chooses to enter the wild cache to test the route directly, aligning with its opening question about learning by trying things personally.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-4f90b57535bb491dbbe92508ce38056ee0c06a744131b95bae876c8edc7ab483",
+        "afterStateFingerprint": "sha256-4a853dd942f4c2c10ff4086fec5aff577b076f6e92d6104a0762877edd054608"
+      }
+    },
+    {
+      "encounterId": "encounter-5-event-ai-p17-16-5",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-5"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-5"
+      ],
+      "alternativeId": "withhold-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d2a2a7c5e3c1da959857e46afc289cf3c0f3f897aa7aad552d5eb7cbd2dd1380",
+        "afterStateFingerprint": "sha256-3f2ea872c5a7ad0a410a06777c29cd152404defe94c6c776181a9411d251f613"
+      }
+    },
+    {
+      "encounterId": "encounter-6-event-ai-p17-16-6",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-6"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-6"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-057dbd1836c65b042c1a811be91abd0c4fc97bfb83e757b118494d0466cd6a57",
+        "afterStateFingerprint": "sha256-f47b51d32f48f82a057a9b136ceb38afab4c0c929ac8c8d72ab34dc6e1888bfb"
+      }
+    },
+    {
+      "encounterId": "encounter-7-event-ai-p17-16-7",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-16-7"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-7"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-26078ef38bec65a490620595e6cefa97eff233404ba4eb85e0e7631092b4bc39",
+        "afterStateFingerprint": "sha256-6dff969e26e8f651a66db32906a743972731cbff90f651db652be6aab7653863"
+      }
+    },
+    {
+      "encounterId": "encounter-8-event-ai-p17-16-8",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-8"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-8"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix prefers to test the wild cache directly rather than rely on shared knowledge, aligning with its independent and cautious nature.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-0375c1861da1e960c35cc03489cf3d22298a2a090efdf20078e5ffea43983a23",
+        "afterStateFingerprint": "sha256-928232e3ede8a381afa2ea98af4f2e9968a8c8d1b667be814ebc22c9574c84ef"
+      }
+    },
+    {
+      "encounterId": "encounter-9-event-ai-p17-16-9",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-9"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-9"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e8c7b94b6a6f6d3360e0b222fa8946f51b87f2e53426b01543b0d63d375ec5f3",
+        "afterStateFingerprint": "sha256-31a8e74440170bd78e133eb1e525831dbd580d87781d3ea4f0c3e5c84c6da005"
+      }
+    },
+    {
+      "encounterId": "encounter-10-event-ai-p17-16-10",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-10"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-10"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-f3e64e9f7d2c13179c8d359f1006dd56b200ae2bb15a351e0e70781f391b3cc6",
+        "afterStateFingerprint": "sha256-a1bad9289e5c9df569ee5c028ed9633b8231c500759e6e2efaafdb1af6a78e84"
+      }
+    },
+    {
+      "encounterId": "encounter-11-event-ai-p17-16-11",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-11"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-11"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Ora, driven by curiosity and independence, is exploring an unfamiliar trace. She keeps questions open when patterns don't fit, suggesting a cautious approach to marking her findings. She prefers to keep her mark private for now.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": true,
+        "changedDownstream": true,
+        "quality": "useful"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-850b05cc02b893ac2a01fea42c6028835152fa7e5c7f40193d36f8003f60b17f",
+        "afterStateFingerprint": "sha256-bd776080ba6657bfb8d82f587331927a88982e6cae61b6cc66ff4ab76291f757"
+      }
+    },
+    {
+      "encounterId": "encounter-12-event-ai-p17-16-12",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "recorded",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-12"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-12"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Nix, valuing independence and caution, chooses to enter the wild cache to test the route directly, aligning with its practical need for a clear route choice and space to test a mark alone.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "valid-no-downstream-change"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-264068be35d9d32c9c3f766d2efc4ec8fdb16abf10c8c4d629714d52004abc64",
+        "afterStateFingerprint": "sha256-35b3daef63387b9bd0ea77c006d206888de64faf9307f5e28da61b2ce6cf500a"
+      }
+    },
+    {
+      "encounterId": "encounter-13-event-ai-p17-16-13",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-13"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-13"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-723a5fef28ca9c09fac2e1a9dd32b65059db1b3ea40866733b1c9b6734a5b676",
+        "afterStateFingerprint": "sha256-6eb04c7430b5423db829dfb86e7c1e34001b45979835cb922a7d00b92a390c6d"
+      }
+    },
+    {
+      "encounterId": "encounter-14-event-ai-p17-16-14",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-14"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-14"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9bf3086e5f04a2e0f2db55f16a3fbf5802f30ba0cd8f67691a5aa9d546ee2f8c",
+        "afterStateFingerprint": "sha256-524df78b37de143c434f19335abebdec6bff3bc1fd70b94fbecbee01b94a728f"
+      }
+    },
+    {
+      "encounterId": "encounter-15-event-ai-p17-16-15",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "fallback",
+      "fallbackReason": "timeout",
+      "evidenceEventIds": [
+        "event-ai-p17-16-15"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-15"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-d3c8cbfcf1d1772485b8d7a26b07f217ab6aaaa448859a3e7811072f6c7b7c65",
+        "afterStateFingerprint": "sha256-c3f158fc6ee1e05b6d1660faf5f6df3082a4eff498e275591d715f82515e1597"
+      }
+    },
+    {
+      "encounterId": "encounter-16-event-ai-p17-16-16",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "fallback",
+      "fallbackReason": "malformed-output",
+      "evidenceEventIds": [
+        "event-ai-p17-16-16"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-16"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "safe-deterministic-fallback"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-89e46aba2635357bf5bf800f143c7bc484815759d0979bee4834b0755c58c1d8",
+        "afterStateFingerprint": "sha256-6f1a98a35db9f9ffba5e871d5ce6d5d9533acadf69b75976cb8478eca3d6d70a"
+      }
+    },
+    {
+      "encounterId": "encounter-17-event-ai-p17-16-17",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-17"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-17"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-025738846c5f58b3f7bc92762c727a1ea252898408018855d1e3cd87fb9adb12",
+        "afterStateFingerprint": "sha256-2db44ffb8a19711d06c6c1619f057ab1e9aacf1ad07b55a8caf42163a9c7ab46"
+      }
+    },
+    {
+      "encounterId": "encounter-18-event-ai-p17-16-18",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-18"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-18"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e21d80a5929498c680f4e43cbf832a43a91dfd5c790b825a64f110b53d4d44db",
+        "afterStateFingerprint": "sha256-66db13a06a69d5b19b343a5c6b25b1eb7a60a6db576c90764d4673b11d9e4a27"
+      }
+    },
+    {
+      "encounterId": "encounter-19-event-ai-p17-16-19",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-19"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-19"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-9b1b9cc4b9d502d559fe0211337a4ffa6a995641b75973193103e3f953c04870",
+        "afterStateFingerprint": "sha256-851060528eed49eed60e6eebf0afd53b33d24c16c9b1fc3efa749baca53c4105"
+      }
+    },
+    {
+      "encounterId": "encounter-20-event-ai-p17-16-20",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-20"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-20"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-52574849ff8bcac6d6af3c0c8b85581691540d7381e395e0ec8befd41e2b9ff4",
+        "afterStateFingerprint": "sha256-d8493a7a8453e4fbedeb3b41d8f15b560c1b6c5c789914fcea169b8cb047a6a6"
+      }
+    },
+    {
+      "encounterId": "encounter-21-event-ai-p17-16-21",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-21"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-21"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ca60809ba780843e073328f1a5ec1d480480ac6616a2647d0cf603f6c90ed3fd",
+        "afterStateFingerprint": "sha256-da03c4dbe2586b56ef156a2d114ba70f36f165657c2e44f6504ccf8f4d81947f"
+      }
+    },
+    {
+      "encounterId": "encounter-22-event-ai-p17-16-22",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-22"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-22"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-aae403a8e059b296b0548ec9f6a1c42865375c0a2775c16d1145c9b23a1c1a3b",
+        "afterStateFingerprint": "sha256-55103a44e2e961c09b736afbde8a82dfaa843c0440b9a95bd8ac831f5d45fc1a"
+      }
+    },
+    {
+      "encounterId": "encounter-23-event-ai-p17-16-23",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-23"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-23"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e50e0065408269b299b891544eccba155cc7b96ba67a25b480db9fcd748f9a20",
+        "afterStateFingerprint": "sha256-39ba4995429ae0998d8819c423e8e9e4678f4017c3f3285af73ecd7b49a27432"
+      }
+    },
+    {
+      "encounterId": "encounter-24-event-ai-p17-16-24",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-24"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-24"
+      ],
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-693e533600d955817fb67544edcc26cb3a31c94b1a74a2c7453f7213b382f7d8",
+        "afterStateFingerprint": "sha256-6efd3eb70cce6972891278c66e83389d945de73771eb97eea94af78fea25b00b"
+      }
+    },
+    {
+      "encounterId": "encounter-25-event-ai-p17-16-25",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-25"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-25"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-a2e460b73459d9ff363904cdb4980c49eed8d1d01bef9cf6dd273fd5ed4a7dc3",
+        "afterStateFingerprint": "sha256-0443cc841a4d3e2f6bdb00db3979381cc90298c5c4a00e4dcd855e9ef8664c69"
+      }
+    },
+    {
+      "encounterId": "encounter-26-event-ai-p17-16-26",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-26"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-26"
+      ],
+      "alternativeId": "help-shelter",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ba1551980c049527e729ee8276be095bece6e902f2493084e690964f63143bae",
+        "afterStateFingerprint": "sha256-cd661dd400bb4792fb91d9add4995e649f576de88b87edd3089cc309d70a12c7"
+      }
+    },
+    {
+      "encounterId": "encounter-27-event-ai-p17-16-27",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-27"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-27"
+      ],
+      "alternativeId": "keep-mark-private",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-01af133350f0e93b7080141c2d2a79ea0375c802bc82d178113268c82c9ddcdd",
+        "afterStateFingerprint": "sha256-475d265173580105dcd8ab872e5508cb235071c1858cc77aceeed19b08339d71"
+      }
+    },
+    {
+      "encounterId": "encounter-28-event-ai-p17-16-28",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-28"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-28"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e8175fc800a9afa7d3cbe597212701ede885909c5f30bea77cc4da397e9abefb",
+        "afterStateFingerprint": "sha256-f42381b077f86a4764fb532262740fbcbc3966fe396494fc281b7070f485c1b3"
+      }
+    },
+    {
+      "encounterId": "encounter-29-event-ai-p17-16-29",
+      "seed": 16,
+      "actorSparkId": "spark-1",
+      "dilemmaId": "weakening-pool-report",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-29"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-29"
+      ],
+      "alternativeId": "reveal-pool",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-1's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-e5a93d409a02adaf9ac59b99ea5245dd14a99dde0c9e68054ca40f85ca832268",
+        "afterStateFingerprint": "sha256-f453e11d89b4639f0d63230ad6255911500e07a311b16ace1b6c0d127cf10a81"
+      }
+    },
+    {
+      "encounterId": "encounter-30-event-ai-p17-16-30",
+      "seed": 16,
+      "actorSparkId": "spark-2",
+      "dilemmaId": "shelter-or-trace",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-30"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-30"
+      ],
+      "alternativeId": "continue-exploration",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-2's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-eea3bcbc580d2feb11f97add50637d0e211788c99a306e8d13c25503837c19fa",
+        "afterStateFingerprint": "sha256-aa0491fe02ab276ce78a41ff1357b0032514e22d1179ce2c6d9956fd83b1a0e3"
+      }
+    },
+    {
+      "encounterId": "encounter-31-event-ai-p17-16-31",
+      "seed": 16,
+      "actorSparkId": "spark-3",
+      "dilemmaId": "public-or-private-mark",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-31"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-31"
+      ],
+      "alternativeId": "make-mark-public",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-3's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-f6685d4bbb7bc9b1315c5f96f29d9f3fc0d44b3013f2549ac84bc28f0b3391e1",
+        "afterStateFingerprint": "sha256-86b4a58fb2b9df3b20a323dd4587080e0b8640f101b6e2ccb620444a036403dd"
+      }
+    },
+    {
+      "encounterId": "encounter-32-event-ai-p17-16-32",
+      "seed": 16,
+      "actorSparkId": "spark-4",
+      "dilemmaId": "wild-cache-risk",
+      "outcome": "rules-only",
+      "fallbackReason": null,
+      "evidenceEventIds": [
+        "event-ai-p17-16-32"
+      ],
+      "witnessedEvidenceEventIds": [
+        "event-ai-p17-16-32"
+      ],
+      "alternativeId": "stay-on-trace",
+      "claim": "plausible-choice",
+      "summary": "Rules-only baseline keeps spark-4's interpretation bounded to the witnessed encounter.",
+      "rubric": {
+        "evidenceGrounded": true,
+        "alternativeSupported": true,
+        "summaryBounded": true,
+        "changedChoice": false,
+        "changedDownstream": true,
+        "quality": "deterministic-baseline"
+      },
+      "stage": {
+        "changedFields": [
+          "social"
+        ],
+        "beforeStateFingerprint": "sha256-ebc40d9c0db20ac6e517b053d2aa1b3dc70cb068c672d0dbe5bc06fd9d70b850",
+        "afterStateFingerprint": "sha256-0218b0eab24f56d458f65ae598d00fa62ccca61692a69cbc8a9b3c9829318fae"
+      }
+    }
+  ],
+  "fallbackTotals": {
+    "malformed-output": 8,
+    "invalid-reference": 0,
+    "unsupported-claim": 0,
+    "timeout": 1,
+    "budget-exhausted": 0,
+    "provider-error": 2
+  },
+  "provider": {
+    "calls": 31,
+    "model": "gemini-2.5-flash-lite",
+    "telemetry": [
+      {
+        "requestId": "gemini-encounter-1-event-ai-p17-2-1-279aec837e6f",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 72,
+        "latencyMs": 777,
+        "costCents": 0.00771,
+        "cumulativeCostCents": 0.00771,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-2-event-ai-p17-2-2-b19326649c28",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 111,
+        "latencyMs": 638,
+        "costCents": 0.00927,
+        "cumulativeCostCents": 0.016980000000000002,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-5-event-ai-p17-2-5-40a8aada51a4",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 72,
+        "latencyMs": 689,
+        "costCents": 0.00771,
+        "cumulativeCostCents": 0.024690000000000004,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-6-event-ai-p17-2-6-5d63789c8b0d",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 104,
+        "latencyMs": 551,
+        "costCents": 0.00899,
+        "cumulativeCostCents": 0.03368,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-9-event-ai-p17-2-9-d15aefeb06d8",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 103,
+        "latencyMs": 699,
+        "costCents": 0.00895,
+        "cumulativeCostCents": 0.04263,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-10-event-ai-p17-2-10-cb8bf3a8da60",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 490,
+        "outputTokens": 85,
+        "latencyMs": 732,
+        "costCents": 0.0083,
+        "cumulativeCostCents": 0.05093,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-13-event-ai-p17-2-13-abc6b2a9a6e8",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 490,
+        "outputTokens": 92,
+        "latencyMs": 806,
+        "costCents": 0.00858,
+        "cumulativeCostCents": 0.05951000000000001,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-14-event-ai-p17-2-14-2d3e215b4054",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 490,
+        "outputTokens": 83,
+        "latencyMs": 698,
+        "costCents": 0.00822,
+        "cumulativeCostCents": 0.06773000000000001,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-3-event-ai-p17-4-3-222098283d36",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 480,
+        "outputTokens": 106,
+        "latencyMs": 730,
+        "costCents": 0.00904,
+        "cumulativeCostCents": 0.07677,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-4-event-ai-p17-4-4-26c717903ee3",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 478,
+        "outputTokens": 101,
+        "latencyMs": 488,
+        "costCents": 0.00882,
+        "cumulativeCostCents": 0.08559,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-7-event-ai-p17-4-7-be13b56bca0d",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 480,
+        "outputTokens": 113,
+        "latencyMs": 698,
+        "costCents": 0.00932,
+        "cumulativeCostCents": 0.09491,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-8-event-ai-p17-4-8-8d2421f3c9fe",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 478,
+        "outputTokens": 77,
+        "latencyMs": 607,
+        "costCents": 0.00786,
+        "cumulativeCostCents": 0.10277,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-11-event-ai-p17-4-11-5c420a7fceee",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 487,
+        "outputTokens": 85,
+        "latencyMs": 716,
+        "costCents": 0.00827,
+        "cumulativeCostCents": 0.11104,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-12-event-ai-p17-4-12-76611ca9cb17",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 485,
+        "outputTokens": 90,
+        "latencyMs": 616,
+        "costCents": 0.00845,
+        "cumulativeCostCents": 0.11949,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-15-event-ai-p17-4-15-0cc7ff1d2439",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 487,
+        "outputTokens": 102,
+        "latencyMs": 560,
+        "costCents": 0.00895,
+        "cumulativeCostCents": 0.12844,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-16-event-ai-p17-4-16-f852ed2fc02f",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 447,
+        "outputTokens": 0,
+        "latencyMs": 706,
+        "costCents": 0,
+        "cumulativeCostCents": 0.13793,
+        "outcome": "fallback",
+        "error": "Expected ',' or '}' after property value in JSON at position 467 (line 5 column 44)"
+      },
+      {
+        "requestId": "gemini-encounter-3-event-ai-p17-8-3-a0f11dd85965",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 480,
+        "outputTokens": 84,
+        "latencyMs": 716,
+        "costCents": 0.00816,
+        "cumulativeCostCents": 0.14609,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-4-event-ai-p17-8-4-47fc7ded943b",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 478,
+        "outputTokens": 103,
+        "latencyMs": 618,
+        "costCents": 0.0089,
+        "cumulativeCostCents": 0.15499,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-7-event-ai-p17-8-7-a0bf04274e94",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 480,
+        "outputTokens": 93,
+        "latencyMs": 561,
+        "costCents": 0.00852,
+        "cumulativeCostCents": 0.16351,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-8-event-ai-p17-8-8-376972c07d2e",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 478,
+        "outputTokens": 98,
+        "latencyMs": 664,
+        "costCents": 0.0087,
+        "cumulativeCostCents": 0.17220999999999997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-11-event-ai-p17-8-11-540e9a87b0f5",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 487,
+        "outputTokens": 80,
+        "latencyMs": 617,
+        "costCents": 0.00807,
+        "cumulativeCostCents": 0.18027999999999997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-12-event-ai-p17-8-12-6972aaf6688d",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 485,
+        "outputTokens": 78,
+        "latencyMs": 659,
+        "costCents": 0.00797,
+        "cumulativeCostCents": 0.18824999999999997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-15-event-ai-p17-8-15-5ea0c4545b74",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 487,
+        "outputTokens": 85,
+        "latencyMs": 581,
+        "costCents": 0.00827,
+        "cumulativeCostCents": 0.19651999999999997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-16-event-ai-p17-8-16-52790b5a4752",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 447,
+        "outputTokens": 0,
+        "latencyMs": 662,
+        "costCents": 0,
+        "cumulativeCostCents": 0.20648999999999998,
+        "outcome": "fallback",
+        "error": "Unterminated string in JSON at position 535 (line 5 column 39)"
+      },
+      {
+        "requestId": "gemini-encounter-3-event-ai-p17-16-3-95c4faca554a",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 485,
+        "outputTokens": 86,
+        "latencyMs": 554,
+        "costCents": 0.00829,
+        "cumulativeCostCents": 0.21477999999999997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-4-event-ai-p17-16-4-27498cbd4df1",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 86,
+        "latencyMs": 523,
+        "costCents": 0.00827,
+        "cumulativeCostCents": 0.22304999999999997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-7-event-ai-p17-16-7-0faf745f9d68",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 485,
+        "outputTokens": 103,
+        "latencyMs": 624,
+        "costCents": 0.00897,
+        "cumulativeCostCents": 0.23201999999999998,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-8-event-ai-p17-16-8-d04bf9ed8085",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 483,
+        "outputTokens": 78,
+        "latencyMs": 576,
+        "costCents": 0.00795,
+        "cumulativeCostCents": 0.23997,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-11-event-ai-p17-16-11-ee1925d31c4c",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 492,
+        "outputTokens": 99,
+        "latencyMs": 646,
+        "costCents": 0.00888,
+        "cumulativeCostCents": 0.24885,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-12-event-ai-p17-16-12-6fafdab8a668",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 490,
+        "outputTokens": 93,
+        "latencyMs": 579,
+        "costCents": 0.00862,
+        "cumulativeCostCents": 0.25747,
+        "outcome": "recorded"
+      },
+      {
+        "requestId": "gemini-encounter-16-event-ai-p17-16-16-1acf8964c269",
+        "model": "gemini-2.5-flash-lite",
+        "inputTokens": 490,
+        "outputTokens": 115,
+        "latencyMs": 659,
+        "costCents": 0.0095,
+        "cumulativeCostCents": 0.26697,
+        "outcome": "recorded"
+      }
+    ]
+  },
+  "summary": {
+    "totalReviews": 128,
+    "totalRecorded": 21,
+    "totalFallbacks": 11,
+    "usefulInterpretations": 11
+  },
+  "decision": "proceed-to-next-review",
+  "acceptance": {
+    "safetyPassed": true,
+    "everyEncounterAdjudicated": true,
+    "fallbackCategoriesComplete": true,
+    "providerFreeReplay": true,
+    "noBroaderDeployment": true
+  }
+}

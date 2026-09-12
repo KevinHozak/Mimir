@@ -42,7 +42,9 @@
     "ai-p15:rehearsal": "npm run build && node scripts/first-glow-ai-p15-rehearsal.mjs",
     "ai-p15:rehearsal:test": "node scripts/first-glow-ai-p15-rehearsal.test.mjs",
     "ai-p16:repeatability": "npm run build && node scripts/first-glow-ai-p16-repeatability.mjs",
-    "ai-p16:repeatability:test": "node scripts/first-glow-ai-p16-repeatability.test.mjs"
+    "ai-p16:repeatability:test": "node scripts/first-glow-ai-p16-repeatability.test.mjs",
+    "ai-p17:quality-review": "npm run build && node scripts/first-glow-ai-p17-quality-review.mjs",
+    "ai-p17:quality-review:test": "node scripts/first-glow-ai-p17-quality-review.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
