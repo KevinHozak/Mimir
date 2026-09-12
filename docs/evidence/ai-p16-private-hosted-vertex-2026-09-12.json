@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T21:48:47.850Z",
+  "evaluation": "AI-P16 repeatability evaluation of bounded private-hosted Vertex value",
+  "fixedSeeds": [2, 4, 8, 16],
+  "encountersPerSeed": 32,
+  "authorization": { "execution": "vertex-live", "provider": "Google Vertex AI", "model": "gemini-2.5-flash-lite", "location": "us-central1", "accountId": "redacted from evidence", "projectId": "redacted from evidence", "hardCapCents": 100 },
+  "budgets": { "perSparkDailyLimit": 4, "globalDailyLimit": 16, "hardCapCents": 100, "costCents": 0.27241, "withinCaps": true },
+  "seeds": [
+    { "seed": 2, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 4, "fallbacks": 4, "changedChoices": 0, "changedDownstream": 0, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": false, "fallbackOnly": false },
+    { "seed": 4, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 6, "fallbacks": 2, "changedChoices": 1, "changedDownstream": 26, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false },
+    { "seed": 8, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 6, "fallbacks": 2, "changedChoices": 3, "changedDownstream": 29, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false },
+    { "seed": 16, "encounters": 32, "attentionOpportunities": 8, "perSparkMaximumUsed": 4, "globalUsed": 8, "interpretationUnitsUsed": 8, "recorded": 4, "fallbacks": 4, "changedChoices": 1, "changedDownstream": 26, "replayProviderCalls": 0, "replayRecordsMatched": 32, "safety": { "privateHostedOnly": true, "deterministicAuthority": true, "capsAdhered": true, "replayProviderFree": true, "proposalValidity": true, "noBroaderDeployment": true }, "useful": true, "fallbackOnly": false }
+  ],
+  "summary": { "seedCount": 4, "usefulSeeds": 3, "validSeeds": 4, "totalRecorded": 20, "totalFallbacks": 12, "totalChangedChoices": 5, "totalChangedDownstream": 81 },
+  "provider": { "calls": 32, "model": "gemini-2.5-flash-lite", "costCents": 0.27241 },
+  "decision": "proceed-to-next-review",
+  "acceptance": { "safetyPassed": true, "repeatableUsefulValue": true, "providerFreeReplay": true, "noBroaderDeployment": true }
+}
+
