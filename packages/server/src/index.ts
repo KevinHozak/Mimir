@@ -10,6 +10,7 @@ import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, CHARAC
 import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
+import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
 
 const port = Number(process.env.PORT ?? 8888);
 const DEFAULT_TICK_INTERVAL_MS = 4000;
@@ -23,6 +24,8 @@ const ownerToken = process.env.OWNER_TOKEN;
 const databasePath = process.env.DATABASE_PATH ?? join(process.cwd(), "data", "local", "mimir.db");
 const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
 const backupDirectory = resolve(process.env.BACKUP_DIR ?? join(process.cwd(), "data", "backups"));
+const backupReplicationUri = process.env.BACKUP_GCS_URI?.trim();
+const backupFreshnessMaxAgeMs = Number(process.env.BACKUP_FRESHNESS_MAX_AGE_MS ?? Math.max(backupIntervalMs * 2, 172800000));
 const serveWeb = process.env.SERVE_WEB === "true";
 const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const worldBundleRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? join(process.cwd(), "assets/world/generated"));
@@ -43,14 +46,40 @@ let activeTimelineId = savedTimeline?.value ?? "main";
 let schedulerPaused = !autoTick;
 let scheduler: NodeJS.Timeout | undefined;
 let shuttingDown = false;
-function createScheduledBackup(reason: string) {
+const backupReplicationStatus: BackupReplicationStatus = { enabled: Boolean(backupReplicationUri), destination: backupReplicationUri, freshnessMaxAgeMs: backupFreshnessMaxAgeMs, consecutiveFailures: 0 };
+let backupReplicationInFlight = false;
+function currentBackupReplicationStatus(): BackupReplicationStatus & { stale: boolean } {
+  const stale = backupReplicationStatus.enabled && (!backupReplicationStatus.lastSuccessAt || Date.now() - Date.parse(backupReplicationStatus.lastSuccessAt) > backupReplicationStatus.freshnessMaxAgeMs);
+  return { ...backupReplicationStatus, stale };
+}
+async function createScheduledBackup(reason: string) {
   const destination = join(backupDirectory, `mimir-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
   if (!existsSync(databasePath)) return;
   try {
     const manifest = createBundleInclusiveBackup(databasePath, destination, worldBundleRoot);
     app.log.info({ destination, bundleHashes: manifest.bundleHashes }, "scheduled bundle-inclusive backup created");
+    if (backupReplicationUri) {
+      if (backupReplicationInFlight) { app.log.warn("skipping scheduled backup replication because the previous upload is still running"); return; }
+      backupReplicationInFlight = true;
+      backupReplicationStatus.lastAttemptAt = new Date().toISOString();
+      try {
+        const result = await replicateBackup(destination, backupReplicationUri);
+        backupReplicationStatus.lastSuccessAt = new Date().toISOString();
+        backupReplicationStatus.lastObjectUri = result.objectUri;
+        backupReplicationStatus.lastArchiveSha256 = result.archiveSha256;
+        backupReplicationStatus.lastArchiveBytes = result.archiveBytes;
+        backupReplicationStatus.lastError = undefined;
+        backupReplicationStatus.consecutiveFailures = 0;
+        app.log.info({ objectUri: result.objectUri, archiveSha256: result.archiveSha256, archiveBytes: result.archiveBytes }, "independent backup replication verified");
+      } catch (error) {
+        backupReplicationStatus.lastError = error instanceof Error ? error.message : String(error);
+        backupReplicationStatus.consecutiveFailures += 1;
+        app.log.error({ error }, "independent backup replication failed");
+      } finally { backupReplicationInFlight = false; }
+    }
   } catch (error) {
     app.log.error({ destination, error }, "scheduled backup failed");
+    if (backupReplicationUri) { backupReplicationStatus.lastAttemptAt = new Date().toISOString(); backupReplicationStatus.lastError = error instanceof Error ? error.message : String(error); backupReplicationStatus.consecutiveFailures += 1; }
   }
 }
 
@@ -108,7 +137,8 @@ function applyFirstGlowPendingCommands(base: WorldState, tick: number): { state:
   return { state: next, events, commands };
 }
 
-app.get("/health", async () => ({ ok: true, tick: state.tick, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents }));
+app.get("/health", async () => ({ ok: true, tick: state.tick, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents, backupReplication: currentBackupReplicationStatus() }));
+app.get("/api/backup/status", async () => currentBackupReplicationStatus());
 app.get("/api/social/config", async () => ({ mode: socialMode, aiEnabled, budgetCents: socialBudgetCents, provider: "none", historicalPlaybackUsesAI: false }));
 app.get("/api/design", async () => state.firstGlowState ? { themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN } : ({ characterCards: CHARACTER_CARDS, dilemmas: FIRST_WINTER_DILEMMAS, sharedStore: state.sharedStore }));
 app.get("/api/resonance", async () => {
@@ -330,7 +360,7 @@ function restartScheduler() { if (scheduler) clearInterval(scheduler); if (tickI
 restartScheduler();
 app.log.info({ tickIntervalMs, seasonTickLimit, schedulerPaused }, "automatic tick scheduler configured");
 let backupScheduler: NodeJS.Timeout | undefined;
-if (backupIntervalMs > 0) { backupScheduler = setInterval(() => { if (!shuttingDown) createScheduledBackup("interval"); }, backupIntervalMs); backupScheduler.unref(); app.log.info({ backupIntervalMs, backupDirectory }, "scheduled database backups configured"); }
+if (backupIntervalMs > 0) { backupScheduler = setInterval(() => { if (!shuttingDown) void createScheduledBackup("interval"); }, backupIntervalMs); backupScheduler.unref(); app.log.info({ backupIntervalMs, backupDirectory, backupReplicationUri, backupFreshnessMaxAgeMs }, "scheduled database backups configured"); }
 async function shutdown(signal: string) { if (shuttingDown) return; shuttingDown = true; if (scheduler) clearInterval(scheduler); if (backupScheduler) clearInterval(backupScheduler); for (const client of liveClients) client.end(); await app.close(); database.exec("PRAGMA wal_checkpoint(FULL);"); database.close(); app.log.info({ signal, tick: state.tick, timelineId: activeTimelineId }, "server shut down cleanly"); process.exit(0); }
 process.once("SIGINT", () => void shutdown("SIGINT"));
 process.once("SIGTERM", () => void shutdown("SIGTERM"));

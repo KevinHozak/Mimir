@@ -9,6 +9,7 @@
     "test:first-glow-restart": "npm run build && node dist/first-glow-restart.test.js",
     "test:first-glow-commands": "npm run build && node dist/first-glow-commands.test.js",
     "test:first-glow-command-acceptance": "npm run build && node dist/first-glow-command-acceptance.test.js",
+    "test:backup-replication": "npm run build && node dist/backup-replication.test.js",
     "dev": "tsx watch src/index.ts",
     "backup": "tsx src/backup.ts",
     "test:backup-restore": "npm run build && node dist/first-glow-backup.test.js && node dist/first-glow-assets.test.js"

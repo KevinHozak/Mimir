@@ -70,13 +70,15 @@ The configured backup controls are:
 - bucket/project administration and retention-policy changes reserved for a separate administrator identity; and
 - no long-lived service-account key committed to the repository or copied into the VM image.
 
-The project ID, bucket name, identities, retention settings, and budget are recorded in the dated [Hosted-P5 backup evidence](evidence/hosted-backup-recovery-2026-09-11.md). The service still does not perform automatic cloud upload; the operator transfer boundary remains explicit.
+The project ID, bucket name, identities, retention settings, and budget are recorded in the dated [Hosted-P5 backup evidence](evidence/hosted-backup-recovery-2026-09-11.md). Hosted-P8 adds optional scheduled replication without changing the single-writer runtime. When `BACKUP_GCS_URI` is configured, each existing `BACKUP_INTERVAL_MS` backup is packaged as one temporary archive containing the database, manifest, and referenced bundle directory, uploaded with `gcloud storage cp`, and verified with `gcloud storage objects describe`. The VM must use its attached keyless writer identity; no service-account key is accepted by this path.
+
+The operator-visible status is available at `/api/backup/status` and is also included in `/health`. It reports whether replication is enabled, the destination, the freshness threshold, last attempt/success timestamps, last object URI, archive hash/size, consecutive failures, and a `stale` flag. A stale or failed replication does not make the process pretend that local disk is independent recovery: investigate the recorded error, verify the bucket and attached identity, and perform a fresh isolated restore before declaring the backup path healthy.
 
 ## Hosted-P3 verification record (historical pre-provisioning audit)
 
 The 2026-09-11 pre-provisioning audit used the active `gcloud` account `khozak@gmail.com` and project `mimir-realm`. At that point it confirmed the project was `ACTIVE`, billing was enabled on `billingAccounts/01E836-7FDB98-C1FD83`, the relevant Compute Engine, Cloud Storage, and Billing Budgets services were enabled, and the project-scoped `$10` budget had 50%, 75%, 90%, and 100% current-spend thresholds. The then-empty resource listing is historical; Hosted-P4/P5/P6 provisioning and validation are recorded in the sections above and below.
 
-The following claims remain unproven: the account's actual Free Tier eligibility, exact billed amount after continued traffic, billing-alert delivery timing, automatic cloud-upload operation, public availability, durable multi-writer operation, and horizontal scaling. Hosted-P3 did not create an owner token. Hosted-P4 created a staging-only owner token in root-only secret configuration; Hosted-P6 verified that the live VM token file is root-owned mode `600` and did not print or commit it.
+The following claims remain unproven: the account's actual Free Tier eligibility, exact billed amount after continued traffic, billing-alert delivery timing, public availability, durable multi-writer operation, and horizontal scaling. Hosted-P3 did not create an owner token. Hosted-P4 created a staging-only owner token in root-only secret configuration; Hosted-P6 verified that the live VM token file is root-owned mode `600` and did not print or commit it.
 
 ## Hosted-P4 staging evidence
 
@@ -102,9 +104,15 @@ The first hosted service is intentionally one simulation writer. Do not scale it
 6. For a structured timeline, verify `/api/world` reports `spatialModel: "structured-v2"`, the expected bundle hash is present in `structuredState`, and a queued `/api/owner/world/object` command returns 202 with an effective next tick. Retry its idempotency key and verify no duplicate command is created.
 7. For a First Glow timeline, verify `/api/world` reports `simulationVersion: "mimir-sim-v3-first-glow"`, `themeId: "living-circuit"`, and `ageId: "first-glow"`. Use `/api/owner/reset-v3` with the schema-3 bundle hash; do not relabel or rewrite an older timeline. A clean bundle-inclusive restore must replay the supported First Glow checkpoint and fail before startup when referenced assets are missing or checksum-mismatched.
 
-The scheduled backup in `render.yaml` remains a local disk copy. Hosted-P5 separately validated an operator transfer of a bundle-inclusive backup from the private staging VM to the configured Cloud Storage destination and a recovery download using the read-only identity. Manual and scheduled backups share the same bundle-inclusive implementation and manifest format. Automatic cloud-upload wiring remains separate work, so the service must not yet be described as continuously protected by the bucket.
+The scheduled backup in `render.yaml` remains a local disk copy unless the hosted environment additionally supplies `BACKUP_GCS_URI`. Hosted-P5 separately validated an operator transfer of a bundle-inclusive backup from the private staging VM to the configured Cloud Storage destination and a recovery download using the read-only identity. Hosted-P8 automates the upload and remote metadata verification, but recovery still requires the separate read-only identity and a fresh isolated restore. Manual and scheduled backups share the same bundle-inclusive implementation and manifest format.
+
+For the configured bucket, set `BACKUP_GCS_URI` to a `gs://` bucket/prefix and optionally set `BACKUP_FRESHNESS_MAX_AGE_MS`; the default is twice the backup interval, or 48 hours when the interval is unset. Keep `BACKUP_INTERVAL_MS` bounded and nonzero. The attached VM service account needs object-create, object-read, and metadata-read access only; it must not have object-delete or bucket-admin access. Do not add a service-account key to the VM image, environment, repository, or deployment secret configuration.
+
+The response path is: inspect `/api/backup/status`, preserve the failed local backup unit, check the service log and VM identity/bucket permissions, retry only after correcting the cause, then download the selected object with the recovery identity and run the documented fresh restore plus continued First Glow tick. A missing, stale, checksum-invalid, or failed upload remains an operational failure even when the local copy exists.
 
 ## Independent-backup validation evidence
+
+The automated replication contract and operator response path are recorded in the dated [Hosted-P8 replication evidence](evidence/hosted-backup-replication-2026-09-11.md).
 
 The dated validation record is [hosted-backup-recovery-2026-09-11.md](evidence/hosted-backup-recovery-2026-09-11.md). It verifies the actual independent object-storage transfer, bundle-inclusive manifest, fresh restore, latest First Glow checkpoint recovery, one continued tick from the restored database, and pre-startup failure when a referenced asset is missing. It does not claim automatic cloud upload, public availability, durable multi-writer operation, or final production readiness.
 
