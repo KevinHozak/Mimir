@@ -6,7 +6,7 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Next non-hosting delivery sequence
 
-No non-hosting implementation gate is currently scheduled. Resonance-P1 through P5 are merged with their fixed evidence and recorded in the [Changelog](changelog.md). The Hearth Circuit remains a future transition contract, not a second active runtime; selecting a later First Glow workstream requires an explicit new delivery decision.
+The next non-hosting sequence is the conditional AI plan below. Resonance-P1 through P5 are merged with their fixed evidence and recorded in the [Changelog](changelog.md). The Hearth Circuit remains a future transition contract, not a second active runtime; the AI phases are planning and evaluation gates, not authorization for external model calls.
 
 ### AI-P1 decision: defer external interpretation
 
@@ -36,6 +36,17 @@ For a comparable Mimir evaluation request of 2,000 input tokens and 150 output t
 The recommended evaluation sequence is Flash-Lite as a cheap screening arm, Flash as the primary quality/cost comparison, and Pro only as a small adjudication or upper-bound arm. The likely benefit is improved observer-facing explanation and uncertainty calibration, not new simulation authority. A model should advance only if blinded reviewers show a meaningful improvement in evidence-grounded understanding and plausible downstream choices over rules-only, with zero knowledge leakage, zero authority changes, complete replay without provider calls, and acceptable latency and fallback rates.
 
 The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Gemini 2.5 Flash-Lite for planning, uses deterministic attention triggers and rules-based authority, supplies versioned Spark personality context, and records committed movement and decision history for provider-free historical playback. This remains a plan; it does not activate external calls.
+
+| Phase | Issue | Status and dependency |
+| --- | --- | --- |
+| AI-P2 | [Define versioned Spark personality material](https://github.com/KevinHozak/Mimir/issues/130) | Foundation; follows AI-P1 and adds no provider call. |
+| AI-P3 | [Implement deterministic attention triggers and budgets](https://github.com/KevinHozak/Mimir/issues/131) | Follows AI-P2; routine activity remains rules-only. |
+| AI-P4 | [Complete movement and decision recording for history](https://github.com/KevinHozak/Mimir/issues/132) | Follows AI-P2 and AI-P3; required before provider evaluation. |
+| AI-P5 | [Build the offline hybrid fake-provider loop](https://github.com/KevinHozak/Mimir/issues/133) | Follows AI-P2 through AI-P4; no network, credentials, or paid usage. |
+| AI-P6 | [Run the authorized Gemini 2.5 Flash-Lite evaluation](https://github.com/KevinHozak/Mimir/issues/134) | Follows AI-P5 plus separate provider, privacy, retention, and budget authorization. |
+| AI-P7 | [Evaluate hybrid choice quality and behavioral value](https://github.com/KevinHozak/Mimir/issues/135) | Follows AI-P6; produces the evidence-based adopt/defer/retire recommendation. |
+| AI-P8 | [Run a limited isolated hybrid staging pilot](https://github.com/KevinHozak/Mimir/issues/136) | Conditional on AI-P7 approval; cannot affect the canonical timeline or public observer. |
+| AI-P9 | [Decide whether to expand hybrid runtime use](https://github.com/KevinHozak/Mimir/issues/137) | Conditional on AI-P8; no broader deployment is included. |
 
 ## Next hosted-observer sequence
 

@@ -1,8 +1,9 @@
 import { canonicalize, sha256 } from "@mimir/world-data";
 import type { SocialInterpretation } from "./index.js";
+import { firstGlowSparkPersonalityProfile, FIRST_GLOW_PERSONALITY_PROFILE_VERSION, type FirstGlowSparkPersonalityProfile } from "./design.js";
 import type { FirstGlowState, StructuredEvent } from "./structured.js";
 
-export const FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION = 1 as const;
+export const FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION = 2 as const;
 export const FIRST_GLOW_REVIEW_ENCOUNTER_COUNT = 20 as const;
 export type FirstGlowInterpretationFallbackReason = "malformed-output" | "invalid-reference" | "unsupported-claim" | "timeout" | "budget-exhausted" | "provider-error";
 export type FirstGlowInterpretationDilemma = "weakening-pool-report" | "shelter-or-trace" | "public-or-private-mark" | "wild-cache-risk";
@@ -10,6 +11,7 @@ export type FirstGlowInterpretationAlternative = "reveal-pool" | "withhold-pool"
 
 export interface FirstGlowInterpretationContext {
   schemaVersion: typeof FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION;
+  personalityProfileVersion: typeof FIRST_GLOW_PERSONALITY_PROFILE_VERSION;
   encounterId: string;
   contextHash: string;
   tick: number;
@@ -21,6 +23,7 @@ export interface FirstGlowInterpretationContext {
   witnessedEvidenceEventIds: string[];
   communicatedEvidenceEventIds: string[];
   uncertainInferenceEvidenceEventIds: string[];
+  personalityProfile: FirstGlowSparkPersonalityProfile;
 }
 
 export interface FirstGlowInterpretationProposal {
@@ -32,6 +35,7 @@ export interface FirstGlowInterpretationProposal {
 
 export interface FirstGlowInterpretationRecord extends SocialInterpretation {
   schemaVersion: typeof FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION;
+  personalityProfileVersion: typeof FIRST_GLOW_PERSONALITY_PROFILE_VERSION;
   encounterId: string;
   contextHash: string;
   dilemmaId: FirstGlowInterpretationDilemma;
@@ -103,7 +107,8 @@ export function buildFirstGlowInterpretationContext(state: FirstGlowState, event
   const witnessedEvidenceEventIds = evidenceEventIds.filter(id => knowledge.witnessedFacts.some(fact => fact.eventId === id));
   const communicatedEvidenceEventIds = knowledge.communicatedClaims.flatMap(claim => claim.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
   const uncertainInferenceEvidenceEventIds = knowledge.uncertainInferences.flatMap(inference => inference.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
-  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds) };
+  const personalityProfile = firstGlowSparkPersonalityProfile(actor.id);
+  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds) };
   return { ...contextWithoutHash, contextHash: `sha256-${sha256(stableJson(contextWithoutHash))}` };
 }
 
@@ -133,7 +138,7 @@ function reserve(budget: FirstGlowInterpretationBudget): boolean {
 function recordUsage(budget: FirstGlowInterpretationBudget, usage: FirstGlowInterpretationUsage): void { budget.telemetry.push(usage); budget.telemetry.sort((a, b) => compare(a.requestId, b.requestId)); }
 
 function makeRecord(context: FirstGlowInterpretationContext, proposal: FirstGlowInterpretationProposal, confidence: FirstGlowInterpretationRecord["confidence"], requestedSource: "rules" | "ai", fallbackReason: FirstGlowInterpretationFallbackReason | undefined, baseline: FirstGlowInterpretationProposal): FirstGlowInterpretationRecord {
-  return { id: `interpretation-${context.tick}-${context.event.id}-${context.contextHash.slice(-12)}`, tick: context.tick, eventId: context.event.id, sparkId: context.actorSparkId, source: requestedSource, summary: proposal.summary, evidenceEventIds: proposal.evidenceEventIds, schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, encounterId: context.encounterId, contextHash: context.contextHash, dilemmaId: context.dilemmaId, alternativeId: proposal.alternativeId as FirstGlowInterpretationAlternative, claim: proposal.claim, confidence, fallbackReason, requestedSource, plausibleChoiceChanged: proposal.alternativeId !== baseline.alternativeId };
+  return { id: `interpretation-${context.tick}-${context.event.id}-${context.contextHash.slice(-12)}`, tick: context.tick, eventId: context.event.id, sparkId: context.actorSparkId, source: requestedSource, summary: proposal.summary, evidenceEventIds: proposal.evidenceEventIds, schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: context.personalityProfileVersion, encounterId: context.encounterId, contextHash: context.contextHash, dilemmaId: context.dilemmaId, alternativeId: proposal.alternativeId as FirstGlowInterpretationAlternative, claim: proposal.claim, confidence, fallbackReason, requestedSource, plausibleChoiceChanged: proposal.alternativeId !== baseline.alternativeId };
 }
 
 export function createRulesOnlyFirstGlowInterpretation(context: FirstGlowInterpretationContext): FirstGlowInterpretationRecord {
@@ -178,7 +183,7 @@ export async function evaluateFirstGlowInterpretation(context: FirstGlowInterpre
 }
 
 export function validateFirstGlowInterpretationRecord(record: FirstGlowInterpretationRecord, context: FirstGlowInterpretationContext): void {
-  if (record.schemaVersion !== FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION || record.contextHash !== context.contextHash || record.eventId !== context.event.id || record.encounterId !== context.encounterId) throw new Error("invalid First Glow interpretation context");
+  if (record.schemaVersion !== FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION || record.personalityProfileVersion !== context.personalityProfileVersion || context.personalityProfile.profileVersion !== FIRST_GLOW_PERSONALITY_PROFILE_VERSION || record.contextHash !== context.contextHash || record.eventId !== context.event.id || record.encounterId !== context.encounterId) throw new Error("invalid First Glow interpretation context");
   if (record.source === "ai" && record.confidence !== "provider-proposed") throw new Error("invalid First Glow provider interpretation");
   if (record.evidenceEventIds.some(id => !context.witnessedEvidenceEventIds.includes(id))) throw new Error("First Glow interpretation references hidden evidence");
 }

@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data";
 import { buildFirstGlowInterpretationContext, createRulesOnlyFirstGlowInterpretation, evaluateFirstGlowInterpretation, type FirstGlowInterpretationBudget, type FirstGlowInterpretationContext, type FirstGlowInterpretationProvider } from "./first-glow-interpretations.js";
+import { firstGlowSparkPersonalityProfile, serializeFirstGlowSparkPersonalityProfile } from "./design.js";
 import { createFirstGlowState } from "./structured.js";
 import { recordFirstGlowWitnesses } from "./first-glow-social.js";
 
@@ -35,6 +36,22 @@ test("context hashes and rules-only records are deterministic and evidence-scope
   assert.deepEqual(createRulesOnlyFirstGlowInterpretation(first), createRulesOnlyFirstGlowInterpretation(second));
   assert.deepEqual(first.witnessedEvidenceEventIds, [first.event.id]);
   assert.deepEqual(first.communicatedEvidenceEventIds, []);
+});
+
+test("personality profiles are versioned, canonical, and bounded to the acting Spark", () => {
+  const first = encounters(1).contexts[0];
+  const second = encounters(1).contexts[0];
+  assert.equal(first.personalityProfile.profileVersion, 1);
+  assert.deepEqual(first.personalityProfile, second.personalityProfile);
+  assert.equal(first.personalityProfile.name, "Lumen");
+  assert.deepEqual(first.personalityProfile.valueTendencies, ["care", "reciprocity"]);
+  assert.deepEqual(first.personalityProfile.relevantRelationships.map(relationship => relationship.sparkId), ["spark-ora", "spark-rill"]);
+  assert.ok(first.personalityProfile.knowledgeBoundary.doesNotKnow.some(item => item.includes("Why a pool weakens")));
+  assert.equal(serializeFirstGlowSparkPersonalityProfile(first.personalityProfile), serializeFirstGlowSparkPersonalityProfile(second.personalityProfile));
+  assert.equal(first.personalityProfile.sparkId, first.actorSparkId);
+  assert.equal(JSON.stringify(first.personalityProfile).includes("spark-2"), false);
+  assert.deepEqual(first.personalityProfile.knowledgeBoundary.knows, ["Visible pool brightness and nearby Spark positions."]);
+  assert.deepEqual(firstGlowSparkPersonalityProfile("spark-1"), first.personalityProfile);
 });
 
 test("twenty matched AI-on/off encounters record bounded choice differences without changing world state", async () => {
