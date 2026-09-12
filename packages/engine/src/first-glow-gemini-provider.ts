@@ -56,3 +56,17 @@ export function createFirstGlowVertexGeminiFlashLiteProvider(config: FirstGlowVe
   const location = config.location ?? "us-central1";
   return createFirstGlowGeminiFlashLiteProvider({ ...config, authorization: `Bearer ${config.accessToken}`, endpoint: `https://${location}-aiplatform.googleapis.com/v1/projects/${encodeURIComponent(config.projectId)}/locations/${encodeURIComponent(location)}/publishers/google/models/${encodeURIComponent(config.model ?? FIRST_GLOW_GEMINI_MODEL)}:generateContent` });
 }
+
+export interface FirstGlowVertexGeminiPilotConfig extends FirstGlowVertexGeminiEvaluationConfig {
+  runtimeMode: "bounded-internal-pilot";
+  billingMode: "vertex-ai";
+  dataPolicy: "spark-local-minimized";
+}
+
+export function createFirstGlowVertexGeminiPilotProvider(config: FirstGlowVertexGeminiPilotConfig) {
+  if (config.runtimeMode !== "bounded-internal-pilot") throw new FirstGlowGeminiEvaluationStopped("Vertex pilot requires the explicit bounded-internal-pilot mode");
+  if (config.billingMode !== "vertex-ai" || config.dataPolicy !== "spark-local-minimized") throw new FirstGlowGeminiEvaluationStopped("Vertex pilot requires the approved P11 billing and data policy");
+  if (config.hardCapCents !== 100) throw new FirstGlowGeminiEvaluationStopped("Vertex pilot requires the approved $1.00 hard cap");
+  if ((config.maxOutputTokens ?? 128) > 128) throw new FirstGlowGeminiEvaluationStopped("Vertex pilot output is capped at 128 tokens");
+  return createFirstGlowVertexGeminiFlashLiteProvider(config);
+}
