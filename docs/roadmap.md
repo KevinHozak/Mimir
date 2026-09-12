@@ -49,6 +49,10 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 | AI-P9 | [Run a limited isolated hybrid staging pilot](https://github.com/KevinHozak/Mimir/issues/136) | Conditional on AI-P8; cannot affect the canonical timeline or public observer. |
 | AI-P10 | [Decide whether to expand hybrid runtime use](https://github.com/KevinHozak/Mimir/issues/137) | Conditional on AI-P9; no broader deployment is included. |
 
+### AI-P10 decision: defer hybrid runtime expansion
+
+AI-P7, AI-P8, and AI-P9 together establish that validated proposals can create bounded downstream social changes in isolated staging while preserving rules-only authority, budget caps, and provider-free replay. They do not yet establish a fresh external-model uplift in observer-facing understanding or enough value to justify runtime complexity, privacy exposure, reliability risk, and spend. AI-P10 therefore **defers** hybrid runtime expansion. The rules-only resolver remains the sole normal-operation and public-observer path; no external provider is wired into the canonical server tick. The full rationale is recorded in [AI-P10 hybrid runtime decision evidence](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
+
 ## Next hosted-observer sequence
 
 Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changelog.md). The private, single-writer staging observer has independently recovered a bundle-inclusive backup and completed a restart-continuity season; it is not public or durable production hosting. The following sequence must preserve that boundary until its explicit decision and validation gates pass:
