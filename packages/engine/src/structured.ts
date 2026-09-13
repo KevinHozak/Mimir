@@ -3,6 +3,7 @@ import { createFirstGlowSocialState, recordFirstGlowWitnesses, validateFirstGlow
 import { appendFirstGlowExplanations, type FirstGlowExplanation } from "./first-glow-explanations.js";
 import { createFirstGlowHistory, validateFirstGlowHistory, type FirstGlowHistory } from "./first-glow-history.js";
 import { createFirstGlowReflectionCapacityState, validateFirstGlowReflectionCapacity, type FirstGlowReflectionCapacityState } from "./first-glow-reflection-capacity.js";
+import type { FirstGlowIntention } from "./first-glow-intentions.js";
 
 export const STRUCTURED_SIMULATION_VERSION = "mimir-sim-v2" as const;
 export type StructuredStatus = "choosing" | "traveling" | "waiting" | "interacting" | "idle";
@@ -13,7 +14,7 @@ export interface LedgerEntry { kind: "production" | "collection" | "draw" | "sha
 export interface StructuredEvent { id: string; tick?: number; kind: "movement" | "arrival" | "collection" | "draw" | "share" | "idle" | "wait" | "explore" | "mark-trace" | "shape-pattern" | "meet" | "wild-cache" | "shelter-loom-choice" | "crossing-voices-choice"; actorId: string; message: string; cells?: Cell[]; participants?: string[]; evidenceEventIds?: string[]; source?: "rules" | "spontaneous"; }
 export interface StructuredState { schemaVersion: 2; spatialModel: "structured-v2"; simulationVersion: typeof STRUCTURED_SIMULATION_VERSION; tick: number; settlements: StructuredSettlement[]; ledger: LedgerEntry[]; events: StructuredEvent[]; }
 export const FIRST_GLOW_SIMULATION_VERSION = "mimir-sim-v3-first-glow" as const;
-export interface FirstGlowSpark { id: string; name: string; spawnedTick?: number; position: Cell; status: StructuredStatus; intendedActivity: FirstGlowActivity; destinationObjectId?: string; destinationSlotId?: string; destinationCell?: Cell; remainingRoute: Cell[]; remainingCost: number; plannedNavigationRevision: number; committedCells: Cell[]; carriedCharge: number; chargeDeficit: number; readiness: number; knownEvidenceEventIds: string[]; waitReason?: string; }
+export interface FirstGlowSpark { id: string; name: string; spawnedTick?: number; position: Cell; status: StructuredStatus; intendedActivity: FirstGlowActivity; intention?: FirstGlowIntention; destinationObjectId?: string; destinationSlotId?: string; destinationCell?: Cell; remainingRoute: Cell[]; remainingCost: number; plannedNavigationRevision: number; committedCells: Cell[]; carriedCharge: number; chargeDeficit: number; readiness: number; knownEvidenceEventIds: string[]; waitReason?: string; }
 export interface FirstGlowSettlement { id: string; name: string; bundle: FirstGlowWorldBundle; runtime: WorldRuntimeState; sparks: FirstGlowSpark[]; sourceCharge: number; communalCharge: number; }
 export interface FirstGlowState { schemaVersion: 3; spatialModel: "structured-v2"; simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION; themeId: "living-circuit"; ageId: "first-glow"; tick: number; settlements: FirstGlowSettlement[]; ledger: LedgerEntry[]; events: StructuredEvent[]; social: FirstGlowSocialState; explanations: FirstGlowExplanation[]; history?: FirstGlowHistory; reflectionCapacity?: FirstGlowReflectionCapacityState; }
 
@@ -115,7 +116,8 @@ export function advanceFirstGlowState(input: FirstGlowState, validate = true): F
     events: structuredClone(input.events),
     social: structuredClone(input.social),
     explanations: structuredClone(input.explanations),
-    history: structuredClone(input.history ?? createFirstGlowHistory())
+    history: structuredClone(input.history ?? createFirstGlowHistory()),
+    reflectionCapacity: structuredClone(input.reflectionCapacity)
   };
   if (state.history) validateFirstGlowHistory(state.history, state.settlements.flatMap(settlement => settlement.sparks.map(spark => spark.id)));
   state.tick += 1;

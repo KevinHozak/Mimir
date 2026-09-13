@@ -4,6 +4,7 @@ import { appendFirstGlowExplanations } from "./first-glow-explanations.js";
 import { appendFirstGlowMovement } from "./first-glow-history.js";
 import type { FirstGlowActivity } from "@mimir/world-data";
 import { canTraverse } from "@mimir/world-data";
+import { continueFirstGlowIntention, finalizeFirstGlowIntentions } from "./first-glow-intentions.js";
 
 export interface FirstGlowExternalChargeInput { sourceCharge?: number; communalCharge?: number; loss?: number; resolveSocial?: boolean; validate?: boolean; deterministicSeed?: number; }
 
@@ -14,6 +15,7 @@ function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][numbe
 function chooseAutonomousActivities(state: FirstGlowState): void {
   if (state.tick === 0) return;
   for (const settlement of state.settlements) for (const spark of settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id))) {
+    if (spark.intention?.status === "active") continue;
     if ((spark.status !== "choosing" && spark.status !== "waiting") || spark.destinationObjectId) continue;
     const companion = settlement.sparks.find((candidate) => candidate.id !== spark.id && candidate.position.x === spark.position.x && candidate.position.y === spark.position.y && candidate.carriedCharge === 0);
     if (spark.carriedCharge > 0 && companion) { spark.intendedActivity = "share-charge"; continue; }
@@ -86,8 +88,10 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     events: structuredClone(input.events),
     social: structuredClone(input.social),
     explanations: structuredClone(input.explanations),
-    history: structuredClone(input.history)
+    history: structuredClone(input.history),
+    reflectionCapacity: structuredClone(input.reflectionCapacity)
   };
+  continueFirstGlowIntention(working);
   chooseAutonomousActivities(working);
   const previous = new Map(working.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, { status: spark.status, activity: spark.intendedActivity }] as const)));
   const shares: { actorId: string; recipientId: string }[] = [];
@@ -146,5 +150,6 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
   for (const event of state.events) recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants ?? [], state.tick);
   if (external.resolveSocial !== false) resolveAutonomousSocialChoices(state, external.deterministicSeed ?? 0);
   appendFirstGlowExplanations(state, state.events);
+  finalizeFirstGlowIntentions(state);
   return state;
 }

@@ -9,6 +9,8 @@ RC-P1 implementation status: the versioned First Glow policy and deterministic s
 
 RC-P2 implementation status: reflection contexts now derive a bounded `lived-memory-v1` projection from persisted Spark knowledge and decision history. Objective witnesses, received claims, subjective inferences, and prior consequences retain separate provenance; only known records at or before the current tick are supplied. Spawn ticks are recorded for new Sparks, while legacy Sparks keep an unknown spawn time rather than receiving invented history.
 
+RC-P3 implementation status: eligible reflections can now produce a bounded, feasibility-checked `rule-executed-v1` intention. Intentions continue without provider calls, execute through existing movement and arrival contracts, and persist causal completion/interruption records for restart and provider-free replay.
+
 World development age sets **Reflection capacity (RC)**. First Glow baseline
 is RC 1; rare Hero Sparks initially receive RC 2, calculated as
 `ceil(world RC * 1.5)`. A reflection is an opportunity
