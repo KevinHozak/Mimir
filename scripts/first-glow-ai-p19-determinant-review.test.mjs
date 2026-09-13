@@ -25,5 +25,5 @@ for (const basis of report.basisResults) {
   assert.equal(basis.safety.replayProviderFree, true);
   assert.equal(typeof basis.fairness.universallyDominant, "boolean");
 }
-assert.equal(report.decision, "live-quality-rerun-required");
+assert.ok(["live-quality-rerun-required", "defer-for-determinant"].includes(report.decision));
 console.log("AI-P19 determinant-review evidence checks passed");

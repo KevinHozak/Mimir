@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "evaluation": "AI-P19 matched Spark decision-budget determinant review",
-  "execution": "deterministic-control",
+  "execution": "vertex-live",
   "fixedSeeds": [2, 4, 8, 16],
   "encountersPerSeed": 32,
   "ticksPerDay": 64,
@@ -9,20 +9,20 @@
   "profilesEquivalent": true,
   "basisResults": {
     "readiness": {
-      "recorded": 39,
-      "useful": 19,
-      "changedChoices": 19,
-      "downstreamChanges": 100,
-      "providerCalls": 0,
-      "costCents": 0
+      "recorded": 29,
+      "useful": 15,
+      "changedChoices": 15,
+      "downstreamChanges": 103,
+      "providerCalls": 38,
+      "costCents": 0.30403
     },
     "age": {
-      "recorded": 39,
-      "useful": 19,
-      "changedChoices": 19,
-      "downstreamChanges": 100,
-      "providerCalls": 0,
-      "costCents": 0
+      "recorded": 31,
+      "useful": 17,
+      "changedChoices": 17,
+      "downstreamChanges": 98,
+      "providerCalls": 39,
+      "costCents": 0.30561
     }
   },
   "acceptance": {
@@ -34,6 +34,6 @@
     "withinHardCap": true,
     "noBroaderDeployment": true
   },
-  "decision": "live-quality-rerun-required",
+  "decision": "defer-for-determinant",
   "nextStep": "Use a determinant-varying Spark-state fixture before selecting readiness or age."
 }
