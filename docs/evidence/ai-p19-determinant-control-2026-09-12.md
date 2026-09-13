@@ -11,8 +11,20 @@ but cannot select readiness over age. A determinant-varying fixture is required
 before selection.
 
 Readiness produced 29 recorded interpretations, 15 useful staged changes, 15
-changed choices, 103 downstream staging changes, 38 provider calls, and $0.30403
+changed choices, 103 downstream staging changes, 38 provider calls, and $0.0030403
 of cost. Age produced 31 recorded interpretations, 17 useful staged changes, 17
-changed choices, 98 downstream staging changes, 39 provider calls, and $0.30561
+changed choices, 98 downstream staging changes, 39 provider calls, and $0.0030561
 of cost. Both preserved cadence spacing, avoided universal dominance by the
 highest-budget Spark, and passed provider-free replay and authority checks.
+
+Cost correction: the report's `costCents` values are cents, not dollars.
+The combined reported estimate is 0.60964 cents = $0.0060964 (about $0.0061),
+or 0.60964% of the $1.00 cap. This is report telemetry, not a reconciled invoice.
+The numeric JSON cost fields remain unchanged.
+
+The static matched profiles do not establish a causal advantage for age or
+readiness. Downstream counts include persistent differences in cumulative
+staged state; they are not independent effects attributable to each Spark.
+
+The user has selected age-based budget growth for future implementation.
+This is a design decision, not a winner established by this experiment.

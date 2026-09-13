@@ -37,3 +37,27 @@ downstream changes, latency, cost, fairness indicators, and provider-free
 replay. It must end in determinant selection, defer, or stop. No public or
 unbounded calls, canonical AI writes, deployment, or historical replay calls
 are permitted.
+
+## Selected next direction: age-based growth (planned)
+
+Use elapsed simulation age to increase each Spark's choice budget through
+2, 4, 8, and 16. Persist a birth/spawn tick and derive age from committed ticks;
+advance age during the run rather than assigning a fixed age label. Initial
+thresholds of 0, 2, 4, and 8 simulation days are candidates for testing, not
+final balance values. Readiness remains the existing rest/activity attribute.
+
+Space opportunities across the configured day using day ticks divided by
+budget. On a tier change, schedule future windows without granting a burst
+or catch-up debt. Preserve deterministic offsets, global caps, and replay.
+AI chooses an intention; deterministic rules execute actions and attribute,
+resource, and social effects. This broader intention loop remains planned.
+
+Validate staggered births, exact age thresholds, tier changes, and save/replay
+across multiple days. Compare the same scenarios at fixed budgets 2/4/8/16
+against age-based growth. Record the rules choice, AI choice, direct effects,
+and later accumulated differences separately; assess coherent behavior and
+cost rather than treating disagreement alone as improvement.
+
+Naming proposal: **reflection capacity** for the daily choice allowance,
+**reflection** for an opportunity to choose or reconsider an intention, and
+**maturation** for its growth with age. These names await user selection.
