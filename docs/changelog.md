@@ -91,6 +91,11 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Follow-up: [PR #165 / AI-P18](https://github.com/KevinHozak/Mimir/pull/165); [AI-P18 cadence control](evidence/ai-p18-cadence-control-2026-09-12.md); [AI-P18 Vertex rerun](evidence/ai-p18-vertex-rerun-2026-09-12.md).
 
+- Completed AI-P19's matched determinant review in private, bounded controls and a separately gated Vertex arm. The static fixture gave readiness/capacity and personal-age profiles identical 2/4/8/16 vectors, so it did not establish a causal winner or fairness advantage; the reported 0.60964 cents ($0.0060964) remains an estimate rather than a reconciled invoice.
+- Selected world-age **Reflection capacity (RC)** as the next design direction: First Glow baseline RC 1, rare Hero Sparks RC 2 via `ceil(world RC * 1.5)`, with personal memories shaping reflection content rather than increasing capacity. RC-P1 through RC-P5 are planned; no new runtime or public provider path was enabled.
+
+  - Follow-up: [PR #167 / AI-P19](https://github.com/KevinHozak/Mimir/pull/167); [AI-P19 determinant control](evidence/ai-p19-determinant-control-2026-09-12.md); [Reflection capacity plan](reflection-capacity-plan.md).
+
 
 ## Earlier project direction
 

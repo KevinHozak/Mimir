@@ -38,7 +38,7 @@ replay. It must end in determinant selection, defer, or stop. No public or
 unbounded calls, canonical AI writes, deployment, or historical replay calls
 are permitted.
 
-## Selected next direction: Reflection capacity (planned)
+## Selected next direction: Reflection capacity
 
 World development age sets Reflection capacity (RC): First Glow has baseline
 RC 1, with rare Hero Sparks at RC 2 (`ceil(world RC * 1.5)`). Personal age does not increase RC; lived
@@ -54,9 +54,16 @@ resource, and social effects. This broader intention loop remains planned.
 
 Validate staggered births, world-age transitions, Hero exceptions, and save/replay
 across multiple days. Compare all-RC-1 groups with one RC-2 Hero, rotating the
-Hero identity; use fixed budgets 2/4/8/16 as diagnostics. Record rules choice, AI choice, direct effects,
+Hero identity; as later ages are added, use direct integer RC values (3, 4, 5, 6,
+and onward). Record rules choice, AI choice, direct effects,
 and later accumulated differences separately; assess coherent behavior and
 cost rather than treating disagreement alone as improvement.
 
 Selected vocabulary: **Reflection capacity (RC)** for the daily choice allowance
 and **reflection** for an opportunity to choose or reconsider an intention.
+
+The review is complete. The static control assigned identical budget vectors to
+both candidate determinants, so it did not select readiness or personal age as a
+causal determinant. The selected RC policy is a world-age design decision and is
+implemented only through the planned RC-P1 gate; this runbook remains the
+reproducible record of the determinant comparison.

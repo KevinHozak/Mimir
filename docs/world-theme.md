@@ -86,7 +86,38 @@ The Living Circuit has a quiet binary rhythm. When a quantity is being designed 
 
 This is a strong design tendency, not a universal runtime invariant. Use **1** for a singular action or minimum unit, and keep other values when they express a meaningful asymmetry, authored geometry, timing constraint, or observed result. Do not force existing state, evidence, or compatibility boundaries into binary values after the fact; new mechanics should choose a nearby power of two unless the design has a clear reason not to.
 
+Reflection capacity is an explicit exception: its selected rule follows world
+development age directly as RC 1, 2, 3, 4, 5, 6, and onward, rather than using
+binary jumps. The age progression communicates the world's growth; the separate
+cadence and global-cap rules provide the necessary bounds.
+
 ## Sparks
+
+### Reflection capacity (selected design; implementation planned)
+
+**Reflection capacity (RC)** is a Spark's allowance of opportunities to choose
+or reconsider an intention during a configured simulation day. World development
+age determines baseline RC: **The First Glow** starts at RC 1. Rare **Hero Sparks**
+initially receive RC 2, calculated as `ceil(world RC * 1.5)`. Later world ages
+raise the baseline directly by age: world age 3 means RC 3, age 4 means RC 4,
+and so on. Exact Hero rarity and any upper bound remain balance decisions. Hero
+status means more frequent reflection, not better
+judgment, strength, virtue, or guaranteed success.
+
+Personal age does not directly increase RC. Experiences, memories, relationships,
+and earlier consequences shape what a Spark brings to a reflection, bounded by
+what that individual knows. A young Hero may reflect frequently with little
+history; an older ordinary Spark may draw on richer lived experience. **Readiness**
+continues to mean rest and ability to act.
+
+Reflections select intentions; authoritative rules execute actions between them.
+The planning fixture uses a **64-tick simulation day**. An RC tier spaces its
+opportunities across those 64 ticks (for example, RC 1 targets a 64-tick
+interval and RC 2 targets 32 ticks), with stable per-Spark offsets, no catch-up
+bursts, and explicit suppression when an opportunity is unavailable. This is a
+simulation cadence, not a promise that one day equals a fixed wall-clock duration.
+RC is distinct from charge and from real provider spend. See the [Reflection
+capacity plan](reflection-capacity-plan.md) for implementation gates.
 
 Sparks are people to follow and understand. They have personal names, preferences, relationships, memories, values, and unfinished business. Their identity is more than their role or technical function.
 
