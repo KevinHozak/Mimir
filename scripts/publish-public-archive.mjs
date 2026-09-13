@@ -53,8 +53,9 @@ const runId = `run-${new Date().toISOString().replaceAll(/[:.]/g, "-")}-${random
 const stagingUri = `${bucketUri.replace(/\/$/, "")}/archives/.staging/${runId}`;
 function gcloud(args) {
   if (dryRun) return;
-  const result = spawnSync("gcloud", ["storage", ...args], { encoding: "utf8" });
-  if (result.status !== 0) throw new Error(`gcloud storage failed: ${result.stderr || result.stdout}`);
+  const executable = process.platform === "win32" ? "gcloud.cmd" : "gcloud";
+  const result = spawnSync(executable, ["storage", ...args], { encoding: "utf8", shell: process.platform === "win32" });
+  if (result.error || result.status !== 0) throw new Error(`gcloud storage failed: ${result.error?.message || result.stderr || result.stdout || "unknown error"}`);
 }
 for (const file of checkedFiles) {
   const relativePath = file.remote.split("/archives/")[1];

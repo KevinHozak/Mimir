@@ -22,7 +22,7 @@ export const firebaseStorage = getStorage(firebaseApp);
 export const readFirebaseJson = async <T,>(path: string): Promise<T> => {
   const result = await Promise.race([
     getBytes(ref(firebaseStorage, path), 32 * 1024 * 1024),
-    new Promise<never>((_, reject) => setTimeout(() => reject(new Error(`Firebase Storage read timed out: ${path}`)), 8000)),
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error(`Firebase Storage archive read timed out: ${path}`)), 15000)),
   ]);
   return JSON.parse(new TextDecoder().decode(result)) as T;
 };
