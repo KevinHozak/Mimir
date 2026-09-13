@@ -86,6 +86,11 @@ This is a functional record of meaningful delivered changes. It groups related w
   - Evidence: [AI-P10 hybrid runtime implementation path](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
   - Follow-up: [PR #159 / AI-P15](https://github.com/KevinHozak/Mimir/pull/159); [AI-P15 evidence](evidence/ai-p15-private-hosted-vertex-2026-09-12.md).
 
+- AI-P18 adds a versioned Spark decision-budget ladder of 2, 4, 8, and 16 with deterministic spacing across a 64-tick day, stable phase offsets, no catch-up debt, and recorded cadence/suppression metadata. Its control runner compares readiness-tier and age-day profiles without changing canonical authority.
+- The authorized private Vertex quality rerun covered 128 fixed-seed encounters: 28 recorded interpretations, 14 useful interpretations, 14 changed choices, 113 downstream staging changes, four categorized fallbacks, and 0.27085 cents of provider usage under the $1.00 cap. Private-boundary, cap, deterministic-authority, and provider-free replay checks passed; no public deployment or canonical AI writes were introduced.
+
+  - Follow-up: [PR #165 / AI-P18](https://github.com/KevinHozak/Mimir/pull/165); [AI-P18 cadence control](evidence/ai-p18-cadence-control-2026-09-12.md); [AI-P18 Vertex rerun](evidence/ai-p18-vertex-rerun-2026-09-12.md).
+
 
 ## Earlier project direction
 
