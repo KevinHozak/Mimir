@@ -15,6 +15,7 @@ import { HistoryRequestSequencer } from "./history-sequencing.js";
 import { audioPreferencePercent, loadFirstGlowAudioPreferences, saveFirstGlowAudioPreferences, type FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import { FirstGlowAudioRuntime } from "./first-glow-audio-runtime.js";
 import { loadFirstGlowViewerSettings, saveFirstGlowViewerSettings } from "./first-glow-settings.js";
+import { hostedAuthEnabled, observeAuth, readFirebaseJson, signInWithGoogle, signOutGoogle } from "./firebase-auth.js";
 import "./styles.css";
 
 type TilePosition = Cell;
@@ -531,6 +532,7 @@ function App() {
   const [interpretations, setInterpretations] = useState<Interpretation[]>([]);
   const [metrics, setMetrics] = useState<Metric[]>([]);
   const [resonanceReview, setResonanceReview] = useState<ResonanceReview | null>(null);
+  const [reflectionProjection, setReflectionProjection] = useState<ReflectionProjection | null>(null);
   const [characterCards, setCharacterCards] = useState<CharacterCard[]>([]);
   const [dilemmas, setDilemmas] = useState<DilemmaCard[]>([]);
   const [firstGlowDesign, setFirstGlowDesign] = useState<FirstGlowDesign | undefined>();
@@ -556,7 +558,6 @@ function App() {
   const [selectedVillagerId, setSelectedVillagerId] = useState<string | null>(null);
   const [ownerToken, setOwnerToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
-  const [reflectionProjection, setReflectionProjection] = useState<ReflectionProjection | null>(null);
   const [operationMessage, setOperationMessage] = useState("");
   const [loadError, setLoadError] = useState("");
   const [activeSettlementId, setActiveSettlementId] = useState("first-village");
@@ -697,4 +698,33 @@ function HistoryViewer() {
   </main>;
 }
 
-createRoot(document.getElementById("root")!).render(<StrictMode>{new URLSearchParams(window.location.search).get("view") === "history" ? <HistoryViewer /> : <><App /><a className="history-entry-float" href="?view=history">History &amp; scenarios</a></>}</StrictMode>);
+function HostedObserverGate() {
+  const [user, setUser] = useState<import("firebase/auth").User | null>(null);
+  const [loading, setLoading] = useState(hostedAuthEnabled);
+  useEffect(() => hostedAuthEnabled ? observeAuth(next => { setUser(next); setLoading(false); }) : undefined, []);
+  if (!hostedAuthEnabled) return <><App /><a className="history-entry-float" href="?view=history">History &amp; scenarios</a></>;
+  if (loading) return <main className="first-glow first-glow-loading"><div><h1>Mimir</h1><p>Checking Google sign-in…</p></div></main>;
+  if (!user) return <main className="first-glow first-glow-loading"><div><h1>Mimir</h1><p>Private observer · Google sign-in required</p><button onClick={() => void signInWithGoogle()}>Sign in with Google</button></div></main>;
+  return <><header className="hosted-auth-bar"><span>Signed in as {user.email}</span><button onClick={() => void signOutGoogle()}>Sign out</button></header><HostedArchiveViewer /></>;
+}
+
+type PublishedCatalog = { schemaVersion: 1; simulationVersion: "mimir-sim-v3-first-glow"; archives: Array<{ archiveId: string; timeline: { id: string; created_at: string; archived_at: string | null }; chunkCount: number }> };
+type PublishedManifest = { schemaVersion: 1; simulationVersion: "mimir-sim-v3-first-glow"; archiveId: string; timeline: { id: string; created_at: string; archived_at: string | null }; chunks: Array<{ name: string; tick: number; bytes: number; sha256: string }> };
+type PublishedChunk = { schemaVersion: 1; tick: number; world: State; events: Event[]; interpretations: Interpretation[] };
+async function verifiedChunk(archiveId: string, chunk: PublishedManifest["chunks"][number]): Promise<PublishedChunk> {
+  const raw = await readFirebaseJson<PublishedChunk>(`archives/${archiveId}/chunks/${chunk.name}`);
+  const bytes = new TextEncoder().encode(JSON.stringify(raw) + "\n");
+  const digest = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes))).map(value => value.toString(16).padStart(2, "0")).join("");
+  if (bytes.byteLength !== chunk.bytes || digest !== chunk.sha256 || raw.schemaVersion !== 1 || raw.world.simulationVersion !== "mimir-sim-v3-first-glow" || raw.world.spatialModel !== "structured-v2") throw new Error("archive chunk manifest or schema verification failed");
+  return raw;
+}
+function HostedArchiveViewer() {
+  const [catalog, setCatalog] = useState<PublishedCatalog | null>(null); const [manifest, setManifest] = useState<PublishedManifest | null>(null); const [chunk, setChunk] = useState<PublishedChunk | null>(null); const [error, setError] = useState<string | null>(null); const [loading, setLoading] = useState(true);
+  useEffect(() => { void readFirebaseJson<PublishedCatalog>("archives/catalog.json").then(value => { if (value.schemaVersion !== 1 || value.simulationVersion !== "mimir-sim-v3-first-glow") throw new Error("archive catalog verification failed"); setCatalog(value); setLoading(false); }).catch(reason => { setError(reason instanceof Error ? reason.message : "archive catalog unavailable"); setLoading(false); }); }, []);
+  const selectArchive = async (archiveId: string) => { setError(null); setChunk(null); try { const next = await readFirebaseJson<PublishedManifest>(`archives/${archiveId}/manifest.json`); if (next.archiveId !== archiveId || next.schemaVersion !== 1 || next.simulationVersion !== "mimir-sim-v3-first-glow" || !next.chunks.length) throw new Error("archive manifest verification failed"); setManifest(next); setChunk(await verifiedChunk(archiveId, next.chunks[next.chunks.length - 1])); } catch (reason) { setError(reason instanceof Error ? reason.message : "archive could not be verified"); } };
+  if (loading) return <main className="first-glow first-glow-loading"><div><h1>Mimir</h1><p>Loading protected archives…</p></div></main>;
+  return <main className="first-glow history-viewer" data-testid="hosted-archive-viewer"><header><div><p className="history-kicker">Mimir · A Light of Our Own</p><h1>Protected history archives</h1><p>Google-authenticated, immutable First Glow playback. Replay is local to this browser and does not contact the simulation VM.</p></div></header>{error && <p className="first-glow-error" role="alert">{error}</p>}<section className="history-toolbar"><label>Archive <select defaultValue="" onChange={event => void selectArchive(event.target.value)}><option value="" disabled>Select a published archive</option>{(catalog?.archives ?? []).map(item => <option key={item.archiveId} value={item.archiveId}>{item.archiveId} · {item.chunkCount} checkpoint(s)</option>)}</select></label></section>{!catalog?.archives.length && <p className="history-state">No completed archives have been published yet.</p>}{chunk && manifest && <section className="history-identity"><h2>Verified local replay</h2><p><strong>{manifest.timeline.id}</strong> · Tick {chunk.tick} · archived {manifest.timeline.archived_at ?? "unknown"}</p><p>Simulation <strong>{chunk.world.simulationVersion}</strong> · spatial model <strong>{chunk.world.spatialModel}</strong></p><p className="history-notice">Manifest, chunk checksum, schema, simulation version, and world bundle references verified before replay.</p><h3>Recorded outcomes</h3>{chunk.events.slice(-12).reverse().map(event => <p key={event.id}><strong>Tick {event.tick}:</strong> {event.message}</p>)}</section>}</main>;
+}
+
+createRoot(document.getElementById("root")!).render(<StrictMode><HostedObserverGate /></StrictMode>);
+
