@@ -26,3 +26,13 @@ services:
         value: "15000"
       - key: OWNER_TOKEN
         sync: false
+      - key: FIREBASE_PROJECT_ID
+        value: "mimir-realm"
+      - key: PUBLIC_OBSERVER_AUTH_REQUIRED
+        value: "true"
+      - key: PUBLIC_OBSERVER_EMAILS
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false

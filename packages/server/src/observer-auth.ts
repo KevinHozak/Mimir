@@ -1,11 +1,13 @@
-import { getApps, initializeApp } from "firebase-admin/app";
+import { cert, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 
 const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
 const approvedEmails = new Set((process.env.PUBLIC_OBSERVER_EMAILS ?? "").split(",").map(value => value.trim().toLowerCase()).filter(Boolean));
 const required = process.env.PUBLIC_OBSERVER_AUTH_REQUIRED === "true";
-if (required && (!projectId || approvedEmails.size === 0)) throw new Error("PUBLIC_OBSERVER_AUTH_REQUIRED needs FIREBASE_PROJECT_ID and PUBLIC_OBSERVER_EMAILS");
-const app = projectId ? (getApps()[0] ?? initializeApp({ projectId })) : undefined;
+const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
+const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+if (required && (!projectId || approvedEmails.size === 0 || !clientEmail || !privateKey)) throw new Error("PUBLIC_OBSERVER_AUTH_REQUIRED needs Firebase project, approved email, and Admin credentials");
+const app = projectId ? (getApps()[0] ?? initializeApp(clientEmail && privateKey ? { credential: cert({ projectId, clientEmail, privateKey }), projectId } : { projectId })) : undefined;
 const auth = app ? getAuth(app) : undefined;
 
 export async function verifyObserverToken(authorization: string | undefined): Promise<{ email: string } | null> {
