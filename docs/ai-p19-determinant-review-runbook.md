@@ -41,7 +41,7 @@ are permitted.
 ## Selected next direction: Reflection capacity (planned)
 
 World development age sets Reflection capacity (RC): First Glow has baseline
-RC 2, with rare Hero Sparks at RC 4. Personal age does not increase RC; lived
+RC 1, with rare Hero Sparks at RC 2 (`ceil(world RC * 1.5)`). Personal age does not increase RC; lived
 memories influence reflection content. Readiness remains the rest attribute.
 This supersedes the earlier personal-age growth proposal. See the selected
 [Reflection capacity plan](reflection-capacity-plan.md) and RC-P1 through RC-P5.
@@ -53,7 +53,7 @@ AI chooses an intention; deterministic rules execute actions and attribute,
 resource, and social effects. This broader intention loop remains planned.
 
 Validate staggered births, world-age transitions, Hero exceptions, and save/replay
-across multiple days. Compare all-RC-2 groups with one RC-4 Hero, rotating the
+across multiple days. Compare all-RC-1 groups with one RC-2 Hero, rotating the
 Hero identity; use fixed budgets 2/4/8/16 as diagnostics. Record rules choice, AI choice, direct effects,
 and later accumulated differences separately; assess coherent behavior and
 cost rather than treating disagreement alone as improvement.

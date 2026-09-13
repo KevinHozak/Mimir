@@ -27,7 +27,7 @@ readiness. Downstream counts include persistent differences in cumulative
 staged state; they are not independent effects attributable to each Spark.
 
 The user selected world-age Reflection capacity for future implementation:
-First Glow RC 2, rare Hero Sparks RC 4; personal experience informs memories
+First Glow RC 1, rare Hero Sparks RC 2 using `ceil(world RC * 1.5)`; personal experience informs memories
 without directly increasing RC. This supersedes personal-age budget growth.
 It is a design decision, not a winner established by this experiment.
 See the [RC development plan](../reflection-capacity-plan.md).

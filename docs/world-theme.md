@@ -88,28 +88,6 @@ This is a strong design tendency, not a universal runtime invariant. Use **1** f
 
 ## Sparks
 
-### Reflection capacity (selected design; implementation planned)
-
-**Reflection capacity (RC)** is a Spark's allowance of opportunities to choose
-or reconsider an intention per configured simulation day. World development
-age determines baseline RC: the First Glow starts at **2**. Rare **Hero Sparks**
-have one extra tier, initially **4**. Later-age baseline growth follows the
-2/4/8/16 ladder; exact later values and Hero rarity remain balance decisions.
-Hero status means more frequent reflection, not inherently better judgment,
-strength, virtue, or guaranteed success.
-
-Personal age does not directly increase RC. Experiences, memories, relationships,
-and earlier consequences shape what a Spark brings to each reflection, bounded
-by what that individual knows. A young Hero can reflect frequently with little
-history; an older ordinary Spark can draw on richer lived experience. Readiness
-continues to mean rest and ability to act.
-
-Reflections select intentions; authoritative rules execute actions between them.
-Opportunities are spaced across the day, with deterministic offsets and no
-catch-up bursts. A reflection can preserve an existing intention. RC is distinct
-from fictional charge and real provider spend. See the
-[Reflection capacity plan](reflection-capacity-plan.md) for implementation gates.
-
 Sparks are people to follow and understand. They have personal names, preferences, relationships, memories, values, and unfinished business. Their identity is more than their role or technical function.
 
 An avatar is a small luminous spark, without a human body, limbs, clothing, or a face. It communicates personality through its core shape, light, motion, and a small signature mark. A Spark may collect old icons, arrange patterns around a shelter or later nest, enjoy signal music, or keep a recording because of the person associated with it. Not everything precious needs a practical use or a market price.
