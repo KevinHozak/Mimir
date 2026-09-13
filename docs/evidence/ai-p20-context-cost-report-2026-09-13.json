@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "ai-p20-context-cost-report",
+  "execution": "deterministic-control",
+  "pricing": { "inputUsdPerMillion": 0.1, "outputUsdPerMillion": 0.4 },
+  "scenarios": [
+    { "id": "full-context", "inputTokens": 2000, "outputTokens": 150, "costUsdPerEvent": 0.00026, "costUsdPerThousand": 0.26 },
+    { "id": "retrieved-context", "inputTokens": 900, "outputTokens": 150, "costUsdPerEvent": 0.00015, "costUsdPerThousand": 0.15 },
+    { "id": "summarized-context", "inputTokens": 500, "outputTokens": 120, "costUsdPerEvent": 0.000098, "costUsdPerThousand": 0.098 }
+  ],
+  "providerCalls": 0,
+  "historicalPlaybackUsesAI": false
+}

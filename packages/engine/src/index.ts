@@ -13,6 +13,7 @@ export * from "./first-glow-interpretations.js";
 export * from "./first-glow-attention.js";
 export * from "./first-glow-reflection-capacity.js";
 export * from "./first-glow-reflection-memory.js";
+export * from "./first-glow-context.js";
 export * from "./first-glow-intentions.js";
 export * from "./first-glow-fake-provider.js";
 export * from "./first-glow-gemini-provider.js";
@@ -78,7 +79,7 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const interpretation = context ? createRulesOnlyFirstGlowInterpretation(context) : undefined;
     if (interpretation) interpretations.push(interpretation);
     const candidates = context?.supportedAlternatives ?? [event.kind];
-    appendFirstGlowDecision(firstGlowState.history, { id: `decision-${firstGlowState.tick}-${event.id}`, tick: firstGlowState.tick, sparkId: event.actorId, eventId: event.id, trigger: classifyFirstGlowAttentionTrigger(event) ?? "ordinary-rules-only", candidates, selectedAlternative: interpretation ? String(interpretation.alternativeId) : event.kind, source: interpretation?.source ?? "rules", profileVersion: interpretation?.personalityProfileVersion ?? 1, evidenceEventIds: interpretation?.evidenceEventIds ?? (event.evidenceEventIds ?? [event.id]), contextHash: interpretation?.contextHash ?? `rules-${event.id}`, validation: "valid", fallbackReason: interpretation?.fallbackReason, latencyMs: 0, usage: { requestId: interpretation ? `rules-${interpretation.encounterId}` : `rules-${event.id}`, outcome: "rules-only", reservedUnits: 0, usedUnits: 0 }, resultingEventId: event.id });
+    appendFirstGlowDecision(firstGlowState.history, { id: `decision-${firstGlowState.tick}-${event.id}`, tick: firstGlowState.tick, sparkId: event.actorId, eventId: event.id, trigger: classifyFirstGlowAttentionTrigger(event) ?? "ordinary-rules-only", candidates, selectedAlternative: interpretation ? String(interpretation.alternativeId) : event.kind, source: interpretation?.source ?? "rules", profileVersion: interpretation?.personalityProfileVersion ?? 1, evidenceEventIds: interpretation?.evidenceEventIds ?? (event.evidenceEventIds ?? [event.id]), contextHash: interpretation?.contextHash ?? `rules-${event.id}`, validation: "valid", fallbackReason: interpretation?.fallbackReason, latencyMs: 0, usage: { requestId: interpretation ? `rules-${interpretation.encounterId}` : `rules-${event.id}`, outcome: "rules-only", reservedUnits: 0, usedUnits: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 }, resultingEventId: event.id });
   }
   return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations };
 }

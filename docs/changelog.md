@@ -13,6 +13,8 @@ This is a functional record of meaningful delivered changes. It groups related w
 
   - Through [PR #62](https://github.com/KevinHozak/Mimir/pull/62), [PR #64](https://github.com/KevinHozak/Mimir/pull/64), [PR #65](https://github.com/KevinHozak/Mimir/pull/65), [PR #67](https://github.com/KevinHozak/Mimir/pull/67), [PR #68](https://github.com/KevinHozak/Mimir/pull/68), [PR #70](https://github.com/KevinHozak/Mimir/pull/70), and [PR #75](https://github.com/KevinHozak/Mimir/pull/75).
 
+- Added the AI-P20 versioned First Glow World Codex and reconstructible context packet. Contexts now combine authored profile data with deterministic, Spark-local retrieved memories and recent witnessed events, hash the complete packet, reject hidden evidence, and record input/output token estimates and latency alongside bounded decision usage. The provider-free cost comparison is retained in the [AI-P20 evidence report](evidence/ai-p20-context-cost-report-2026-09-13.md).
+
 ### A validated Living Stories gate
 
 - Expanded the fixed-seed review from one 24-tick season to four 24-tick seasons, preserving controls, histories, replay inputs, observer artifacts, and scorecards.

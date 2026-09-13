@@ -78,7 +78,10 @@ export async function runFirstGlowHybridRuntime(
             contextHash: context.contextHash,
             outcome: "rules-only" as const,
             reservedUnits: 0,
-            usedUnits: 0
+            usedUnits: 0,
+            inputTokens: 0,
+            outputTokens: 0,
+            latencyMs: 0
           }
         };
     outcomes.push({
