@@ -1,5 +1,58 @@
-{\n  "name": "mimir",\n  "private": true,\n  "type": "module",\n  "workspaces": [\n    "packages/*"\n  ],\n  "scripts": {\n    "build": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && npm run build --workspace @mimir/server && npm run build --workspace @mimir/web",\n    "test": "npm run test --workspace @mimir/world-data && npm run test --workspace @mimir/engine",\n    "start": "node scripts/run-local.mjs",\n    "start:hosted": "node packages/server/dist/index.js",\n    "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",\n    "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",\n    "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",\n    "art:bible:check": "node scripts/first-glow-art-bible.mjs check",\n    "art:bible:review": "node scripts/first-glow-art-bible.mjs review",\n    "art:bible:test": "node scripts/first-glow-art-bible.test.mjs",\n    "art:check": "node scripts/art-production.mjs check",\n    "art:inventory": "node scripts/art-production.mjs inventory",\n    "art:review": "node scripts/art-review.mjs",\n    "art:validate": "npm run build && node scripts/first-glow-art-validation.mjs",\n    "art:validate:test": "node scripts/first-glow-art-validation.test.mjs",\n    "art:test": "node scripts/art-production.test.mjs",\n    "audio:check": "node scripts/first-glow-audio-contract.mjs",\n    "audio:test": "node scripts/first-glow-audio-contract.test.mjs",\n    "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",\n    "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",\n    "first-glow:autonomous-story-review": "npm run build && node scripts/first-glow-autonomous-story-review.mjs",\n    "first-glow:transition-review": "npm run build && node scripts/first-glow-transition-review.mjs",\n    "first-glow:long-story-review": "npm run build && node scripts/first-glow-long-story-review.mjs",\n    "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",\n    "ai-p6:vertex-evaluation": "npm run build && node scripts/first-glow-gemini-evaluation.mjs",\n    "ai-p7:hybrid-quality-review": "node scripts/first-glow-hybrid-quality-review.mjs",\n    "dev:server": "npm run dev --workspace @mimir/server",\n    "dev:web": "npm run dev --workspace @mimir/web",\n    "ai-p8:hybrid-staging": "npm run build && node scripts/first-glow-hybrid-staging.mjs",\n    "ai-p9:hybrid-pilot": "npm run build && node scripts/first-glow-hybrid-pilot.mjs",\n    "ai-p9:hybrid-pilot:test": "node scripts/first-glow-hybrid-pilot.test.mjs",\n    "ai-p13:pilot": "npm run build && node scripts/first-glow-ai-p13-pilot.mjs",\n    "ai-p13:pilot:test": "node scripts/first-glow-ai-p13-pilot.test.mjs",\n    "ai-p15:rehearsal": "npm run build && node scripts/first-glow-ai-p15-rehearsal.mjs",\n    "ai-p15:rehearsal:test": "node scripts/first-glow-ai-p15-rehearsal.test.mjs",\n    "ai-p16:repeatability": "npm run build && node scripts/first-glow-ai-p16-repeatability.mjs",\n    "ai-p16:repeatability:test": "node scripts/first-glow-ai-p16-repeatability.test.mjs",\n    "ai-p17:quality-review": "npm run build && node scripts/first-glow-ai-p17-quality-review.mjs",
+{
+  "name": "mimir",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && npm run build --workspace @mimir/server && npm run build --workspace @mimir/web",
+    "test": "npm run test --workspace @mimir/world-data && npm run test --workspace @mimir/engine",
+    "start": "node scripts/run-local.mjs",
+    "start:hosted": "node packages/server/dist/index.js",
+    "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",
+    "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",
+    "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",
+    "art:bible:check": "node scripts/first-glow-art-bible.mjs check",
+    "art:bible:review": "node scripts/first-glow-art-bible.mjs review",
+    "art:bible:test": "node scripts/first-glow-art-bible.test.mjs",
+    "art:check": "node scripts/art-production.mjs check",
+    "art:inventory": "node scripts/art-production.mjs inventory",
+    "art:review": "node scripts/art-review.mjs",
+    "art:validate": "npm run build && node scripts/first-glow-art-validation.mjs",
+    "art:validate:test": "node scripts/first-glow-art-validation.test.mjs",
+    "art:test": "node scripts/art-production.test.mjs",
+    "audio:check": "node scripts/first-glow-audio-contract.mjs",
+    "audio:test": "node scripts/first-glow-audio-contract.test.mjs",
+    "test:first-glow-season-review": "npm run build && node scripts/first-glow-season-review.test.mjs",
+    "first-glow:season-review": "npm run build && node scripts/first-glow-season-review.mjs",
+    "first-glow:autonomous-story-review": "npm run build && node scripts/first-glow-autonomous-story-review.mjs",
+    "first-glow:transition-review": "npm run build && node scripts/first-glow-transition-review.mjs",
+    "first-glow:long-story-review": "npm run build && node scripts/first-glow-long-story-review.mjs",
+    "profile:first-glow": "npm run build && node scripts/profile-first-glow.mjs",
+    "ai-p6:vertex-evaluation": "npm run build && node scripts/first-glow-gemini-evaluation.mjs",
+    "ai-p7:hybrid-quality-review": "node scripts/first-glow-hybrid-quality-review.mjs",
+    "dev:server": "npm run dev --workspace @mimir/server",
+    "dev:web": "npm run dev --workspace @mimir/web",
+    "ai-p8:hybrid-staging": "npm run build && node scripts/first-glow-hybrid-staging.mjs",
+    "ai-p9:hybrid-pilot": "npm run build && node scripts/first-glow-hybrid-pilot.mjs",
+    "ai-p9:hybrid-pilot:test": "node scripts/first-glow-hybrid-pilot.test.mjs",
+    "ai-p13:pilot": "npm run build && node scripts/first-glow-ai-p13-pilot.mjs",
+    "ai-p13:pilot:test": "node scripts/first-glow-ai-p13-pilot.test.mjs",
+    "ai-p15:rehearsal": "npm run build && node scripts/first-glow-ai-p15-rehearsal.mjs",
+    "ai-p15:rehearsal:test": "node scripts/first-glow-ai-p15-rehearsal.test.mjs",
+    "ai-p16:repeatability": "npm run build && node scripts/first-glow-ai-p16-repeatability.mjs",
+    "ai-p16:repeatability:test": "node scripts/first-glow-ai-p16-repeatability.test.mjs",
+    "ai-p17:quality-review": "npm run build && node scripts/first-glow-ai-p17-quality-review.mjs",
     "ai-p17:quality-review:test": "node scripts/first-glow-ai-p17-quality-review.test.mjs",
     "ai-p18:cadence-review": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && node scripts/first-glow-ai-p18-cadence-review.mjs",
     "ai-p18:cadence-review:test": "node scripts/first-glow-ai-p18-cadence-review.test.mjs"
-  },\n  "devDependencies": {\n    "@types/node": "^22.10.5",\n    "tsx": "^4.19.2",\n    "typescript": "^5.7.2"\n  }\n}\n\n\n
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
+
+
