@@ -15,7 +15,7 @@ import { HistoryRequestSequencer } from "./history-sequencing.js";
 import { audioPreferencePercent, loadFirstGlowAudioPreferences, saveFirstGlowAudioPreferences, type FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import { FirstGlowAudioRuntime } from "./first-glow-audio-runtime.js";
 import { loadFirstGlowViewerSettings, saveFirstGlowViewerSettings } from "./first-glow-settings.js";
-import { hostedAuthEnabled, observeAuth, readFirebaseJson, signInWithGoogle, signOutGoogle } from "./firebase-auth.js";
+import { getGoogleIdToken, hostedAuthEnabled, observeAuth, readFirebaseJson, signInWithGoogle, signOutGoogle } from "./firebase-auth.js";
 import "./styles.css";
 
 type TilePosition = Cell;
@@ -525,6 +525,18 @@ function ReflectionObserverPanel({ projection }: { projection: ReflectionProject
   return <section className="reflection-observer" data-testid="reflection-observer" aria-label="Reflection capacity and effects"><div className="stream-heading"><div><h2>Reflection cadence</h2><p>Public schedule for the First Glow. Private memory contents stay with each Spark.</p></div><span className="stream-badge">CAPACITY</span></div><div className="reflection-summary"><span>World age <strong>{projection.worldAge}</strong></span><span>Baseline RC <strong>{projection.policy.baselineCapacity}</strong></span><span>Global today <strong>{projection.global.used}/{projection.policy.globalDailyLimit}</strong></span><span>Opportunities left <strong>{projection.global.remaining}</strong></span></div><div className="reflection-sparks">{projection.sparks.map(spark => <article key={spark.id}><h3>{spark.name}{spark.isHero ? " · Hero" : ""}</h3><p><strong>{spark.used}/{spark.capacity}</strong> used · <strong>{spark.remaining}</strong> remaining · next scheduled tick <strong>{spark.nextScheduledTick}</strong>{spark.slotEndTick !== undefined ? ` (slot ends ${spark.slotEndTick})` : ""}</p>{spark.intention && <p className="reflection-intention">Current intention: <strong>{spark.intention.activity}</strong> · {spark.intention.status} · {spark.intention.summary}</p>}{spark.reflections.length > 0 && <ul>{spark.reflections.slice().reverse().map(reflection => <li key={`${spark.id}-${reflection.tick}`}>Tick {reflection.tick}: {reflection.created ? "reflection committed" : reflection.reason}{reflection.forcedAtSlotEnd ? " · forced at slot end" : ""}{reflection.evidenceEventIds.length ? ` · evidence ${reflection.evidenceEventIds.join(", ")}` : ""}</li>)}</ul>}</article>)}</div><small>Reflections are committed by the server. Historical playback reads recorded decisions and never calls a provider.</small></section>;
 }
 
+async function readAuthenticatedLiveStream(onMessage: (data: string) => void, signal: AbortSignal): Promise<void> {
+  const token = await getGoogleIdToken();
+  const response = await fetch(`${api}/api/live`, { headers: token ? { authorization: `Bearer ${token}` } : {}, signal });
+  if (!response.ok || !response.body) throw new Error(`live observer rejected (${response.status})`);
+  const reader = response.body.getReader(); const decoder = new TextDecoder(); let buffer = "";
+  while (!signal.aborted) {
+    const next = await reader.read(); if (next.done) return; buffer += decoder.decode(next.value, { stream: true });
+    const messages = buffer.split("\n\n"); buffer = messages.pop() ?? "";
+    for (const message of messages) { const line = message.split("\n").find(item => item.startsWith("data: ")); if (line) onMessage(line.slice(6)); }
+  }
+}
+
 function App() {
   const [world, setWorld] = useState<State | null>(null);
   const [liveWorld, setLiveWorld] = useState<State | null>(null);
@@ -613,10 +625,9 @@ function App() {
   useEffect(() => {
     void loadLive().catch(() => setLoadError("The observer could not load committed First Glow data. Check the server and retry."));
     void loadReport();
-    const stream = new EventSource(`${api}/api/live`);
-    stream.onerror = () => setLoadError("The live connection is unavailable. Previously committed data remains visible until it reconnects.");
-    stream.onmessage = (message) => {
-      const payload = JSON.parse(message.data) as { state: State; events?: Event[]; interpretations?: Interpretation[] };
+    const controller = new AbortController(); let stopped = false; let reconnectTimer: number | undefined;
+    const handleLiveMessage = (data: string) => {
+      const payload = JSON.parse(data) as { state: State; events?: Event[]; interpretations?: Interpretation[] };
       validateClientWorld(payload.state);
       setLiveWorld((current) => current && current.tick > payload.state.tick ? current : payload.state);
       if (payload.events?.length) setEvents((current) => Array.from(new Map([...current, ...payload.events!].map((event) => [event.id, event])).values()).slice(-200));
@@ -624,8 +635,10 @@ function App() {
       if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));
       if (viewTickRef.current === null) setWorld((current) => current && current.tick > payload.state.tick ? current : payload.state);
     };
+    const connect = async () => { try { await readAuthenticatedLiveStream(handleLiveMessage, controller.signal); } catch { if (!stopped) { setLoadError("The live connection is unavailable. Previously committed data remains visible until it reconnects."); reconnectTimer = window.setTimeout(() => void connect(), 3000); } } };
+    void connect();
     const timer = window.setInterval(() => void loadLive().catch(() => setLoadError("The observer could not refresh committed First Glow data.")), 15000);
-    return () => { stream.close(); window.clearInterval(timer); };
+    return () => { stopped = true; controller.abort(); if (reconnectTimer) window.clearTimeout(reconnectTimer); window.clearInterval(timer); };
   }, []);
   const showTick = async (tick: number | null) => {
     if (tick === null) invalidateHistoryRequest();
