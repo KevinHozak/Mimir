@@ -7,6 +7,8 @@ These are planned mechanics, not a claim that the full loop is implemented.
 
 RC-P1 implementation status: the versioned First Glow policy and deterministic scheduler are now implemented in `@mimir/engine`. The initial policy is explicit-test-only for Heroes, with natural generation disabled until a later phase selects and verifies a deterministic rarity policy.
 
+RC-P2 implementation status: reflection contexts now derive a bounded `lived-memory-v1` projection from persisted Spark knowledge and decision history. Objective witnesses, received claims, subjective inferences, and prior consequences retain separate provenance; only known records at or before the current tick are supplied. Spawn ticks are recorded for new Sparks, while legacy Sparks keep an unknown spawn time rather than receiving invented history.
+
 World development age sets **Reflection capacity (RC)**. First Glow baseline
 is RC 1; rare Hero Sparks initially receive RC 2, calculated as
 `ceil(world RC * 1.5)`. A reflection is an opportunity

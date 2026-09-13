@@ -2,6 +2,7 @@ import { canonicalize, sha256 } from "@mimir/world-data";
 import type { SocialInterpretation } from "./index.js";
 import { firstGlowSparkPersonalityProfile, FIRST_GLOW_PERSONALITY_PROFILE_VERSION, type FirstGlowSparkPersonalityProfile } from "./design.js";
 import type { FirstGlowState, StructuredEvent } from "./structured.js";
+import { buildFirstGlowReflectionMemoryContext, type FirstGlowReflectionMemoryContext } from "./first-glow-reflection-memory.js";
 
 export const FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION = 2 as const;
 export const FIRST_GLOW_REVIEW_ENCOUNTER_COUNT = 20 as const;
@@ -23,6 +24,7 @@ export interface FirstGlowInterpretationContext {
   witnessedEvidenceEventIds: string[];
   communicatedEvidenceEventIds: string[];
   uncertainInferenceEvidenceEventIds: string[];
+  reflectionMemory: FirstGlowReflectionMemoryContext;
   personalityProfile: FirstGlowSparkPersonalityProfile;
 }
 
@@ -108,7 +110,8 @@ export function buildFirstGlowInterpretationContext(state: FirstGlowState, event
   const communicatedEvidenceEventIds = knowledge.communicatedClaims.flatMap(claim => claim.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
   const uncertainInferenceEvidenceEventIds = knowledge.uncertainInferences.flatMap(inference => inference.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
   const personalityProfile = firstGlowSparkPersonalityProfile(actor.id);
-  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds) };
+  const reflectionMemory = buildFirstGlowReflectionMemoryContext(state, actor.id);
+  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds), reflectionMemory };
   return { ...contextWithoutHash, contextHash: `sha256-${sha256(stableJson(contextWithoutHash))}` };
 }
 
