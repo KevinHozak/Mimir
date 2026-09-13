@@ -1,0 +1,58 @@
+# Reflection capacity development plan
+
+Selected direction recorded in [PR #167](https://github.com/KevinHozak/Mimir/pull/167).
+These are planned mechanics, not a claim that the full loop is implemented.
+
+## Design
+
+World development age sets **Reflection capacity (RC)**. First Glow baseline
+is RC 2; rare Hero Sparks initially receive RC 4. A reflection is an opportunity
+to choose or reconsider an intention. Hero status grants frequency, not superior
+judgment, attributes, or outcomes. Rarity and deterministic assignment require
+an explicit versioned policy in RC-P1; no probability is selected yet.
+
+Personal age and lived experience affect memories, not the RC allowance.
+Only known events, learned reports, relationships, and remembered consequences
+can inform a Spark's reflection. An older Spark need not know more than a younger
+one that has experienced more. Readiness remains the rest/activity attribute.
+This supersedes the earlier proposal to raise budgets at personal ages 0/2/4/8.
+
+Later world ages can raise the baseline through 4/8/16, with Heroes one tier
+above baseline. Later values and the maximum supported tier remain provisional;
+this plan does not enable a new runtime or an automatic world-age transition.
+
+Space opportunities by configured day ticks divided by RC: a 64-tick fixture
+gives 32-tick intervals at RC 2 and 16 at RC 4. Persist deterministic offsets,
+usage, and reasons for suppression. Changes must not create bursts or debt.
+Global provider and financial limits still apply; unused RC is not a guaranteed
+call or a resource reward. A continuing intention may need no fresh AI call.
+
+AI proposes an intention from feasible alternatives. Rules determine movement,
+resource/attribute costs, arrival, interactions, and consequences across ticks.
+Record the exact context and validated result for provider-free history.
+
+## Delivery order
+
+| Phase | Outcome | Depends on |
+| --- | --- | --- |
+| [RC-P1](https://github.com/KevinHozak/Mimir/issues/168) | Versioned world-age RC, Hero exception, scheduling and persistence | P19 review/merge |
+| [RC-P2](https://github.com/KevinHozak/Mimir/issues/169) | Bounded individual memories inform reflections | RC-P1 |
+| [RC-P3](https://github.com/KevinHozak/Mimir/issues/170) | Persistent intentions executed through authoritative rules | RC-P2 |
+| [RC-P4](https://github.com/KevinHozak/Mimir/issues/171) | Fair multi-day comparison of RC, Heroes and memory | RC-P3 |
+| [RC-P5](https://github.com/KevinHozak/Mimir/issues/172) | Bounded integration and observer visibility | RC-P4 |
+
+RC-P1 is the first implementation step. Evaluate all-RC-2 groups versus one RC-4
+Hero, rotating identities across matched scenarios. Use fixed 2/4/8/16 arms as
+diagnostics, not assumed First Glow defaults. Cross memory histories independently
+of capacity. Show rules choice, AI choice, direct effects, and accumulated state
+differences separately. Assess coherence and consequences rather than rewarding
+mere divergence from rules or assuming frequent reflection proves dominance.
+
+## P19 evidence boundary
+
+P19 assigned identical static budget vectors to readiness and personal-age arms;
+it did not test development-age progression, Hero rarity, or evolving memory.
+The recorded downstream metric includes accumulated state differences and
+cannot attribute independent effects to a Spark. Its reported cost totals
+0.60964 cents = $0.0060964, an estimate rather than a reconciled invoice.
+Retain the original experiment result; the RC direction is a user design choice.

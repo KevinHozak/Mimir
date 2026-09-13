@@ -26,5 +26,8 @@ The static matched profiles do not establish a causal advantage for age or
 readiness. Downstream counts include persistent differences in cumulative
 staged state; they are not independent effects attributable to each Spark.
 
-The user has selected age-based budget growth for future implementation.
-This is a design decision, not a winner established by this experiment.
+The user selected world-age Reflection capacity for future implementation:
+First Glow RC 2, rare Hero Sparks RC 4; personal experience informs memories
+without directly increasing RC. This supersedes personal-age budget growth.
+It is a design decision, not a winner established by this experiment.
+See the [RC development plan](../reflection-capacity-plan.md).

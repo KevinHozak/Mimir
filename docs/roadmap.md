@@ -63,7 +63,19 @@ AI-P17 added the missing quality adjudication layer. It keeps each encounter's b
 
 AI-P18 adds the deterministic budget-cadence layer and completes the authorized private Vertex quality rerun. The supported Spark budget ladder is 2, 4, 8, and 16 opportunities per 64-tick day, with target intervals of 32, 16, 8, and 4 ticks, stable phase offsets, no catch-up debt, and auditable suppression metadata. The Vertex run used the existing four-per-Spark baseline contract and returned 28 recorded interpretations, 14 useful interpretations, 14 changed choices, 113 downstream staging changes, four categorized fallbacks, and 0.27085 cents of usage under the $1.00 cap. It passed private-boundary, cap, authority, and provider-free replay checks and returned **proceed-to-next-review**; it did not select the readiness or age determinant.
 
-AI-P19 is the next evaluation gate. It must run matched private Vertex arms with readiness/capacity and age/progression profiles before either determinant is selected for bounded runtime integration.
+AI-P19's static matched comparison is recorded in draft [PR #167](https://github.com/KevinHozak/Mimir/pull/167). It cannot establish superiority of either determinant. The selected next direction is world-age Reflection capacity, documented in the [RC plan](reflection-capacity-plan.md): First Glow RC 2, rare Hero Sparks RC 4, with personal memories shaping reflections rather than increasing capacity.
+
+### Reflection capacity development sequence
+
+These are planned phases. RC-P1 is the first implementation step after P19 review/merge.
+
+| Phase | Outcome | Dependency |
+| --- | --- | --- |
+| [RC-P1](https://github.com/KevinHozak/Mimir/issues/168) | World-age capacity, Hero exception and deterministic cadence | PR #167 |
+| [RC-P2](https://github.com/KevinHozak/Mimir/issues/169) | Lived memories inform reflections | RC-P1 |
+| [RC-P3](https://github.com/KevinHozak/Mimir/issues/170) | Persistent intentions and rule-executed actions | RC-P2 |
+| [RC-P4](https://github.com/KevinHozak/Mimir/issues/171) | Matched Hero, memory and budget evaluation | RC-P3 |
+| [RC-P5](https://github.com/KevinHozak/Mimir/issues/172) | Bounded integration and observer visibility | RC-P4 |
 
 ### AI-P10 decision: proceed with bounded hybrid runtime implementation
 
