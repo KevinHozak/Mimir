@@ -269,6 +269,7 @@ Implemented boundaries:
 - Shared world-data contracts used by simulation and rendering.
 - Capability-filtered interaction slots, reservations, and arrival-gated First Glow actions.
 - Content-addressed generated bundles with asset manifests and bundle-inclusive backup/restore tooling.
+- A replay-safe `/api/reflection` observer projection exposes First Glow baseline RC, explicit Hero capacity, per-Spark usage and remaining opportunities, deterministic next cadence windows, current public intention summaries, committed reflection outcomes, and non-secret operator runtime status. It deliberately excludes private reflection memory and client-side provider credentials.
 
 ## AI-P14 bounded rollout
 

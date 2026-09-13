@@ -59,6 +59,7 @@ type FirstGlowDesign = {
   events: { id: string; title: string; prompt: string; observableOutcome: string }[];
 };
 type Interpretation = { id: string; tick: number; eventId: string; sparkId?: string; villagerId?: string; source: "rules" | "ai"; fallbackReason?: string; belief?: string; confidence: number | "rules-baseline" | "provider-proposed" | "deterministic-fallback"; trustDelta?: number; summary: string; evidenceEventIds: string[] };
+type ReflectionProjection = { worldAge: "first-glow"; policy: { baselineCapacity: number; heroMultiplier: number; ticksPerDay: number; globalDailyLimit: number }; currentDay: number; global: { used: number; remaining: number }; sparks: Array<{ id: string; name: string; isHero: boolean; capacity: number; used: number; remaining: number; nextScheduledTick: number; slotEndTick?: number; intention?: { activity: string; status: string; source: string; summary: string; createdTick: number; evidenceEventIds: string[]; causalEventIds: string[]; reason?: string }; reflections: Array<{ tick: number; created: boolean; reason: string; forcedAtSlotEnd?: boolean; evidenceEventIds: string[] }> }>; };
 function interpretationConfidence(value: Interpretation["confidence"]): string { if (typeof value === "number") return Number.isFinite(value) ? `${Math.round(value * 100)}%` : "not recorded"; return value === "provider-proposed" ? "provider proposed" : value === "rules-baseline" ? "rules baseline" : "deterministic fallback"; }
 type HoveredCell = { x: number; y: number; clientX: number; clientY: number };
 type Report = { timeline: { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; tick: number; schedulerPaused: boolean; tickIntervalMs: number; databaseBytes: number; socialMode: string; socialBudgetCents: number; fallbackCount: number; checkpoints: number; events: number; interpretations: number; summary?: { season: number; scenarioName: string; finalFood: number; averageTrust: number; villagers: number; dilemmasResolved?: number; latestDilemma?: DilemmaResolution | null; firstGlow?: { sourceCharge: number; communalCharge: number; carriedCharge: number; chargeDeficit: number; sparks: number } } };
@@ -518,6 +519,11 @@ function FirstGlowAudioControls({ runtime = firstGlowAudioRuntime }: { runtime?:
   </details>;
 }
 
+function ReflectionObserverPanel({ projection }: { projection: ReflectionProjection | null }) {
+  if (!projection) return null;
+  return <section className="reflection-observer" data-testid="reflection-observer" aria-label="Reflection capacity and effects"><div className="stream-heading"><div><h2>Reflection cadence</h2><p>Public schedule for the First Glow. Private memory contents stay with each Spark.</p></div><span className="stream-badge">CAPACITY</span></div><div className="reflection-summary"><span>World age <strong>{projection.worldAge}</strong></span><span>Baseline RC <strong>{projection.policy.baselineCapacity}</strong></span><span>Global today <strong>{projection.global.used}/{projection.policy.globalDailyLimit}</strong></span><span>Opportunities left <strong>{projection.global.remaining}</strong></span></div><div className="reflection-sparks">{projection.sparks.map(spark => <article key={spark.id}><h3>{spark.name}{spark.isHero ? " · Hero" : ""}</h3><p><strong>{spark.used}/{spark.capacity}</strong> used · <strong>{spark.remaining}</strong> remaining · next scheduled tick <strong>{spark.nextScheduledTick}</strong>{spark.slotEndTick !== undefined ? ` (slot ends ${spark.slotEndTick})` : ""}</p>{spark.intention && <p className="reflection-intention">Current intention: <strong>{spark.intention.activity}</strong> · {spark.intention.status} · {spark.intention.summary}</p>}{spark.reflections.length > 0 && <ul>{spark.reflections.slice().reverse().map(reflection => <li key={`${spark.id}-${reflection.tick}`}>Tick {reflection.tick}: {reflection.created ? "reflection committed" : reflection.reason}{reflection.forcedAtSlotEnd ? " · forced at slot end" : ""}{reflection.evidenceEventIds.length ? ` · evidence ${reflection.evidenceEventIds.join(", ")}` : ""}</li>)}</ul>}</article>)}</div><small>Reflections are committed by the server. Historical playback reads recorded decisions and never calls a provider.</small></section>;
+}
+
 function App() {
   const [world, setWorld] = useState<State | null>(null);
   const [liveWorld, setLiveWorld] = useState<State | null>(null);
@@ -550,6 +556,7 @@ function App() {
   const [selectedVillagerId, setSelectedVillagerId] = useState<string | null>(null);
   const [ownerToken, setOwnerToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
+  const [reflectionProjection, setReflectionProjection] = useState<ReflectionProjection | null>(null);
   const [operationMessage, setOperationMessage] = useState("");
   const [loadError, setLoadError] = useState("");
   const [activeSettlementId, setActiveSettlementId] = useState("first-village");
@@ -578,7 +585,7 @@ function App() {
   const fitZoom = (isFirstGlow || !displayedWorldDefinition ? 1 : Math.min(1, 768 / ((displayedWorldDefinition.width ?? 100) * 24), 768 / ((displayedWorldDefinition.height ?? 100) * 24)));
   useEffect(() => { if (world?.settlements && !world.settlements.some((settlement) => settlement.id === activeSettlementId)) { invalidateHistoryRequest(); setActiveSettlementId(world.settlements[0]?.id ?? "first-village"); setSelectedVillagerId(null); } }, [world?.settlements, activeSettlementId]);
   const loadLive = async () => {
-    const [worldResponse, eventsResponse, interpretationsResponse, metricsResponse, designResponse, regionResponse, resonanceResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`), fetch(`${api}/api/metrics`), fetch(`${api}/api/design`), fetch(`${api}/api/region`), fetch(`${api}/api/resonance`)]);
+    const [worldResponse, eventsResponse, interpretationsResponse, metricsResponse, designResponse, regionResponse, resonanceResponse, reflectionResponse] = await Promise.all([fetch(`${api}/api/world`), fetch(`${api}/api/events?limit=200`), fetch(`${api}/api/interpretations?limit=200`), fetch(`${api}/api/metrics`), fetch(`${api}/api/design`), fetch(`${api}/api/region`), fetch(`${api}/api/resonance`), fetch(`${api}/api/reflection`)]);
     const worldPayload = await worldResponse.json() as { state: State; schedulerPaused?: boolean };
     const nextWorld = worldPayload.state;
     validateClientWorld(nextWorld);
@@ -591,6 +598,7 @@ function App() {
     setInterpretations((await interpretationsResponse.json()).interpretations as Interpretation[]);
     setMetrics((await metricsResponse.json()).metrics as Metric[]);
     if (resonanceResponse.ok) setResonanceReview(await resonanceResponse.json() as ResonanceReview);
+    if (reflectionResponse.ok) setReflectionProjection(((await reflectionResponse.json()) as { projection?: ReflectionProjection }).projection ?? null);
     const design = await designResponse.json() as { characterCards: CharacterCard[]; dilemmas: DilemmaCard[]; sharedStore?: SharedStore; firstGlow?: FirstGlowDesign };
     setCharacterCards(design.characterCards);
     setDilemmas(design.dilemmas);
