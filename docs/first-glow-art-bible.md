@@ -42,6 +42,18 @@ Sparks are luminous artificial people without faces, limbs, clothing, or human-s
 
 Signature marks remain visible when motion and glow are reduced. Use subtle ice-blue, pale-cyan, or lavender nuance, but never make identity depend on color alone. A name appears on selection/hover; the inspector enlarges the same non-human core and signature.
 
+### Planned Reflection-capacity treatments
+
+The selected Reflection capacity (RC) design may later add a stable visual tier
+to a Spark's authored signature: world age maps directly to integer RC (First Glow
+baseline RC 1, age 2 RC 2, age 3 RC 3, and onward), with rare Hero Sparks receiving
+the separate Hero exception. A lower tier is not a lower-status person, and remaining daily usage
+must never drive flicker or make a Spark appear depleted. Candidate treatments
+range from a crisp dot at RC 1, to a ring at RC 2, to increasingly layered but
+still quiet motifs at later tiers. Keep the core, selection target, contrast,
+non-color cue, and world geometry identical across tiers. This is a planned art
+pass, not a claim that the active First Glow renderer currently exposes RC.
+
 ## 4. Nodes, routes, and interaction states
 
 Locations are circuit forms, not miniature buildings. A charge pool uses a circular contact pad with concentric silver rings and cyan supply segments. A shelter niche uses an open crescent or U-shaped plate, a visible modeled entrance, and a quiet recess. A trace junction is a small square or diamond contact whose connections match actual route cells. Pattern shards are angular fragments on a pad. Light marks are fine resident-made glyphs, visibly distinct from manufactured tracks.

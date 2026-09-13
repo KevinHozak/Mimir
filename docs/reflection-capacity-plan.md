@@ -45,11 +45,13 @@ Record the exact context and validated result for provider-free history.
 | [RC-P5](https://github.com/KevinHozak/Mimir/issues/172) | Bounded integration and observer visibility | RC-P4 |
 
 RC-P1 is the first implementation step. Evaluate all-RC-1 groups versus one RC-2
-Hero, rotating identities across matched scenarios. Use fixed 2/4/8/16 arms as
-diagnostics, not assumed First Glow defaults. Cross memory histories independently
-of capacity. Show rules choice, AI choice, direct effects, and accumulated state
-differences separately. Assess coherence and consequences rather than rewarding
-mere divergence from rules or assuming frequent reflection proves dominance.
+Hero, rotating identities across matched scenarios. As later world-age fixtures are
+added, test the direct integer progression (RC 1, 2, 3, 4, 5, 6, and onward)
+without substituting personal age or a binary budget ladder. Cross memory histories
+independently of capacity. Show rules choice, AI choice, direct effects, and
+accumulated state differences separately. Assess coherence and consequences rather
+than rewarding mere divergence from rules or assuming frequent reflection proves
+dominance.
 
 ## P19 evidence boundary
 

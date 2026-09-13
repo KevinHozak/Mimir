@@ -15,30 +15,31 @@ Use Gemini 2.5 Flash-Lite as the planned external evaluation model. The intended
 
 This creates a two-speed Spark pattern: familiar travel, rest, and repeated work happen on autopilot, while novelty, uncertainty, scarcity, or social consequence can demand attention.
 
-## Candidate visual capacity ladder
+## Candidate Reflection-capacity visual ladder
 
-If Sparks are eventually assigned different bounded AI capacities, their visual identity could make that distinction legible without turning it into a status hierarchy. The capacity is a limit on attention or interpretation opportunity, not a measure of worth, wisdom, morality, or simulation authority. A Spark's remaining budget should not make its appearance flicker; use a stable authored capacity tier and show live usage through ordinary inspector data when needed.
+If Sparks are eventually assigned different bounded Reflection capacities, their visual identity could make that distinction legible without turning it into a status hierarchy. Reflection capacity is a limit on attention or interpretation opportunity, not a measure of worth, wisdom, morality, or simulation authority. A Spark's remaining daily allowance should not make its appearance flicker; use a stable authored RC tier and show live usage through ordinary inspector data when needed.
 
-The proposed visual ladder uses the current small-budget idea and leaves room for a later 32-capacity tier:
+The proposed visual ladder follows the selected RC direction: a world's development age maps directly to its baseline RC (world age 1 means RC 1, age 2 means RC 2, age 3 means RC 3, and so on), while rare Hero Sparks receive the separately defined Hero exception. Visual complexity should grow gradually with the integer RC rather than jump between a binary budget ladder:
 
-| Capacity tier | Candidate Spark treatment | Design intent |
+| RC tier | Candidate Spark treatment | Design intent |
 | ---: | --- | --- |
-| 2 | A crisp bright dot with a very small halo | Readable at a glance; minimal authored complexity. |
-| 4 | A dot plus one stable ring or short signature mark | The baseline tier; a little personality without visual noise. |
-| 8 | A brighter core with a two-part silhouette, orbit, or paired mark | Distinctive enough to suggest more interpretive bandwidth. |
-| 16 | Layered light shape with a restrained orbit, pulse, or filigree signature | More intricate identity while preserving a clear center and silhouette. |
-| 32 (later) | A richly authored emblem with multiple quiet layers and a stronger presence radius | Reserved for a separately justified tier; complexity must not overwhelm the scene or imply omniscience. |
+| 1 | A crisp bright dot with a very small halo | First Glow baseline; readable at a glance without implying lesser personhood. |
+| 2 | A dot plus one stable ring or short signature mark | A small increase in reflection frequency, not superior judgment. |
+| 3 | A brighter core with a paired mark or short orbit | A gradual increase in authored distinctiveness. |
+| 4 | A two-layer silhouette with restrained pulse or filigree | More visual bandwidth while preserving a clear center. |
+| 5 | A richer layered signature with quiet satellites | More intricate identity without visual noise or authority cues. |
+| 6+ | Additional authored layers only when earned by later world age | Continue gradually; complexity must remain legible, bounded, and accessible. |
 
 This should be an authored family of vector or raster treatments, not an unbounded procedural effect. Every tier must retain the same recognizable Spark core, selection target, accessible non-color signature, and dark Living Circuit contrast. Brightness and complexity may increase, but low-capacity Sparks must never look depleted, disposable, or inactive; a depleted resource state remains a separate visual signal. Reduced-motion and glow-disabled modes must preserve static tier shapes, labels, and status markers.
 
 ### Proposed graphics work sequence
 
-1. Define a versioned `aiCapacityTier` visual token (`2`, `4`, `8`, `16`, with `32` reserved) separately from mutable daily budget usage.
+1. Define a versioned `reflectionCapacity` visual token as an integer world-age value (`1`, `2`, `3`, `4`, `5`, `6`, and later values) separately from mutable daily usage and personal age.
 2. Produce a small state sheet for each tier at normal zoom, zoomed out, selected, traveling, low charge, reduced motion, and glow disabled.
 3. Add deterministic renderer fixtures that prove tier identity remains stable across ticks, replay, and browser recreation, with no changes to collision or interaction geometry.
 4. Review observer comprehension and accessibility before using richer treatments in any live or evaluation view. If the ladder confuses capacity with importance, simplify it or move the detail into the inspector.
 
-This is a graphics and observer-communication proposal only. It does not authorize an external provider, change the rules-only path, or grant a higher-capacity Spark additional world authority.
+This is a graphics and observer-communication proposal only. It does not authorize an external provider, change the rules-only path, or grant a higher-RC Spark additional world authority.
 
 ## Attention policy
 
@@ -56,7 +57,7 @@ Potential attention events include:
 
 Routine movement along a known route, ordinary route replanning, rest, charge gathering, and waiting without a meaningful alternative remain rules-only.
 
-The initial budget proposal is four attention calls per Spark per simulated day, replenished rather than permanent. Each event may call at most once, repeated equivalent events receive a cooldown, and a global daily cap remains in force. The per-Spark limit can be tuned by evaluation evidence; increasing it must not remove the event gate, timeout, or global cap.
+Reflection capacity now governs the planned per-Spark attention allowance. A world's development age maps directly to its baseline RC: First Glow/world age 1 starts at RC 1, age 2 at RC 2, age 3 at RC 3, and so on. Rare Hero Sparks initially receive the separately defined Hero exception. Personal age and lived experience shape reflection content rather than increasing RC. Opportunities are replenished and spaced across the configured day with deterministic offsets, repeated-event cooldowns, no catch-up debt, and a separate global cap. The earlier budget experiments remain historical evaluation records, not the selected First Glow rule.
 
 ## Personality-aware context
 

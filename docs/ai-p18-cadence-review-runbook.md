@@ -19,6 +19,11 @@ Unavailable or ineligible events are suppressed without debt or forced activity.
 
 ## Candidate determinants
 
+This section records the alternatives evaluated by AI-P18. AI-P19 completed the
+follow-up comparison without establishing either as a causal winner; the selected
+direction is world-age Reflection capacity (RC), with its own implementation gates
+documented in [the Reflection capacity plan](reflection-capacity-plan.md).
+
 The control compares two deterministic mappings to the ladder:
 
 - readiness tier 0, 1, 2, 3 maps to 2, 4, 8, 16;
