@@ -13,6 +13,8 @@ RC-P3 implementation status: eligible reflections can now produce a bounded, fea
 
 RC-P4 deterministic-control status: the matched evaluation harness now exercises four fixed seeds across all-RC-2, rotating RC-4 Hero, diagnostic RC-2/4/8/16, and young-Hero/experienced-ordinary memory conditions for four days. It records cap contention, suppression, fallbacks, encounter-level evidence, direct effects, intention completion, divergence, and provider-free replay in [`docs/evidence/rc-p4-matched-evaluation-2026-09-13.md`](evidence/rc-p4-matched-evaluation-2026-09-13.md). The private Vertex quality batch remains a separately gated, opt-in step; this control run does not select a higher default or authorize broader deployment.
 
+Reflection-slot behavior: when a Spark reaches the final tick of an unspent cadence slot, the reflection is forced at that boundary. If the Spark has an active habitual intention, the intention is interrupted with an auditable `reflection-slot-ended` reason so the new reflection may preserve or replace the action through the normal feasibility and authority checks.
+
 World development age sets **Reflection capacity (RC)**. First Glow baseline
 is RC 1; rare Hero Sparks initially receive RC 2, calculated as
 `ceil(world RC * 1.5)`. A reflection is an opportunity

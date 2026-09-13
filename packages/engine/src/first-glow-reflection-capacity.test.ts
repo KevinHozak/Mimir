@@ -52,3 +52,13 @@ test("global contention is recorded and replay is provider-free by construction"
   assert.equal(replay.reason, "historical-playback");
   assert.equal(replay.globalUsed, 1);
 });
+
+test("an unused reflection is forced on the final tick of its cadence slot", () => {
+  const state = createFirstGlowReflectionCapacityState(["spark-1"], { ticksPerDay: 64 });
+  const cadence = firstGlowReflectionCadence("spark-1", 1, 64);
+  const slotEnd = Math.min(cadence.phaseOffset + cadence.intervalTicks - 1, 63);
+  const atEnd = requestFirstGlowReflection(state, "spark-1", slotEnd);
+  assert.equal(atEnd.created, true);
+  assert.equal(atEnd.forcedAtSlotEnd, true);
+  assert.equal(atEnd.slotEndTick, atEnd.tick);
+});

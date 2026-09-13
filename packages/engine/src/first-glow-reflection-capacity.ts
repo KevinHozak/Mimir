@@ -36,6 +36,8 @@ export interface FirstGlowReflectionDecision {
   nextEligibleTick: number;
   sparkUsed: number;
   globalUsed: number;
+  slotEndTick?: number;
+  forcedAtSlotEnd?: boolean;
 }
 
 export interface FirstGlowReflectionScheduler {
@@ -95,14 +97,17 @@ export function requestFirstGlowReflection(state: FirstGlowReflectionCapacitySta
   const used = scheduler.sparkUsed[sparkId] ?? 0;
   const { intervalTicks, phaseOffset } = firstGlowReflectionCadence(sparkId, assignment.capacity, policy.ticksPerDay);
   const scheduled = day * policy.ticksPerDay + phaseOffset + used * intervalTicks;
+  const dayEnd = (day + 1) * policy.ticksPerDay - 1;
+  const slotEndTick = scheduled <= dayEnd ? Math.min(scheduled + intervalTicks - 1, dayEnd) : undefined;
   const previous = scheduler.lastCreatedTick[sparkId];
   const nextEligibleTick = Math.max(scheduled, previous === undefined ? 0 : previous + intervalTicks);
+  const forcedAtSlotEnd = slotEndTick !== undefined && tick === slotEndTick;
   let reason: FirstGlowReflectionDecisionReason = historicalPlayback ? "historical-playback" : "created";
-  if (!historicalPlayback && tick < nextEligibleTick) reason = "cadence-window-not-ready";
+  if (!historicalPlayback && tick < nextEligibleTick && !forcedAtSlotEnd) reason = "cadence-window-not-ready";
   if (!historicalPlayback && reason === "created" && scheduler.globalUsed >= policy.globalDailyLimit) reason = "global-cap-exhausted";
   const created = reason === "created";
   if (created) { scheduler.sparkUsed[sparkId] = used + 1; scheduler.globalUsed += 1; scheduler.lastCreatedTick[sparkId] = tick; }
-  const decision = { sparkId, tick, simulatedDay: day, created, reason, capacity: assignment.capacity, intervalTicks, phaseOffset, windowIndex: used, nextEligibleTick, sparkUsed: scheduler.sparkUsed[sparkId] ?? used, globalUsed: scheduler.globalUsed };
+  const decision = { sparkId, tick, simulatedDay: day, created, reason, capacity: assignment.capacity, intervalTicks, phaseOffset, windowIndex: used, nextEligibleTick, slotEndTick, forcedAtSlotEnd, sparkUsed: scheduler.sparkUsed[sparkId] ?? used, globalUsed: scheduler.globalUsed };
   scheduler.decisions.push(decision);
   scheduler.decisions.sort((left, right) => left.tick - right.tick || left.sparkId.localeCompare(right.sparkId));
   return decision;

@@ -7,6 +7,7 @@ import { createFirstGlowState, validateFirstGlowState } from "./structured.js";
 import { buildFirstGlowIntentionContext, commitFirstGlowIntention, evaluateFirstGlowIntention } from "./first-glow-intentions.js";
 import { createFirstGlowHistory } from "./first-glow-history.js";
 import { advanceFirstGlow } from "./first-glow-actions.js";
+import { firstGlowReflectionCadence } from "./first-glow-reflection-capacity.js";
 
 const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("../../../assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json", import.meta.url)), "utf8"))) as FirstGlowWorldBundle;
 
@@ -34,6 +35,23 @@ test("a feasible intention persists, executes across ticks, and records causal c
   const restored = JSON.parse(JSON.stringify(advanced));
   validateFirstGlowState(restored);
   assert.deepEqual(JSON.parse(JSON.stringify(advanceFirstGlow(restored, { resolveSocial: false }))), JSON.parse(JSON.stringify(advanceFirstGlow(advanced, { resolveSocial: false }))));
+});
+
+test("a habitual intention is reconsidered at an unused reflection slot end", async () => {
+  const state = createFirstGlowState(bundle);
+  const spark = state.settlements[0].sparks[0];
+  state.reflectionCapacity!.policy.ticksPerDay = 4;
+  const cadence = firstGlowReflectionCadence(spark.id, 1, 4);
+  state.tick = cadence.phaseOffset;
+  const first = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "habit-start", tick: state.tick, kind: "explore", actorId: spark.id, message: "A familiar route." }, provider: { providerId: "first-reflection", propose: async context => ({ activity: context.candidateActivities[0], summary: "Keep the familiar route.", evidenceEventIds: ["habit-start"], causalEventIds: ["habit-start"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
+  commitFirstGlowIntention(state, first.context!, first.proposal!, "ai");
+  state.tick = 4 + 4 - 1;
+  let calls = 0;
+  const reconsidered = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "habit-end", tick: state.tick, kind: "explore", actorId: spark.id, message: "The familiar route reaches its reflection slot end." }, provider: { providerId: "second-reflection", propose: async context => { calls += 1; return { activity: context.candidateActivities.at(-1), summary: "Reconsider the habitual route.", evidenceEventIds: ["habit-end"], causalEventIds: ["habit-end"] }; } }, budget: { limit: 1, reserved: 0, used: 0 } });
+  assert.equal(calls, 1);
+  assert.equal(reconsidered.record?.status, "active");
+  assert.equal(reconsidered.record?.reflection?.forcedAtSlotEnd, true);
+  assert.equal(state.history?.intentions?.some(record => record.reason === "reflection-slot-ended" && record.status === "interrupted"), true);
 });
 
 test("invalid provider output falls back to one feasible rules intention without extra calls", async () => {

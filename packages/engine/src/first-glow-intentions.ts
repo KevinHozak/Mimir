@@ -86,9 +86,10 @@ function budgetAvailable(budget: FirstGlowIntentionBudget): boolean { return Num
 export async function evaluateFirstGlowIntention(state: FirstGlowState, sparkId: string, options: FirstGlowIntentionEvaluationOptions = {}): Promise<{ context: FirstGlowIntentionContext | null; record?: FirstGlowIntentionRecord; proposal?: FirstGlowIntentionProposal; }> {
   const context = buildFirstGlowIntentionContext(state, sparkId, options.triggerEvent);
   if (!context || !state.reflectionCapacity) return { context };
-  const existing = findSpark(state, sparkId)?.intention;
-  if (existing?.status === "active") { if (state.history) appendFirstGlowIntention(state.history, { id: existing.id, sparkId, createdTick: existing.createdTick, activity: existing.activity, source: existing.source, contextHash: existing.contextHash, evidenceEventIds: existing.evidenceEventIds, status: existing.status, causalEventIds: existing.causalEventIds, reason: "intention-continues" }); return { context, record: { id: existing.id, tick: state.tick, sparkId, contextHash: existing.contextHash, source: existing.source, status: "active", reason: "intention-continues" } }; }
   const reflection = requestFirstGlowReflection(state.reflectionCapacity, sparkId, state.tick, options.historicalPlayback === true);
+  const existing = findSpark(state, sparkId)?.intention;
+  if (existing?.status === "active" && !reflection.forcedAtSlotEnd) { if (state.history) appendFirstGlowIntention(state.history, { id: existing.id, sparkId, createdTick: existing.createdTick, activity: existing.activity, source: existing.source, contextHash: existing.contextHash, evidenceEventIds: existing.evidenceEventIds, status: existing.status, causalEventIds: existing.causalEventIds, reason: "intention-continues" }); return { context, record: { id: existing.id, tick: state.tick, sparkId, contextHash: existing.contextHash, source: existing.source, status: "active", reason: "intention-continues" } }; }
+  if (existing?.status === "active" && reflection.forcedAtSlotEnd) interruptFirstGlowIntention(state, sparkId, "reflection-slot-ended");
   const id = deterministicId(context);
   const recorded = options.recorded?.find(item => item.id === id && item.contextHash === context.contextHash);
   if (options.historicalPlayback) return { context, record: recorded ?? { id, tick: state.tick, sparkId, contextHash: context.contextHash, source: "rules", status: "invalidated", reason: "historical-replay", reflection } };
