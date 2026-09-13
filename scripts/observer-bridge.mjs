@@ -1,0 +1,75 @@
+import { createServer } from "node:http";
+import { Readable } from "node:stream";
+import { getApps, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
+
+const port = Number(process.env.PORT ?? 8080);
+const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
+const approvedEmails = new Set((process.env.PUBLIC_OBSERVER_EMAILS ?? "").split(",").map(value => value.trim().toLowerCase()).filter(Boolean));
+const upstreamOrigin = process.env.OBSERVER_UPSTREAM_ORIGIN?.trim();
+const hostedOrigin = process.env.FIREBASE_HOSTING_ORIGIN?.trim() ?? "https://mimir-realm.web.app";
+const streamMaxMs = Number(process.env.OBSERVER_STREAM_MAX_MS ?? 900000);
+
+if (!projectId || approvedEmails.size === 0 || !upstreamOrigin) throw new Error("FIREBASE_PROJECT_ID, PUBLIC_OBSERVER_EMAILS, and OBSERVER_UPSTREAM_ORIGIN are required");
+const upstream = new URL(upstreamOrigin);
+if (upstream.protocol !== "http:" || !/^10\.(?:[0-9]{1,3}\.){2}[0-9]{1,3}$/.test(upstream.hostname)) throw new Error("OBSERVER_UPSTREAM_ORIGIN must be an HTTP private 10.x address");
+const auth = getAuth(getApps()[0] ?? initializeApp({ projectId }));
+
+const allowedExact = new Set(["/api/world", "/api/events", "/api/interpretations", "/api/metrics", "/api/design", "/api/region", "/api/resonance", "/api/reflection", "/api/live"]);
+function allowedPath(pathname) {
+  if (allowedExact.has(pathname)) return true;
+  return /^\/api\/world\/bundles\/sha256-[a-f0-9]{64}(?:\/assets\/.+)?$/.test(pathname);
+}
+function setCors(request, response) {
+  const origin = request.headers.origin;
+  if (origin === hostedOrigin) {
+    response.setHeader("access-control-allow-origin", hostedOrigin);
+    response.setHeader("vary", "Origin");
+    response.setHeader("access-control-allow-headers", "Authorization, Content-Type");
+    response.setHeader("access-control-allow-methods", "GET, OPTIONS");
+  }
+}
+async function verify(request) {
+  const value = request.headers.authorization;
+  if (!value?.startsWith("Bearer ")) return null;
+  try {
+    const decoded = await auth.verifyIdToken(value.slice("Bearer ".length));
+    const email = decoded.email?.trim().toLowerCase();
+    return decoded.aud === projectId && decoded.iss === `https://securetoken.google.com/${projectId}` && decoded.email_verified === true && email && approvedEmails.has(email) ? email : null;
+  } catch {
+    return null;
+  }
+}
+const server = createServer(async (request, response) => {
+  const parsed = new URL(request.url ?? "/", "http://bridge.invalid");
+  setCors(request, response);
+  if (request.method === "OPTIONS") return response.writeHead(204).end();
+  if (request.method !== "GET" && request.method !== "HEAD") return response.writeHead(405, { allow: "GET, HEAD, OPTIONS" }).end("read-only observer");
+  if (!allowedPath(parsed.pathname)) return response.writeHead(404).end("observer route unavailable");
+  if (!await verify(request)) return response.writeHead(401, { "content-type": "application/json" }).end(JSON.stringify({ error: "approved Google account required" }));
+
+  const controller = new AbortController();
+  const abort = () => controller.abort();
+  request.on("aborted", abort);
+  response.on("close", abort);
+  const timer = setTimeout(abort, parsed.pathname === "/api/live" ? streamMaxMs : 30000);
+  timer.unref();
+  try {
+    const target = new URL(parsed.pathname + parsed.search, upstream);
+    const upstreamResponse = await fetch(target, { method: request.method, headers: { authorization: request.headers.authorization }, signal: controller.signal });
+    const headers = {};
+    for (const name of ["content-type", "cache-control", "etag", "last-modified"]) {
+      const value = upstreamResponse.headers.get(name);
+      if (value) headers[name] = value;
+    }
+    response.writeHead(upstreamResponse.status, headers);
+    if (request.method === "HEAD" || !upstreamResponse.body) return response.end();
+    Readable.fromWeb(upstreamResponse.body).pipe(response);
+  } catch (error) {
+    if (!response.headersSent) response.writeHead(error?.name === "AbortError" ? 504 : 502, { "content-type": "application/json" });
+    if (!response.writableEnded) response.end(JSON.stringify({ error: "observer upstream unavailable" }));
+  } finally {
+    clearTimeout(timer);
+  }
+});
+server.listen({ port, host: "0.0.0.0" });
