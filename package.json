@@ -46,7 +46,9 @@
     "ai-p17:quality-review": "npm run build && node scripts/first-glow-ai-p17-quality-review.mjs",
     "ai-p17:quality-review:test": "node scripts/first-glow-ai-p17-quality-review.test.mjs",
     "ai-p18:cadence-review": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && node scripts/first-glow-ai-p18-cadence-review.mjs",
-    "ai-p18:cadence-review:test": "node scripts/first-glow-ai-p18-cadence-review.test.mjs"
+    "ai-p18:cadence-review:test": "node scripts/first-glow-ai-p18-cadence-review.test.mjs",
+    "ai-p19:determinant-review": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && node scripts/first-glow-ai-p19-determinant-review.mjs",
+    "ai-p19:determinant-review:test": "node scripts/first-glow-ai-p19-determinant-review.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
