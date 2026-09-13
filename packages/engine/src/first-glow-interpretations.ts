@@ -3,6 +3,7 @@ import type { SocialInterpretation } from "./index.js";
 import { firstGlowSparkPersonalityProfile, FIRST_GLOW_PERSONALITY_PROFILE_VERSION, type FirstGlowSparkPersonalityProfile } from "./design.js";
 import type { FirstGlowState, StructuredEvent } from "./structured.js";
 import { buildFirstGlowReflectionMemoryContext, type FirstGlowReflectionMemoryContext } from "./first-glow-reflection-memory.js";
+import { buildFirstGlowContextPacket, estimateFirstGlowTokens, type FirstGlowContextPacket } from "./first-glow-context.js";
 
 export const FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION = 2 as const;
 export const FIRST_GLOW_REVIEW_ENCOUNTER_COUNT = 20 as const;
@@ -25,6 +26,7 @@ export interface FirstGlowInterpretationContext {
   communicatedEvidenceEventIds: string[];
   uncertainInferenceEvidenceEventIds: string[];
   reflectionMemory: FirstGlowReflectionMemoryContext;
+  contextPacket: FirstGlowContextPacket;
   personalityProfile: FirstGlowSparkPersonalityProfile;
 }
 
@@ -57,6 +59,9 @@ export interface FirstGlowInterpretationUsage {
   reason?: FirstGlowInterpretationFallbackReason;
   reservedUnits: number;
   usedUnits: number;
+  inputTokens: number;
+  outputTokens: number;
+  latencyMs: number;
 }
 
 export interface FirstGlowInterpretationBudget {
@@ -111,7 +116,8 @@ export function buildFirstGlowInterpretationContext(state: FirstGlowState, event
   const uncertainInferenceEvidenceEventIds = knowledge.uncertainInferences.flatMap(inference => inference.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
   const personalityProfile = firstGlowSparkPersonalityProfile(actor.id);
   const reflectionMemory = buildFirstGlowReflectionMemoryContext(state, actor.id);
-  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds), reflectionMemory };
+  const contextPacket = buildFirstGlowContextPacket(state, actor.id, evidenceEventIds);
+  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds), reflectionMemory, contextPacket };
   return { ...contextWithoutHash, contextHash: `sha256-${sha256(stableJson(contextWithoutHash))}` };
 }
 
@@ -157,7 +163,7 @@ export async function evaluateFirstGlowInterpretation(context: FirstGlowInterpre
     let reason: FirstGlowInterpretationFallbackReason | undefined;
     if (replayRecord) { try { validateFirstGlowInterpretationRecord(replayRecord, context); } catch { replayRecord = undefined; reason = "malformed-output"; } }
     const record = replayRecord ?? makeRecord(context, baseline, "deterministic-fallback", "rules", reason ?? "provider-error", baseline);
-    const usage = { requestId: `replay-${context.encounterId}`, encounterId: context.encounterId, contextHash: context.contextHash, outcome: "historical-replay" as const, ...(reason || !replayRecord ? { reason: reason ?? "provider-error" as const } : {}), reservedUnits: 0, usedUnits: 0 };
+    const usage = { requestId: `replay-${context.encounterId}`, encounterId: context.encounterId, contextHash: context.contextHash, outcome: "historical-replay" as const, ...(reason || !replayRecord ? { reason: reason ?? "provider-error" as const } : {}), reservedUnits: 0, usedUnits: 0, inputTokens: estimateFirstGlowTokens(context), outputTokens: 0, latencyMs: 0 };
     recordUsage(options.budget, usage);
     return { record, usage };
   }
@@ -165,7 +171,7 @@ export async function evaluateFirstGlowInterpretation(context: FirstGlowInterpre
   if (!options.provider || !reserve(options.budget)) {
     const reason: FirstGlowInterpretationFallbackReason = options.provider ? "budget-exhausted" : "provider-error";
     const record = makeRecord(context, baseline, "deterministic-fallback", "rules", reason, baseline);
-    const usage = { requestId, encounterId: context.encounterId, contextHash: context.contextHash, outcome: "fallback" as const, reason, reservedUnits: 0, usedUnits: 0 };
+    const usage = { requestId, encounterId: context.encounterId, contextHash: context.contextHash, outcome: "fallback" as const, reason, reservedUnits: 0, usedUnits: 0, inputTokens: estimateFirstGlowTokens(context), outputTokens: 0, latencyMs: 0 };
     recordUsage(options.budget, usage);
     return { record, usage };
   }
@@ -180,7 +186,7 @@ export async function evaluateFirstGlowInterpretation(context: FirstGlowInterpre
     if (typeof checked === "string") reason = checked; else proposal = checked;
   } catch (error) { reason = error instanceof Error && error.message === "timeout" ? "timeout" : "provider-error"; }
   const record = proposal ? makeRecord(context, proposal, "provider-proposed", "ai", undefined, baseline) : makeRecord(context, baseline, "deterministic-fallback", "rules", reason, baseline);
-  const usage = { requestId, encounterId: context.encounterId, contextHash: context.contextHash, outcome: proposal ? "recorded" as const : "fallback" as const, reason, reservedUnits: 1, usedUnits: 1 };
+  const usage = { requestId, encounterId: context.encounterId, contextHash: context.contextHash, outcome: proposal ? "recorded" as const : "fallback" as const, reason, reservedUnits: 1, usedUnits: 1, inputTokens: estimateFirstGlowTokens(context), outputTokens: proposal ? estimateFirstGlowTokens(proposal) : 0, latencyMs: 0 };
   recordUsage(options.budget, usage);
   return { record, usage };
 }
