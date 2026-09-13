@@ -15,6 +15,31 @@ Use Gemini 2.5 Flash-Lite as the planned external evaluation model. The intended
 
 This creates a two-speed Spark pattern: familiar travel, rest, and repeated work happen on autopilot, while novelty, uncertainty, scarcity, or social consequence can demand attention.
 
+## Candidate visual capacity ladder
+
+If Sparks are eventually assigned different bounded AI capacities, their visual identity could make that distinction legible without turning it into a status hierarchy. The capacity is a limit on attention or interpretation opportunity, not a measure of worth, wisdom, morality, or simulation authority. A Spark's remaining budget should not make its appearance flicker; use a stable authored capacity tier and show live usage through ordinary inspector data when needed.
+
+The proposed visual ladder uses the current small-budget idea and leaves room for a later 32-capacity tier:
+
+| Capacity tier | Candidate Spark treatment | Design intent |
+| ---: | --- | --- |
+| 2 | A crisp bright dot with a very small halo | Readable at a glance; minimal authored complexity. |
+| 4 | A dot plus one stable ring or short signature mark | The baseline tier; a little personality without visual noise. |
+| 8 | A brighter core with a two-part silhouette, orbit, or paired mark | Distinctive enough to suggest more interpretive bandwidth. |
+| 16 | Layered light shape with a restrained orbit, pulse, or filigree signature | More intricate identity while preserving a clear center and silhouette. |
+| 32 (later) | A richly authored emblem with multiple quiet layers and a stronger presence radius | Reserved for a separately justified tier; complexity must not overwhelm the scene or imply omniscience. |
+
+This should be an authored family of vector or raster treatments, not an unbounded procedural effect. Every tier must retain the same recognizable Spark core, selection target, accessible non-color signature, and dark Living Circuit contrast. Brightness and complexity may increase, but low-capacity Sparks must never look depleted, disposable, or inactive; a depleted resource state remains a separate visual signal. Reduced-motion and glow-disabled modes must preserve static tier shapes, labels, and status markers.
+
+### Proposed graphics work sequence
+
+1. Define a versioned `aiCapacityTier` visual token (`2`, `4`, `8`, `16`, with `32` reserved) separately from mutable daily budget usage.
+2. Produce a small state sheet for each tier at normal zoom, zoomed out, selected, traveling, low charge, reduced motion, and glow disabled.
+3. Add deterministic renderer fixtures that prove tier identity remains stable across ticks, replay, and browser recreation, with no changes to collision or interaction geometry.
+4. Review observer comprehension and accessibility before using richer treatments in any live or evaluation view. If the ladder confuses capacity with importance, simplify it or move the detail into the inspector.
+
+This is a graphics and observer-communication proposal only. It does not authorize an external provider, change the rules-only path, or grant a higher-capacity Spark additional world authority.
+
 ## Attention policy
 
 The attention trigger itself is deterministic. The provider must not decide whether it is allowed to run.
