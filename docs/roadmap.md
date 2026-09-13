@@ -98,7 +98,7 @@ Hosted-P1 through Hosted-P13 are complete and recorded in the [Changelog](change
 | Hosted-P11 | [Define an authenticated live-observer bridge](https://github.com/KevinHozak/Mimir/issues/178) | Delivered in [PR #186](https://github.com/KevinHozak/Mimir/pull/186); preserves Google sign-in and server-owned authority. |
 | Hosted-P12 | [Operate archive publication and retention](https://github.com/KevinHozak/Mimir/issues/179) | Delivered in [PR #188](https://github.com/KevinHozak/Mimir/pull/188); staged publication, validation, quarantine, and retention procedure recorded. |
 | Hosted-P13 | [Reassess observer scale and hosting boundary](https://github.com/KevinHozak/Mimir/issues/180) | Delivered; the 2026-09-13 review retains Firebase plus one SQLite-writing VM for limited authenticated observation and records preconditions for any wider release or migration. |
-| Hosted-P14 | [Deploy the authenticated live observer](https://github.com/KevinHozak/Mimir/issues/190) | Next actionable phase. Connect the Firebase-authenticated surface to the approved read-only API/SSE bridge and verify auth, reconnect, restart continuity, archive independence, traffic, and remaining storage/quota limits. |
+| Hosted-P14 | [Deploy the authenticated live observer](https://github.com/KevinHozak/Mimir/issues/190) | **In validation:** Firebase Hosting plus a Cloud Run token-verifying bridge reaches the private VM. Wider-release gates remain open for archive, token-matrix, source-commit, and traffic evidence. |
 
 ### Hosted-P7 decision
 

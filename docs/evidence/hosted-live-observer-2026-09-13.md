@@ -1,30 +1,28 @@
-# Hosted-P14 authenticated live observer evidence
+# Hosted-P14 authenticated live observer — 2026-09-13
 
-Date: 2026-09-13
+## Verified deployment
 
-## Delivered boundary
+- Firebase project: `mimir-realm`; Hosting URL: `https://mimir-realm.web.app/`.
+- Cloud Run bridge: `mimir-observer-bridge`, region `us-central1`, revision `mimir-observer-bridge-00004-qff`.
+- Private upstream: Compute Engine VM `mimir-staging`; SQLite remains the sole simulation writer.
+- The bridge validates approved, verified Google ID tokens and forwards only observer reads and SSE. It does not receive `OWNER_TOKEN`, does not expose owner routes, and does not add a second writer.
 
-The hosted React surface keeps Google sign-in as the outer gate and offers two authenticated views:
+## Checks performed
 
-- live observer reads use Firebase ID-token bearer authentication;
-- the independent protected history archive remains at `?view=history`.
+- Unauthenticated `GET https://mimir-realm.web.app/api/world` returned HTTP 401 with `approved Google account required`.
+- Authenticated browser validation as `khozak@gmail.com` loaded the live First Glow observer at tick 28 with 12 Sparks and 7 sites. The live observer and History & scenarios navigation were visible; owner controls were absent.
+- The hosted frontend build passed.
+- First Glow restart-equivalence checks passed.
+- First Glow queued-command/idempotency checks passed.
+- The static light-mark asset loaded without requiring a bearer token on an HTML image request.
 
-The hosted live build hides owner controls and never exposes `OWNER_TOKEN` to browser requests. The server remains the single writer.
+## Explicit limits
 
-## Deployment configuration
+P14 is a limited authenticated staging deployment. The following closure gates are not claimed as complete:
 
-Build Firebase Hosting with:
+1. A real completed archive has not been exported, published, checksum-verified, and replayed while the VM is unavailable; the deployed catalog is empty.
+2. Wrong-account, expired-token, and malformed-token cases have not all been captured as dated evidence.
+3. The deployed frontend/bridge release has not been pinned to one clean source commit; the validation checkout contained local changes.
+4. No bounded concurrent-viewer, cache, quota, transfer, or observed-cost rehearsal has been run.
 
-```
-VITE_LIVE_API_URL=https://<authenticated-live-observer-origin>
-```
-
-This is a public build-time URL, not a secret. The bridge must enforce Firebase ID-token verification and the approved-email boundary from Hosted-P11. No token or credential belongs in this repository.
-
-If the variable is absent, a signed-in user gets a clear configuration state and can still open history playback. The deployed archive-only site therefore remains honest until the bridge ingress is configured and redeployed.
-
-## Verification plan
-
-Record deployment identity, approved/rejected sign-in outcomes without tokens, initial live state plus a subsequent SSE update, forced reconnect and VM restart equivalence, archive playback, API/SSE traffic, Firebase quota/cost observations, and Storage retry outcome.
-
-No deployment or VM mutation was performed by this change.
+Therefore issue [#190](https://github.com/KevinHozak/Mimir/issues/190) remains open. The next decision gate is a bounded archive-plus-traffic rehearsal, not a new public audience or a second simulation writer.

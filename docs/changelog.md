@@ -2,6 +2,11 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-09-13 — Hosted observer boundary
+
+- Verified the limited authenticated live observer at [mimir-realm.web.app](https://mimir-realm.web.app/) through Firebase Hosting and the Cloud Run bridge to the private single-writer VM. Google sign-in is required; observer reads and SSE are allowed, while owner and mutation routes remain blocked.
+- Recorded the live browser and unauthenticated rejection evidence in [Hosted-P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md). Archive independence, the complete token rejection matrix, source-commit pinning, and bounded traffic/cost rehearsal remain open gates.
+
 ## 2026-09 — First Glow foundation
 
 ### Reflection capacity is visible at the observer boundary
