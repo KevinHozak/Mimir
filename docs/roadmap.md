@@ -101,14 +101,19 @@ Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changel
 | --- | --- | --- |
 | Hosted-P7 | [Define the public observer operating contract](https://github.com/KevinHozak/Mimir/issues/122) | **Decision: defer public exposure.** Keep the staging observer private and create no public resource or credential. |
 | Hosted-P8 | [Automate independent bundle-inclusive backup replication and freshness checks](https://github.com/KevinHozak/Mimir/issues/123) | Next actionable phase. It improves private-hosting durability while preserving keyless, separate-project recovery and proving freshness by restore evidence. |
-| Hosted-P9 | [Implement the approved public read-only observer boundary](https://github.com/KevinHozak/Mimir/issues/124) | Deferred until a later explicit go decision. If reopened, it must expose only bounded reads, no owner operations or browser-held owner secret, and no second writer. |
-| Hosted-P10 | [Validate the limited public observer release and durable operations](https://github.com/KevinHozak/Mimir/issues/125) | Deferred with P9; requires P8 recovery evidence and a later approved public boundary before any production-readiness decision. |
+| Hosted-P9 | [Implement the approved public read-only observer boundary](https://github.com/KevinHozak/Mimir/issues/124) | Delivered in [PR #183](https://github.com/KevinHozak/Mimir/pull/183); limited Google-authenticated reads only, with no owner operations or second writer. |
+| Hosted-P10 | [Validate the limited public observer release and durable operations](https://github.com/KevinHozak/Mimir/issues/125) | Delivered in [PR #184](https://github.com/KevinHozak/Mimir/pull/184); archive publication and live recovery gaps remain explicit. |
+| Hosted-P11 | [Define an authenticated live-observer bridge](https://github.com/KevinHozak/Mimir/issues/178) | Delivered in [PR #186](https://github.com/KevinHozak/Mimir/pull/186); preserves Google sign-in and server-owned authority. |
+| Hosted-P12 | [Operate archive publication and retention](https://github.com/KevinHozak/Mimir/issues/179) | Delivered in [PR #188](https://github.com/KevinHozak/Mimir/pull/188); staged publication, validation, quarantine, and retention procedure recorded. |
+| Hosted-P13 | [Reassess observer scale and hosting boundary](https://github.com/KevinHozak/Mimir/issues/180) | In progress; 2026-09-13 review retains Firebase plus one SQLite-writing VM for limited authenticated observation and records preconditions for any wider release or migration. |
 
 ### Hosted-P7 decision
 
 As of 2026-09-11, Mimir defers public exposure. The intended future audience is a limited, read-only observer, but there is not yet enough operational evidence to justify making the staging VM public or creating another public hosting surface. The current private IAP-only observer remains the supported hosted experience.
 
-P8 may proceed because independent, bundle-inclusive recovery strengthens the private deployment regardless of whether public access is later approved. P9 and P10 remain deferred until a future decision rechecks pricing, free-tier eligibility, privacy, support capacity, and the recovery evidence, then explicitly authorizes a bounded public read-only model.
+P8 may proceed because independent, bundle-inclusive recovery strengthens the private deployment regardless of whether public access is later approved. P9 and P10 were subsequently authorized and delivered as a bounded Google-authenticated read-only boundary; P13 records the resulting scale decision and remaining gates.
+
+Hosted-P9 through Hosted-P12 are now implemented and validated as a limited Google-authenticated distribution boundary, archive validation/publication path, and operator evidence layer. Hosted-P13 records the 2026-09-13 decision to retain Firebase plus one SQLite-writing VM for the limited observer envelope. It does not claim high-concurrency capacity or production availability; a real audience rehearsal must measure traffic, cache behavior, archive growth, quotas, and observed cost before widening access. See the [Hosted-P13 scale review](evidence/hosted-scale-boundary-2026-09-13.md).
 
 ## Non-negotiable gates
 
