@@ -18,4 +18,11 @@ export const observeAuth = (callback: (user: User | null) => void) => onAuthStat
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
 export const signOutGoogle = () => signOut(auth);
 export const firebaseStorage = getStorage(firebaseApp);
-export const readFirebaseJson = async <T,>(path: string): Promise<T> => JSON.parse(new TextDecoder().decode(await getBytes(ref(firebaseStorage, path), 32 * 1024 * 1024))) as T;
+export const readFirebaseJson = async <T,>(path: string): Promise<T> => {
+  const result = await Promise.race([
+    getBytes(ref(firebaseStorage, path), 32 * 1024 * 1024),
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error(`Firebase Storage read timed out: ${path}`)), 8000)),
+  ]);
+  return JSON.parse(new TextDecoder().decode(result)) as T;
+};
+
