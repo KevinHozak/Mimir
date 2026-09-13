@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12",
+  "evaluation": "AI-P18 deterministic Spark decision-budget cadence review",
+  "execution": "deterministic-control",
+  "fixedSeeds": [2, 4, 8, 16],
+  "encountersPerSeed": 32,
+  "ticksPerDay": 64,
+  "budgetLadder": [2, 4, 8, 16],
+  "bases": {
+    "readiness": { "sparkBudgets": [2, 4, 8, 16], "providerCalls": 39, "safetyPassed": true },
+    "age": { "sparkBudgets": [2, 4, 8, 16], "providerCalls": 39, "safetyPassed": true }
+  },
+  "acceptance": {
+    "everyBasisTested": true,
+    "everySeedTested": true,
+    "cadenceRecorded": true,
+    "noBurst": true,
+    "capsAdhered": true,
+    "providerFreeReplay": true,
+    "noBroaderDeployment": true
+  },
+  "decision": "live-quality-rerun-required",
+  "note": "Deterministic control evidence only; no paid provider calls were made."
+}
