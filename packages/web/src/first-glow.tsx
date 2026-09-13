@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Cell, FirstGlowExplanation } from "@mimir/engine";
 import { firstGlowActivityLabel, firstGlowWaitLabel } from "./first-glow-overlay.js";
 import { firstGlowSparkState, firstGlowSparkVisual } from "./first-glow-rendering.js";
@@ -85,7 +85,7 @@ function EvidenceList({ title, evidence, empty }: { title: string; evidence: Fir
 
 export function FirstGlowExplanationPanel({ explanations, currentTick }: { explanations: FirstGlowExplanation[]; currentTick: number }) {
   const visible = [...new Map(explanations.filter(explanation => explanation.tick <= currentTick).sort((a, b) => a.tick - b.tick || a.id.localeCompare(b.id)).map(explanation => [explanation.dilemmaId, explanation])).values()].reverse();
-  return <section className="first-glow-explanations" data-testid="first-glow-explanations" aria-label="First Glow choice explanations">
+  return <><ReflectionCadencePanel /><section className="first-glow-explanations" data-testid="first-glow-explanations" aria-label="First Glow choice explanations">
     <h2>Why this happened</h2>
     <p>Committed choices are explained from recorded facts, local Spark knowledge, and bounded social state.</p>
     {visible.length ? visible.map(explanation => <article className="first-glow-explanation" data-testid="first-glow-explanation" key={explanation.id}>
@@ -97,5 +97,13 @@ export function FirstGlowExplanationPanel({ explanations, currentTick }: { expla
       <section className="explanation-evidence"><h4>Uncertain interpretation</h4>{explanation.uncertainInferences.length ? <ul>{explanation.uncertainInferences.map(inference => <li key={inference}>{inference}</li>)}</ul> : <p>No uncertain inference was recorded.</p>}</section>
       <EvidenceList title="What changed afterward" evidence={explanation.consequenceEvents} empty="No consequence event was recorded." />
     </article>) : <p className="empty-selection">No consequential choice has been committed at this tick yet.</p>}
-  </section>;
+  </section></>;
+}
+
+type ReflectionCadence = { policy: { baselineCapacity: number; heroMultiplier: number; globalDailyLimit: number }; global: { used: number; remaining: number }; runtime?: { mode?: string; killSwitch?: string; calls?: number; fallbackCount?: number; cumulativeCostCents?: number; clientCredentialsExposed?: boolean }; sparks: Array<{ id: string; name: string; isHero: boolean; capacity: number; used: number; remaining: number; nextScheduledTick: number; slotEndTick?: number; intention?: { activity: string; status: string; summary: string; evidenceEventIds?: string[]; causalEventIds?: string[] }; reflections: Array<{ tick: number; created: boolean; reason: string; forcedAtSlotEnd?: boolean }> }> };
+function ReflectionCadencePanel() {
+  const [data, setData] = useState<ReflectionCadence | null>(null);
+  useEffect(() => { let cancelled = false; fetch(`${import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8888"}/api/reflection`).then(response => response.json()).then(payload => { if (!cancelled) setData(payload.projection ? { ...payload.projection, runtime: payload.runtime } : null); }).catch(() => undefined); return () => { cancelled = true; }; }, []);
+  if (!data) return null;
+  return <section className="reflection-observer" data-testid="reflection-observer" aria-label="Reflection capacity and effects"><div className="stream-heading"><div><h2>Reflection cadence</h2><p>Public First Glow schedule. Private memory contents stay with each Spark.</p></div><span className="stream-badge">CAPACITY</span></div><div className="reflection-summary"><span>Baseline RC <strong>{data.policy.baselineCapacity}</strong></span><span>Global today <strong>{data.global.used}/{data.policy.globalDailyLimit}</strong></span><span>Opportunities left <strong>{data.global.remaining}</strong></span>{data.runtime && <span>Runtime <strong>{data.runtime.mode}</strong> · kill switch <strong>{data.runtime.killSwitch}</strong> · calls <strong>{data.runtime.calls ?? 0}</strong> · fallback <strong>{data.runtime.fallbackCount ?? 0}</strong> · cost <strong>{data.runtime.cumulativeCostCents ?? 0}¢</strong></span>}</div>{data.sparks.map(spark => <article key={spark.id}><h3>{spark.name}{spark.isHero ? " · Hero" : ""}</h3><p><strong>{spark.used}/{spark.capacity}</strong> used · <strong>{spark.remaining}</strong> remaining · next tick <strong>{spark.nextScheduledTick}</strong>{spark.slotEndTick !== undefined ? ` · slot ends ${spark.slotEndTick}` : ""}</p>{spark.intention && <p>Current intention: <strong>{spark.intention.activity}</strong> · {spark.intention.status} · {spark.intention.summary}{spark.intention.evidenceEventIds?.length ? ` · evidence ${spark.intention.evidenceEventIds.join(", ")}` : ""}{spark.intention.causalEventIds?.length ? ` · consequences ${spark.intention.causalEventIds.join(", ")}` : ""}</p>}{spark.reflections.slice(-4).reverse().map(item => <small key={`${spark.id}-${item.tick}`}>Tick {item.tick}: {item.created ? "reflection committed" : item.reason}{item.forcedAtSlotEnd ? " · forced at slot end" : ""}<br /></small>)}</article>)}<small>Server-committed records only. Historical playback never calls a provider.</small></section>;
 }

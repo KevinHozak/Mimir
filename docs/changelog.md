@@ -4,6 +4,12 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 ## 2026-09 — First Glow foundation
 
+### Reflection capacity is visible at the observer boundary
+
+- Added a server-owned, replay-safe reflection projection and First Glow observer panel showing world-age baseline RC, explicit Hero capacity, per-Spark usage/remaining opportunities, next scheduled window, current intention, and committed reflection outcomes.
+- Kept Spark-local memory private, provider-free historical playback intact, and operator status limited to bounded non-secret mode, cap, kill-switch, fallback, and usage metadata.
+- Delivered through the RC-P5 implementation branch; merge and deployment remain separate gates.
+
 ### A readable social simulation
 
 - Added authored First Glow social scenarios and Spark cards, then exposed them in the observer.
