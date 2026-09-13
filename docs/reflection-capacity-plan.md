@@ -11,6 +11,8 @@ RC-P2 implementation status: reflection contexts now derive a bounded `lived-mem
 
 RC-P3 implementation status: eligible reflections can now produce a bounded, feasibility-checked `rule-executed-v1` intention. Intentions continue without provider calls, execute through existing movement and arrival contracts, and persist causal completion/interruption records for restart and provider-free replay.
 
+RC-P4 deterministic-control status: the matched evaluation harness now exercises four fixed seeds across all-RC-2, rotating RC-4 Hero, diagnostic RC-2/4/8/16, and young-Hero/experienced-ordinary memory conditions for four days. It records cap contention, suppression, fallbacks, encounter-level evidence, direct effects, intention completion, divergence, and provider-free replay in [`docs/evidence/rc-p4-matched-evaluation-2026-09-13.md`](evidence/rc-p4-matched-evaluation-2026-09-13.md). The private Vertex quality batch remains a separately gated, opt-in step; this control run does not select a higher default or authorize broader deployment.
+
 World development age sets **Reflection capacity (RC)**. First Glow baseline
 is RC 1; rare Hero Sparks initially receive RC 2, calculated as
 `ceil(world RC * 1.5)`. A reflection is an opportunity
