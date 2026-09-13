@@ -54,6 +54,7 @@ The detailed future hybrid design is in the [AI plan](ai-plan.md). It selects Ge
 | AI-P14 | [Enable bounded AI-assisted First Glow play](https://github.com/KevinHozak/Mimir/issues/152) | Follows AI-P13; operator-controlled rollout, with public exposure still separately decided. |
 | AI-P16 | [Validate repeatable bounded Vertex value across fixed-seed rehearsals](https://github.com/KevinHozak/Mimir/issues/160) | Current gate after the successful private AI-P15 rehearsal; requires four fixed seeds before any broader AI integration decision. |
 | AI-P17 | [Adjudicate and improve bounded Vertex interpretation quality](https://github.com/KevinHozak/Mimir/issues/162) | Reviews every fixed-seed interpretation and fallback, then reruns the private batch only after the operator authorizes the billable evaluation. |
+| AI-P18 | [Improve bounded Vertex quality and personalize Spark decision budgets](https://github.com/KevinHozak/Mimir/issues/164) | Adds deterministic 2/4/8/16 decision cadence evaluation after AI-P17; live rerun remains separately authorized. |
 
 AI-P15 is complete through [PR #159](https://github.com/KevinHozak/Mimir/pull/159). Its private hosted Vertex rehearsal recorded bounded proposals that changed staged choices and downstream social outcomes while preserving deterministic authority, caps, private hosting, and provider-free replay. AI-P16 is the current follow-up gate: repeat the evaluation across four fixed seeds and distinguish repeatable value from a one-seed signal.
 
