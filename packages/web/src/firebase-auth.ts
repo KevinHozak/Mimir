@@ -17,6 +17,7 @@ export const hostedAuthEnabled = import.meta.env.VITE_FIREBASE_AUTH_ENABLED === 
 export const observeAuth = (callback: (user: User | null) => void) => onAuthStateChanged(auth, callback);
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
 export const signOutGoogle = () => signOut(auth);
+export const getGoogleIdToken = () => auth.currentUser?.getIdToken();
 export const firebaseStorage = getStorage(firebaseApp);
 export const readFirebaseJson = async <T,>(path: string): Promise<T> => {
   const result = await Promise.race([

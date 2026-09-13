@@ -19,6 +19,8 @@
     "@fastify/cors": "^10.0.1",
     "@mimir/engine": "0.1.0",
     "@mimir/world-data": "0.1.0",
-    "fastify": "^5.2.1"
+    "fastify": "^5.2.1",
+    "firebase-admin": "^13.10.0"
   }
 }
+
