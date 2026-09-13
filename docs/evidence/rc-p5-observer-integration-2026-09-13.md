@@ -1,7 +1,7 @@
 # RC-P5 observer integration evidence
 
-Date: 2026-09-13  
-Scope: isolated issue-172 worktree, `codex/issue-172-rc-p5`  
+Date: 2026-09-13
+Scope: isolated issue-172 worktree, `codex/issue-172-rc-p5`
 Runtime: First Glow schema 3 / structured-v2
 
 ## Delivered boundary
