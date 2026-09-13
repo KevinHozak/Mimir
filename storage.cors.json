@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://mimir-realm.web.app"],
+    "method": ["GET", "HEAD"],
+    "responseHeader": ["Content-Length", "Content-Type", "ETag", "Last-Modified"],
+    "maxAgeSeconds": 3600
+  }
+]

@@ -26,3 +26,11 @@ P14 is a limited authenticated staging deployment. The following closure gates a
 4. No bounded concurrent-viewer, cache, quota, transfer, or observed-cost rehearsal has been run.
 
 Therefore issue [#190](https://github.com/KevinHozak/Mimir/issues/190) remains open. The next decision gate is a bounded archive-plus-traffic rehearsal, not a new public audience or a second simulation writer.
+
+## Follow-up verification
+
+After deployment, a bundle-inclusive backup from the running VM was copied into an isolated local rehearsal directory. The exporter produced one archived timeline (`main`), and the publisher dry-run validated its manifest, checkpoint chunk, checksum, schema, simulation version, and world-bundle references.
+
+The validated archive was then published to `gs://mimir-realm.firebasestorage.app`. The remote catalog now advertises `main`, with its manifest and chunk present. A bucket CORS policy was applied for GET/HEAD reads from `https://mimir-realm.web.app` only. The hosted History view was rechecked as `khozak@gmail.com`: it listed `main · 1 checkpoint(s)` and displayed `Verified local replay` for tick 0 with manifest, chunk checksum, schema, simulation version, and world-bundle references verified.
+
+The publisher also needed a Windows `gcloud.cmd` subprocess fix; that change is included in the follow-up PR. The remaining P14 gates are the full rejected-token matrix, clean deployed source-commit pinning, and bounded traffic/cache/quota/transfer/cost rehearsal.
