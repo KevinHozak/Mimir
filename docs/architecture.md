@@ -1,6 +1,6 @@
 # Mimir: A Light of Our Own — Current Architecture
 
-Date: 2026-09-12
+Date: 2026-09-13
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -294,7 +294,7 @@ The private hosted Vertex rehearsal and its deterministic control arm are docume
 
 AI-P16 extends that path with a four-seed repeatability runner documented in [docs/ai-p16-repeatability-runbook.md](ai-p16-repeatability-runbook.md). Both live arms remain explicitly gated by runtime-only provider access, private-hosted boundary confirmation, the $1.00 hard cap, the kill switch, and approved data/retention settings. The public observer and historical playback remain provider-free.
 
-AI-P18 extends the attention policy with the versioned powers-of-two cadence contract documented in [the AI-P18 runbook](ai-p18-cadence-review-runbook.md). The deterministic control compares readiness-tier and age-day profiles, spaces opportunities across a 64-tick day, and verifies no-burst, cap, authority, and provider-free replay behavior. The authorized private Vertex rerun is recorded in [AI-P18 evidence](evidence/ai-p18-vertex-rerun-2026-09-12.md); it used the existing four-per-Spark quality contract and did not select the future budget determinant. AI-P19 completed the matched determinant review without establishing superiority; the selected direction is world-age Reflection capacity, documented in the [Reflection capacity plan](reflection-capacity-plan.md): First Glow RC 1, rare Hero Sparks RC 2, personal memories shaping reflections rather than increasing capacity. RC-P1 is the next implementation gate.
+AI-P18 extends the attention policy with the versioned powers-of-two cadence contract documented in [the AI-P18 runbook](ai-p18-cadence-review-runbook.md). The deterministic control compares readiness-tier and age-day profiles, spaces opportunities across a 64-tick day, and verifies no-burst, cap, authority, and provider-free replay behavior. AI-P19 completed the matched determinant review, and RC-P1 through RC-P5 subsequently delivered the selected world-age capacity, lived-memory, intention, evaluation, and observer-integration sequence. AI-P20 now supplies the versioned World Codex and reconstructible Spark-local context packet; external provider execution remains separately gated and disabled by default.
 
 ## 11. Architectural invariants
 

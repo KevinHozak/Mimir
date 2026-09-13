@@ -88,6 +88,14 @@ The provider receives a structured context and may return only:
 
 The provider cannot create events, move a Spark, modify charge or readiness, change relationships, reveal knowledge, select an arbitrary activity, or write directly to persistence. Invalid output, unsupported alternatives, hidden evidence references, timeout, provider failure, or budget exhaustion immediately use the deterministic rules-only fallback.
 
+## AI-P20 context implementation
+
+AI-P20 is delivered in the merged bounded path. `FirstGlowWorldCodex` (`world-codex-v1`) records the First Glow rules, terminology, knowledge boundary, and provider contract. Each attention context now carries a `FirstGlowContextPacket` (`context-packet-v1`) containing the authored Spark profile, Spark-local witnessed/communicated/uncertain knowledge, deterministic bounded memory summaries, and recent witnessed events. The packet has its own canonical hash and is included in the interpretation context hash, so the same persisted state and authored versions reconstruct the same provider input.
+
+Retrieval is deterministic and bounded: events are ordered by tick and stable ID, memories retain explicit provenance and omission counts, future events are excluded, and packet validation rejects hidden evidence or tampering. Decision usage records now include input-token estimates, output-token estimates, latency, reservation, usage, validation, and fallback metadata. No hidden chain-of-thought is stored, and historical playback continues to use recorded decisions without provider calls.
+
+The representative full/retrieved/summarized context comparison is recorded in [AI-P20 context cost evidence](evidence/ai-p20-context-cost-report-2026-09-13.md). It is a deterministic planning artifact, not a live pricing guarantee or authorization for external execution.
+
 ## Recording and historical playback
 
 Recording is a first-class requirement. The system should retain canonical committed records, not animation frames or private model chain-of-thought.
@@ -146,11 +154,6 @@ The current planning estimate for Gemini 2.5 Flash-Lite is $0.10 per million inp
 ## Delivery order
 
 1. Keep current rules-only behavior and historical playback unchanged.
-2. Materialize versioned personality profiles in the bounded context.
-3. Add deterministic attention-trigger and per-Spark/global budget state.
-4. Extend event and decision records for movement, personality, provider metadata, and validation results.
-5. Add a Flash-Lite evaluation adapter behind explicit configuration and an operator kill switch.
-6. Define the explicit provider/model, project, billing, privacy/retention, hard-cap, kill-switch, and telemetry contract without making a live call.
-7. Implement the provider adapter behind the deterministic attention gate, validation, fallback, and replay-safe records.
-8. Prove the adapter in an isolated internal runtime pilot with recorded state diffs, replay suppression, budgets, and kill-switch evidence.
-9. Enable bounded AI-assisted First Glow play only behind an operator-controlled rollout; public exposure remains separately decided.
+2. Preserve the delivered versioned personality, World Codex, Spark-local context packet, memory bounds, privacy validation, and usage telemetry.
+3. Keep any external provider execution behind explicit configuration, the deterministic attention gate, validation, fallback, retention, kill switch, and budget authorization.
+4. Treat any future quality or cost evaluation as a separately authorized, isolated comparison against rules-only; public exposure remains separately decided.

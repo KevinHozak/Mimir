@@ -53,7 +53,17 @@ The boundary for any future public model is explicit:
 - No public deployment, endpoint, credential, service account, load balancer, external IPv4 address, or other billable resource is created by this phase.
 - Before reconsidering the decision, recheck current Google Cloud prices and free-tier eligibility, privacy/support expectations, traffic and egress assumptions, backup freshness evidence, and the `$10` alert configuration. The alert is not a spending cap.
 
-P8 is the next actionable phase because independent bundle-inclusive backup replication improves the private deployment and does not require public access. P9 is deferred until a future explicit go decision approves the bounded read-only boundary and its cost/privacy envelope. P10 is deferred until P8 recovery evidence and P9 implementation are complete. A later go decision must be recorded in both this runbook and the roadmap before any public resource is provisioned.
+Hosted-P8, Hosted-P9, and Hosted-P10 are complete through their merged implementation and validation work. The current hosted boundary is recorded below; Hosted-P14 is now the next actionable phase and requires an explicit deployment verification before public access is treated as live.
+
+## Hosted-P11 through Hosted-P14 current boundary
+
+Hosted-P11 established the authenticated read-only observer bridge. Google ID tokens are validated server-side, and approved clients may read current state, recorded history/events, and the SSE stream. Owner operations, mutation routes, `OWNER_TOKEN`, browser-held owner credentials, and any second simulation writer remain outside the public surface.
+
+Hosted-P12 established immutable archive publication and retention. Published archives are validated before release, quarantined when invalid, and retained independently of the live VM so provider-free historical playback remains available even when the runtime is unavailable.
+
+Hosted-P13 retained the bounded scale decision: Firebase remains the public web/auth surface and one SQLite-writing VM remains the authoritative runtime for limited authenticated observation. This is not a high-concurrency or production-availability claim. See the dated [Hosted-P13 scale-boundary evidence](evidence/hosted-scale-boundary-2026-09-13.md).
+
+Hosted-P14 is the remaining deployment gate. Deploy the authenticated observer at `https://mimir-realm.web.app/`, connect it to the approved read-only API/SSE bridge, and verify token validation, approved-account access, same-origin or explicitly approved ingress, reconnect/error behavior, restart continuity, archive independence, and traffic against the Hosted-P13 envelope. Investigate the current Firebase Storage catalog retry failure as part of that verification. Do not expose owner operations, `OWNER_TOKEN`, mutation routes, or a second writer, and do not claim public availability until the acceptance evidence is recorded.
 
 ## Independent backup boundary
 

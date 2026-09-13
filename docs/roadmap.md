@@ -66,15 +66,7 @@ AI-P19's matched comparison is complete through [PR #167](https://github.com/Kev
 
 ### Reflection capacity development sequence
 
-These are planned phases. RC-P1 is the next implementation step after the completed P19 review.
-
-| Phase | Outcome | Dependency |
-| --- | --- | --- |
-| [RC-P1](https://github.com/KevinHozak/Mimir/issues/168) | World-age capacity, Hero exception and deterministic cadence | PR #167 |
-| [RC-P2](https://github.com/KevinHozak/Mimir/issues/169) | Lived memories inform reflections | RC-P1 |
-| [RC-P3](https://github.com/KevinHozak/Mimir/issues/170) | Persistent intentions and rule-executed actions | RC-P2 |
-| [RC-P4](https://github.com/KevinHozak/Mimir/issues/171) | Matched Hero, memory and budget evaluation | RC-P3 |
-| [RC-P5](https://github.com/KevinHozak/Mimir/issues/172) | Bounded integration and observer visibility | RC-P4 |
+RC-P1 through RC-P5 are complete through their merged implementation and evaluation work. AI-P20 subsequently added the versioned World Codex and reconstructible Spark-local context packet, including bounded memory retrieval, privacy validation, token telemetry, and a deterministic cost report.
 
 ### AI-P10 decision: proceed with bounded hybrid runtime implementation
 
@@ -95,23 +87,24 @@ The concrete contract for the next implementation phase is recorded in [AI-P11 b
 
 ## Next hosted-observer sequence
 
-Hosted-P1 through Hosted-P6 are complete and recorded in the [Changelog](changelog.md). The private, single-writer staging observer has independently recovered a bundle-inclusive backup and completed a restart-continuity season; it is not public or durable production hosting. The following sequence must preserve that boundary until its explicit decision and validation gates pass:
+Hosted-P1 through Hosted-P13 are complete and recorded in the [Changelog](changelog.md). The retained boundary is Firebase-authenticated read-only distribution plus one SQLite-writing VM; it is not an invitation to add a second writer or widen access without new evidence. The next scoped delivery is:
 
 | Phase | Issue | Status |
 | --- | --- | --- |
 | Hosted-P7 | [Define the public observer operating contract](https://github.com/KevinHozak/Mimir/issues/122) | **Decision: defer public exposure.** Keep the staging observer private and create no public resource or credential. |
-| Hosted-P8 | [Automate independent bundle-inclusive backup replication and freshness checks](https://github.com/KevinHozak/Mimir/issues/123) | Next actionable phase. It improves private-hosting durability while preserving keyless, separate-project recovery and proving freshness by restore evidence. |
+| Hosted-P8 | [Automate independent bundle-inclusive backup replication and freshness checks](https://github.com/KevinHozak/Mimir/issues/123) | Delivered; preserves keyless, separate-project recovery and proves freshness by restore evidence. |
 | Hosted-P9 | [Implement the approved public read-only observer boundary](https://github.com/KevinHozak/Mimir/issues/124) | Delivered in [PR #183](https://github.com/KevinHozak/Mimir/pull/183); limited Google-authenticated reads only, with no owner operations or second writer. |
 | Hosted-P10 | [Validate the limited public observer release and durable operations](https://github.com/KevinHozak/Mimir/issues/125) | Delivered in [PR #184](https://github.com/KevinHozak/Mimir/pull/184); archive publication and live recovery gaps remain explicit. |
 | Hosted-P11 | [Define an authenticated live-observer bridge](https://github.com/KevinHozak/Mimir/issues/178) | Delivered in [PR #186](https://github.com/KevinHozak/Mimir/pull/186); preserves Google sign-in and server-owned authority. |
 | Hosted-P12 | [Operate archive publication and retention](https://github.com/KevinHozak/Mimir/issues/179) | Delivered in [PR #188](https://github.com/KevinHozak/Mimir/pull/188); staged publication, validation, quarantine, and retention procedure recorded. |
-| Hosted-P13 | [Reassess observer scale and hosting boundary](https://github.com/KevinHozak/Mimir/issues/180) | In progress; 2026-09-13 review retains Firebase plus one SQLite-writing VM for limited authenticated observation and records preconditions for any wider release or migration. |
+| Hosted-P13 | [Reassess observer scale and hosting boundary](https://github.com/KevinHozak/Mimir/issues/180) | Delivered; the 2026-09-13 review retains Firebase plus one SQLite-writing VM for limited authenticated observation and records preconditions for any wider release or migration. |
+| Hosted-P14 | [Deploy the authenticated live observer](https://github.com/KevinHozak/Mimir/issues/190) | Next actionable phase. Connect the Firebase-authenticated surface to the approved read-only API/SSE bridge and verify auth, reconnect, restart continuity, archive independence, traffic, and remaining storage/quota limits. |
 
 ### Hosted-P7 decision
 
 As of 2026-09-11, Mimir defers public exposure. The intended future audience is a limited, read-only observer, but there is not yet enough operational evidence to justify making the staging VM public or creating another public hosting surface. The current private IAP-only observer remains the supported hosted experience.
 
-P8 may proceed because independent, bundle-inclusive recovery strengthens the private deployment regardless of whether public access is later approved. P9 and P10 were subsequently authorized and delivered as a bounded Google-authenticated read-only boundary; P13 records the resulting scale decision and remaining gates.
+P8 strengthened the private deployment through independent, bundle-inclusive recovery. P9 and P10 were subsequently authorized and delivered as a bounded Google-authenticated read-only boundary; P13 records the resulting scale decision and P14 is the remaining deployment gate.
 
 Hosted-P9 through Hosted-P12 are now implemented and validated as a limited Google-authenticated distribution boundary, archive validation/publication path, and operator evidence layer. Hosted-P13 records the 2026-09-13 decision to retain Firebase plus one SQLite-writing VM for the limited observer envelope. It does not claim high-concurrency capacity or production availability; a real audience rehearsal must measure traffic, cache behavior, archive growth, quotas, and observed cost before widening access. See the [Hosted-P13 scale review](evidence/hosted-scale-boundary-2026-09-13.md).
 
