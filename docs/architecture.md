@@ -155,7 +155,7 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 
 ## 6. HTTP and live-update surface
 
-### Public reads
+### Observer reads
 
 - `GET /health` — service health, current tick, scheduler state, active timeline, database path, and social configuration.
 - `GET /api/world` — current state; `?tick=` retrieves a stored checkpoint.
@@ -171,6 +171,8 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/timelines` — available timeline metadata.
 - `GET /api/history` — a bounded historical-view response for one timeline and checkpoint, including lineage, version identity, recorded objective events, and recorded interpretations. Empty timelines, missing checkpoints, and incompatible checkpoints return explicit states; no replay or new interpretation is generated.
 - `GET /api/live` — Server-Sent Events stream with the current state and committed tick updates.
+
+The hosted observer exposes these reads through Firebase Hosting and the `mimir-observer-bridge` Cloud Run service. The bridge requires an approved, verified Google ID token, forwards only the read/SSE allowlist to the private VM, and never forwards owner or mutation routes. Firebase Hosting remains the same-origin browser surface; it is not simulation authority.
 
 ### Owner operations
 
@@ -239,7 +241,7 @@ The server can also run independently with `npm run dev:server`, and the browser
 - Daily local backup copies under `/var/data/backups`.
 - An externally supplied `OWNER_TOKEN`.
 
-The current staging deployment is a private Google Compute Engine `e2-micro` VM in `mimir-realm`, with IAP-only access and a mounted persistent disk. Hosted-P5 uses the separate `mimir-realm-backups` project and a regional Standard Cloud Storage bucket for operator-managed independent copies. The hosted model is intentionally single-writer. PostgreSQL or another coordinated persistence layer is required before horizontal scaling.
+The current hosted deployment is Firebase Hosting at `https://mimir-realm.web.app/`, backed by the `mimir-observer-bridge` Cloud Run service in `us-central1`, which validates approved Google ID tokens and forwards read-only traffic to the private `mimir-staging` Compute Engine `e2-micro` VM. The VM and SQLite database remain the sole simulation writer. Hosted-P5 uses the separate `mimir-realm-backups` project for operator-managed independent copies. PostgreSQL or another coordinated persistence layer is required before horizontal scaling. The hosted path is still limited staging; archive completeness, wider traffic, and full token/recovery matrices remain validation gates.
 
 ## 9. Verification architecture
 
