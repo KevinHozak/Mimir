@@ -10,6 +10,7 @@
     "test": "npm run test --workspace @mimir/world-data && npm run test --workspace @mimir/engine",
     "start": "node scripts/run-local.mjs",
     "start:hosted": "node packages/server/dist/index.js",
+    "public:archive": "node scripts/export-public-archive.mjs",
     "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",
     "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",
     "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",
@@ -58,5 +59,6 @@
     "typescript": "^5.7.2"
   }
 }
+
 
 

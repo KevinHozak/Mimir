@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "site": "mimir-realm",
+    "public": "packages/web/dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": true,
+    "headers": [
+      { "source": "**/manifest.json", "headers": [{ "key": "Cache-Control", "value": "public,max-age=31536000,immutable" }] },
+      { "source": "archives/**", "headers": [{ "key": "Cache-Control", "value": "public,max-age=31536000,immutable" }] }
+    ],
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+  },
+  "storage": { "rules": "storage.rules" }
+}
+
