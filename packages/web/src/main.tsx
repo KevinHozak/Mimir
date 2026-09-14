@@ -548,6 +548,10 @@ async function observerFetch(path: string, init: RequestInit = {}): Promise<Resp
   return fetch(`${api}${path}`, { ...init, headers });
 }
 
+function FirstGlowLoading({ message, detail, error = false }: { message: string; detail?: string; error?: boolean }) {
+  return <main className="first-glow first-glow-loading" data-theme="living-circuit" aria-busy={!error}><div className="first-glow-loading-card"><div className={`first-glow-loading-orb${error ? " is-error" : ""}`} aria-hidden="true"><span /></div><h1>Mimir</h1><p>{message}</p>{detail && <p className="first-glow-loading-detail">{detail}</p>}</div></main>;
+}
+
 function App({ readOnly = false }: { readOnly?: boolean } = {}) {
   const [world, setWorld] = useState<State | null>(null);
   const [liveWorld, setLiveWorld] = useState<State | null>(null);
@@ -674,7 +678,7 @@ function App({ readOnly = false }: { readOnly?: boolean } = {}) {
   const pulse = async () => { await ownerRequest("/api/pulse"); await loadLive(); await loadReport(); };
   const toggleClock = async () => { const response = await ownerRequest("/api/scheduler", { paused: !clockPaused }); const result = await response.json() as { schedulerPaused?: boolean; error?: string }; if (typeof result.schedulerPaused === "boolean") setClockPaused(result.schedulerPaused); else if (result.error) setOperationMessage(result.error); await loadReport(); };
   const setClockSpeed = async (intervalMs: number) => { const response = await ownerRequest("/api/scheduler", { intervalMs }); const result = await response.json() as { pulseIntervalMs?: number; error?: string }; if (typeof result.pulseIntervalMs === "number") setOperationMessage(`pulse speed set to ${intervalMs / 1000}s`); else if (result.error) setOperationMessage(result.error); await loadReport(); };
-  if (!world) return <main className="first-glow first-glow-loading" data-theme="living-circuit"><div><h1>Mimir</h1><p>A Light of Our Own · {loadError ? "Unavailable" : "Connecting…"}</p>{loadError && <p className="first-glow-error" data-testid="first-glow-load-error" role="alert">{loadError}</p>}</div></main>;
+  if (!world) return <FirstGlowLoading message={loadError ? "A Light of Our Own · Unavailable" : "A Light of Our Own · Connecting…"} detail={loadError} error={Boolean(loadError)} />;
   const maximumPulse = liveWorld?.pulse ?? world.pulse;
   const firstGlowMarkPath = firstGlowBundle?.assets?.find((asset) => asset.path.endsWith("first-glow-light-mark.svg"))?.path;
   return <main className={isFirstGlow ? "first-glow" : ""} data-theme={isFirstGlow ? "living-circuit" : "village"}>
@@ -728,7 +732,7 @@ function HostedObserverGate() {
   const [loading, setLoading] = useState(hostedAuthEnabled);
   useEffect(() => hostedAuthEnabled ? observeAuth(next => { setUser(next); setLoading(false); }) : undefined, []);
   if (!hostedAuthEnabled) return <><App /><a className="history-entry-float" href="?view=history">History &amp; scenarios</a></>;
-  if (loading) return <main className="first-glow first-glow-loading"><div><h1>Mimir</h1><p>Checking Google sign-in…</p></div></main>;
+  if (loading) return <FirstGlowLoading message="Checking Google sign-in…" />;
   if (!user) return <main className="first-glow first-glow-loading"><div><h1>Mimir</h1><p>Private observer · Google sign-in required</p><button onClick={() => void signInWithGoogle()}>Sign in with Google</button></div></main>;
   const hostedHistory = new URLSearchParams(window.location.search).get("view") === "history";
   return <><header className="hosted-auth-bar"><span>Signed in as {user.email}</span><nav aria-label="Hosted observer navigation"><a href="/">Live observer</a><a href="?view=history">History &amp; scenarios</a></nav><button onClick={() => void signOutGoogle()}>Sign out</button></header>{hostedHistory ? <HostedArchiveViewer /> : hostedLiveApiConfigured ? <App readOnly /> : <main className="first-glow first-glow-loading"><div><h1>Live observer unavailable</h1><p>The authenticated live observer endpoint is not configured for this hosted build yet.</p><a href="?view=history">View history archives</a></div></main>}</>;
