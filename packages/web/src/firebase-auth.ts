@@ -19,11 +19,15 @@ export const signInWithGoogle = () => signInWithPopup(auth, provider);
 export const signOutGoogle = () => signOut(auth);
 export const getGoogleIdToken = () => auth.currentUser?.getIdToken();
 export const firebaseStorage = getStorage(firebaseApp);
-export const readFirebaseJson = async <T,>(path: string): Promise<T> => {
+export const readFirebaseBytes = async (path: string): Promise<Uint8Array> => {
   const result = await Promise.race([
     getBytes(ref(firebaseStorage, path), 32 * 1024 * 1024),
     new Promise<never>((_, reject) => setTimeout(() => reject(new Error(`Firebase Storage archive read timed out: ${path}`)), 15000)),
   ]);
+  return new Uint8Array(result);
+};
+export const readFirebaseJson = async <T,>(path: string): Promise<T> => {
+  const result = await readFirebaseBytes(path);
   return JSON.parse(new TextDecoder().decode(result)) as T;
 };
 
