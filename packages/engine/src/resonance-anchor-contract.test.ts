@@ -3,20 +3,20 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-type FixtureEvent = { id: string; tick: number; participants: string[]; chargeCost: number; visibility: "observer" | "participants"; location: { objectId: string; slotId: string }; pattern?: string };
+type FixtureEvent = { id: string; pulse: number; participants: string[]; chargeCost: number; visibility: "observer" | "participants"; location: { objectId: string; slotId: string }; pattern?: string };
 type FixtureCase = { id: string; events: FixtureEvent[]; knowledge?: Record<string, string[]>; expected: { forms: boolean; candidateId?: string; evidenceEventIds?: string[]; failureCode?: string; observerSees?: boolean; sparkDKnowsCandidate?: boolean } };
-type Fixture = { schemaVersion: number; rule: { id: string; anchorKind: string; requiredOccurrences: number; distinctParticipantMinimum: number; minimumChargeCost: number; maximumTickSpan: number; location: { objectId: string; slotId: string } }; cases: FixtureCase[] };
+type Fixture = { schemaVersion: number; rule: { id: string; anchorKind: string; requiredOccurrences: number; distinctParticipantMinimum: number; minimumChargeCost: number; maximumPulseSpan: number; location: { objectId: string; slotId: string } }; cases: FixtureCase[] };
 
 const fixture = JSON.parse(readFileSync(fileURLToPath(new URL("../../../docs/resonance-anchor-fixtures.json", import.meta.url)), "utf8")) as Fixture;
 const compare = (left: string, right: string) => left < right ? -1 : left > right ? 1 : 0;
 
 function evaluate(caseFixture: FixtureCase) {
-  const events = caseFixture.events.slice().sort((left, right) => left.tick - right.tick || compare(left.id, right.id));
+  const events = caseFixture.events.slice().sort((left, right) => left.pulse - right.pulse || compare(left.id, right.id));
   const qualifying = events.filter(event => event.pattern !== "shelter-refusal" && event.location.objectId === fixture.rule.location.objectId && event.location.slotId === fixture.rule.location.slotId);
   const participantIds = [...new Set(qualifying.flatMap(event => event.participants))].sort(compare);
   const totalChargeCost = qualifying.reduce((total, event) => total + event.chargeCost, 0);
   if (qualifying.length < fixture.rule.requiredOccurrences) return { forms: false, failureCode: "required-occurrences-not-met" };
-  if (qualifying.at(-1)!.tick - qualifying[0]!.tick > fixture.rule.maximumTickSpan) return { forms: false, failureCode: "maximum-tick-span-exceeded" };
+  if (qualifying.at(-1)!.pulse - qualifying[0]!.pulse > fixture.rule.maximumPulseSpan) return { forms: false, failureCode: "maximum-pulse-span-exceeded" };
   if (participantIds.length < fixture.rule.distinctParticipantMinimum) return { forms: false, failureCode: "distinct-participant-minimum-not-met" };
   if (totalChargeCost < fixture.rule.minimumChargeCost) return { forms: false, failureCode: "minimum-charge-cost-not-met" };
   const evidenceEventIds = qualifying.map(event => event.id).sort(compare);

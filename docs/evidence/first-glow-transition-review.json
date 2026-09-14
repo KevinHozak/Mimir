@@ -11,8 +11,8 @@
     "spatialModel": "structured-v2",
     "bundleHash": "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601",
     "seasons": 4,
-    "ticksPerSeason": 24,
-    "totalTicks": 96,
+    "pulsesPerSeason": 24,
+    "totalPulses": 96,
     "sparks": 6,
     "socialResolution": "autonomous-rules-only"
   },
@@ -27,9 +27,9 @@
             1102,
             1103
           ],
-          "ticks": 96,
+          "pulses": 96,
           "sourceIntakeEveryFour": 24,
-          "lossByTick": {}
+          "lossByPulse": {}
         }
       },
       "baseline": {
@@ -117,28 +117,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 45,
               "trust": 15,
               "witnessedFacts": 144
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 95,
               "trust": 16,
               "witnessedFacts": 291
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 119,
               "trust": 16,
               "witnessedFacts": 387
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 134,
               "trust": 17,
               "witnessedFacts": 451
@@ -147,35 +147,35 @@
           "observerCapture": {
             "seed": 1101,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-share",
               "message": "Spark 5 shared 1 charge with Spark 4."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 shared 1 charge with Spark 4."
           },
           "scorecard": {
             "criteria": [
@@ -260,28 +260,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 45,
               "trust": 15,
               "witnessedFacts": 144
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 95,
               "trust": 17,
               "witnessedFacts": 291
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 119,
               "trust": 17,
               "witnessedFacts": 387
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 134,
               "trust": 17,
               "witnessedFacts": 451
@@ -290,35 +290,35 @@
           "observerCapture": {
             "seed": 1102,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-share",
               "message": "Spark 5 shared 1 charge with Spark 4."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 shared 1 charge with Spark 4."
           },
           "scorecard": {
             "criteria": [
@@ -403,28 +403,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 45,
               "trust": 15,
               "witnessedFacts": 144
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 76,
               "trust": 16,
               "witnessedFacts": 257
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 88,
               "trust": 17,
               "witnessedFacts": 324
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 108,
               "trust": 17,
               "witnessedFacts": 399
@@ -433,35 +433,35 @@
           "observerCapture": {
             "seed": 1103,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-6-share",
               "message": "Spark 6 shared 1 charge with Spark 4."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 6 shared 1 charge with Spark 4."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 6 shared 1 charge with Spark 4."
           },
           "scorecard": {
             "criteria": [
@@ -534,9 +534,9 @@
             1202,
             1203
           ],
-          "ticks": 96,
+          "pulses": 96,
           "sourceIntakeEveryFour": 0,
-          "lossByTick": {
+          "lossByPulse": {
             "8": 4,
             "16": 4,
             "24": 4
@@ -628,28 +628,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 21,
               "trust": 13,
               "witnessedFacts": 97
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 23,
               "trust": 13,
               "witnessedFacts": 147
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 31,
               "trust": 16,
               "witnessedFacts": 198
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 38,
               "trust": 16,
               "witnessedFacts": 249
@@ -658,35 +658,35 @@
           "observerCapture": {
             "seed": 1201,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-idle",
               "message": "Spark 5 idled and recovered 0 readiness."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 0 readiness."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 idled and recovered 0 readiness."
           },
           "scorecard": {
             "criteria": [
@@ -771,28 +771,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 21,
               "trust": 14,
               "witnessedFacts": 97
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 23,
               "trust": 15,
               "witnessedFacts": 147
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 31,
               "trust": 17,
               "witnessedFacts": 198
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 38,
               "trust": 17,
               "witnessedFacts": 249
@@ -801,35 +801,35 @@
           "observerCapture": {
             "seed": 1202,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-idle",
               "message": "Spark 5 idled and recovered 0 readiness."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 0 readiness."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 idled and recovered 0 readiness."
           },
           "scorecard": {
             "criteria": [
@@ -914,28 +914,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 21,
               "trust": 12,
               "witnessedFacts": 97
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 23,
               "trust": 13,
               "witnessedFacts": 147
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 33,
               "trust": 16,
               "witnessedFacts": 198
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 40,
               "trust": 16,
               "witnessedFacts": 249
@@ -944,35 +944,35 @@
           "observerCapture": {
             "seed": 1203,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-idle",
               "message": "Spark 5 idled and recovered 1 readiness."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 1 readiness."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 idled and recovered 1 readiness."
           },
           "scorecard": {
             "criteria": [
@@ -1045,9 +1045,9 @@
             1302,
             1303
           ],
-          "ticks": 96,
+          "pulses": 96,
           "sourceIntakeEveryFour": 8,
-          "lossByTick": {}
+          "lossByPulse": {}
         }
       },
       "baseline": {
@@ -1135,28 +1135,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 49,
               "trust": 19,
               "witnessedFacts": 151
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 66,
               "trust": 19,
               "witnessedFacts": 236
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 83,
               "trust": 20,
               "witnessedFacts": 303
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 100,
               "trust": 20,
               "witnessedFacts": 369
@@ -1165,35 +1165,35 @@
           "observerCapture": {
             "seed": 1301,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-draw",
               "message": "Spark 5 drew 8 charge."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 drew 8 charge."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 drew 8 charge."
           },
           "scorecard": {
             "criteria": [
@@ -1278,28 +1278,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 49,
               "trust": 20,
               "witnessedFacts": 151
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 67,
               "trust": 20,
               "witnessedFacts": 242
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 86,
               "trust": 21,
               "witnessedFacts": 321
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 99,
               "trust": 21,
               "witnessedFacts": 382
@@ -1308,35 +1308,35 @@
           "observerCapture": {
             "seed": 1302,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 92,
+              "pulse": 92,
               "eventId": "event-92-spark-6-idle",
               "message": "Spark 6 idled and recovered 10 readiness."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 92: Spark 6 idled and recovered 10 readiness."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 92: Spark 6 idled and recovered 10 readiness."
           },
           "scorecard": {
             "criteria": [
@@ -1421,28 +1421,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 49,
               "trust": 18,
               "witnessedFacts": 151
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 66,
               "trust": 18,
               "witnessedFacts": 236
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 83,
               "trust": 19,
               "witnessedFacts": 303
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 100,
               "trust": 19,
               "witnessedFacts": 369
@@ -1451,35 +1451,35 @@
           "observerCapture": {
             "seed": 1303,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-draw",
               "message": "Spark 5 drew 8 charge."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 drew 8 charge."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 drew 8 charge."
           },
           "scorecard": {
             "criteria": [
@@ -1552,9 +1552,9 @@
             1402,
             1403
           ],
-          "ticks": 96,
+          "pulses": 96,
           "sourceIntakeEveryFour": 16,
-          "lossByTick": {}
+          "lossByPulse": {}
         }
       },
       "baseline": {
@@ -1642,28 +1642,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 45,
               "trust": 15,
               "witnessedFacts": 144
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 76,
               "trust": 15,
               "witnessedFacts": 257
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 88,
               "trust": 17,
               "witnessedFacts": 324
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 108,
               "trust": 17,
               "witnessedFacts": 399
@@ -1672,35 +1672,35 @@
           "observerCapture": {
             "seed": 1401,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-6-share",
               "message": "Spark 6 shared 1 charge with Spark 4."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 6 shared 1 charge with Spark 4."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 6 shared 1 charge with Spark 4."
           },
           "scorecard": {
             "criteria": [
@@ -1785,28 +1785,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 45,
               "trust": 14,
               "witnessedFacts": 144
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 95,
               "trust": 15,
               "witnessedFacts": 291
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 119,
               "trust": 15,
               "witnessedFacts": 387
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 134,
               "trust": 17,
               "witnessedFacts": 451
@@ -1815,35 +1815,35 @@
           "observerCapture": {
             "seed": 1402,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-share",
               "message": "Spark 5 shared 1 charge with Spark 4."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 shared 1 charge with Spark 4."
           },
           "scorecard": {
             "criteria": [
@@ -1928,28 +1928,28 @@
           "checkpoints": [
             {
               "season": 1,
-              "tick": 24,
+              "pulse": 24,
               "commitmentCount": 45,
               "trust": 15,
               "witnessedFacts": 144
             },
             {
               "season": 2,
-              "tick": 48,
+              "pulse": 48,
               "commitmentCount": 95,
               "trust": 16,
               "witnessedFacts": 291
             },
             {
               "season": 3,
-              "tick": 72,
+              "pulse": 72,
               "commitmentCount": 119,
               "trust": 16,
               "witnessedFacts": 387
             },
             {
               "season": 4,
-              "tick": 96,
+              "pulse": 96,
               "commitmentCount": 134,
               "trust": 17,
               "witnessedFacts": 451
@@ -1958,35 +1958,35 @@
           "observerCapture": {
             "seed": 1403,
             "setup": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-5-wait",
               "message": "Spark 5 is waiting: no reachable seek-charge site."
             },
             "pressure": {
-              "tick": 1,
+              "pulse": 1,
               "eventId": "event-1-spark-6-wait",
               "message": "Spark 6 is waiting: no reachable seek-charge site."
             },
             "turningPoint": {
-              "tick": 4,
+              "pulse": 4,
               "eventId": "event-4-spark-2-draw",
               "message": "Spark 2 drew 8 charge."
             },
             "aftermath": {
-              "tick": 96,
+              "pulse": 96,
               "eventId": "event-96-spark-5-share",
               "message": "Spark 5 shared 1 charge with Spark 4."
             },
             "evidenceChain": [
               {
                 "eventId": "event-1-spark-5-wait",
-                "tick": 1,
+                "pulse": 1,
                 "message": "Spark 5 is waiting: no reachable seek-charge site."
               }
             ],
             "distinctEventCount": 4,
             "privateKnowledgeIncluded": false,
-            "retelling": "Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4."
+            "retelling": "Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 shared 1 charge with Spark 4."
           },
           "scorecard": {
             "criteria": [
@@ -2082,7 +2082,7 @@
   "decision": "Positive Stories-P3 gate for the reviewed First Glow scope: the autonomous P2 loop improves the P1 weakness without a hard evidence-boundary failure. Resonance-P1 (#84) is the only downstream issue this evidence may advance to Ready for a separate bounded implementation review. Resonance-P3 (#87) and Resonance-P4 (#88) remain Backlog; this report does not promote them.",
   "designJudgment": "The result is a gate decision, not a claim that First Glow is complete or that any alternative is morally correct. The evidence supports one next bounded Resonance candidate while preserving First Glow as the only runtime.",
   "limits": [
-    "The scorecard covers these four controls, three seeds, and four 24-tick seasons only.",
+    "The scorecard covers these four controls, three seeds, and four 24-pulse seasons only.",
     "Observer retellings are generated from committed objective records and bounded explanations; they do not grant access to Spark-private knowledge.",
     "Sound remains presentation-only; the sound-disabled browser check is the legibility gate."
   ]

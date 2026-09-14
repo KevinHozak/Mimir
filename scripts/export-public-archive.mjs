@@ -15,22 +15,22 @@ for (const timeline of timelines) {
   const archiveRoot = join(root, archiveId);
   const chunksRoot = join(archiveRoot, "chunks");
   mkdirSync(chunksRoot, { recursive: true });
-  const checkpoints = database.prepare("SELECT tick, state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY tick").all(timeline.id);
+  const checkpoints = database.prepare("SELECT pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY pulse").all(timeline.id);
   const chunks = [];
   for (let index = 0; index < checkpoints.length; index += 1) {
     const checkpoint = checkpoints[index];
     const payload = {
       schemaVersion: 1,
       timeline,
-      tick: checkpoint.tick,
+      pulse: checkpoint.pulse,
       world: JSON.parse(checkpoint.state_json),
-      events: database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND tick <= ? ORDER BY tick, id").all(timeline.id, checkpoint.tick).flatMap(row => JSON.parse(row.event_json)),
-      interpretations: database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND tick <= ? ORDER BY tick, id").all(timeline.id, checkpoint.tick).map(row => JSON.parse(row.interpretation_json)),
+      events: database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse, id").all(timeline.id, checkpoint.pulse).flatMap(row => JSON.parse(row.event_json)),
+      interpretations: database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse, id").all(timeline.id, checkpoint.pulse).map(row => JSON.parse(row.interpretation_json)),
     };
     const bytes = Buffer.from(JSON.stringify(payload) + "\n");
     const name = `chunk-${String(index).padStart(6, "0")}.json`;
     writeFileSync(join(chunksRoot, name), bytes);
-    chunks.push({ name, tick: checkpoint.tick, bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") });
+    chunks.push({ name, pulse: checkpoint.pulse, bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") });
   }
   const manifest = { schemaVersion: 1, archiveId, simulationVersion: "mimir-sim-v3-first-glow", timeline, chunks };
   const manifestBytes = Buffer.from(JSON.stringify(manifest, null, 2) + "\n");

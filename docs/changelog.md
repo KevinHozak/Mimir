@@ -28,7 +28,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 ### A validated Living Stories gate
 
-- Expanded the fixed-seed review from one 24-tick season to four 24-tick seasons, preserving controls, histories, replay inputs, observer artifacts, and scorecards.
+- Expanded the fixed-seed review from one 24-pulse season to four 24-pulse seasons, preserving controls, histories, replay inputs, observer artifacts, and scorecards.
 - Used the resulting 13/20 partial baseline to add only an evidence-supported autonomous social-choice loop, then reran the review with deterministic replay and cross-seed variation checks.
 - Recorded a positive 20/20 transition review without treating care, autonomy, exploration, or cooperation as the designated winner.
 - Made Resonance-P1 candidate patterns observable without adding Anchor state or changing play.
@@ -51,7 +51,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Added optional Hosted-P8 scheduled replication of the complete bundle-inclusive backup unit to Cloud Storage with remote size/checksum verification and operator-visible freshness/failure status. The path uses the VM's attached keyless identity and preserves the separate recovery identity; it does not create public access or replace isolated restore validation.
 - Captured a production-preview profile with fixed First Glow inputs and desktop/mobile evidence. The mobile DPR2 result remains a documented performance limitation, not a broad readiness claim.
 - Established the Google Cloud staging guardrails, including the selected project, billing connection, small VM shape, and $10 budget alert.
-- Provisioned the private IAP-only, single-writer staging observer with same-origin web serving and persistent state, then verified 24 authenticated ticks, restart continuity, and owner-token protection. It is not public or durable production hosting.
+- Provisioned the private IAP-only, single-writer staging observer with same-origin web serving and persistent state, then verified 24 authenticated pulses, restart continuity, and owner-token protection. It is not public or durable production hosting.
 
   - Through [PR #112](https://github.com/KevinHozak/Mimir/pull/112), [PR #113](https://github.com/KevinHozak/Mimir/pull/113), [PR #114](https://github.com/KevinHozak/Mimir/pull/114), [PR #118](https://github.com/KevinHozak/Mimir/pull/118), [PR #119](https://github.com/KevinHozak/Mimir/pull/119), [PR #120](https://github.com/KevinHozak/Mimir/pull/120), and [PR #121](https://github.com/KevinHozak/Mimir/pull/121).
 
@@ -99,16 +99,16 @@ This is a functional record of meaningful delivered changes. It groups related w
   - Evidence: [AI-P10 hybrid runtime implementation path](evidence/ai-p10-hybrid-runtime-decision-2026-09-12.md).
   - Follow-up: [PR #159 / AI-P15](https://github.com/KevinHozak/Mimir/pull/159); [AI-P15 evidence](evidence/ai-p15-private-hosted-vertex-2026-09-12.md).
 
-- AI-P18 adds a versioned Spark decision-budget ladder of 2, 4, 8, and 16 with deterministic spacing across a 64-tick day, stable phase offsets, no catch-up debt, and recorded cadence/suppression metadata. Its control runner compares readiness-tier and age-day profiles without changing canonical authority.
+- AI-P18 adds a versioned Spark decision-budget ladder of 2, 4, 8, and 16 with deterministic spacing across a 64-pulse day, stable phase offsets, no catch-up debt, and recorded cadence/suppression metadata. Its control runner compares readiness-tier and age-day profiles without changing canonical authority.
 - The authorized private Vertex quality rerun covered 128 fixed-seed encounters: 28 recorded interpretations, 14 useful interpretations, 14 changed choices, 113 downstream staging changes, four categorized fallbacks, and 0.27085 cents of provider usage under the $1.00 cap. Private-boundary, cap, deterministic-authority, and provider-free replay checks passed; no public deployment or canonical AI writes were introduced.
 
   - Follow-up: [PR #165 / AI-P18](https://github.com/KevinHozak/Mimir/pull/165); [AI-P18 cadence control](evidence/ai-p18-cadence-control-2026-09-12.md); [AI-P18 Vertex rerun](evidence/ai-p18-vertex-rerun-2026-09-12.md).
 
 - Completed AI-P19's matched determinant review in private, bounded controls and a separately gated Vertex arm. The static fixture gave readiness/capacity and personal-age profiles identical 2/4/8/16 vectors, so it did not establish a causal winner or fairness advantage; the reported 0.60964 cents ($0.0060964) remains an estimate rather than a reconciled invoice.
 - Delivered RC-P1 through RC-P5: world-age capacity, lived-memory context, rule-executed intentions, matched evaluation, and bounded observer integration. First Glow remains the only supported runtime and no public provider path was enabled.
-- Implemented RC-P3's bounded `rule-executed-v1` intentions: feasible AI proposals and deterministic fallbacks now persist on Sparks, continue across ordinary ticks, execute through existing First Glow action contracts, and record causal completion/interruption for restart-safe, provider-free replay.
+- Implemented RC-P3's bounded `rule-executed-v1` intentions: feasible AI proposals and deterministic fallbacks now persist on Sparks, continue across ordinary pulses, execute through existing First Glow action contracts, and record causal completion/interruption for restart-safe, provider-free replay.
 - Added RC-P4's deterministic matched evaluation harness and evidence artifact: four fixed seeds, rotating RC-4 Hero, diagnostic RC-2/4/8/16 arms, independent lived-memory conditions, multi-day cap telemetry, encounter ledgers, intention completion, divergence accounting, and provider-free replay checks. The private Vertex quality batch remains opt-in and pending; no new default selection or public provider path was enabled.
-- Reflection slots now guarantee an unused reflection on the slot's final tick, including while a Spark is following a habitual intention. The active intention is interrupted with auditable provenance before the replacement is evaluated through existing bounded rules and provider paths.
+- Reflection slots now guarantee an unused reflection on the slot's final pulse, including while a Spark is following a habitual intention. The active intention is interrupted with auditable provenance before the replacement is evaluated through existing bounded rules and provider paths.
 
   - Follow-up: [PR #167 / AI-P19](https://github.com/KevinHozak/Mimir/pull/167); [AI-P19 determinant control](evidence/ai-p19-determinant-control-2026-09-12.md); [Reflection capacity plan](reflection-capacity-plan.md).
 

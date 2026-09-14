@@ -3,7 +3,7 @@ import test from "node:test";
 import { createFirstGlowAttentionBudget, requestFirstGlowAttention } from "./first-glow-attention.js";
 import type { StructuredEvent } from "./structured.js";
 
-const event = (id: string, tick: number, kind: StructuredEvent["kind"], actorId = "spark-1", message = kind): StructuredEvent => ({ id, tick, kind, actorId, message });
+const event = (id: string, pulse: number, kind: StructuredEvent["kind"], actorId = "spark-1", message = kind): StructuredEvent => ({ id, pulse, kind, actorId, message });
 
 test("attention trigger classification keeps routine events rules-only and records the reason", () => {
   const budget = createFirstGlowAttentionBudget();
@@ -14,7 +14,7 @@ test("attention trigger classification keeps routine events rules-only and recor
 });
 
 test("novelty gets one opportunity per event and repeated routine failure is cooled down", () => {
-  const budget = createFirstGlowAttentionBudget({ perSparkDailyLimit: 4, globalDailyLimit: 10, repeatedEventCooldownTicks: 4 });
+  const budget = createFirstGlowAttentionBudget({ perSparkDailyLimit: 4, globalDailyLimit: 10, repeatedEventCooldownPulses: 4 });
   const novelty = requestFirstGlowAttention(event("explore-1", 1, "explore"), budget);
   assert.equal(novelty.reason, "triggered");
   assert.equal(requestFirstGlowAttention(event("explore-1", 1, "explore"), budget).reason, "duplicate-event");
@@ -24,7 +24,7 @@ test("novelty gets one opportunity per event and repeated routine failure is coo
 });
 
 test("per-Spark and global caps are independent and replenish on the next simulated day", () => {
-  const budget = createFirstGlowAttentionBudget({ perSparkDailyLimit: 2, globalDailyLimit: 3, repeatedEventCooldownTicks: 0 });
+  const budget = createFirstGlowAttentionBudget({ perSparkDailyLimit: 2, globalDailyLimit: 3, repeatedEventCooldownPulses: 0 });
   assert.equal(requestFirstGlowAttention(event("a", 0, "explore", "spark-1"), budget).created, true);
   assert.equal(requestFirstGlowAttention(event("b", 0, "explore", "spark-2"), budget).created, true);
   assert.equal(requestFirstGlowAttention(event("c", 0, "explore", "spark-3"), budget).created, true);

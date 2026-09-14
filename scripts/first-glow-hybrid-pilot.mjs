@@ -21,11 +21,11 @@ function makeContexts(count, eventPrefix = "ai-p9") {
   for (let index = 0; index < count; index += 1) {
     const actorId = `spark-${(index % 4) + 1}`;
     const kind = ["draw", "idle", "explore", "wild-cache"][index % 4];
-    state.tick = index + 1;
+    state.pulse = index + 1;
     const message = eventPrefix === "ai-p6" ? `Matched evaluation encounter ${index + 1}.` : kind === "draw" ? "A weakening pool is witnessed." : kind === "idle" ? "A helping relationship is considered." : `Limited pilot encounter ${index + 1}.`;
     const event = { id: `event-${eventPrefix}-${index + 1}`, kind, actorId, participants: [actorId], message, evidenceEventIds: [] };
     state.events = [event];
-    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert(context, `could not build context for ${event.id}`);
     contexts.push(context);
@@ -37,9 +37,9 @@ function applyRecordedStaging(contexts, records) {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 4);
   const transitions = [];
   for (const context of contexts) {
-    state.tick = context.tick;
+    state.pulse = context.pulse;
     state.events = [context.event];
-    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.tick);
+    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.pulse);
     const transition = applyFirstGlowStagingChoice(state, context, records.get(context.encounterId));
     assert(transition.accepted, `${context.encounterId} rejected: ${transition.rejection ?? "unknown"}`);
     assert(transition.changedFields.every(field => field === "social"), `${context.encounterId} changed canonical runtime state`);
@@ -50,7 +50,7 @@ function applyRecordedStaging(contexts, records) {
 }
 
 const contexts = makeContexts(32);
-const budgetRun = await runFirstGlowOfflineHybrid(contexts, { provider: createFirstGlowFakeProvider({ providerId: "local-pilot-rehearsal" }), attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, ticksPerDay: 64, repeatedEventCooldownTicks: 0, timeoutMs: 1000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
+const budgetRun = await runFirstGlowOfflineHybrid(contexts, { provider: createFirstGlowFakeProvider({ providerId: "local-pilot-rehearsal" }), attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, pulsesPerDay: 64, repeatedEventCooldownPulses: 0, timeoutMs: 1000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
 const providerCalls = budgetRun.interpretationBudget.telemetry.filter(item => item.outcome === "recorded").length;
 const rulesOnly = budgetRun.outcomes.filter(item => item.usage.outcome === "rules-only").length;
 const fallbacks = budgetRun.outcomes.filter(item => item.usage.outcome === "fallback").length;
@@ -62,7 +62,7 @@ assert(budgetRun.attentionBudget.globalUsed <= 16, "global budget exceeded");
 const recordedByEncounter = new Map(artifact.outcomes.map(outcome => [outcome.interpretation.encounterId, outcome.interpretation]));
 const flashLiteContexts = makeContexts(16, "ai-p6");
 const staging = applyRecordedStaging(flashLiteContexts, recordedByEncounter);
-const replay = await runFirstGlowOfflineHybrid(contexts, { historicalPlayback: true, recorded: budgetRun.outcomes.map(outcome => outcome.interpretation), attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, ticksPerDay: 64, repeatedEventCooldownTicks: 0, timeoutMs: 1000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
+const replay = await runFirstGlowOfflineHybrid(contexts, { historicalPlayback: true, recorded: budgetRun.outcomes.map(outcome => outcome.interpretation), attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, pulsesPerDay: 64, repeatedEventCooldownPulses: 0, timeoutMs: 1000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
 const replayProviderCalls = replay.interpretationBudget.telemetry.filter(item => item.outcome !== "historical-replay").length;
 assert(replayProviderCalls === 0, `replay attempted ${replayProviderCalls} provider calls`);
 assert(replay.interpretationBudget.used === 0, "replay consumed interpretation budget");

@@ -12,7 +12,7 @@ npm run ai-p19:determinant-review:test
 ```
 
 The default run uses the local fake provider, fixed seeds `2`, `4`, `8`, and
-`16`, 32 encounters per seed, and a 64-tick day. It compares both profiles,
+`16`, 32 encounters per seed, and a 64-pulse day. It compares both profiles,
 records cadence gaps and suppression reasons, stages proposals against the
 rules-only baseline, checks per-Spark downstream effects, and verifies
 provider-free replay. Results are written under `.tmp/`.
@@ -46,7 +46,7 @@ memories influence reflection content. Readiness remains the rest attribute.
 This supersedes the earlier personal-age growth proposal. See the selected
 [Reflection capacity plan](reflection-capacity-plan.md) and RC-P1 through RC-P5.
 
-Space opportunities across the configured day using day ticks divided by
+Space opportunities across the configured day using day pulses divided by
 budget. On a tier change, schedule future windows without granting a burst
 or catch-up debt. Preserve deterministic offsets, global caps, and replay.
 AI chooses an intention; deterministic rules execute actions and attribute,

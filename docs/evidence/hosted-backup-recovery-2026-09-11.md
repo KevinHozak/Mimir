@@ -12,7 +12,7 @@ The keyless writer identity is `mimir-backup-writer@mimir-realm-backups.iam.gser
 
 ## Procedure and result
 
-The hosted VM produced the backup while its scheduler was paused at First Glow tick 4. The bundle-inclusive archive was uploaded to:
+The hosted VM produced the backup while its scheduler was paused at First Glow pulse 4. The bundle-inclusive archive was uploaded to:
 
 `gs://mimir-realm-backups-uscentral1-172815598347/daily/2026-09-11/mimir-staging-p5-backup.tar.gz`
 
@@ -30,11 +30,11 @@ The test created a First Glow source database with two referenced immutable bund
 
 - the manifest preserved both referenced bundles and their files;
 - the restored checkpoint retained `mimir-sim-v3-first-glow`, `structured-v2`, `living-circuit`, and `first-glow`;
-- the restored server started with the restored bundle root and accepted one subsequent tick;
+- the restored server started with the restored bundle root and accepted one subsequent pulse;
 - removing a referenced bundle asset caused startup validation to fail before the server became available;
 - hash-qualified asset serving rejected an unreferenced asset and path traversal.
 
-The hosted transfer and restore then verified that the recovery identity could download the independent object, restore it into a fresh path, start a validation server with the restored bundle root, and continue the original timeline from tick 4 to tick 5. The restored timeline ID remained `timeline-689eb2a0-6926-471a-95ab-30dec9d81c02`, and the restored database reported five checkpoints and 56 events before the continued tick.
+The hosted transfer and restore then verified that the recovery identity could download the independent object, restore it into a fresh path, start a validation server with the restored bundle root, and continue the original timeline from pulse 4 to pulse 5. The restored timeline ID remained `timeline-689eb2a0-6926-471a-95ab-30dec9d81c02`, and the restored database reported five checkpoints and 56 events before the continued pulse.
 
 Removing one referenced SVG from the downloaded recovery set caused restore to fail with `backup bundle file missing` and left no restored database behind.
 
@@ -52,7 +52,7 @@ First Glow hash-qualified asset serving passed
 3. Download one selected backup into a new isolated recovery directory. Never restore over the live database.
 4. Run `npm run backup --workspace @mimir/server -- restore <backup.db> <restored.db>` with the restored bundle root at `<restored.db>.bundles`.
 5. Start a validation server with `DATABASE_PATH=<restored.db>` and `WORLD_BUNDLE_ROOT=<restored.db>.bundles`, verify `/health`, inspect `/api/world`, and replay/advance the restored timeline.
-6. Record the backup timestamp, manifest hash, bundle hashes, restored checkpoint/tick, replay result, and any rejected integrity test.
+6. Record the backup timestamp, manifest hash, bundle hashes, restored checkpoint/pulse, replay result, and any rejected integrity test.
 
 ## Remaining limitations
 

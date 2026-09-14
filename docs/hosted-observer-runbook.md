@@ -49,7 +49,7 @@ The boundary for any future public model is explicit:
 
 - Public clients may receive observer reads only: the rendered application, current committed observer state, recorded events, and explicitly supported historical reads.
 - Owner operations remain private and authenticated. The `OWNER_TOKEN` must never be shipped to the browser, placed in a public URL, or accepted through an unauthenticated public route.
-- The server remains the sole simulation writer. A public client cannot tick, reset, branch, archive, continue, or otherwise create outcomes, and the deployment remains one SQLite writer unless a separate persistence decision is made.
+- The server remains the sole simulation writer. A public client cannot pulse, reset, branch, archive, continue, or otherwise create outcomes, and the deployment remains one SQLite writer unless a separate persistence decision is made.
 - No public deployment, endpoint, credential, service account, load balancer, external IPv4 address, or other billable resource is created by this phase.
 - Before reconsidering the decision, recheck current Google Cloud prices and free-tier eligibility, privacy/support expectations, traffic and egress assumptions, backup freshness evidence, and the `$10` alert configuration. The alert is not a spending cap.
 
@@ -65,7 +65,7 @@ Hosted-P13 retained the bounded scale decision: Firebase remains the public web/
 
 Hosted-P14 is deployed in limited authenticated staging at `https://mimir-realm.web.app/`. Firebase Hosting rewrites `/api/**` to the `mimir-observer-bridge` Cloud Run service in `us-central1`; revision `mimir-observer-bridge-00004-qff` was verified. The bridge validates an approved, verified Google ID token and forwards only observer reads and SSE to the private `mimir-staging` VM. It has no service-account key, does not receive `OWNER_TOKEN`, and rejects owner/mutation routes.
 
-The unauthenticated `GET /api/world` check returned HTTP 401 with `approved Google account required`. An authenticated browser check as `khozak@gmail.com` loaded the live First Glow observer at tick 28 with 12 Sparks and 7 sites; owner controls were absent. The hosted frontend build, restart-equivalence, and queued-command/idempotency checks passed. This is not a production-readiness declaration: real archive replay, full token rejection cases, clean source-commit pinning, and bounded traffic/cost/quota rehearsal remain open. See [P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md).
+The unauthenticated `GET /api/world` check returned HTTP 401 with `approved Google account required`. An authenticated browser check as `khozak@gmail.com` loaded the live First Glow observer at pulse 28 with 12 Sparks and 7 sites; owner controls were absent. The hosted frontend build, restart-equivalence, and queued-command/idempotency checks passed. This is not a production-readiness declaration: real archive replay, full token rejection cases, clean source-commit pinning, and bounded traffic/cost/quota rehearsal remain open. See [P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md).
 
 ## Independent backup boundary
 
@@ -94,11 +94,11 @@ The following claims remain unproven: the account's actual Free Tier eligibility
 
 ## Hosted-P4 staging evidence
 
-The private staging observer was provisioned on 2026-09-11 from verified commit `792dab516b61b4ce7698545963c33e6da9b52609`. It runs the First Glow production build with the scheduler paused, one SQLite writer, authenticated owner operations, no public address, and IAP-only access. Controlled reset/tick, unauthenticated rejection, clean restart, checkpoint recovery, and post-restart tick checks passed. The dated resource, behavior, and cost record is [hosted-staging-2026-09-11.md](evidence/hosted-staging-2026-09-11.md).
+The private staging observer was provisioned on 2026-09-11 from verified commit `792dab516b61b4ce7698545963c33e6da9b52609`. It runs the First Glow production build with the scheduler paused, one SQLite writer, authenticated owner operations, no public address, and IAP-only access. Controlled reset/pulse, unauthenticated rejection, clean restart, checkpoint recovery, and post-restart pulse checks passed. The dated resource, behavior, and cost record is [hosted-staging-2026-09-11.md](evidence/hosted-staging-2026-09-11.md).
 
 ## Hosted-P6 readiness evidence
 
-The dated [Hosted-P6 readiness report](evidence/hosted-readiness-2026-09-11.md) records the private VM's 24-tick First Glow test, unauthenticated rejection, restart continuity, owner-token protection, and the local-season decision. It validates a private hosted observer for continued observation. It does not authorize public exposure, owner-operation exposure, a multi-writer deployment, or a claim of production durability.
+The dated [Hosted-P6 readiness report](evidence/hosted-readiness-2026-09-11.md) records the private VM's 24-pulse First Glow test, unauthenticated rejection, restart continuity, owner-token protection, and the local-season decision. It validates a private hosted observer for continued observation. It does not authorize public exposure, owner-operation exposure, a multi-writer deployment, or a claim of production durability.
 
 ## Provisioning boundary
 
@@ -110,23 +110,23 @@ The first hosted service is intentionally one simulation writer. Do not scale it
 
 1. Open `/health` and verify the service reports `ok: true` and the expected database path under `/var/data`.
 2. Open `/` and verify the browser client loads from the same origin.
-3. Enter the owner token and verify pause, tick, branch, archive, continue, and reset.
+3. Enter the owner token and verify pause, pulse, branch, archive, continue, and reset.
 4. Let a short test season advance, restart the service, and verify the latest checkpoint and timeline remain available.
 5. Create a backup, copy it to the selected independent destination, restore it into a fresh isolated path, and replay the restored timeline before treating the deployment as durable. The manifest must list every bundle referenced by included checkpoints, including archived timelines; corrupting `world.json` must make restore fail before startup. The selected destination is an encrypted, versioned object-storage bucket in a separate account or project from the hosted service, with lifecycle retention of at least 30 daily copies and 12 monthly copies. Access is limited to the deployment backup identity for writes and a separate operator recovery identity for reads/restores; both identities require MFA or workload identity, and bucket deletion/version-purge requires a separate administrator role. Do not describe the service disk or a same-host directory as independent protection.
-6. For a structured timeline, verify `/api/world` reports `spatialModel: "structured-v2"`, the expected bundle hash is present in `structuredState`, and a queued `/api/owner/world/object` command returns 202 with an effective next tick. Retry its idempotency key and verify no duplicate command is created.
+6. For a structured timeline, verify `/api/world` reports `spatialModel: "structured-v2"`, the expected bundle hash is present in `structuredState`, and a queued `/api/owner/world/object` command returns 202 with an effective next pulse. Retry its idempotency key and verify no duplicate command is created.
 7. For a First Glow timeline, verify `/api/world` reports `simulationVersion: "mimir-sim-v3-first-glow"`, `themeId: "living-circuit"`, and `ageId: "first-glow"`. Use `/api/owner/reset-v3` with the schema-3 bundle hash; do not relabel or rewrite an older timeline. A clean bundle-inclusive restore must replay the supported First Glow checkpoint and fail before startup when referenced assets are missing or checksum-mismatched.
 
 The scheduled backup in `render.yaml` remains a local disk copy unless the hosted environment additionally supplies `BACKUP_GCS_URI`. Hosted-P5 separately validated an operator transfer of a bundle-inclusive backup from the private staging VM to the configured Cloud Storage destination and a recovery download using the read-only identity. Hosted-P8 automates the upload and remote metadata verification, but recovery still requires the separate read-only identity and a fresh isolated restore. Manual and scheduled backups share the same bundle-inclusive implementation and manifest format.
 
 For the configured bucket, set `BACKUP_GCS_URI` to a `gs://` bucket/prefix and optionally set `BACKUP_FRESHNESS_MAX_AGE_MS`; the default is twice the backup interval, or 48 hours when the interval is unset. Keep `BACKUP_INTERVAL_MS` bounded and nonzero. The attached VM service account needs object-create, object-read, and metadata-read access only; it must not have object-delete or bucket-admin access. Do not add a service-account key to the VM image, environment, repository, or deployment secret configuration.
 
-The response path is: inspect `/api/backup/status`, preserve the failed local backup unit, check the service log and VM identity/bucket permissions, retry only after correcting the cause, then download the selected object with the recovery identity and run the documented fresh restore plus continued First Glow tick. A missing, stale, checksum-invalid, or failed upload remains an operational failure even when the local copy exists.
+The response path is: inspect `/api/backup/status`, preserve the failed local backup unit, check the service log and VM identity/bucket permissions, retry only after correcting the cause, then download the selected object with the recovery identity and run the documented fresh restore plus continued First Glow pulse. A missing, stale, checksum-invalid, or failed upload remains an operational failure even when the local copy exists.
 
 ## Independent-backup validation evidence
 
 The automated replication contract and operator response path are recorded in the dated [Hosted-P8 replication evidence](evidence/hosted-backup-replication-2026-09-11.md).
 
-The dated validation record is [hosted-backup-recovery-2026-09-11.md](evidence/hosted-backup-recovery-2026-09-11.md). It verifies the actual independent object-storage transfer, bundle-inclusive manifest, fresh restore, latest First Glow checkpoint recovery, one continued tick from the restored database, and pre-startup failure when a referenced asset is missing. It does not claim automatic cloud upload, public availability, durable multi-writer operation, or final production readiness.
+The dated validation record is [hosted-backup-recovery-2026-09-11.md](evidence/hosted-backup-recovery-2026-09-11.md). It verifies the actual independent object-storage transfer, bundle-inclusive manifest, fresh restore, latest First Glow checkpoint recovery, one continued pulse from the restored database, and pre-startup failure when a referenced asset is missing. It does not claim automatic cloud upload, public availability, durable multi-writer operation, or final production readiness.
 
 Authoring and verification commands from a checkout are:
 

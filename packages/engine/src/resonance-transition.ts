@@ -6,8 +6,8 @@ export const HEARTH_CIRCUIT_TARGET_AGE = "hearth-circuit" as const;
 
 export interface ResonanceMaintenanceWindow {
   season: number;
-  startTick: number;
-  endTick: number;
+  startPulse: number;
+  endPulse: number;
   maintainedAnchorIds: string[];
   objectiveEvidenceEventIds: string[];
   decisionIds: string[];
@@ -39,7 +39,7 @@ export interface HearthCircuitCarryForward {
   targetAgeId: typeof HEARTH_CIRCUIT_TARGET_AGE;
   sourceTimelineId: string;
   sourceWorldId: string;
-  sourceTick: number;
+  sourcePulse: number;
   sourceSimulationVersion: string;
   sourceSpatialModel: string;
   sourceBundleHashes: string[];
@@ -59,8 +59,8 @@ export function evaluateHearthCircuitEligibility(input: HearthCircuitEligibility
   const activeAnchors = anchors.filter(anchor => anchor.state === "active");
   const activeAnchorKinds = uniqueSorted(activeAnchors.map(anchor => anchor.anchorKind));
   const validAnchorIds = new Set(activeAnchors.map(anchor => anchor.id));
-  const windows = input.maintenanceWindows.slice().sort((left, right) => left.season - right.season || left.startTick - right.startTick);
-  const validWindows = windows.filter(window => Number.isInteger(window.season) && window.startTick >= 0 && window.endTick > window.startTick && window.maintainedAnchorIds.length > 0 && window.maintainedAnchorIds.every(id => validAnchorIds.has(id)));
+  const windows = input.maintenanceWindows.slice().sort((left, right) => left.season - right.season || left.startPulse - right.startPulse);
+  const validWindows = windows.filter(window => Number.isInteger(window.season) && window.startPulse >= 0 && window.endPulse > window.startPulse && window.maintainedAnchorIds.length > 0 && window.maintainedAnchorIds.every(id => validAnchorIds.has(id)));
   const evidence = uniqueSorted(validWindows.flatMap(window => window.objectiveEvidenceEventIds));
   const decisions = uniqueSorted(validWindows.flatMap(window => window.decisionIds));
   const tensions = uniqueSorted(validWindows.flatMap(window => window.unresolvedTensionIds));
@@ -84,7 +84,7 @@ export function buildHearthCircuitCarryForward(world: WorldState, timelineId: st
     targetAgeId: HEARTH_CIRCUIT_TARGET_AGE,
     sourceWorldId: world.worldId,
     sourceTimelineId: timelineId,
-    sourceTick: world.tick,
+    sourcePulse: world.pulse,
     sourceSimulationVersion: world.simulationVersion,
     sourceSpatialModel: world.spatialModel,
     sourceBundleHashes: uniqueSorted(firstGlow.settlements.map(item => item.bundle.bundle.contentHash)),

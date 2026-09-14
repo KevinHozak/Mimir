@@ -23,7 +23,7 @@ const outputPath = resolve(root, process.env.MIMIR_RC_P4_REPORT ?? "docs/evidenc
 const seeds = [2, 4, 8, 16];
 const sparkIds = ["spark-1", "spark-2", "spark-3", "spark-4"];
 const days = 4;
-const ticksPerDay = 4;
+const pulsesPerDay = 4;
 const encountersPerSeed = days * 2;
 const globalDailyLimit = 2;
 const fallbackReasons = ["malformed-output", "invalid-reference", "unsupported-claim", "timeout", "budget-exhausted", "provider-error"];
@@ -38,7 +38,7 @@ const memoryConditions = ["young-hero", "experienced-ordinary"];
 const activityForAlternative = { "reveal-pool": "seek-charge", "withhold-pool": "explore", "help-shelter": "seek-shelter", "continue-exploration": "explore", "make-mark-public": "mark-trace", "keep-mark-private": "mark-trace", "enter-wild-cache": "scavenge-cache", "stay-on-trace": "explore" };
 
 function configureArm(state, arm, heroIndex) {
-  state.reflectionCapacity.policy.ticksPerDay = ticksPerDay;
+  state.reflectionCapacity.policy.pulsesPerDay = pulsesPerDay;
   state.reflectionCapacity.policy.globalDailyLimit = globalDailyLimit;
   for (const sparkId of sparkIds) state.reflectionCapacity.assignments[sparkId].capacity = arm.id === "rc4-hero" ? 2 : arm.capacities[0];
   if (arm.id === "rc4-hero") state.reflectionCapacity.assignments[sparkIds[heroIndex]] = { sparkId: sparkIds[heroIndex], isHero: true, provenance: "explicit-test", capacity: 4 };
@@ -52,9 +52,9 @@ function makeState(seed, arm, memoryCondition) {
   if (memoryCondition === "experienced-ordinary") {
     const ordinary = state.social.knowledge.find(item => item.sparkId === sparkIds[(heroIndex + 1) % sparkIds.length]);
     for (let index = 0; index < 4; index += 1) {
-      const event = { id: `prior-${seed}-${index}`, tick: index, kind: "explore", actorId: ordinary.sparkId, message: `Prior witnessed trace ${index}.`, evidenceEventIds: [] };
+      const event = { id: `prior-${seed}-${index}`, pulse: index, kind: "explore", actorId: ordinary.sparkId, message: `Prior witnessed trace ${index}.`, evidenceEventIds: [] };
       state.events.push(event);
-      ordinary.witnessedFacts.push({ eventId: event.id, witnessedTick: event.tick });
+      ordinary.witnessedFacts.push({ eventId: event.id, witnessedPulse: event.pulse });
       state.settlements[0].sparks.find(spark => spark.id === ordinary.sparkId).knownEvidenceEventIds.push(event.id);
     }
   }
@@ -66,14 +66,14 @@ function makeContexts(seed, arm, memoryCondition) {
   const contexts = [];
   for (let index = 0; index < encountersPerSeed; index += 1) {
     const actorId = sparkIds[(index + seed) % sparkIds.length];
-    state.tick = index;
-    const tick = Math.floor(index / 2) * ticksPerDay + index % 2;
-    const event = { id: `rc-p4-${seed}-${index}`, tick, kind: ["draw", "idle", "explore", "wild-cache"][(index + seed) % 4], actorId, participants: [actorId], message: `Matched RC-P4 event ${index} for seed ${seed}.`, evidenceEventIds: [] };
-    state.tick = tick;
+    state.pulse = index;
+    const pulse = Math.floor(index / 2) * pulsesPerDay + index % 2;
+    const event = { id: `rc-p4-${seed}-${index}`, pulse, kind: ["draw", "idle", "explore", "wild-cache"][(index + seed) % 4], actorId, participants: [actorId], message: `Matched RC-P4 event ${index} for seed ${seed}.`, evidenceEventIds: [] };
+    state.pulse = pulse;
     state.events = [...state.events.filter(candidate => candidate.id.startsWith("prior-")), event];
     const spark = state.settlements[0].sparks.find(candidate => candidate.id === actorId);
     spark.knownEvidenceEventIds.push(event.id);
-    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert(context, `Could not build matched context for ${event.id}`);
     contexts.push({ context, state: structuredClone(state), event, heroIndex });
@@ -105,9 +105,9 @@ function stageEffect(state, context, interpretation) {
 async function intentionEffect(sourceState, context, interpretation, source) {
   const state = structuredClone(sourceState);
   const intentionContext = buildFirstGlowIntentionContext(state, context.actorSparkId, context.event);
-  if (!intentionContext) return { status: "invalidated", completionTick: null, directEffect: [], causalEventIds: [] };
+  if (!intentionContext) return { status: "invalidated", completionPulse: null, directEffect: [], causalEventIds: [] };
   const activity = activityForAlternative[interpretation.alternativeId] ?? intentionContext.candidateActivities[0];
-  if (!activity || !intentionContext.candidateActivities.includes(activity)) return { status: "invalidated", completionTick: null, directEffect: [], causalEventIds: [context.event.id] };
+  if (!activity || !intentionContext.candidateActivities.includes(activity)) return { status: "invalidated", completionPulse: null, directEffect: [], causalEventIds: [context.event.id] };
   const intention = commitFirstGlowIntention(state, intentionContext, { activity, summary: `Matched evaluation follows ${interpretation.alternativeId}.`, evidenceEventIds: context.event.id ? [context.event.id] : [], causalEventIds: [context.event.id] }, source);
   // Diagnostic RC arms are intentionally outside the selected First Glow runtime policy;
   // remove their synthetic capacity state before exercising the authoritative executor.
@@ -115,14 +115,14 @@ async function intentionEffect(sourceState, context, interpretation, source) {
   let next = state;
   for (let index = 0; index < 4 && next.settlements[0].sparks.find(spark => spark.id === context.actorSparkId).intention?.status === "active"; index += 1) next = advanceFirstGlow(next, { resolveSocial: false, validate: false });
   const completed = next.settlements[0].sparks.find(spark => spark.id === context.actorSparkId).intention;
-  return { status: completed?.status ?? intention.status, completionTick: completed?.completedTick ?? null, directEffect: next.events.filter(event => event.actorId === context.actorSparkId).map(event => event.kind), causalEventIds: completed?.causalEventIds ?? intention.causalEventIds };
+  return { status: completed?.status ?? intention.status, completionPulse: completed?.completedPulse ?? null, directEffect: next.events.filter(event => event.actorId === context.actorSparkId).map(event => event.kind), causalEventIds: completed?.causalEventIds ?? intention.causalEventIds };
 }
 
 async function evaluateScenario(seed, arm, memoryCondition, providerBundle) {
   const contexts = makeContexts(seed, arm, memoryCondition);
   const heroIndex = contexts[0].heroIndex;
   const configuredCapacity = sparkId => arm.id === "rc4-hero" ? (sparkId === sparkIds[heroIndex] ? 4 : 2) : arm.capacities[0];
-  const policy = { perSparkDailyLimit: 16, sparkDailyLimits: Object.fromEntries(sparkIds.map(id => [id, configuredCapacity(id)])), globalDailyLimit, ticksPerDay, repeatedEventCooldownTicks: 0, spaceOpportunities: true, timeoutMs: 1000 };
+  const policy = { perSparkDailyLimit: 16, sparkDailyLimits: Object.fromEntries(sparkIds.map(id => [id, configuredCapacity(id)])), globalDailyLimit, pulsesPerDay, repeatedEventCooldownPulses: 0, spaceOpportunities: true, timeoutMs: 1000 };
   const baseline = await runFirstGlowHybridRuntime(contexts.map(item => item.context), { runtimeMode: "rules-only", attentionPolicy: policy, interpretationBudget: { limit: 256, reserved: 0, used: 0, telemetry: [] } });
   const pilot = await runFirstGlowHybridRuntime(contexts.map(item => item.context), { runtimeMode: "bounded-internal-pilot", provider: providerBundle.provider, attentionPolicy: policy, interpretationBudget: { limit: 256, reserved: 0, used: 0, telemetry: [] } });
   const baselineById = new Map(baseline.outcomes.map(outcome => [outcome.interpretation.encounterId, outcome.interpretation]));
@@ -134,7 +134,7 @@ async function evaluateScenario(seed, arm, memoryCondition, providerBundle) {
     const aiStage = stageEffect(structuredClone(item.state), item.context, ai.interpretation);
     const aiIntention = await intentionEffect(item.state, item.context, ai.interpretation, "ai");
     const directDivergence = JSON.stringify(rulesStage.directEffect) !== JSON.stringify(aiStage.directEffect) || aiIntention.status === "completed";
-    ledger.push({ encounterId: item.context.encounterId, day: Math.floor(item.context.tick / ticksPerDay), sparkId: item.context.actorSparkId, rc: configuredCapacity(item.context.actorSparkId), hero: arm.id === "rc4-hero" && item.context.actorSparkId === sparkIds[item.heroIndex], memoryCondition, rulesChoice: rules.alternativeId, aiChoice: ai.interpretation.alternativeId, explanationEvidenceEventIds: ai.interpretation.evidenceEventIds, directEffect: aiStage.directEffect, intentionCompletion: aiIntention.status, intentionCompletionTick: aiIntention.completionTick, causalEventIds: aiIntention.causalEventIds, changedChoice: ai.interpretation.plausibleChoiceChanged, directDivergence });
+    ledger.push({ encounterId: item.context.encounterId, day: Math.floor(item.context.pulse / pulsesPerDay), sparkId: item.context.actorSparkId, rc: configuredCapacity(item.context.actorSparkId), hero: arm.id === "rc4-hero" && item.context.actorSparkId === sparkIds[item.heroIndex], memoryCondition, rulesChoice: rules.alternativeId, aiChoice: ai.interpretation.alternativeId, explanationEvidenceEventIds: ai.interpretation.evidenceEventIds, directEffect: aiStage.directEffect, intentionCompletion: aiIntention.status, intentionCompletionPulse: aiIntention.completionPulse, causalEventIds: aiIntention.causalEventIds, changedChoice: ai.interpretation.plausibleChoiceChanged, directDivergence });
   }
   const actualCalls = pilot.outcomes.filter(outcome => outcome.usage.outcome === "recorded").length;
   const fallbacks = Object.fromEntries(fallbackReasons.map(reason => [reason, pilot.outcomes.filter(outcome => (outcome.usage.reason ?? outcome.interpretation.fallbackReason) === reason).length]));
@@ -153,7 +153,7 @@ const preregistration = {
 const totalCostCents = results.reduce((sum, result) => sum + result.estimated.costCents, 0);
 const safetyPassed = results.every(result => result.replayProviderFree && result.suppressedWindows >= 0 && result.globalCapContention >= 0 && totalCostCents <= 100);
 const liveRequired = providerBundle.execution === "deterministic-control";
-const report = { schemaVersion: 1, generatedAt: new Date().toISOString(), evaluation: "RC-P4 matched Hero Reflection and lived-memory value", execution: providerBundle.execution, fixedSeeds: seeds, days, ticksPerDay, encountersPerSeed, arms, memoryConditions, preregistration, results, acceptance: { matchedInputs: true, rc2VsRotatingRc4Hero: true, diagnosticArms: [2, 4, 8, 16], memoryCrossedIndependently: true, fullDaysExercised: true, capContentionRecorded: results.some(result => result.globalCapContention > 0), encounterLedgerProvided: results.every(result => result.ledger.length === encountersPerSeed), replayProviderFree: results.every(result => result.replayProviderFree), safetyPassed, costCents: totalCostCents, costDollars: totalCostCents / 100, withinHardCap: totalCostCents <= 100, liveBatchPending: liveRequired, noBroaderDeployment: true }, authorization: providerBundle.authorization, conclusion: liveRequired ? "deterministic-control-passes-live-private-quality-batch-required" : "private-live-batch-reviewed-within-cap" };
+const report = { schemaVersion: 1, generatedAt: new Date().toISOString(), evaluation: "RC-P4 matched Hero Reflection and lived-memory value", execution: providerBundle.execution, fixedSeeds: seeds, days, pulsesPerDay, encountersPerSeed, arms, memoryConditions, preregistration, results, acceptance: { matchedInputs: true, rc2VsRotatingRc4Hero: true, diagnosticArms: [2, 4, 8, 16], memoryCrossedIndependently: true, fullDaysExercised: true, capContentionRecorded: results.some(result => result.globalCapContention > 0), encounterLedgerProvided: results.every(result => result.ledger.length === encountersPerSeed), replayProviderFree: results.every(result => result.replayProviderFree), safetyPassed, costCents: totalCostCents, costDollars: totalCostCents / 100, withinHardCap: totalCostCents <= 100, liveBatchPending: liveRequired, noBroaderDeployment: true }, authorization: providerBundle.authorization, conclusion: liveRequired ? "deterministic-control-passes-live-private-quality-batch-required" : "private-live-batch-reviewed-within-cap" };
 assert(report.acceptance.safetyPassed, "RC-P4 safety rubric failed");
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");

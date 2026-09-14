@@ -2,7 +2,7 @@
 
 Date: 2026-09-12
 
-This report replays the retained AI-P6 Vertex artifact and applies its already-validated alternatives only to disposable cloned social state. It does not call a provider and does not wire AI into the normal server tick.
+This report replays the retained AI-P6 Vertex artifact and applies its already-validated alternatives only to disposable cloned social state. It does not call a provider and does not wire AI into the normal server pulse.
 
 ## Results
 

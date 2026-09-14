@@ -8,7 +8,7 @@ export type FirstGlowStagingRejection = "missing-target" | "unsupported-alternat
 export interface FirstGlowStagingSnapshot {
   social: FirstGlowState["social"];
   runtime: {
-    tick: number;
+    pulse: number;
     settlements: FirstGlowState["settlements"];
     ledger: FirstGlowState["ledger"];
     events: FirstGlowState["events"];
@@ -30,7 +30,7 @@ function snapshot(state: FirstGlowState): FirstGlowStagingSnapshot {
   return {
     social: structuredClone(state.social),
     runtime: {
-      tick: state.tick,
+      pulse: state.pulse,
       settlements: structuredClone(state.settlements),
       ledger: structuredClone(state.ledger),
       events: structuredClone(state.events),
@@ -45,9 +45,9 @@ function stable(value: unknown): string {
 }
 
 function changedFields(before: FirstGlowStagingSnapshot, after: FirstGlowStagingSnapshot): string[] {
-  const fields = ["social", "runtime.tick", "runtime.settlements", "runtime.ledger", "runtime.events", "runtime.explanations", "runtime.history"] as const;
+  const fields = ["social", "runtime.pulse", "runtime.settlements", "runtime.ledger", "runtime.events", "runtime.explanations", "runtime.history"] as const;
   return fields.filter(field => {
-    const read = (value: FirstGlowStagingSnapshot): unknown => field === "social" ? value.social : field === "runtime.tick" ? value.runtime.tick : value.runtime[field.slice("runtime.".length) as keyof FirstGlowStagingSnapshot["runtime"]];
+    const read = (value: FirstGlowStagingSnapshot): unknown => field === "social" ? value.social : field === "runtime.pulse" ? value.runtime.pulse : value.runtime[field.slice("runtime.".length) as keyof FirstGlowStagingSnapshot["runtime"]];
     return stable(read(before)) !== stable(read(after));
   });
 }
@@ -62,7 +62,7 @@ function result(state: FirstGlowState, context: FirstGlowInterpretationContext, 
       actorSparkId: context.actorSparkId,
       targetSparkId: context.targetSparkId!,
       evidenceEventIds: record.evidenceEventIds.slice(),
-      tick: context.tick
+      pulse: context.pulse
     };
     staged = { ...state, social: applyFirstGlowDilemmaChoice(state.social, choice) };
   }
@@ -72,7 +72,7 @@ function result(state: FirstGlowState, context: FirstGlowInterpretationContext, 
 
 /**
  * Apply one already-validated interpretation to a disposable state clone.
- * This is deliberately not wired into the server tick: the existing social
+ * This is deliberately not wired into the server pulse: the existing social
  * transition remains the only authority, and the caller owns staging output.
  */
 export function applyFirstGlowStagingChoice(state: FirstGlowState, context: FirstGlowInterpretationContext, record: FirstGlowInterpretationRecord): FirstGlowStagingTransition {

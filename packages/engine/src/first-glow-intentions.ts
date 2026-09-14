@@ -15,21 +15,21 @@ export interface FirstGlowIntention {
   id: string;
   sparkId: string;
   activity: FirstGlowActivity;
-  createdTick: number;
+  createdPulse: number;
   source: FirstGlowIntentionSource;
   contextHash: string;
   evidenceEventIds: string[];
   causalEventIds: string[];
   status: FirstGlowIntentionStatus;
   summary: string;
-  completedTick?: number;
+  completedPulse?: number;
   reason?: string;
 }
 
 export interface FirstGlowIntentionContext {
   version: typeof FIRST_GLOW_INTENTION_VERSION;
   sparkId: string;
-  tick: number;
+  pulse: number;
   triggerEventId?: string;
   candidateActivities: FirstGlowActivity[];
   readiness: number;
@@ -43,7 +43,7 @@ export interface FirstGlowIntentionContext {
 export interface FirstGlowIntentionProposal { activity: string; summary: string; evidenceEventIds: string[]; causalEventIds?: string[]; }
 export interface FirstGlowIntentionProvider { readonly providerId: string; propose(context: FirstGlowIntentionContext): Promise<unknown>; }
 export interface FirstGlowIntentionBudget { limit: number; reserved: number; used: number; }
-export interface FirstGlowIntentionRecord { id: string; tick: number; sparkId: string; contextHash: string; source: FirstGlowIntentionSource; proposal?: FirstGlowIntentionProposal; status: FirstGlowIntentionStatus; reason?: string; reflection?: FirstGlowReflectionDecision; }
+export interface FirstGlowIntentionRecord { id: string; pulse: number; sparkId: string; contextHash: string; source: FirstGlowIntentionSource; proposal?: FirstGlowIntentionProposal; status: FirstGlowIntentionStatus; reason?: string; reflection?: FirstGlowReflectionDecision; }
 export interface FirstGlowIntentionEvaluationOptions { provider?: FirstGlowIntentionProvider; budget?: FirstGlowIntentionBudget; historicalPlayback?: boolean; recorded?: FirstGlowIntentionRecord[]; timeoutMs?: number; triggerEvent?: StructuredEvent; }
 
 const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
@@ -59,7 +59,7 @@ export function buildFirstGlowIntentionContext(state: FirstGlowState, sparkId: s
   if (!spark || !settlement) return null;
   const candidateActivities = FIRST_GLOW_INTENTION_ACTIVITIES.filter(activity => canFirstGlowReach(settlement, spark, activity));
   const reflectionMemory = buildFirstGlowReflectionMemoryContext(state, sparkId);
-  const withoutHash = { version: FIRST_GLOW_INTENTION_VERSION, sparkId, tick: state.tick, triggerEventId: triggerEvent?.id, candidateActivities, readiness: spark.readiness, charge: spark.carriedCharge, chargeDeficit: spark.chargeDeficit, knownEvidenceEventIds: sortedUnique(spark.knownEvidenceEventIds), reflectionMemory };
+  const withoutHash = { version: FIRST_GLOW_INTENTION_VERSION, sparkId, pulse: state.pulse, triggerEventId: triggerEvent?.id, candidateActivities, readiness: spark.readiness, charge: spark.carriedCharge, chargeDeficit: spark.chargeDeficit, knownEvidenceEventIds: sortedUnique(spark.knownEvidenceEventIds), reflectionMemory };
   return { ...withoutHash, contextHash: `sha256-${sha256(stableJson(withoutHash))}` };
 }
 
@@ -80,22 +80,22 @@ function checkedProposal(value: unknown, context: FirstGlowIntentionContext): Fi
   return { activity: proposal.activity, summary: proposal.summary, evidenceEventIds: evidence, causalEventIds: causal };
 }
 
-function deterministicId(context: FirstGlowIntentionContext) { return `intention-${context.tick}-${context.sparkId}-${context.contextHash.slice(-12)}`; }
+function deterministicId(context: FirstGlowIntentionContext) { return `intention-${context.pulse}-${context.sparkId}-${context.contextHash.slice(-12)}`; }
 function budgetAvailable(budget: FirstGlowIntentionBudget): boolean { return Number.isInteger(budget.limit) && budget.limit >= 0 && budget.used + budget.reserved < budget.limit; }
 
 export async function evaluateFirstGlowIntention(state: FirstGlowState, sparkId: string, options: FirstGlowIntentionEvaluationOptions = {}): Promise<{ context: FirstGlowIntentionContext | null; record?: FirstGlowIntentionRecord; proposal?: FirstGlowIntentionProposal; }> {
   const context = buildFirstGlowIntentionContext(state, sparkId, options.triggerEvent);
   if (!context || !state.reflectionCapacity) return { context };
-  const reflection = requestFirstGlowReflection(state.reflectionCapacity, sparkId, state.tick, options.historicalPlayback === true);
+  const reflection = requestFirstGlowReflection(state.reflectionCapacity, sparkId, state.pulse, options.historicalPlayback === true);
   const existing = findSpark(state, sparkId)?.intention;
-  if (existing?.status === "active" && !reflection.forcedAtSlotEnd) { if (state.history) appendFirstGlowIntention(state.history, { id: existing.id, sparkId, createdTick: existing.createdTick, activity: existing.activity, source: existing.source, contextHash: existing.contextHash, evidenceEventIds: existing.evidenceEventIds, status: existing.status, causalEventIds: existing.causalEventIds, reason: "intention-continues" }); return { context, record: { id: existing.id, tick: state.tick, sparkId, contextHash: existing.contextHash, source: existing.source, status: "active", reason: "intention-continues" } }; }
+  if (existing?.status === "active" && !reflection.forcedAtSlotEnd) { if (state.history) appendFirstGlowIntention(state.history, { id: existing.id, sparkId, createdPulse: existing.createdPulse, activity: existing.activity, source: existing.source, contextHash: existing.contextHash, evidenceEventIds: existing.evidenceEventIds, status: existing.status, causalEventIds: existing.causalEventIds, reason: "intention-continues" }); return { context, record: { id: existing.id, pulse: state.pulse, sparkId, contextHash: existing.contextHash, source: existing.source, status: "active", reason: "intention-continues" } }; }
   if (existing?.status === "active" && reflection.forcedAtSlotEnd) interruptFirstGlowIntention(state, sparkId, "reflection-slot-ended");
   const id = deterministicId(context);
   const recorded = options.recorded?.find(item => item.id === id && item.contextHash === context.contextHash);
-  if (options.historicalPlayback) return { context, record: recorded ?? { id, tick: state.tick, sparkId, contextHash: context.contextHash, source: "rules", status: "invalidated", reason: "historical-replay", reflection } };
-  if (!reflection.created) return { context, record: { id, tick: state.tick, sparkId, contextHash: context.contextHash, source: "rules", status: "interrupted", reason: `reflection-${reflection.reason}`, reflection } };
+  if (options.historicalPlayback) return { context, record: recorded ?? { id, pulse: state.pulse, sparkId, contextHash: context.contextHash, source: "rules", status: "invalidated", reason: "historical-replay", reflection } };
+  if (!reflection.created) return { context, record: { id, pulse: state.pulse, sparkId, contextHash: context.contextHash, source: "rules", status: "interrupted", reason: `reflection-${reflection.reason}`, reflection } };
   const budget = options.budget ?? { limit: 4, reserved: 0, used: 0 };
-  if (!options.provider || !budgetAvailable(budget)) { const proposal = fallbackProposal(context); return { context, record: { id, tick: state.tick, sparkId, contextHash: context.contextHash, source: "rules", status: proposal ? "active" : "invalidated", reason: options.provider ? "intention-budget-exhausted" : "provider-unavailable", reflection }, proposal }; }
+  if (!options.provider || !budgetAvailable(budget)) { const proposal = fallbackProposal(context); return { context, record: { id, pulse: state.pulse, sparkId, contextHash: context.contextHash, source: "rules", status: proposal ? "active" : "invalidated", reason: options.provider ? "intention-budget-exhausted" : "provider-unavailable", reflection }, proposal }; }
   budget.reserved += 1; budget.reserved -= 1; budget.used += 1;
   let proposal: FirstGlowIntentionProposal | undefined;
   try {
@@ -103,7 +103,7 @@ export async function evaluateFirstGlowIntention(state: FirstGlowState, sparkId:
     proposal = checkedProposal(result, context);
   } catch { proposal = undefined; }
   const selected = proposal ?? fallbackProposal(context);
-  return { context, proposal: selected, record: { id, tick: state.tick, sparkId, contextHash: context.contextHash, source: proposal ? "ai" : "rules", status: selected ? "active" : "invalidated", reason: proposal ? undefined : "provider-invalid-or-timeout", reflection } };
+  return { context, proposal: selected, record: { id, pulse: state.pulse, sparkId, contextHash: context.contextHash, source: proposal ? "ai" : "rules", status: selected ? "active" : "invalidated", reason: proposal ? undefined : "provider-invalid-or-timeout", reflection } };
 }
 
 export function commitFirstGlowIntention(state: FirstGlowState, context: FirstGlowIntentionContext, proposal: FirstGlowIntentionProposal, source: FirstGlowIntentionSource = "rules"): FirstGlowIntention {
@@ -112,12 +112,12 @@ export function commitFirstGlowIntention(state: FirstGlowState, context: FirstGl
   if (!spark || !settlement || !context.candidateActivities.includes(proposal.activity as FirstGlowActivity)) throw new Error("infeasible First Glow intention");
   const evidenceEventIds = sortedUnique(proposal.evidenceEventIds);
   if (evidenceEventIds.some(id => !context.knownEvidenceEventIds.includes(id))) throw new Error("First Glow intention references hidden evidence");
-  const intention: FirstGlowIntention = { version: FIRST_GLOW_INTENTION_VERSION, id: `intention-${context.tick}-${context.sparkId}-${context.contextHash.slice(-12)}`, sparkId: context.sparkId, activity: proposal.activity as FirstGlowActivity, createdTick: context.tick, source, contextHash: context.contextHash, evidenceEventIds, causalEventIds: sortedUnique(proposal.causalEventIds ?? []), status: "active", summary: proposal.summary };
+  const intention: FirstGlowIntention = { version: FIRST_GLOW_INTENTION_VERSION, id: `intention-${context.pulse}-${context.sparkId}-${context.contextHash.slice(-12)}`, sparkId: context.sparkId, activity: proposal.activity as FirstGlowActivity, createdPulse: context.pulse, source, contextHash: context.contextHash, evidenceEventIds, causalEventIds: sortedUnique(proposal.causalEventIds ?? []), status: "active", summary: proposal.summary };
   spark.intention = intention;
   spark.intendedActivity = intention.activity;
   spark.status = "choosing";
   spark.waitReason = undefined;
-  const history: FirstGlowIntentionHistoryRecord = { id: intention.id, sparkId: intention.sparkId, createdTick: intention.createdTick, activity: intention.activity, source: intention.source, contextHash: intention.contextHash, evidenceEventIds: intention.evidenceEventIds, status: intention.status, causalEventIds: intention.causalEventIds };
+  const history: FirstGlowIntentionHistoryRecord = { id: intention.id, sparkId: intention.sparkId, createdPulse: intention.createdPulse, activity: intention.activity, source: intention.source, contextHash: intention.contextHash, evidenceEventIds: intention.evidenceEventIds, status: intention.status, causalEventIds: intention.causalEventIds };
   state.history ??= { schemaVersion: 1, movements: [], decisions: [], intentions: [] };
   appendFirstGlowIntention(state.history, history);
   return intention;
@@ -132,10 +132,10 @@ export function finalizeFirstGlowIntentions(state: FirstGlowState): void {
     const completionKinds: Partial<Record<FirstGlowActivity, string>> = { "seek-charge": "draw", "draw-charge": "draw", "seek-shelter": "idle", "scavenge-cache": "wild-cache" };
     const completed = state.events.find(event => event.actorId === spark.id && (event.kind === intention.activity || event.kind === completionKinds[intention.activity]));
     const failed = spark.waitReason === "invalid-destination" || spark.waitReason === "no-route" || spark.waitReason === "no-free-slot";
-    if (completed) { intention.status = "completed"; intention.completedTick = state.tick; intention.causalEventIds = sortedUnique([...intention.causalEventIds, completed.id]); }
+    if (completed) { intention.status = "completed"; intention.completedPulse = state.pulse; intention.causalEventIds = sortedUnique([...intention.causalEventIds, completed.id]); }
     else if (failed) { intention.status = "interrupted"; intention.reason = spark.waitReason; }
-    if (state.history) appendFirstGlowIntention(state.history, { id: intention.id, sparkId: intention.sparkId, createdTick: intention.createdTick, activity: intention.activity, source: intention.source, contextHash: intention.contextHash, evidenceEventIds: intention.evidenceEventIds, status: intention.status, causalEventIds: intention.causalEventIds, completionTick: intention.completedTick, reason: intention.reason });
+    if (state.history) appendFirstGlowIntention(state.history, { id: intention.id, sparkId: intention.sparkId, createdPulse: intention.createdPulse, activity: intention.activity, source: intention.source, contextHash: intention.contextHash, evidenceEventIds: intention.evidenceEventIds, status: intention.status, causalEventIds: intention.causalEventIds, completionPulse: intention.completedPulse, reason: intention.reason });
   }
 }
 
-export function interruptFirstGlowIntention(state: FirstGlowState, sparkId: string, reason: string): void { const spark = findSpark(state, sparkId); const settlement = findSettlement(state, sparkId); if (!spark?.intention || spark.intention.status !== "active") return; spark.intention.status = "interrupted"; spark.intention.reason = reason; spark.intendedActivity = "idle"; spark.destinationObjectId = undefined; spark.destinationSlotId = undefined; spark.destinationCell = undefined; spark.remainingRoute = []; spark.remainingCost = 0; spark.status = "waiting"; if (settlement) settlement.runtime.reservations = settlement.runtime.reservations.filter(item => item.actorId !== sparkId); if (state.history) appendFirstGlowIntention(state.history, { id: spark.intention.id, sparkId, createdTick: spark.intention.createdTick, activity: spark.intention.activity, source: spark.intention.source, contextHash: spark.intention.contextHash, evidenceEventIds: spark.intention.evidenceEventIds, status: "interrupted", causalEventIds: spark.intention.causalEventIds, reason }); }
+export function interruptFirstGlowIntention(state: FirstGlowState, sparkId: string, reason: string): void { const spark = findSpark(state, sparkId); const settlement = findSettlement(state, sparkId); if (!spark?.intention || spark.intention.status !== "active") return; spark.intention.status = "interrupted"; spark.intention.reason = reason; spark.intendedActivity = "idle"; spark.destinationObjectId = undefined; spark.destinationSlotId = undefined; spark.destinationCell = undefined; spark.remainingRoute = []; spark.remainingCost = 0; spark.status = "waiting"; if (settlement) settlement.runtime.reservations = settlement.runtime.reservations.filter(item => item.actorId !== sparkId); if (state.history) appendFirstGlowIntention(state.history, { id: spark.intention.id, sparkId, createdPulse: spark.intention.createdPulse, activity: spark.intention.activity, source: spark.intention.source, contextHash: spark.intention.contextHash, evidenceEventIds: spark.intention.evidenceEventIds, status: "interrupted", causalEventIds: spark.intention.causalEventIds, reason }); }

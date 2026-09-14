@@ -1,6 +1,6 @@
 # First Glow Resonance-P4 review
 
-The fixed-seed review uses seed `11` and the authored relay crossing `tiled-103` at tick `16`. The contrasting candidate is formed only from three ordered objective records (`meet`, `mark-trace`, and `explore`) involving at least three Sparks, with four or more charge cost and a bounded tick span.
+The fixed-seed review uses seed `11` and the authored relay crossing `tiled-103` at pulse `16`. The contrasting candidate is formed only from three ordered objective records (`meet`, `mark-trace`, and `explore`) involving at least three Sparks, with four or more charge cost and a bounded pulse span.
 
 At the formed Anchor, the witnessing Spark has two defensible paths:
 

@@ -1,14 +1,14 @@
 # First Glow Stories-P3 Transition Review
 
 Date: 2026-09-10
-Runtime: 4 × 24 ticks (96 total), schema 3, mimir-sim-v3-first-glow, structured-v2
+Runtime: 4 × 24 pulses (96 total), schema 3, mimir-sim-v3-first-glow, structured-v2
 Bundle: sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601
 
 This report re-runs all four P1 controls with the autonomous P2 runtime, compares the preserved P1 baseline, scores every candidate with the complete Living Stories scorecard, and records compact objective-only observer retellings.
 
 ## Abundance baseline
 
-Seeds: 1101, 1102, 1103 · 96 ticks · autonomous rules-only
+Seeds: 1101, 1102, 1103 · 96 pulses · autonomous rules-only
 
 Same-seed replay: **pass** · cross-seed variation: **pass**
 
@@ -16,10 +16,10 @@ P1 baseline score: **13/20** · P3 candidate scores: **1101: 20/20, 1102: 20/20,
 
 Representative observer retelling:
 
-> Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4.
+> Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 shared 1 charge with Spark 4.
 
 Evidence chain:
-- Tick 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
+- Pulse 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
 
 Scorecard criteria:
 
@@ -38,7 +38,7 @@ Scorecard criteria:
 
 ## Supply scarcity
 
-Seeds: 1201, 1202, 1203 · 96 ticks · autonomous rules-only
+Seeds: 1201, 1202, 1203 · 96 pulses · autonomous rules-only
 
 Same-seed replay: **pass** · cross-seed variation: **pass**
 
@@ -46,10 +46,10 @@ P1 baseline score: **13/20** · P3 candidate scores: **1201: 20/20, 1202: 20/20,
 
 Representative observer retelling:
 
-> Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 idled and recovered 0 readiness.
+> Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 idled and recovered 0 readiness.
 
 Evidence chain:
-- Tick 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
+- Pulse 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
 
 Scorecard criteria:
 
@@ -68,7 +68,7 @@ Scorecard criteria:
 
 ## Information gap
 
-Seeds: 1301, 1302, 1303 · 96 ticks · autonomous rules-only
+Seeds: 1301, 1302, 1303 · 96 pulses · autonomous rules-only
 
 Same-seed replay: **pass** · cross-seed variation: **pass**
 
@@ -76,10 +76,10 @@ P1 baseline score: **13/20** · P3 candidate scores: **1301: 20/20, 1302: 20/20,
 
 Representative observer retelling:
 
-> Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 92: Spark 6 idled and recovered 10 readiness.
+> Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 92: Spark 6 idled and recovered 10 readiness.
 
 Evidence chain:
-- Tick 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
+- Pulse 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
 
 Scorecard criteria:
 
@@ -98,7 +98,7 @@ Scorecard criteria:
 
 ## Promise breach and repair
 
-Seeds: 1401, 1402, 1403 · 96 ticks · autonomous rules-only
+Seeds: 1401, 1402, 1403 · 96 pulses · autonomous rules-only
 
 Same-seed replay: **pass** · cross-seed variation: **pass**
 
@@ -106,10 +106,10 @@ P1 baseline score: **13/20** · P3 candidate scores: **1401: 20/20, 1402: 20/20,
 
 Representative observer retelling:
 
-> Tick 1: Spark 5 is waiting: no reachable seek-charge site. Then Tick 1: Spark 6 is waiting: no reachable seek-charge site. Then Tick 4: Spark 2 drew 8 charge. Then Tick 96: Spark 5 shared 1 charge with Spark 4.
+> Pulse 1: Spark 5 is waiting: no reachable seek-charge site. Then Pulse 1: Spark 6 is waiting: no reachable seek-charge site. Then Pulse 4: Spark 2 drew 8 charge. Then Pulse 96: Spark 5 shared 1 charge with Spark 4.
 
 Evidence chain:
-- Tick 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
+- Pulse 1 · event event-1-spark-5-wait · Spark 5 is waiting: no reachable seek-charge site.
 
 Scorecard criteria:
 
@@ -147,6 +147,6 @@ The result is a gate decision, not a claim that First Glow is complete or that a
 
 ## Limits
 
-- The scorecard covers these four controls, three seeds, and four 24-tick seasons only.
+- The scorecard covers these four controls, three seeds, and four 24-pulse seasons only.
 - Observer retellings are generated from committed objective records and bounded explanations; they do not grant access to Spark-private knowledge.
 - Sound remains presentation-only; the sound-disabled browser check is the legibility gate.

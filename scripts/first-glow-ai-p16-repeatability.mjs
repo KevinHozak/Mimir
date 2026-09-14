@@ -23,7 +23,7 @@ const fingerprint = value => `sha256-${createHash("sha256").update(stable(value)
 const seeds = [2, 4, 8, 16];
 const encounterCount = 32;
 const sparkCount = 4;
-const attentionPolicy = { perSparkDailyLimit: 4, globalDailyLimit: 16, ticksPerDay: 64, repeatedEventCooldownTicks: 0, timeoutMs: 1000 };
+const attentionPolicy = { perSparkDailyLimit: 4, globalDailyLimit: 16, pulsesPerDay: 64, repeatedEventCooldownPulses: 0, timeoutMs: 1000 };
 
 function makeContexts(seed) {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount);
@@ -31,10 +31,10 @@ function makeContexts(seed) {
   for (let index = 0; index < encounterCount; index += 1) {
     const actorId = `spark-${(index % sparkCount) + 1}`;
     const kind = ["draw", "idle", "explore", "wild-cache"][(index + seed) % 4];
-    state.tick = index + 1;
+    state.pulse = index + 1;
     const event = { id: `event-ai-p16-${seed}-${index + 1}`, kind, actorId, participants: [actorId], message: `Fixed-seed repeatability encounter ${index + 1} for seed ${seed}.`, evidenceEventIds: [] };
     state.events = [event];
-    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert(context, `Could not build context for seed ${seed} encounter ${index + 1}`);
     contexts.push(context);
@@ -76,9 +76,9 @@ function selectProvider() {
 function stage(contexts, records, seed) {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount);
   return contexts.map(context => {
-    state.tick = context.tick;
+    state.pulse = context.pulse;
     state.events = [context.event];
-    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.tick);
+    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.pulse);
     const transition = applyFirstGlowStagingChoice(state, context, records.get(context.encounterId));
     assert(transition.accepted, `Seed ${seed} ${context.encounterId} rejected: ${transition.rejection ?? "unknown"}`);
     assert(transition.changedFields.every(field => field === "social"), `Seed ${seed} changed canonical runtime authority`);

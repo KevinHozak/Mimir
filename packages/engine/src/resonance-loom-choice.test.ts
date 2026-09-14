@@ -17,7 +17,7 @@ function setup() {
   const slot = settlement.bundle.objectDefinitions[object.definitionId].slots.find(item => item.id === "rest")!;
   const cell = { x: object.origin.x + slot.offset.x, y: object.origin.y + slot.offset.y };
   for (const spark of settlement.sparks) { spark.position = { ...cell }; spark.status = "idle"; spark.knownEvidenceEventIds = ["evidence-1"]; }
-  const anchor: ResonanceAnchorRecord = { id: "anchor-candidate-loom", candidateId: "candidate-loom", anchorKind: "shelter-loom", authoredObjectId: "tiled-107", authoredSlotId: "rest", createdTick: 3, accessRuleId: "shelter-loom-shared-rest-v1", possibility: "shared rest", tension: "limited access", state: "active", evidenceEventIds: ["evidence-1"] };
+  const anchor: ResonanceAnchorRecord = { id: "anchor-candidate-loom", candidateId: "candidate-loom", anchorKind: "shelter-loom", authoredObjectId: "tiled-107", authoredSlotId: "rest", createdPulse: 3, accessRuleId: "shelter-loom-shared-rest-v1", possibility: "shared rest", tension: "limited access", state: "active", evidenceEventIds: ["evidence-1"] };
   return { firstGlowState, anchor };
 }
 

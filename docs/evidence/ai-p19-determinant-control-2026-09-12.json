@@ -4,7 +4,7 @@
   "execution": "vertex-live",
   "fixedSeeds": [2, 4, 8, 16],
   "encountersPerSeed": 32,
-  "ticksPerDay": 64,
+  "pulsesPerDay": 64,
   "budgetLadder": [2, 4, 8, 16],
   "profilesEquivalent": true,
   "basisResults": {

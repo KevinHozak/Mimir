@@ -12,7 +12,7 @@ const tempRoot = join(root, ".tmp", "browser-tests"); mkdirSync(tempRoot, { recu
 const database = join(tempRoot, `first-glow-issue-42-${Date.now()}.db`); const children: ChildProcess[] = [];
 const waitFor = async (url: string) => { for (let attempt = 0; attempt < 60; attempt += 1) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error(`service did not start: ${url}`); };
 try {
-  const env = { ...process.env, PORT: String(apiPort), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-first-glow-42", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
+  const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-first-glow-42", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" })); children.push(spawn(process.execPath, [join(root, "node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`); await waitFor(`http://127.0.0.1:${webPort}/`); const reset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": env.OWNER_TOKEN }, body: JSON.stringify({ bundleHash: hash, seed: 23 }) }); assert.equal(reset.status, 200);
   const browser = await chromium.launch({ headless: true });

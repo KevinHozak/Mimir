@@ -58,27 +58,27 @@ The root npm workspace builds four packages in dependency order: world-data, eng
 
 The engine package is TypeScript-only and has no browser or Fastify dependency. Its public model includes:
 
-- `WorldState`: First Glow world identity, seed, tick, schema-3 simulation version, structured-v2 spatial model, and `firstGlowState`.
+- `WorldState`: First Glow world identity, seed, pulse, schema-3 simulation version, structured-v2 spatial model, and `firstGlowState`.
 - `Spark`: charge, charge deficit, readiness, activity, position, route/contact state, and bounded local knowledge.
 - `FirstGlowSocialState`: Spark-local witnessed facts, communicated claims, uncertain inferences, bounded relationship trust, and resolved commitments. It is serialized inside the schema-3 First Glow checkpoint; checkpoints without this state fail explicitly rather than being invented.
 - `FirstGlowReflectionMemoryContext`: a bounded, deterministic projection of one Spark's lived records. It keeps witnessed facts, received reports, subjective inferences, and prior recorded consequences distinct, includes retention and reconstruction provenance, excludes future/private evidence, and is included in the interpretation context hash so provider-free replay can reconstruct the exact input.
 - `FirstGlowWorldCodex` and `FirstGlowContextPacket`: versioned authored First Glow rules, terminology, provider limits, Spark profile, bounded local memory, and recent witnessed events. The canonical packet hash makes persisted-state reconstruction auditable; hidden evidence and tampering fail closed. Token estimates, output usage, and latency are retained with the decision usage record without storing hidden chain-of-thought.
-- `FirstGlowIntention`: a versioned Spark-local proposal that reuses an existing First Glow activity, persists its evidence/context hash and causal IDs, and transitions through active, completed, invalidated, or interrupted states under the authoritative tick executor.
+- `FirstGlowIntention`: a versioned Spark-local proposal that reuses an existing First Glow activity, persists its evidence/context hash and causal IDs, and transitions through active, completed, invalidated, or interrupted states under the authoritative pulse executor.
 - `FirstGlowExplanation`: deterministic, committed choice rationale with scored need, values, local knowledge, trust, commitments, cost, and risk factors plus evidence and consequences. It is serialized with the First Glow checkpoint for live and historical observer reads.
-- `WorldEvent`: objective First Glow events such as ticks, movement, drawing charge, sharing, and world-object changes.
+- `WorldEvent`: objective First Glow events such as pulses, movement, drawing charge, sharing, and world-object changes.
 - `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Selected ambiguous First Glow events also produce deterministic rules-only baseline records with Spark-local evidence, stable context hashes, and no world-state authority.
-- `FirstGlowReflectionCapacityState`: the persisted `world-age-v1` First Glow RC policy and scheduler. First Glow supplies RC 1; an explicitly designated test Hero receives `ceil(RC * 1.5)` (RC 2 in First Glow). Hero natural generation is disabled, personal age/readiness do not assign RC, and assignments retain provenance. The 64-tick scheduler records deterministic phase offsets, windows, suppression, usage, global contention, and provider-free historical playback. Promotion preserves prior usage and schedules only future windows, so it cannot create a burst or catch-up debt. Legacy schema-3 checkpoints initialize this metadata without changing existing history or decisions.
-- `FirstGlowAttentionDecision`: a deterministic, auditable policy record that identifies novelty, encounters, scarcity, conflict, relationship events, or repeated routine failure as possible attention triggers while keeping travel, replanning, rest, familiar charge gathering, and ordinary waiting rules-only. Planned per-Spark allowances are governed by versioned world-age Reflection capacity (RC): world age maps directly to integer RC, with First Glow baseline RC 1 and rare Hero Sparks initially at RC 2; later values remain gated by RC-P1 and later phases. Historical cadence experiments retain their recorded profiles, while active RC scheduling uses deterministic intervals, stable Spark phase offsets, scheduled window indexes, next eligible ticks, and explicit cadence suppression reasons. A separate global daily cap, duplicate-event protection, repeated-event cooldowns, timeout configuration, and historical-playback suppression remain policy state; none can change simulation authority.
+- `FirstGlowReflectionCapacityState`: the persisted `world-age-v1` First Glow RC policy and scheduler. First Glow supplies RC 1; an explicitly designated test Hero receives `ceil(RC * 1.5)` (RC 2 in First Glow). Hero natural generation is disabled, personal age/readiness do not assign RC, and assignments retain provenance. The 64-pulse scheduler records deterministic phase offsets, windows, suppression, usage, global contention, and provider-free historical playback. Promotion preserves prior usage and schedules only future windows, so it cannot create a burst or catch-up debt. Legacy schema-3 checkpoints initialize this metadata without changing existing history or decisions.
+- `FirstGlowAttentionDecision`: a deterministic, auditable policy record that identifies novelty, encounters, scarcity, conflict, relationship events, or repeated routine failure as possible attention triggers while keeping travel, replanning, rest, familiar charge gathering, and ordinary waiting rules-only. Planned per-Spark allowances are governed by versioned world-age Reflection capacity (RC): world age maps directly to integer RC, with First Glow baseline RC 1 and rare Hero Sparks initially at RC 2; later values remain gated by RC-P1 and later phases. Historical cadence experiments retain their recorded profiles, while active RC scheduling uses deterministic intervals, stable Spark phase offsets, scheduled window indexes, next eligible pulses, and explicit cadence suppression reasons. A separate global daily cap, duplicate-event protection, repeated-event cooldowns, timeout configuration, and historical-playback suppression remain policy state; none can change simulation authority.
 - `FirstGlowHistory`: canonical checkpoint history for committed movement and decision records. Movement records preserve traversed cells, route revision, cost, resource effects, and the resulting event. Decision records preserve candidates, selection, rules/provider source, profile version, evidence IDs, context hash, validation, fallback, latency, and usage metadata without storing hidden model reasoning or animation frames.
 - `FirstGlowOfflineHybrid`: an evaluation-only local fake-provider loop that passes bounded personality/evidence contexts through the deterministic attention gate and interpretation validator. It can exercise accepted proposals, malformed or invalid outputs, unsupported claims, timeout, provider failure, budget exhaustion, and historical replay without granting the provider world-state authority.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
 - `WorldRuntimeState`: mutable navigation revision, object blocking state, and reservations.
 
-`createWorldFromBundle()` creates the deterministic schema-3 initial world. `advanceWorld()` advances exactly one committed simulation tick and returns the next state, objective events, and interpretations. First Glow action selection is deterministic and uses stable IDs, bundle geometry, and stored simulation state. The world records a seed, but the current advance path does not pass it to action selection. No ambient randomness or live AI is used.
+`createWorldFromBundle()` creates the deterministic schema-3 initial world. `advanceWorld()` advances exactly one committed simulation pulse and returns the next state, objective events, and interpretations. First Glow action selection is deterministic and uses stable IDs, bundle geometry, and stored simulation state. The world records a seed, but the current advance path does not pass it to action selection. No ambient randomness or live AI is used.
 
 The engine currently contains deterministic First Glow creation/advance, charge pools and charge accounting, shelter niches, traces, exploration, drawing, rest/readiness, sharing, structured object footprints, contacts/reservations, navigation revisions, runtime blockers, and bounded event records. Legacy creation entry points remain explicit failures or compatibility-shaped fields; they are not supported new timelines.
 
-`advanceWorld()` and `runTicks()` return deterministic rules-only interpretation records for selected First Glow social encounters. Normal First Glow ticks also resolve witnessed dilemma events into bounded social state before explanation records are appended, so trust, commitments, and Spark-local knowledge can affect later autonomous activity selection. `first-glow-interpretations.ts` defines the bounded provider adapter contract, context hashing, evidence/knowledge validation, budget telemetry, and deterministic fallbacks. No live or paid model provider is connected; provider proposals are review-harness inputs only. Sharing is an explicit deterministic First Glow action.
+`advanceWorld()` and `runPulses()` return deterministic rules-only interpretation records for selected First Glow social encounters. Normal First Glow pulses also resolve witnessed dilemma events into bounded social state before explanation records are appended, so trust, commitments, and Spark-local knowledge can affect later autonomous activity selection. `first-glow-interpretations.ts` defines the bounded provider adapter contract, context hashing, evidence/knowledge validation, budget telemetry, and deterministic fallbacks. No live or paid model provider is connected; provider proposals are review-harness inputs only. Sharing is an explicit deterministic First Glow action.
 
 The versioned First Glow personality profile is materialized from authored Spark cards into each interpretation context and its hash, then recorded on the interpretation. It carries value tendencies, practical needs, relevant relationship tendencies, and the authored knowledge boundary; it is separate from mutable Spark-local knowledge and never exposes another Spark's private knowledge.
 
@@ -100,7 +100,7 @@ Resonance-P2 adds the first bounded stateful Anchor: `resonance-anchor.ts` valid
 
 Resonance-P3 adds `resonance-loom-choice.ts`, a pure server-invoked transition for that Anchor's one bounded social possibility. Two explicit, defensible choices are available when both Sparks are co-present at the authored rest slot and the actor can witness the supplied evidence: `yield-rest` grants the beneficiary readiness while costing the actor charge/readiness, while `hold-rest` keeps the priority and gives the beneficiary a readiness setback. Both paths write an adjustment ledger entry, reciprocal bounded trust evidence, a durable `ShelterLoomDecisionRecord`, and a `shelter-loom-choice` objective event. The owner endpoint commits the whole state transactionally; the observer renders the decision and evidence without fabricating gameplay.
 
-Resonance-P4 adds `resonance-crossing-rule.ts` and `resonance-crossing.ts` for a substantively different Anchor at the authored `relay-crossing` object (`tiled-103`). A candidate must contain plural `meet`, `mark-trace`, and `explore` evidence from at least three Sparks, with explicit charge and tick-span thresholds. Once formed, the Crossing of Voices offers a witnessed `follow-signal` or `hold-course` choice: the former spends charge/readiness and changes the actor toward exploration, while the latter preserves readiness and the known-course activity. Both are durable, replayable objective consequences; neither is treated as the winning philosophy.
+Resonance-P4 adds `resonance-crossing-rule.ts` and `resonance-crossing.ts` for a substantively different Anchor at the authored `relay-crossing` object (`tiled-103`). A candidate must contain plural `meet`, `mark-trace`, and `explore` evidence from at least three Sparks, with explicit charge and pulse-span thresholds. Once formed, the Crossing of Voices offers a witnessed `follow-signal` or `hold-course` choice: the former spends charge/readiness and changes the actor toward exploration, while the latter preserves readiness and the known-course activity. Both are durable, replayable objective consequences; neither is treated as the winning philosophy.
 
 Resonance-P5 adds `resonance-transition.ts` as a pure eligibility and carry-forward contract for a future Hearth Circuit age. It requires two distinct active Anchor kinds, two maintained season windows, objective evidence, and recorded practice decisions from committed First Glow history; unresolved tensions remain evidence rather than disqualifiers. Carry-forward preserves Sparks, relationships, commitments, objective and interpretation records, Anchor places/evidence, source timeline and bundle hashes, and explicit schema/runtime identifiers. A deferred result is still a valid First Glow story. This does not activate a Hearth Circuit runtime, institutions, markets, or credits.
 
@@ -134,22 +134,22 @@ The Fastify server is the sole live simulation writer. At startup it:
 4. Requires the First Glow simulation version, structured-v2 spatial model, and valid `firstGlowState`; incompatible checkpoints fail. It then supplies defaults for auxiliary envelope fields without migrating a village save.
 5. Starts the optional scheduler.
 
-The server commits a tick inside a SQLite transaction. It calculates the next engine state first, then writes the checkpoint and all returned events and interpretations, commits the transaction, updates in-memory state, and broadcasts the committed result to connected SSE clients.
+The server commits a pulse inside a SQLite transaction. It calculates the next engine state first, then writes the checkpoint and all returned events and interpretations, commits the transaction, updates in-memory state, and broadcasts the committed result to connected SSE clients.
 
-The scheduler can be paused, resumed, or assigned a bounded interval. Manual ticking uses the same commit path as scheduled ticking.
+The scheduler can be paused, resumed, or assigned a bounded interval. Manual pulseing uses the same commit path as scheduled pulseing.
 
 ### Persistence model
 
 The current database stores:
 
 - `timelines`: timeline identity, parent relationship, status, and archive time.
-- `timeline_checkpoints`: serialized state snapshots by timeline and tick.
-- `timeline_events`: serialized objective events by timeline and tick.
-- `timeline_interpretations`: serialized social interpretations by timeline and tick.
-- `pending_commands`: durable idempotent next-tick world-object commands.
+- `timeline_checkpoints`: serialized state snapshots by timeline and pulse.
+- `timeline_events`: serialized objective events by timeline and pulse.
+- `timeline_interpretations`: serialized social interpretations by timeline and pulse.
+- `pending_commands`: durable idempotent next-pulse world-object commands.
 - `runtime_metadata`: active timeline selection.
 
-The initial checkpoint is stored at tick 0. Each successful tick stores another complete serialized state snapshot. Branching copies checkpoint, event, and interpretation history through the selected source tick, then activates a new child timeline. `reset-v3` archives the active timeline and creates a new schema-3 First Glow world with a new seed and Spark count.
+The initial checkpoint is stored at pulse 0. Each successful pulse stores another complete serialized state snapshot. Branching copies checkpoint, event, and interpretation history through the selected source pulse, then activates a new child timeline. `reset-v3` archives the active timeline and creates a new schema-3 First Glow world with a new seed and Spark count.
 
 SQLite WAL checkpoints and scheduled local database copies are supported. The scheduled copies remain on the same disk; Hosted-P5 also validated an operator transfer to, and recovery from, an independent Google Cloud Storage destination. Automatic cloud-upload scheduling is not yet wired into the service.
 
@@ -157,8 +157,8 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 
 ### Observer reads
 
-- `GET /health` — service health, current tick, scheduler state, active timeline, database path, and social configuration.
-- `GET /api/world` — current state; `?tick=` retrieves a stored checkpoint.
+- `GET /health` — service health, current pulse, scheduler state, active timeline, database path, and social configuration.
+- `GET /api/world` — current state; `?pulse=` retrieves a stored checkpoint.
 - `GET /api/events` — objective events for the active timeline.
 - `GET /api/interpretations` — persisted social interpretations.
 - `GET /api/history` — persisted timeline/checkpoint history plus canonical movement and decision records from the selected historical state. The viewer reads these records directly; it does not reconstruct them through AI.
@@ -170,7 +170,7 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/region` — settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
 - `GET /api/timelines` — available timeline metadata.
 - `GET /api/history` — a bounded historical-view response for one timeline and checkpoint, including lineage, version identity, recorded objective events, and recorded interpretations. Empty timelines, missing checkpoints, and incompatible checkpoints return explicit states; no replay or new interpretation is generated.
-- `GET /api/live` — Server-Sent Events stream with the current state and committed tick updates.
+- `GET /api/live` — Server-Sent Events stream with the current state and committed pulse updates.
 
 The hosted observer exposes these reads through Firebase Hosting and the `mimir-observer-bridge` Cloud Run service. The bridge requires an approved, verified Google ID token, forwards only the read/SSE allowlist to the private VM, and never forwards owner or mutation routes. Firebase Hosting remains the same-origin browser surface; it is not simulation authority.
 
@@ -178,8 +178,8 @@ The hosted observer exposes these reads through Firebase Hosting and the `mimir-
 
 State-changing operations require the configured `OWNER_TOKEN`, supplied through the `x-owner-token` header:
 
-- `POST /api/tick` — commit one tick.
-- `POST /api/scheduler` — pause/resume the scheduler or change tick interval.
+- `POST /api/pulse` — commit one pulse.
+- `POST /api/scheduler` — pause/resume the scheduler or change pulse interval.
 - `POST /api/owner/archive` — archive the active timeline.
 - `POST /api/owner/continue` — reactivate the active timeline.
 - `POST /api/owner/branch` — branch from a selected checkpoint.
@@ -201,7 +201,7 @@ The browser:
 - Loads current world, event, interpretation, metric, design, and regional data through HTTP.
 - Subscribes to `/api/live` for committed updates.
 - Maintains a live state and an independently selected historical state.
-- Requests historical checkpoints through `/api/world?tick=`.
+- Requests historical checkpoints through `/api/world?pulse=`.
 - Displays First Glow nodes and Sparks, routes, event history, interpretations, charge/readiness metrics, bundle assets, and owner controls.
 - Animates committed movement for presentation; the authoritative route and outcome come from the server.
 - Supports playback rate, map zoom, timeline scrubbing, Return to Live, settlement selection, and mobile-width layout checks.
@@ -237,7 +237,7 @@ The server can also run independently with `npm run dev:server`, and the browser
 - `SERVE_WEB=true` for same-origin static browser serving.
 - SQLite at `/var/data/mimir.db`.
 - A mounted persistent disk.
-- Fifteen-second default ticks.
+- Fifteen-second default pulses.
 - Daily local backup copies under `/var/data/backups`.
 - An externally supplied `OWNER_TOKEN`.
 
@@ -296,7 +296,7 @@ The private hosted Vertex rehearsal and its deterministic control arm are docume
 
 AI-P16 extends that path with a four-seed repeatability runner documented in [docs/ai-p16-repeatability-runbook.md](ai-p16-repeatability-runbook.md). Both live arms remain explicitly gated by runtime-only provider access, private-hosted boundary confirmation, the $1.00 hard cap, the kill switch, and approved data/retention settings. The public observer and historical playback remain provider-free.
 
-AI-P18 extends the attention policy with the versioned powers-of-two cadence contract documented in [the AI-P18 runbook](ai-p18-cadence-review-runbook.md). The deterministic control compares readiness-tier and age-day profiles, spaces opportunities across a 64-tick day, and verifies no-burst, cap, authority, and provider-free replay behavior. AI-P19 completed the matched determinant review, and RC-P1 through RC-P5 subsequently delivered the selected world-age capacity, lived-memory, intention, evaluation, and observer-integration sequence. AI-P20 now supplies the versioned World Codex and reconstructible Spark-local context packet; external provider execution remains separately gated and disabled by default.
+AI-P18 extends the attention policy with the versioned powers-of-two cadence contract documented in [the AI-P18 runbook](ai-p18-cadence-review-runbook.md). The deterministic control compares readiness-tier and age-day profiles, spaces opportunities across a 64-pulse day, and verifies no-burst, cap, authority, and provider-free replay behavior. AI-P19 completed the matched determinant review, and RC-P1 through RC-P5 subsequently delivered the selected world-age capacity, lived-memory, intention, evaluation, and observer-integration sequence. AI-P20 now supplies the versioned World Codex and reconstructible Spark-local context packet; external provider execution remains separately gated and disabled by default.
 
 ## 11. Architectural invariants
 

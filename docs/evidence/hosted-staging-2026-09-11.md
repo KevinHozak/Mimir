@@ -27,15 +27,15 @@ The observer is reached for validation through a temporary local IAP tunnel from
 
 The VM runs Node `v22.14.0` and the compiled First Glow production build from the verified commit. The hosted build uses same-origin API routing so the observer can be served through the VM's private listener or an authenticated IAP tunnel. The service reported:
 
-- `/health`: `ok: true`, database path `/var/lib/mimir/mimir.db`, scheduler paused, tick 0 on first boot;
+- `/health`: `ok: true`, database path `/var/lib/mimir/mimir.db`, scheduler paused, pulse 0 on first boot;
 - `/`: HTTP 200 and the same-origin observer loaded;
 - `/api/world`: `mimir-sim-v3-first-glow`, `structured-v2`, `living-circuit`, and `first-glow`;
 - authenticated reset: HTTP 200;
-- three controlled authenticated ticks: HTTP 200 each, advancing to tick 3;
-- unauthenticated owner tick with JSON content type: HTTP 401;
-- restart: clean shutdown at tick 3, service returned active, and the recovered checkpoint remained at tick 3;
-- next authenticated post-restart tick: HTTP 200 and advancement to tick 4;
-- post-restart event history remained available, with 50 recorded events after the resumed tick.
+- three controlled authenticated pulses: HTTP 200 each, advancing to pulse 3;
+- unauthenticated owner pulse with JSON content type: HTTP 401;
+- restart: clean shutdown at pulse 3, service returned active, and the recovered checkpoint remained at pulse 3;
+- next authenticated post-restart pulse: HTTP 200 and advancement to pulse 4;
+- post-restart event history remained available, with 50 recorded events after the resumed pulse.
 
 Local pre-deployment regressions also passed:
 

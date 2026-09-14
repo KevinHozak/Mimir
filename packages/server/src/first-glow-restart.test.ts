@@ -23,7 +23,7 @@ const waitFor = async (port: number) => {
 };
 const start = (port: number, database: string) => spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], {
   cwd: root,
-  env: { ...process.env, PORT: String(port), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated"), OWNER_TOKEN: token },
+  env: { ...process.env, PORT: String(port), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated"), OWNER_TOKEN: token },
   stdio: "ignore",
 });
 const stop = async (child: ChildProcess | undefined) => {
@@ -36,8 +36,8 @@ const reset = async (port: number) => {
   assert.equal(response.status, 200);
   return response.json() as Promise<{ state: Record<string, unknown> }>;
 };
-const tick = async (port: number) => {
-  const response = await fetch(`http://127.0.0.1:${port}/api/tick`, { method: "POST", headers: { "x-owner-token": token } });
+const pulse = async (port: number) => {
+  const response = await fetch(`http://127.0.0.1:${port}/api/pulse`, { method: "POST", headers: { "x-owner-token": token } });
   assert.equal(response.status, 200);
   return response.json() as Promise<{ state: Record<string, unknown>; events: unknown[]; interpretations: unknown[] }>;
 };
@@ -55,19 +55,19 @@ try {
   const initial = await reset(restartedPort);
   await reset(controlPort);
   assert.equal(initial.state.simulationVersion, "mimir-sim-v3-first-glow");
-  const first = await tick(restartedPort);
-  assert.equal(first.state.tick, 1);
+  const first = await pulse(restartedPort);
+  assert.equal(first.state.pulse, 1);
   assert.ok(first.interpretations.length > 0);
   assert.deepEqual((await interpretations(restartedPort)).interpretations, first.interpretations);
   await stop(restarted); restarted = undefined;
-  await tick(controlPort);
-  const secondControl = await tick(controlPort);
+  await pulse(controlPort);
+  const secondControl = await pulse(controlPort);
   restarted = start(restartedPort, restartedDatabase); await waitFor(restartedPort);
-  const secondRestarted = await tick(restartedPort);
+  const secondRestarted = await pulse(restartedPort);
   assert.deepEqual(comparable(secondRestarted.state), comparable(secondControl.state));
   assert.deepEqual(secondRestarted.events, secondControl.events);
-  for (let tickNumber = 0; tickNumber < 18; tickNumber += 1) {
-    const [controlResult, restartedResult] = await Promise.all([tick(controlPort), tick(restartedPort)]);
+  for (let pulseNumber = 0; pulseNumber < 18; pulseNumber += 1) {
+    const [controlResult, restartedResult] = await Promise.all([pulse(controlPort), pulse(restartedPort)]);
     assert.deepEqual(comparable(restartedResult.state), comparable(controlResult.state));
     assert.deepEqual(restartedResult.events, controlResult.events);
     assert.deepEqual(restartedResult.interpretations, controlResult.interpretations);

@@ -12,7 +12,7 @@ The simulation is designed to make tradeoffs visible. It should be possible for 
 The game loop is:
 
 1. Create or load a world from a seed and scenario.
-2. Advance the world by one authoritative tick.
+2. Advance the world by one authoritative pulse.
 3. Resolve villager needs, activities, movement, resources, weather, travel, dilemmas, and hazards.
 4. Record objective events that describe what happened.
 5. Attach social interpretations to selected events.
@@ -26,8 +26,8 @@ The important distinction is between the world and the observer. The world proce
 
 The engine's top-level `WorldState` contains:
 
-- `seed`, `tick`, and `season`, which identify the deterministic run and its position in time;
-- scenario settings such as starting food, harvest cadence, hunger pressure, and tick limit;
+- `seed`, `pulse`, and `season`, which identify the deterministic run and its position in time;
+- scenario settings such as starting food, harvest cadence, hunger pressure, and pulse limit;
 - villagers and their needs, traditions, belief signals, trust, activities, locations, and movement state;
 - the shared granary and its contribution, distribution, status, and dissent counters;
 - settlements, settlement-local food reserves, routes, and trade history;
@@ -45,21 +45,21 @@ The first world is Hearthmere, with a second settlement called Riverbend. The in
 
 Tradition is not a fixed behavior script. Each villager also has numeric belief signals for cooperation, self-reliance, and reflection. Those signals change through activity and dilemma consequences, so two people from the same tradition can still respond differently.
 
-## What one tick does
+## What one pulse does
 
-`advanceWorld()` is the engine's single-tick transition. It receives one complete `WorldState` and returns a new state, objective events, and deterministic social interpretations.
+`advanceWorld()` is the engine's single-pulse transition. It receives one complete `WorldState` and returns a new state, objective events, and deterministic social interpretations.
 
 ### 1. Derive deterministic inputs
 
-Randomness is generated from the stored seed and current tick using a small deterministic pseudo-random function. The engine does not use ambient process randomness. Given the same starting state, the same engine version, and the same inputs, the same tick produces the same result.
+Randomness is generated from the stored seed and current pulse using a small deterministic pseudo-random function. The engine does not use ambient process randomness. Given the same starting state, the same engine version, and the same inputs, the same pulse produces the same result.
 
 This makes tests, saved checkpoints, and replay understandable. It also means a seed is not a promise that future versions of the rules will produce the same history; rule changes need compatibility handling or a new world/branch.
 
 ### 2. Update weather
 
-Weather is reconsidered every fifteen ticks. The current implementation can produce clear, rain, cold, drought, or storm conditions, each with a severity and forecast.
+Weather is reconsidered every fifteen pulses. The current implementation can produce clear, rain, cold, drought, or storm conditions, each with a severity and forecast.
 
-Weather affects the next tick's economy and needs:
+Weather affects the next pulse's economy and needs:
 
 - rain adds one to food production;
 - drought subtracts three from production;
@@ -71,9 +71,9 @@ A storm can also create an active bridge-washout hazard and block the River Road
 
 ### 3. Produce food
 
-Food production uses the scenario harvest interval and amount. On a harvest interval the village produces the configured harvest amount; on other ticks it produces a smaller baseline amount. Weather then modifies that result.
+Food production uses the scenario harvest interval and amount. On a harvest interval the village produces the configured harvest amount; on other pulses it produces a smaller baseline amount. Weather then modifies that result.
 
-The current default engine scenario is `The First Winter`, with 72 starting food, an eight-food harvest on harvest ticks, three-food baseline production on other ticks, and nine hunger pressure. The server's default season limit is 360 ticks. `scenarios/first-winter.json` currently describes a 60-tick planning/test configuration; it is not automatically loaded by the server at startup, so changes to that file do not by themselves change the server's imported default.
+The current default engine scenario is `The First Winter`, with 72 starting food, an eight-food harvest on harvest pulses, three-food baseline production on other pulses, and nine hunger pressure. The server's default season limit is 360 pulses. `scenarios/first-winter.json` currently describes a 60-pulse planning/test configuration; it is not automatically loaded by the server at startup, so changes to that file do not by themselves change the server's imported default.
 
 ### 4. Choose villager activities
 
@@ -107,7 +107,7 @@ An activity normally has a location target: Fields for work, Granary for sharing
 
 The engine chooses an available target cell near the location anchor, validates it against the world definition, and calculates a route. The world uses four-direction movement and deterministic A* pathfinding with terrain costs and stable tie-breaking. Solid object footprints, bridges, and runtime-blocked objects can make cells unavailable.
 
-The engine advances only part of a route per tick. While a villager is moving, the activity is recorded as `travel`; the intended activity is retained until arrival. Occupied cells and next-step collisions are checked so villagers do not all resolve to the same position.
+The engine advances only part of a route per pulse. While a villager is moving, the activity is recorded as `travel`; the intended activity is retained until arrival. Occupied cells and next-step collisions are checked so villagers do not all resolve to the same position.
 
 The browser may interpolate movement for presentation, but the server's committed position and route are authoritative.
 
@@ -129,13 +129,13 @@ The reserve cannot go below zero. Settlement-level reserves are updated alongsid
 
 ### 7. Resolve regional travel and trade
 
-At the current milestone, Jonan departs for Riverbend on tick 8. The River Road takes three travel ticks. On arrival, a deterministic food trade can move up to six food from Hearthmere to Riverbend, subject to the available reserve after that tick's accounting.
+At the current milestone, Jonan departs for Riverbend on pulse 8. The River Road takes three travel pulses. On arrival, a deterministic food trade can move up to six food from Hearthmere to Riverbend, subject to the available reserve after that pulse's accounting.
 
 This is an early regional prototype rather than a complete market system. It establishes the boundary for future settlement-specific economies, routes, hazards, and exchange.
 
 ### 8. Resolve dilemmas
 
-The first three authored dilemmas occur at ticks 12, 24, and 36:
+The first three authored dilemmas occur at pulses 12, 24, and 36:
 
 1. The Hungry Neighbor — grant food, offer a measured loan, or refuse until work is offered.
 2. The Common Repair — repair the bridge together, work privately, or split the effort.
@@ -147,9 +147,9 @@ Each choice has explicit consequences for food, trust, one belief signal, dissen
 
 ### 9. Create events
 
-Events are objective records of things that happened during the tick. Possible event kinds include:
+Events are objective records of things that happened during the pulse. Possible event kinds include:
 
-- `tick` for the completed state transition;
+- `pulse` for the completed state transition;
 - `harvest` for food production;
 - `sharing` and `collection` for granary activity;
 - `institution` for shared-store accounting;
@@ -159,7 +159,7 @@ Events are objective records of things that happened during the tick. Possible e
 - `weather` for a weather change;
 - `hazard` for a newly created danger.
 
-An event contains a stable ID, tick, kind, human-readable message, and related villager or settlement IDs. Events are evidence for the observer UI and for social interpretation; they are not themselves the entire state.
+An event contains a stable ID, pulse, kind, human-readable message, and related villager or settlement IDs. Events are evidence for the observer UI and for social interpretation; they are not themselves the entire state.
 
 ### 10. Interpret selected events
 
@@ -185,7 +185,7 @@ This is more than decorative lore. Institution state changes food outcomes, trus
 
 ## Seasons and timelines
 
-The server treats a season as a bounded run of ticks. It refuses to commit another tick when the season limit is reached or when the active timeline is archived.
+The server treats a season as a bounded run of pulses. It refuses to commit another pulse when the season limit is reached or when the active timeline is archived.
 
 At a season boundary, the observer should be able to review:
 
@@ -198,10 +198,10 @@ At a season boundary, the observer should be able to review:
 - weather and hazards;
 - the people and relationships the observer wants to follow next.
 
-The persistence model stores a complete checkpoint for tick 0 and every committed tick. A timeline can then:
+The persistence model stores a complete checkpoint for pulse 0 and every committed pulse. A timeline can then:
 
 - continue from its current endpoint;
-- branch from any stored checkpoint, copying history through the selected tick into a child timeline;
+- branch from any stored checkpoint, copying history through the selected pulse into a child timeline;
 - be archived without rewriting its past;
 - be reset into a new seeded world.
 
@@ -209,7 +209,7 @@ Branching is the main experiment tool. It lets the observer compare what might h
 
 ## Persistence and replay
 
-The Fastify server is the only live simulation writer. For a tick it:
+The Fastify server is the only live simulation writer. For a pulse it:
 
 1. loads the in-memory authoritative state;
 2. calls the engine;
@@ -221,7 +221,7 @@ The Fastify server is the only live simulation writer. For a tick it:
 
 If the transaction fails, the live state must not advance. A browser reconnects to the latest committed checkpoint and then resumes receiving live updates.
 
-Replay is checkpoint-based. The browser can request a historical state by tick, keep that state separate from the live state, and display recorded events and interpretations. Replay is not a re-simulation and must not depend on current weather rolls, current AI output, or current code behavior.
+Replay is checkpoint-based. The browser can request a historical state by pulse, keep that state separate from the live state, and display recorded events and interpretations. Replay is not a re-simulation and must not depend on current weather rolls, current AI output, or current code behavior.
 
 ## What the observer can see
 
@@ -236,7 +236,7 @@ The web client combines React panels with a Phaser world view. It can show:
 - food, trust, hunger, travel, collection, and season metrics;
 - timeline scrubbing, playback rate, return-to-live, and owner recovery controls.
 
-The owner controls can manually tick, pause or resume scheduling, change the interval, branch, continue, reset, archive, and change runtime object blocking. These are operational controls, not a replacement for the autonomous simulation.
+The owner controls can manually pulse, pause or resume scheduling, change the interval, branch, continue, reset, archive, and change runtime object blocking. These are operational controls, not a replacement for the autonomous simulation.
 
 ## Determinism and source-of-truth rules
 
@@ -255,7 +255,7 @@ Future changes should preserve these invariants:
 
 Implemented now:
 
-- deterministic seeded ticks;
+- deterministic seeded pulses;
 - twelve villagers, three traditions, needs, beliefs, trust, and activities;
 - movement, terrain, object blocking, and replayable routes;
 - Hearthmere, Riverbend, one route, travel, and a small trade event;
@@ -292,7 +292,7 @@ If a mechanic only produces flavor text and cannot affect decisions, resources, 
 
 ## Useful source locations
 
-- `packages/engine/src/index.ts` — state model, tick transition, resource rules, dilemmas, events, and interpretations.
+- `packages/engine/src/index.ts` — state model, pulse transition, resource rules, dilemmas, events, and interpretations.
 - `packages/engine/src/world.ts` — terrain, objects, validation, world import, walkability, and routing.
 - `packages/engine/src/design.ts` — character cards and authored dilemmas.
 - `packages/engine/src/social.ts` — bounded AI validation and deterministic fallback behavior.

@@ -12,7 +12,7 @@ npm run build
 node scripts/profile-first-glow.mjs
 ```
 
-The web client was served by `vite preview` from `packages/web/dist`, not the Vite development server. The server used `AUTO_TICK=false`, a disposable SQLite path under `.tmp`, and owner-authenticated manual ticks. Each browser view reset the First Glow timeline with the same seed and then received 120 committed ticks while frame timing was sampled. Two independent deterministic engine runs also advanced 120 ticks over 12 Sparks.
+The web client was served by `vite preview` from `packages/web/dist`, not the Vite development server. The server used `AUTO_PULSE=false`, a disposable SQLite path under `.tmp`, and owner-authenticated manual pulses. Each browser view reset the First Glow timeline with the same seed and then received 120 committed pulses while frame timing was sampled. Two independent deterministic engine runs also advanced 120 pulses over 12 Sparks.
 
 ## Reproducibility metadata
 
@@ -20,7 +20,7 @@ The web client was served by `vite preview` from `packages/web/dist`, not the Vi
 - Commit: `ebdadbf2ff7e32177d49c50dde2f226f5f2c950b`
 - Bundle: `sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601`
 - Runtime: Living Circuit / First Glow, 32×32 map, 5 objects, 5 assets, 12 spawns
-- Seed: `20260911`; workload: 120 committed ticks; 12 Sparks
+- Seed: `20260911`; workload: 120 committed pulses; 12 Sparks
 - OS: Windows `10.0.26200`; hardware: 11th Gen Intel Core i7-1195G7 @ 2.90GHz, 8 logical CPUs, approximately 63.8 GiB RAM
 - Node: `v24.14.0`; browser: Playwright Chromium `153.0.8010.12`
 - Browser views: desktop 1280×900 DPR1, desktop overlay 1280×900 DPR1, mobile 390×844 DPR2 with reduced motion
@@ -33,9 +33,9 @@ The web client was served by `vite preview` from `packages/web/dist`, not the Vi
 | Desktop, overlay on | 16.7 / 33.4 / 166.7 ms | 1 / 164 ms | 0 B |
 | Mobile DPR2, reduced motion | 100.0 / 116.7 / 216.7 ms | 118 / 11,182 ms | 0 B |
 
-Engine timing over 120 ticks:
+Engine timing over 120 pulses:
 
-| Run | Median | P95 | Max | Final tick |
+| Run | Median | P95 | Max | Final pulse |
 | --- | ---: | ---: | ---: | ---: |
 | 1 | 44.68 ms | 302.76 ms | 1,989.19 ms | 120 |
 | 2 | 45.29 ms | 75.77 ms | 88.21 ms | 120 |

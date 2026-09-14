@@ -12,10 +12,10 @@ function trustRecord(state: FirstGlowState, sourceSparkId: string, targetSparkId
   const existing = state.social.trust.find(item => item.sourceSparkId === sourceSparkId && item.targetSparkId === targetSparkId);
   if (existing) {
     existing.value = Math.max(-3, Math.min(3, existing.value + delta));
-    existing.lastUpdatedTick = state.tick;
+    existing.lastUpdatedPulse = state.pulse;
     existing.evidenceEventIds = [...new Set([...existing.evidenceEventIds, ...evidenceEventIds])].sort();
   } else {
-    state.social.trust.push({ sourceSparkId, targetSparkId, value: Math.max(-3, Math.min(3, delta)), evidenceEventIds: [...evidenceEventIds].sort(), lastUpdatedTick: state.tick });
+    state.social.trust.push({ sourceSparkId, targetSparkId, value: Math.max(-3, Math.min(3, delta)), evidenceEventIds: [...evidenceEventIds].sort(), lastUpdatedPulse: state.pulse });
   }
 }
 
@@ -56,9 +56,9 @@ export function applyShelterLoomChoice(input: FirstGlowState, anchor: ResonanceA
   nextBeneficiary.readiness = Math.max(0, Math.min(100, nextBeneficiary.readiness + beneficiaryReadinessDelta));
   const outcome = choice === "yield-rest" ? "priority-granted" : "priority-refused";
   const durableConsequence = choice === "yield-rest" ? `${nextBeneficiary.name} receives the Loom's rest priority; ${nextActor.name} gives up charge and readiness to make room.` : `${nextActor.name} keeps the Loom's rest priority; ${nextBeneficiary.name} carries a readiness setback and must seek another path.`;
-  const decision: ShelterLoomDecisionRecord = { id: `loom-decision-${state.tick}-${actorSparkId}-${beneficiarySparkId}`, anchorId: anchor.id, tick: state.tick, actorSparkId, beneficiarySparkId, choice, accessRuleId: anchor.accessRuleId, chargeCost, actorReadinessDelta, beneficiaryReadinessDelta, actorChargeDelta, actorDeficitDelta, outcome, durableConsequence, evidenceEventIds: [...evidenceEventIds].sort() };
+  const decision: ShelterLoomDecisionRecord = { id: `loom-decision-${state.pulse}-${actorSparkId}-${beneficiarySparkId}`, anchorId: anchor.id, pulse: state.pulse, actorSparkId, beneficiarySparkId, choice, accessRuleId: anchor.accessRuleId, chargeCost, actorReadinessDelta, beneficiaryReadinessDelta, actorChargeDelta, actorDeficitDelta, outcome, durableConsequence, evidenceEventIds: [...evidenceEventIds].sort() };
   const ledger: LedgerEntry[] = [{ kind: "adjustment", actorId: actorSparkId, recipientId: beneficiarySparkId, amount: chargeCost, reason: `shelter-loom-${choice}` }];
-  const event: StructuredEvent = { id: `event-${state.tick}-${decision.id}`, tick: state.tick, kind: "shelter-loom-choice", actorId: actorSparkId, participants: [actorSparkId, beneficiarySparkId], message: durableConsequence, evidenceEventIds: decision.evidenceEventIds, source: "rules" };
+  const event: StructuredEvent = { id: `event-${state.pulse}-${decision.id}`, pulse: state.pulse, kind: "shelter-loom-choice", actorId: actorSparkId, participants: [actorSparkId, beneficiarySparkId], message: durableConsequence, evidenceEventIds: decision.evidenceEventIds, source: "rules" };
   state.ledger.push(...ledger);
   state.events.push(event);
   trustRecord(state, actorSparkId, beneficiarySparkId, choice === "yield-rest" ? 1 : -1, decision.evidenceEventIds);

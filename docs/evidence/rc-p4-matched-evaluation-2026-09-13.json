@@ -10,7 +10,7 @@
     16
   ],
   "days": 4,
-  "ticksPerDay": 4,
+  "pulsesPerDay": 4,
   "encountersPerSeed": 8,
   "arms": [
     {
@@ -122,7 +122,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -145,7 +145,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -169,7 +169,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -192,7 +192,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -215,7 +215,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -238,7 +238,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -262,7 +262,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -285,7 +285,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -342,7 +342,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -365,7 +365,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -389,7 +389,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -412,7 +412,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -435,7 +435,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -458,7 +458,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -482,7 +482,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -505,7 +505,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -562,7 +562,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -585,7 +585,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -609,7 +609,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -632,7 +632,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -655,7 +655,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -678,7 +678,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -702,7 +702,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -725,7 +725,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -782,7 +782,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -805,7 +805,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -829,7 +829,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -852,7 +852,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -875,7 +875,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -898,7 +898,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -922,7 +922,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -945,7 +945,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -1002,7 +1002,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -1025,7 +1025,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -1049,7 +1049,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -1072,7 +1072,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -1095,7 +1095,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -1118,7 +1118,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -1142,7 +1142,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -1165,7 +1165,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -1222,7 +1222,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -1245,7 +1245,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -1269,7 +1269,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -1292,7 +1292,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -1315,7 +1315,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -1338,7 +1338,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -1362,7 +1362,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -1385,7 +1385,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -1442,7 +1442,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -1465,7 +1465,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -1489,7 +1489,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -1512,7 +1512,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -1535,7 +1535,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -1558,7 +1558,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -1582,7 +1582,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -1605,7 +1605,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -1662,7 +1662,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -1685,7 +1685,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -1709,7 +1709,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -1732,7 +1732,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -1755,7 +1755,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -1778,7 +1778,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -1802,7 +1802,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -1825,7 +1825,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -1882,7 +1882,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -1905,7 +1905,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -1929,7 +1929,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -1952,7 +1952,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -1975,7 +1975,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -1998,7 +1998,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -2022,7 +2022,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -2045,7 +2045,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -2102,7 +2102,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -2125,7 +2125,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -2149,7 +2149,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -2172,7 +2172,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -2195,7 +2195,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -2218,7 +2218,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -2242,7 +2242,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -2265,7 +2265,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -2322,7 +2322,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -2345,7 +2345,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -2369,7 +2369,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -2392,7 +2392,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -2415,7 +2415,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -2438,7 +2438,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -2462,7 +2462,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -2485,7 +2485,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -2542,7 +2542,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-0"
           ],
@@ -2565,7 +2565,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-4-explore",
             "rc-p4-2-1"
@@ -2589,7 +2589,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-2"
           ],
@@ -2612,7 +2612,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-3"
           ],
@@ -2635,7 +2635,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-4"
           ],
@@ -2658,7 +2658,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-4-explore",
             "rc-p4-2-5"
@@ -2682,7 +2682,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-6"
           ],
@@ -2705,7 +2705,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-2-7"
           ],
@@ -2762,7 +2762,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -2785,7 +2785,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -2808,7 +2808,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -2831,7 +2831,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -2855,7 +2855,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -2879,7 +2879,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-4-5"
@@ -2903,7 +2903,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -2926,7 +2926,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -2984,7 +2984,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -3007,7 +3007,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -3030,7 +3030,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -3053,7 +3053,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -3077,7 +3077,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -3101,7 +3101,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-5"
           ],
@@ -3124,7 +3124,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -3147,7 +3147,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -3205,7 +3205,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -3228,7 +3228,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -3251,7 +3251,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -3274,7 +3274,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -3298,7 +3298,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -3322,7 +3322,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-4-5"
@@ -3346,7 +3346,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -3369,7 +3369,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -3427,7 +3427,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -3450,7 +3450,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -3473,7 +3473,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -3496,7 +3496,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -3520,7 +3520,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -3544,7 +3544,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-5"
           ],
@@ -3567,7 +3567,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -3590,7 +3590,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -3648,7 +3648,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -3671,7 +3671,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -3694,7 +3694,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -3717,7 +3717,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -3741,7 +3741,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -3765,7 +3765,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-4-5"
@@ -3789,7 +3789,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -3812,7 +3812,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -3870,7 +3870,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -3893,7 +3893,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -3916,7 +3916,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -3939,7 +3939,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -3963,7 +3963,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -3987,7 +3987,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-5"
           ],
@@ -4010,7 +4010,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -4033,7 +4033,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -4091,7 +4091,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -4114,7 +4114,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -4137,7 +4137,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -4160,7 +4160,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -4184,7 +4184,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -4208,7 +4208,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-4-5"
@@ -4232,7 +4232,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -4255,7 +4255,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -4313,7 +4313,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -4336,7 +4336,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -4359,7 +4359,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -4382,7 +4382,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -4406,7 +4406,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -4430,7 +4430,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-5"
           ],
@@ -4453,7 +4453,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -4476,7 +4476,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -4534,7 +4534,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -4557,7 +4557,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -4580,7 +4580,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -4603,7 +4603,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -4627,7 +4627,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -4651,7 +4651,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-4-5"
@@ -4675,7 +4675,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -4698,7 +4698,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -4756,7 +4756,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -4779,7 +4779,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -4802,7 +4802,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -4825,7 +4825,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -4849,7 +4849,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -4873,7 +4873,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-5"
           ],
@@ -4896,7 +4896,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -4919,7 +4919,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -4977,7 +4977,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -5000,7 +5000,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -5023,7 +5023,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -5046,7 +5046,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -5070,7 +5070,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -5094,7 +5094,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-4-5"
@@ -5118,7 +5118,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -5141,7 +5141,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -5199,7 +5199,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-0"
           ],
@@ -5222,7 +5222,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-1"
           ],
@@ -5245,7 +5245,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-2"
           ],
@@ -5268,7 +5268,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-4-3"
@@ -5292,7 +5292,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-1-explore",
             "rc-p4-4-4"
@@ -5316,7 +5316,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-5"
           ],
@@ -5339,7 +5339,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-4-6"
           ],
@@ -5362,7 +5362,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-4-7"
@@ -5420,7 +5420,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -5443,7 +5443,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -5467,7 +5467,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -5490,7 +5490,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -5514,7 +5514,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -5537,7 +5537,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -5561,7 +5561,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -5584,7 +5584,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -5642,7 +5642,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -5665,7 +5665,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -5689,7 +5689,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -5712,7 +5712,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -5736,7 +5736,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -5759,7 +5759,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -5783,7 +5783,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -5806,7 +5806,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -5864,7 +5864,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -5887,7 +5887,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -5911,7 +5911,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -5934,7 +5934,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -5958,7 +5958,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -5981,7 +5981,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -6005,7 +6005,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -6028,7 +6028,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -6086,7 +6086,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -6109,7 +6109,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -6133,7 +6133,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -6156,7 +6156,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -6180,7 +6180,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -6203,7 +6203,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -6227,7 +6227,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -6250,7 +6250,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -6308,7 +6308,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -6331,7 +6331,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -6355,7 +6355,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -6378,7 +6378,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -6402,7 +6402,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -6425,7 +6425,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -6449,7 +6449,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -6472,7 +6472,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -6530,7 +6530,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -6553,7 +6553,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -6577,7 +6577,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -6600,7 +6600,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -6624,7 +6624,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -6647,7 +6647,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -6671,7 +6671,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -6694,7 +6694,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -6752,7 +6752,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -6775,7 +6775,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -6799,7 +6799,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -6822,7 +6822,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -6846,7 +6846,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -6869,7 +6869,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -6893,7 +6893,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -6916,7 +6916,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -6974,7 +6974,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -6997,7 +6997,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -7021,7 +7021,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -7044,7 +7044,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -7068,7 +7068,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -7091,7 +7091,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -7115,7 +7115,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -7138,7 +7138,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -7196,7 +7196,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -7219,7 +7219,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -7243,7 +7243,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -7266,7 +7266,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -7290,7 +7290,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -7313,7 +7313,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -7337,7 +7337,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -7360,7 +7360,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -7418,7 +7418,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -7441,7 +7441,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -7465,7 +7465,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -7488,7 +7488,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -7512,7 +7512,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -7535,7 +7535,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -7559,7 +7559,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -7582,7 +7582,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -7640,7 +7640,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -7663,7 +7663,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -7687,7 +7687,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -7710,7 +7710,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -7734,7 +7734,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -7757,7 +7757,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -7781,7 +7781,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -7804,7 +7804,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -7862,7 +7862,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-0"
           ],
@@ -7885,7 +7885,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-8-1"
@@ -7909,7 +7909,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-2"
           ],
@@ -7932,7 +7932,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-8-3"
@@ -7956,7 +7956,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-4"
           ],
@@ -7979,7 +7979,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-8-5"
@@ -8003,7 +8003,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-8-6"
           ],
@@ -8026,7 +8026,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-8-7"
@@ -8084,7 +8084,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -8107,7 +8107,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -8131,7 +8131,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -8154,7 +8154,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -8178,7 +8178,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -8201,7 +8201,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -8225,7 +8225,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -8248,7 +8248,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -8306,7 +8306,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -8329,7 +8329,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -8353,7 +8353,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -8376,7 +8376,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -8400,7 +8400,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -8423,7 +8423,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -8447,7 +8447,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -8470,7 +8470,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -8528,7 +8528,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -8551,7 +8551,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -8575,7 +8575,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -8598,7 +8598,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -8622,7 +8622,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -8645,7 +8645,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -8669,7 +8669,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -8692,7 +8692,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -8750,7 +8750,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -8773,7 +8773,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -8797,7 +8797,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -8820,7 +8820,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -8844,7 +8844,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -8867,7 +8867,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -8891,7 +8891,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -8914,7 +8914,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -8972,7 +8972,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -8995,7 +8995,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -9019,7 +9019,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -9042,7 +9042,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -9066,7 +9066,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -9089,7 +9089,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -9113,7 +9113,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -9136,7 +9136,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -9194,7 +9194,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -9217,7 +9217,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -9241,7 +9241,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -9264,7 +9264,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -9288,7 +9288,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -9311,7 +9311,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -9335,7 +9335,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -9358,7 +9358,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -9416,7 +9416,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -9439,7 +9439,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -9463,7 +9463,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -9486,7 +9486,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -9510,7 +9510,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -9533,7 +9533,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -9557,7 +9557,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -9580,7 +9580,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -9638,7 +9638,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -9661,7 +9661,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -9685,7 +9685,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -9708,7 +9708,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -9732,7 +9732,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -9755,7 +9755,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -9779,7 +9779,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -9802,7 +9802,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -9860,7 +9860,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -9883,7 +9883,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -9907,7 +9907,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -9930,7 +9930,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -9954,7 +9954,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -9977,7 +9977,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -10001,7 +10001,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -10024,7 +10024,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -10082,7 +10082,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -10105,7 +10105,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -10129,7 +10129,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -10152,7 +10152,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -10176,7 +10176,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -10199,7 +10199,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -10223,7 +10223,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -10246,7 +10246,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -10304,7 +10304,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -10327,7 +10327,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -10351,7 +10351,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -10374,7 +10374,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -10398,7 +10398,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -10421,7 +10421,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -10445,7 +10445,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -10468,7 +10468,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"
@@ -10526,7 +10526,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-0"
           ],
@@ -10549,7 +10549,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 4,
+          "intentionCompletionPulse": 4,
           "causalEventIds": [
             "event-4-spark-2-explore",
             "rc-p4-16-1"
@@ -10573,7 +10573,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-2"
           ],
@@ -10596,7 +10596,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 8,
+          "intentionCompletionPulse": 8,
           "causalEventIds": [
             "event-8-spark-4-explore",
             "rc-p4-16-3"
@@ -10620,7 +10620,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-4"
           ],
@@ -10643,7 +10643,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 12,
+          "intentionCompletionPulse": 12,
           "causalEventIds": [
             "event-12-spark-2-explore",
             "rc-p4-16-5"
@@ -10667,7 +10667,7 @@
             "social"
           ],
           "intentionCompletion": "active",
-          "intentionCompletionTick": null,
+          "intentionCompletionPulse": null,
           "causalEventIds": [
             "rc-p4-16-6"
           ],
@@ -10690,7 +10690,7 @@
             "social"
           ],
           "intentionCompletion": "completed",
-          "intentionCompletionTick": 16,
+          "intentionCompletionPulse": 16,
           "causalEventIds": [
             "event-16-spark-4-explore",
             "rc-p4-16-7"

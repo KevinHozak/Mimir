@@ -19,7 +19,7 @@ The early village proposal used twelve adult villagers, food pressure, a common 
 
 ## From village prototype to observer simulation
 
-The first implementation followed the original small-society shape: a local simulation with autonomous characters, ticks, checkpoints, replay, branch/reset controls, and a browser observer. The project chose a pragmatic web stack—TypeScript, a deterministic engine, a Fastify server, SQLite persistence, React panels, Phaser rendering, and Tiled map authoring—because it supported visible movement, durable history, and a clear server-authority boundary.
+The first implementation followed the original small-society shape: a local simulation with autonomous characters, pulses, checkpoints, replay, branch/reset controls, and a browser observer. The project chose a pragmatic web stack—TypeScript, a deterministic engine, a Fastify server, SQLite persistence, React panels, Phaser rendering, and Tiled map authoring—because it supported visible movement, durable history, and a clear server-authority boundary.
 
 This work established an important technical and design lesson: the simulation could be observed and replayed, but the village framing was too complete for the desired opening. A mature town, formal economy, institutions, trade, and established social roles would make the characters seem to begin after the most interesting formative questions had already been answered.
 

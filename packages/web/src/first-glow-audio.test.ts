@@ -16,23 +16,23 @@ assert.deepEqual(loadFirstGlowAudioPreferences(storage), { enabled: true, muted:
 values.set(FIRST_GLOW_AUDIO_STORAGE_KEY, "not json");
 assert.deepEqual(loadFirstGlowAudioPreferences(storage), DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES);
 assert.equal(audioPreferencePercent(0.726), 73);
-assert.equal(firstGlowAudioCueForEvent({ id: "draw", tick: 2, kind: "collection", message: "Spark 1 drew 2 charge." }), "charge-draw");
-assert.equal(firstGlowAudioCueForEvent({ id: "share", tick: 2, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." }), "charge-share");
-assert.equal(firstGlowAudioCueForEvent({ id: "wait", tick: 2, kind: "tick", message: "Spark 1 is waiting: no reachable shelter site." }), "warning");
-assert.equal(firstGlowAudioCueForEvent({ id: "arrival", tick: 2, kind: "tick", message: "Spark 1 completed explore." }), "arrival");
-assert.equal(firstGlowAudioCueForEvent({ id: "meet", tick: 2, kind: "tick", message: "Spark 1 met Spark 2 at a shared contact site." }), "interaction");
-assert.equal(firstGlowAudioCueForEvent({ id: "move", tick: 2, kind: "world-object", message: "Spark 1 moved 1 cell(s)." }), null);
+assert.equal(firstGlowAudioCueForEvent({ id: "draw", pulse: 2, kind: "collection", message: "Spark 1 drew 2 charge." }), "charge-draw");
+assert.equal(firstGlowAudioCueForEvent({ id: "share", pulse: 2, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." }), "charge-share");
+assert.equal(firstGlowAudioCueForEvent({ id: "wait", pulse: 2, kind: "pulse", message: "Spark 1 is waiting: no reachable shelter site." }), "warning");
+assert.equal(firstGlowAudioCueForEvent({ id: "arrival", pulse: 2, kind: "pulse", message: "Spark 1 completed explore." }), "arrival");
+assert.equal(firstGlowAudioCueForEvent({ id: "meet", pulse: 2, kind: "pulse", message: "Spark 1 met Spark 2 at a shared contact site." }), "interaction");
+assert.equal(firstGlowAudioCueForEvent({ id: "move", pulse: 2, kind: "world-object", message: "Spark 1 moved 1 cell(s)." }), null);
 const ledger = new FirstGlowAudioEventLedger();
 assert.deepEqual(ledger.accept([
-  { id: "share", tick: 3, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." },
-  { id: "draw", tick: 2, kind: "collection", message: "Spark 1 drew 2 charge." },
-  { id: "draw", tick: 2, kind: "collection", message: "Spark 1 drew 2 charge." },
+  { id: "share", pulse: 3, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." },
+  { id: "draw", pulse: 2, kind: "collection", message: "Spark 1 drew 2 charge." },
+  { id: "draw", pulse: 2, kind: "collection", message: "Spark 1 drew 2 charge." },
 ]), ["charge-draw", "charge-share"]);
-assert.deepEqual(ledger.accept([{ id: "share", tick: 3, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." }]), []);
+assert.deepEqual(ledger.accept([{ id: "share", pulse: 3, kind: "sharing", message: "Spark 1 shared 1 charge with Spark 2." }]), []);
 const replayLedger = new FirstGlowAudioEventLedger();
 const committedBatch = [
-  { id: "arrival-1", tick: 4, kind: "activity", message: "Spark 1 completed explore." },
-  { id: "warning-1", tick: 5, kind: "activity", message: "Spark 2 is waiting: no reachable shelter site." },
+  { id: "arrival-1", pulse: 4, kind: "activity", message: "Spark 1 completed explore." },
+  { id: "warning-1", pulse: 5, kind: "activity", message: "Spark 2 is waiting: no reachable shelter site." },
 ];
 assert.deepEqual(replayLedger.accept(committedBatch), ["arrival", "warning"]);
 assert.deepEqual(replayLedger.accept(committedBatch), [], "history/replay or SSE reconnect must not replay committed cues");

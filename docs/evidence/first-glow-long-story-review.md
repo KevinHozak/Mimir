@@ -1,19 +1,19 @@
 # First Glow Long-Season Story Review
 
 Date: 2026-09-10
-Baseline: [24-tick season review](first-glow-season-review.md)
-Runtime: 4 × 24 ticks (96 total), schema 3, mimir-sim-v3-first-glow, structured-v2
+Baseline: [24-pulse season review](first-glow-season-review.md)
+Runtime: 4 × 24 pulses (96 total), schema 3, mimir-sim-v3-first-glow, structured-v2
 Bundle: sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601
 
-Four controlled stories each run three fixed seeds across four 24-tick review seasons. The JSON companion preserves the representative histories, ledgers, checkpoint summaries, exact choices, seeds, bundle, schema, simulation version, and spatial model.
+Four controlled stories each run three fixed seeds across four 24-pulse review seasons. The JSON companion preserves the representative histories, ledgers, checkpoint summaries, exact choices, seeds, bundle, schema, simulation version, and spatial model.
 
 ## Abundance baseline
 
 Question: When charge remains dependable, do Sparks explore and cooperate without scarcity pressure?
 
-Control: 24 source charge intake every fourth tick; no losses
+Control: 24 source charge intake every fourth pulse; no losses
 
-Replay: seeds 1101, 1102, 1103; 4 × 24 ticks; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
+Replay: seeds 1101, 1102, 1103; 4 × 24 pulses; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
 
 Same-seed deterministic replay: **pass**.
 
@@ -55,9 +55,9 @@ Controlled interventions, not autonomous choices: weakening-pool-report/reveal-p
 
 Question: When intake stops and charge is lost, does pressure increase deficit and shelter-seeking?
 
-Control: No replenishment; 4 charge lost at ticks 8, 16, and 24
+Control: No replenishment; 4 charge lost at pulses 8, 16, and 24
 
-Replay: seeds 1201, 1202, 1203; 4 × 24 ticks; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
+Replay: seeds 1201, 1202, 1203; 4 × 24 pulses; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
 
 Same-seed deterministic replay: **pass**.
 
@@ -99,9 +99,9 @@ Controlled interventions, not autonomous choices: weakening-pool-report/withhold
 
 Question: When local signals are available but communication is not guaranteed, do knowledge boundaries remain visible?
 
-Control: 8 source charge intake every fourth tick; social claims are limited to witnessed evidence
+Control: 8 source charge intake every fourth pulse; social claims are limited to witnessed evidence
 
-Replay: seeds 1301, 1302, 1303; 4 × 24 ticks; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
+Replay: seeds 1301, 1302, 1303; 4 × 24 pulses; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
 
 Same-seed deterministic replay: **pass**.
 
@@ -143,9 +143,9 @@ Controlled interventions, not autonomous choices: public-or-private-mark/keep-ma
 
 Question: After a Spark breaks an informal promise, can later help produce a bounded, evidence-linked trust repair?
 
-Control: 16 source charge intake every fourth tick; one broken choice at tick 6 followed by help at tick 12
+Control: 16 source charge intake every fourth pulse; one broken choice at pulse 6 followed by help at pulse 12
 
-Replay: seeds 1401, 1402, 1403; 4 × 24 ticks; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
+Replay: seeds 1401, 1402, 1403; 4 × 24 pulses; schema 3; mimir-sim-v3-first-glow; structured-v2; sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601.
 
 Same-seed deterministic replay: **pass**.
 
@@ -185,11 +185,11 @@ Controlled interventions, not autonomous choices: shelter-or-trace/continue-expl
 
 ## Gate decision
 
-Partial, 13/20: the controlled 96-tick stories preserve deterministic histories and durable social evidence, but their meaningful turns are injected review controls and different seeds do not yet produce materially different stories. Stories-P2 should prove autonomous choice selection, meaningful seed variation, and independent observer retellability, then Stories-P3 can revalidate. Resonance-P1 (#84) remains Backlog and must not move to Ready from this evidence.
+Partial, 13/20: the controlled 96-pulse stories preserve deterministic histories and durable social evidence, but their meaningful turns are injected review controls and different seeds do not yet produce materially different stories. Stories-P2 should prove autonomous choice selection, meaningful seed variation, and independent observer retellability, then Stories-P3 can revalidate. Resonance-P1 (#84) remains Backlog and must not move to Ready from this evidence.
 
 ## Limits and evidenced Stories-P2 gaps
 
-- The scenarios do not establish behavior beyond four 24-tick review seasons, these seeds, or these controls.
+- The scenarios do not establish behavior beyond four 24-pulse review seasons, these seeds, or these controls.
 - Controlled interventions are not evidence of autonomous causation.
 - The report preserves browser-review requirements, but no independent reviewer capture proves retellability without these annotations.
 - No institution, Resonance/Anchor runtime, AI authority, preferred philosophy, credits, or Originator knowledge was introduced.

@@ -7,7 +7,7 @@ test("observer projection exposes capacity and committed reflection effects with
   const capacity = createFirstGlowReflectionCapacityState(["spark-1", "spark-2"]);
   designateFirstGlowHero(capacity, "spark-2");
   requestFirstGlowReflection(capacity, "spark-1", 10);
-  const state = { tick: 10, events: [{ id: "event-1" }], reflectionCapacity: capacity, settlements: [{ sparks: [{ id: "spark-1", name: "Lumen", knownEvidenceEventIds: [], intention: { activity: "explore", status: "active", source: "rules", summary: "Follow the next visible route.", createdTick: 10, evidenceEventIds: [], causalEventIds: [] } }, { id: "spark-2", name: "Veil", knownEvidenceEventIds: [] }] }] } as never;
+  const state = { pulse: 10, events: [{ id: "event-1" }], reflectionCapacity: capacity, settlements: [{ sparks: [{ id: "spark-1", name: "Lumen", knownEvidenceEventIds: [], intention: { activity: "explore", status: "active", source: "rules", summary: "Follow the next visible route.", createdPulse: 10, evidenceEventIds: [], causalEventIds: [] } }, { id: "spark-2", name: "Veil", knownEvidenceEventIds: [] }] }] } as never;
   const projection = projectFirstGlowObserver(state);
   assert.equal(projection.policy.baselineCapacity, 1);
   assert.equal(projection.sparks.find(spark => spark.id === "spark-2")?.capacity, 2);

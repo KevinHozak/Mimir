@@ -5,7 +5,7 @@
   "execution": "deterministic-control",
   "fixedSeeds": [2, 4, 8, 16],
   "encountersPerSeed": 32,
-  "ticksPerDay": 64,
+  "pulsesPerDay": 64,
   "budgetLadder": [2, 4, 8, 16],
   "bases": {
     "readiness": { "sparkBudgets": [2, 4, 8, 16], "providerCalls": 39, "safetyPassed": true },

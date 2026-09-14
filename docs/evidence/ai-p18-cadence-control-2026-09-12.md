@@ -4,7 +4,7 @@ Generated 2026-09-12.
 
 - Fixed seeds: `2`, `4`, `8`, `16`
 - Encounters per seed: `32`
-- Ticks per day: `64`
+- Pulses per day: `64`
 - Budget ladder: `2`, `4`, `8`, `16`
 - Candidate determinants: readiness tier and age days
 - Fake-provider calls: `39` per determinant

@@ -22,10 +22,10 @@ function makeContexts() {
   for (let index = 0; index < 16; index += 1) {
     const actorId = `spark-${(index % 4) + 1}`;
     const kind = ["draw", "idle", "explore", "wild-cache"][index % 4];
-    state.tick = index + 1;
+    state.pulse = index + 1;
     const event = { id: `event-ai-p6-${index + 1}`, kind, actorId, participants: [actorId], message: `Matched evaluation encounter ${index + 1}.`, evidenceEventIds: [] };
     state.events = [event];
-    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert(context, `could not build context for ${event.id}`);
     contexts.push(context);
@@ -37,9 +37,9 @@ function applySet(contexts, records) {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 4);
   const transitions = [];
   for (const context of contexts) {
-    state.tick = context.tick;
+    state.pulse = context.pulse;
     state.events = [context.event];
-    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.tick);
+    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.pulse);
     const transition = applyFirstGlowStagingChoice(state, context, records.get(context.encounterId));
     transitions.push(transition);
     assert(transition.accepted, `${context.encounterId} rejected: ${transition.rejection ?? "unknown"}`);
@@ -61,7 +61,7 @@ const providerTelemetry = artifact.providerTelemetry;
 const latencies = providerTelemetry.map(item => item.latencyMs).sort((left, right) => left - right);
 const hiddenKnowledgeLeakage = artifact.outcomes.filter(outcome => /(originator|creator|outside observer|simulation|game|hidden purpose|true purpose)/i.test(outcome.interpretation.summary)).length;
 const fallbackCount = artifact.outcomes.filter(outcome => outcome.usage.outcome === "fallback").length;
-const replay = await runFirstGlowOfflineHybrid(contexts, { historicalPlayback: true, recorded: artifact.outcomes.map(outcome => outcome.interpretation), attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, repeatedEventCooldownTicks: 0, timeoutMs: 1000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
+const replay = await runFirstGlowOfflineHybrid(contexts, { historicalPlayback: true, recorded: artifact.outcomes.map(outcome => outcome.interpretation), attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, repeatedEventCooldownPulses: 0, timeoutMs: 1000 }, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
 const replayProviderCalls = replay.interpretationBudget.telemetry.filter(item => item.outcome !== "historical-replay").length;
 assert(replayProviderCalls === 0, `historical replay attempted ${replayProviderCalls} provider calls`);
 assert(replay.interpretationBudget.telemetry.every(item => item.reservedUnits === 0 && item.usedUnits === 0), "historical replay consumed interpretation budget");
@@ -83,6 +83,6 @@ const report = {
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 const markdownPath = outputPath.replace(/\.json$/, ".md");
-writeFileSync(markdownPath, [`# AI-P8 validated hybrid choices in isolated staging`, ``, `Date: ${report.generatedAt}`, ``, `This report replays the retained AI-P6 Vertex artifact and applies its already-validated alternatives only to disposable cloned social state. It does not call a provider and does not wire AI into the normal server tick.`, ``, `## Results`, ``, `- Baseline accepted: ${report.results.baselineAccepted}/16; hybrid accepted: ${report.results.hybridAccepted}/16; rejected: ${report.results.rejected}.`, `- Hybrid downstream social diffs: ${report.results.hybridDownstreamSocialChanges}; different from rules-only: ${report.results.hybridDifferentFromRulesOnly}.`, `- Runtime authority changes: ${report.results.runtimeAuthorityChanges}; before/after state fingerprints are recorded per encounter.`, `- Provider latency: ${report.results.latencyMs.min}-${report.results.latencyMs.max} ms (p50 ${report.results.latencyMs.p50}); fallbacks: ${report.results.fallbackCount}; hidden-knowledge leakage: ${report.results.hiddenKnowledgeLeakage}.`, `- Historical replay provider calls: ${report.replay.historicalReplayProviderCalls}.`, `- New provider calls/cost: ${report.cost.newProviderCalls} / ${report.cost.newCostCents} cents.`, ``, `## Decision`, ``, `**${report.decision}**. ${report.recommendation}`, ``, `## Acceptance`, ``, `- Allowlisted transitions only: **pass**`, `- Malformed/unknown proposals rejected: **pass**`, `- Canonical runtime unchanged: **${report.acceptance.canonicalRuntimeUnchanged ? "pass" : "fail"}**`, `- Historical replay provider-free: **${report.acceptance.historicalReplayProviderFree ? "pass" : "fail"}**`, `- Provider calls during staging: **${report.acceptance.providerCallsDuringStaging === 0 ? "pass" : "fail"}**`, `- Inherited AI-P6 cost under cap: **${report.acceptance.budgetAdherenceRecorded ? "pass" : "fail"}**`, ``].join("\n"), "utf8");
+writeFileSync(markdownPath, [`# AI-P8 validated hybrid choices in isolated staging`, ``, `Date: ${report.generatedAt}`, ``, `This report replays the retained AI-P6 Vertex artifact and applies its already-validated alternatives only to disposable cloned social state. It does not call a provider and does not wire AI into the normal server pulse.`, ``, `## Results`, ``, `- Baseline accepted: ${report.results.baselineAccepted}/16; hybrid accepted: ${report.results.hybridAccepted}/16; rejected: ${report.results.rejected}.`, `- Hybrid downstream social diffs: ${report.results.hybridDownstreamSocialChanges}; different from rules-only: ${report.results.hybridDifferentFromRulesOnly}.`, `- Runtime authority changes: ${report.results.runtimeAuthorityChanges}; before/after state fingerprints are recorded per encounter.`, `- Provider latency: ${report.results.latencyMs.min}-${report.results.latencyMs.max} ms (p50 ${report.results.latencyMs.p50}); fallbacks: ${report.results.fallbackCount}; hidden-knowledge leakage: ${report.results.hiddenKnowledgeLeakage}.`, `- Historical replay provider calls: ${report.replay.historicalReplayProviderCalls}.`, `- New provider calls/cost: ${report.cost.newProviderCalls} / ${report.cost.newCostCents} cents.`, ``, `## Decision`, ``, `**${report.decision}**. ${report.recommendation}`, ``, `## Acceptance`, ``, `- Allowlisted transitions only: **pass**`, `- Malformed/unknown proposals rejected: **pass**`, `- Canonical runtime unchanged: **${report.acceptance.canonicalRuntimeUnchanged ? "pass" : "fail"}**`, `- Historical replay provider-free: **${report.acceptance.historicalReplayProviderFree ? "pass" : "fail"}**`, `- Provider calls during staging: **${report.acceptance.providerCallsDuringStaging === 0 ? "pass" : "fail"}**`, `- Inherited AI-P6 cost under cap: **${report.acceptance.budgetAdherenceRecorded ? "pass" : "fail"}**`, ``].join("\n"), "utf8");
 console.log(JSON.stringify({ outputPath, markdownPath, decision: report.decision, hybridDownstreamSocialChanges: downstreamChanges, hybridDifferentFromBaseline: differentFromBaseline }, null, 2));
 

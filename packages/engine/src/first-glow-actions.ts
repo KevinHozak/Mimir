@@ -13,7 +13,7 @@ function hasLearned(spark: FirstGlowState["settlements"][number]["sparks"][numbe
 }
 
 function chooseAutonomousActivities(state: FirstGlowState): void {
-  if (state.tick === 0) return;
+  if (state.pulse === 0) return;
   for (const settlement of state.settlements) for (const spark of settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id))) {
     if (spark.intention?.status === "active") continue;
     if ((spark.status !== "choosing" && spark.status !== "waiting") || spark.destinationObjectId) continue;
@@ -35,15 +35,15 @@ function chooseAutonomousActivities(state: FirstGlowState): void {
   }
 }
 
-function seededChoicePressure(seed: number, tick: number, eventId: string): number {
-  let hash = (Math.trunc(seed) >>> 0) ^ Math.imul(tick, 0x45d9f3b);
+function seededChoicePressure(seed: number, pulse: number, eventId: string): number {
+  let hash = (Math.trunc(seed) >>> 0) ^ Math.imul(pulse, 0x45d9f3b);
   for (const character of eventId) hash = Math.imul(hash ^ character.charCodeAt(0), 0x45d9f3b) | 0;
   return ((hash >>> 0) % 3) - 1;
 }
 
-function seededTargetId(seed: number, tick: number, eventId: string, candidates: string[]): string | undefined {
+function seededTargetId(seed: number, pulse: number, eventId: string, candidates: string[]): string | undefined {
   if (!candidates.length) return undefined;
-  let hash = (Math.trunc(seed) >>> 0) ^ Math.imul(tick, 0x27d4eb2d);
+  let hash = (Math.trunc(seed) >>> 0) ^ Math.imul(pulse, 0x27d4eb2d);
   for (const character of eventId) hash = Math.imul(hash ^ character.charCodeAt(0), 0x165667b1) | 0;
   return candidates[(hash >>> 0) % candidates.length];
 }
@@ -63,7 +63,7 @@ function resolveAutonomousSocialChoices(state: FirstGlowState, deterministicSeed
     if (!dilemmaId) continue;
     const actor = sparks.find(spark => spark.id === event.actorId);
     const targetCandidates = event.participants?.slice().sort((a, b) => a.localeCompare(b)).filter(id => id !== event.actorId) ?? sparks.filter(spark => spark.id !== event.actorId).map(spark => spark.id);
-    const target = seededTargetId(deterministicSeed, state.tick, event.id, targetCandidates);
+    const target = seededTargetId(deterministicSeed, state.pulse, event.id, targetCandidates);
     if (!actor || !target) continue;
     const choices: Record<FirstGlowDilemmaChoice["dilemmaId"], [string, string]> = {
       "weakening-pool-report": ["reveal-pool", "withhold-pool"],
@@ -73,14 +73,14 @@ function resolveAutonomousSocialChoices(state: FirstGlowState, deterministicSeed
     };
     const [first, second] = choices[dilemmaId];
     const score = firstGlowActionScore(state.social, actor.id, target, dilemmaId);
-    const alternativeId = score + seededChoicePressure(deterministicSeed, state.tick, event.id) >= 0 ? first : second;
-    state.social = applyFirstGlowDilemmaChoice(state.social, { dilemmaId, alternativeId, actorSparkId: actor.id, targetSparkId: target, evidenceEventIds: [event.id], tick: state.tick });
+    const alternativeId = score + seededChoicePressure(deterministicSeed, state.pulse, event.id) >= 0 ? first : second;
+    state.social = applyFirstGlowDilemmaChoice(state.social, { dilemmaId, alternativeId, actorSparkId: actor.id, targetSparkId: target, evidenceEventIds: [event.id], pulse: state.pulse });
   }
 }
 
 export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExternalChargeInput = {}): FirstGlowState {
   // Bundles are immutable, content-addressed authored data. Preserve their identity while
-  // cloning mutable runtime state so long evidence reviews do not copy the full map per tick.
+  // cloning mutable runtime state so long evidence reviews do not copy the full map per pulse.
   const working: FirstGlowState = {
     ...input,
     settlements: input.settlements.map(({ bundle, ...settlement }) => ({ ...structuredClone(settlement), bundle })),
@@ -108,7 +108,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     const settlement = state.settlements.find(candidate => candidate.sparks.some(spark => spark.id === event.actorId));
     if (!spark || !settlement || !state.history) continue;
     const movementCost = event.cells!.slice(1).reduce((total, cell, index) => { const edge = canTraverse(settlement.bundle, settlement.runtime, event.cells![index], cell); return total + (edge.walkable ? edge.cost : 0); }, 0);
-    appendFirstGlowMovement(state.history, { id: `movement-${state.tick}-${event.actorId}`, tick: state.tick, sparkId: event.actorId, eventId: event.id, cells: event.cells!.map(cell => ({ ...cell })), routeRevision: spark.plannedNavigationRevision, movementCost, resourceEffects: [], resultingEventId: event.id });
+    appendFirstGlowMovement(state.history, { id: `movement-${state.pulse}-${event.actorId}`, pulse: state.pulse, sparkId: event.actorId, eventId: event.id, cells: event.cells!.map(cell => ({ ...cell })), routeRevision: spark.plannedNavigationRevision, movementCost, resourceEffects: [], resultingEventId: event.id });
   }
   const sourceInput = external.sourceCharge ?? 0;
   const communalInput = external.communalCharge ?? 0;
@@ -120,7 +120,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
   for (const share of shares) for (const settlement of state.settlements) {
     const actor = settlement.sparks.find(spark => spark.id === share.actorId); const recipient = settlement.sparks.find(spark => spark.id === share.recipientId);
     if (!actor || !recipient || actor.position.x !== recipient.position.x || actor.position.y !== recipient.position.y) continue;
-    const amount = Math.min(1, actor.carriedCharge); actor.carriedCharge -= amount; recipient.carriedCharge += amount; state.ledger.push({ kind: "share", actorId: actor.id, recipientId: recipient.id, amount, reason: amount ? "co-present-spark" : "no-carried-charge" }); state.events.push({ id: `event-${state.tick}-${actor.id}-share`, kind: "share", actorId: actor.id, participants: [actor.id, recipient.id], message: `${actor.name} shared ${amount} charge with ${recipient.name}.` }); actor.status = "choosing"; recipient.status = "choosing"; const originalActivity = restoredActivities.get(recipient.id); if (originalActivity) recipient.intendedActivity = originalActivity;
+    const amount = Math.min(1, actor.carriedCharge); actor.carriedCharge -= amount; recipient.carriedCharge += amount; state.ledger.push({ kind: "share", actorId: actor.id, recipientId: recipient.id, amount, reason: amount ? "co-present-spark" : "no-carried-charge" }); state.events.push({ id: `event-${state.pulse}-${actor.id}-share`, kind: "share", actorId: actor.id, participants: [actor.id, recipient.id], message: `${actor.name} shared ${amount} charge with ${recipient.name}.` }); actor.status = "choosing"; recipient.status = "choosing"; const originalActivity = restoredActivities.get(recipient.id); if (originalActivity) recipient.intendedActivity = originalActivity;
   }
   const arrivalActions = new Set(state.events.filter(event => ["explore", "mark-trace", "shape-pattern", "meet", "wild-cache"].includes(event.kind)).map(event => event.actorId));
   const movedActors = new Set(state.events.filter(event => event.kind === "movement").map(event => event.actorId));
@@ -129,13 +129,13 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     const drawn = state.ledger.find((entry) => entry.kind === "draw" && entry.actorId === spark.id)?.amount ?? 0;
     if (drawn > 0) spark.chargeDeficit = Math.max(0, spark.chargeDeficit - drawn);
   }
-  if (state.history) for (const movement of state.history.movements.filter(item => item.tick === state.tick)) movement.resourceEffects = state.ledger.filter(entry => entry.actorId === movement.sparkId).map(entry => ({ kind: entry.kind, amount: entry.amount, reason: entry.reason }));
+  if (state.history) for (const movement of state.history.movements.filter(item => item.pulse === state.pulse)) movement.resourceEffects = state.ledger.filter(entry => entry.actorId === movement.sparkId).map(entry => ({ kind: entry.kind, amount: entry.amount, reason: entry.reason }));
   for (const settlement of state.settlements) for (const spark of settlement.sparks) {
     const before = previous.get(spark.id);
     if ((before?.status === "traveling" || before?.status === "interacting") && spark.status === "choosing" && (before.activity === "explore" || before.activity === "mark-trace" || before.activity === "shape-pattern")) {
       state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 0, reason: `${before.activity}-arrived` });
-      state.events.push({ id: `event-${state.tick}-${spark.id}-${before.activity}`, kind: before.activity, actorId: spark.id, message: `${spark.name} completed ${before.activity.replaceAll("-", " ")}.` });
-      spark.knownEvidenceEventIds.push(`event-${state.tick}-${spark.id}-${before.activity}`);
+      state.events.push({ id: `event-${state.pulse}-${spark.id}-${before.activity}`, kind: before.activity, actorId: spark.id, message: `${spark.name} completed ${before.activity.replaceAll("-", " ")}.` });
+      spark.knownEvidenceEventIds.push(`event-${state.pulse}-${spark.id}-${before.activity}`);
     }
     if (movedActors.has(spark.id) || arrivalActions.has(spark.id)) {
       spark.readiness = Math.max(0, spark.readiness - 1);
@@ -147,7 +147,7 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     if (spark.carriedCharge > 0) { spark.carriedCharge -= 1; state.ledger.push({ kind: "consumption", actorId: spark.id, amount: 1, reason: "activity-sustenance" }); }
     else { spark.chargeDeficit += 1; state.ledger.push({ kind: "adjustment", actorId: spark.id, amount: 1, reason: "charge-deficit" }); }
   }
-  for (const event of state.events) recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants ?? [], state.tick);
+  for (const event of state.events) recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants ?? [], state.pulse);
   if (external.resolveSocial !== false) resolveAutonomousSocialChoices(state, external.deterministicSeed ?? 0);
   appendFirstGlowExplanations(state, state.events);
   finalizeFirstGlowIntentions(state);

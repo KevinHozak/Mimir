@@ -29,16 +29,16 @@ export * from "./resonance-crossing-rule.js";
 export * from "./resonance-transition.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
-export interface WorldEvent { id: string; tick: number; kind: "tick" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
-export interface SocialInterpretation { id: string; tick: number; eventId: string; sparkId?: string; villagerId?: string; source: "rules" | "ai"; summary: string; evidenceEventIds: string[]; [key: string]: unknown; }
+export interface WorldEvent { id: string; pulse: number; kind: "pulse" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
+export interface SocialInterpretation { id: string; pulse: number; eventId: string; sparkId?: string; villagerId?: string; source: "rules" | "ai"; summary: string; evidenceEventIds: string[]; [key: string]: unknown; }
 export interface WorldState {
-  worldId: string; seed: number; tick: number; simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION; spatialModel: "structured-v2"; firstGlowState: FirstGlowState;
+  worldId: string; seed: number; pulse: number; simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION; spatialModel: "structured-v2"; firstGlowState: FirstGlowState;
   resonance?: import("./resonance-anchor.js").ResonanceState;
   [key: string]: any;
 }
 
 export type SharedStore = Record<string, unknown>;
-export const FIRST_WINTER_SCENARIO = { seasonTickLimit: 360 } as const;
+export const FIRST_WINTER_SCENARIO = { seasonPulseLimit: 360 } as const;
 export const HOME_SETTLEMENT = { id: "first-glow-region", name: "Opening region" } as const;
 export const CHARACTER_CARDS: never[] = [];
 export const FIRST_WINTER_DILEMMAS: never[] = [];
@@ -50,7 +50,7 @@ export function parseWorldDefinition<T>(value: T): T { return value; }
 export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {
   const firstGlowState = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount);
   const settlements = firstGlowState.settlements.map(settlement => ({ id: settlement.id, name: settlement.name, villagerIds: [], foodReserve: 0, worldRuntime: settlement.runtime }));
-  return { worldId, seed, tick: 0, season: 0, simulationVersion: FIRST_GLOW_SIMULATION_VERSION, spatialModel: "structured-v2", firstGlowState, settlements, villagers: [], events: [], interpretations: [], foodReserve: 0, scenario: { name: "The First Glow", seasonTickLimit: 360 }, weather: { kind: "clear", forecast: "clear", severity: 0 }, hazards: [], tradeHistory: [], dilemmaHistory: [], sharedStore: undefined, worldRuntime: firstGlowState.settlements[0].runtime };
+  return { worldId, seed, pulse: 0, season: 0, simulationVersion: FIRST_GLOW_SIMULATION_VERSION, spatialModel: "structured-v2", firstGlowState, settlements, villagers: [], events: [], interpretations: [], foodReserve: 0, scenario: { name: "The First Glow", seasonPulseLimit: 360 }, weather: { kind: "clear", forecast: "clear", severity: 0 }, hazards: [], tradeHistory: [], dilemmaHistory: [], sharedStore: undefined, worldRuntime: firstGlowState.settlements[0].runtime };
 }
 
 export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {
@@ -60,18 +60,18 @@ export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-g
 }
 
 function toWorldEvents(state: FirstGlowState, priorIds = new Set<string>()): WorldEvent[] {
-  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, tick: state.tick, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "tick", message: event.message, villagerIds: [], settlementIds: [] }));
+  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, pulse: state.pulse, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "pulse", message: event.message, villagerIds: [], settlementIds: [] }));
 }
 
 function openingChargeIntake(world: WorldState): number {
-  return world.tick > 0 && world.tick % 4 === 0 ? 24 : 0;
+  return world.pulse > 0 && world.pulse % 4 === 0 ? 24 : 0;
 }
 
 export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   validateFirstGlowState(input.firstGlowState);
   const previousIds = new Set(input.firstGlowState.events.map(event => event.id));
   const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input), deterministicSeed: input.seed });
-  const state: WorldState = { ...input, tick: firstGlowState.tick, firstGlowState };
+  const state: WorldState = { ...input, pulse: firstGlowState.pulse, firstGlowState };
   firstGlowState.history ??= createFirstGlowHistory();
   const committedEvents = firstGlowState.events.filter(event => !previousIds.has(event.id)).slice().sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
   const interpretations: SocialInterpretation[] = [];
@@ -80,12 +80,12 @@ export function advanceWorld(input: WorldState): { state: WorldState; events: Wo
     const interpretation = context ? createRulesOnlyFirstGlowInterpretation(context) : undefined;
     if (interpretation) interpretations.push(interpretation);
     const candidates = context?.supportedAlternatives ?? [event.kind];
-    appendFirstGlowDecision(firstGlowState.history, { id: `decision-${firstGlowState.tick}-${event.id}`, tick: firstGlowState.tick, sparkId: event.actorId, eventId: event.id, trigger: classifyFirstGlowAttentionTrigger(event) ?? "ordinary-rules-only", candidates, selectedAlternative: interpretation ? String(interpretation.alternativeId) : event.kind, source: interpretation?.source ?? "rules", profileVersion: interpretation?.personalityProfileVersion ?? 1, evidenceEventIds: interpretation?.evidenceEventIds ?? (event.evidenceEventIds ?? [event.id]), contextHash: interpretation?.contextHash ?? `rules-${event.id}`, validation: "valid", fallbackReason: interpretation?.fallbackReason, latencyMs: 0, usage: { requestId: interpretation ? `rules-${interpretation.encounterId}` : `rules-${event.id}`, outcome: "rules-only", reservedUnits: 0, usedUnits: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 }, resultingEventId: event.id });
+    appendFirstGlowDecision(firstGlowState.history, { id: `decision-${firstGlowState.pulse}-${event.id}`, pulse: firstGlowState.pulse, sparkId: event.actorId, eventId: event.id, trigger: classifyFirstGlowAttentionTrigger(event) ?? "ordinary-rules-only", candidates, selectedAlternative: interpretation ? String(interpretation.alternativeId) : event.kind, source: interpretation?.source ?? "rules", profileVersion: interpretation?.personalityProfileVersion ?? 1, evidenceEventIds: interpretation?.evidenceEventIds ?? (event.evidenceEventIds ?? [event.id]), contextHash: interpretation?.contextHash ?? `rules-${event.id}`, validation: "valid", fallbackReason: interpretation?.fallbackReason, latencyMs: 0, usage: { requestId: interpretation ? `rules-${interpretation.encounterId}` : `rules-${event.id}`, outcome: "rules-only", reservedUnits: 0, usedUnits: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 }, resultingEventId: event.id });
   }
   return { state, events: toWorldEvents(firstGlowState, previousIds), interpretations };
 }
 
-export function runTicks(initial: WorldState, count: number): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
+export function runPulses(initial: WorldState, count: number): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
   let state = initial; const events: WorldEvent[] = []; const interpretations: SocialInterpretation[] = [];
   for (let index = 0; index < count; index += 1) { const result = advanceWorld(state); state = result.state; events.push(...result.events); interpretations.push(...result.interpretations); }
   return { state, events, interpretations };

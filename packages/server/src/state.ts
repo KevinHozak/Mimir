@@ -8,7 +8,7 @@ export function normalizeState(raw: WorldState): WorldState {
   return {
     ...raw,
     firstGlowState: raw.firstGlowState,
-    tick: raw.firstGlowState.tick,
+    pulse: raw.firstGlowState.pulse,
     season: raw.season ?? 0,
     foodReserve: raw.foodReserve ?? 0,
     villagers: raw.villagers ?? [],
@@ -17,6 +17,6 @@ export function normalizeState(raw: WorldState): WorldState {
     settlements: raw.settlements ?? [],
     tradeHistory: raw.tradeHistory ?? [],
     dilemmaHistory: raw.dilemmaHistory ?? [],
-    scenario: raw.scenario ?? { name: "The First Glow", seasonTickLimit: 360 }
+    scenario: raw.scenario ?? { name: "The First Glow", seasonPulseLimit: 360 }
   };
 }

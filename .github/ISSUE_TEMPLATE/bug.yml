@@ -12,7 +12,7 @@ body:
     id: reproduction
     attributes:
       label: Reproduction and evidence
-      description: Include steps, simulation version, bundle hash, seed/tick, and browser when relevant. Do not include secrets or live databases.
+      description: Include steps, simulation version, bundle hash, seed/pulse, and browser when relevant. Do not include secrets or live databases.
     validations:
       required: true
   - type: textarea

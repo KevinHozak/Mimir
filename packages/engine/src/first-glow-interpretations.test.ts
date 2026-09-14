@@ -17,11 +17,11 @@ function encounters(count: number): { state: ReturnType<typeof createFirstGlowSt
   const state = createFirstGlowState(firstGlowBundle, "first-glow-region", "Opening region", 2);
   const contexts: FirstGlowInterpretationContext[] = [];
   for (let index = 0; index < count; index += 1) {
-    state.tick = index + 1;
+    state.pulse = index + 1;
     const kinds = ["draw", "idle", "explore", "mark-trace"] as const;
     const event = { id: `event-review-${index + 1}`, kind: kinds[index % kinds.length], actorId: "spark-1", participants: ["spark-1", "spark-2"], message: `Spark 1 made review observation ${index + 1}.` };
     state.events = [event];
-    recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants.slice(1), state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], event.actorId, event.participants.slice(1), state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert.ok(context);
     contexts.push(context);

@@ -16,7 +16,7 @@ This proposal deliberately does not add a live counter, automatic Anchor creatio
 
 | Record | Owner and visibility | May establish qualification? |
 | --- | --- | --- |
-| `ObjectiveResonanceEvent` | Server commits it with the ordinary tick transaction; observer-readable historical evidence | Yes, when it validates against the rule. |
+| `ObjectiveResonanceEvent` | Server commits it with the ordinary pulse transaction; observer-readable historical evidence | Yes, when it validates against the rule. |
 | `SparkLocalKnowledge` | Serialized per Spark alongside existing witnessed facts and credible communicated claims | No. It limits what a Spark may know or act on. |
 | `ResonanceInterpretation` | A bounded, evidence-linked reading; never an authority input | No. It may explain uncertainty but cannot add participants, cost, location, or a qualifying occurrence. |
 | `ResonanceCandidate` | Server-derived, deterministic, observer-readable audit record | Yes, only as a proposal awaiting the creation rule. |
@@ -31,7 +31,7 @@ The future extension is `resonanceSchemaVersion: 1`, nested under `firstGlowStat
 ```ts
 type ObjectiveResonanceEvent = {
   id: string;                 // stable committed event ID
-  tick: number;
+  pulse: number;
   ruleId: string;
   location: { objectId: string; slotId: string };
   participantSparkIds: string[]; // sorted, unique
@@ -47,7 +47,7 @@ type ResonanceCandidate = {
   qualifyingEventIds: string[];
   participantSparkIds: string[];
   totalChargeCost: number;
-  formedTick: number;
+  formedPulse: number;
   status: "pending" | "created" | "failed" | "altered" | "decayed";
   auditEvidenceEventIds: string[];
   failure?: { code: string; evidenceEventIds: string[] };
@@ -59,7 +59,7 @@ type ResonanceAnchor = {
   anchorKind: string;
   authoredObjectId: string;
   authoredSlotId: string;
-  createdTick: number;
+  createdPulse: number;
   accessRuleId: string;
   possibility: string;
   tension: string;
@@ -82,7 +82,7 @@ type ResonanceRule = {
   requiredOccurrences: number;
   distinctParticipantMinimum: number;
   minimumChargeCost: number;
-  maximumTickSpan: number;
+  maximumPulseSpan: number;
   requiredLocation: { objectId: string; slotId: string };
   accessRuleId: string;
   possibility: string;
@@ -95,9 +95,9 @@ type ResonanceRule = {
 
 ## Deterministic lifecycle
 
-1. During a server tick, collect only committed objective events whose IDs, participants, location, resource-ledger costs, and rule kind validate. Sort by `(tick, id)`.
+1. During a server pulse, collect only committed objective events whose IDs, participants, location, resource-ledger costs, and rule kind validate. Sort by `(pulse, id)`.
 2. Partition events by `(ruleId, objectId, slotId)`. An event belongs to exactly one candidate group; it cannot be counted twice for the same rule.
-3. Within each group, select the earliest contiguous window whose first-to-last tick is within `maximumTickSpan`, then require the configured count, distinct participant count, and total recorded charge cost. Ties sort by `ruleId`, object ID, slot ID, then first evidence ID.
+3. Within each group, select the earliest contiguous window whose first-to-last pulse is within `maximumPulseSpan`, then require the configured count, distinct participant count, and total recorded charge cost. Ties sort by `ruleId`, object ID, slot ID, then first evidence ID.
 4. Create one pending candidate from that window. Additional matching events are audit evidence, not a second candidate, until the first candidate reaches a terminal state or an explicitly versioned renewal rule exists.
 5. Creation requires server validation that the authored object/slot is in the active bundle, reachable under shared geometry, available, and compatible with the rule. It records the candidate, Anchor, costs already paid by the qualifying events, and objective creation event in one transaction. No additional automatic resource transfer occurs.
 6. Access is evaluated server-side from `accessRuleId` at an arrival-gated authored slot. A refusal, capacity conflict, missing route, removed slot, or incompatible bundle fails with a recorded objective reason; it does not retry through the browser.
@@ -107,7 +107,7 @@ Creation failure is deterministic: the first failing check in this order wins—
 
 ## Replay, persistence, and recovery
 
-Candidates and Anchors belong in the serialized checkpoint and objective-event history, not a browser cache. The server writes them in the same SQLite transaction as the tick and broadcasts only after commit. Replay reads the recorded candidate/Anchor state and audit references; it does not recompute against changed rules or call an AI provider. A branch copies their history through the selected checkpoint and then evaluates its own future events deterministically.
+Candidates and Anchors belong in the serialized checkpoint and objective-event history, not a browser cache. The server writes them in the same SQLite transaction as the pulse and broadcasts only after commit. Replay reads the recorded candidate/Anchor state and audit references; it does not recompute against changed rules or call an AI provider. A branch copies their history through the selected checkpoint and then evaluates its own future events deterministically.
 
 The active bundle hash and any Anchor's authored object/slot must be available in bundle-inclusive backup. Backup and restore preserve the referenced hash-named bundle directory and validate restored `world.json` before the timeline is accepted. If a checkpoint references a missing or incompatible bundle, loading fails safely; it does not remap the Anchor to a visually similar object.
 

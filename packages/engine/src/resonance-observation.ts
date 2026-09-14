@@ -15,13 +15,13 @@ export interface ResonanceObservationRule {
   requiredOccurrences: number;
   distinctParticipantMinimum: number;
   minimumChargeCost: number;
-  maximumTickSpan: number;
+  maximumPulseSpan: number;
   location: ResonanceLocation;
 }
 
 export interface ResonanceObservationEvent {
   id: string;
-  tick: number;
+  pulse: number;
   participants: string[];
   chargeCost: number;
   visibility: "observer" | "participants";
@@ -42,12 +42,12 @@ export interface ResonanceObservation {
   occurrenceCount: number;
   distinctParticipantCount: number;
   totalChargeCost: number;
-  tickSpan: number;
+  pulseSpan: number;
   threshold: {
     requiredOccurrences: number;
     distinctParticipantMinimum: number;
     minimumChargeCost: number;
-    maximumTickSpan: number;
+    maximumPulseSpan: number;
   };
   reasons: string[];
   observerVisible: boolean;
@@ -61,7 +61,7 @@ function matchingEvents(events: ResonanceObservationEvent[], rule: ResonanceObse
     .filter((event) => event.pattern !== "shelter-refusal")
     .filter((event) => event.location.objectId === rule.location.objectId && event.location.slotId === rule.location.slotId)
     .slice()
-    .sort((left, right) => left.tick - right.tick || compare(left.id, right.id));
+    .sort((left, right) => left.pulse - right.pulse || compare(left.id, right.id));
 }
 
 /** Evaluate one authored rule against committed objective records. */
@@ -70,11 +70,11 @@ export function observeResonance(events: readonly ResonanceObservationEvent[], r
   const participants = [...new Set(qualifying.flatMap((event) => event.participants))].sort(compare);
   const first = qualifying[0];
   const last = qualifying.at(-1);
-  const tickSpan = first && last ? last.tick - first.tick : 0;
+  const pulseSpan = first && last ? last.pulse - first.pulse : 0;
   const totalChargeCost = qualifying.reduce((total, event) => total + event.chargeCost, 0);
   const reasons: string[] = [];
   if (qualifying.length < rule.requiredOccurrences) reasons.push("required-occurrences-not-met");
-  if (tickSpan > rule.maximumTickSpan) reasons.push("maximum-tick-span-exceeded");
+  if (pulseSpan > rule.maximumPulseSpan) reasons.push("maximum-pulse-span-exceeded");
   if (participants.length < rule.distinctParticipantMinimum) reasons.push("distinct-participant-minimum-not-met");
   if (totalChargeCost < rule.minimumChargeCost) reasons.push("minimum-charge-cost-not-met");
   const conflicting = [...events].some((event) => event.pattern === "shelter-refusal" && event.location.objectId === rule.location.objectId && event.location.slotId === rule.location.slotId);
@@ -93,12 +93,12 @@ export function observeResonance(events: readonly ResonanceObservationEvent[], r
     occurrenceCount: qualifying.length,
     distinctParticipantCount: participants.length,
     totalChargeCost,
-    tickSpan,
+    pulseSpan,
     threshold: {
       requiredOccurrences: rule.requiredOccurrences,
       distinctParticipantMinimum: rule.distinctParticipantMinimum,
       minimumChargeCost: rule.minimumChargeCost,
-      maximumTickSpan: rule.maximumTickSpan,
+      maximumPulseSpan: rule.maximumPulseSpan,
     },
     reasons,
     // The observer projection is derived from committed objective records. A

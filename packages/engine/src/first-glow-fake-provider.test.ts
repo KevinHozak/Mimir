@@ -17,10 +17,10 @@ function contexts(count = 4): FirstGlowInterpretationContext[] {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
   const result: FirstGlowInterpretationContext[] = [];
   for (let index = 0; index < count; index += 1) {
-    state.tick = index + 1;
+    state.pulse = index + 1;
     const event = { id: `fake-event-${index}`, kind: (index % 2 ? "mark-trace" : "explore") as "explore" | "mark-trace", actorId: "spark-1", participants: ["spark-1", "spark-2"], message: `Spark 1 observed fixture trace ${index}.` };
     state.events = [event];
-    recordFirstGlowWitnesses(state.social, [event.id], event.actorId, ["spark-2"], state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], event.actorId, ["spark-2"], state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert.ok(context);
     result.push(context);
@@ -34,7 +34,7 @@ test("offline hybrid loop gates provider calls and records accepted decisions wi
   let calls = 0;
   const provider = createFirstGlowFakeProvider({ providerId: "local-fake-test" });
   const wrapped: FirstGlowInterpretationProvider = { providerId: provider.providerId, interpret: async context => { calls += 1; return provider.interpret(context); } };
-  const result = await runFirstGlowOfflineHybrid(input, { provider: wrapped, attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, repeatedEventCooldownTicks: 0 } });
+  const result = await runFirstGlowOfflineHybrid(input, { provider: wrapped, attentionPolicy: { perSparkDailyLimit: 4, globalDailyLimit: 16, repeatedEventCooldownPulses: 0 } });
   assert.equal(calls, 4);
   assert.equal(result.outcomes.length, 4);
   assert.ok(result.outcomes.every(outcome => outcome.decision.source === "ai" && outcome.decision.validation === "valid" && outcome.decision.providerId === "local-fake-test"));

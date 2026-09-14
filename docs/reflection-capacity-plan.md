@@ -7,13 +7,13 @@ These are planned mechanics, not a claim that the full loop is implemented.
 
 RC-P1 implementation status: the versioned First Glow policy and deterministic scheduler are now implemented in `@mimir/engine`. The initial policy is explicit-test-only for Heroes, with natural generation disabled until a later phase selects and verifies a deterministic rarity policy.
 
-RC-P2 implementation status: reflection contexts now derive a bounded `lived-memory-v1` projection from persisted Spark knowledge and decision history. Objective witnesses, received claims, subjective inferences, and prior consequences retain separate provenance; only known records at or before the current tick are supplied. Spawn ticks are recorded for new Sparks, while legacy Sparks keep an unknown spawn time rather than receiving invented history.
+RC-P2 implementation status: reflection contexts now derive a bounded `lived-memory-v1` projection from persisted Spark knowledge and decision history. Objective witnesses, received claims, subjective inferences, and prior consequences retain separate provenance; only known records at or before the current pulse are supplied. Spawn pulses are recorded for new Sparks, while legacy Sparks keep an unknown spawn time rather than receiving invented history.
 
 RC-P3 implementation status: eligible reflections can now produce a bounded, feasibility-checked `rule-executed-v1` intention. Intentions continue without provider calls, execute through existing movement and arrival contracts, and persist causal completion/interruption records for restart and provider-free replay.
 
 RC-P4 deterministic-control status: the matched evaluation harness now exercises four fixed seeds across all-RC-2, rotating RC-4 Hero, diagnostic RC-2/4/8/16, and young-Hero/experienced-ordinary memory conditions for four days. It records cap contention, suppression, fallbacks, encounter-level evidence, direct effects, intention completion, divergence, and provider-free replay in [`docs/evidence/rc-p4-matched-evaluation-2026-09-13.md`](evidence/rc-p4-matched-evaluation-2026-09-13.md). The private Vertex quality batch remains a separately gated, opt-in step; this control run does not select a higher default or authorize broader deployment.
 
-Reflection-slot behavior: when a Spark reaches the final tick of an unspent cadence slot, the reflection is forced at that boundary. If the Spark has an active habitual intention, the intention is interrupted with an auditable `reflection-slot-ended` reason so the new reflection may preserve or replace the action through the normal feasibility and authority checks.
+Reflection-slot behavior: when a Spark reaches the final pulse of an unspent cadence slot, the reflection is forced at that boundary. If the Spark has an active habitual intention, the intention is interrupted with an auditable `reflection-slot-ended` reason so the new reflection may preserve or replace the action through the normal feasibility and authority checks.
 
 World development age sets **Reflection capacity (RC)**. First Glow baseline
 is RC 1; rare Hero Sparks initially receive RC 2, calculated as
@@ -32,14 +32,14 @@ Later world ages raise the baseline to the world-age number, with Heroes at
 `ceil(world RC * 1.5)`. Later values and the maximum supported tier remain provisional;
 this plan does not enable a new runtime or an automatic world-age transition.
 
-Space opportunities by configured day ticks divided by RC: a 64-tick fixture
-gives 64-tick intervals at RC 1 and 32 at RC 2. Persist deterministic offsets,
+Space opportunities by configured day pulses divided by RC: a 64-pulse fixture
+gives 64-pulse intervals at RC 1 and 32 at RC 2. Persist deterministic offsets,
 usage, and reasons for suppression. Changes must not create bursts or debt.
 Global provider and financial limits still apply; unused RC is not a guaranteed
 call or a resource reward. A continuing intention may need no fresh AI call.
 
 AI proposes an intention from feasible alternatives. Rules determine movement,
-resource/attribute costs, arrival, interactions, and consequences across ticks.
+resource/attribute costs, arrival, interactions, and consequences across pulses.
 Record the exact context and validated result for provider-free history.
 
 ## Delivery order

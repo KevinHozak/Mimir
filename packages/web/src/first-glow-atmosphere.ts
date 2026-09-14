@@ -1,7 +1,7 @@
 type Cell = { x: number; y: number };
 
 export type FirstGlowAtmosphereState = "quiet" | "active" | "selected" | "gathering" | "depleted" | "blocked-route";
-export type FirstGlowAtmosphereEvent = { id: string; tick: number; kind: string; actorId?: string; participants?: string[]; message?: string };
+export type FirstGlowAtmosphereEvent = { id: string; pulse: number; kind: string; actorId?: string; participants?: string[]; message?: string };
 export type FirstGlowAtmosphereSpark = { id: string; position: Cell; status: string; destinationObjectId?: string; remainingRoute?: Cell[] };
 export type FirstGlowAtmosphereObject = { id: string; definitionId: string; origin: Cell };
 export type FirstGlowAtmosphereBundle = { objects: FirstGlowAtmosphereObject[]; surfaces: { id: string; cells: Cell[]; enabled: boolean }[] };
@@ -12,11 +12,11 @@ export type FirstGlowAtmospherePlan = { effects: FirstGlowAtmosphereEffect[]; bu
 const MAX_EFFECTS = 48;
 const key = (cell: Cell) => `${cell.x},${cell.y}`;
 
-export function planFirstGlowAtmosphere(input: { bundle: FirstGlowAtmosphereBundle; runtime?: FirstGlowAtmosphereRuntime; sparks: FirstGlowAtmosphereSpark[]; events: FirstGlowAtmosphereEvent[]; tick: number; selectedEntityId?: string | null }): FirstGlowAtmospherePlan {
+export function planFirstGlowAtmosphere(input: { bundle: FirstGlowAtmosphereBundle; runtime?: FirstGlowAtmosphereRuntime; sparks: FirstGlowAtmosphereSpark[]; events: FirstGlowAtmosphereEvent[]; pulse: number; selectedEntityId?: string | null }): FirstGlowAtmospherePlan {
   const runtime = input.runtime ?? { objects: [], reservations: [] };
   const reserved = new Set(runtime.reservations.map(item => item.objectId));
   const destinations = new Set(input.sparks.map(spark => spark.destinationObjectId).filter((id): id is string => Boolean(id)));
-  const depleted = new Set(input.events.filter(event => event.tick === input.tick && (event.kind === "draw" || event.kind === "collection") && /drew 0 charge/i.test(event.message ?? "")).map(event => event.actorId).filter((id): id is string => Boolean(id)));
+  const depleted = new Set(input.events.filter(event => event.pulse === input.pulse && (event.kind === "draw" || event.kind === "collection") && /drew 0 charge/i.test(event.message ?? "")).map(event => event.actorId).filter((id): id is string => Boolean(id)));
   const effects: FirstGlowAtmosphereEffect[] = [];
   for (const object of input.bundle.objects.slice().sort((a, b) => a.id.localeCompare(b.id))) {
     const blocked = runtime.objects.some(item => item.objectId === object.id && item.blocked);
@@ -33,7 +33,7 @@ export function planFirstGlowAtmosphere(input: { bundle: FirstGlowAtmosphereBund
     if (effects.length >= MAX_EFFECTS) break;
   }
   const sparksById = new Map(input.sparks.map(spark => [spark.id, spark]));
-  const activeEvents = input.events.filter(event => event.tick === input.tick).slice(-8).sort((a, b) => a.id.localeCompare(b.id));
+  const activeEvents = input.events.filter(event => event.pulse === input.pulse).slice(-8).sort((a, b) => a.id.localeCompare(b.id));
   for (const event of activeEvents) {
     if (effects.length >= MAX_EFFECTS) break;
     const actor = event.actorId ? sparksById.get(event.actorId) : undefined;

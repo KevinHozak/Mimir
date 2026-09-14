@@ -11,25 +11,25 @@ import { firstGlowReflectionCadence } from "./first-glow-reflection-capacity.js"
 
 const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("../../../assets/world/generated/sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601/world.json", import.meta.url)), "utf8"))) as FirstGlowWorldBundle;
 
-test("a feasible intention persists, executes across ticks, and records causal completion", async () => {
+test("a feasible intention persists, executes across pulses, and records causal completion", async () => {
   const state = createFirstGlowState(bundle);
-  state.reflectionCapacity!.policy.ticksPerDay = 1;
+  state.reflectionCapacity!.policy.pulsesPerDay = 1;
   const spark = state.settlements[0].sparks[0];
   spark.knownEvidenceEventIds = ["seed-event"];
-  const context = buildFirstGlowIntentionContext(state, spark.id, { id: "seed-event", tick: 0, kind: "explore", actorId: spark.id, message: "A witnessed trace." });
+  const context = buildFirstGlowIntentionContext(state, spark.id, { id: "seed-event", pulse: 0, kind: "explore", actorId: spark.id, message: "A witnessed trace." });
   assert.ok(context);
   const activity = context.candidateActivities[0];
-  const evaluation = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "seed-event", tick: 0, kind: "explore", actorId: spark.id, message: "A witnessed trace." }, provider: { providerId: "test-intention-provider", propose: async () => ({ activity, summary: "Continue toward the witnessed opportunity.", evidenceEventIds: ["seed-event"], causalEventIds: ["seed-event"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
+  const evaluation = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "seed-event", pulse: 0, kind: "explore", actorId: spark.id, message: "A witnessed trace." }, provider: { providerId: "test-intention-provider", propose: async () => ({ activity, summary: "Continue toward the witnessed opportunity.", evidenceEventIds: ["seed-event"], causalEventIds: ["seed-event"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
   assert.equal(evaluation.record?.source, "ai");
   assert.equal(evaluation.record?.status, "active");
   const intention = commitFirstGlowIntention(state, context, evaluation.proposal!, "ai");
   assert.equal(intention.status, "active");
   let continuationCalls = 0;
-  const continuation = await evaluateFirstGlowIntention(state, spark.id, { provider: { providerId: "must-not-run", propose: async () => { continuationCalls += 1; return {}; } }, triggerEvent: { id: "seed-event", tick: 0, kind: "explore", actorId: spark.id, message: "A witnessed trace." } });
+  const continuation = await evaluateFirstGlowIntention(state, spark.id, { provider: { providerId: "must-not-run", propose: async () => { continuationCalls += 1; return {}; } }, triggerEvent: { id: "seed-event", pulse: 0, kind: "explore", actorId: spark.id, message: "A witnessed trace." } });
   assert.equal(continuationCalls, 0);
   assert.equal(continuation.record?.reason, "intention-continues");
   let advanced = state;
-  for (let tick = 0; tick < 30 && advanced.settlements[0].sparks[0].intention?.status === "active"; tick += 1) advanced = advanceFirstGlow(advanced, { resolveSocial: false });
+  for (let pulse = 0; pulse < 30 && advanced.settlements[0].sparks[0].intention?.status === "active"; pulse += 1) advanced = advanceFirstGlow(advanced, { resolveSocial: false });
   assert.equal(advanced.settlements[0].sparks[0].intention?.status, "completed");
   assert.ok(advanced.history?.intentions?.find(record => record.id === intention.id && record.status === "completed"));
   const restored = JSON.parse(JSON.stringify(advanced));
@@ -40,14 +40,14 @@ test("a feasible intention persists, executes across ticks, and records causal c
 test("a habitual intention is reconsidered at an unused reflection slot end", async () => {
   const state = createFirstGlowState(bundle);
   const spark = state.settlements[0].sparks[0];
-  state.reflectionCapacity!.policy.ticksPerDay = 4;
+  state.reflectionCapacity!.policy.pulsesPerDay = 4;
   const cadence = firstGlowReflectionCadence(spark.id, 1, 4);
-  state.tick = cadence.phaseOffset;
-  const first = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "habit-start", tick: state.tick, kind: "explore", actorId: spark.id, message: "A familiar route." }, provider: { providerId: "first-reflection", propose: async context => ({ activity: context.candidateActivities[0], summary: "Keep the familiar route.", evidenceEventIds: ["habit-start"], causalEventIds: ["habit-start"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
+  state.pulse = cadence.phaseOffset;
+  const first = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "habit-start", pulse: state.pulse, kind: "explore", actorId: spark.id, message: "A familiar route." }, provider: { providerId: "first-reflection", propose: async context => ({ activity: context.candidateActivities[0], summary: "Keep the familiar route.", evidenceEventIds: ["habit-start"], causalEventIds: ["habit-start"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
   commitFirstGlowIntention(state, first.context!, first.proposal!, "ai");
-  state.tick = 4 + 4 - 1;
+  state.pulse = 4 + 4 - 1;
   let calls = 0;
-  const reconsidered = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "habit-end", tick: state.tick, kind: "explore", actorId: spark.id, message: "The familiar route reaches its reflection slot end." }, provider: { providerId: "second-reflection", propose: async context => { calls += 1; return { activity: context.candidateActivities.at(-1), summary: "Reconsider the habitual route.", evidenceEventIds: ["habit-end"], causalEventIds: ["habit-end"] }; } }, budget: { limit: 1, reserved: 0, used: 0 } });
+  const reconsidered = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "habit-end", pulse: state.pulse, kind: "explore", actorId: spark.id, message: "The familiar route reaches its reflection slot end." }, provider: { providerId: "second-reflection", propose: async context => { calls += 1; return { activity: context.candidateActivities.at(-1), summary: "Reconsider the habitual route.", evidenceEventIds: ["habit-end"], causalEventIds: ["habit-end"] }; } }, budget: { limit: 1, reserved: 0, used: 0 } });
   assert.equal(calls, 1);
   assert.equal(reconsidered.record?.status, "active");
   assert.equal(reconsidered.record?.reflection?.forcedAtSlotEnd, true);
@@ -56,11 +56,11 @@ test("a habitual intention is reconsidered at an unused reflection slot end", as
 
 test("invalid provider output falls back to one feasible rules intention without extra calls", async () => {
   const state = createFirstGlowState(bundle);
-  state.reflectionCapacity!.policy.ticksPerDay = 1;
+  state.reflectionCapacity!.policy.pulsesPerDay = 1;
   const spark = state.settlements[0].sparks[0];
   spark.knownEvidenceEventIds = ["seed-event"];
   state.history = createFirstGlowHistory();
-  const evaluation = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "seed-event", tick: 0, kind: "idle", actorId: spark.id, message: "A routine pause." }, provider: { providerId: "invalid-provider", propose: async () => ({ activity: "invented-activity", summary: "Not feasible.", evidenceEventIds: ["seed-event"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
+  const evaluation = await evaluateFirstGlowIntention(state, spark.id, { triggerEvent: { id: "seed-event", pulse: 0, kind: "idle", actorId: spark.id, message: "A routine pause." }, provider: { providerId: "invalid-provider", propose: async () => ({ activity: "invented-activity", summary: "Not feasible.", evidenceEventIds: ["seed-event"] }) }, budget: { limit: 1, reserved: 0, used: 0 } });
   assert.equal(evaluation.record?.source, "rules");
   assert.equal(evaluation.record?.status, "active");
   assert.ok(evaluation.proposal && evaluation.context?.candidateActivities.includes(evaluation.proposal.activity as FirstGlowActivity));
@@ -68,12 +68,12 @@ test("invalid provider output falls back to one feasible rules intention without
 
 test("historical intention evaluation is provider-free and reconstructs from the context hash", async () => {
   const state = createFirstGlowState(bundle);
-  state.reflectionCapacity!.policy.ticksPerDay = 1;
+  state.reflectionCapacity!.policy.pulsesPerDay = 1;
   const spark = state.settlements[0].sparks[0];
   spark.knownEvidenceEventIds = ["seed-event"];
-  const triggerEvent = { id: "seed-event", tick: 0, kind: "idle" as const, actorId: spark.id, message: "A routine pause." };
+  const triggerEvent = { id: "seed-event", pulse: 0, kind: "idle" as const, actorId: spark.id, message: "A routine pause." };
   const context = buildFirstGlowIntentionContext(state, spark.id, triggerEvent)!;
-  const recorded = { id: `intention-${context.tick}-${context.sparkId}-${context.contextHash.slice(-12)}`, tick: 0, sparkId: spark.id, contextHash: context.contextHash, source: "rules" as const, status: "active" as const, reflection: { sparkId: spark.id, tick: 0, simulatedDay: 0, created: true, reason: "created" as const, capacity: 1, intervalTicks: 1, phaseOffset: 0, windowIndex: 0, nextEligibleTick: 0, sparkUsed: 1, globalUsed: 1 } };
+  const recorded = { id: `intention-${context.pulse}-${context.sparkId}-${context.contextHash.slice(-12)}`, pulse: 0, sparkId: spark.id, contextHash: context.contextHash, source: "rules" as const, status: "active" as const, reflection: { sparkId: spark.id, pulse: 0, simulatedDay: 0, created: true, reason: "created" as const, capacity: 1, intervalPulses: 1, phaseOffset: 0, windowIndex: 0, nextEligiblePulse: 0, sparkUsed: 1, globalUsed: 1 } };
   let calls = 0;
   const evaluation = await evaluateFirstGlowIntention(state, spark.id, { historicalPlayback: true, recorded: [recorded], provider: { providerId: "must-not-run", propose: async () => { calls += 1; throw new Error("provider called"); } }, triggerEvent });
   assert.equal(calls, 0);

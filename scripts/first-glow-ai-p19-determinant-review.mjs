@@ -24,7 +24,7 @@ const seeds = [2, 4, 8, 16];
 const sparkIds = ["spark-1", "spark-2", "spark-3", "spark-4"];
 const ageDays = [0, 2, 4, 8];
 const encounterCount = 32;
-const ticksPerDay = 64;
+const pulsesPerDay = 64;
 const fallbackReasons = ["malformed-output", "invalid-reference", "unsupported-claim", "timeout", "budget-exhausted", "provider-error"];
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const stable = value => JSON.stringify(value);
@@ -36,10 +36,10 @@ function makeContexts(seed) {
   for (let index = 0; index < encounterCount; index += 1) {
     const actorId = sparkIds[index % sparkIds.length];
     const kind = ["draw", "idle", "explore", "wild-cache"][(index + seed) % 4];
-    state.tick = index + 1;
+    state.pulse = index + 1;
     const event = { id: `event-ai-p19-${seed}-${index + 1}`, kind, actorId, participants: [actorId], message: `Matched determinant review encounter ${index + 1} for seed ${seed}.`, evidenceEventIds: [] };
     state.events = [event];
-    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.tick);
+    recordFirstGlowWitnesses(state.social, [event.id], actorId, [], state.pulse);
     const context = buildFirstGlowInterpretationContext(state, event);
     assert(context, `Could not build context for ${event.id}`);
     contexts.push(context);
@@ -52,20 +52,20 @@ function profileFor(basis) {
 }
 
 function attentionPolicy(sparkDailyLimits) {
-  return { perSparkDailyLimit: 4, sparkDailyLimits, globalDailyLimit: 16, ticksPerDay, repeatedEventCooldownTicks: 0, spaceOpportunities: true, timeoutMs: 1000 };
+  return { perSparkDailyLimit: 4, sparkDailyLimits, globalDailyLimit: 16, pulsesPerDay, repeatedEventCooldownPulses: 0, spaceOpportunities: true, timeoutMs: 1000 };
 }
 
 function gaps(decisions, sparkId) {
-  const created = decisions.filter(item => item.sparkId === sparkId && item.created).map(item => item.tick);
-  return created.slice(1).map((tick, index) => tick - created[index]);
+  const created = decisions.filter(item => item.sparkId === sparkId && item.created).map(item => item.pulse);
+  return created.slice(1).map((pulse, index) => pulse - created[index]);
 }
 
 function stage(contexts, records) {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkIds.length);
   return contexts.map(context => {
-    state.tick = context.tick;
+    state.pulse = context.pulse;
     state.events = [context.event];
-    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.tick);
+    recordFirstGlowWitnesses(state.social, [context.event.id], context.actorSparkId, [], context.pulse);
     const transition = applyFirstGlowStagingChoice(state, context, records.get(context.encounterId));
     assert(transition.accepted, `${context.encounterId} rejected: ${transition.rejection ?? "unknown"}`);
     assert(transition.changedFields.every(field => field === "social"), `${context.encounterId} changed canonical runtime authority`);
@@ -135,7 +135,7 @@ async function evaluateBasis(basis) {
       return { sparkId: outcome.attention.sparkId, changedChoice, changedDownstream, useful, fallbackReason };
     });
     const gapsBySpark = Object.fromEntries(sparkIds.map(sparkId => [sparkId, gaps(pilot.attentionBudget.decisions, sparkId)]));
-    const noBurst = sparkIds.every(sparkId => gapsBySpark[sparkId].every(gap => gap >= createFirstGlowDecisionCadence(sparkId, sparkDailyLimits[sparkId], ticksPerDay).intervalTicks));
+    const noBurst = sparkIds.every(sparkId => gapsBySpark[sparkId].every(gap => gap >= createFirstGlowDecisionCadence(sparkId, sparkDailyLimits[sparkId], pulsesPerDay).intervalPulses));
     let replayProviderCalls = 0;
     const replay = await runFirstGlowHybridRuntime(contexts, { runtimeMode: "bounded-internal-pilot", provider: { providerId: "replay-must-not-call", interpret: async () => { replayProviderCalls += 1; throw new Error("provider called during replay"); } }, historicalPlayback: true, recorded: pilot.outcomes.map(item => item.interpretation), attentionPolicy: policy, interpretationBudget: { limit: 16, reserved: 0, used: 0, telemetry: [] } });
     const fallbackTotals = Object.fromEntries(fallbackReasons.map(reason => [reason, reviews.filter(item => item.fallbackReason === reason).length]));
@@ -157,7 +157,7 @@ async function evaluateBasis(basis) {
   return {
     basis,
     sparkDailyLimits,
-    profiles: Object.fromEntries(sparkIds.map((sparkId, index) => [sparkId, { budget: sparkDailyLimits[sparkId], readinessTier: index, ageDays: ageDays[index], ...createFirstGlowDecisionCadence(sparkId, sparkDailyLimits[sparkId], ticksPerDay) }])),
+    profiles: Object.fromEntries(sparkIds.map((sparkId, index) => [sparkId, { budget: sparkDailyLimits[sparkId], readinessTier: index, ageDays: ageDays[index], ...createFirstGlowDecisionCadence(sparkId, sparkDailyLimits[sparkId], pulsesPerDay) }])),
     perSpark: perSparkTotals,
     seeds: seedResults,
     provider: { calls: telemetry.length, latencyMs: telemetry.reduce((sum, item) => sum + (item.latencyMs ?? 0), 0), costCents: telemetry.reduce((sum, item) => sum + (item.costCents ?? 0), 0), fallbackTotals: Object.fromEntries(fallbackReasons.map(reason => [reason, telemetry.filter(item => item.outcome === "fallback" && item.reason === reason).length])) },
@@ -181,7 +181,7 @@ const report = {
   execution,
   fixedSeeds: seeds,
   encountersPerSeed: encounterCount,
-  ticksPerDay,
+  pulsesPerDay,
   budgetLadder: [2, 4, 8, 16],
   profilesEquivalent,
   basisResults: results,

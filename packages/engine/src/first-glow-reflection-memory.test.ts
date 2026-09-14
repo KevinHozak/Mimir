@@ -12,13 +12,13 @@ const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("
 
 test("reflection memory keeps objective, received, and subjective provenance separate", () => {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
-  state.tick = 12;
+  state.pulse = 12;
   state.events = [
-    { id: "event-witnessed", tick: 4, kind: "explore", actorId: "spark-1", message: "Spark 1 found a new trace." },
-    { id: "event-private-future", tick: 13, kind: "explore", actorId: "spark-2", message: "A future trace." }
+    { id: "event-witnessed", pulse: 4, kind: "explore", actorId: "spark-1", message: "Spark 1 found a new trace." },
+    { id: "event-private-future", pulse: 13, kind: "explore", actorId: "spark-2", message: "A future trace." }
   ];
-  state.social.knowledge[0].witnessedFacts = [{ eventId: "event-witnessed", witnessedTick: 4 }];
-  state.social.knowledge[0].communicatedClaims = [{ id: "claim-1", eventId: "event-witnessed", sourceSparkId: "spark-2", recipientSparkId: "spark-1", claim: "The trace leads toward shelter.", evidenceEventIds: ["event-witnessed"], communicatedTick: 8 }];
+  state.social.knowledge[0].witnessedFacts = [{ eventId: "event-witnessed", witnessedPulse: 4 }];
+  state.social.knowledge[0].communicatedClaims = [{ id: "claim-1", eventId: "event-witnessed", sourceSparkId: "spark-2", recipientSparkId: "spark-1", claim: "The trace leads toward shelter.", evidenceEventIds: ["event-witnessed"], communicatedPulse: 8 }];
   state.social.knowledge[0].uncertainInferences = [{ id: "inference-1", aboutEventId: "event-witnessed", inference: "The route may be safer.", confidence: "tentative", evidenceEventIds: ["event-witnessed"] }];
   const context = buildFirstGlowReflectionMemoryContext(state, "spark-1");
   assert.equal(context.version, "lived-memory-v1");
@@ -31,12 +31,12 @@ test("bounded memory ordering and context hashes change with lived history, not 
   const young = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
   const experienced = structuredClone(young);
   for (const state of [young, experienced]) {
-    state.tick = 8;
-    state.events = [{ id: "event-current", tick: 8, kind: "draw", actorId: "spark-1", message: "The pool dims." }];
-    state.social.knowledge[0].witnessedFacts = [{ eventId: "event-current", witnessedTick: 8 }];
+    state.pulse = 8;
+    state.events = [{ id: "event-current", pulse: 8, kind: "draw", actorId: "spark-1", message: "The pool dims." }];
+    state.social.knowledge[0].witnessedFacts = [{ eventId: "event-current", witnessedPulse: 8 }];
   }
-  experienced.events.unshift({ id: "event-old", tick: 2, kind: "explore", actorId: "spark-1", message: "An earlier trace was found." });
-  experienced.social.knowledge[0].witnessedFacts.unshift({ eventId: "event-old", witnessedTick: 2 });
+  experienced.events.unshift({ id: "event-old", pulse: 2, kind: "explore", actorId: "spark-1", message: "An earlier trace was found." });
+  experienced.social.knowledge[0].witnessedFacts.unshift({ eventId: "event-old", witnessedPulse: 2 });
   const youngContext = buildFirstGlowInterpretationContext(young, young.events[0]);
   const experiencedContext = buildFirstGlowInterpretationContext(experienced, experienced.events[1]);
   assert.ok(youngContext && experiencedContext);
@@ -49,21 +49,21 @@ test("bounded memory ordering and context hashes change with lived history, not 
 test("a young Hero can have more capacity while retaining little lived history", () => {
   const heroState = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
   designateFirstGlowHero(heroState.reflectionCapacity!, "spark-1");
-  heroState.tick = 4;
-  heroState.events = [{ id: "event-current", tick: 4, kind: "draw", actorId: "spark-1", message: "The pool dims." }];
-  heroState.social.knowledge[0].witnessedFacts = [{ eventId: "event-current", witnessedTick: 4 }];
+  heroState.pulse = 4;
+  heroState.events = [{ id: "event-current", pulse: 4, kind: "draw", actorId: "spark-1", message: "The pool dims." }];
+  heroState.social.knowledge[0].witnessedFacts = [{ eventId: "event-current", witnessedPulse: 4 }];
   const context = buildFirstGlowReflectionMemoryContext(heroState, "spark-1");
   assert.equal(heroState.reflectionCapacity?.assignments["spark-1"].capacity, 2);
   assert.equal(context.memories.length, 1);
-  assert.equal(context.reconstruction.spawnedTick, 0);
+  assert.equal(context.reconstruction.spawnedPulse, 0);
 });
 
 test("memory projection is bounded and excludes future facts", () => {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
-  state.tick = 10;
-  state.events = Array.from({ length: 12 }, (_, index) => ({ id: `event-${index}`, tick: index, kind: "explore" as const, actorId: "spark-1", message: `Trace ${index}` }));
-  state.social.knowledge[0].witnessedFacts = state.events.map((event, index) => ({ eventId: event.id, witnessedTick: index }));
-  state.social.knowledge[0].witnessedFacts.push({ eventId: "future", witnessedTick: 11 });
+  state.pulse = 10;
+  state.events = Array.from({ length: 12 }, (_, index) => ({ id: `event-${index}`, pulse: index, kind: "explore" as const, actorId: "spark-1", message: `Trace ${index}` }));
+  state.social.knowledge[0].witnessedFacts = state.events.map((event, index) => ({ eventId: event.id, witnessedPulse: index }));
+  state.social.knowledge[0].witnessedFacts.push({ eventId: "future", witnessedPulse: 11 });
   const context = buildFirstGlowReflectionMemoryContext(state, "spark-1", { maxMemories: 3 });
   assert.equal(context.memories.length, 3);
   assert.equal(context.omittedCount, 8);
