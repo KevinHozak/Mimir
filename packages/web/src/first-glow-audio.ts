@@ -5,6 +5,7 @@ export type FirstGlowAudioPreferences = {
   muted: boolean;
   ambienceEnabled: boolean;
   scoreEnabled: boolean;
+  effectsEnabled: boolean;
   master: number;
   music: number;
   effects: number;
@@ -15,6 +16,7 @@ export const DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES: FirstGlowAudioPreferences = {
   muted: false,
   ambienceEnabled: true,
   scoreEnabled: false,
+  effectsEnabled: true,
   master: 0.7,
   music: 0.35,
   effects: 0.5,
@@ -36,6 +38,7 @@ export function loadFirstGlowAudioPreferences(storage: Pick<Storage, "getItem"> 
       muted: parsed.muted === true,
       ambienceEnabled: parsed.ambienceEnabled !== false,
       scoreEnabled: parsed.scoreEnabled === true,
+      effectsEnabled: parsed.effectsEnabled !== false,
       master: clamp(parsed.master, DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES.master),
       music: clamp(parsed.music, DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES.music),
       effects: clamp(parsed.effects, DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES.effects),

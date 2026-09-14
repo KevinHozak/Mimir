@@ -208,7 +208,7 @@ export class FirstGlowAudioRuntime {
   }
 
   private playCue(cue: FirstGlowAudioCue): void {
-    if (!this.context || !this.effectsBus || !this.preferences.enabled || this.preferences.muted || this.preferences.master <= 0 || this.preferences.effects <= 0) return;
+    if (!this.context || !this.effectsBus || !this.preferences.enabled || this.preferences.muted || !this.preferences.effectsEnabled || this.preferences.master <= 0 || this.preferences.effects <= 0) return;
     const shape = cueShape[cue];
     const now = this.context.currentTime;
     const buffer = this.effectBuffers.get(cue);
