@@ -46,8 +46,8 @@ try {
     assert.equal(audioRequests.length, 0, "audio must remain opt-in before a user gesture");
     await desktop.getByRole("button", { name: "Enable audio" }).click();
     await desktop.getByRole("button", { name: "Disable audio" }).waitFor();
-    await desktop.getByRole("checkbox", { name: "Enable ambience" }).uncheck();
-    await desktop.getByRole("checkbox", { name: "Enable ambient score" }).check();
+    await desktop.getByRole("button", { name: "Ambience on" }).click();
+    await desktop.getByRole("button", { name: "Music off" }).click();
     await desktop.locator("#audio-effects").fill("25");
     await desktop.waitForTimeout(400);
     assert.ok(audioRequests.length >= 17, `enabled audio should request the music and effect library, got ${audioRequests.length}`);
@@ -57,10 +57,10 @@ try {
     await desktop.reload();
     await desktop.getByTestId("first-glow-audio-controls").locator("summary").click();
     assert.match(await desktop.getByRole("status").first().innerText(), /preference restored/);
-    assert.equal(await desktop.getByRole("checkbox", { name: "Enable ambience" }).isChecked(), false);
-    assert.equal(await desktop.getByRole("checkbox", { name: "Enable ambient score" }).isChecked(), true);
+    assert.equal(await desktop.getByRole("button", { name: "Ambience off" }).count(), 1);
+    assert.equal(await desktop.getByRole("button", { name: "Music on" }).count(), 1);
     assert.equal(await desktop.locator("#audio-effects").inputValue(), "25");
-    await desktop.getByRole("checkbox", { name: "Mute all audio" }).check();
+    await desktop.getByRole("button", { name: "Sound on" }).click();
     const beforeEvents = await desktop.getByTestId("objective-events").innerText();
     const pulse = await fetch(`http://127.0.0.1:${apiPort}/api/pulse`, { method: "POST", headers: { "x-owner-token": token } });
     assert.equal(pulse.status, 200);
