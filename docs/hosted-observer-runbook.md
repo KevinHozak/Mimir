@@ -112,6 +112,13 @@ The first hosted service is intentionally one simulation writer. Do not scale it
 
 ## Required checks after deploy
 
+For Firebase Hosting releases, use `npm run deploy:hosting` from a clean checkout at
+`origin/main`. The command fetches and checks the merged revision, builds all
+workspaces, deploys only the `mimir-realm` Hosting site, and compares the live
+`index.html` and hashed assets with the build it just deployed. A successful
+Firebase command alone is not sufficient evidence that the intended checkout is
+live.
+
 1. Open `/health` and verify the service reports `ok: true` and the expected database path under `/var/data`.
 2. Open `/` and verify the browser client loads from the same origin.
 3. Enter the owner token and verify pause, pulse, branch, archive, continue, and reset.
