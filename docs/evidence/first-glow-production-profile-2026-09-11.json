@@ -13,7 +13,7 @@
   },
   "seed": 20260911,
   "sparks": 12,
-  "ticks": 120,
+  "pulses": 120,
   "build": "production Vite preview of packages/web/dist",
   "runtime": {
     "apiPort": 34144,
@@ -26,13 +26,13 @@
       "medianMs": 44.684400000000096,
       "p95Ms": 302.7633000000005,
       "maxMs": 1989.1941000000002,
-      "finalTick": 120
+      "finalPulse": 120
     },
     {
       "medianMs": 45.28770000000077,
       "p95Ms": 75.76749999999993,
       "maxMs": 88.20809999999983,
-      "finalTick": 120
+      "finalPulse": 120
     }
   ],
   "environment": {

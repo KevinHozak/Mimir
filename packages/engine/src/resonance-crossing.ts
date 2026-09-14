@@ -38,9 +38,9 @@ export function applyCrossingVoicesChoice(input: FirstGlowState, anchor: Resonan
   nextActor.intendedActivity = intendedActivity;
   const outcome = choice === "follow-signal" ? "new-signal-followed" : "known-course-held";
   const durableConsequence = choice === "follow-signal" ? `${nextActor.name} follows the newer crossing signal, spending charge and readiness to test an uncertain route.` : `${nextActor.name} holds the known course, preserving the crossing's earlier evidence while leaving the newer signal unresolved.`;
-  const decision: CrossingVoicesDecisionRecord = { id: `crossing-decision-${state.tick}-${actorSparkId}`, anchorId: anchor.id, tick: state.tick, actorSparkId, choice, accessRuleId: anchor.accessRuleId, chargeCost, readinessDelta, intendedActivity, outcome, durableConsequence, evidenceEventIds: [...evidenceEventIds].sort() };
+  const decision: CrossingVoicesDecisionRecord = { id: `crossing-decision-${state.pulse}-${actorSparkId}`, anchorId: anchor.id, pulse: state.pulse, actorSparkId, choice, accessRuleId: anchor.accessRuleId, chargeCost, readinessDelta, intendedActivity, outcome, durableConsequence, evidenceEventIds: [...evidenceEventIds].sort() };
   state.ledger.push({ kind: "adjustment", actorId: actorSparkId, amount: chargeCost, reason: `crossing-voices-${choice}` });
-  const event: StructuredEvent = { id: `event-${state.tick}-${decision.id}`, tick: state.tick, kind: "crossing-voices-choice", actorId: actorSparkId, message: durableConsequence, evidenceEventIds: decision.evidenceEventIds, source: "rules" };
+  const event: StructuredEvent = { id: `event-${state.pulse}-${decision.id}`, pulse: state.pulse, kind: "crossing-voices-choice", actorId: actorSparkId, message: durableConsequence, evidenceEventIds: decision.evidenceEventIds, source: "rules" };
   state.events.push(event);
   return { ok: true, state, decision, event };
 }

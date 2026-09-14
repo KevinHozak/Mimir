@@ -36,7 +36,7 @@ This should be an authored family of vector or raster treatments, not an unbound
 
 1. Define a versioned `reflectionCapacity` visual token as an integer world-age value (`1`, `2`, `3`, `4`, `5`, `6`, and later values) separately from mutable daily usage and personal age.
 2. Produce a small state sheet for each tier at normal zoom, zoomed out, selected, traveling, low charge, reduced motion, and glow disabled.
-3. Add deterministic renderer fixtures that prove tier identity remains stable across ticks, replay, and browser recreation, with no changes to collision or interaction geometry.
+3. Add deterministic renderer fixtures that prove tier identity remains stable across pulses, replay, and browser recreation, with no changes to collision or interaction geometry.
 4. Review observer comprehension and accessibility before using richer treatments in any live or evaluation view. If the ladder confuses capacity with importance, simplify it or move the detail into the inspector.
 
 This is a graphics and observer-communication proposal only. It does not authorize an external provider, change the rules-only path, or grant a higher-RC Spark additional world authority.
@@ -92,7 +92,7 @@ The provider cannot create events, move a Spark, modify charge or readiness, cha
 
 AI-P20 is delivered in the merged bounded path. `FirstGlowWorldCodex` (`world-codex-v1`) records the First Glow rules, terminology, knowledge boundary, and provider contract. Each attention context now carries a `FirstGlowContextPacket` (`context-packet-v1`) containing the authored Spark profile, Spark-local witnessed/communicated/uncertain knowledge, deterministic bounded memory summaries, and recent witnessed events. The packet has its own canonical hash and is included in the interpretation context hash, so the same persisted state and authored versions reconstruct the same provider input.
 
-Retrieval is deterministic and bounded: events are ordered by tick and stable ID, memories retain explicit provenance and omission counts, future events are excluded, and packet validation rejects hidden evidence or tampering. Decision usage records now include input-token estimates, output-token estimates, latency, reservation, usage, validation, and fallback metadata. No hidden chain-of-thought is stored, and historical playback continues to use recorded decisions without provider calls.
+Retrieval is deterministic and bounded: events are ordered by pulse and stable ID, memories retain explicit provenance and omission counts, future events are excluded, and packet validation rejects hidden evidence or tampering. Decision usage records now include input-token estimates, output-token estimates, latency, reservation, usage, validation, and fallback metadata. No hidden chain-of-thought is stored, and historical playback continues to use recorded decisions without provider calls.
 
 The representative full/retrieved/summarized context comparison is recorded in [AI-P20 context cost evidence](evidence/ai-p20-context-cost-report-2026-09-13.md). It is a deterministic planning artifact, not a live pricing guarantee or authorization for external execution.
 
@@ -102,9 +102,9 @@ Recording is a first-class requirement. The system should retain canonical commi
 
 Every committed movement record should contain:
 
-- timeline and tick;
+- timeline and pulse;
 - Spark ID;
-- committed start/end cells and traversed cells for that tick;
+- committed start/end cells and traversed cells for that pulse;
 - route/navigation revision;
 - movement cost and resource effects;
 - triggering decision or activity ID;
@@ -112,7 +112,7 @@ Every committed movement record should contain:
 
 Every decision record should contain:
 
-- timeline, tick, Spark ID, and deterministic trigger ID;
+- timeline, pulse, Spark ID, and deterministic trigger ID;
 - candidate alternatives presented by the server;
 - selected alternative and whether it came from rules or AI;
 - authored personality/profile version used;

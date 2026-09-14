@@ -1,7 +1,7 @@
 # First Glow Autonomous Story Review
 
 Date: 2026-09-10
-Runtime: 4 × 24 ticks (96 total), schema 3, mimir-sim-v3-first-glow, structured-v2
+Runtime: 4 × 24 pulses (96 total), schema 3, mimir-sim-v3-first-glow, structured-v2
 Bundle: sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601
 
 This report replays the four P1 scenarios with autonomous rules-only social resolution. Every run records its seed, full committed event history, ledger, social state, explanations, and season checkpoints in the JSON companion.

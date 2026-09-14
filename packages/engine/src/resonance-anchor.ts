@@ -7,7 +7,7 @@ export interface ShelterLoomRule {
   requiredOccurrences: number;
   distinctParticipantMinimum: number;
   minimumChargeCost: number;
-  maximumTickSpan: number;
+  maximumPulseSpan: number;
   requiredLocation: { objectId: string; slotId: string };
   accessRuleId: "shelter-loom-shared-rest-v1";
   possibility: string;
@@ -22,7 +22,7 @@ export const SHELTER_LOOM_RULE: ShelterLoomRule = {
   requiredOccurrences: 3,
   distinctParticipantMinimum: 2,
   minimumChargeCost: 6,
-  maximumTickSpan: 12,
+  maximumPulseSpan: 12,
   requiredLocation: { objectId: "tiled-107", slotId: "rest" },
   accessRuleId: "shelter-loom-shared-rest-v1",
   possibility: "Sparks may choose a durable shared-rest practice at this niche.",
@@ -37,7 +37,7 @@ export interface ResonanceCandidateRecord {
   qualifyingEventIds: string[];
   participantSparkIds: string[];
   totalChargeCost: number;
-  formedTick: number;
+  formedPulse: number;
   status: "pending" | "created" | "failed" | "altered" | "decayed";
   auditEvidenceEventIds: string[];
   failure?: { code: string; evidenceEventIds: string[] };
@@ -49,7 +49,7 @@ export interface ResonanceAnchorRecord {
   anchorKind: "shelter-loom" | "crossing-voices";
   authoredObjectId: string;
   authoredSlotId: string;
-  createdTick: number;
+  createdPulse: number;
   accessRuleId: string;
   possibility: string;
   tension: string;
@@ -70,7 +70,7 @@ export type ShelterLoomChoice = "yield-rest" | "hold-rest";
 export interface ShelterLoomDecisionRecord {
   id: string;
   anchorId: string;
-  tick: number;
+  pulse: number;
   actorSparkId: string;
   beneficiarySparkId: string;
   choice: ShelterLoomChoice;
@@ -88,7 +88,7 @@ export interface ShelterLoomDecisionRecord {
 export interface CrossingVoicesDecisionRecord {
   id: string;
   anchorId: string;
-  tick: number;
+  pulse: number;
   actorSparkId: string;
   choice: "follow-signal" | "hold-course";
   accessRuleId: string;
@@ -106,9 +106,9 @@ export type ShelterLoomCreationResult =
 
 const sortedUnique = (values: string[]) => values.length === new Set(values).size && values.every((value, index) => index === 0 || values[index - 1] < value);
 
-export function createShelterLoomAnchor(candidate: ResonanceCandidateRecord, bundle: DecodedWorldBundle, createdTick: number): ShelterLoomCreationResult {
+export function createShelterLoomAnchor(candidate: ResonanceCandidateRecord, bundle: DecodedWorldBundle, createdPulse: number): ShelterLoomCreationResult {
   if (candidate.status !== "pending") return { ok: false, code: "candidate-not-pending" };
-  if (candidate.ruleId !== SHELTER_LOOM_RULE.id || candidate.location.objectId !== SHELTER_LOOM_RULE.requiredLocation.objectId || candidate.location.slotId !== SHELTER_LOOM_RULE.requiredLocation.slotId || candidate.qualifyingEventIds.length < SHELTER_LOOM_RULE.requiredOccurrences || candidate.participantSparkIds.length < SHELTER_LOOM_RULE.distinctParticipantMinimum || candidate.totalChargeCost < SHELTER_LOOM_RULE.minimumChargeCost || candidate.totalChargeCost < 0 || candidate.formedTick < 0 || !sortedUnique(candidate.qualifyingEventIds) || !sortedUnique(candidate.participantSparkIds) || !sortedUnique(candidate.auditEvidenceEventIds)) return { ok: false, code: "invalid-candidate" };
+  if (candidate.ruleId !== SHELTER_LOOM_RULE.id || candidate.location.objectId !== SHELTER_LOOM_RULE.requiredLocation.objectId || candidate.location.slotId !== SHELTER_LOOM_RULE.requiredLocation.slotId || candidate.qualifyingEventIds.length < SHELTER_LOOM_RULE.requiredOccurrences || candidate.participantSparkIds.length < SHELTER_LOOM_RULE.distinctParticipantMinimum || candidate.totalChargeCost < SHELTER_LOOM_RULE.minimumChargeCost || candidate.totalChargeCost < 0 || candidate.formedPulse < 0 || !sortedUnique(candidate.qualifyingEventIds) || !sortedUnique(candidate.participantSparkIds) || !sortedUnique(candidate.auditEvidenceEventIds)) return { ok: false, code: "invalid-candidate" };
   const object = bundle.objects.find((item) => item.id === candidate.location.objectId);
   if (!object) return { ok: false, code: "missing-bundle-object" };
   const definition = bundle.objectDefinitions[object.definitionId];
@@ -123,7 +123,7 @@ export function createShelterLoomAnchor(candidate: ResonanceCandidateRecord, bun
     anchorKind: SHELTER_LOOM_RULE.anchorKind,
     authoredObjectId: object.id,
     authoredSlotId: slot.id,
-    createdTick,
+    createdPulse,
     accessRuleId: SHELTER_LOOM_RULE.accessRuleId,
     possibility: SHELTER_LOOM_RULE.possibility,
     tension: SHELTER_LOOM_RULE.tension,

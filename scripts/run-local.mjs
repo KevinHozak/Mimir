@@ -23,8 +23,8 @@ if (!existsSync(serverEntry) || !existsSync(resolve(root, "packages/web/dist/ind
 const server = run(node, [serverEntry], {
   env: {
     PORT: process.env.PORT ?? "8888",
-    AUTO_TICK: process.env.AUTO_TICK ?? "true",
-    TICK_INTERVAL_MS: process.env.TICK_INTERVAL_MS ?? "4000",
+    AUTO_PULSE: process.env.AUTO_PULSE ?? "true",
+    PULSE_INTERVAL_MS: process.env.PULSE_INTERVAL_MS ?? "4000",
     DATABASE_PATH: process.env.DATABASE_PATH ?? join(root, "data", "local", "mimir.db"),
   },
 });

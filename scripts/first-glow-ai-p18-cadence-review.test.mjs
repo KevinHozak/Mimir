@@ -8,7 +8,7 @@ const report = JSON.parse(readFileSync(path, "utf8"));
 assert.deepEqual(report.fixedSeeds, [2, 4, 8, 16]);
 assert.equal(report.encountersPerSeed, 32);
 assert.deepEqual(report.budgetLadder, [2, 4, 8, 16]);
-assert.equal(report.ticksPerDay, 64);
+assert.equal(report.pulsesPerDay, 64);
 assert.equal(report.acceptance.everyBasisTested, true);
 assert.equal(report.acceptance.everySeedTested, true);
 assert.equal(report.acceptance.cadenceRecorded, true);

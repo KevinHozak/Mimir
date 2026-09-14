@@ -39,5 +39,5 @@ The deterministic control result is not sufficient to authorize live use. If the
 
 ## Recovery
 
-Pause ticking, preserve the original database and bundle-inclusive backup, disable AI, and restore to a new destination before comparing history. Replays and branches must use persisted records without calling Vertex. Keep the original evidence and telemetry for review; never recreate missing outcomes with a fresh provider call.
+Pause pulseing, preserve the original database and bundle-inclusive backup, disable AI, and restore to a new destination before comparing history. Replays and branches must use persisted records without calling Vertex. Keep the original evidence and telemetry for review; never recreate missing outcomes with a fresh provider call.
 

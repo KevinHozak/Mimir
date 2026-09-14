@@ -14,13 +14,13 @@ export interface FirstGlowExplanationScore {
 
 export interface FirstGlowExplanationEvidence {
   id: string;
-  tick: number;
+  pulse: number;
   message: string;
 }
 
 export interface FirstGlowExplanation {
   id: string;
-  tick: number;
+  pulse: number;
   dilemmaId: string;
   actorSparkId: string;
   actorName: string;
@@ -65,7 +65,7 @@ function scoreAlternative(state: FirstGlowState, event: StructuredEvent, dilemma
   const spark = state.settlements.flatMap(settlement => settlement.sparks).find(candidate => candidate.id === actorSparkId);
   const knowledge = state.social.knowledge.find(item => item.sparkId === actorSparkId);
   const targetTrust = trustFor(state, actorSparkId, targetSparkId);
-  const matchingCommitment = state.social.commitments.slice().sort((a, b) => b.resolvedTick - a.resolvedTick || compare(a.id, b.id)).find(commitment => commitment.promisorSparkId === actorSparkId && commitment.beneficiarySparkId === targetSparkId && commitment.dilemmaId === dilemmaId);
+  const matchingCommitment = state.social.commitments.slice().sort((a, b) => b.resolvedPulse - a.resolvedPulse || compare(a.id, b.id)).find(commitment => commitment.promisorSparkId === actorSparkId && commitment.beneficiarySparkId === targetSparkId && commitment.dilemmaId === dilemmaId);
   const need = clamp((spark?.chargeDeficit ?? 0) * 2 + Math.max(0, 70 - (spark?.readiness ?? 100)) / 10, 0, 10);
   const values = tendencyScore(cardFor(actorSparkId).valueTendencies, alternativeId);
   const localKnowledge = clamp((knowledge?.witnessedFacts.length ?? 0) + (knowledge?.communicatedClaims.length ?? 0) - (knowledge?.uncertainInferences.length ?? 0), -3, 6);
@@ -90,12 +90,12 @@ function explanationForEvent(state: FirstGlowState, event: StructuredEvent): Fir
   const dilemma = FIRST_GLOW_DESIGN.dilemmas.find(candidate => candidate.id === mapping.dilemmaId)!;
   const alternative = dilemma.alternatives.find(candidate => candidate.id === selected.alternativeId)!;
   const knowledge = state.social.knowledge.find(item => item.sparkId === actor.id);
-  const evidence = { id: event.id, tick: state.tick, message: event.message };
+  const evidence = { id: event.id, pulse: state.pulse, message: event.message };
   const knownFacts = (knowledge?.witnessedFacts ?? []).filter(fact => fact.eventId === event.id).map(fact => evidence);
   const uncertainInferences = (knowledge?.uncertainInferences ?? []).map(inference => inference.inference).sort(compare);
   const score = selected.score;
   const targetSparkName = state.settlements.flatMap(settlement => settlement.sparks).find(spark => spark.id === targetSparkId)?.name;
-  return { id: `explanation-${state.tick}-${event.id}`, tick: state.tick, dilemmaId: mapping.dilemmaId, actorSparkId: actor.id, actorName: actor.name, targetSparkId, targetSparkName, alternativeId: selected.alternativeId, alternativeLabel: alternative.label, summary: `${actor.name} selected this path because its deterministic score favored ${alternative.label.toLowerCase()}.`, score, evidenceEventIds: [event.id], objectiveEvents: [evidence], knownFacts, uncertainInferences, consequenceEvents: [evidence] };
+  return { id: `explanation-${state.pulse}-${event.id}`, pulse: state.pulse, dilemmaId: mapping.dilemmaId, actorSparkId: actor.id, actorName: actor.name, targetSparkId, targetSparkName, alternativeId: selected.alternativeId, alternativeLabel: alternative.label, summary: `${actor.name} selected this path because its deterministic score favored ${alternative.label.toLowerCase()}.`, score, evidenceEventIds: [event.id], objectiveEvents: [evidence], knownFacts, uncertainInferences, consequenceEvents: [evidence] };
 }
 
 export function appendFirstGlowExplanations(state: FirstGlowState, events: StructuredEvent[]): void {
@@ -105,5 +105,5 @@ export function appendFirstGlowExplanations(state: FirstGlowState, events: Struc
     const explanation = explanationForEvent(state, event);
     if (explanation && !existing.has(explanation.id)) state.explanations.push(explanation);
   }
-  state.explanations.sort((a, b) => a.tick - b.tick || compare(a.id, b.id));
+  state.explanations.sort((a, b) => a.pulse - b.pulse || compare(a.id, b.id));
 }

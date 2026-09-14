@@ -24,11 +24,11 @@ The bucket location is `US-EAST1`, so future cost calculations must use that reg
 
 ## Representative workload measurements
 
-The dated [First Glow production profile](first-glow-production-profile-2026-09-11.json) is the representative historical-replay measurement. It used the production Vite preview, the First Glow bundle, 12 Sparks, and 120 ticks, with desktop and reduced-motion mobile views:
+The dated [First Glow production profile](first-glow-production-profile-2026-09-11.json) is the representative historical-replay measurement. It used the production Vite preview, the First Glow bundle, 12 Sparks, and 120 pulses, with desktop and reduced-motion mobile views:
 
 | Workload | Observed result |
 | --- | --- |
-| Engine replay, second 120-tick run | Median 45.29 ms/tick; p95 75.77 ms; maximum 88.21 ms |
+| Engine replay, second 120-pulse run | Median 45.29 ms/pulse; p95 75.77 ms; maximum 88.21 ms |
 | Desktop observer, 1280x900 | Median frame interval 50.0 ms; p95 50.1 ms; 5 long tasks totaling 403 ms; zero measured heap growth |
 | Mobile observer, 390x844, reduced motion | Median frame interval 100 ms; p95 116.7 ms; 118 long tasks totaling 11,182 ms; zero measured heap growth |
 | Archive payload baseline | Zero published archives; no chunk transfer or cache-hit rate can be honestly inferred |
@@ -59,4 +59,4 @@ Privacy remains bounded by the existing design: Google sign-in gates the observe
 
 ## Migration gates if scale later requires it
 
-Any replacement of SQLite or addition of another writer needs a separately approved design and evidence for: transactional single-writer equivalence, deterministic tick ordering, checkpoint and branch lineage, bundle-inclusive backup/restore, provider-free replay compatibility, staged rollback, and a recovery rehearsal against a known-good archive. Until those gates pass, a larger Firebase/CDN audience does not justify changing the simulation persistence boundary.
+Any replacement of SQLite or addition of another writer needs a separately approved design and evidence for: transactional single-writer equivalence, deterministic pulse ordering, checkpoint and branch lineage, bundle-inclusive backup/restore, provider-free replay compatibility, staged rollback, and a recovery rehearsal against a known-good archive. Until those gates pass, a larger Firebase/CDN audience does not justify changing the simulation persistence boundary.

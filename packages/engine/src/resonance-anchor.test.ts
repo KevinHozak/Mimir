@@ -6,7 +6,7 @@ import { decodeWorldBundle } from "@mimir/world-data";
 import { createShelterLoomAnchor, type ResonanceCandidateRecord } from "./resonance-anchor.js";
 
 const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("../../../assets/world/generated/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/world.json", import.meta.url)), "utf8")));
-const candidate = (overrides: Partial<ResonanceCandidateRecord> = {}): ResonanceCandidateRecord => ({ id: "candidate-shelter-loom-v1-tiled-107-rest-event-14-help", ruleId: "shelter-loom-v1", location: { objectId: "tiled-107", slotId: "rest" }, qualifyingEventIds: ["event-14-help", "event-4-help", "event-9-help"], participantSparkIds: ["spark-a", "spark-b", "spark-c"], totalChargeCost: 6, formedTick: 14, status: "pending", auditEvidenceEventIds: ["event-14-help", "event-4-help", "event-9-help"], ...overrides });
+const candidate = (overrides: Partial<ResonanceCandidateRecord> = {}): ResonanceCandidateRecord => ({ id: "candidate-shelter-loom-v1-tiled-107-rest-event-14-help", ruleId: "shelter-loom-v1", location: { objectId: "tiled-107", slotId: "rest" }, qualifyingEventIds: ["event-14-help", "event-4-help", "event-9-help"], participantSparkIds: ["spark-a", "spark-b", "spark-c"], totalChargeCost: 6, formedPulse: 14, status: "pending", auditEvidenceEventIds: ["event-14-help", "event-4-help", "event-9-help"], ...overrides });
 
 test("Shelter Loom creation is deterministic at the authored niche companion", () => {
   const first = createShelterLoomAnchor(candidate(), bundle, 14);

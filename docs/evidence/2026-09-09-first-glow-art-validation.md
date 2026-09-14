@@ -2,9 +2,9 @@
 
 ## Tested result
 
-The production Vite build was exercised against the retained First Glow bundle `sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601` at commit `5c83bd90a5b862e40c01a230e611d08efcf9ca50`. The fixture contained 12 Sparks, a 32×32 map, 5 authored map objects, 5 bundled art assets, and normal map activity over 120 ticks. The bundle reported one active art version, `first-glow-v3`.
+The production Vite build was exercised against the retained First Glow bundle `sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601` at commit `5c83bd90a5b862e40c01a230e611d08efcf9ca50`. The fixture contained 12 Sparks, a 32×32 map, 5 authored map objects, 5 bundled art assets, and normal map activity over 120 pulses. The bundle reported one active art version, `first-glow-v3`.
 
-Environment: Windows (`win32`), Node `v24.14.0`, production Vite bundle, Playwright Chromium headless. The run captured a desktop 1280×900 DPR1 view and a mobile 390×844 DPR2 reduced-motion view. Both loaded all five bundle-qualified asset requests, had no horizontal overflow, exposed keyboard focus, and kept the same canvas through committed ticks. The selected Spark inspector was exercised while sampling the workload.
+Environment: Windows (`win32`), Node `v24.14.0`, production Vite bundle, Playwright Chromium headless. The run captured a desktop 1280×900 DPR1 view and a mobile 390×844 DPR2 reduced-motion view. Both loaded all five bundle-qualified asset requests, had no horizontal overflow, exposed keyboard focus, and kept the same canvas through committed pulses. The selected Spark inspector was exercised while sampling the workload.
 
 Measured frame results:
 

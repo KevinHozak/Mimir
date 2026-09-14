@@ -25,7 +25,7 @@ const waitFor = async (url: string) => {
 };
 
 try {
-  const env = { ...process.env, PORT: String(apiPort), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: token, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
+  const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: token, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" }));
   children.push(spawn(process.execPath, [join(nodeModules, "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`);
@@ -62,15 +62,15 @@ try {
     assert.equal(await desktop.locator("#audio-effects").inputValue(), "25");
     await desktop.getByRole("checkbox", { name: "Mute all audio" }).check();
     const beforeEvents = await desktop.getByTestId("objective-events").innerText();
-    const tick = await fetch(`http://127.0.0.1:${apiPort}/api/tick`, { method: "POST", headers: { "x-owner-token": token } });
-    assert.equal(tick.status, 200);
+    const pulse = await fetch(`http://127.0.0.1:${apiPort}/api/pulse`, { method: "POST", headers: { "x-owner-token": token } });
+    assert.equal(pulse.status, 200);
     await desktop.waitForTimeout(300);
     const afterEvents = await desktop.getByTestId("objective-events").innerText();
     assert.notEqual(afterEvents, beforeEvents, "muting audio must not hide committed events");
-    const requestsAfterTick = audioRequests.length;
+    const requestsAfterPulse = audioRequests.length;
     await desktop.locator("#timeline").evaluate((element) => { const input = element as HTMLInputElement; input.value = "0"; input.dispatchEvent(new Event("input", { bubbles: true })); input.dispatchEvent(new Event("change", { bubbles: true })); });
     await desktop.waitForTimeout(250);
-    assert.equal(audioRequests.length, requestsAfterTick, "history navigation must not load or replay audio assets");
+    assert.equal(audioRequests.length, requestsAfterPulse, "history navigation must not load or replay audio assets");
 
     const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, reducedMotion: "reduce" });
     const mobile = await mobileContext.newPage();

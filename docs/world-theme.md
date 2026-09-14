@@ -48,7 +48,7 @@ Art begins with light marks, simple patterns, stories, games, and keepsakes. Spa
 
 ### Growing toward the Hearth Circuit
 
-A group can begin forming a haven when it can tend a dependable collector, retain usable charge, maintain a shared shelter, and agree on access and contribution. These are proposed signs of a transition, not an automatic tick-based unlock or already implemented mechanics.
+A group can begin forming a haven when it can tend a dependable collector, retain usable charge, maintain a shared shelter, and agree on access and contribution. These are proposed signs of a transition, not an automatic pulse-based unlock or already implemented mechanics.
 
 The Collector Garden, Charge Commons, permanent Nests, and the name Emberhaven gain meaning through that development. Originator discovery remains a much later question.
 
@@ -95,9 +95,10 @@ of these calendar units are implemented:
 | 8 Seasons | **Circuit** | A major social or infrastructural turning |
 | Many Circuits | **Age** | A developmental era such as the First Glow or Hearth Circuit |
 
-The engine and persisted state continue to use **tick** as an internal
-compatibility term until a deliberate terminology migration is approved. The
-observer, explanations, and Spark-facing writing should prefer **pulse**.
+The engine, persisted state, observer, explanations, and Spark-facing writing
+use **pulse** consistently. Existing histories and clients require the
+terminology migration on this branch before this contract can replace the
+previous step-based interface.
 
 Use **Readiness** for the rest meter. Strain is its conceptual opposite, not a second name for the same increasing value. In the selected First Glow cadence, a **Cycle** is 64 pulses; another scenario may define a different local cadence explicitly.
 
@@ -132,9 +133,9 @@ history; an older ordinary Spark may draw on richer lived experience. **Readines
 continues to mean rest and ability to act.
 
 Reflections select intentions; authoritative rules execute actions between them.
-The planning fixture uses a **64-tick simulation day**. An RC tier spaces its
-opportunities across those 64 ticks (for example, RC 1 targets a 64-tick
-interval and RC 2 targets 32 ticks), with stable per-Spark offsets, no catch-up
+The planning fixture uses a **64-pulse simulation day**. An RC tier spaces its
+opportunities across those 64 pulses (for example, RC 1 targets a 64-pulse
+interval and RC 2 targets 32 pulses), with stable per-Spark offsets, no catch-up
 bursts, and explicit suppression when an opportunity is unavailable. This is a
 simulation cadence, not a promise that one day equals a fixed wall-clock duration.
 RC is distinct from charge and from real provider spend. See the [Reflection

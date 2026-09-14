@@ -10,7 +10,7 @@ if (bundle.schemaVersion !== 3) throw new Error("history fixture is not schema 3
 
 test("First Glow records durable movement and decision history", () => {
   let world = createWorldV3(bundle, 31, "history-test", 12);
-  for (let tick = 0; tick < 4; tick += 1) world = advanceWorld(world).state;
+  for (let pulse = 0; pulse < 4; pulse += 1) world = advanceWorld(world).state;
   const history = world.firstGlowState.history;
   assert.ok(history);
   assert.equal(history.schemaVersion, 1);
@@ -23,7 +23,7 @@ test("First Glow records durable movement and decision history", () => {
 test("First Glow history stays deterministic across repeated playback", () => {
   const run = () => {
     let world = createWorldV3(bundle, 37, "history-determinism", 12);
-    for (let tick = 0; tick < 4; tick += 1) world = advanceWorld(world).state;
+    for (let pulse = 0; pulse < 4; pulse += 1) world = advanceWorld(world).state;
     return world.firstGlowState.history;
   };
   assert.deepEqual(run(), run());

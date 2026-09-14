@@ -11,10 +11,10 @@ if (bundle.schemaVersion !== 3) throw new Error("T3 fixture is not schema 3");
 
 test("draw, idle, and mark actions are arrival-gated", () => {
   let state = createFirstGlowState(bundle); const initial = state.settlements[0].sourceCharge; let draw;
-  for (let tick = 0; tick < 12; tick += 1) { state = advanceFirstGlowState(state); draw = state.ledger.find(entry => entry.kind === "draw"); if (draw) break; assert.equal(state.settlements[0].sparks[0].carriedCharge, 0); }
+  for (let pulse = 0; pulse < 12; pulse += 1) { state = advanceFirstGlowState(state); draw = state.ledger.find(entry => entry.kind === "draw"); if (draw) break; assert.equal(state.settlements[0].sparks[0].carriedCharge, 0); }
   assert.equal(draw?.amount, 8); assert.equal(state.settlements[0].sourceCharge, initial - 8);
   state = createFirstGlowState(bundle); const spark = state.settlements[0].sparks[0]; spark.intendedActivity = "idle"; spark.readiness = 70;
-  for (let tick = 0; tick < 40 && !state.ledger.some(entry => entry.kind === "idle"); tick += 1) state = advanceFirstGlowState(state);
+  for (let pulse = 0; pulse < 40 && !state.ledger.some(entry => entry.kind === "idle"); pulse += 1) state = advanceFirstGlowState(state);
   assert.equal(state.ledger.some(entry => entry.kind === "idle"), true); assert.equal(state.ledger.some(entry => entry.kind === "draw"), false);
 });
 
@@ -26,14 +26,14 @@ test("invalid arrivals validate capability, reservation, contact, region, and de
 
 test("empty sources and unavailable slots wait deterministically", () => {
   let state = createFirstGlowState(bundle); state.settlements[0].sourceCharge = 0; state.settlements[0].sparks[0].intendedActivity = "seek-charge";
-  for (let tick = 0; tick < 20 && !state.ledger.some(entry => entry.kind === "draw"); tick += 1) state = advanceFirstGlowState(state);
+  for (let pulse = 0; pulse < 20 && !state.ledger.some(entry => entry.kind === "draw"); pulse += 1) state = advanceFirstGlowState(state);
   assert.equal(state.ledger.find(entry => entry.kind === "draw")?.amount, 0); assert.equal(state.settlements[0].sparks[0].waitReason, "empty-source"); assert.deepEqual(advanceFirstGlowState(state), advanceFirstGlowState(state));
   const full = createFirstGlowState(bundle, "first-glow-region", "Opening region", 5); const pool = bundle.objects.find(item => item.definitionId === "charge-pool")!; const slots = bundle.objectDefinitions[pool.definitionId].slots; full.settlements[0].runtime.reservations = slots.map((slot, index) => ({ actorId: `spark-${index + 1}`, objectId: pool.id, slotId: slot.id })); slots.forEach((slot, index) => { const item = full.settlements[0].sparks[index]; item.status = "waiting"; item.destinationObjectId = pool.id; item.destinationSlotId = slot.id; item.position = { x: pool.origin.x + slot.offset.x, y: pool.origin.y + slot.offset.y }; }); full.settlements[0].sparks[4].intendedActivity = "seek-charge";
   assert.equal(advanceFirstGlowState(full).settlements[0].sparks[4].waitReason, "no-free-slot");
 });
 
 test("multiple Sparks share with one deterministic recipient and conserve charge", () => {
-  const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 3); state.tick = 1; const [giver, recipient, other] = state.settlements[0].sparks; recipient.position = { ...giver.position }; other.position = { ...giver.position }; giver.carriedCharge = 2; other.intendedActivity = "idle";
+  const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 3); state.pulse = 1; const [giver, recipient, other] = state.settlements[0].sparks; recipient.position = { ...giver.position }; other.position = { ...giver.position }; giver.carriedCharge = 2; other.intendedActivity = "idle";
   const next = advanceFirstGlow(state); const share = next.ledger.find(entry => entry.kind === "share"); assert.equal(share?.recipientId, recipient.id); assert.equal(share?.amount, 1); assert.deepEqual(next.events.find(event => event.kind === "share")?.participants, [giver.id, recipient.id]);
 });
 
@@ -44,12 +44,12 @@ test("failed routes release plans and reopen deterministically", () => {
 
 test("autonomous First Glow activity loop remains deterministic across multiple Sparks", () => {
   const multi = structuredClone(bundle); multi.objects.push({ id: "tiled-201", definitionId: "charge-pool", origin: { x: 2, y: 1 }, orientation: 0 }, { id: "tiled-202", definitionId: "shelter-niche", origin: { x: 5, y: 1 }, orientation: 0 }, { id: "tiled-203", definitionId: "pattern-shard", origin: { x: 8, y: 1 }, orientation: 0 }, { id: "tiled-204", definitionId: "light-mark", origin: { x: 10, y: 2 }, orientation: 0 }); multi.bundle.contentHash = bundleHash(multi); validateWorldBundle(multi);
-  const run = () => { let state = createFirstGlowState(multi, "first-glow-region", "Opening region", 2); for (let tick = 0; tick < 24; tick += 1) state = advanceFirstGlow(state); return state; }; assert.deepEqual(run(), run());
+  const run = () => { let state = createFirstGlowState(multi, "first-glow-region", "Opening region", 2); for (let pulse = 0; pulse < 24; pulse += 1) state = advanceFirstGlow(state); return state; }; assert.deepEqual(run(), run());
 });
 
-test("normal First Glow ticks commit all three social dilemma chains autonomously", () => {
+test("normal First Glow pulses commit all three social dilemma chains autonomously", () => {
   let state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 6);
-  for (let tick = 0; tick < 80; tick += 1) state = advanceFirstGlow(state, { sourceCharge: tick % 4 === 0 ? 24 : 0 });
+  for (let pulse = 0; pulse < 80; pulse += 1) state = advanceFirstGlow(state, { sourceCharge: pulse % 4 === 0 ? 24 : 0 });
   assert.ok(state.social.commitments.length > 0);
   assert.deepEqual([...new Set(state.social.commitments.map(item => item.dilemmaId))].sort(), ["public-or-private-mark", "shelter-or-trace", "weakening-pool-report"]);
   assert.deepEqual([...new Set(state.explanations.map(item => item.dilemmaId))].sort(), ["public-or-private-mark", "shelter-or-trace", "weakening-pool-report"]);
@@ -59,7 +59,7 @@ test("normal First Glow ticks commit all three social dilemma chains autonomousl
 test("autonomous social choices are deterministic per seed and can vary across seeds", () => {
   const run = (seed: number) => {
     let state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 6);
-    for (let tick = 0; tick < 24; tick += 1) state = advanceFirstGlow(state, { sourceCharge: tick % 4 === 0 ? 24 : 0, deterministicSeed: seed });
+    for (let pulse = 0; pulse < 24; pulse += 1) state = advanceFirstGlow(state, { sourceCharge: pulse % 4 === 0 ? 24 : 0, deterministicSeed: seed });
     return state.social.commitments.map(commitment => `${commitment.dilemmaId}:${commitment.alternativeId}:${commitment.beneficiarySparkId}`).sort();
   };
   assert.deepEqual(run(1701), run(1701));

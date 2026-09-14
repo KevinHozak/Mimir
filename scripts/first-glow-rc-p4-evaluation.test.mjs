@@ -10,7 +10,7 @@ const expectedArms = ["rc2-all", "rc4-hero", "diagnostic-rc2", "diagnostic-rc4",
 assert(report.schemaVersion === 1, "RC-P4 report schema must be version 1");
 assert(report.execution === "deterministic-control", "checked evidence must be the deterministic control run");
 assert(JSON.stringify(report.fixedSeeds) === JSON.stringify([2, 4, 8, 16]), "matched seed matrix changed");
-assert(report.days >= 4 && report.ticksPerDay === 4, "evaluation must cover several complete days");
+assert(report.days >= 4 && report.pulsesPerDay === 4, "evaluation must cover several complete days");
 assert(JSON.stringify(report.arms.map(arm => arm.id)) === JSON.stringify(expectedArms), "RC diagnostic arms are incomplete");
 assert(JSON.stringify(report.memoryConditions) === JSON.stringify(["young-hero", "experienced-ordinary"]), "memory comparison conditions are incomplete");
 assert(report.results.length === 48, "expected 4 seeds x 6 arms x 2 memory conditions");

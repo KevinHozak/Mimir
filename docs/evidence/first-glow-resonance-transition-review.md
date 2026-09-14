@@ -6,7 +6,7 @@ Circuit runtime, formal institutions, markets, credits, or a new server endpoint
 ## Fixed evidence
 
 The engine test uses deterministic First Glow inputs and a fixed world seed (`11`) for carry-forward inspection.
-Two 24-tick maintenance windows preserve both active Anchor kinds: Shelter Loom and Crossing of Voices. Each window
+Two 24-pulse maintenance windows preserve both active Anchor kinds: Shelter Loom and Crossing of Voices. Each window
 contains three objective evidence event IDs and one recorded practice decision. The resulting six evidence events,
 two decisions, and two maintained seasons produce an `eligible` result without ranking either practice as morally
 correct.

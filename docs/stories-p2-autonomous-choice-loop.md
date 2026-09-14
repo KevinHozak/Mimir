@@ -10,7 +10,7 @@ This P2 slice addresses only those two findings. It does not add institutions, p
 
 ## Rule
 
-Normal First Glow ticks already resolve witnessed dilemma events through the rules-only action score. P2 adds the recorded world seed to that deterministic resolver in two bounded ways:
+Normal First Glow pulses already resolve witnessed dilemma events through the rules-only action score. P2 adds the recorded world seed to that deterministic resolver in two bounded ways:
 
 1. The seed selects among eligible non-actor Spark beneficiaries when an event has no participant-specific target. This changes whose relationship and local knowledge record receives the outcome, without inventing a hidden fact.
 2. The seed supplies a small `-1..1` circumstance pressure to the existing action score. The score remains the primary reason for the alternative; the pressure only resolves a close boundary and is recorded through the existing explanation and evidence chain.

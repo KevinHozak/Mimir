@@ -11,7 +11,7 @@ AI-P20 defines the provider input boundary for bounded First Glow decisions. It 
 
 ## Retrieval and compaction
 
-Memory records retain their kind and provenance: witnessed fact, received report, subjective inference, or recorded consequence. Ordering is by tick and stable ID. Retrieval is bounded to the configured memory/event limits, with omission counts and reconstruction event IDs retained for audit. If the actor's local knowledge is unavailable, context construction fails closed and the caller uses the deterministic fallback.
+Memory records retain their kind and provenance: witnessed fact, received report, subjective inference, or recorded consequence. Ordering is by pulse and stable ID. Retrieval is bounded to the configured memory/event limits, with omission counts and reconstruction event IDs retained for audit. If the actor's local knowledge is unavailable, context construction fails closed and the caller uses the deterministic fallback.
 
 ## Usage and replay
 

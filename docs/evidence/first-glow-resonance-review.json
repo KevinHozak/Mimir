@@ -6,13 +6,13 @@
   "runtimeImpact": "none",
   "observerSurface": "/api/resonance and First Glow season review",
   "cases": [
-    { "id": "qualifying-shelter-pattern", "status": "qualifying", "evidenceEventIds": ["event-14-help", "event-4-help", "event-9-help"], "chargeCost": 6, "tickSpan": 10 },
-    { "id": "near-miss-insufficient-cost", "status": "near-miss", "failure": "minimum-charge-cost-not-met", "chargeCost": 5, "tickSpan": 10 },
+    { "id": "qualifying-shelter-pattern", "status": "qualifying", "evidenceEventIds": ["event-14-help", "event-4-help", "event-9-help"], "chargeCost": 6, "pulseSpan": 10 },
+    { "id": "near-miss-insufficient-cost", "status": "near-miss", "failure": "minimum-charge-cost-not-met", "chargeCost": 5, "pulseSpan": 10 },
     { "id": "private-knowledge-does-not-qualify", "status": "qualifying", "publicProjection": true, "sparkDKnowsCandidate": false },
     { "id": "conflicting-patterns-stay-separate", "status": "conflicting", "failure": "required-occurrences-not-met", "refusalRemainsObjective": true }
   ],
   "livingStoriesScorecard": {
-    "legibility": "pass: exact event IDs, ticks, participants, location, recurrence, and costs are inspectable",
+    "legibility": "pass: exact event IDs, pulses, participants, location, recurrence, and costs are inspectable",
     "meaningfulness": "review signal only: candidate evidence is visible without assigning a winner or changing play",
     "privacy": "pass: observer projection does not expose Spark-local knowledge",
     "replay": "pass: pure evaluation repeats byte-for-byte for the same fixture input"

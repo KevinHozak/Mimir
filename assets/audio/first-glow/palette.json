@@ -34,7 +34,7 @@
       "loudness": { "targetIntegratedLufs": -30, "maxPeakDbtp": -16 },
       "loop": { "mode": "loop-safe", "targetDurationSeconds": 8, "crossfadeMs": 450 },
       "sourceFormat": { "master": "wav 48kHz 24-bit mono", "runtime": "ogg opus" },
-      "edits": ["shorten to a calm tonal bed", "remove rhythmic pulse that could imply a tick", "fade loop boundaries"],
+      "edits": ["shorten to a calm tonal bed", "remove rhythmic pulse that could imply a pulse", "fade loop boundaries"],
       "status": "planned",
       "license": { "status": "required-before-shipping", "spdx": null, "attribution": null },
       "provenance": { "status": "required-before-shipping", "sourceType": null, "sourceUrl": null, "retrievalDate": null, "sourceId": null }

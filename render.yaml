@@ -22,7 +22,7 @@ services:
         value: /var/data/backups
       - key: BACKUP_INTERVAL_MS
         value: "86400000"
-      - key: TICK_INTERVAL_MS
+      - key: PULSE_INTERVAL_MS
         value: "15000"
       - key: OWNER_TOKEN
         sync: false

@@ -2,7 +2,7 @@ import type { FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import type { FirstGlowAudioMix } from "./first-glow-audio-ambience.js";
 
 export type FirstGlowAudioCue = "selection" | "arrival" | "charge-draw" | "charge-share" | "warning" | "interaction" | "route-discover" | "mark-light" | "cache-probe" | "route-blocked" | "timeline-branch" | "ui-confirm";
-export type FirstGlowCommittedEvent = { id: string; tick: number; kind: string; message: string };
+export type FirstGlowCommittedEvent = { id: string; pulse: number; kind: string; message: string };
 
 export function firstGlowAudioCueForEvent(event: FirstGlowCommittedEvent): FirstGlowAudioCue | null {
   if (/\bshared \d+ charge\b/i.test(event.message)) return "charge-share";
@@ -23,7 +23,7 @@ export class FirstGlowAudioEventLedger {
 
   accept(events: FirstGlowCommittedEvent[]): FirstGlowAudioCue[] {
     const cues: FirstGlowAudioCue[] = [];
-    for (const event of [...events].sort((left, right) => left.tick - right.tick || left.id.localeCompare(right.id))) {
+    for (const event of [...events].sort((left, right) => left.pulse - right.pulse || left.id.localeCompare(right.id))) {
       if (this.seen.has(event.id)) continue;
       this.seen.add(event.id);
       const cue = firstGlowAudioCueForEvent(event);

@@ -24,7 +24,7 @@ const node = process.execPath;
 const children = [];
 const nodeModules = existsSync(join(root, "node_modules")) ? join(root, "node_modules") : join(root, "..", "..", "node_modules");
 const waitFor = async url => { for (let attempt = 0; attempt < 100; attempt += 1) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await new Promise(resolveWait => setTimeout(resolveWait, 100)); } throw new Error("review service did not start: " + url); };
-const env = { ...process.env, PORT: String(apiPort), AUTO_TICK: "false", TICK_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: ownerToken, WORLD_BUNDLE_ROOT: join(root, "assets/world/generated"), VITE_API_URL: "http://127.0.0.1:" + apiPort };
+const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: ownerToken, WORLD_BUNDLE_ROOT: join(root, "assets/world/generated"), VITE_API_URL: "http://127.0.0.1:" + apiPort };
 const start = (command, args, options = {}) => { const child = spawn(command, args, { cwd: options.cwd ?? root, env: { ...env, ...(options.env ?? {}) }, stdio: "ignore" }); children.push(child); return child; };
 try {
   if (!existsSync(join(root, "packages/server/dist/index.js")) || !existsSync(join(root, "packages/web/dist/index.html"))) { const build = spawnSync(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build"], { cwd: root, stdio: "inherit" }); if (build.status !== 0) throw new Error("npm run build failed before art review"); }

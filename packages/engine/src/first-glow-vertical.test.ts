@@ -36,15 +36,15 @@ test("First Glow vertical slice preserves relay, shelter, and authored signal ch
   let shelterState = createFirstGlowState(changed);
   shelterState.settlements[0].sparks[0].intendedActivity = "idle";
   let shelterArrived = false;
-  for (let tick = 0; tick < 40; tick += 1) { shelterState = advanceWithActions(shelterState); if (shelterState.ledger.some(entry => entry.reason === "arrived-at-shelter-niche")) { shelterArrived = true; break; } }
+  for (let pulse = 0; pulse < 40; pulse += 1) { shelterState = advanceWithActions(shelterState); if (shelterState.ledger.some(entry => entry.reason === "arrived-at-shelter-niche")) { shelterArrived = true; break; } }
   assert.equal(shelterArrived, true);
 
   let signalState = createFirstGlowState(changed, "first-glow-region", "Opening region", 2);
   signalState.settlements[0].sparks[0].intendedActivity = "mark-trace";
   signalState.settlements[0].sparks[1].intendedActivity = "shape-pattern";
   const seen = new Set<string>();
-  for (let tick = 0; tick < 50 && seen.size < 2; tick += 1) { signalState = advanceWithActions(signalState); for (const event of signalState.events) if (event.kind === "mark-trace" || event.kind === "shape-pattern") seen.add(event.kind); }
+  for (let pulse = 0; pulse < 50 && seen.size < 2; pulse += 1) { signalState = advanceWithActions(signalState); for (const event of signalState.events) if (event.kind === "mark-trace" || event.kind === "shape-pattern") seen.add(event.kind); }
   assert.deepEqual([...seen].sort(), ["mark-trace", "shape-pattern"]);
-  assert.equal(signalState.tick > 0, true);
-  assert.equal(advanceFirstGlowState(signalState).tick, signalState.tick + 1);
+  assert.equal(signalState.pulse > 0, true);
+  assert.equal(advanceFirstGlowState(signalState).pulse, signalState.pulse + 1);
 });

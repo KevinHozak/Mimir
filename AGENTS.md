@@ -18,7 +18,7 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 | [docs/changelog.md](docs/changelog.md) | Broad functional record of completed work. It groups related delivery rather than listing every commit or pull request. |
 | [docs/world-theme.md](docs/world-theme.md) | Current consolidated theme reference: First Glow, Sparks, terminology, opening knowledge, blue-and-silver dark-mode aesthetics, and visual rollout. Read first for naming, art, UI, or setting work. |
 | [docs/incubator.md](docs/incubator.md) | Organized, uncommitted possibilities: later ages, alternative worlds, human inspiration, social questions, and visual explorations. It never overrides selected First Glow direction. |
-| [docs/game-simulation.md](docs/game-simulation.md) | Explanation of ticks, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
+| [docs/game-simulation.md](docs/game-simulation.md) | Explanation of pulses, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
 | [docs/architecture.md](docs/architecture.md) | Current package boundaries, First Glow runtime, API surface, persistence, local data, and hosted operations. |
 | [Hosted observer runbook](docs/hosted-observer-runbook.md) | Deployment preparation, operational checks, and durability requirements. Read before hosted changes. |
 | [Evidence](docs/evidence/) | Dated performance reports and desktop/mobile browser captures. Historical evidence is labeled by bundle and date; current First Glow evidence uses the `first-glow-*` files. |
@@ -107,7 +107,7 @@ Choose checks according to the change. Documentation-only work needs link/conten
 
 ## Configuration and data safety
 
-Inspect `packages/server/src/index.ts`, `scripts/run-local.mjs`, and `render.yaml` for current defaults. Important configuration includes `PORT`, `DATABASE_PATH`, `AUTO_TICK`, `TICK_INTERVAL_MS`, `SEASON_TICK_LIMIT`, `OWNER_TOKEN`, `WORLD_BUNDLE_ROOT`, `SERVE_WEB`, `WEB_DIST_DIR`, `BACKUP_DIR`, and `BACKUP_INTERVAL_MS`. The browser uses `VITE_API_URL` when configured.
+Inspect `packages/server/src/index.ts`, `scripts/run-local.mjs`, and `render.yaml` for current defaults. Important configuration includes `PORT`, `DATABASE_PATH`, `AUTO_PULSE`, `PULSE_INTERVAL_MS`, `SEASON_PULSE_LIMIT`, `OWNER_TOKEN`, `WORLD_BUNDLE_ROOT`, `SERVE_WEB`, `WEB_DIST_DIR`, `BACKUP_DIR`, and `BACKUP_INTERVAL_MS`. The browser uses `VITE_API_URL` when configured.
 
 - Use isolated database paths and ports for tests and experiments. Normal `npm start` uses `data/local/mimir.db` and can advance the local world; it is not a read-only inspection command.
 - On PowerShell, set environment variables with `$env:NAME = 'value'`; POSIX `NAME=value command` examples do not run unchanged. The default local database is `data/local/mimir.db`; disposable tests belong under `.tmp/`. Prefer absolute paths for custom databases and backup targets, and restore temporary environment overrides afterward.

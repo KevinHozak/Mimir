@@ -10,4 +10,4 @@ Verified with:
 - `npm run test:first-glow --workspace @mimir/web`
 - `git diff --check`
 
-The browser acceptance run passed on desktop and mobile, including square-map rendering, asset loading, tooltip overlays, playback across committed ticks, inspector parity, and raw-ID redaction. Captures: `first-glow-desktop.png`, `first-glow-mobile.png`, `first-glow-desktop-overlay.png`, and `first-glow-mobile-overlay.png`.
+The browser acceptance run passed on desktop and mobile, including square-map rendering, asset loading, tooltip overlays, playback across committed pulses, inspector parity, and raw-ID redaction. Captures: `first-glow-desktop.png`, `first-glow-mobile.png`, `first-glow-desktop-overlay.png`, and `first-glow-mobile-overlay.png`.

@@ -6,34 +6,34 @@
     "requiredOccurrences": 3,
     "distinctParticipantMinimum": 2,
     "minimumChargeCost": 6,
-    "maximumTickSpan": 12,
+    "maximumPulseSpan": 12,
     "location": { "objectId": "shelter-a", "slotId": "rest" }
   },
   "cases": [
     {
       "id": "qualifying-shelter-pattern",
       "events": [
-        { "id": "event-4-help", "tick": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-9-help", "tick": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-14-help", "tick": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } }
+        { "id": "event-4-help", "pulse": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-9-help", "pulse": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-14-help", "pulse": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } }
       ],
-      "expected": { "forms": true, "candidateId": "candidate-shelter-loom-v1-shelter-a-rest-event-4-help", "evidenceEventIds": ["event-14-help", "event-4-help", "event-9-help"], "reason": "Three objective, co-located shelter-help events involve three Sparks, span ten ticks, and record six charge already paid." }
+      "expected": { "forms": true, "candidateId": "candidate-shelter-loom-v1-shelter-a-rest-event-4-help", "evidenceEventIds": ["event-14-help", "event-4-help", "event-9-help"], "reason": "Three objective, co-located shelter-help events involve three Sparks, span ten pulses, and record six charge already paid." }
     },
     {
       "id": "near-miss-insufficient-cost",
       "events": [
-        { "id": "event-4-help", "tick": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-9-help", "tick": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 1, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-14-help", "tick": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } }
+        { "id": "event-4-help", "pulse": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-9-help", "pulse": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 1, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-14-help", "pulse": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "observer", "location": { "objectId": "shelter-a", "slotId": "rest" } }
       ],
       "expected": { "forms": false, "failureCode": "minimum-charge-cost-not-met", "reason": "The repeated pattern is real but records only five charge; no free Anchor compensates for the missing cost." }
     },
     {
       "id": "private-knowledge-does-not-qualify",
       "events": [
-        { "id": "event-4-help", "tick": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "participants", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-9-help", "tick": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 2, "visibility": "participants", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-14-help", "tick": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "participants", "location": { "objectId": "shelter-a", "slotId": "rest" } }
+        { "id": "event-4-help", "pulse": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "participants", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-9-help", "pulse": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 2, "visibility": "participants", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-14-help", "pulse": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "participants", "location": { "objectId": "shelter-a", "slotId": "rest" } }
       ],
       "knowledge": { "spark-a": ["event-4-help", "event-9-help"], "spark-b": ["event-4-help", "event-14-help"], "spark-c": ["event-9-help", "event-14-help"], "spark-d": [] },
       "expected": { "forms": true, "candidateId": "candidate-shelter-loom-v1-shelter-a-rest-event-4-help", "evidenceEventIds": ["event-14-help", "event-4-help", "event-9-help"], "observerSees": true, "sparkDKnowsCandidate": false, "reason": "Objective committed events qualify, but Spark D has neither witnessed nor credibly learned any supporting event; observer visibility does not grant local knowledge." }
@@ -41,9 +41,9 @@
     {
       "id": "conflicting-patterns-stay-separate",
       "events": [
-        { "id": "event-4-help", "tick": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "observer", "pattern": "shelter-help", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-9-refusal", "tick": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 2, "visibility": "observer", "pattern": "shelter-refusal", "location": { "objectId": "shelter-a", "slotId": "rest" } },
-        { "id": "event-14-help", "tick": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "observer", "pattern": "shelter-help", "location": { "objectId": "shelter-a", "slotId": "rest" } }
+        { "id": "event-4-help", "pulse": 4, "participants": ["spark-a", "spark-b"], "chargeCost": 2, "visibility": "observer", "pattern": "shelter-help", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-9-refusal", "pulse": 9, "participants": ["spark-a", "spark-c"], "chargeCost": 2, "visibility": "observer", "pattern": "shelter-refusal", "location": { "objectId": "shelter-a", "slotId": "rest" } },
+        { "id": "event-14-help", "pulse": 14, "participants": ["spark-b", "spark-c"], "chargeCost": 2, "visibility": "observer", "pattern": "shelter-help", "location": { "objectId": "shelter-a", "slotId": "rest" } }
       ],
       "expected": { "forms": false, "failureCode": "required-occurrences-not-met", "reason": "Two help events and one refusal are not blended into a moral net score. The refusal remains objective evidence for a separate future rule or interpretation." }
     }

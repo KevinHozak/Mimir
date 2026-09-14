@@ -10,12 +10,12 @@ const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("
 
 test("World Codex and context packets are versioned and reconstructible", () => {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
-  state.tick = 4;
+  state.pulse = 4;
   state.events = [
-    { id: "event-private", tick: 3, kind: "explore", actorId: "spark-2", message: "A private trace." },
-    { id: "event-seen", tick: 4, kind: "draw", actorId: "spark-1", message: "The pool is dim." }
+    { id: "event-private", pulse: 3, kind: "explore", actorId: "spark-2", message: "A private trace." },
+    { id: "event-seen", pulse: 4, kind: "draw", actorId: "spark-1", message: "The pool is dim." }
   ];
-  state.social.knowledge[0].witnessedFacts = [{ eventId: "event-seen", witnessedTick: 4 }];
+  state.social.knowledge[0].witnessedFacts = [{ eventId: "event-seen", witnessedPulse: 4 }];
   const first = buildFirstGlowContextPacket(state, "spark-1", ["event-seen"]);
   const second = buildFirstGlowContextPacket(structuredClone(state), "spark-1", ["event-seen"]);
   assert.equal(first.packetHash, second.packetHash);
@@ -27,9 +27,9 @@ test("World Codex and context packets are versioned and reconstructible", () => 
 
 test("context packet rejects tampered or hidden evidence", () => {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
-  state.tick = 1;
-  state.events = [{ id: "event-seen", tick: 1, kind: "draw", actorId: "spark-1", message: "A pool." }];
-  state.social.knowledge[0].witnessedFacts = [{ eventId: "event-seen", witnessedTick: 1 }];
+  state.pulse = 1;
+  state.events = [{ id: "event-seen", pulse: 1, kind: "draw", actorId: "spark-1", message: "A pool." }];
+  state.social.knowledge[0].witnessedFacts = [{ eventId: "event-seen", witnessedPulse: 1 }];
   const packet = buildFirstGlowContextPacket(state, "spark-1", ["event-seen"]);
   const tampered = structuredClone(packet);
   tampered.recentEvents[0].evidenceEventIds = ["event-private"];

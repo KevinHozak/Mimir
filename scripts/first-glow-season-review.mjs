@@ -8,15 +8,15 @@ const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const bundleHash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const bundle = decodeWorldBundle(JSON.parse(readFileSync(join(root, "assets", "world", "generated", bundleHash, "world.json"), "utf8")));
 
-export const FIRST_GLOW_REVIEW_TICKS_PER_SEASON = 24;
+export const FIRST_GLOW_REVIEW_PULSES_PER_SEASON = 24;
 export const FIRST_GLOW_STORY_SEASONS = 4;
-export const FIRST_GLOW_LONG_STORY_TICKS = FIRST_GLOW_REVIEW_TICKS_PER_SEASON * FIRST_GLOW_STORY_SEASONS;
+export const FIRST_GLOW_LONG_STORY_PULSES = FIRST_GLOW_REVIEW_PULSES_PER_SEASON * FIRST_GLOW_STORY_SEASONS;
 
 export const FIRST_GLOW_SEASON_SCENARIOS = [
-  { id: "abundance-baseline", title: "Abundance baseline", question: "When charge remains dependable, do Sparks explore and cooperate without scarcity pressure?", controlledVariable: "24 source charge intake every fourth tick; no losses", seeds: [1101, 1102, 1103], expectedObservable: "Stable charge access, exploration/trace activity, and a low final charge deficit.", interpretation: "Intended tradeoff: dependable supply should permit exploration and cooperation; this bounded run shows no immediate bug.", choices: [{ tick: 6, dilemmaId: "weakening-pool-report", alternativeId: "reveal-pool" }, { tick: 12, dilemmaId: "shelter-or-trace", alternativeId: "help-shelter" }, { tick: 18, dilemmaId: "public-or-private-mark", alternativeId: "make-mark-public" }], sourceIntakeEveryFour: 24, lossByTick: {} },
-  { id: "supply-scarcity", title: "Supply scarcity", question: "When intake stops and charge is lost, does pressure increase deficit and shelter-seeking?", controlledVariable: "No replenishment; 4 charge lost at ticks 8, 16, and 24", seeds: [1201, 1202, 1203], expectedObservable: "Lower remaining source charge, higher deficit/readiness pressure, and more idle or waiting events.", interpretation: "Intended tradeoff: lower supply should raise charge pressure; unresolved question: whether shelter recovery should outpace depletion.", choices: [{ tick: 6, dilemmaId: "weakening-pool-report", alternativeId: "withhold-pool" }, { tick: 12, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }, { tick: 18, dilemmaId: "public-or-private-mark", alternativeId: "keep-mark-private" }], sourceIntakeEveryFour: 0, lossByTick: { 8: 4, 16: 4, 24: 4 } },
-  { id: "information-gap", title: "Information gap", question: "When local signals are available but communication is not guaranteed, do knowledge boundaries remain visible?", controlledVariable: "8 source charge intake every fourth tick; social claims are limited to witnessed evidence", seeds: [1301, 1302, 1303], expectedObservable: "Witnessed facts and uncertain inferences diverge between Sparks while objective events remain shared history.", interpretation: "Intended tradeoff: limited communication should preserve local knowledge boundaries; unresolved question: whether a future explicit communication action is needed.", choices: [{ tick: 6, dilemmaId: "public-or-private-mark", alternativeId: "keep-mark-private" }, { tick: 12, dilemmaId: "weakening-pool-report", alternativeId: "withhold-pool" }, { tick: 18, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }], sourceIntakeEveryFour: 8, lossByTick: {} },
-  { id: "promise-breach", title: "Promise breach and repair", question: "After a Spark breaks an informal promise, can later help produce a bounded, evidence-linked trust repair?", controlledVariable: "16 source charge intake every fourth tick; one broken choice at tick 6 followed by help at tick 12", seeds: [1401, 1402, 1403], expectedObservable: "A bounded trust dip, two commitment records, and a later fulfilled commitment with preserved evidence.", interpretation: "Intended tradeoff: breaking and then helping should leave distinct evidence-linked commitment outcomes; this bounded run shows no immediate bug.", choices: [{ tick: 6, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }, { tick: 12, dilemmaId: "shelter-or-trace", alternativeId: "help-shelter" }, { tick: 18, dilemmaId: "public-or-private-mark", alternativeId: "make-mark-public" }], sourceIntakeEveryFour: 16, lossByTick: {}, }
+  { id: "abundance-baseline", title: "Abundance baseline", question: "When charge remains dependable, do Sparks explore and cooperate without scarcity pressure?", controlledVariable: "24 source charge intake every fourth pulse; no losses", seeds: [1101, 1102, 1103], expectedObservable: "Stable charge access, exploration/trace activity, and a low final charge deficit.", interpretation: "Intended tradeoff: dependable supply should permit exploration and cooperation; this bounded run shows no immediate bug.", choices: [{ pulse: 6, dilemmaId: "weakening-pool-report", alternativeId: "reveal-pool" }, { pulse: 12, dilemmaId: "shelter-or-trace", alternativeId: "help-shelter" }, { pulse: 18, dilemmaId: "public-or-private-mark", alternativeId: "make-mark-public" }], sourceIntakeEveryFour: 24, lossByPulse: {} },
+  { id: "supply-scarcity", title: "Supply scarcity", question: "When intake stops and charge is lost, does pressure increase deficit and shelter-seeking?", controlledVariable: "No replenishment; 4 charge lost at pulses 8, 16, and 24", seeds: [1201, 1202, 1203], expectedObservable: "Lower remaining source charge, higher deficit/readiness pressure, and more idle or waiting events.", interpretation: "Intended tradeoff: lower supply should raise charge pressure; unresolved question: whether shelter recovery should outpace depletion.", choices: [{ pulse: 6, dilemmaId: "weakening-pool-report", alternativeId: "withhold-pool" }, { pulse: 12, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }, { pulse: 18, dilemmaId: "public-or-private-mark", alternativeId: "keep-mark-private" }], sourceIntakeEveryFour: 0, lossByPulse: { 8: 4, 16: 4, 24: 4 } },
+  { id: "information-gap", title: "Information gap", question: "When local signals are available but communication is not guaranteed, do knowledge boundaries remain visible?", controlledVariable: "8 source charge intake every fourth pulse; social claims are limited to witnessed evidence", seeds: [1301, 1302, 1303], expectedObservable: "Witnessed facts and uncertain inferences diverge between Sparks while objective events remain shared history.", interpretation: "Intended tradeoff: limited communication should preserve local knowledge boundaries; unresolved question: whether a future explicit communication action is needed.", choices: [{ pulse: 6, dilemmaId: "public-or-private-mark", alternativeId: "keep-mark-private" }, { pulse: 12, dilemmaId: "weakening-pool-report", alternativeId: "withhold-pool" }, { pulse: 18, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }], sourceIntakeEveryFour: 8, lossByPulse: {} },
+  { id: "promise-breach", title: "Promise breach and repair", question: "After a Spark breaks an informal promise, can later help produce a bounded, evidence-linked trust repair?", controlledVariable: "16 source charge intake every fourth pulse; one broken choice at pulse 6 followed by help at pulse 12", seeds: [1401, 1402, 1403], expectedObservable: "A bounded trust dip, two commitment records, and a later fulfilled commitment with preserved evidence.", interpretation: "Intended tradeoff: breaking and then helping should leave distinct evidence-linked commitment outcomes; this bounded run shows no immediate bug.", choices: [{ pulse: 6, dilemmaId: "shelter-or-trace", alternativeId: "continue-exploration" }, { pulse: 12, dilemmaId: "shelter-or-trace", alternativeId: "help-shelter" }, { pulse: 18, dilemmaId: "public-or-private-mark", alternativeId: "make-mark-public" }], sourceIntakeEveryFour: 16, lossByPulse: {}, }
 ];
 
 function compare(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
@@ -30,35 +30,35 @@ function applyPlannedChoice(world, plan, events) {
   const actorSparkId = evidence.actorId;
   const targetSparkId = world.firstGlowState.settlements.flatMap(settlement => settlement.sparks).map(spark => spark.id).sort(compare).find(sparkId => sparkId !== actorSparkId);
   if (!targetSparkId) return { world, applied: false, actorSparkId, targetSparkId: null, evidenceEventId: evidence.id };
-  recordFirstGlowWitnesses(world.firstGlowState.social, [evidence.id], actorSparkId, [], world.tick);
-  const social = applyFirstGlowDilemmaChoice(world.firstGlowState.social, { ...plan, actorSparkId, targetSparkId, evidenceEventIds: [evidence.id], tick: world.tick });
+  recordFirstGlowWitnesses(world.firstGlowState.social, [evidence.id], actorSparkId, [], world.pulse);
+  const social = applyFirstGlowDilemmaChoice(world.firstGlowState.social, { ...plan, actorSparkId, targetSparkId, evidenceEventIds: [evidence.id], pulse: world.pulse });
   return { world: { ...world, firstGlowState: { ...world.firstGlowState, social } }, applied: true, actorSparkId, targetSparkId, evidenceEventId: evidence.id };
 }
 
-export function runFirstGlowSeason(scenario, seed, ticks = FIRST_GLOW_LONG_STORY_TICKS, sparkCount = 6) {
+export function runFirstGlowSeason(scenario, seed, pulses = FIRST_GLOW_LONG_STORY_PULSES, sparkCount = 6) {
   let world = createWorldV3(bundle, seed, `season-${scenario.id}-${seed}`, sparkCount);
   const history = [];
   const ledger = [];
   const plannedChoices = [];
   const seasonCheckpoints = [];
-  for (let step = 0; step < ticks; step += 1) {
-    const nextTick = world.tick + 1;
-    const season = Math.floor((nextTick - 1) / FIRST_GLOW_REVIEW_TICKS_PER_SEASON) + 1;
-    const seasonTick = ((nextTick - 1) % FIRST_GLOW_REVIEW_TICKS_PER_SEASON) + 1;
-    const sourceCharge = seasonTick % 4 === 0 ? scenario.sourceIntakeEveryFour : 0;
-    const loss = scenario.lossByTick[seasonTick] ?? 0;
+  for (let step = 0; step < pulses; step += 1) {
+    const nextPulse = world.pulse + 1;
+    const season = Math.floor((nextPulse - 1) / FIRST_GLOW_REVIEW_PULSES_PER_SEASON) + 1;
+    const seasonPulse = ((nextPulse - 1) % FIRST_GLOW_REVIEW_PULSES_PER_SEASON) + 1;
+    const sourceCharge = seasonPulse % 4 === 0 ? scenario.sourceIntakeEveryFour : 0;
+    const loss = scenario.lossByPulse[seasonPulse] ?? 0;
     const firstGlowState = advanceFirstGlow(world.firstGlowState, { sourceCharge, loss, resolveSocial: false, validate: step === 0 });
-    world = { ...world, tick: firstGlowState.tick, firstGlowState };
-    const tickEvents = firstGlowState.events.map(event => ({ ...event, tick: firstGlowState.tick }));
-    history.push(...tickEvents);
-    ledger.push(...firstGlowState.ledger.map(entry => ({ ...entry, tick: firstGlowState.tick })));
-    const plan = scenario.choices.find(choice => choice.tick === seasonTick);
+    world = { ...world, pulse: firstGlowState.pulse, firstGlowState };
+    const pulseEvents = firstGlowState.events.map(event => ({ ...event, pulse: firstGlowState.pulse }));
+    history.push(...pulseEvents);
+    ledger.push(...firstGlowState.ledger.map(entry => ({ ...entry, pulse: firstGlowState.pulse })));
+    const plan = scenario.choices.find(choice => choice.pulse === seasonPulse);
     if (plan) {
-      const result = applyPlannedChoice(world, plan, tickEvents);
+      const result = applyPlannedChoice(world, plan, pulseEvents);
       world = result.world;
-      plannedChoices.push({ ...plan, season, seasonTick, scheduledTick: firstGlowState.tick, evidenceMode: "controlled-intervention", applied: result.applied, actorSparkId: result.actorSparkId, targetSparkId: result.targetSparkId, evidenceEventId: result.evidenceEventId });
+      plannedChoices.push({ ...plan, season, seasonPulse, scheduledPulse: firstGlowState.pulse, evidenceMode: "controlled-intervention", applied: result.applied, actorSparkId: result.actorSparkId, targetSparkId: result.targetSparkId, evidenceEventId: result.evidenceEventId });
     }
-    if (seasonTick === FIRST_GLOW_REVIEW_TICKS_PER_SEASON) seasonCheckpoints.push({ season, tick: firstGlowState.tick, historyEventCount: history.length, ledgerEntryCount: ledger.length, commitmentCount: world.firstGlowState.social.commitments.length, nonNeutralTrustCount: world.firstGlowState.social.trust.filter(item => item.value !== 0).length });
+    if (seasonPulse === FIRST_GLOW_REVIEW_PULSES_PER_SEASON) seasonCheckpoints.push({ season, pulse: firstGlowState.pulse, historyEventCount: history.length, ledgerEntryCount: ledger.length, commitmentCount: world.firstGlowState.social.commitments.length, nonNeutralTrustCount: world.firstGlowState.social.trust.filter(item => item.value !== 0).length });
   }
   const settlement = world.firstGlowState.settlements[0];
   const sparks = settlement.sparks.slice().sort((a, b) => compare(a.id, b.id));
@@ -68,12 +68,12 @@ export function runFirstGlowSeason(scenario, seed, ticks = FIRST_GLOW_LONG_STORY
   const arcs = sparks.map(spark => {
     const actorEvents = history.filter(event => event.actorId === spark.id);
     const pressure = eventByActor(actorEvents, spark.id, event => ["draw", "idle", "wait"].includes(event.kind)) ?? actorEvents[0];
-    const response = pressure ? actorEvents.find(event => event.tick > pressure.tick) : actorEvents[1];
+    const response = pressure ? actorEvents.find(event => event.pulse > pressure.pulse) : actorEvents[1];
     const later = actorEvents.at(-1);
     return { sparkId: spark.id, sparkName: spark.name, pressure, response, later };
   }).filter(arc => arc.pressure && arc.response && arc.later).slice(0, 3);
   return {
-    scenarioId: scenario.id, title: scenario.title, seed, ticks, history, ledger, plannedChoices, controlledInterventions: plannedChoices, seasonCheckpoints, arcs,
+    scenarioId: scenario.id, title: scenario.title, seed, pulses, history, ledger, plannedChoices, controlledInterventions: plannedChoices, seasonCheckpoints, arcs,
     metrics: {
       finalSourceCharge: settlement.sourceCharge,
       finalCommunalCharge: settlement.communalCharge,
@@ -95,7 +95,7 @@ export function runFirstGlowSeason(scenario, seed, ticks = FIRST_GLOW_LONG_STORY
       appliedChoices: plannedChoices.filter(choice => choice.applied).length,
       controlledInterventions: plannedChoices.filter(choice => choice.applied).length,
       completedSeasons: seasonCheckpoints.length,
-      persistentCommitments: world.firstGlowState.social.commitments.filter(item => item.resolvedTick <= FIRST_GLOW_REVIEW_TICKS_PER_SEASON).length
+      persistentCommitments: world.firstGlowState.social.commitments.filter(item => item.resolvedPulse <= FIRST_GLOW_REVIEW_PULSES_PER_SEASON).length
     }
   };
 }
@@ -112,22 +112,22 @@ export function buildFirstGlowSeasonReport() {
   return {
     generatedBy: "scripts/first-glow-season-review.mjs",
     generatedAt: "2026-09-09",
-    runtime: { themeId: "living-circuit", ageId: "first-glow", schemaVersion: 3, simulationVersion: "mimir-sim-v3-first-glow", spatialModel: "structured-v2", bundleHash, ticksPerSeason: 24, sparksPerSeason: 6 },
+    runtime: { themeId: "living-circuit", ageId: "first-glow", schemaVersion: 3, simulationVersion: "mimir-sim-v3-first-glow", spatialModel: "structured-v2", bundleHash, pulsesPerSeason: 24, sparksPerSeason: 6 },
     reviews,
     decision: "Deepen the rules-only model's shelter and trust-repair loop before adding AI interpretation: scarcity changes charge pressure, while the information-gap and promise-breach runs show that evidence-linked local knowledge and bounded repair are the next useful questions.",
-    notEstablished: ["These fixed-seed seasons do not establish general behavior outside the tested seeds, 24-tick horizon, or four controls.", "Observed event order supports an evidence chain but does not prove that one event alone caused a later choice.", "The suite does not establish a stable long-term haven, universal Spark values, or that any future AI interpretation would improve the rules-only baseline.", "The current engine does not model a live communication channel for every objective event; absent claims remain absent knowledge.", "Choices listed as controlled interventions were injected by the review harness and are not evidence of autonomous causation; autonomous runtime behavior is evaluated by the committed event and social-state records."]
+    notEstablished: ["These fixed-seed seasons do not establish general behavior outside the tested seeds, 24-pulse horizon, or four controls.", "Observed event order supports an evidence chain but does not prove that one event alone caused a later choice.", "The suite does not establish a stable long-term haven, universal Spark values, or that any future AI interpretation would improve the rules-only baseline.", "The current engine does not model a live communication channel for every objective event; absent claims remain absent knowledge.", "Choices listed as controlled interventions were injected by the review harness and are not evidence of autonomous causation; autonomous runtime behavior is evaluated by the committed event and social-state records."]
   };
 }
 
 function markdown(report) {
-  const lines = [`# First Glow Season Review`, ``, `Date: ${report.generatedAt}`, `Runtime: ${report.runtime.ageId}, schema ${report.runtime.schemaVersion}, ${report.runtime.ticksPerSeason} ticks, ${report.runtime.sparksPerSeason} Sparks`, `Bundle: ${report.runtime.bundleHash}`, ``, `This report preserves four fixed-control reviews with three seeds each. Ranges are min–max across matched runs; the representative history is the middle seed.`, ``];
+  const lines = [`# First Glow Season Review`, ``, `Date: ${report.generatedAt}`, `Runtime: ${report.runtime.ageId}, schema ${report.runtime.schemaVersion}, ${report.runtime.pulsesPerSeason} pulses, ${report.runtime.sparksPerSeason} Sparks`, `Bundle: ${report.runtime.bundleHash}`, ``, `This report preserves four fixed-control reviews with three seeds each. Ranges are min–max across matched runs; the representative history is the middle seed.`, ``];
   for (const review of report.reviews) {
     const { scenario, ranges, representative } = review;
     lines.push(`## ${scenario.title}`, ``, `Question: ${scenario.question}`, ``, `Controlled variable: ${scenario.controlledVariable}`, ``, `Expected observable: ${scenario.expectedObservable}`, ``, `Interpretation: ${scenario.interpretation}`, ``, `Seeds: ${review.seedSet.join(", ")}`, ``, `| Measure | Range | Representative (${representative.seed}) |`, `| --- | ---: | ---: |`);
     for (const name of ["finalSourceCharge", "finalChargeDeficit", "averageReadiness", "cooperationEvents", "idleOrWaitingEvents", "witnessedFacts", "communicatedClaims", "uncertainInferences", "fulfilledCommitments", "brokenCommitments"]) lines.push(`| ${name} | ${ranges[name].min}–${ranges[name].max} | ${representative.metrics[name]} |`);
     lines.push(``, `Observed causal chain candidates (objective evidence only):`);
     for (const arc of representative.arcs) lines.push(`- ${arc.sparkName}: pressure ${arc.pressure.id} (${arc.pressure.message}) → response ${arc.response.id} (${arc.response.message}) → later ${arc.later.id} (${arc.later.message})`);
-    lines.push(``, `Controlled interventions (not autonomous choices): ${representative.controlledInterventions.filter(choice => choice.applied).map(choice => `${choice.dilemmaId}/${choice.alternativeId} at tick ${choice.tick}`).join(", ") || "none"}`);
+    lines.push(``, `Controlled interventions (not autonomous choices): ${representative.controlledInterventions.filter(choice => choice.applied).map(choice => `${choice.dilemmaId}/${choice.alternativeId} at pulse ${choice.pulse}`).join(", ") || "none"}`);
     lines.push(``, `Representative non-movement events: ${representative.eventSample.map(event => event.id).join(", ") || "none"}`, ``);
   }
   lines.push(`## Evidence-based decision`, ``, report.decision, ``, `## What the data does not establish`, ``, ...report.notEstablished.map(item => `- ${item}`), ``);

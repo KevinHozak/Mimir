@@ -9,7 +9,7 @@ const context = {
   personalityProfileVersion: 1,
   encounterId: "encounter-1-event-1",
   contextHash: "sha256-context",
-  tick: 1,
+  pulse: 1,
   event: { id: "event-1", kind: "draw", actorId: "spark-1", participants: ["spark-1"], message: "A pool dims.", evidenceEventIds: ["event-1"] },
   dilemmaId: "weakening-pool-report",
   supportedAlternatives: ["reveal-pool", "withhold-pool"],
@@ -36,7 +36,7 @@ test("bounded pilot gates provider calls through attention and records accepted 
   const result = await runFirstGlowHybridRuntime([context], {
     runtimeMode: "bounded-internal-pilot",
     provider,
-    attentionPolicy: { repeatedEventCooldownTicks: 0 }
+    attentionPolicy: { repeatedEventCooldownPulses: 0 }
   });
   assert.equal(calls, 1);
   assert.equal(result.outcomes[0].attention.created, true);

@@ -16,7 +16,7 @@ export interface FirstGlowInterpretationContext {
   personalityProfileVersion: typeof FIRST_GLOW_PERSONALITY_PROFILE_VERSION;
   encounterId: string;
   contextHash: string;
-  tick: number;
+  pulse: number;
   event: Pick<StructuredEvent, "id" | "kind" | "actorId" | "participants" | "message" | "evidenceEventIds">;
   dilemmaId: FirstGlowInterpretationDilemma;
   supportedAlternatives: FirstGlowInterpretationAlternative[];
@@ -117,7 +117,7 @@ export function buildFirstGlowInterpretationContext(state: FirstGlowState, event
   const personalityProfile = firstGlowSparkPersonalityProfile(actor.id);
   const reflectionMemory = buildFirstGlowReflectionMemoryContext(state, actor.id);
   const contextPacket = buildFirstGlowContextPacket(state, actor.id, evidenceEventIds);
-  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.tick}-${event.id}`, tick: state.tick, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds), reflectionMemory, contextPacket };
+  const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.pulse}-${event.id}`, pulse: state.pulse, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds), reflectionMemory, contextPacket };
   return { ...contextWithoutHash, contextHash: `sha256-${sha256(stableJson(contextWithoutHash))}` };
 }
 
@@ -147,7 +147,7 @@ function reserve(budget: FirstGlowInterpretationBudget): boolean {
 function recordUsage(budget: FirstGlowInterpretationBudget, usage: FirstGlowInterpretationUsage): void { budget.telemetry.push(usage); budget.telemetry.sort((a, b) => compare(a.requestId, b.requestId)); }
 
 function makeRecord(context: FirstGlowInterpretationContext, proposal: FirstGlowInterpretationProposal, confidence: FirstGlowInterpretationRecord["confidence"], requestedSource: "rules" | "ai", fallbackReason: FirstGlowInterpretationFallbackReason | undefined, baseline: FirstGlowInterpretationProposal): FirstGlowInterpretationRecord {
-  return { id: `interpretation-${context.tick}-${context.event.id}-${context.contextHash.slice(-12)}`, tick: context.tick, eventId: context.event.id, sparkId: context.actorSparkId, source: requestedSource, summary: proposal.summary, evidenceEventIds: proposal.evidenceEventIds, schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: context.personalityProfileVersion, encounterId: context.encounterId, contextHash: context.contextHash, dilemmaId: context.dilemmaId, alternativeId: proposal.alternativeId as FirstGlowInterpretationAlternative, claim: proposal.claim, confidence, fallbackReason, requestedSource, plausibleChoiceChanged: proposal.alternativeId !== baseline.alternativeId };
+  return { id: `interpretation-${context.pulse}-${context.event.id}-${context.contextHash.slice(-12)}`, pulse: context.pulse, eventId: context.event.id, sparkId: context.actorSparkId, source: requestedSource, summary: proposal.summary, evidenceEventIds: proposal.evidenceEventIds, schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: context.personalityProfileVersion, encounterId: context.encounterId, contextHash: context.contextHash, dilemmaId: context.dilemmaId, alternativeId: proposal.alternativeId as FirstGlowInterpretationAlternative, claim: proposal.claim, confidence, fallbackReason, requestedSource, plausibleChoiceChanged: proposal.alternativeId !== baseline.alternativeId };
 }
 
 export function createRulesOnlyFirstGlowInterpretation(context: FirstGlowInterpretationContext): FirstGlowInterpretationRecord {

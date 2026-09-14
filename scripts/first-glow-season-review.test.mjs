@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { FIRST_GLOW_LONG_STORY_TICKS, FIRST_GLOW_REVIEW_TICKS_PER_SEASON, FIRST_GLOW_SEASON_SCENARIOS, FIRST_GLOW_STORY_SEASONS, runFirstGlowSeason } from "./first-glow-season-review.mjs";
+import { FIRST_GLOW_LONG_STORY_PULSES, FIRST_GLOW_REVIEW_PULSES_PER_SEASON, FIRST_GLOW_SEASON_SCENARIOS, FIRST_GLOW_STORY_SEASONS, runFirstGlowSeason } from "./first-glow-season-review.mjs";
 
 test("the authored long-story suite defines four controlled First Glow reviews", () => {
   assert.deepEqual(FIRST_GLOW_SEASON_SCENARIOS.map(scenario => scenario.id), ["abundance-baseline", "supply-scarcity", "information-gap", "promise-breach"]);
-  assert.equal(FIRST_GLOW_LONG_STORY_TICKS, FIRST_GLOW_REVIEW_TICKS_PER_SEASON * FIRST_GLOW_STORY_SEASONS);
+  assert.equal(FIRST_GLOW_LONG_STORY_PULSES, FIRST_GLOW_REVIEW_PULSES_PER_SEASON * FIRST_GLOW_STORY_SEASONS);
   for (const scenario of FIRST_GLOW_SEASON_SCENARIOS) {
     assert.ok(scenario.question && scenario.controlledVariable && scenario.expectedObservable && scenario.interpretation);
     assert.equal(scenario.seeds.length, 3);

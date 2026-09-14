@@ -12,7 +12,7 @@ if (bundle.schemaVersion !== 3) throw new Error("explanation fixture is not sche
 
 test("committed First Glow events produce three deterministic explanation chains", () => {
   const state = createFirstGlowState(bundle, "first-glow-region", "Opening region", 2);
-  state.tick = 1;
+  state.pulse = 1;
   state.events = [
     { id: "event-1-spark-1-draw", kind: "draw", actorId: "spark-1", message: "Spark 1 drew 8 charge." },
     { id: "event-1-spark-1-idle", kind: "idle", actorId: "spark-1", message: "Spark 1 idled at a shelter niche." },
@@ -32,7 +32,7 @@ test("committed First Glow events produce three deterministic explanation chains
 });
 
 test("explanation chains remain deterministic through committed replay and tolerate older social checkpoints", () => {
-  const run = () => { let state = createWorldV3(bundle, 23, "explanations", 2); for (let tick = 0; tick < 8; tick += 1) state = advanceWorld(state).state; return state; };
+  const run = () => { let state = createWorldV3(bundle, 23, "explanations", 2); for (let pulse = 0; pulse < 8; pulse += 1) state = advanceWorld(state).state; return state; };
   assert.deepEqual(run(), run());
   const legacy = createFirstGlowState(bundle);
   const withoutExplanations = { ...legacy, explanations: undefined } as never;

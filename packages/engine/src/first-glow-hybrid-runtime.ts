@@ -51,11 +51,11 @@ export async function runFirstGlowHybridRuntime(
   const pilotEnabled = options.runtimeMode === "bounded-internal-pilot" && !options.historicalPlayback && Boolean(options.provider);
   const provider = pilotEnabled ? options.provider : undefined;
   const outcomes: FirstGlowHybridRuntimeOutcome[] = [];
-  const priorEvents: StructuredEvent[] = contexts.map(context => ({ ...context.event, tick: context.tick } as StructuredEvent));
+  const priorEvents: StructuredEvent[] = contexts.map(context => ({ ...context.event, pulse: context.pulse } as StructuredEvent));
 
   for (const [index, context] of contexts.entries()) {
     const attention = requestFirstGlowAttention(
-      { ...context.event, tick: context.tick } as StructuredEvent,
+      { ...context.event, pulse: context.pulse } as StructuredEvent,
       attentionBudget,
       { ...options.attentionPolicy, historicalPlayback: options.historicalPlayback },
       priorEvents.slice(0, index)

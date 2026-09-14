@@ -26,7 +26,7 @@ export interface FirstGlowContextPacket {
   actorSparkId: string;
   personalityProfile: FirstGlowSparkPersonalityProfile;
   reflectionMemory: FirstGlowReflectionMemoryContext;
-  recentEvents: Array<{ id: string; tick: number; kind: string; message: string; evidenceEventIds: string[] }>;
+  recentEvents: Array<{ id: string; pulse: number; kind: string; message: string; evidenceEventIds: string[] }>;
   privateKnowledgeBoundary: { witnessedEventIds: string[]; communicatedClaimIds: string[]; uncertainInferenceIds: string[] };
   packetHash: string;
 }
@@ -53,9 +53,9 @@ export function estimateFirstGlowTokens(value: unknown): number { return Math.ma
 export function buildFirstGlowContextPacket(state: FirstGlowState, actorSparkId: string, currentEventIds: string[] = []): FirstGlowContextPacket {
   const knowledge = state.social.knowledge.find(item => item.sparkId === actorSparkId);
   if (!knowledge) throw new Error(`unknown Spark context ${actorSparkId}`);
-  const events = state.events.filter(event => (event.tick ?? state.tick) <= state.tick).sort((a, b) => (a.tick ?? state.tick) - (b.tick ?? state.tick) || compare(a.id, b.id));
+  const events = state.events.filter(event => (event.pulse ?? state.pulse) <= state.pulse).sort((a, b) => (a.pulse ?? state.pulse) - (b.pulse ?? state.pulse) || compare(a.id, b.id));
   const selectedIds = new Set([...currentEventIds, ...knowledge.witnessedFacts.map(item => item.eventId)]);
-  const recentEvents = events.filter(event => selectedIds.has(event.id)).slice(-FIRST_GLOW_CONTEXT_MAX_EVENTS).map(event => ({ id: event.id, tick: event.tick ?? state.tick, kind: event.kind, message: event.message, evidenceEventIds: sorted(event.evidenceEventIds ?? [event.id]) }));
+  const recentEvents = events.filter(event => selectedIds.has(event.id)).slice(-FIRST_GLOW_CONTEXT_MAX_EVENTS).map(event => ({ id: event.id, pulse: event.pulse ?? state.pulse, kind: event.kind, message: event.message, evidenceEventIds: sorted(event.evidenceEventIds ?? [event.id]) }));
   const body = { version: FIRST_GLOW_CONTEXT_PACKET_VERSION, codex: buildFirstGlowWorldCodex(), actorSparkId, personalityProfile: firstGlowSparkPersonalityProfile(actorSparkId), reflectionMemory: buildFirstGlowReflectionMemoryContext(state, actorSparkId, { maxMemories: FIRST_GLOW_CONTEXT_MAX_MEMORIES }), recentEvents, privateKnowledgeBoundary: { witnessedEventIds: sorted(knowledge.witnessedFacts.map(item => item.eventId)), communicatedClaimIds: sorted(knowledge.communicatedClaims.map(item => item.id)), uncertainInferenceIds: sorted(knowledge.uncertainInferences.map(item => item.id)) } };
   return { ...body, packetHash: `sha256-${sha256(stable(body))}` };
 }

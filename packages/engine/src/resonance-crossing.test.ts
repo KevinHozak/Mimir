@@ -10,7 +10,7 @@ import { applyShelterLoomChoice } from "./resonance-loom-choice.js";
 import type { ResonanceCandidateRecord } from "./resonance-anchor.js";
 
 const bundle = decodeWorldBundle(JSON.parse(readFileSync(fileURLToPath(new URL("../../../assets/world/generated/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/world.json", import.meta.url)), "utf8")));
-const candidate: ResonanceCandidateRecord = { id: "candidate-crossing-voices-tiled-103", ruleId: CROSSING_VOICES_RULE.id, location: { ...CROSSING_VOICES_RULE.requiredLocation }, qualifyingEventIds: ["event-crossing-1", "event-crossing-2", "event-crossing-3"], participantSparkIds: ["spark-1", "spark-2", "spark-3"], totalChargeCost: 4, formedTick: 16, status: "pending", auditEvidenceEventIds: ["event-crossing-1", "event-crossing-2", "event-crossing-3"] };
+const candidate: ResonanceCandidateRecord = { id: "candidate-crossing-voices-tiled-103", ruleId: CROSSING_VOICES_RULE.id, location: { ...CROSSING_VOICES_RULE.requiredLocation }, qualifyingEventIds: ["event-crossing-1", "event-crossing-2", "event-crossing-3"], participantSparkIds: ["spark-1", "spark-2", "spark-3"], totalChargeCost: 4, formedPulse: 16, status: "pending", auditEvidenceEventIds: ["event-crossing-1", "event-crossing-2", "event-crossing-3"] };
 
 test("Crossing of Voices forms only from plural, distinct evidence at the authored relay", () => {
   const first = createCrossingVoicesAnchor(candidate, bundle, 16);
@@ -49,7 +49,7 @@ test("fixed-seed comparison keeps Crossing of Voices distinct from Shelter Loom"
   const shelterSettlement = shelterState.settlements[0];
   const shelterCell = { x: 27, y: 5 };
   for (const spark of shelterSettlement.sparks) { spark.position = shelterCell; spark.status = "idle"; spark.knownEvidenceEventIds = ["event-shelter-1"]; }
-  const shelter = applyShelterLoomChoice(shelterState, { id: "anchor-shelter", candidateId: "candidate-shelter", anchorKind: "shelter-loom", authoredObjectId: "tiled-107", authoredSlotId: "rest", createdTick: 16, accessRuleId: "shelter-loom-shared-rest-v1", possibility: "shared rest", tension: "limited access", state: "active", evidenceEventIds: ["event-shelter-1"] }, "spark-1", "spark-2", "yield-rest", ["event-shelter-1"]);
+  const shelter = applyShelterLoomChoice(shelterState, { id: "anchor-shelter", candidateId: "candidate-shelter", anchorKind: "shelter-loom", authoredObjectId: "tiled-107", authoredSlotId: "rest", createdPulse: 16, accessRuleId: "shelter-loom-shared-rest-v1", possibility: "shared rest", tension: "limited access", state: "active", evidenceEventIds: ["event-shelter-1"] }, "spark-1", "spark-2", "yield-rest", ["event-shelter-1"]);
   assert.equal(crossing.ok, true); assert.equal(shelter.ok, true);
   if (crossing.ok && shelter.ok) { assert.equal(crossing.decision.choice, "follow-signal"); assert.equal(shelter.decision.choice, "yield-rest"); assert.equal(crossing.state.settlements[0].sparks[0].intendedActivity, "explore"); assert.notEqual(crossing.state.settlements[0].sparks[0].intendedActivity, shelter.state.settlements[0].sparks[0].intendedActivity); assert.notEqual(crossing.state.settlements[0].sparks[1], shelter.state.settlements[0].sparks[1]); }
 });

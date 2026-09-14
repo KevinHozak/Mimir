@@ -14,17 +14,17 @@ test("First Glow RC uses world age and explicit Hero provenance", () => {
   validateFirstGlowReflectionCapacity(state, ["spark-1", "spark-2"]);
 });
 
-test("RC schedules baseline and Hero opportunities across a 64-tick day", () => {
-  const state = createFirstGlowReflectionCapacityState(["spark-1", "spark-2"], { ticksPerDay: 64 });
+test("RC schedules baseline and Hero opportunities across a 64-pulse day", () => {
+  const state = createFirstGlowReflectionCapacityState(["spark-1", "spark-2"], { pulsesPerDay: 64 });
   designateFirstGlowHero(state, "spark-2");
   const baseline = state.assignments["spark-1"];
   const hero = state.assignments["spark-2"];
   const baselineAt = state.scheduler.decisions.length;
   const firstBaseline = requestFirstGlowReflection(state, baseline.sparkId, firstGlowReflectionCadence(baseline.sparkId, baseline.capacity).phaseOffset);
-  assert.equal(firstBaseline.intervalTicks, 64);
+  assert.equal(firstBaseline.intervalPulses, 64);
   const heroFirst = requestFirstGlowReflection(state, hero.sparkId, firstGlowReflectionCadence(hero.sparkId, hero.capacity).phaseOffset);
-  assert.equal(heroFirst.intervalTicks, 32);
-  const nextHero = requestFirstGlowReflection(state, hero.sparkId, heroFirst.tick + heroFirst.intervalTicks);
+  assert.equal(heroFirst.intervalPulses, 32);
+  const nextHero = requestFirstGlowReflection(state, hero.sparkId, heroFirst.pulse + heroFirst.intervalPulses);
   assert.equal(nextHero.created, true);
   assert.equal(state.scheduler.decisions.length, baselineAt + 3);
 });
@@ -37,7 +37,7 @@ test("RC promotion keeps usage and never grants catch-up debt", () => {
   assert.equal(first.created, true);
   assert.equal(beforeWindow.created, false);
   assert.equal(beforeWindow.reason, "cadence-window-not-ready");
-  assert.equal(beforeWindow.nextEligibleTick >= 32, true);
+  assert.equal(beforeWindow.nextEligiblePulse >= 32, true);
   assert.equal(state.scheduler.sparkUsed["spark-1"], 1);
 });
 
@@ -53,12 +53,12 @@ test("global contention is recorded and replay is provider-free by construction"
   assert.equal(replay.globalUsed, 1);
 });
 
-test("an unused reflection is forced on the final tick of its cadence slot", () => {
-  const state = createFirstGlowReflectionCapacityState(["spark-1"], { ticksPerDay: 64 });
+test("an unused reflection is forced on the final pulse of its cadence slot", () => {
+  const state = createFirstGlowReflectionCapacityState(["spark-1"], { pulsesPerDay: 64 });
   const cadence = firstGlowReflectionCadence("spark-1", 1, 64);
-  const slotEnd = Math.min(cadence.phaseOffset + cadence.intervalTicks - 1, 63);
+  const slotEnd = Math.min(cadence.phaseOffset + cadence.intervalPulses - 1, 63);
   const atEnd = requestFirstGlowReflection(state, "spark-1", slotEnd);
   assert.equal(atEnd.created, true);
   assert.equal(atEnd.forcedAtSlotEnd, true);
-  assert.equal(atEnd.slotEndTick, atEnd.tick);
+  assert.equal(atEnd.slotEndPulse, atEnd.pulse);
 });

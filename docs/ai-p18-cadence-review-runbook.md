@@ -4,18 +4,18 @@ AI-P18 adds a deterministic cadence layer to the bounded attention policy. A Spa
 
 ## Powers-of-two ladder
 
-For a 64-tick day, the supported budget ladder is:
+For a 64-pulse day, the supported budget ladder is:
 
 | Budget | Target interval |
 | ---: | ---: |
-| 2 | 32 ticks |
-| 4 | 16 ticks |
-| 8 | 8 ticks |
-| 16 | 4 ticks |
+| 2 | 32 pulses |
+| 4 | 16 pulses |
+| 8 | 8 pulses |
+| 16 | 4 pulses |
 
-The interval is `floor(ticksPerDay / budget)`. Each Spark receives a stable phase offset derived from its ID so all Sparks do not become eligible on the same tick. If an opportunity arrives late, the next window is also bounded by the last consumed tick plus the interval; this prevents catch-up bursts.
+The interval is `floor(pulsesPerDay / budget)`. Each Spark receives a stable phase offset derived from its ID so all Sparks do not become eligible on the same pulse. If an opportunity arrives late, the next window is also bounded by the last consumed pulse plus the interval; this prevents catch-up bursts.
 
-Unavailable or ineligible events are suppressed without debt or forced activity. The attention decision records the budget, cadence interval, phase offset, window index, and next eligible tick. The global daily cap and repeated-event cooldown remain authoritative.
+Unavailable or ineligible events are suppressed without debt or forced activity. The attention decision records the budget, cadence interval, phase offset, window index, and next eligible pulse. The global daily cap and repeated-event cooldown remain authoritative.
 
 ## Candidate determinants
 

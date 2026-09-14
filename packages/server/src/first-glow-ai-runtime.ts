@@ -89,8 +89,8 @@ export class FirstGlowServerAIRuntime {
 
   constructor(private readonly config: FirstGlowServerAIConfig) {}
 
-  private resetInterpretationBudgetIfNeeded(tick: number): void {
-    const day = Math.floor(Math.max(0, tick) / 4);
+  private resetInterpretationBudgetIfNeeded(pulse: number): void {
+    const day = Math.floor(Math.max(0, pulse) / 4);
     if (day === this.simulatedDay) return;
     this.simulatedDay = day;
     this.interpretationBudget = { limit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, reserved: 0, used: 0, telemetry: [] as FirstGlowInterpretationUsage[] };
@@ -98,7 +98,7 @@ export class FirstGlowServerAIRuntime {
 
   async evaluate(state: FirstGlowState, events: StructuredEvent[]): Promise<FirstGlowServerAIResult> {
     if (!this.config.enabled || !events.length) return { state, interpretations: [], decisions: [], transitions: [] };
-    this.resetInterpretationBudgetIfNeeded(state.tick);
+    this.resetInterpretationBudgetIfNeeded(state.pulse);
     const contexts = events.map(event => buildFirstGlowInterpretationContext(state, event)).filter((context): context is NonNullable<typeof context> => Boolean(context));
     if (!contexts.length) return { state, interpretations: [], decisions: [], transitions: [] };
     const runtime = await runFirstGlowHybridRuntime(contexts, {

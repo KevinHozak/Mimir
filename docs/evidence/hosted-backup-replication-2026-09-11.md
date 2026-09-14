@@ -19,10 +19,10 @@ First Glow bundle-inclusive backup/restore passed
 First Glow hash-qualified asset serving passed
 ```
 
-The replication contract test uses the real archive tool and verifies that the generated artifact contains the database, manifest, and bundle directory. It also verifies remote metadata comparison and cleanup after a simulated upload failure. The existing isolated restore suite verifies bundle-inclusive recovery, continued First Glow ticking, missing-asset failure before startup, and hash-qualified asset serving.
+The replication contract test uses the real archive tool and verifies that the generated artifact contains the database, manifest, and bundle directory. It also verifies remote metadata comparison and cleanup after a simulated upload failure. The existing isolated restore suite verifies bundle-inclusive recovery, continued First Glow pulseing, missing-asset failure before startup, and hash-qualified asset serving.
 
 The first backup/restore attempt in the restricted Windows sandbox stopped before application assertions because child-process creation returned `spawn EPERM`; the same unchanged suite passed when rerun with the required elevated execution.
 
 ## Operator response
 
-Inspect `/api/backup/status` or the `backupReplication` object in `/health`. A `stale` or failed state requires checking the service log, attached VM identity, bucket URI, and least-privilege permissions. Preserve the local backup unit, correct the cause, and then use the separate recovery identity to download one object into a fresh isolated path and run the documented restore plus continued First Glow tick. A local copy alone is never independent recovery evidence.
+Inspect `/api/backup/status` or the `backupReplication` object in `/health`. A `stale` or failed state requires checking the service log, attached VM identity, bucket URI, and least-privilege permissions. Preserve the local backup unit, correct the cause, and then use the separate recovery identity to download one object into a fresh isolated path and run the documented restore plus continued First Glow pulse. A local copy alone is never independent recovery evidence.
