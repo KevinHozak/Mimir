@@ -78,7 +78,28 @@ The Collector Garden, Charge Commons, permanent Nests, and the name Emberhaven g
 | **Cycle** | An ordinary in-world term for a recurring period of life and work |
 | **Season** | A bounded stretch of the simulation's history |
 
-Use **Readiness** for the rest meter. Strain is its conceptual opposite, not a second name for the same increasing value. The word cycle does not imply a fixed number of simulation ticks unless a scenario defines one.
+### Time vocabulary (recommended ladder)
+
+For world-facing language, use **pulse** for one committed simulation step and
+**Cycle** for a 64-pulse day-like rhythm. The intermediate and larger names are
+recorded as a recommended ladder for future mechanics, not as a claim that all
+of these calendar units are implemented:
+
+| Scale | Name | Intended meaning |
+| --- | --- | --- |
+| 1 simulation step | **Pulse** | The smallest observable change in the Living Circuit |
+| 64 pulses | **Cycle** | One ordinary day-like rhythm |
+| 8 Cycles | **Weave** | A short stretch of shared routines |
+| 8 Weaves | **Phase** | A larger recurring movement or work period |
+| 4 Phases | **Season** | A meaningful bounded period of history |
+| 8 Seasons | **Circuit** | A major social or infrastructural turning |
+| Many Circuits | **Age** | A developmental era such as the First Glow or Hearth Circuit |
+
+The engine and persisted state continue to use **tick** as an internal
+compatibility term until a deliberate terminology migration is approved. The
+observer, explanations, and Spark-facing writing should prefer **pulse**.
+
+Use **Readiness** for the rest meter. Strain is its conceptual opposite, not a second name for the same increasing value. In the selected First Glow cadence, a **Cycle** is 64 pulses; another scenario may define a different local cadence explicitly.
 
 ### Binary rhythm for authored numbers
 
