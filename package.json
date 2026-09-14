@@ -55,7 +55,7 @@
     "rc-p4:evaluation:test": "node scripts/first-glow-rc-p4-evaluation.test.mjs"
   },
   "devDependencies": {
-    "@types/node": "^22.10.5",
+    "@types/node": "^26.5.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
