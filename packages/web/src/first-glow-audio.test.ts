@@ -10,9 +10,9 @@ const storage = {
 };
 
 assert.deepEqual(loadFirstGlowAudioPreferences(storage), DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES);
-saveFirstGlowAudioPreferences({ enabled: true, muted: true, ambienceEnabled: false, scoreEnabled: true, master: 1.4, music: -1, effects: 0.425 }, storage);
+saveFirstGlowAudioPreferences({ enabled: true, muted: true, ambienceEnabled: false, scoreEnabled: true, effectsEnabled: false, master: 1.4, music: -1, effects: 0.425 }, storage);
 assert.equal(values.has(FIRST_GLOW_AUDIO_STORAGE_KEY), true);
-assert.deepEqual(loadFirstGlowAudioPreferences(storage), { enabled: true, muted: true, ambienceEnabled: false, scoreEnabled: true, master: 1, music: 0, effects: 0.425 });
+assert.deepEqual(loadFirstGlowAudioPreferences(storage), { enabled: true, muted: true, ambienceEnabled: false, scoreEnabled: true, effectsEnabled: false, master: 1, music: 0, effects: 0.425 });
 values.set(FIRST_GLOW_AUDIO_STORAGE_KEY, "not json");
 assert.deepEqual(loadFirstGlowAudioPreferences(storage), DEFAULT_FIRST_GLOW_AUDIO_PREFERENCES);
 assert.equal(audioPreferencePercent(0.726), 73);
