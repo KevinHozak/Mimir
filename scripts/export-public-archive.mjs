@@ -19,13 +19,16 @@ for (const timeline of timelines) {
   const chunks = [];
   for (let index = 0; index < checkpoints.length; index += 1) {
     const checkpoint = checkpoints[index];
+    const world = JSON.parse(checkpoint.state_json);
     const payload = {
       schemaVersion: 1,
       timeline,
       pulse: checkpoint.pulse,
-      world: JSON.parse(checkpoint.state_json),
+      world,
       events: database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse, id").all(timeline.id, checkpoint.pulse).flatMap(row => JSON.parse(row.event_json)),
       interpretations: database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse, id").all(timeline.id, checkpoint.pulse).map(row => JSON.parse(row.interpretation_json)),
+      movementRecords: world.firstGlowState?.history?.movements?.filter(record => record.pulse <= checkpoint.pulse) ?? [],
+      decisionRecords: world.firstGlowState?.history?.decisions?.filter(record => record.pulse <= checkpoint.pulse) ?? [],
     };
     const bytes = Buffer.from(JSON.stringify(payload) + "\n");
     const name = `chunk-${String(index).padStart(6, "0")}.json`;
@@ -39,4 +42,3 @@ for (const timeline of timelines) {
 }
 writeFileSync(join(root, "catalog.json"), JSON.stringify({ schemaVersion: 1, simulationVersion: "mimir-sim-v3-first-glow", archives: catalog }, null, 2) + "\n");
 database.close();
-
