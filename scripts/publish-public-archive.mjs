@@ -30,7 +30,7 @@ for (const item of catalog.archives) {
   if (!existsSync(manifestPath)) throw new Error(`archive manifest missing: ${item.archiveId}`);
   const manifestBytes = readFileSync(manifestPath);
   const manifest = JSON.parse(manifestBytes);
-  if (manifest.archiveId !== item.archiveId || manifest.schemaVersion !== 1 || manifest.simulationVersion !== catalog.simulationVersion || !Array.isArray(manifest.chunks) || manifest.chunks.length !== item.chunkCount) throw new Error(`archive manifest mismatch: ${item.archiveId}`);
+  if (manifest.archiveId !== item.archiveId || manifest.schemaVersion !== 1 || manifest.simulationVersion !== catalog.simulationVersion || !Array.isArray(manifest.chunks) || manifest.chunks.length !== item.chunkCount || manifest.chunks.length < 3 || manifest.chunks[0]?.pulse !== 0 || manifest.chunks.some((chunk, index) => !Number.isInteger(chunk.pulse) || (index > 0 && chunk.pulse <= manifest.chunks[index - 1].pulse))) throw new Error(`archive manifest checkpoint contract failed: ${item.archiveId}`);
   if (item.manifestSha256 && sha256(manifestBytes) !== item.manifestSha256) throw new Error(`catalog manifest checksum mismatch: ${item.archiveId}`);
   for (const chunk of manifest.chunks) {
     const path = join(root, "chunks", chunk.name);
@@ -50,6 +50,20 @@ const publishedCatalogPath = join(tempRoot, "catalog.json");
 const catalogBytes = Buffer.from(JSON.stringify(publishedCatalog, null, 2) + "\n");
 writeFileSync(publishedCatalogPath, catalogBytes);
 const runId = `run-${new Date().toISOString().replaceAll(/[:.]/g, "-")}-${randomUUID().slice(0, 8)}`;
+const publicationRecord = {
+  schemaVersion: 1,
+  runId,
+  publishedAt: new Date().toISOString(),
+  source: publishedCatalog.archives.map(item => ({ backup: item.source?.backup ?? "unspecified", timelineId: item.source?.timelineId ?? item.timeline.id, checkpoints: item.checkpoints ?? [] })),
+  archives: publishedCatalog.archives.map(item => ({ archiveId: item.archiveId, chunks: item.chunkCount, checkpoints: item.checkpoints ?? [] })),
+  retentionDays,
+  chunkPolicy: "one complete JSON checkpoint per content-addressed chunk",
+  republish: "safe to rerun; canonical SQLite history is read-only and the catalog commit is atomic",
+  quarantine: quarantineId ? { archiveId: quarantineId, reason: "operator-selected quarantine" } : null,
+  rollback: "restore the previous catalog.json; immutable archive objects remain available for recovery",
+};
+const publicationRecordPath = join(tempRoot, "publication-record.json");
+writeFileSync(publicationRecordPath, JSON.stringify(publicationRecord, null, 2) + "\n");
 const stagingUri = `${bucketUri.replace(/\/$/, "")}/archives/.staging/${runId}`;
 function gcloud(args) {
   if (dryRun) return;
@@ -62,12 +76,14 @@ for (const file of checkedFiles) {
   gcloud(["cp", file.path, `${stagingUri}/${relativePath}`]);
 }
 gcloud(["cp", publishedCatalogPath, `${stagingUri}/catalog.json`]);
+gcloud(["cp", publicationRecordPath, `${stagingUri}/publications/${runId}.json`]);
 for (const file of checkedFiles) {
   const relativePath = file.remote.split("/archives/")[1];
   gcloud(["cp", `${stagingUri}/${relativePath}`, file.remote]);
 }
+gcloud(["cp", `${stagingUri}/publications/${runId}.json`, `${bucketUri.replace(/\/$/, "")}/archives/publications/${runId}.json`]);
 // Catalog publication is the commit point: incomplete archives are not advertised.
 gcloud(["cp", `${stagingUri}/catalog.json`, `${bucketUri.replace(/\/$/, "")}/archives/catalog.json`]);
 if (!dryRun) rmSync(tempRoot, { recursive: true, force: true });
-console.log(JSON.stringify({ ok: true, dryRun, runId, publishedArchives: publishedCatalog.archives.map(item => item.archiveId), quarantinedArchive: quarantineId ?? null, retentionDays, catalogCommit: `${bucketUri.replace(/\/$/, "")}/archives/catalog.json` }, null, 2));
+console.log(JSON.stringify({ ok: true, dryRun, runId, publishedArchives: publishedCatalog.archives.map(item => item.archiveId), quarantinedArchive: quarantineId ?? null, retentionDays, publicationRecord: `${bucketUri.replace(/\/$/, "")}/archives/publications/${runId}.json`, catalogCommit: `${bucketUri.replace(/\/$/, "")}/archives/catalog.json` }, null, 2));
 

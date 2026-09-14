@@ -151,6 +151,8 @@ The current database stores:
 
 The initial checkpoint is stored at pulse 0. Each successful pulse stores another complete serialized state snapshot. Branching copies checkpoint, event, and interpretation history through the selected source pulse, then activates a new child timeline. `reset-v3` archives the active timeline and creates a new schema-3 First Glow world with a new seed and Spark count.
 
+Public archive export uses a read-only SQLite connection and writes one immutable JSON chunk per selected checkpoint. A publication requires at least three ordered checkpoints including pulse 0, validates every chunk against its manifest checksum and First Glow schema, stages objects before the catalog commit, and emits a dated publication record containing the source backup label, timeline IDs, checkpoint pulses, retention, chunk policy, quarantine, and rollback guidance. This path does not write canonical history or participate in the live scheduler.
+
 SQLite WAL checkpoints and scheduled local database copies are supported. The scheduled copies remain on the same disk; Hosted-P5 also validated an operator transfer to, and recovery from, an independent Google Cloud Storage destination. Automatic cloud-upload scheduling is not yet wired into the service.
 
 ## 6. HTTP and live-update surface
@@ -310,5 +312,4 @@ Future changes should preserve these rules:
 6. New world definitions must be validated before entering simulation state.
 7. Any persistence-schema or rules change must declare compatibility behavior for old checkpoints.
 8. Scaling beyond one simulation writer requires a deliberate persistence architecture change.
-
 
