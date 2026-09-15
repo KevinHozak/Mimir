@@ -116,3 +116,5 @@ Hosted-P17 remains open. The 2026-09-14 operational closeout sample confirmed HT
 - Fixed inputs produce the same committed history. Objective events, Spark-local knowledge, and interpretations remain separate records.
 - Edit authored Tiled sources or importer code, then regenerate and validate bundles. Hash-named bundles are immutable, including for historical replay.
 - Treat SQLite runtime data, backups, and test outputs as isolated artifacts. Hosted operation remains single-writer until persistence architecture changes deliberately.
+
+P17 verification update (2026-09-15): the corrected authenticated observer frontend is live as Firebase Hosting version `77e6939867b124c9` from merged PR #211. P17 remains open for token-matrix, authenticated SSE, restart, archive-outage, traffic, quota, and cost evidence; PR #212 is the pending Windows deployment-script follow-up.

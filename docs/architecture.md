@@ -312,3 +312,5 @@ Future changes should preserve these rules:
 6. New world definitions must be validated before entering simulation state.
 7. Any persistence-schema or rules change must declare compatibility behavior for old checkpoints.
 8. Scaling beyond one simulation writer requires a deliberate persistence architecture change.
+
+Hosted-P17 verification update (2026-09-15): the corrected hosted-auth frontend is live as Firebase Hosting version `77e6939867b124c9` from merged PR #211. The hosted boundary remains limited authenticated staging while the remaining operational closeout gates are measured.

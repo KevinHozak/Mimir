@@ -164,3 +164,5 @@ Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -He
 ```
 
 For local runs, the default database is `data/local/mimir.db` and scheduled backups default to `data/backups/`. When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.
+
+Hosted-P17 verification update (2026-09-15): Firebase Hosting version `77e6939867b124c9` is serving the corrected authenticated observer from merged PR #211. The deployment is still limited authenticated staging; complete token, SSE continuity, restart, archive-outage, traffic, quota, and cost evidence before treating the observer as production-ready.
