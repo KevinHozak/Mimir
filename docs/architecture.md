@@ -174,7 +174,7 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/history` — a bounded historical-view response for one timeline and checkpoint, including lineage, version identity, recorded objective events, and recorded interpretations. Empty timelines, missing checkpoints, and incompatible checkpoints return explicit states; no replay or new interpretation is generated.
 - `GET /api/live` — Server-Sent Events stream with the current state and committed pulse updates.
 
-The hosted observer exposes these reads through Firebase Hosting and the `mimir-observer-bridge` Cloud Run service. The bridge requires an approved, verified Google ID token, forwards only the read/SSE allowlist to the private VM, and never forwards owner or mutation routes. Firebase Hosting remains the same-origin browser surface; it is not simulation authority.
+The hosted observer exposes these reads through Firebase Hosting and the `mimir-observer-bridge` Cloud Run service. The bridge requires an approved, verified Google ID token, forwards only the read/SSE allowlist to the private VM, and never forwards owner or mutation routes. The frontend must also require hosted auth on `mimir-realm.web.app`; Hosted-P17 found that the current served bundle omitted that build flag and displayed owner-operation controls despite the bridge returning HTTP 401. Firebase Hosting remains the same-origin browser surface; it is not simulation authority. See the [Hosted-P17 operational evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md).
 
 ### Owner operations
 
@@ -312,4 +312,3 @@ Future changes should preserve these rules:
 6. New world definitions must be validated before entering simulation state.
 7. Any persistence-schema or rules change must declare compatibility behavior for old checkpoints.
 8. Scaling beyond one simulation writer requires a deliberate persistence architecture change.
-

@@ -117,7 +117,8 @@ For Firebase Hosting releases, use `npm run deploy:hosting` from a clean checkou
 workspaces, deploys only the `mimir-realm` Hosting site, and compares the live
 `index.html` and hashed assets with the build it just deployed. A successful
 Firebase command alone is not sufficient evidence that the intended checkout is
-live.
+live. The build explicitly enables `VITE_FIREBASE_AUTH_ENABLED=true`, and the
+frontend also enforces auth when served from `mimir-realm.web.app`.
 
 1. Open `/health` and verify the service reports `ok: true` and the expected database path under `/var/data`.
 2. Open `/` and verify the browser client loads from the same origin.

@@ -70,7 +70,7 @@ try {
   assert(head === originMain, `checkout is not at origin/main (HEAD ${head}, origin/main ${originMain})`);
 
   console.log(`Building ${head}...`);
-  run("npm", ["run", "build"], { capture: false });
+  run("npm", ["run", "build"], { capture: false, env: { ...process.env, VITE_FIREBASE_AUTH_ENABLED: "true" } });
 
   console.log(`Deploying Firebase Hosting site ${hostingSite} in project ${projectId}...`);
   const deploymentOutput = run("firebase", ["deploy", "--only", `hosting:${hostingSite}`, "--project", projectId, "--json"]);
