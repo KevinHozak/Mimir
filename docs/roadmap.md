@@ -108,7 +108,7 @@ P8 strengthened the private deployment through independent, bundle-inclusive rec
 
 Hosted-P9 through Hosted-P12 are now implemented and validated as a limited Google-authenticated distribution boundary, archive validation/publication path, and operator evidence layer. Hosted-P13 records the 2026-09-13 decision to retain Firebase plus one SQLite-writing VM for the limited observer envelope. It does not claim high-concurrency capacity or production availability; a real audience rehearsal must measure traffic, cache behavior, archive growth, quotas, and observed cost before widening access. See the [Hosted-P13 scale review](evidence/hosted-scale-boundary-2026-09-13.md).
 
-Hosted-P17 remains open. The 2026-09-14 operational closeout sample confirmed HTTP 401 rejection at the bridge, but also found that the served frontend bundle omitted the hosted-auth flag and displayed owner-operation controls. The corrective client/deployment guard and the remaining token, restart, archive-outage, authenticated asset, and bounded traffic evidence are recorded in [Hosted-P17 evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md).
+Hosted-P17's initial closeout sample found a served frontend bundle that omitted the hosted-auth flag and displayed owner-operation controls. The correction and subsequent bounded validation evidence are recorded in [Hosted-P17 evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md).
 
 ## Non-negotiable gates
 
@@ -117,4 +117,6 @@ Hosted-P17 remains open. The 2026-09-14 operational closeout sample confirmed HT
 - Edit authored Tiled sources or importer code, then regenerate and validate bundles. Hash-named bundles are immutable, including for historical replay.
 - Treat SQLite runtime data, backups, and test outputs as isolated artifacts. Hosted operation remains single-writer until persistence architecture changes deliberately.
 
-P17 verification update (2026-09-15): the corrected authenticated observer frontend is live as Firebase Hosting version `77e6939867b124c9` from merged PR #211. P17 remains open for token-matrix, authenticated SSE, restart, archive-outage, traffic, quota, and cost evidence; PR #212 is the pending Windows deployment-script follow-up.
+P17 verification update (2026-09-15): the corrected authenticated observer frontend is live as Firebase Hosting version `77e6939867b124c9` from merged PR #211. The phase is closed with explicit limitations after PRs #213, #214, and #215; unavailable token classes, authenticated SSE refresh/reconnect, archive-outage replay, and real audience/billing telemetry remain unverified follow-up risks.
+
+Hosted-P17 disposition (2026-09-15): closed with explicit limitations after the safe validation evidence was completed and merged through PRs #213, #214, and #215. The hosted observer remains limited authenticated staging. Unavailable token classes, archive replay during outage, authenticated SSE refresh/reconnect, and real audience/billing telemetry are documented as unverified follow-up risks, not passed gates.

@@ -53,7 +53,7 @@ The boundary for any future public model is explicit:
 - No public deployment, endpoint, credential, service account, load balancer, external IPv4 address, or other billable resource is created by this phase.
 - Before reconsidering the decision, recheck current Google Cloud prices and free-tier eligibility, privacy/support expectations, traffic and egress assumptions, backup freshness evidence, and the `$10` alert configuration. The alert is not a spending cap.
 
-Hosted-P8, Hosted-P9, and Hosted-P10 are complete through their merged implementation and validation work. The current hosted boundary is recorded below; Hosted-P14 is now the next actionable phase and requires an explicit deployment verification before public access is treated as live.
+Hosted-P8 through Hosted-P16 are complete through their merged implementation and validation work. Hosted-P17 is now closed as a bounded staging closeout with explicit limitations; the current hosted boundary and unverified follow-up risks are recorded below.
 
 ## Hosted-P11 through Hosted-P14 current boundary
 
@@ -165,4 +165,6 @@ Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -He
 
 For local runs, the default database is `data/local/mimir.db` and scheduled backups default to `data/backups/`. When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.
 
-Hosted-P17 verification update (2026-09-15): Firebase Hosting version `77e6939867b124c9` is serving the corrected authenticated observer from merged PR #211. The deployment is still limited authenticated staging; complete token, SSE continuity, restart, archive-outage, traffic, quota, and cost evidence before treating the observer as production-ready.
+Hosted-P17 verification update (2026-09-15): Firebase Hosting version `82cc93e9b9470f8e` is serving the corrected authenticated observer from merged main after PR #211. The deployment remains limited authenticated staging and is not a production-readiness declaration.
+
+Hosted-P17 disposition (2026-09-15): the phase is closed as a bounded staging closeout, not a production-readiness declaration. The unavailable token, archive-outage, authenticated SSE, and real audience/billing checks remain explicit unverified risks. Reopen or supersede this phase before widening access, adding writers, or making availability/cost claims.
