@@ -9,6 +9,11 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 ## 2026-09 — First Glow foundation
 
+### Recovered evaluation accounting and evidence
+
+- RC-P4 evaluation now counts only each scenario's provider telemetry, including actual token totals, avoiding repeated cumulative costs. A synthetic regression check runs with the existing RC-P4 evidence test.
+- Preserved the [historical private RC-P4 batch](evidence/rc-p4-private-live-2026-09-13.md) separately from the deterministic control, restored the dated Hosted-P17 continuity note, and completed the AI-P8 evidence summary. No new provider run or deployment is implied.
+
 ### Reflection capacity is visible at the observer boundary
 
 - Added a server-owned, replay-safe reflection projection and First Glow observer panel showing world-age baseline RC, explicit Hero capacity, per-Spark usage/remaining opportunities, next scheduled window, current intention, and committed reflection outcomes.

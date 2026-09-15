@@ -4,6 +4,8 @@ This is the implementation plan for selective AI-assisted First Glow decisions. 
 
 ## Direction
 
+Evaluation accounting: RC-P4 sums provider usage per scenario rather than repeatedly counting accumulated telemetry. The recovered [private-live artifact](evidence/rc-p4-private-live-2026-09-13.md) is historical evidence with its original schema and experimental arms; it does not change the selected world-age capacity policy or authorize further calls.
+
 Use Gemini 2.5 Flash-Lite as the planned external evaluation model. The intended system is hybrid:
 
 - routine activity remains deterministic and rules-based;

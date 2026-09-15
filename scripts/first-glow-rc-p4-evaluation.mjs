@@ -1,6 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { summarizeScenarioTelemetry } from "./rc-p4-telemetry.mjs";
 import { decodeWorldBundle } from "@mimir/world-data";
 import {
   applyFirstGlowStagingChoice,
@@ -119,6 +120,7 @@ async function intentionEffect(sourceState, context, interpretation, source) {
 }
 
 async function evaluateScenario(seed, arm, memoryCondition, providerBundle) {
+  const telemetryStart = providerBundle.provider.telemetry?.length ?? 0;
   const contexts = makeContexts(seed, arm, memoryCondition);
   const heroIndex = contexts[0].heroIndex;
   const configuredCapacity = sparkId => arm.id === "rc4-hero" ? (sparkId === sparkIds[heroIndex] ? 4 : 2) : arm.capacities[0];
@@ -140,7 +142,7 @@ async function evaluateScenario(seed, arm, memoryCondition, providerBundle) {
   const fallbacks = Object.fromEntries(fallbackReasons.map(reason => [reason, pilot.outcomes.filter(outcome => (outcome.usage.reason ?? outcome.interpretation.fallbackReason) === reason).length]));
   let replayCalls = 0;
   const replay = await runFirstGlowHybridRuntime(contexts.map(item => item.context), { runtimeMode: "bounded-internal-pilot", provider: { providerId: "replay-must-not-call", interpret: async () => { replayCalls += 1; throw new Error("provider called during replay"); } }, historicalPlayback: true, recorded: pilot.outcomes.map(outcome => outcome.interpretation), attentionPolicy: policy, interpretationBudget: { limit: 256, reserved: 0, used: 0, telemetry: [] } });
-  return { seed, arm: arm.id, memoryCondition, heroIndex: contexts[0].heroIndex, encounters: ledger.length, ledger, calls: actualCalls, fallbackCategories: fallbacks, suppressedWindows: pilot.attentionBudget.decisions.filter(decision => !decision.created).length, globalCapContention: pilot.attentionBudget.decisions.filter(decision => decision.reason === "global-budget-exhausted").length, estimated: { latencyMs: providerBundle.execution === "deterministic-control" ? 0 : providerBundle.provider.telemetry.reduce((sum, item) => sum + (item.latencyMs ?? 0), 0), inputTokens: 0, outputTokens: 0, costCents: providerBundle.execution === "deterministic-control" ? 0 : providerBundle.provider.telemetry.reduce((sum, item) => sum + (item.costCents ?? 0), 0) }, replayProviderFree: replayCalls === 0 && replay.interpretationBudget.used === 0, accumulatedDivergence: ledger.filter(item => item.directDivergence).length, perSparkDivergence: Object.fromEntries(sparkIds.map(id => [id, ledger.filter(item => item.sparkId === id && item.directDivergence).length])) };
+  return { seed, arm: arm.id, memoryCondition, heroIndex: contexts[0].heroIndex, encounters: ledger.length, ledger, calls: actualCalls, fallbackCategories: fallbacks, suppressedWindows: pilot.attentionBudget.decisions.filter(decision => !decision.created).length, globalCapContention: pilot.attentionBudget.decisions.filter(decision => decision.reason === "global-budget-exhausted").length, estimated: summarizeScenarioTelemetry(providerBundle.provider.telemetry, telemetryStart), replayProviderFree: replayCalls === 0 && replay.interpretationBudget.used === 0, accumulatedDivergence: ledger.filter(item => item.directDivergence).length, perSparkDivergence: Object.fromEntries(sparkIds.map(id => [id, ledger.filter(item => item.sparkId === id && item.directDivergence).length])) };
 }
 
 const providerBundle = createProvider("matched");

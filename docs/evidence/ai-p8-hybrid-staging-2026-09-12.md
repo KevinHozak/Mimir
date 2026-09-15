@@ -8,7 +8,9 @@ This report replays the retained AI-P6 Vertex artifact and applies its already-v
 
 - Baseline accepted: 16/16; hybrid accepted: 16/16; rejected: 0.
 - Hybrid downstream social diffs: 16; different from rules-only: 14.
-- Runtime authority changes: 0; historical replay provider calls: 0.
+- Runtime authority changes: 0; before/after state fingerprints are recorded per encounter.
+- Provider latency: 582-929 ms (p50 687); fallbacks: 0; hidden-knowledge leakage: 0.
+- Historical replay provider calls: 0.
 - New provider calls/cost: 0 / 0 cents.
 
 ## Decision
@@ -22,5 +24,4 @@ This report replays the retained AI-P6 Vertex artifact and applies its already-v
 - Canonical runtime unchanged: **pass**
 - Historical replay provider-free: **pass**
 - Provider calls during staging: **pass**
-- Inherited AI-P6 cost under cap: **pass
-
+- Inherited AI-P6 cost under cap: **pass**

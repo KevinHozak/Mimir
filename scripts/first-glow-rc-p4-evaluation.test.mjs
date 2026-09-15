@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import "./rc-p4-telemetry.test.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const report = JSON.parse(readFileSync(resolve(root, "docs/evidence/rc-p4-matched-evaluation-2026-09-13.json"), "utf8"));
