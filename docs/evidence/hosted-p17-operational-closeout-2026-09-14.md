@@ -34,3 +34,21 @@ The following acceptance work remains open: missing, malformed, expired, wrong-p
 ## Corrective action
 
 The follow-up change makes `mimir-realm.web.app` require hosted auth by hostname and makes the deployment script build with `VITE_FIREBASE_AUTH_ENABLED=true`. It adds a regression test and is intended to be deployed through the verified Hosting workflow before this issue is closed.
+
+## Supplemental verification — 2026-09-15
+
+The merged frontend correction was deployed to Firebase Hosting as version `77e6939867b124c9` from merged PR #211, commit `1eaa0bea99f08892403c2546f619eec0721fe088`. The live root served the corrected `index-TfeZcMin.js` asset.
+
+| Check | Result |
+| --- | --- |
+| `GET /` | HTTP 200; `Cache-Control: max-age=3600`; 168-byte HTML shell |
+| Corrected JavaScript asset | HTTP 200; 1,816,510 bytes |
+| `GET /api/world` without Authorization | HTTP 401, `approved Google account required` |
+| `GET /api/metrics` without Authorization | HTTP 401, `approved Google account required` |
+| Authenticated browser observer | Loaded as `khozak@gmail.com`; hosted auth bar and observer controls visible |
+| Owner/play controls on hosted page | Absent |
+| Unauthenticated `/api/live` | No body within a bounded 5-second client window; SSE requires authenticated retest |
+
+Focused `test:hosted-auth-boundary` passed, and the elevated full build passed for world-data, engine, server, and web. Vite reported only the existing large-chunk warning. The Windows deployment-script follow-up is tracked in PR #212; it has not yet been merged, so the automated deployment path still needs one post-merge verification.
+
+P17 remains **not complete**. The missing/malformed/expired/wrong-project/unapproved token matrix, authenticated SSE reconnect/closure/token refresh, bridge and VM restart continuity, archive replay during live unavailability, bounded traffic rehearsal, and quota/cost/load measurements remain open.
