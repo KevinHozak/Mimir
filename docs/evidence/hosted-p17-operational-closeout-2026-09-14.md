@@ -2,7 +2,7 @@
 
 ## Disposition
 
-**Not complete.** The bounded live checks found that the bridge rejects unauthenticated observer requests, but the currently served frontend bundle was built without the hosted-auth flag. It therefore renders owner-operation controls on the public Hosting page even though the API rejects those calls. Hosted-P17 remains open until the corrected frontend is deployed and the remaining authenticated, restart, archive, and traffic checks are captured.
+**Closed with explicit limitations.** The corrected authenticated frontend was deployed and the safe boundary, VM continuity, synthetic rehearsal, quota snapshot, and Cloud Run recovery evidence were recorded. The checks that require separately issued Google test tokens, a coordinated outage window, or audience/billing telemetry remain unperformed and are not represented as passed. This closeout does not declare production readiness or broader public release.
 
 ## Observation window and release identity
 
