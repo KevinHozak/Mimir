@@ -72,6 +72,15 @@ The bridge returned 404 for `/api/resonance/anchors`, `/api/timelines`, and `/ap
 
 This pass confirms the missing and malformed rejection cases and the deployed observer boundary. It does not satisfy expired, wrong-project, or unapproved-user token cases because no test tokens for those identities were available. Authenticated SSE reconnect/closure and token refresh, bridge/VM restart continuity, archive replay during live unavailability, and traffic/quota/cost/load measurements remain open.
 
+Recovered historical note from commit `e07e10d`; this is not a new operational check.
+
+## VM continuity check — 2026-09-15
+
+Before the restart, the sole `mimir-staging` Compute Engine writer reported `pulse: 0`, `schedulerPaused: true`, timeline `main`, and database `/var/lib/mimir/mimir.db`. The VM was reset through IAP. After restart, the local health endpoint on port 8888 returned the same pulse, scheduler, timeline, and database path. The hosted Firebase root returned HTTP 200, `/api/world` without Authorization returned 401, and malformed-token `/api/live` returned 401. The authenticated browser remained signed in as `khozak@gmail.com` and continued displaying the observer-only UI.
+
+This validates VM checkpoint/service continuity without advancing or mutating the world. It does not yet validate a bridge process restart, authenticated SSE reconnect after that restart, archive replay during live unavailability, or the remaining token and traffic gates.
+
+
 ## Cloud Run telemetry follow-up — 2026-09-15
 
 Read-only Cloud Logging query for `mimir-observer-bridge` covered `2026-09-15T00:46:55Z` through `2026-09-15T01:26:09Z` UTC and returned 978 HTTP request records. The status breakdown was 926 HTTP 200, 31 HTTP 401, 7 HTTP 404, and 14 HTTP 502. Recorded request latencies ranged from 1.09 ms to 301.22 s; the upper end includes long-lived SSE behavior and is not a normal read latency.
