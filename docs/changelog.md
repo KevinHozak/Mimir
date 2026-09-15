@@ -2,10 +2,15 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
-## 2026-09-13 — Hosted observer boundary
+## 2026-09-13 through 2026-09-15 — Authenticated hosted observation
 
-- Verified the limited authenticated live observer at [mimir-realm.web.app](https://mimir-realm.web.app/) through Firebase Hosting and the Cloud Run bridge to the private single-writer VM. Google sign-in is required; observer reads and SSE are allowed, while owner and mutation routes remain blocked.
-- Recorded the live browser and unauthenticated rejection evidence in [Hosted-P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md). Archive independence, the complete token rejection matrix, source-commit pinning, and bounded traffic/cost rehearsal remain open gates.
+- Delivered Google-authenticated live observation through Firebase Hosting and the Cloud Run bridge to the private single-writer VM. Hosted API reads use the page origin; owner controls and mutation routes stay outside the hosted surface. Added the local light mark, loading animation, and refined observer/audio controls.
+- Delivered authenticated, interactive archive replay and ordered multi-checkpoint publication with immutable chunk validation, staged catalog commit, dated publication records, and quarantine/rollback guidance. Outage-time archive replay remains operationally unverified.
+- Added a clean-main Hosting deployment workflow that enables hosted auth during the build and compares served HTML and hashed assets with the deployed build. Corrected the hosted-auth omission and Windows command launching.
+- Closed Hosted-P17 with explicit limits. The 2026-09-15 evidence records Firebase version `82cc93e9b9470f8e` from commit `fbd4eb8`, missing/malformed token rejection, observer-only UI, VM continuity, bridge-to-VM recovery, synthetic requests, and a Compute Engine quota snapshot. Remaining token classes, authenticated SSE refresh/reconnect/closure, bridge process restart, outage replay, and real audience/billing telemetry remain unverified.
+
+  - Delivery: [PR #194](https://github.com/KevinHozak/Mimir/pull/194), [PR #195](https://github.com/KevinHozak/Mimir/pull/195), [PR #202](https://github.com/KevinHozak/Mimir/pull/202), [PR #207](https://github.com/KevinHozak/Mimir/pull/207), [PR #210](https://github.com/KevinHozak/Mimir/pull/210), [PR #211](https://github.com/KevinHozak/Mimir/pull/211), and [PR #212](https://github.com/KevinHozak/Mimir/pull/212).
+  - Evidence: [initial deployment](evidence/hosted-live-observer-2026-09-13.md), [operational closeout](evidence/hosted-p17-operational-closeout-2026-09-14.md), and [closeout disposition PR #216](https://github.com/KevinHozak/Mimir/pull/216). These are dated results, not a fresh deployment check.
 
 ## 2026-09 — First Glow foundation
 
@@ -18,7 +23,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 - Added a server-owned, replay-safe reflection projection and First Glow observer panel showing world-age baseline RC, explicit Hero capacity, per-Spark usage/remaining opportunities, next scheduled window, current intention, and committed reflection outcomes.
 - Kept Spark-local memory private, provider-free historical playback intact, and operator status limited to bounded non-secret mode, cap, kill-switch, fallback, and usage metadata.
-- Delivered through the RC-P5 implementation branch; merge and deployment remain separate gates.
+- Merged through [PR #182](https://github.com/KevinHozak/Mimir/pull/182). This implementation record does not establish a deployment.
 
 ### A readable social simulation
 
@@ -96,10 +101,12 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Completed AI-P7 through AI-P9 as bounded evaluation gates: quality review, isolated downstream-effects staging, and a limited budget/replay pilot.
 - Confirmed that validated model-shaped choices can produce bounded social differences through existing deterministic transitions without changing canonical runtime authority.
 - Proceeded with the next implementation steps toward AI-assisted play: provider proposals remain bounded and validated, while deterministic server transitions commit all consequences.
+- Implemented versioned personality contexts, deterministic attention budgets, recorded decision history, the offline hybrid loop, and the bounded Vertex adapter. AI-P11 through AI-P14 added the explicit live contract, internal pilot, and disabled-by-default server rollout with recovery procedures.
+
+  - Through [PR #138](https://github.com/KevinHozak/Mimir/pull/138), [PR #139](https://github.com/KevinHozak/Mimir/pull/139), [PR #141](https://github.com/KevinHozak/Mimir/pull/141), [PR #142](https://github.com/KevinHozak/Mimir/pull/142), and [PR #157](https://github.com/KevinHozak/Mimir/pull/157).
+
 - Kept the implementation boundary internal and controlled: explicit provider/model authorization, per-Spark and global caps, privacy/retention review, cost telemetry, kill switch, rules-only fallback, and provider-free replay remain required.
 - Preserved public observation and historical playback as provider-free paths until a separate bounded runtime pilot is complete.
-
-- Added Hosted-P16 multi-checkpoint archive publication: ordered pulse selection, read-only export, immutable chunk validation, staged catalog commit, dated publication records, quarantine/rollback guidance, and retention documentation.
 
 - Completed AI-P15's private hosted Vertex rehearsal with 8/8 recorded bounded interpretations, 3 changed choices, 29 downstream staged changes, zero canonical runtime changes, and provider-free replay under the $1.00 cap. The result supports a repeatability evaluation, not public or unbounded rollout.
 
@@ -114,7 +121,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Completed AI-P19's matched determinant review in private, bounded controls and a separately gated Vertex arm. The static fixture gave readiness/capacity and personal-age profiles identical 2/4/8/16 vectors, so it did not establish a causal winner or fairness advantage; the reported 0.60964 cents ($0.0060964) remains an estimate rather than a reconciled invoice.
 - Delivered RC-P1 through RC-P5: world-age capacity, lived-memory context, rule-executed intentions, matched evaluation, and bounded observer integration. First Glow remains the only supported runtime and no public provider path was enabled.
 - Implemented RC-P3's bounded `rule-executed-v1` intentions: feasible AI proposals and deterministic fallbacks now persist on Sparks, continue across ordinary pulses, execute through existing First Glow action contracts, and record causal completion/interruption for restart-safe, provider-free replay.
-- Added RC-P4's deterministic matched evaluation harness and evidence artifact: four fixed seeds, rotating RC-4 Hero, diagnostic RC-2/4/8/16 arms, independent lived-memory conditions, multi-day cap telemetry, encounter ledgers, intention completion, divergence accounting, and provider-free replay checks. The private Vertex quality batch remains opt-in and pending; no new default selection or public provider path was enabled.
+- Added RC-P4's deterministic matched evaluation harness and evidence artifact: four fixed seeds, rotating RC-4 Hero, diagnostic RC-2/4/8/16 arms, independent lived-memory conditions, multi-day cap telemetry, encounter ledgers, intention completion, divergence accounting, and provider-free replay checks. The recovered [private Vertex batch](evidence/rc-p4-private-live-2026-09-13.md) is a separate historical artifact with its original experimental arms and accounting; it does not select a new default or enable a public provider path.
 - Reflection slots now guarantee an unused reflection on the slot's final pulse, including while a Spark is following a habitual intention. The active intention is interrupted with auditable provenance before the replacement is evaluated through existing bounded rules and provider paths.
 
   - Follow-up: [PR #167 / AI-P19](https://github.com/KevinHozak/Mimir/pull/167); [AI-P19 determinant control](evidence/ai-p19-determinant-control-2026-09-12.md); [Reflection capacity plan](reflection-capacity-plan.md).
@@ -124,4 +131,3 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 - Mimir began as a broader village-simulation concept and evolved into an observer simulation about Sparks, values, relationships, cooperation, conflict, and consequences in the Living Circuit.
 - The First Glow was selected as the opening age: a quiet, sparse world of charge pools, shelter niches, traces, exploration, and informal cooperation before formal institutions or known Originators.
-- Hosted-P17 closed the current authenticated observer deployment gate with explicit limits: Firebase Hosting serves the observer-only frontend, the Cloud Run bridge rejects missing and malformed credentials, VM restart continuity and bridge recovery were observed, and synthetic traffic/quota evidence was recorded. Expired/wrong-project/unapproved token cases, archive replay during outage, and real audience/billing telemetry remain unverified; the hosted boundary stays limited staging. See [Hosted-P17 operational evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md) and [PR #215](https://github.com/KevinHozak/Mimir/pull/215).

@@ -1,6 +1,12 @@
 # Hosted observer runbook
 
-The pre-hosting slice remains compatible with a single-instance Render deployment, and Hosted-P4/P6 now have a privately validated Google Cloud staging observer. `render.yaml` defines one paid Node web service, serves the built Vite client from Fastify, and places the SQLite database and scheduled local copies on the mounted persistent disk.
+The supported hosted experience is limited Google-authenticated observation at [mimir-realm.web.app](https://mimir-realm.web.app/), through Firebase Hosting and the Cloud Run bridge to one private Compute Engine VM and SQLite writer. `render.yaml` remains an alternative single-instance configuration, not evidence of a live Render deployment.
+
+## Current disposition — 2026-09-15
+
+Hosted-P14 through Hosted-P16 are delivered; Hosted-P17 is closed with explicit limitations. The latest retained validation records Firebase Hosting version `82cc93e9b9470f8e` from merged commit `fbd4eb8`. Missing/malformed tokens were rejected, the authenticated observer hid owner controls, and VM continuity, bridge-to-VM recovery, synthetic traffic, and Compute Engine quota evidence were recorded. See [Hosted-P17 operational evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md).
+
+Expired/wrong-project/unapproved token cases, authenticated SSE refresh/reconnect/closure, a bridge process restart, archive replay during live unavailability, and real audience/billing telemetry remain unverified. Reopen or supersede [Hosted-P17](https://github.com/KevinHozak/Mimir/issues/201) before widening access or making capacity, availability, or cost claims. The snapshots below retain their original dates and do not establish current live configuration.
 
 ## Google Cloud pre-provisioning snapshot
 
@@ -41,9 +47,9 @@ Pricing sources checked on 2026-09-11: [Compute Engine general-purpose VM pricin
 
 The first provisioning envelope is: one non-preemptible `e2-micro`, one 30 GB standard persistent disk, one private IAP-only firewall path for staging HTTP, no load balancer, no Cloud NAT, no GPU, no external IPv4 address, and no second runtime writer. SSH administration uses IAP; the staging observer is reached through a temporary local IAP tunnel. Public owner endpoints remain protected by `OWNER_TOKEN` and are not exposed as an unauthenticated control surface.
 
-## Hosted-P7 public observer contract
+## Hosted-P7 public observer contract (historical decision)
 
-Decision recorded 2026-09-11: **defer public exposure**. The intended future model is a limited, read-only observer for people who want to watch a First Glow history, but the current evidence does not justify exposing the staging VM or creating a second public service. Until a later go decision, access remains private and IAP-only through an operator-created local tunnel.
+Decision recorded 2026-09-11: **defer public exposure**. The intended future model is a limited, read-only observer for people who want to watch a First Glow history, but the current evidence does not justify exposing the staging VM or creating a second public service. That decision was subsequently followed by authorized authenticated distribution in Hosted-P9 through Hosted-P14. The VM remains private and IAP-administered; approved observers use the Firebase entry point.
 
 The boundary for any future public model is explicit:
 
@@ -55,11 +61,11 @@ The boundary for any future public model is explicit:
 
 Hosted-P8 through Hosted-P16 are complete through their merged implementation and validation work. Hosted-P17 is now closed as a bounded staging closeout with explicit limitations; the current hosted boundary and unverified follow-up risks are recorded below.
 
-## Hosted-P11 through Hosted-P14 current boundary
+## Hosted-P11 through Hosted-P16 implementation and dated deployment
 
 Hosted-P11 established the authenticated read-only observer bridge. Google ID tokens are validated server-side, and approved clients may read current state, recorded history/events, and the SSE stream. Owner operations, mutation routes, `OWNER_TOKEN`, browser-held owner credentials, and any second simulation writer remain outside the public surface.
 
-Hosted-P12 established immutable archive publication and retention. Published archives are validated before release, quarantined when invalid, and retained independently of the live VM so provider-free historical playback remains available even when the runtime is unavailable.
+Hosted-P12 established immutable archive publication and retention. Published archives are validated before release, quarantined when invalid, and retained independently of the live VM to support provider-free historical playback without the live VM. The deployed outage-time path remains operationally unverified.
 
 Hosted-P16 archives are exported from a read-only SQLite connection as an ordered selection of complete checkpoint chunks. Use "--timeline <id> --pulses 0,32,64 --source-backup <label>" when publishing a bounded timeline set; every published archive must contain at least three strictly increasing checkpoints beginning at pulse 0. The exporter records the source backup label and checkpoint pulses in each manifest. Chunk and manifest sizes and SHA-256 values are immutable; storage growth is approximately the sum of those complete JSON chunks plus one manifest per timeline.
 
@@ -67,9 +73,9 @@ Publication uploads chunks and manifests to a staging prefix first, validates th
 
 Hosted-P13 retained the bounded scale decision: Firebase remains the public web/auth surface and one SQLite-writing VM remains the authoritative runtime for limited authenticated observation. This is not a high-concurrency or production-availability claim. See the dated [Hosted-P13 scale-boundary evidence](evidence/hosted-scale-boundary-2026-09-13.md).
 
-Hosted-P14 is deployed in limited authenticated staging at `https://mimir-realm.web.app/`. Firebase Hosting rewrites `/api/**` to the `mimir-observer-bridge` Cloud Run service in `us-central1`; revision `mimir-observer-bridge-00004-qff` was verified. The bridge validates an approved, verified Google ID token and forwards only observer reads and SSE to the private `mimir-staging` VM. It has no service-account key, does not receive `OWNER_TOKEN`, and rejects owner/mutation routes.
+The 2026-09-13 Hosted-P14 deployment established limited authenticated staging at `https://mimir-realm.web.app/`. Firebase Hosting rewrites `/api/**` to the `mimir-observer-bridge` Cloud Run service in `us-central1`; revision `mimir-observer-bridge-00004-qff` was verified. The bridge validates an approved, verified Google ID token and forwards only observer reads and SSE to the private `mimir-staging` VM. It has no service-account key, does not receive `OWNER_TOKEN`, and rejects owner/mutation routes.
 
-The unauthenticated `GET /api/world` check returned HTTP 401 with `approved Google account required`. An authenticated browser check as `khozak@gmail.com` loaded the live First Glow observer at pulse 28 with 12 Sparks and 7 sites; owner controls were absent. The hosted frontend build, restart-equivalence, and queued-command/idempotency checks passed. This is not a production-readiness declaration: real archive replay, full token rejection cases, clean source-commit pinning, and bounded traffic/cost/quota rehearsal remain open. See [P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md).
+In that 2026-09-13 sample, the unauthenticated `GET /api/world` check returned HTTP 401 with `approved Google account required`. An authenticated browser check as `khozak@gmail.com` loaded the live First Glow observer at pulse 28 with 12 Sparks and 7 sites; owner controls were absent. The hosted frontend build, restart-equivalence, and queued-command/idempotency checks passed. Those were initial P14 measurements. Later archive implementation and P17 validation supersede parts of that initial gate list; the remaining limits are listed in the current disposition above. See [P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md).
 
 ## Independent backup boundary
 
@@ -120,7 +126,11 @@ Firebase command alone is not sufficient evidence that the intended checkout is
 live. The build explicitly enables `VITE_FIREBASE_AUTH_ENABLED=true`, and the
 frontend also enforces auth when served from `mimir-realm.web.app`.
 
-1. Open `/health` and verify the service reports `ok: true` and the expected database path under `/var/data`.
+### Private runtime checks
+
+Run these checks against a private operator connection and an isolated test or restored timeline. They include mutations and are not checks to run through the read-only Firebase observer. The Compute Engine deployment uses `/var/lib/mimir/mimir.db`; `/var/data/mimir.db` belongs to the Render configuration.
+
+1. Open `/health` and verify the service reports `ok: true` and the expected configured database path.
 2. Open `/` and verify the browser client loads from the same origin.
 3. Enter the owner token and verify pause, pulse, branch, archive, continue, and reset.
 4. Let a short test season advance, restart the service, and verify the latest checkpoint and timeline remain available.
@@ -164,7 +174,3 @@ Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -He
 ```
 
 For local runs, the default database is `data/local/mimir.db` and scheduled backups default to `data/backups/`. When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.
-
-Hosted-P17 verification update (2026-09-15): Firebase Hosting version `82cc93e9b9470f8e` is serving the corrected authenticated observer from merged main after PR #211. The deployment remains limited authenticated staging and is not a production-readiness declaration.
-
-Hosted-P17 disposition (2026-09-15): the phase is closed as a bounded staging closeout, not a production-readiness declaration. The unavailable token, archive-outage, authenticated SSE, and real audience/billing checks remain explicit unverified risks. Reopen or supersede this phase before widening access, adding writers, or making availability/cost claims.

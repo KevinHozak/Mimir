@@ -4,7 +4,7 @@ AI-P14 is an internal, operator-controlled pilot. The default and safe recovery 
 
 ## Preconditions and rollout
 
-The server enables the bounded path only when all gates are explicit: `AI_ENABLED=true`, `AI_RUNTIME_MODE=bounded-internal-pilot`, `AI_ROLLOUT=internal`, configured Vertex/Gemini access, the approved local-context data scope, review-artifact retention, an enabled kill switch, and `MIMIR_AI_HARD_CAP_CENTS=100`. Provider credentials are runtime configuration only and must never be committed or sent to the browser.
+The server enables the bounded path only when all gates are explicit: `AI_ENABLED=true`, `AI_RUNTIME_MODE=bounded-internal-pilot`, `AI_ROLLOUT=internal`, configured Vertex/Gemini access, the approved local-context data scope, review-artifact retention, an enabled kill switch, and `MIMIR_GEMINI_HARD_CAP_CENTS=100`. Provider credentials are runtime configuration only and must never be committed or sent to the browser.
 
 Before an internal run:
 
@@ -27,4 +27,4 @@ Use the read-only social config endpoint together with the existing health/repor
 
 ## Recovery
 
-If the run is interrupted or state is suspect, stop pulseing, preserve the original database and bundle, and create a fresh bundle-inclusive backup. Restore to a new destination, validate the restored bundle, and replay from persisted records with the AI path disabled. Compare checkpoint, event, interpretation, and ledger results before considering any replacement of live state. Keep the original artifacts for audit and never recover by inventing fresh AI results.
+If the run is interrupted or state is suspect, stop pulsing, preserve the original database and bundle, and create a fresh bundle-inclusive backup. Restore to a new destination, validate the restored bundle, and replay from persisted records with the AI path disabled. Compare checkpoint, event, interpretation, and ledger results before considering any replacement of live state. Keep the original artifacts for audit and never recover by inventing fresh AI results.

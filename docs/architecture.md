@@ -1,6 +1,6 @@
 # Mimir: A Light of Our Own — Current Architecture
 
-Date: 2026-09-13
+Date: 2026-09-15
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -68,7 +68,7 @@ The engine package is TypeScript-only and has no browser or Fastify dependency. 
 - `WorldEvent`: objective First Glow events such as pulses, movement, drawing charge, sharing, and world-object changes.
 - `SocialInterpretation`: a retained record type with source, summary, event reference, and evidence event IDs. Selected ambiguous First Glow events also produce deterministic rules-only baseline records with Spark-local evidence, stable context hashes, and no world-state authority.
 - `FirstGlowReflectionCapacityState`: the persisted `world-age-v1` First Glow RC policy and scheduler. First Glow supplies RC 1; an explicitly designated test Hero receives `ceil(RC * 1.5)` (RC 2 in First Glow). Hero natural generation is disabled, personal age/readiness do not assign RC, and assignments retain provenance. The 64-pulse scheduler records deterministic phase offsets, windows, suppression, usage, global contention, and provider-free historical playback. Promotion preserves prior usage and schedules only future windows, so it cannot create a burst or catch-up debt. Legacy schema-3 checkpoints initialize this metadata without changing existing history or decisions.
-- `FirstGlowAttentionDecision`: a deterministic, auditable policy record that identifies novelty, encounters, scarcity, conflict, relationship events, or repeated routine failure as possible attention triggers while keeping travel, replanning, rest, familiar charge gathering, and ordinary waiting rules-only. Planned per-Spark allowances are governed by versioned world-age Reflection capacity (RC): world age maps directly to integer RC, with First Glow baseline RC 1 and rare Hero Sparks initially at RC 2; later values remain gated by RC-P1 and later phases. Historical cadence experiments retain their recorded profiles, while active RC scheduling uses deterministic intervals, stable Spark phase offsets, scheduled window indexes, next eligible pulses, and explicit cadence suppression reasons. A separate global daily cap, duplicate-event protection, repeated-event cooldowns, timeout configuration, and historical-playback suppression remain policy state; none can change simulation authority.
+- `FirstGlowAttentionDecision`: a deterministic, auditable policy record that identifies novelty, encounters, scarcity, conflict, relationship events, or repeated routine failure as possible attention triggers while keeping travel, replanning, rest, familiar charge gathering, and ordinary waiting rules-only. Planned per-Spark allowances are governed by versioned world-age Reflection capacity (RC): world age maps directly to integer RC, with First Glow baseline RC 1 and rare Hero Sparks initially at RC 2; later world ages and natural Hero generation remain separate design gates. Historical cadence experiments retain their recorded profiles, while active RC scheduling uses deterministic intervals, stable Spark phase offsets, scheduled window indexes, next eligible pulses, and explicit cadence suppression reasons. A separate global daily cap, duplicate-event protection, repeated-event cooldowns, timeout configuration, and historical-playback suppression remain policy state; none can change simulation authority.
 - `FirstGlowHistory`: canonical checkpoint history for committed movement and decision records. Movement records preserve traversed cells, route revision, cost, resource effects, and the resulting event. Decision records preserve candidates, selection, rules/provider source, profile version, evidence IDs, context hash, validation, fallback, latency, and usage metadata without storing hidden model reasoning or animation frames.
 - `FirstGlowOfflineHybrid`: an evaluation-only local fake-provider loop that passes bounded personality/evidence contexts through the deterministic attention gate and interpretation validator. It can exercise accepted proposals, malformed or invalid outputs, unsupported claims, timeout, provider failure, budget exhaustion, and historical replay without granting the provider world-state authority.
 - `FirstGlowWorldBundle`: schema-3 bundle metadata, map geometry, object definitions/instances, interaction slots, spawns, and asset manifests.
@@ -245,9 +245,17 @@ The server can also run independently with `npm run dev:server`, and the browser
 
 The current hosted deployment is Firebase Hosting at `https://mimir-realm.web.app/`, backed by the `mimir-observer-bridge` Cloud Run service in `us-central1`, which validates approved Google ID tokens and forwards read-only traffic to the private `mimir-staging` Compute Engine `e2-micro` VM. The VM and SQLite database remain the sole simulation writer. Hosted-P5 uses the separate `mimir-realm-backups` project for operator-managed independent copies. PostgreSQL or another coordinated persistence layer is required before horizontal scaling. The hosted path is still limited staging; archive completeness, wider traffic, and full token/recovery matrices remain validation gates.
 
+### Hosted replay and release verification
+
+The hosted browser supports authenticated archive selection and interactive checkpoint replay independently of live-state rendering. Hosted-P16 exports ordered multi-checkpoint archives from read-only SQLite, validates immutable chunks, and publishes the catalog last. Operational replay during a live outage remains unverified.
+
+`npm run deploy:hosting` checks a clean merged `origin/main`, builds with `VITE_FIREBASE_AUTH_ENABLED=true`, deploys Hosting, and verifies served HTML and hashed assets. Hostname enforcement also requires auth at `mimir-realm.web.app`. See [the hosted runbook](hosted-observer-runbook.md).
+
+The dated Hosted-P17 closeout records Hosting version `82cc93e9b9470f8e` from `fbd4eb8` on 2026-09-15. Missing/malformed token rejection, observer-only UI, VM continuity, bridge-to-VM recovery, and synthetic/quota evidence were recorded. Expired/wrong-project/unapproved tokens, authenticated SSE refresh/reconnect/closure, bridge process restart, outage replay, and real audience/billing telemetry remain unverified. This is limited staging; no fresh deployment validation is implied.
+
 ## 9. Verification architecture
 
-The repository includes three verification layers:
+The repository includes these verification layers:
 
 - Engine tests for deterministic seeds, First Glow actions, charge/readiness accounting, sharing, bundle validation, routing, and persistence boundaries.
 - Engine interpretation tests for stable context hashes, evidence-scoped validation, deterministic fallbacks, budget telemetry, historical replay without provider calls, and a matched 20-encounter rules-only/AI-on review harness using a local fake provider.
@@ -257,7 +265,8 @@ The repository includes three verification layers:
 - Engine Resonance tests cover deterministic Shelter Loom and Crossing of Voices creation, knowledge-boundary rejection, distinct durable choice paths, and near-miss/invalid-placement candidates; server backup coverage includes the current Anchor-capable world bundle.
 - The fixed-control season-review runner for abundance, scarcity, information-gap, and promise-breach seasons, with preserved matched-seed reports and representative evidence chains.
 - The production-profile harness measures two deterministic engine runs and built-preview desktop/mobile observer views with an explicit bundle, seed, workload, and isolated runtime. Its 2026-09-11 evidence records desktop results and the current mobile DPR2 limitation rather than claiming general device readiness.
-- Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, and state normalization.
+- Server tests for First Glow commands, restart equivalence, bundle-inclusive backups, asset validation, state normalization (`test:state`), and gated AI runtime configuration (`test:ai-runtime`).
+- `npm run test:public-archive` validates archive contracts; `npm run test:hosted-auth-boundary --workspace @mimir/web` covers hosted frontend auth enforcement. RC-P4 evaluation tests also run the synthetic per-scenario telemetry-accounting regression.
 - Browser checks for First Glow live/history observers, manifest assets, overlays, playback rates, mobile layout, and audio P5's opt-in behavior, persisted controls, muted-event readability, history silence, and desktop/mobile evidence.
 
 Use the current package scripts for verification; this documentation update does not establish a fresh build or test result. Running tests and the Vite build requires child-process creation for `tsx`, esbuild, and Playwright; restricted environments may fail those commands with `spawn EPERM` before application assertions execute.
@@ -282,13 +291,13 @@ AI-assisted First Glow evaluation is server-owned and disabled by default. The b
 
 Still open:
 
-- Selection and authorization of any real provider, model, and spending limit. No external AI calls are made by the First Glow runtime; the bounded adapter and local fake-provider review harness are the complete current implementation.
+- Authorization and operational validation of any further provider run or wider rollout. The implemented Vertex adapter is disabled by default; retained private evaluations do not establish current live configuration or authorize additional calls.
 - Extensions to the existing capability-based slot selection, reservations, and arrival-gated interactions, if selected in future design work.
 - Further asset-version recovery hardening: bundle directories are copied by backup/restore and restored world JSON is validated, but the backup manifest checksums world JSON rather than every copied asset. Independent recovery remains a separate operational requirement.
 - Any future art expansion or replacement. The current minimal repository-authored SVG set already has provenance in `assets/licenses/first-glow-assets.md`; final-art ambitions are design proposals.
 - Confirmation of external origin and redistribution rights before the current music and SFX review candidates can be promoted for a public release.
 - Hosted-P8 adds optional scheduled replication and freshness status for independent backups through the attached VM identity and `BACKUP_GCS_URI`; it still requires a separate recovery identity and fresh isolated restore evidence before recovery is trusted.
-- Public exposure and durable production readiness of the private single-writer staging deployment; Hosted-P6 validates continued private observation only.
+- Wider distribution and production readiness beyond limited authenticated staging. Hosted-P17 closed with unverified token classes, authenticated SSE behavior, bridge process restart, outage replay, and audience/billing limits.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
 
@@ -312,7 +321,3 @@ Future changes should preserve these rules:
 6. New world definitions must be validated before entering simulation state.
 7. Any persistence-schema or rules change must declare compatibility behavior for old checkpoints.
 8. Scaling beyond one simulation writer requires a deliberate persistence architecture change.
-
-Hosted-P17 verification update (2026-09-15): the corrected hosted-auth frontend is live as Firebase Hosting version `82cc93e9b9470f8e` from merged main after PR #211. The hosted boundary remains limited authenticated staging under the explicit limitations recorded below.
-
-Hosted-P17 was closed on 2026-09-15 with explicit operational limitations. The safe boundary and VM recovery checks passed, but separately issued invalid-token classes, archive replay during outage, authenticated SSE refresh/reconnect, and real audience/billing telemetry were unavailable and remain outside the verified contract. No broader release or second simulation writer is implied.

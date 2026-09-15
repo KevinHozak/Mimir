@@ -1,6 +1,10 @@
 # Mimir AI Plan
 
-This is the implementation plan for selective AI-assisted First Glow decisions. It does not add credentials or make a provider call by itself. AI-P11 defines the bounded Vertex AI contract; the rules-only engine remains the fallback and the public/historical path while the internal runtime boundary is implemented.
+This is the implementation plan for selective AI-assisted First Glow decisions. It does not add credentials or make a provider call by itself. AI-P11 defines the bounded Vertex AI contract; the rules-only engine remains the fallback and the provider-free public/historical path alongside the gated internal runtime.
+
+## Current implementation status — 2026-09-15
+
+AI-P1 through AI-P20 and RC-P1 through RC-P5 have merged implementation and retained evaluation evidence. The server includes a disabled-by-default, explicitly gated Vertex adapter and internal rollout; the browser and historical replay do not call a provider. Proposed visual and future-world sections below remain design guidance. See the [architecture](architecture.md), [changelog](changelog.md), and [AI-P14 rollout runbook](ai-p14-rollout-runbook.md) for implemented boundaries and configuration. New provider runs remain separately authorized.
 
 ## Direction
 
@@ -77,7 +81,7 @@ The attention context should represent the acting Spark as an individual without
 
 The model may use values to choose among permitted alternatives, but values never override feasibility. A caring Spark cannot take an unreachable route, spend unavailable charge, or act on another Spark's private observation. Personality is a tendency, not a scripted answer.
 
-The current authored personality material lives in `packages/engine/src/design.ts`, while the runtime Spark state is defined in `packages/engine/src/structured.ts`. A future implementation must version and materialize the relevant authored profile in the context rather than relying on an implicit lookup that could change historical meaning.
+The current authored personality material lives in `packages/engine/src/design.ts`, while the runtime Spark state is defined in `packages/engine/src/structured.ts`. AI-P2 and AI-P20 version and materialize the authored profile in the context packet so reconstruction does not depend on an unrecorded implicit lookup.
 
 ## Bounded provider contract
 
