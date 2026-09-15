@@ -71,3 +71,11 @@ The deployed release was rechecked after the verified Hosting deployment of Fire
 The bridge returned 404 for `/api/resonance/anchors`, `/api/timelines`, and `/api/history` in both forms because those paths are not exposed by the deployed bridge route surface. No request mutated the world. The authenticated browser continued to load as `khozak@gmail.com` with the hosted auth bar, observer controls, and no owner/play controls.
 
 This pass confirms the missing and malformed rejection cases and the deployed observer boundary. It does not satisfy expired, wrong-project, or unapproved-user token cases because no test tokens for those identities were available. Authenticated SSE reconnect/closure and token refresh, bridge/VM restart continuity, archive replay during live unavailability, and traffic/quota/cost/load measurements remain open.
+
+## Cloud Run telemetry follow-up — 2026-09-15
+
+Read-only Cloud Logging query for `mimir-observer-bridge` covered `2026-09-15T00:46:55Z` through `2026-09-15T01:26:09Z` UTC and returned 978 HTTP request records. The status breakdown was 926 HTTP 200, 31 HTTP 401, 7 HTTP 404, and 14 HTTP 502. Recorded request latencies ranged from 1.09 ms to 301.22 s; the upper end includes long-lived SSE behavior and is not a normal read latency.
+
+The 14 HTTP 502 responses clustered at `01:15:23Z` through `01:15:49Z`, during the staging VM reset. Subsequent authenticated observer reads returned HTTP 200, and the VM health endpoint again reported the preserved `main` timeline at pulse 0 with the scheduler paused. This is evidence of a bounded bridge-to-VM interruption and recovery, not a capacity or availability guarantee.
+
+The log sample is synthetic/operator traffic plus the authenticated browser session, not an audience rehearsal. Cloud Run logs do not establish active viewer count, CDN cache-hit rate, Hosting transfer, VM CPU/memory, quotas, or billed cost; those remain unmeasured.
