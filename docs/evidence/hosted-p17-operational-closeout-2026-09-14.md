@@ -79,3 +79,11 @@ Read-only Cloud Logging query for `mimir-observer-bridge` covered `2026-09-15T00
 The 14 HTTP 502 responses clustered at `01:15:23Z` through `01:15:49Z`, during the staging VM reset. Subsequent authenticated observer reads returned HTTP 200, and the VM health endpoint again reported the preserved `main` timeline at pulse 0 with the scheduler paused. This is evidence of a bounded bridge-to-VM interruption and recovery, not a capacity or availability guarantee.
 
 The log sample is synthetic/operator traffic plus the authenticated browser session, not an audience rehearsal. Cloud Run logs do not establish active viewer count, CDN cache-hit rate, Hosting transfer, VM CPU/memory, quotas, or billed cost; those remain unmeasured.
+
+## Synthetic Hosting rehearsal and quota snapshot — 2026-09-15
+
+A bounded read-only rehearsal sent 20 requests to the Firebase Hosting root. All 20 returned HTTP 200 with the 168-byte HTML shell. Observed response time ranged from 97 ms to 283 ms, with a 121.75 ms mean. This is a connectivity and cache-serving sample, not evidence of supported concurrent audience capacity.
+
+The `us-central1` Compute Engine quota snapshot showed 1 of 24 instances, 1 of 200 CPUs, 30 of 4,096 GB total disks, 1 of 200 internal addresses, and 0 of 8 external addresses in use. This is infrastructure quota headroom only; Cloud Run quotas, Firebase Hosting transfer/cache metrics, VM CPU/memory under load, and billed cost were not available from this read-only check.
+
+The live browser remained authenticated as `khozak@gmail.com` after the rehearsal and the VM restart. Expired, wrong-project, and unapproved-user token tests, authenticated SSE reconnect/token refresh, bridge process restart, archive replay during live unavailability, and a real multi-viewer rehearsal remain open.
