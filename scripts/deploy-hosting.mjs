@@ -16,6 +16,7 @@ function run(command, args, options = {}) {
     cwd: repoRoot,
     encoding: "utf8",
     stdio: options.capture === false ? "inherit" : ["ignore", "pipe", "pipe"],
+    shell: process.platform === "win32" && windowsCmd.has(command),
     ...options,
   });
   if (result.error) throw result.error;
