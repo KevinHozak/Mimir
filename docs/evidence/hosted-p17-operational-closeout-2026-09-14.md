@@ -52,3 +52,22 @@ The merged frontend correction was deployed to Firebase Hosting as version `77e6
 Focused `test:hosted-auth-boundary` passed, and the elevated full build passed for world-data, engine, server, and web. Vite reported only the existing large-chunk warning. The Windows deployment-script follow-up is tracked in PR #212; it has not yet been merged, so the automated deployment path still needs one post-merge verification.
 
 P17 remains **not complete**. The missing/malformed/expired/wrong-project/unapproved token matrix, authenticated SSE reconnect/closure/token refresh, bridge and VM restart continuity, archive replay during live unavailability, bounded traffic rehearsal, and quota/cost/load measurements remain open.
+
+## Validation pass — 2026-09-15
+
+The deployed release was rechecked after the verified Hosting deployment of Firebase version `82cc93e9b9470f8e` from `origin/main` commit `fbd4eb8dbdbf94c78c482030fd5609011de88bab`.
+
+| Route/check | Missing token | Malformed token |
+| --- | ---: | ---: |
+| `/api/world` | 401 | 401 |
+| `/api/metrics` | 401 | 401 |
+| `/api/design` | 401 | 401 |
+| `/api/resonance` | 401 | 401 |
+| `/api/region` | 401 | 401 |
+| `/api/events` | 401 | 401 |
+| `/api/interpretations` | 401 | 401 |
+| `/api/live` | 401 | 401 |
+
+The bridge returned 404 for `/api/resonance/anchors`, `/api/timelines`, and `/api/history` in both forms because those paths are not exposed by the deployed bridge route surface. No request mutated the world. The authenticated browser continued to load as `khozak@gmail.com` with the hosted auth bar, observer controls, and no owner/play controls.
+
+This pass confirms the missing and malformed rejection cases and the deployed observer boundary. It does not satisfy expired, wrong-project, or unapproved-user token cases because no test tokens for those identities were available. Authenticated SSE reconnect/closure and token refresh, bridge/VM restart continuity, archive replay during live unavailability, and traffic/quota/cost/load measurements remain open.
