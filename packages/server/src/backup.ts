@@ -1,5 +1,5 @@
 import { DatabaseSync } from "node:sqlite";
-import { copyFileSync, existsSync, mkdirSync, statSync, readFileSync, cpSync, rmSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, statSync, readFileSync, cpSync, rmSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, isAbsolute, resolve, join, relative } from "node:path";
 import { bundleHash, validateWorldBundle, type WorldBundle } from "@mimir/world-data";
@@ -11,6 +11,7 @@ const resolveProjectPath = (value: string) => isAbsolute(value) ? value : resolv
 const source = resolveProjectPath(process.env.DATABASE_PATH ?? "data/local/mimir.db");
 const bundleRoot = resolveProjectPath(process.env.WORLD_BUNDLE_ROOT ?? "assets/world/generated");
 const hashFile = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
+const listFiles = (root: string, current = root): string[] => readdirSync(current, { withFileTypes: true }).flatMap(entry => { const path = join(current, entry.name); return entry.isDirectory() ? listFiles(root, path) : entry.isFile() ? [path] : []; }).sort();
 const destinationArg = process.argv[3];
 if (!destinationArg || !["backup", "restore"].includes(mode)) {
   console.error("Usage: npm run backup --workspace @mimir/server -- backup <destination> | restore <backup> <destination>");
@@ -51,6 +52,9 @@ if (mode === "backup") {
           if (contained.startsWith("..") || isAbsolute(contained) || !existsSync(sourceFile) || !statSync(sourceFile).isFile()) throw new Error(`backup bundle file missing: ${file.path}`);
           if (hashFile(sourceFile) !== file.sha256) throw new Error(`backup bundle checksum mismatch for ${file.path}`);
         }
+        const listedFiles = new Set(files.map(file => file.path.slice(`${hash}/`.length)));
+        const actualFiles = new Set(listFiles(sourceBundle).map(file => relative(sourceBundle, file).replaceAll("\\", "/")));
+        if (actualFiles.size !== listedFiles.size || [...actualFiles].some(file => !listedFiles.has(file))) throw new Error(`backup bundle manifest does not cover every file for ${hash}`);
         cpSync(sourceBundle, join(restoredBundles, hash), { recursive: true, force: false, errorOnExist: true });
       }
     }

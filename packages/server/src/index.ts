@@ -66,7 +66,7 @@ async function createScheduledBackup(reason: string) {
   const destination = join(backupDirectory, `mimir-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
   if (!existsSync(databasePath)) return;
   try {
-    const manifest = createBundleInclusiveBackup(databasePath, destination, worldBundleRoot);
+    const manifest = await pulseGate.run(async () => createBundleInclusiveBackup(databasePath, destination, worldBundleRoot));
     app.log.info({ destination, bundleHashes: manifest.bundleHashes }, "scheduled bundle-inclusive backup created");
     if (backupReplicationUri) {
       if (backupReplicationInFlight) { app.log.warn("skipping scheduled backup replication because the previous upload is still running"); return; }

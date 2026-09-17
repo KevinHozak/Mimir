@@ -1,20 +1,28 @@
 import { DatabaseSync } from "node:sqlite";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync, cpSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync, cpSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, join, relative, isAbsolute } from "node:path";
 
 export type BackupManifest = { databaseSha256: string; databaseBytes: number; bundleHashes: string[]; bundleFiles: { hash: string; path: string; sha256: string }[]; databaseVersion: 1 };
 
 const hashFile = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
+function listFiles(root: string, current = root): string[] {
+  return readdirSync(current, { withFileTypes: true }).flatMap(entry => {
+    const path = join(current, entry.name);
+    return entry.isDirectory() ? listFiles(root, path) : entry.isFile() ? [path] : [];
+  }).sort();
+}
 
 export function createBundleInclusiveBackup(source: string, destination: string, bundleRoot: string): BackupManifest {
   if (!existsSync(source)) throw new Error(`Source database does not exist: ${source}`);
   if (existsSync(destination)) throw new Error(`Refusing to overwrite existing backup: ${destination}`);
-  const database = new DatabaseSync(source);
-  database.exec("PRAGMA wal_checkpoint(FULL);");
-  database.close();
   mkdirSync(dirname(destination), { recursive: true });
-  copyFileSync(source, destination);
+  const database = new DatabaseSync(source);
+  try {
+    database.prepare("VACUUM INTO ?").run(destination);
+  } finally {
+    database.close();
+  }
   const copiedBundles = new Set<string>();
   const sourceDatabase = new DatabaseSync(destination);
   const hasTimelineTable = sourceDatabase.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'timeline_checkpoints'").get();
@@ -35,15 +43,14 @@ export function createBundleInclusiveBackup(source: string, destination: string,
     const sourceBundle = join(bundleRoot, hash);
     const targetBundle = join(bundleDestination, hash);
     cpSync(sourceBundle, targetBundle, { recursive: true, force: false, errorOnExist: true });
-    const worldPath = join(targetBundle, "world.json");
+    const worldPath = join(sourceBundle, "world.json");
     const world = JSON.parse(readFileSync(worldPath, "utf8")) as { assets?: { path: string }[] };
-    bundleFiles.push({ hash, path: `${hash}/world.json`, sha256: hashFile(worldPath) });
     for (const asset of world.assets ?? []) {
       const assetPath = join(sourceBundle, asset.path);
       const contained = relative(sourceBundle, assetPath);
       if (contained.startsWith("..") || isAbsolute(contained) || !existsSync(assetPath) || !statSync(assetPath).isFile()) throw new Error(`missing referenced bundle asset: ${hash}/${asset.path}`);
-      bundleFiles.push({ hash, path: `${hash}/${asset.path}`, sha256: hashFile(assetPath) });
     }
+    for (const file of listFiles(sourceBundle)) bundleFiles.push({ hash, path: `${hash}/${relative(sourceBundle, file).replaceAll("\\", "/")}`, sha256: hashFile(file) });
   }
   const manifest: BackupManifest = { databaseSha256: hashFile(destination), databaseBytes: statSync(destination).size, bundleHashes: [...copiedBundles].sort(), bundleFiles, databaseVersion: 1 };
   writeFileSync(`${destination}.manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
