@@ -9,7 +9,7 @@
     "build": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && npm run build --workspace @mimir/server && npm run build --workspace @mimir/web",
     "test": "npm run test --workspace @mimir/world-data && npm run test --workspace @mimir/engine",
     "start": "node scripts/run-local.mjs",
-    "start:hosted": "node packages/server/dist/index.js",
+    "start:hosted": "node scripts/start-hosted.mjs",
     "public:archive": "node scripts/export-public-archive.mjs",
     "publish:archive": "node scripts/publish-public-archive.mjs",
     "deploy:hosting": "node scripts/deploy-hosting.mjs",
