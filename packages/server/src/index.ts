@@ -6,9 +6,9 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, CHARACTER_CARDS, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorld, createWorldFromBundle, createWorldV2, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, CHARACTER_CARDS, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
-import { bundleHash, decodeWorldBundle, validateWorldBundle, type DecodedWorldBundle, type WorldBundle } from "@mimir/world-data";
+import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
@@ -95,7 +95,14 @@ async function createScheduledBackup(reason: string) {
 
 function loadState(timelineId: string): WorldState {
   const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY pulse DESC LIMIT 1").get(timelineId) as { state_json: string } | undefined;
-  if (row) return normalizeState(JSON.parse(row.state_json) as WorldState);
+  if (row) {
+    try {
+      return normalizeState(JSON.parse(row.state_json) as WorldState);
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      throw new Error(`unsupported persisted timeline ${timelineId}: ${reason}`);
+    }
+  }
   if (timelineId === "main") {
     const bundlePath = resolve(worldBundleRoot, defaultFirstGlowBundleHash, "world.json");
     if (!existsSync(bundlePath)) throw new Error(`default First Glow bundle not found: ${defaultFirstGlowBundleHash}`);
@@ -103,7 +110,7 @@ function loadState(timelineId: string): WorldState {
     if (bundle.schemaVersion !== 3) throw new Error("default First Glow bundle must use schema 3");
     return normalizeState(createWorldFromBundle(bundle, 20260906, timelineId, 12));
   }
-  return normalizeState(createWorld(20260906, timelineId));
+  throw new Error(`timeline ${timelineId} has no supported First Glow checkpoint`);
 }
 function validateBundleAssetsAtStartup(bundle: DecodedWorldBundle): void {
   const bundleRoot = resolve(worldBundleRoot, bundle.bundle.contentHash);
@@ -115,8 +122,15 @@ function validateBundleAssetsAtStartup(bundle: DecodedWorldBundle): void {
     if (actualHash !== asset.sha256 && `sha256-${actualHash}` !== asset.sha256) throw new Error(`bundle asset checksum mismatch at startup: ${asset.path}`);
   }
 }
-let state = loadState(activeTimelineId);
-for (const bundle of [...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle), ...(state.firstGlowState?.settlements ?? []).map(settlement => settlement.bundle)]) validateBundleAssetsAtStartup(bundle);
+let state: WorldState;
+try {
+  state = loadState(activeTimelineId);
+  for (const bundle of [...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle), ...(state.firstGlowState?.settlements ?? []).map(settlement => settlement.bundle)]) validateBundleAssetsAtStartup(bundle);
+} catch (error) {
+  console.error(`Mimir startup refused: ${error instanceof Error ? error.message : String(error)}`);
+  database.close();
+  process.exit(1);
+}
 if (!database.prepare("SELECT 1 FROM timeline_checkpoints WHERE timeline_id = ? LIMIT 1").get(activeTimelineId)) database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, ?, ?)").run(activeTimelineId, state.pulse, JSON.stringify(state));
 database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId);
 const liveClients = new Set<ServerResponse>();
@@ -359,10 +373,6 @@ app.post("/api/pulse", async (request, reply) => { if (!requireOwner(request, re
 app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), activeTimelineId); schedulerPaused = true; return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/continue", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'active', archived_at = NULL WHERE id = ?").run(activeTimelineId); return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/branch", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { pulse?: unknown } | undefined; const branchPulse = body?.pulse === undefined ? state.pulse : Number(body.pulse); if (!Number.isInteger(branchPulse) || branchPulse < 0) return reply.code(400).send({ error: "pulse must be a non-negative integer" }); const source = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse = ?").get(activeTimelineId, branchPulse) as { state_json: string } | undefined; if (!source) return reply.code(404).send({ error: "branch source checkpoint not found" }); const newId = `timeline-${randomUUID()}`; database.exec("BEGIN IMMEDIATE"); try { database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(newId, activeTimelineId, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) SELECT ?, pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) SELECT ?, id, pulse, event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, pulse, interpretation_json) SELECT ?, id, pulse, interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; } activeTimelineId = newId; state = { ...normalizeState(JSON.parse(source.state_json) as WorldState), worldId: newId }; saveActiveTimeline(); return { timeline: currentTimeline(), state }; });
-app.post("/api/owner/reset", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { seed?: unknown } | undefined; const seed = body?.seed === undefined ? 20260906 : Number(body.seed); if (!Number.isInteger(seed)) return reply.code(400).send({ error: "seed must be an integer" }); const parent = activeTimelineId; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), parent); activeTimelineId = `timeline-${randomUUID()}`; state = createWorld(seed, activeTimelineId); database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(activeTimelineId, parent, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, 0, ?)").run(activeTimelineId, JSON.stringify(state)); schedulerPaused = true; saveActiveTimeline(); return { timeline: currentTimeline(), state, schedulerPaused }; });
-
-app.post("/api/owner/reset-v2", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { bundleHash?: unknown; seed?: unknown } | undefined; if (typeof body?.bundleHash !== "string" || !/^sha256-[a-f0-9]{64}$/.test(body.bundleHash)) return reply.code(400).send({ error: "bundleHash is required" }); const bundlePath = resolve(worldBundleRoot, body.bundleHash, "world.json"); const relativeBundlePath = relative(worldBundleRoot, bundlePath); if (relativeBundlePath.startsWith("..") || isAbsolute(relativeBundlePath) || !existsSync(bundlePath)) return reply.code(404).send({ error: "bundle not found" }); try { const bundle = JSON.parse(readFileSync(bundlePath, "utf8")) as WorldBundle; validateWorldBundle(bundle); if (bundleHash(bundle) !== body.bundleHash) return reply.code(409).send({ error: "bundle content hash mismatch" }); const seed = body.seed === undefined ? 20260906 : Number(body.seed); if (!Number.isInteger(seed)) return reply.code(400).send({ error: "seed must be an integer" }); const parent = activeTimelineId; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), parent); activeTimelineId = `timeline-${randomUUID()}`; state = createWorldV2(bundle, seed, activeTimelineId); database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(activeTimelineId, parent, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, 0, ?)").run(activeTimelineId, JSON.stringify(state)); schedulerPaused = true; saveActiveTimeline(); return { timeline: currentTimeline(), state, schedulerPaused, bundleHash: body.bundleHash }; } catch (error) { return reply.code(409).send({ error: error instanceof Error ? error.message : "invalid bundle" }); } });
-
 app.post("/api/owner/reset-v3", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { bundleHash?: unknown; seed?: unknown; sparkCount?: unknown } | undefined; if (typeof body?.bundleHash !== "string" || !/^sha256-[a-f0-9]{64}$/.test(body.bundleHash)) return reply.code(400).send({ error: "bundleHash is required" }); const bundlePath = resolve(worldBundleRoot, body.bundleHash, "world.json"); const relativeBundlePath = relative(worldBundleRoot, bundlePath); if (relativeBundlePath.startsWith("..") || isAbsolute(relativeBundlePath) || !existsSync(bundlePath)) return reply.code(404).send({ error: "bundle not found" }); try { const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8"))); if (bundle.schemaVersion !== 3) return reply.code(409).send({ error: "reset-v3 requires a schema-3 First Glow bundle" }); if (bundleHash(bundle) !== body.bundleHash) return reply.code(409).send({ error: "bundle content hash mismatch" }); const seed = body.seed === undefined ? 20260906 : Number(body.seed); const sparkCount = body.sparkCount === undefined ? 1 : Number(body.sparkCount); if (!Number.isInteger(seed)) return reply.code(400).send({ error: "seed must be an integer" }); if (!Number.isInteger(sparkCount) || sparkCount < 1 || sparkCount > 64) return reply.code(400).send({ error: "sparkCount must be an integer between 1 and 64" }); const parent = activeTimelineId; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), parent); activeTimelineId = `timeline-${randomUUID()}`; state = createWorldFromBundle(bundle, seed, activeTimelineId, sparkCount); database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(activeTimelineId, parent, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, 0, ?)").run(activeTimelineId, JSON.stringify(state)); schedulerPaused = true; saveActiveTimeline(); return { timeline: currentTimeline(), state, schedulerPaused, bundleHash: body.bundleHash, sparkCount }; } catch (error) { return reply.code(409).send({ error: error instanceof Error ? error.message : "invalid bundle" }); } });
 
 if (serveWeb) {
