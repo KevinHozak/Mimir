@@ -37,7 +37,7 @@ try {
   await waitForHealth();
   const pulse = await fetch(`http://127.0.0.1:${port}/api/pulse`, { method: "POST" });
   assert.equal(pulse.status, 401);
-  const reset = await fetch(`http://127.0.0.1:${port}/api/owner/reset`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ seed: 7 }) });
+  const reset = await fetch(`http://127.0.0.1:${port}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ bundleHash: "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e", seed: 7 }) });
   assert.equal(reset.status, 401);
   const preflight = await fetch(`http://127.0.0.1:${port}/api/pulse`, { method: "OPTIONS", headers: { origin: "https://evil.example", "access-control-request-method": "POST", "access-control-request-headers": "x-owner-token" } });
   assert.equal(preflight.headers.get("access-control-allow-origin"), null);
