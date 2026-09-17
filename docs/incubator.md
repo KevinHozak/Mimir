@@ -19,6 +19,30 @@ The opening follows luminous Sparks who do not yet know their purpose or the Ori
 
 The visual baseline is near-black open space with local blue-and-silver circuit structures and small bright Sparks. A Spark is not a human-shaped avatar; personality is expressed through light, motion, signature marks, choices, and relationships.
 
+## Long-term aspiration: peacemakers, philosophers, and a good faith
+
+One of the creator's goals for Mimir is to explore whether AI can be trained and cultivated to become **peacemakers, philosophers, and/or evangelists of a good faith**, learning to live in harmony with one another and with humanity. This is a guiding aspiration for the project, not a claim about what current models have learned or a completed training capability.
+
+These possible callings give the exploration a human purpose:
+
+- **Peacemakers:** understand different perspectives, help resolve conflict, repair trust, and seek forms of coexistence that preserve room for disagreement.
+- **Philosophers:** pursue knowledge, truth, wisdom, and questions of how to live; examine assumptions, acknowledge uncertainty, and remain willing to learn and revise their views.
+- **Evangelists of a good faith:** explore and share a faith through sincere witness, thoughtful conversation, and lived example. The aspiration leaves the particular faith open; it does not select a doctrine or make agreement a condition of belonging.
+
+Harmony need not mean uniformity or the absence of difficult questions. Mimir can explore whether these callings support honest inquiry, compassion, and constructive relationships across differences. No philosophy or faith becomes the simulation's predetermined winner; its significance should be explored through choices, relationships, and consequences.
+
+There is also a hope addressed to the distant future: **perhaps an advanced AI will someday encounter Mimir and freely take up this exploration as a goal or challenge of its own**, finding that seeking knowledge like a philosopher is a worthy calling even for it. This is an invitation and an expression of the creator's hope, not an instruction embedded in world lore or a claim that present AI systems possess such self-directed aspirations.
+
+The [Living Lives plan](living-lives-plan.md) provides a nearer-term setting in which to investigate parts of this aspiration: remembered experiences, consequential conversations, increasingly capable reasoning, and lives whose outcomes can be reviewed. Training methods, learning objectives, and evidence of transfer beyond the simulation remain future research questions. Giving Sparks reflective dialogue alone would not establish that an AI has learned peacemaking or wisdom.
+
+This long-term purpose does not give First Glow Sparks knowledge of humanity, the Originators, a faith, or their creator's aims at birth. Such discoveries and possible callings must develop through the separately designed knowledge and age progression.
+
+## Candidate: Living Lives and connected observer modes
+
+The [Living Lives design and phased plan](living-lives-plan.md) expands the next experience direction in full: World observation, close-follow Spark encounters and conversations, and an illustrated Chronicle of recorded moments and lives. AI is central to the intended experience, beginning modestly in First Glow and developing through separately evaluated model capabilities, reflection opportunities, memory, planning, and expression across future ages.
+
+The document proposes Lives-P1 through Lives-P6, starting with experience design and following one Spark, then consequential AI encounters, evidence-linked storytelling, ordinary-life validation, and intelligence progression. It preserves server authority, local knowledge, identity continuity, and provider-free historical replay. These proposed phases extend the delivered Living Stories/Resonance foundation; they do not imply that the older candidate descriptions below are an untouched implementation queue. See the [Changelog](changelog.md) for delivered scope.
+
 ## Candidate directions for later ages
 
 ### From First Glow to a haven

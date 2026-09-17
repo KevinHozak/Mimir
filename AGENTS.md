@@ -20,6 +20,7 @@ This file applies throughout the repository. Read any more specific `AGENTS.md` 
 | [docs/incubator.md](docs/incubator.md) | Organized, uncommitted possibilities: later ages, alternative worlds, human inspiration, social questions, and visual explorations. It never overrides selected First Glow direction. |
 | [docs/game-simulation.md](docs/game-simulation.md) | Explanation of pulses, activities, resources, social interpretation, seasons, replay, and persistence. Useful orientation, but verify detailed behavior against the relevant engine version. |
 | [docs/architecture.md](docs/architecture.md) | Current package boundaries, First Glow runtime, API surface, persistence, local data, and hosted operations. |
+| [Reliability, security, and maintenance review](docs/reliability-security-maintenance-review.md) | Dated 2026-09-15 ranking of writer, auth, backup, history, and CI risks. A snapshot, not a claim that findings are fixed. |
 | [Hosted observer runbook](docs/hosted-observer-runbook.md) | Deployment preparation, operational checks, and durability requirements. Read before hosted changes. |
 | [Evidence](docs/evidence/) | Dated performance reports and desktop/mobile browser captures. Historical evidence is labeled by bundle and date; current First Glow evidence uses the `first-glow-*` files. |
 | [World map sources](assets/world/README.md) | Map-authoring and import instructions, supported source features, immutable generated bundles, and provisional art status. |

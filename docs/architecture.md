@@ -283,7 +283,7 @@ Implemented boundaries:
 - Shared world-data contracts used by simulation and rendering.
 - Capability-filtered interaction slots, reservations, and arrival-gated First Glow actions.
 - Content-addressed generated bundles with asset manifests and bundle-inclusive backup/restore tooling.
-- A replay-safe `/api/reflection` observer projection exposes First Glow baseline RC, explicit Hero capacity, per-Spark usage and remaining opportunities, deterministic next cadence windows, current public intention summaries, committed reflection outcomes, and non-secret operator runtime status. It deliberately excludes private reflection memory and client-side provider credentials.
+- Observer reflection capacity is implemented in the engine and rendered when a projection is present. A dedicated `/api/reflection` writer route is documented and fetched by the hosted observer, but was not present on the server at the 2026-09-15 review; see the [reliability, security, and maintenance review](reliability-security-maintenance-review.md).
 
 ## AI-P14 bounded rollout
 
@@ -300,6 +300,7 @@ Still open:
 - Wider distribution and production readiness beyond limited authenticated staging. Hosted-P17 closed with unverified token classes, authenticated SSE behavior, bridge process restart, outage replay, and audience/billing limits.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
+- Ranked writer risks from the 2026-09-15 [reliability, security, and maintenance review](reliability-security-maintenance-review.md): overlapping pulses, fail-open owner auth on public bind, live-file SQLite copies, unsupported reset routes that cannot restart, in-place checkpoint mutation, and CI gaps. That review is a snapshot, not a completed hardening delivery.
 
 ## AI-P15 through AI-P18 evaluation procedures
 
