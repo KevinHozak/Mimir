@@ -13,7 +13,8 @@
     "dev": "tsx watch src/index.ts",
     "backup": "tsx src/backup.ts",
     "test:backup-restore": "npm run build && node dist/first-glow-backup.test.js && node dist/first-glow-assets.test.js",
-    "test:ai-runtime": "npm run build && node dist/first-glow-ai-runtime.test.js"
+    "test:ai-runtime": "npm run build && node dist/first-glow-ai-runtime.test.js",
+    "test:pulse-gate": "npm run build && node dist/pulse-gate.test.js"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
