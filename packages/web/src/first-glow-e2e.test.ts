@@ -15,7 +15,7 @@ const database = join(tempRoot, `first-glow-browser-${Date.now()}.db`);
 const children: ChildProcess[] = [];
 const waitFor = async (url: string) => { for (let attempt = 0; attempt < 60; attempt += 1) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); } throw new Error(`service did not start: ${url}`); };
 try {
-  const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-first-glow", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
+  const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-first-glow", OBSERVER_ORIGIN: `http://127.0.0.1:${webPort}`, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" }));
   children.push(spawn(process.execPath, [join(nodeModules, "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`); await waitFor(`http://127.0.0.1:${webPort}/`);
