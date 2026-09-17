@@ -18,6 +18,8 @@ npm start
 
 Open the URL printed by the launcher. The local API listens on `127.0.0.1:8888` by default, and the browser preview is served at `127.0.0.1:4173`. The server owns simulation outcomes, SQLite stores committed history, and the browser renders the current or replayed First Glow state. Override the API port with `PORT` when needed.
 
+The writer binds to loopback by default and may run without `OWNER_TOKEN` for local development. Set `HOST` to a non-loopback address, set `SERVE_WEB=true`, or use `npm run start:hosted` only with an `OWNER_TOKEN`; those configurations fail closed without one. Cross-origin requests are denied unless the exact `OBSERVER_ORIGIN` is configured.
+
 ## Local data
 
 Mutable local runtime data lives under `data/` and is ignored by Git:

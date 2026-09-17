@@ -14,8 +14,10 @@ import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
 import { observerAuthRequired, verifyObserverToken } from "./observer-auth.js";
 import { PulseGate, PulseInFlightError } from "./pulse-gate.js";
+import { assertOwnerAuthConfiguration, hasValidOwnerToken, ownerAuthRequired } from "./owner-auth.js";
 
 const port = Number(process.env.PORT ?? 8888);
+const host = process.env.HOST ?? "127.0.0.1";
 const DEFAULT_PULSE_INTERVAL_MS = 4000;
 let pulseIntervalMs = Number(process.env.PULSE_INTERVAL_MS ?? DEFAULT_PULSE_INTERVAL_MS);
 const autoPulse = process.env.AUTO_PULSE !== "false";
@@ -32,9 +34,11 @@ const backupDirectory = resolve(process.env.BACKUP_DIR ?? join(process.cwd(), "d
 const backupReplicationUri = process.env.BACKUP_GCS_URI?.trim();
 const backupFreshnessMaxAgeMs = Number(process.env.BACKUP_FRESHNESS_MAX_AGE_MS ?? Math.max(backupIntervalMs * 2, 172800000));
 const serveWeb = process.env.SERVE_WEB === "true";
+const hostedStart = process.env.MIMIR_HOSTED === "true";
 const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const worldBundleRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? join(process.cwd(), "assets/world/generated"));
 const defaultFirstGlowBundleHash = "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e";
+assertOwnerAuthConfiguration(host, serveWeb, hostedStart, ownerToken);
 mkdirSync(dirname(databasePath), { recursive: true });
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
@@ -117,8 +121,8 @@ if (!database.prepare("SELECT 1 FROM timeline_checkpoints WHERE timeline_id = ? 
 database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId);
 const liveClients = new Set<ServerResponse>();
 const app = Fastify({ logger: true });
-await app.register(cors, { origin: true });
-function requireOwner(request: FastifyRequest, reply: FastifyReply): boolean { if (!ownerToken || request.headers["x-owner-token"] === ownerToken) return true; reply.code(401).send({ error: "owner authorization required" }); return false; }
+await app.register(cors, { origin: process.env.OBSERVER_ORIGIN?.trim() || false });
+function requireOwner(request: FastifyRequest, reply: FastifyReply): boolean { const loopbackWithoutToken = !ownerToken && !ownerAuthRequired(host, serveWeb, hostedStart); if (loopbackWithoutToken || hasValidOwnerToken(ownerToken, request.headers["x-owner-token"])) return true; reply.code(401).send({ error: "owner authorization required" }); return false; }
 async function requireObserver(request: FastifyRequest, reply: FastifyReply): Promise<boolean> { if (!observerAuthRequired) return true; if (await verifyObserverToken(request.headers.authorization)) return true; reply.code(401).send({ error: "approved Google account required" }); return false; }
 app.addHook("onRequest", async (request, reply) => { const path = (request.url ?? "").split("?", 1)[0]; if (observerAuthRequired && path.startsWith("/api/") && !path.startsWith("/api/owner/") && !(await requireObserver(request, reply))) return reply; });
 function currentTimeline() { return database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines WHERE id = ?").get(activeTimelineId) as { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; }
@@ -377,7 +381,7 @@ if (serveWeb) {
   });
 }
 
-await app.listen({ port, host: "0.0.0.0" });
+await app.listen({ port, host });
 function restartScheduler() { if (scheduler) clearInterval(scheduler); if (pulseIntervalMs > 0) { scheduler = setInterval(async () => { if (shuttingDown || schedulerPaused || state.pulse >= seasonPulseLimit) return; try { await commitPulse(); } catch (error) { app.log.error({ error }, "scheduled pulse failed"); } }, pulseIntervalMs); scheduler.unref(); } }
 restartScheduler();
 app.log.info({ pulseIntervalMs, seasonPulseLimit, schedulerPaused }, "automatic pulse scheduler configured");
