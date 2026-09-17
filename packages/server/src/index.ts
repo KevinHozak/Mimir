@@ -13,6 +13,7 @@ import { normalizeState } from "./state.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
 import { observerAuthRequired, verifyObserverToken } from "./observer-auth.js";
+import { PulseGate, PulseInFlightError } from "./pulse-gate.js";
 
 const port = Number(process.env.PORT ?? 8888);
 const DEFAULT_PULSE_INTERVAL_MS = 4000;
@@ -50,6 +51,7 @@ let activeTimelineId = savedTimeline?.value ?? "main";
 let schedulerPaused = !autoPulse;
 let scheduler: NodeJS.Timeout | undefined;
 let shuttingDown = false;
+const pulseGate = new PulseGate();
 const backupReplicationStatus: BackupReplicationStatus = { enabled: Boolean(backupReplicationUri), destination: backupReplicationUri, freshnessMaxAgeMs: backupFreshnessMaxAgeMs, consecutiveFailures: 0 };
 let backupReplicationInFlight = false;
 function currentBackupReplicationStatus(): BackupReplicationStatus & { stale: boolean } {
@@ -314,26 +316,26 @@ app.post("/api/owner/resonance-anchor", async (request, reply) => {
   return { candidate: result.candidate, anchor: result.anchor, event: creationEvent };
 });
 
-async function commitPulse(): Promise<{ state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null> {
+async function commitPulseExclusive(): Promise<{ state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null> {
   if (state.pulse >= seasonPulseLimit || currentTimeline().status !== "active") return null;
   const pending = state.firstGlowState ? applyFirstGlowPendingCommands(state, state.pulse + 1) : applyPendingCommands(state, state.pulse + 1);
   const advanced = advanceWorld(pending.state);
   let result = { ...advanced, events: [...pending.events, ...advanced.events].map(event => ({ ...event, pulse: advanced.state.pulse })) };
-  if (advanced.state.firstGlowState) {
-    const previousIds = new Set(pending.state.firstGlowState.events.map(event => event.id));
-    const committedStructuredEvents = advanced.state.firstGlowState.events.filter(event => !previousIds.has(event.id));
-    const evaluated = await aiRuntime.evaluate(advanced.state.firstGlowState, committedStructuredEvents);
-    if (evaluated.interpretations.length) {
-      const replacedEventIds = new Set(evaluated.interpretations.map(interpretation => interpretation.eventId));
-      result = {
-        ...result,
-        state: { ...result.state, firstGlowState: evaluated.state },
-        interpretations: [...result.interpretations.filter(interpretation => !replacedEventIds.has(interpretation.eventId)), ...evaluated.interpretations]
-      };
-    }
-  }
   database.exec("BEGIN IMMEDIATE");
   try {
+    if (advanced.state.firstGlowState) {
+      const previousIds = new Set(pending.state.firstGlowState.events.map(event => event.id));
+      const committedStructuredEvents = advanced.state.firstGlowState.events.filter(event => !previousIds.has(event.id));
+      const evaluated = await aiRuntime.evaluate(advanced.state.firstGlowState, committedStructuredEvents);
+      if (evaluated.interpretations.length) {
+        const replacedEventIds = new Set(evaluated.interpretations.map(interpretation => interpretation.eventId));
+        result = {
+          ...result,
+          state: { ...result.state, firstGlowState: evaluated.state },
+          interpretations: [...result.interpretations.filter(interpretation => !replacedEventIds.has(interpretation.eventId)), ...evaluated.interpretations]
+        };
+      }
+    }
     database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, ?, ?)").run(activeTimelineId, result.state.pulse, JSON.stringify(result.state));
     const insertEvent = database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)");
     for (const event of result.events) insertEvent.run(activeTimelineId, event.id, event.pulse, JSON.stringify(event));
@@ -348,7 +350,8 @@ async function commitPulse(): Promise<{ state: WorldState; events: WorldEvent[];
   for (const client of liveClients) { if (!client.destroyed) client.write(message); else liveClients.delete(client); }
   return result;
 }
-app.post("/api/pulse", async (request, reply) => { if (!requireOwner(request, reply)) return; const result = await commitPulse(); if (!result) return reply.code(409).send({ error: "timeline is archived or season boundary reached", state }); return result; });
+async function commitPulse() { return pulseGate.run(() => commitPulseExclusive()); }
+app.post("/api/pulse", async (request, reply) => { if (!requireOwner(request, reply)) return; try { const result = await commitPulse(); if (!result) return reply.code(409).send({ error: "timeline is archived or season boundary reached", state }); return result; } catch (error) { if (error instanceof PulseInFlightError) return reply.code(409).send({ error: error.message, state }); throw error; } });
 app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), activeTimelineId); schedulerPaused = true; return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/continue", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'active', archived_at = NULL WHERE id = ?").run(activeTimelineId); return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/branch", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { pulse?: unknown } | undefined; const branchPulse = body?.pulse === undefined ? state.pulse : Number(body.pulse); if (!Number.isInteger(branchPulse) || branchPulse < 0) return reply.code(400).send({ error: "pulse must be a non-negative integer" }); const source = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse = ?").get(activeTimelineId, branchPulse) as { state_json: string } | undefined; if (!source) return reply.code(404).send({ error: "branch source checkpoint not found" }); const newId = `timeline-${randomUUID()}`; database.exec("BEGIN IMMEDIATE"); try { database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(newId, activeTimelineId, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) SELECT ?, pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) SELECT ?, id, pulse, event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, pulse, interpretation_json) SELECT ?, id, pulse, interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; } activeTimelineId = newId; state = { ...normalizeState(JSON.parse(source.state_json) as WorldState), worldId: newId }; saveActiveTimeline(); return { timeline: currentTimeline(), state }; });
@@ -375,7 +378,7 @@ if (serveWeb) {
 }
 
 await app.listen({ port, host: "0.0.0.0" });
-function restartScheduler() { if (scheduler) clearInterval(scheduler); if (pulseIntervalMs > 0) { scheduler = setInterval(() => { if (!shuttingDown && !schedulerPaused && state.pulse < seasonPulseLimit) commitPulse(); }, pulseIntervalMs); scheduler.unref(); } }
+function restartScheduler() { if (scheduler) clearInterval(scheduler); if (pulseIntervalMs > 0) { scheduler = setInterval(async () => { if (shuttingDown || schedulerPaused || state.pulse >= seasonPulseLimit) return; try { await commitPulse(); } catch (error) { app.log.error({ error }, "scheduled pulse failed"); } }, pulseIntervalMs); scheduler.unref(); } }
 restartScheduler();
 app.log.info({ pulseIntervalMs, seasonPulseLimit, schedulerPaused }, "automatic pulse scheduler configured");
 let backupScheduler: NodeJS.Timeout | undefined;
@@ -383,4 +386,3 @@ if (backupIntervalMs > 0) { backupScheduler = setInterval(() => { if (!shuttingD
 async function shutdown(signal: string) { if (shuttingDown) return; shuttingDown = true; if (scheduler) clearInterval(scheduler); if (backupScheduler) clearInterval(backupScheduler); for (const client of liveClients) client.end(); await app.close(); database.exec("PRAGMA wal_checkpoint(FULL);"); database.close(); app.log.info({ signal, pulse: state.pulse, timelineId: activeTimelineId }, "server shut down cleanly"); process.exit(0); }
 process.once("SIGINT", () => void shutdown("SIGINT"));
 process.once("SIGTERM", () => void shutdown("SIGTERM"));
-
