@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { spawn } from "node:child_process";
@@ -11,6 +11,7 @@ const tempRoot = join(root, ".tmp", `first-glow-backup-${stamp}`);
 const database = join(tempRoot, "source.db");
 const backup = join(tempRoot, "backup.db");
 const restored = join(tempRoot, "restored.db");
+const corruptedRestored = join(tempRoot, "corrupted-restored.db");
 const restoredBundles = `${restored}.bundles`;
 const bundleRoot = join(root, "assets", "world", "generated");
 const hash = "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e";
@@ -30,9 +31,15 @@ try {
   child.kill(); await new Promise(resolve => child?.once("exit", resolve)); child = undefined;
   const env = { ...process.env, DATABASE_PATH: database, WORLD_BUNDLE_ROOT: bundleRoot };
   execFileSync(process.execPath, ["dist/backup.js", "backup", backup], { cwd: join(root, "packages/server"), env });
-  const manifest = JSON.parse(readFileSync(`${backup}.manifest.json`, "utf8")) as { bundleHashes: string[] };
+  const manifest = JSON.parse(readFileSync(`${backup}.manifest.json`, "utf8")) as { bundleHashes: string[]; bundleFiles: { hash: string; path: string; sha256: string }[] };
   assert.deepEqual(manifest.bundleHashes, [hash, secondHash].sort());
+  assert.ok(manifest.bundleFiles.some(file => file.path === `${hash}/manifest.json`));
+  assert.ok(manifest.bundleFiles.some(file => file.path.startsWith(`${hash}/assets/`)));
   execFileSync(process.execPath, ["dist/backup.js", "restore", backup, restored], { cwd: join(root, "packages/server"), env });
+  const copiedAsset = manifest.bundleFiles.find(file => file.path.startsWith(`${hash}/assets/`));
+  assert.ok(copiedAsset);
+  appendFileSync(join(`${backup}.bundles`, copiedAsset.path), "corrupt\n");
+  assert.throws(() => execFileSync(process.execPath, ["dist/backup.js", "restore", backup, corruptedRestored], { cwd: join(root, "packages/server"), env }), /backup bundle checksum mismatch/);
   assert.ok(existsSync(`${restored}.bundles/${hash}/world.json`));
   assert.ok(existsSync(`${restored}.bundles/${hash}/assets`));
   assert.ok(existsSync(`${restored}.bundles/${secondHash}/world.json`));
@@ -60,5 +67,5 @@ try {
 } finally {
   if (child && child.exitCode === null) child.kill();
   // Restore creates the sidecar before validating bundle contents, so clean it even when restore fails.
-  for (const path of [database, backup, restored, `${database}-wal`, `${database}-shm`, `${backup}-wal`, `${backup}-shm`, `${restored}-wal`, `${restored}-shm`, `${backup}.manifest.json`, `${backup}.bundles`, restoredBundles, `${restored}.manifest.json`]) if (existsSync(path)) rmSync(path, { recursive: true, force: true });
+  for (const path of [database, backup, restored, corruptedRestored, `${database}-wal`, `${database}-shm`, `${backup}-wal`, `${backup}-shm`, `${restored}-wal`, `${restored}-shm`, `${corruptedRestored}-wal`, `${corruptedRestored}-shm`, `${backup}.manifest.json`, `${backup}.bundles`, restoredBundles, `${restored}.manifest.json`, `${corruptedRestored}.manifest.json`]) if (existsSync(path)) rmSync(path, { recursive: true, force: true });
 }
