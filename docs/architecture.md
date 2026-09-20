@@ -1,6 +1,6 @@
 # Mimir: A Light of Our Own — Current Architecture
 
-Date: 2026-09-15
+Date: 2026-09-20
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -140,6 +140,8 @@ The server commits a pulse inside a SQLite transaction. It calculates the next e
 
 The scheduler can be paused, resumed, or assigned a bounded interval. Manual pulseing uses the same commit path as scheduled pulseing.
 
+All state-changing owner requests use the server writer gate, including scheduler changes, pending world-object commands, resonance mutations, archive/continue, branch, and reset operations. Scheduled bundle-inclusive backups acquire the same gate, and pulses queue through it as well. The gate is the single-instance serialization boundary: a writer must finish before another writer or backup snapshot can begin, and failed transactions release the gate without publishing in-memory state. Future owner routes that write SQLite or authoritative state must use this boundary rather than opening a competing transaction.
+
 ### Persistence model
 
 The current database stores:
@@ -194,7 +196,7 @@ State-changing operations require the configured `OWNER_TOKEN`, supplied through
 - `POST /api/owner/resonance-crossing-anchor` — create the contrasting Crossing of Voices only from a complete candidate whose committed evidence meets the relay-crossing rule.
 - `POST /api/owner/resonance-crossing-choice` — commit one witnessed `follow-signal` or `hold-course` decision with explicit resource, activity, and evidence consequences.
 
-When `OWNER_TOKEN` is unset, owner operations are permitted without authentication. A configured token provides owner authentication, not a multi-user account or role system.
+Owner authentication is required whenever `SERVE_WEB=true`, `MIMIR_HOSTED=true`, or the server binds to a non-loopback host. Startup fails closed if that configuration has no `OWNER_TOKEN`, and state-changing requests must supply the matching `x-owner-token` header. Only explicit loopback local development may run tokenless. A configured token provides owner authentication, not a multi-user account or role system.
 
 ## 7. Browser architecture
 
@@ -285,6 +287,7 @@ Implemented boundaries:
 - Shared world-data contracts used by simulation and rendering.
 - Capability-filtered interaction slots, reservations, and arrival-gated First Glow actions.
 - Content-addressed generated bundles with asset manifests and bundle-inclusive backup/restore tooling.
+- First Glow writer hardening: serialized pulse and backup writes, fail-closed owner authentication for hosted/public binds, safe reset-route boundaries, append-only resonance history, a typed server entry point, and the reconciled reflection route with CI coverage. See the [Security hardening closeout](reliability-security-maintenance-review.md#post-merge-hardening-status-2026-09-20).
 - Observer reflection capacity is implemented in the engine and exposed by the replay-safe `/api/reflection` writer projection. The route returns public capacity, schedule, intention, and committed-outcome data plus bounded AI runtime metadata; it never returns private reflection memory or provider prompt material. The hosted observer bridge and UI consume this same contract.
 
 ## AI-P14 bounded rollout
@@ -302,7 +305,7 @@ Still open:
 - Wider distribution and production readiness beyond limited authenticated staging. Hosted-P17 closed with unverified token classes, authenticated SSE behavior, bridge process restart, outage replay, and audience/billing limits.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
-- Ranked writer risks from the 2026-09-15 [reliability, security, and maintenance review](reliability-security-maintenance-review.md): overlapping pulses, fail-open owner auth on public bind, live-file SQLite copies, unsupported reset routes that cannot restart, in-place checkpoint mutation, and CI gaps. That review is a snapshot, not a completed hardening delivery.
+- The 2026-09-15 [reliability, security, and maintenance review](reliability-security-maintenance-review.md) remains historical evidence. Its seven writer-hardening findings were delivered through Security-P1–P7; remaining deployment, audience, and independent-recovery checks are operational validation gaps, not claims that those code findings remain open.
 
 ## AI-P15 through AI-P18 evaluation procedures
 
