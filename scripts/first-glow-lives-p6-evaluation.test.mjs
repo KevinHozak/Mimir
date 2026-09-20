@@ -1,0 +1,13 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+const report = JSON.parse(readFileSync(resolve(root, "docs/evidence/first-glow-lives-p6-comparison-2026-09-20.json"), "utf8"));
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+assert(report.schemaVersion === 1, "P6 report schema changed");
+assert(report.protocol.variedDimension === "model-capability", "P6 must vary model capability only");
+assert(report.protocol.fixedDimensions.length === 4, "P6 fixed dimensions are incomplete");
+assert(report.runs.length === 3 && report.runs.every(run => run.matched && run.replayProviderFree), "P6 matched runs are incomplete");
+assert(report.acceptance.benefitGate === "not-assessed-with-offline-fixture", "offline fixture must not claim model benefit");
+assert(report.acceptance.automaticUpgrade === false && report.acceptance.firstGlowDefaultUnchanged, "P6 must not activate rollout");
+console.log(`Lives-P6 comparison verified: ${report.runs.length} matched offline runs; live benefit gate remains pending.`);

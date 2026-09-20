@@ -23,6 +23,7 @@ export * from "./chronicle.js";
 export * from "./first-glow-observer.js";
 export * from "./first-glow-staging-effects.js";
 export * from "./first-glow-hybrid-runtime.js";
+export * from "./first-glow-age-model-policy.js";
 export * from "./resonance-observation.js";
 export * from "./resonance-anchor.js";
 export * from "./resonance-loom-choice.js";

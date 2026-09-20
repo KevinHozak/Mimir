@@ -56,7 +56,9 @@
     "rc-p4:evaluation": "npm run build && node scripts/first-glow-rc-p4-evaluation.mjs",
     "rc-p4:evaluation:test": "node scripts/first-glow-rc-p4-evaluation.test.mjs",
     "lives-p5:study": "npm run build && node scripts/first-glow-lives-p5-study.mjs",
-    "lives-p5:study:test": "npm run build && node scripts/first-glow-lives-p5-study.test.mjs"
+    "lives-p5:study:test": "npm run build && node scripts/first-glow-lives-p5-study.test.mjs",
+    "lives-p6:evaluation": "npm run build && node scripts/first-glow-lives-p6-evaluation.mjs",
+    "lives-p6:evaluation:test": "node scripts/first-glow-lives-p6-evaluation.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.5.1",
