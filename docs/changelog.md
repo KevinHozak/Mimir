@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-09-20 — Lives-P2 follow mode
+
+- Added a browser-local World/Follow presentation path for First Glow Sparks. A viewer can follow a selected Spark through committed movement and rest updates, inspect its recorded intention and encounter records, switch between immersive and explanatory presentation, manually pan or zoom, resume tracking, and return to World view.
+- Preserved the selected Spark across live updates and history requests, with explicit unavailable-checkpoint recovery text and Return to Live behavior. Follow camera actions remain read-only and do not schedule pulses, reflections, provider calls, or world mutations.
+- Added focused navigation and missing-target regression coverage. Full Playwright visual verification remains environment-limited in this worktree because the browser harness hung after the isolated services started.
+
 ## 2026-09-13 through 2026-09-15 — Authenticated hosted observation
 
 - Delivered Google-authenticated live observation through Firebase Hosting and the Cloud Run bridge to the private single-writer VM. Hosted API reads use the page origin; owner controls and mutation routes stay outside the hosted surface. Added the local light mark, loading animation, and refined observer/audio controls.
