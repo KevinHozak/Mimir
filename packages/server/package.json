@@ -16,7 +16,8 @@
     "test:ai-runtime": "npm run build && node dist/first-glow-ai-runtime.test.js",
     "test:pulse-gate": "npm run build && node dist/pulse-gate.test.js",
     "test:owner-auth": "npm run build && node dist/owner-auth.test.js && node dist/owner-auth-acceptance.test.js",
-    "test:security-p4": "npm run build && node dist/security-p4.test.js"
+    "test:security-p4": "npm run build && node dist/security-p4.test.js",
+    "test:security-p5": "npm run build && node dist/security-p5.test.js"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",

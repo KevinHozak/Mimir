@@ -141,6 +141,32 @@ async function requireObserver(request: FastifyRequest, reply: FastifyReply): Pr
 app.addHook("onRequest", async (request, reply) => { const path = (request.url ?? "").split("?", 1)[0]; if (observerAuthRequired && path.startsWith("/api/") && !path.startsWith("/api/owner/") && !(await requireObserver(request, reply))) return reply; });
 function currentTimeline() { return database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines WHERE id = ?").get(activeTimelineId) as { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; }
 function saveActiveTimeline() { database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId); }
+function commitResonanceMutation(nextState: WorldState, events: WorldEvent[]): { state: WorldState; events: WorldEvent[] } {
+  const mutationPulse = state.pulse + 1;
+  const committedEvents = events.map(event => ({ ...event, pulse: mutationPulse }));
+  const eventIds = new Set(committedEvents.map(event => event.id));
+  const committedState: WorldState = {
+    ...nextState,
+    pulse: mutationPulse,
+    firstGlowState: nextState.firstGlowState ? {
+      ...nextState.firstGlowState,
+      pulse: mutationPulse,
+      events: nextState.firstGlowState.events.map(event => eventIds.has(event.id) ? { ...event, pulse: mutationPulse } : event),
+    } : undefined,
+    events: (nextState.events ?? []).map(event => eventIds.has(event.id) ? { ...event, pulse: mutationPulse } : event),
+  };
+  database.exec("BEGIN IMMEDIATE");
+  try {
+    database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, ?, ?)").run(activeTimelineId, mutationPulse, JSON.stringify(committedState));
+    const insertEvent = database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)");
+    for (const event of committedEvents) insertEvent.run(activeTimelineId, event.id, mutationPulse, JSON.stringify(event));
+    database.exec("COMMIT");
+  } catch (error) { database.exec("ROLLBACK"); throw error; }
+  state = committedState;
+  const message = `data: ${JSON.stringify({ state, events: committedEvents, interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`;
+  for (const client of liveClients) { if (!client.destroyed) client.write(message); else liveClients.delete(client); }
+  return { state: committedState, events: committedEvents };
+}
 type PendingBlockCommand = { id: string; ordering: number; target_pulse: number; settlement_id: string; object_id: string; blocked: number; idempotency_key: string; status: string; result_json: string | null };
 function currentObjectFootprint(objectId: string): Set<string> { const glow = state.firstGlowState.settlements.flatMap(settlement => settlement.bundle.objects.map(object => ({ settlement, object }))).find(candidate => candidate.object.id === objectId); if (!glow) return new Set(); const definition = glow.settlement.bundle.objectDefinitions[glow.object.definitionId]; return new Set(definition.footprint.map(offset => `${glow.object.origin.x + offset.x},${glow.object.origin.y + offset.y}`)); }
 function occupiedActorIds(objectId: string): string[] { const footprint = currentObjectFootprint(objectId); const villagers = (state.villagers ?? []).filter(villager => footprint.has(`${villager.position.x},${villager.position.y}`)).map(villager => villager.id); const sparks = state.firstGlowState?.settlements.flatMap(settlement => settlement.sparks.filter(spark => footprint.has(`${spark.position.x},${spark.position.y}`)).map(spark => spark.id)) ?? []; return [...villagers, ...sparks].sort(); }
@@ -258,14 +284,11 @@ app.post("/api/owner/resonance-choice", async (request, reply) => {
   if (missingEvidence.length) return reply.code(409).send({ error: "choice references uncommitted evidence", missingEvidence });
   const result = applyShelterLoomChoice(state.firstGlowState, anchor, body.actorSparkId, body.beneficiarySparkId, body.choice as ShelterLoomChoice, evidenceIds);
   if (!result.ok) return reply.code(409).send({ error: `Shelter Loom choice rejected: ${result.code}`, code: result.code });
-  const nextResonance: ResonanceState = { schemaVersion: 1, candidates: resonance?.candidates ?? [], anchors: resonance?.anchors ?? [], decisions: [...(resonance?.decisions ?? []), result.decision].sort((left, right) => left.id.localeCompare(right.id)) };
+  const nextResonance: ResonanceState = { schemaVersion: 1, candidates: resonance?.candidates ?? [], anchors: resonance?.anchors ?? [], decisions: [...(resonance?.decisions ?? []), { ...result.decision, pulse: state.pulse + 1 }].sort((left, right) => left.id.localeCompare(right.id)) };
   const nextState = { ...state, firstGlowState: result.state, resonance: nextResonance, events: [...(state.events ?? []), { id: result.event.id, pulse: result.event.pulse, kind: "world-object" as const, message: result.event.message, villagerIds: [body.actorSparkId, body.beneficiarySparkId], settlementIds: [state.firstGlowState.settlements[0].id] }] };
   const worldEvent = nextState.events[nextState.events.length - 1] as WorldEvent;
-  database.exec("BEGIN IMMEDIATE");
-  try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND pulse = ?").run(JSON.stringify(nextState), activeTimelineId, state.pulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, worldEvent.id, worldEvent.pulse, JSON.stringify(worldEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
-  state = nextState;
-  for (const client of liveClients) { if (!client.destroyed) client.write(`data: ${JSON.stringify({ state, events: [worldEvent], interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`); else liveClients.delete(client); }
-  return { decision: result.decision, event: worldEvent };
+  const committed = commitResonanceMutation(nextState, [worldEvent]);
+  return { decision: { ...result.decision, pulse: state.pulse }, event: committed.events[0] };
 });
 app.post("/api/owner/resonance-crossing-anchor", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
@@ -278,16 +301,13 @@ app.post("/api/owner/resonance-crossing-anchor", async (request, reply) => {
   if (missingEvidence.length) return reply.code(409).send({ error: "candidate references uncommitted evidence", missingEvidence });
   const existing = state.resonance?.candidates.find(item => item.id === candidate.id);
   if (existing?.status === "created") return { candidate: existing, anchor: state.resonance?.anchors.find(item => item.candidateId === candidate.id), idempotent: true };
-  const result = createCrossingVoicesAnchor(candidate, settlement.bundle, state.pulse);
+  const result = createCrossingVoicesAnchor(candidate, settlement.bundle, state.pulse + 1);
   if (!result.ok) return reply.code(409).send({ error: `Crossing of Voices creation failed: ${result.code}`, code: result.code });
   const resonance: ResonanceState = { schemaVersion: 1, candidates: [...(state.resonance?.candidates ?? []).filter(item => item.id !== candidate.id), result.candidate].sort((left, right) => left.id.localeCompare(right.id)), anchors: [...(state.resonance?.anchors ?? []).filter(item => item.id !== result.anchor.id), result.anchor].sort((left, right) => left.id.localeCompare(right.id)), decisions: state.resonance?.decisions, crossingDecisions: state.resonance?.crossingDecisions };
-  const creationEvent: WorldEvent = { id: `event-${state.pulse}-resonance-${result.anchor.id}`, pulse: state.pulse, kind: "world-object", message: `The Crossing of Voices was formed at ${result.anchor.authoredObjectId}:${result.anchor.authoredSlotId}.`, villagerIds: [], settlementIds: [settlement.id] };
+  const creationEvent: WorldEvent = { id: `event-${state.pulse + 1}-resonance-${result.anchor.id}`, pulse: state.pulse + 1, kind: "world-object", message: `The Crossing of Voices was formed at ${result.anchor.authoredObjectId}:${result.anchor.authoredSlotId}.`, villagerIds: [], settlementIds: [settlement.id] };
   const nextState = { ...state, resonance, events: [...(state.events ?? []), creationEvent] };
-  database.exec("BEGIN IMMEDIATE");
-  try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND pulse = ?").run(JSON.stringify(nextState), activeTimelineId, state.pulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, creationEvent.id, creationEvent.pulse, JSON.stringify(creationEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
-  state = nextState;
-  for (const client of liveClients) { if (!client.destroyed) client.write(`data: ${JSON.stringify({ state, events: [creationEvent], interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`); else liveClients.delete(client); }
-  return { candidate: result.candidate, anchor: result.anchor, event: creationEvent };
+  const committed = commitResonanceMutation(nextState, [creationEvent]);
+  return { candidate: result.candidate, anchor: result.anchor, event: committed.events[0] };
 });
 app.post("/api/owner/resonance-crossing-choice", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
@@ -302,14 +322,11 @@ app.post("/api/owner/resonance-crossing-choice", async (request, reply) => {
   if (missingEvidence.length) return reply.code(409).send({ error: "choice references uncommitted evidence", missingEvidence });
   const result = applyCrossingVoicesChoice(state.firstGlowState, anchor, body.actorSparkId, body.choice as "follow-signal" | "hold-course", evidenceIds);
   if (!result.ok) return reply.code(409).send({ error: `Crossing of Voices choice rejected: ${result.code}`, code: result.code });
-  const nextResonance: ResonanceState = { schemaVersion: 1, candidates: resonance?.candidates ?? [], anchors: resonance?.anchors ?? [], decisions: resonance?.decisions, crossingDecisions: [...(resonance?.crossingDecisions ?? []), result.decision].sort((left, right) => left.id.localeCompare(right.id)) };
+  const nextResonance: ResonanceState = { schemaVersion: 1, candidates: resonance?.candidates ?? [], anchors: resonance?.anchors ?? [], decisions: resonance?.decisions, crossingDecisions: [...(resonance?.crossingDecisions ?? []), { ...result.decision, pulse: state.pulse + 1 }].sort((left, right) => left.id.localeCompare(right.id)) };
   const nextState = { ...state, firstGlowState: result.state, resonance: nextResonance, events: [...(state.events ?? []), { id: result.event.id, pulse: result.event.pulse, kind: "world-object" as const, message: result.event.message, villagerIds: [body.actorSparkId], settlementIds: [state.firstGlowState.settlements[0].id] }] };
   const worldEvent = nextState.events[nextState.events.length - 1] as WorldEvent;
-  database.exec("BEGIN IMMEDIATE");
-  try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND pulse = ?").run(JSON.stringify(nextState), activeTimelineId, state.pulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, worldEvent.id, worldEvent.pulse, JSON.stringify(worldEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
-  state = nextState;
-  for (const client of liveClients) { if (!client.destroyed) client.write(`data: ${JSON.stringify({ state, events: [worldEvent], interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`); else liveClients.delete(client); }
-  return { decision: result.decision, event: worldEvent };
+  const committed = commitResonanceMutation(nextState, [worldEvent]);
+  return { decision: { ...result.decision, pulse: state.pulse }, event: committed.events[0] };
 });
 app.post("/api/owner/resonance-anchor", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
@@ -322,16 +339,13 @@ app.post("/api/owner/resonance-anchor", async (request, reply) => {
   if (missingEvidence.length) return reply.code(409).send({ error: "candidate references uncommitted evidence", missingEvidence });
   const existing = state.resonance?.candidates.find((item) => item.id === candidate.id);
   if (existing?.status === "created") return { candidate: existing, anchor: state.resonance?.anchors.find((item) => item.candidateId === candidate.id), idempotent: true };
-  const result = createShelterLoomAnchor(candidate, settlement.bundle, state.pulse);
+  const result = createShelterLoomAnchor(candidate, settlement.bundle, state.pulse + 1);
   if (!result.ok) return reply.code(409).send({ error: `Shelter Loom creation failed: ${result.code}`, code: result.code });
   const resonance: ResonanceState = { schemaVersion: 1, candidates: [...(state.resonance?.candidates ?? []).filter((item) => item.id !== candidate.id), result.candidate].sort((left, right) => left.id.localeCompare(right.id)), anchors: [...(state.resonance?.anchors ?? []).filter((item) => item.id !== result.anchor.id), result.anchor].sort((left, right) => left.id.localeCompare(right.id)) };
-  const creationEvent: WorldEvent = { id: `event-${state.pulse}-resonance-${result.anchor.id}`, pulse: state.pulse, kind: "world-object", message: `The Shelter Loom was formed at ${result.anchor.authoredObjectId}:${result.anchor.authoredSlotId}.`, villagerIds: [], settlementIds: [settlement.id] };
+  const creationEvent: WorldEvent = { id: `event-${state.pulse + 1}-resonance-${result.anchor.id}`, pulse: state.pulse + 1, kind: "world-object", message: `The Shelter Loom was formed at ${result.anchor.authoredObjectId}:${result.anchor.authoredSlotId}.`, villagerIds: [], settlementIds: [settlement.id] };
   const nextState = { ...state, resonance, events: [...(state.events ?? []), creationEvent] };
-  database.exec("BEGIN IMMEDIATE");
-  try { database.prepare("UPDATE timeline_checkpoints SET state_json = ? WHERE timeline_id = ? AND pulse = ?").run(JSON.stringify(nextState), activeTimelineId, state.pulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)").run(activeTimelineId, creationEvent.id, creationEvent.pulse, JSON.stringify(creationEvent)); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; }
-  state = nextState;
-  for (const client of liveClients) { if (!client.destroyed) client.write(`data: ${JSON.stringify({ state, events: [creationEvent], interpretations: [], timelineId: activeTimelineId, schedulerPaused })}\n\n`); else liveClients.delete(client); }
-  return { candidate: result.candidate, anchor: result.anchor, event: creationEvent };
+  const committed = commitResonanceMutation(nextState, [creationEvent]);
+  return { candidate: result.candidate, anchor: result.anchor, event: committed.events[0] };
 });
 
 async function commitPulseExclusive(): Promise<{ state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null> {
