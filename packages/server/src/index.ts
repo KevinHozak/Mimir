@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
@@ -6,7 +5,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, CHARACTER_CARDS, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, FIRST_WINTER_DILEMMAS, FIRST_WINTER_SCENARIO, HOME_SETTLEMENT, observeResonance, setObjectBlocked, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
@@ -125,7 +124,7 @@ function validateBundleAssetsAtStartup(bundle: DecodedWorldBundle): void {
 let state: WorldState;
 try {
   state = loadState(activeTimelineId);
-  for (const bundle of [...(state.structuredState?.settlements ?? []).map(settlement => settlement.bundle), ...(state.firstGlowState?.settlements ?? []).map(settlement => settlement.bundle)]) validateBundleAssetsAtStartup(bundle);
+  for (const settlement of state.firstGlowState.settlements) validateBundleAssetsAtStartup(settlement.bundle);
 } catch (error) {
   console.error(`Mimir startup refused: ${error instanceof Error ? error.message : String(error)}`);
   database.close();
@@ -148,12 +147,11 @@ function commitResonanceMutation(nextState: WorldState, events: WorldEvent[]): {
   const committedState: WorldState = {
     ...nextState,
     pulse: mutationPulse,
-    firstGlowState: nextState.firstGlowState ? {
+    firstGlowState: {
       ...nextState.firstGlowState,
       pulse: mutationPulse,
       events: nextState.firstGlowState.events.map(event => eventIds.has(event.id) ? { ...event, pulse: mutationPulse } : event),
-    } : undefined,
-    events: (nextState.events ?? []).map(event => eventIds.has(event.id) ? { ...event, pulse: mutationPulse } : event),
+    },
   };
   database.exec("BEGIN IMMEDIATE");
   try {
@@ -169,10 +167,8 @@ function commitResonanceMutation(nextState: WorldState, events: WorldEvent[]): {
 }
 type PendingBlockCommand = { id: string; ordering: number; target_pulse: number; settlement_id: string; object_id: string; blocked: number; idempotency_key: string; status: string; result_json: string | null };
 function currentObjectFootprint(objectId: string): Set<string> { const glow = state.firstGlowState.settlements.flatMap(settlement => settlement.bundle.objects.map(object => ({ settlement, object }))).find(candidate => candidate.object.id === objectId); if (!glow) return new Set(); const definition = glow.settlement.bundle.objectDefinitions[glow.object.definitionId]; return new Set(definition.footprint.map(offset => `${glow.object.origin.x + offset.x},${glow.object.origin.y + offset.y}`)); }
-function occupiedActorIds(objectId: string): string[] { const footprint = currentObjectFootprint(objectId); const villagers = (state.villagers ?? []).filter(villager => footprint.has(`${villager.position.x},${villager.position.y}`)).map(villager => villager.id); const sparks = state.firstGlowState?.settlements.flatMap(settlement => settlement.sparks.filter(spark => footprint.has(`${spark.position.x},${spark.position.y}`)).map(spark => spark.id)) ?? []; return [...villagers, ...sparks].sort(); }
+function occupiedActorIds(objectId: string): string[] { const footprint = currentObjectFootprint(objectId); return state.firstGlowState.settlements.flatMap(settlement => settlement.sparks.filter(spark => footprint.has(`${spark.position.x},${spark.position.y}`)).map(spark => spark.id)).sort(); }
 function pendingCommandsForPulse(pulse: number): PendingBlockCommand[] { return database.prepare("SELECT id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json FROM pending_commands WHERE timeline_id = ? AND status = 'pending' AND target_pulse <= ? ORDER BY ordering ASC").all(activeTimelineId, pulse) as PendingBlockCommand[]; }
-function applyPendingCommands(base: WorldState, pulse: number): { state: WorldState; events: WorldEvent[]; commands: PendingBlockCommand[] } { let next = base; const events: WorldEvent[] = []; const commands = pendingCommandsForPulse(pulse); for (const command of commands) { const occupied = command.blocked ? occupiedActorIds(command.object_id) : []; if (occupied.length) { events.push({ id: `event-${pulse}-command-${command.id}`, pulse, kind: "world-object", message: `Object ${command.object_id} could not be blocked because it contains actors: ${occupied.join(", ")}.`, villagerIds: occupied, settlementIds: [command.settlement_id] }); continue; } if (next.structuredState) { const structuredState = structuredClone(next.structuredState); const settlement = structuredState.settlements.find(candidate => candidate.id === command.settlement_id); const object = settlement?.bundle.objects.find(candidate => candidate.id === command.object_id); if (!settlement || !object) continue; const current = settlement.runtime.objects.find(item => item.objectId === command.object_id); const previousBlocked = current?.blocked ?? false; if (previousBlocked !== Boolean(command.blocked)) { if (current) current.blocked = Boolean(command.blocked); else settlement.runtime.objects.push({ objectId: command.object_id, blocked: Boolean(command.blocked) }); settlement.runtime.navigationRevision += 1; } next = { ...next, structuredState, worldRuntime: { ...(next.worldRuntime ?? { blockedObjectIds: [] }), blockedObjectIds: command.blocked ? [...new Set([...(next.worldRuntime?.blockedObjectIds ?? []), command.object_id])] : (next.worldRuntime?.blockedObjectIds ?? []).filter(id => id !== command.object_id) } }; if (previousBlocked !== Boolean(command.blocked)) events.push({ id: `event-${pulse}-command-${command.id}`, pulse, kind: "world-object", message: `Object ${command.object_id} is now ${command.blocked ? "blocked" : "open"}.`, villagerIds: [], settlementIds: [command.settlement_id] }); continue; } const before = next.worldRuntime?.blockedObjectIds ?? []; const after = setObjectBlocked(next.worldDefinition!, next.worldRuntime ?? { blockedObjectIds: [] }, command.object_id, Boolean(command.blocked)).blockedObjectIds; const changed = before.join(",") !== after.join(","); next = { ...next, worldRuntime: { ...(next.worldRuntime ?? { blockedObjectIds: [] }), blockedObjectIds: after }, settlements: next.settlements.map(settlement => settlement.id === command.settlement_id ? { ...settlement, worldRuntime: { ...settlement.worldRuntime, blockedObjectIds: after } } : settlement) }; if (changed) events.push({ id: `event-${pulse}-command-${command.id}`, pulse, kind: "world-object", message: `Object ${command.object_id} is now ${command.blocked ? "blocked" : "open"}.`, villagerIds: [], settlementIds: [command.settlement_id] }); } return { state: next, events, commands }; }
-
 function applyFirstGlowPendingCommands(base: WorldState, pulse: number): { state: WorldState; events: WorldEvent[]; commands: PendingBlockCommand[] } {
   if (!base.firstGlowState) throw new Error("First Glow command path requires First Glow state");
   const next = { ...structuredClone(base), firstGlowState: structuredClone(base.firstGlowState) }; const events: WorldEvent[] = []; const commands = pendingCommandsForPulse(pulse);
@@ -182,8 +178,6 @@ function applyFirstGlowPendingCommands(base: WorldState, pulse: number): { state
     if (occupied.length) { events.push({ id: `event-${pulse}-command-${command.id}`, pulse, kind: "world-object", message: `Object ${command.object_id} could not be blocked because it contains Sparks: ${occupied.join(", ")}.`, villagerIds: [], settlementIds: [command.settlement_id] }); continue; }
     const current = settlement.runtime.objects.find(item => item.objectId === command.object_id); const previousBlocked = current?.blocked ?? false; if (previousBlocked === Boolean(command.blocked)) continue;
     if (current) current.blocked = Boolean(command.blocked); else settlement.runtime.objects.push({ objectId: command.object_id, blocked: Boolean(command.blocked) }); settlement.runtime.navigationRevision += 1;
-    next.worldRuntime = { ...(next.worldRuntime ?? { blockedObjectIds: [] }), blockedObjectIds: command.blocked ? [...new Set([...(next.worldRuntime?.blockedObjectIds ?? []), command.object_id])] : (next.worldRuntime?.blockedObjectIds ?? []).filter(id => id !== command.object_id) };
-    next.settlements = next.settlements.map(item => item.id === settlement.id ? { ...item, worldRuntime: { ...item.worldRuntime, blockedObjectIds: next.worldRuntime?.blockedObjectIds ?? [] } } : item);
     events.push({ id: `event-${pulse}-command-${command.id}`, pulse, kind: "world-object", message: `Object ${command.object_id} is now ${command.blocked ? "blocked" : "open"}.`, villagerIds: [], settlementIds: [command.settlement_id] });
   }
   return { state: next, events, commands };
@@ -192,7 +186,7 @@ function applyFirstGlowPendingCommands(base: WorldState, pulse: number): { state
 app.get("/health", async () => ({ ok: true, pulse: state.pulse, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents, backupReplication: currentBackupReplicationStatus() }));
 app.get("/api/backup/status", async () => currentBackupReplicationStatus());
 app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: socialBudgetCents }));
-app.get("/api/design", async () => state.firstGlowState ? { themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN } : ({ characterCards: CHARACTER_CARDS, dilemmas: FIRST_WINTER_DILEMMAS, sharedStore: state.sharedStore }));
+app.get("/api/design", async () => ({ themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN }));
 app.get("/api/resonance", async () => {
   const fixturePath = resolve(process.cwd(), "docs", "resonance-anchor-fixtures.json");
   if (!existsSync(fixturePath)) return { source: "committed-objective-events", observations: [], currentPulse: state.pulse };
@@ -207,7 +201,7 @@ app.get("/api/resonance", async () => {
   };
 });
 app.get("/api/resonance/anchors", async () => ({ resonance: state.resonance ?? { schemaVersion: 1, candidates: [], anchors: [] } }));
-app.get("/api/region", async () => ({ settlements: state.settlements, routes: state.routes, tradeHistory: state.tradeHistory, weather: state.weather, hazards: state.hazards, timelineId: activeTimelineId }));
+app.get("/api/region", async () => ({ settlements: state.firstGlowState.settlements, routes: [], tradeHistory: [], weather: { kind: "clear", forecast: "clear", severity: 0 }, hazards: [], timelineId: activeTimelineId }));
 app.get("/api/timelines", async () => ({ activeTimelineId, timelines: database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines ORDER BY created_at").all() }));
 app.get("/api/history", async (request, reply) => {
   const query = request.query as { timelineId?: string; pulse?: string };
@@ -241,36 +235,26 @@ app.get("/api/metrics", async () => {
     timelineId: activeTimelineId,
     metrics: rows.map((row) => {
       const snapshot = normalizeState(JSON.parse(row.state_json) as WorldState);
-      if (snapshot.firstGlowState) {
-        const sparks = snapshot.firstGlowState.settlements.flatMap((settlement) => settlement.sparks);
-        return {
-          pulse: row.pulse,
-          foodReserve: 0,
-          averageTrust: 0,
-          hungryVillagers: sparks.filter((spark) => spark.chargeDeficit > 0).length,
-          travelingVillagers: sparks.filter((spark) => spark.status === "traveling").length,
-          collectingVillagers: sparks.filter((spark) => spark.status === "drawing-charge").length,
-          sourceCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0),
-          communalCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0),
-          averageReadiness: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.readiness, 0) / sparks.length) : 0,
-          averageChargeDeficit: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.chargeDeficit, 0) / sparks.length) : 0
-        };
-      }
-      return {
-        pulse: row.pulse,
-        foodReserve: snapshot.foodReserve,
-        averageTrust: Math.round(snapshot.villagers.reduce((total, villager) => total + villager.trust, 0) / snapshot.villagers.length),
-        hungryVillagers: snapshot.villagers.filter((villager) => villager.hunger >= 45).length,
-        travelingVillagers: snapshot.villagers.filter((villager) => villager.activity === "travel").length,
-        collectingVillagers: snapshot.villagers.filter((villager) => villager.activity === "collect").length
-      };
+       const sparks = snapshot.firstGlowState.settlements.flatMap((settlement) => settlement.sparks);
+       return {
+         pulse: row.pulse,
+         foodReserve: 0,
+         averageTrust: 0,
+         hungryVillagers: sparks.filter((spark) => spark.chargeDeficit > 0).length,
+         travelingVillagers: sparks.filter((spark) => spark.status === "traveling").length,
+         collectingVillagers: sparks.filter((spark) => spark.intendedActivity === "draw-charge").length,
+         sourceCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0),
+         communalCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0),
+         averageReadiness: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.readiness, 0) / sparks.length) : 0,
+         averageChargeDeficit: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.chargeDeficit, 0) / sparks.length) : 0
+       };
     })
   };
 });
 function reportSummary() { const sparks = state.firstGlowState.settlements.flatMap(settlement => settlement.sparks); return { season: 0, scenarioName: "The First Glow", finalFood: 0, averageTrust: 0, villagers: 0, dilemmasResolved: 0, latestDilemma: null, firstGlow: { sourceCharge: state.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0), communalCharge: state.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0), carriedCharge: sparks.reduce((total, spark) => total + spark.carriedCharge, 0), chargeDeficit: sparks.reduce((total, spark) => total + spark.chargeDeficit, 0), sparks: sparks.length } }; }
 app.get("/api/report", async () => { const timeline = currentTimeline(); const counts = database.prepare("SELECT (SELECT COUNT(*) FROM timeline_checkpoints WHERE timeline_id = ?) AS checkpoints, (SELECT COUNT(*) FROM timeline_events WHERE timeline_id = ?) AS events, (SELECT COUNT(*) FROM timeline_interpretations WHERE timeline_id = ?) AS interpretations").get(activeTimelineId, activeTimelineId, activeTimelineId) as { checkpoints: number; events: number; interpretations: number }; return { timeline, pulse: state.pulse, schedulerPaused, pulseIntervalMs, databaseBytes: existsSync(databasePath) ? statSync(databasePath).size : 0, socialMode, socialBudgetCents, fallbackCount: counts.interpretations, summary: reportSummary(), ...counts }; });
 app.post("/api/scheduler", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { paused?: unknown; intervalMs?: unknown } | undefined; if (body?.paused !== undefined && typeof body.paused !== "boolean") return reply.code(400).send({ error: "paused must be a boolean" }); if (body?.intervalMs !== undefined && (!Number.isInteger(body.intervalMs) || Number(body.intervalMs) < 250 || Number(body.intervalMs) > 300000)) return reply.code(400).send({ error: "intervalMs must be an integer between 250 and 300000" }); if (typeof body?.intervalMs === "number") pulseIntervalMs = body.intervalMs; if (typeof body?.paused === "boolean") schedulerPaused = body.paused; restartScheduler(); return { schedulerPaused, pulseIntervalMs }; });
-app.post("/api/owner/world/object", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { settlementId?: unknown; objectId?: unknown; blocked?: unknown; idempotencyKey?: unknown } | undefined; if (typeof body?.objectId !== "string" || typeof body.blocked !== "boolean" || typeof body.idempotencyKey !== "string" || body.idempotencyKey.length === 0) return reply.code(400).send({ error: "settlementId, objectId, blocked, and idempotencyKey are required" }); const settlementId = typeof body.settlementId === "string" ? body.settlementId : HOME_SETTLEMENT.id; const existing = database.prepare("SELECT id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json FROM pending_commands WHERE timeline_id = ? AND idempotency_key = ?").get(activeTimelineId, body.idempotencyKey) as PendingBlockCommand | undefined; if (existing) return reply.code(existing.status === "rejected" ? 409 : 202).send(existing.result_json ? JSON.parse(existing.result_json) : { commandId: existing.id, effectivePulse: existing.target_pulse, status: existing.status }); try { const objectExists = state.firstGlowState.settlements.some(settlement => settlement.bundle.objects.some(object => object.id === body.objectId)); if (!objectExists) return reply.code(400).send({ error: `unknown world object: ${body.objectId}` }); if (!(state.settlements ?? []).some(settlement => settlement.id === settlementId)) return reply.code(400).send({ error: `unknown settlement: ${settlementId}` }); const occupied = body.blocked ? occupiedActorIds(body.objectId) : []; if (occupied.length) return reply.code(409).send({ error: "blocking would cover occupied cells", actorIds: occupied }); const id = `command-${randomUUID()}`; const ordering = Number((database.prepare("SELECT COALESCE(MAX(ordering), 0) AS ordering FROM pending_commands WHERE timeline_id = ?").get(activeTimelineId) as { ordering: number }).ordering) + 1; const targetPulse = state.pulse + 1; const result = { commandId: id, effectivePulse: targetPulse, status: "pending", objectId: body.objectId, blocked: body.blocked, idempotencyKey: body.idempotencyKey }; database.prepare("INSERT INTO pending_commands (id, timeline_id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)").run(id, activeTimelineId, ordering, targetPulse, settlementId, body.objectId, body.blocked ? 1 : 0, body.idempotencyKey, JSON.stringify(result), new Date().toISOString()); return reply.code(202).send(result); } catch (error) { return reply.code(400).send({ error: error instanceof Error ? error.message : "invalid world object command" }); } });
+app.post("/api/owner/world/object", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { settlementId?: unknown; objectId?: unknown; blocked?: unknown; idempotencyKey?: unknown } | undefined; if (typeof body?.objectId !== "string" || typeof body.blocked !== "boolean" || typeof body.idempotencyKey !== "string" || body.idempotencyKey.length === 0) return reply.code(400).send({ error: "settlementId, objectId, blocked, and idempotencyKey are required" }); const settlementId = typeof body.settlementId === "string" ? body.settlementId : HOME_SETTLEMENT.id; const existing = database.prepare("SELECT id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json FROM pending_commands WHERE timeline_id = ? AND idempotency_key = ?").get(activeTimelineId, body.idempotencyKey) as PendingBlockCommand | undefined; if (existing) return reply.code(existing.status === "rejected" ? 409 : 202).send(existing.result_json ? JSON.parse(existing.result_json) : { commandId: existing.id, effectivePulse: existing.target_pulse, status: existing.status }); try { const objectExists = state.firstGlowState.settlements.some(settlement => settlement.bundle.objects.some(object => object.id === body.objectId)); if (!objectExists) return reply.code(400).send({ error: `unknown world object: ${body.objectId}` }); if (!state.firstGlowState.settlements.some(settlement => settlement.id === settlementId)) return reply.code(400).send({ error: `unknown settlement: ${settlementId}` }); const occupied = body.blocked ? occupiedActorIds(body.objectId) : []; if (occupied.length) return reply.code(409).send({ error: "blocking would cover occupied cells", actorIds: occupied }); const id = `command-${randomUUID()}`; const ordering = Number((database.prepare("SELECT COALESCE(MAX(ordering), 0) AS ordering FROM pending_commands WHERE timeline_id = ?").get(activeTimelineId) as { ordering: number }).ordering) + 1; const targetPulse = state.pulse + 1; const result = { commandId: id, effectivePulse: targetPulse, status: "pending", objectId: body.objectId, blocked: body.blocked, idempotencyKey: body.idempotencyKey }; database.prepare("INSERT INTO pending_commands (id, timeline_id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)").run(id, activeTimelineId, ordering, targetPulse, settlementId, body.objectId, body.blocked ? 1 : 0, body.idempotencyKey, JSON.stringify(result), new Date().toISOString()); return reply.code(202).send(result); } catch (error) { return reply.code(400).send({ error: error instanceof Error ? error.message : "invalid world object command" }); } });
 app.post("/api/owner/resonance-choice", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
   const body = request.body as { anchorId?: unknown; actorSparkId?: unknown; beneficiarySparkId?: unknown; choice?: unknown; evidenceEventIds?: unknown } | undefined;
@@ -350,13 +334,13 @@ app.post("/api/owner/resonance-anchor", async (request, reply) => {
 
 async function commitPulseExclusive(): Promise<{ state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null> {
   if (state.pulse >= seasonPulseLimit || currentTimeline().status !== "active") return null;
-  const pending = state.firstGlowState ? applyFirstGlowPendingCommands(state, state.pulse + 1) : applyPendingCommands(state, state.pulse + 1);
+  const pending = applyFirstGlowPendingCommands(state, state.pulse + 1);
   const advanced = advanceWorld(pending.state);
   let result = { ...advanced, events: [...pending.events, ...advanced.events].map(event => ({ ...event, pulse: advanced.state.pulse })) };
   database.exec("BEGIN IMMEDIATE");
   try {
     if (advanced.state.firstGlowState) {
-      const previousIds = new Set(pending.state.firstGlowState.events.map(event => event.id));
+      const previousIds = new Set(pending.state.firstGlowState.events.map((event) => event.id));
       const committedStructuredEvents = advanced.state.firstGlowState.events.filter(event => !previousIds.has(event.id));
       const evaluated = await aiRuntime.evaluate(advanced.state.firstGlowState, committedStructuredEvents);
       if (evaluated.interpretations.length) {
@@ -372,7 +356,7 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     const insertEvent = database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)");
     for (const event of result.events) insertEvent.run(activeTimelineId, event.id, event.pulse, JSON.stringify(event));
     const updateCommand = database.prepare("UPDATE pending_commands SET status = ?, result_json = ? WHERE id = ? AND status = 'pending'");
-    for (const command of pending.commands) { const rejected = pending.events.some(event => event.id === `event-${result.state.pulse}-command-${command.id}` && event.message.includes("could not")); updateCommand.run(rejected ? "rejected" : "applied", JSON.stringify({ commandId: command.id, effectivePulse: result.state.pulse, status: rejected ? "rejected" : "applied", objectId: command.object_id, blocked: Boolean(command.blocked), idempotencyKey: command.idempotency_key }), command.id); }
+    for (const command of pending.commands) { const rejected = pending.events.some((event) => event.id === `event-${result.state.pulse}-command-${command.id}` && event.message.includes("could not")); updateCommand.run(rejected ? "rejected" : "applied", JSON.stringify({ commandId: command.id, effectivePulse: result.state.pulse, status: rejected ? "rejected" : "applied", objectId: command.object_id, blocked: Boolean(command.blocked), idempotencyKey: command.idempotency_key }), command.id); }
     const insertInterpretation = database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, pulse, interpretation_json) VALUES (?, ?, ?, ?)");
     for (const interpretation of result.interpretations) insertInterpretation.run(activeTimelineId, interpretation.id, interpretation.pulse, JSON.stringify(interpretation));
     database.exec("COMMIT");
