@@ -138,6 +138,8 @@ The server commits a pulse inside a SQLite transaction. It calculates the next e
 
 The scheduler can be paused, resumed, or assigned a bounded interval. Manual pulseing uses the same commit path as scheduled pulseing.
 
+All state-changing owner requests use the server writer gate, including scheduler changes, pending world-object commands, resonance mutations, archive/continue, branch, and reset operations. Scheduled bundle-inclusive backups acquire the same gate, and pulses queue through it as well. The gate is the single-instance serialization boundary: a writer must finish before another writer or backup snapshot can begin, and failed transactions release the gate without publishing in-memory state. Future owner routes that write SQLite or authoritative state must use this boundary rather than opening a competing transaction.
+
 ### Persistence model
 
 The current database stores:
