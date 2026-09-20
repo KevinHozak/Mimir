@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-20",
+  "protocol": {
+    "seeds": [
+      2,
+      4,
+      8
+    ],
+    "matchedInputs": true,
+    "fixedDimensions": [
+      "call-frequency",
+      "memory",
+      "planning-horizon",
+      "expression-limit"
+    ],
+    "variedDimension": "model-capability",
+    "arms": [
+      "rules-only",
+      "diagnostic stronger-model fixture"
+    ],
+    "liveProvider": false,
+    "humanReview": "pending"
+  },
+  "policies": {
+    "baseline": {
+      "version": "age-model-policy-v1",
+      "status": "active",
+      "worldAge": {
+        "id": "first-glow",
+        "ordinal": 1
+      },
+      "model": {
+        "provider": "rules",
+        "model": "rules-only",
+        "version": "deterministic-v1"
+      },
+      "callFrequency": {
+        "perSparkDailyLimit": 4,
+        "globalDailyLimit": 16
+      },
+      "memory": {
+        "maxMemories": 8,
+        "maxEvents": 12
+      },
+      "planning": {
+        "maxSteps": 1
+      },
+      "expression": {
+        "maxSummaryChars": 240,
+        "maxOutputTokens": 128
+      },
+      "naturalHeroGeneration": "disabled"
+    },
+    "diagnostic": {
+      "version": "age-model-policy-v1",
+      "status": "diagnostic",
+      "worldAge": {
+        "id": "first-glow",
+        "ordinal": 1
+      },
+      "model": {
+        "provider": "local-fake",
+        "model": "stronger-fixture",
+        "version": "fixture-v1"
+      },
+      "callFrequency": {
+        "perSparkDailyLimit": 4,
+        "globalDailyLimit": 16
+      },
+      "memory": {
+        "maxMemories": 8,
+        "maxEvents": 12
+      },
+      "planning": {
+        "maxSteps": 1
+      },
+      "expression": {
+        "maxSummaryChars": 240,
+        "maxOutputTokens": 128
+      },
+      "naturalHeroGeneration": "disabled"
+    }
+  },
+  "runs": [
+    {
+      "seed": 2,
+      "matched": true,
+      "rulesChoice": "make-mark-public",
+      "diagnosticChoice": "keep-mark-private",
+      "diagnosticSource": "rules",
+      "replayProviderFree": true,
+      "costCents": 0
+    },
+    {
+      "seed": 4,
+      "matched": true,
+      "rulesChoice": "make-mark-public",
+      "diagnosticChoice": "make-mark-public",
+      "diagnosticSource": "rules",
+      "replayProviderFree": true,
+      "costCents": 0
+    },
+    {
+      "seed": 8,
+      "matched": true,
+      "rulesChoice": "keep-mark-private",
+      "diagnosticChoice": "make-mark-public",
+      "diagnosticSource": "rules",
+      "replayProviderFree": true,
+      "costCents": 0
+    }
+  ],
+  "acceptance": {
+    "protocolPredatesOutputs": true,
+    "matchedInputs": true,
+    "accountingComplete": true,
+    "replayProviderFree": true,
+    "benefitGate": "not-assessed-with-offline-fixture",
+    "automaticUpgrade": false,
+    "firstGlowDefaultUnchanged": true
+  },
+  "conclusion": "defer-live-benefit-claim-and-model-rollout"
+}

@@ -137,6 +137,8 @@ The historical viewer reads these persisted records. It never asks Gemini to rec
 
 The local offline hybrid loop and its 20-encounter fake-provider harness prove adapter boundaries, attention gating, fallback recording, and replay suppression, not real-model effectiveness. A future evaluation should compare matched rules-only and Flash-Lite runs across a larger, blinded sample.
 
+Lives-P6 adds a bounded offline comparison contract in [`evidence/first-glow-lives-p6-comparison-2026-09-20.md`](evidence/first-glow-lives-p6-comparison-2026-09-20.md). The comparison varies model capability only while holding call frequency, memory, planning horizon, and expression limits constant. Its deterministic fixture passes matched-input, accounting, and replay checks but does not establish model benefit. Live provider evidence and independent human review remain pending, so First Glow defaults are unchanged.
+
 Measure:
 
 - evidence-grounded observer understanding;

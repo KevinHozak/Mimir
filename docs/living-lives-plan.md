@@ -182,6 +182,8 @@ Avoid manually injecting the social choices being evaluated. Declared environmen
 
 **Dependency:** Lives-P5 findings. This phase prepares future age progression; it does not itself activate Hearth Circuit, natural Heroes, or an automatic model-upgrade path.
 
+The delivered offline readiness artifact is [`first-glow-lives-p6-comparison-2026-09-20.md`](evidence/first-glow-lives-p6-comparison-2026-09-20.md). It deliberately defers the benefit claim because the P5 report still requires authorized live-model evidence and independent human review.
+
 ## 8. Validation questions and measurements
 
 Review both simulation effects and the observer experience. Compare the same initial conditions across rules-only and bounded AI arms, recognizing that fresh provider outputs need not repeat. Use blinded review where practical and keep model identity separate from story-quality ratings.
