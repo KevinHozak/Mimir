@@ -6,7 +6,7 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Current delivery position
 
-Reconciled on 2026-09-15 against merged `main` at `b646770` and GitHub issue state. The issue search returned no open issues; no new implementation phase is selected here. Completed AI-P1 through AI-P20, RC-P1 through RC-P5, Resonance, and hosted work belong in the [Changelog](changelog.md), with their dated evidence and limits.
+Reconciled on 2026-09-20 against merged `main` and GitHub issue state. The Security: Harden the First Glow writer epic ([#218](https://github.com/KevinHozak/Mimir/issues/218)) is complete through [PR #226](https://github.com/KevinHozak/Mimir/pull/226), [PR #227](https://github.com/KevinHozak/Mimir/pull/227), [PR #235](https://github.com/KevinHozak/Mimir/pull/235), [PR #236](https://github.com/KevinHozak/Mimir/pull/236), [PR #237](https://github.com/KevinHozak/Mimir/pull/237), [PR #238](https://github.com/KevinHozak/Mimir/pull/238), and [PR #239](https://github.com/KevinHozak/Mimir/pull/239). Completed AI-P1 through AI-P20, RC-P1 through RC-P5, Resonance, hosted work, and writer hardening belong in the [Changelog](changelog.md), with their dated evidence and limits.
 
 The implemented AI path is an explicitly gated internal Vertex pilot with rules-only defaults, deterministic server authority, and provider-free replay. The original AI-P1 deferral was followed by authorized bounded evaluations and implementation; it is not the current delivery queue. The selected First Glow capacity is world-age RC 1 with explicit test Heroes at RC 2; natural Hero generation remains disabled. See the [AI plan](ai-plan.md), [Reflection capacity plan](reflection-capacity-plan.md), and [bounded rollout runbook](ai-p14-rollout-runbook.md).
 
@@ -14,7 +14,13 @@ The implemented AI path is an explicitly gated internal Vertex pilot with rules-
 
 The [Living Lives design and phased plan](living-lives-plan.md) records the active epic [#228](https://github.com/KevinHozak/Mimir/issues/228): AI-influenced lives presented through connected World, Follow a Spark, and Chronicle views. The six phase issues are now tracked as [#229](https://github.com/KevinHozak/Mimir/issues/229) through [#234](https://github.com/KevinHozak/Mimir/issues/234). Lives-P1 is a documentation contract in [lives-experience-contract.md](lives-experience-contract.md); it does not claim runtime delivery.
 
-Experience design and camera prototypes can proceed alongside writer hardening. Sustained live AI and durable conversation/history work depend on the relevant [writer reliability fixes](reliability-security-maintenance-review.md); provider execution and wider hosted access retain their separate gates. P2 uses fixtures, P3 depends on the relevant merged writer fixes, P5 requires the Security epic checks, and P6 follows P5 evidence. First Glow remains the only supported runtime.
+Experience design and camera prototypes can proceed alongside the completed writer hardening. Living Lives phases that depended on writer checks can use the merged Security-P1–P7 evidence; provider execution and wider hosted access retain their separate gates. First Glow remains the only supported runtime.
+
+## Writer-hardening closeout
+
+The First Glow server remains a single authoritative SQLite writer, with serialized pulse/backup operations, fail-closed owner authentication for hosted and public binds, append-only committed history, and provider-free replay. The original review is preserved as historical evidence in the [reliability/security review](reliability-security-maintenance-review.md), with the dated post-merge status and implementation links there.
+
+The remaining gates are operational rather than unresolved hardening code: fresh deployment validation, the remaining observer-token and authenticated-SSE cases, bridge process restart, outage replay, real audience/billing telemetry, and isolated recovery evidence. This closeout does not widen hosted access, enable a provider, or change the single-writer persistence boundary.
 
 ## Gates before widening hosted access
 

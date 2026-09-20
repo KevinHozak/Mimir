@@ -4,11 +4,27 @@
 **Scope:** Whole-project review of current First Glow code and hosted configuration, not a branch diff and not a claim that findings are fixed.\
 **Evidence:** `packages/server/src/index.ts`, `state.ts`, `backup-lib.ts`, `observer-auth.ts`, `scripts/observer-bridge.mjs`, `render.yaml`, `.github/workflows/ci.yml`, observer UI, and related tests. Line numbers refer to that snapshot and will drift.
 
-This is a risk ranking, not a delivery record. Completed hosted and AI gates remain in the [Changelog](changelog.md) and [hosted observer runbook](hosted-observer-runbook.md). Architecture and API claims still need verification against code; this review found at least one documented route that is not present on the writer.
+This is a historical risk ranking, not a current delivery record. Completed hosted and AI gates remain in the [Changelog](changelog.md) and [hosted observer runbook](hosted-observer-runbook.md). Architecture and API claims still need verification against code; this review found at least one documented route that was not present on the writer at the time.
+
+## Post-merge hardening status (2026-09-20)
+
+The Security: Harden the First Glow writer epic ([#218](https://github.com/KevinHozak/Mimir/issues/218)) is complete. The merged phase evidence closes the seven code findings above:
+
+- Security-P1 serialized committed pulses and made the scheduler await and catch failures ([PR #226](https://github.com/KevinHozak/Mimir/pull/226)).
+- Security-P2 requires `OWNER_TOKEN` for `SERVE_WEB`, hosted starts, and non-loopback binds; only explicit loopback development may remain tokenless ([PR #227](https://github.com/KevinHozak/Mimir/pull/227)).
+- Security-P3 made bundle-inclusive backups share the writer gate and use a pulse-safe SQLite snapshot ([PR #235](https://github.com/KevinHozak/Mimir/pull/235)).
+- Security-P4 removed unsupported legacy reset routes while retaining reset-v3 ([PR #236](https://github.com/KevinHozak/Mimir/pull/236)).
+- Security-P5 preserved resonance choices as new committed history rather than rewriting a checkpoint ([PR #237](https://github.com/KevinHozak/Mimir/pull/237)).
+- Security-P6 removed the server entry point's `@ts-nocheck` boundary ([PR #238](https://github.com/KevinHozak/Mimir/pull/238)).
+- Security-P7 reconciled `/api/reflection` and added the previously omitted checks to CI ([PR #239](https://github.com/KevinHozak/Mimir/pull/239)).
+
+These merges close the review's identified writer-code findings. They do not establish a new deployment, wider hosted access, or complete operational recovery confidence. Expired/wrong-project/unapproved observer-token cases, authenticated SSE refresh/reconnect/closure, bridge process restart, outage replay, real audience/billing telemetry, and fresh isolated recovery evidence remain separately unverified as of this status date. First Glow remains the only supported runtime, the server remains the sole SQLite writer, and historical replay remains provider-free.
 
 **Address first:** serialize pulses, fail closed on a missing `OWNER_TOKEN` when the process is publicly bindable, and stop copying a live SQLite file as the backup.
 
 The Firebase Hosting / Cloud Run bridge is a strong public gate. Remaining risk concentrates on the **single SQLite writer**: one Fastify entry file, fail-open owner auth, overlapping pulses, and backups that can race the scheduler.
+
+The ranked findings and recommendations below are preserved from the 2026-09-15 review snapshot. The dated status above is the current disposition; do not read the historical wording as an assertion that these code findings remain unresolved.
 
 ## Ranked findings
 
