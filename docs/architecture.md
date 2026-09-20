@@ -5,6 +5,8 @@ Status: Current implementation reference for the local and single-instance hoste
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
 
+The First Glow observer's follow mode is browser-local presentation state. Its selected Spark, live/history view, camera tracking, presentation style, and recovery state are derived from committed snapshots and history responses. Following, manual camera movement, and returning to World never call owner routes, advance the scheduler, allocate reflection capacity, invoke a provider, or write canonical history. Historical follow views retain the timeline and pulse identity supplied by the server, while unavailable Spark/checkpoint states remain explicit rather than being invented.
+
 ## 1. System overview
 
 Mimir is a single-authoritative-server simulation with a browser observer client:

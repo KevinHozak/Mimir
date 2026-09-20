@@ -54,6 +54,17 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
   .first-glow .village-zoom { width: 100%; }
 }
 
+.follow-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0; padding: 10px 12px; border: 1px solid #5e9fba; border-radius: 8px; background: #101a2a; color: #edf7ff; }
+.follow-controls strong, .follow-controls small { display: block; }
+.follow-controls small { margin-top: 4px; color: #a9bfd4; }
+.follow-control-actions { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+.follow-control-actions button, .follow-spark-action { min-height: 36px; padding: 7px 11px; border: 1px solid #5e9fba; border-radius: 6px; background: #15283d; color: #edf7ff; cursor: pointer; }
+.follow-control-actions button:disabled { cursor: not-allowed; opacity: .55; }
+.spark-intention { margin-top: 12px; padding: 10px; border-left: 2px solid #8addf2; background: #0b1523; }
+.spark-intention small { display: block; margin-top: 5px; color: #a9bfd4; }
+.first-glow[data-follow-view="follow"][data-follow-presentation="immersive"] .first-glow-explanations, .first-glow[data-follow-view="follow"][data-follow-presentation="immersive"] .reflection-observer { display: none; }
+@media (max-width: 700px) { .follow-controls { align-items: stretch; flex-direction: column; } .follow-control-actions { justify-content: stretch; } .follow-control-actions button { flex: 1 1 30%; } }
+
 .history-entry-float { position: fixed; right: 18px; bottom: 18px; z-index: 20; padding: 9px 12px; color: #d9f6ff; background: #15283d; border: 1px solid #5e9fba; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 18px #0008; }
 .history-viewer { min-height: 100vh; padding: 36px max(20px, 6vw); background: #050912; color: #edf7ff; }
 .history-viewer header { display: flex; justify-content: space-between; align-items: start; gap: 24px; max-width: 1100px; margin: 0 auto 28px; }

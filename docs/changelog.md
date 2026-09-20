@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-09-20 — Lives-P2 follow mode
+
+- Added a browser-local World/Follow presentation path for First Glow Sparks. A viewer can follow a selected Spark through committed movement and rest updates, inspect its recorded intention and encounter records, switch between immersive and explanatory presentation, manually pan or zoom, resume tracking, and return to World view.
+- Preserved the selected Spark across live updates and history requests, with explicit unavailable-checkpoint recovery text and Return to Live behavior. Follow camera actions remain read-only and do not schedule pulses, reflections, provider calls, or world mutations.
+- Added focused navigation and missing-target regression coverage. Full Playwright visual verification remains environment-limited in this worktree because the browser harness hung after the isolated services started.
+
 ## 2026-09-20 — First Glow writer-hardening closeout
 
 - Completed the Security: Harden the First Glow writer epic ([issue #218](https://github.com/KevinHozak/Mimir/issues/218)). The server now serializes pulses and bundle-inclusive backups, fails closed on missing owner tokens for hosted/public binds, rejects unsupported legacy resets, preserves resonance history, uses a typed writer entry point, and serves the reconciled reflection contract with CI coverage.
