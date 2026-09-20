@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-09-20 — First Glow writer-hardening closeout
+
+- Completed the Security: Harden the First Glow writer epic ([issue #218](https://github.com/KevinHozak/Mimir/issues/218)). The server now serializes pulses and bundle-inclusive backups, fails closed on missing owner tokens for hosted/public binds, rejects unsupported legacy resets, preserves resonance history, uses a typed writer entry point, and serves the reconciled reflection contract with CI coverage.
+- Delivery evidence: [PR #226](https://github.com/KevinHozak/Mimir/pull/226), [PR #227](https://github.com/KevinHozak/Mimir/pull/227), [PR #235](https://github.com/KevinHozak/Mimir/pull/235), [PR #236](https://github.com/KevinHozak/Mimir/pull/236), [PR #237](https://github.com/KevinHozak/Mimir/pull/237), [PR #238](https://github.com/KevinHozak/Mimir/pull/238), and [PR #239](https://github.com/KevinHozak/Mimir/pull/239).
+- The original 2026-09-15 reliability/security review remains historical evidence. Deployment, audience, SSE, bridge-restart, outage-replay, billing, and isolated-recovery validation gaps remain explicit and are not represented as fixed by this code closeout.
+
 ## 2026-09-13 through 2026-09-15 — Authenticated hosted observation
 
 - Delivered Google-authenticated live observation through Firebase Hosting and the Cloud Run bridge to the private single-writer VM. Hosted API reads use the page origin; owner controls and mutation routes stay outside the hosted surface. Added the local light mark, loading animation, and refined observer/audio controls.
