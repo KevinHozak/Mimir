@@ -65,7 +65,7 @@ async function createScheduledBackup(reason: string) {
   const destination = join(backupDirectory, `mimir-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
   if (!existsSync(databasePath)) return;
   try {
-    const manifest = await pulseGate.run(async () => createBundleInclusiveBackup(databasePath, destination, worldBundleRoot));
+    const manifest = await pulseGate.runExclusive(async () => createBundleInclusiveBackup(databasePath, destination, worldBundleRoot));
     app.log.info({ destination, bundleHashes: manifest.bundleHashes }, "scheduled bundle-inclusive backup created");
     if (backupReplicationUri) {
       if (backupReplicationInFlight) { app.log.warn("skipping scheduled backup replication because the previous upload is still running"); return; }
@@ -135,6 +135,14 @@ database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_time
 const liveClients = new Set<ServerResponse>();
 const app = Fastify({ logger: true });
 await app.register(cors, { origin: process.env.OBSERVER_ORIGIN?.trim() || false });
+const writerReleases = new WeakMap<object, () => void>();
+function releaseWriter(request: FastifyRequest): void { writerReleases.get(request)?.(); writerReleases.delete(request); }
+app.addHook("onRequest", async (request) => {
+  const path = (request.url ?? "").split("?", 1)[0];
+  if (request.method === "POST" && (path === "/api/scheduler" || path.startsWith("/api/owner/"))) writerReleases.set(request, await pulseGate.acquireExclusive());
+});
+app.addHook("onResponse", async (request) => { releaseWriter(request); });
+app.addHook("onError", async (request) => { releaseWriter(request); });
 function requireOwner(request: FastifyRequest, reply: FastifyReply): boolean { const loopbackWithoutToken = !ownerToken && !ownerAuthRequired(host, serveWeb, hostedStart); if (loopbackWithoutToken || hasValidOwnerToken(ownerToken, request.headers["x-owner-token"])) return true; reply.code(401).send({ error: "owner authorization required" }); return false; }
 async function requireObserver(request: FastifyRequest, reply: FastifyReply): Promise<boolean> { if (!observerAuthRequired) return true; if (await verifyObserverToken(request.headers.authorization)) return true; reply.code(401).send({ error: "approved Google account required" }); return false; }
 app.addHook("onRequest", async (request, reply) => { const path = (request.url ?? "").split("?", 1)[0]; if (observerAuthRequired && path.startsWith("/api/") && !path.startsWith("/api/owner/") && !(await requireObserver(request, reply))) return reply; });
@@ -367,7 +375,7 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
   for (const client of liveClients) { if (!client.destroyed) client.write(message); else liveClients.delete(client); }
   return result;
 }
-async function commitPulse() { return pulseGate.run(() => commitPulseExclusive()); }
+async function commitPulse() { return pulseGate.runExclusive(() => commitPulseExclusive()); }
 app.post("/api/pulse", async (request, reply) => { if (!requireOwner(request, reply)) return; try { const result = await commitPulse(); if (!result) return reply.code(409).send({ error: "timeline is archived or season boundary reached", state }); return result; } catch (error) { if (error instanceof PulseInFlightError) return reply.code(409).send({ error: error.message, state }); throw error; } });
 app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), activeTimelineId); schedulerPaused = true; return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/continue", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'active', archived_at = NULL WHERE id = ?").run(activeTimelineId); return { timeline: currentTimeline(), schedulerPaused }; });
