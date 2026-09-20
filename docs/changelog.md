@@ -2,6 +2,13 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-09-20 — Lives-P4 evidence-linked Chronicle baseline
+
+- Added immutable, versioned Chronicle editions with moment, personal, and season chapters derived from committed First Glow records at an explicit timeline/pulse cutoff. Each chapter carries a source snapshot hash, evidence references, selected Sparks, narrator provenance, and historical-scene illustration provenance.
+- Added deterministic evidence selection and validation. Saved utterance quotes are rendered exactly, future/cross-timeline evidence is rejected, interpretations remain distinct from facts, and missing evidence produces an explicit quiet/unavailable result rather than invented narrative.
+- Added SQLite persistence and read/regenerate routes. Rereading selects the latest saved edition without provider calls or world mutation; explicit owner regeneration creates a new revision and preserves earlier editions. Added local Chronicle navigation, evidence links, and recorded-scene links with responsive reader styling.
+- Verification covers exact quote grounding, unsupported quote rejection, edition revision retention across restart, the existing history sequencing test, and the browser history viewer. No live provider, image generation, spending, or hosted deployment is implied.
+
 ## 2026-09-20 — Lives-P3 bounded conversation foundation
 
 - Added a deterministic, co-present two-turn First Glow conversation record with stable encounter and utterance IDs, pulse, participants, quoted text, witnessed evidence, prompt/context versions, accepted effects, and recipient-memory propagation.

@@ -14,6 +14,8 @@ The implemented AI path is an explicitly gated internal Vertex pilot with rules-
 
 The [Living Lives design and phased plan](living-lives-plan.md) records the active epic [#228](https://github.com/KevinHozak/Mimir/issues/228): AI-influenced lives presented through connected World, Follow a Spark, and Chronicle views. The six phase issues are now tracked as [#229](https://github.com/KevinHozak/Mimir/issues/229) through [#234](https://github.com/KevinHozak/Mimir/issues/234). Lives-P1 is a documentation contract in [lives-experience-contract.md](lives-experience-contract.md); it does not claim runtime delivery.
 
+Lives-P4 now has a deterministic evidence-linked Chronicle baseline: persisted moment, personal, and season editions can be reread without a provider call, exact saved utterances remain linked to their evidence, and historical scene links preserve timeline/pulse identity. Provider narration, generated illustration, independent reviewer evaluation, and hosted publication remain separate gates.
+
 Experience design and camera prototypes can proceed alongside the completed writer hardening. Living Lives phases that depended on writer checks can use the merged Security-P1–P7 evidence; provider execution and wider hosted access retain their separate gates. First Glow remains the only supported runtime.
 
 ## Writer-hardening closeout

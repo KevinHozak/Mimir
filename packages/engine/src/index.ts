@@ -19,6 +19,7 @@ export * from "./first-glow-fake-provider.js";
 export * from "./first-glow-gemini-provider.js";
 export * from "./first-glow-history.js";
 export * from "./first-glow-conversations.js";
+export * from "./chronicle.js";
 export * from "./first-glow-observer.js";
 export * from "./first-glow-staging-effects.js";
 export * from "./first-glow-hybrid-runtime.js";
