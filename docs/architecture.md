@@ -283,7 +283,7 @@ Implemented boundaries:
 - Shared world-data contracts used by simulation and rendering.
 - Capability-filtered interaction slots, reservations, and arrival-gated First Glow actions.
 - Content-addressed generated bundles with asset manifests and bundle-inclusive backup/restore tooling.
-- Observer reflection capacity is implemented in the engine and rendered when a projection is present. A dedicated `/api/reflection` writer route is documented and fetched by the hosted observer, but was not present on the server at the 2026-09-15 review; see the [reliability, security, and maintenance review](reliability-security-maintenance-review.md).
+- Observer reflection capacity is implemented in the engine and exposed by the replay-safe `/api/reflection` writer projection. The route returns public capacity, schedule, intention, and committed-outcome data plus bounded AI runtime metadata; it never returns private reflection memory or provider prompt material. The hosted observer bridge and UI consume this same contract.
 
 ## AI-P14 bounded rollout
 

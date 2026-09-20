@@ -34,10 +34,20 @@ jobs:
         run: npm run test:state --workspace @mimir/server
       - name: First Glow commands
         run: npm run test:first-glow-commands --workspace @mimir/server
+      - name: First Glow command acceptance
+        run: npm run test:first-glow-command-acceptance --workspace @mimir/server
       - name: First Glow restart
         run: npm run test:first-glow-restart --workspace @mimir/server
       - name: Backup and restore
         run: npm run test:backup-restore --workspace @mimir/server
+      - name: Backup replication
+        run: npm run test:backup-replication --workspace @mimir/server
+      - name: AI runtime contract
+        run: npm run test:ai-runtime --workspace @mimir/server
+      - name: Hosted auth boundary
+        run: npm run test:hosted-auth-boundary --workspace @mimir/web
+      - name: Public archive
+        run: npm run test:public-archive
       - name: Install browser runtime
         run: npx playwright install --with-deps chromium
       - name: Browser integration

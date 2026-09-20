@@ -5,7 +5,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type WorldEvent, type WorldState } from "@mimir/engine";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
@@ -187,6 +187,7 @@ app.get("/health", async () => ({ ok: true, pulse: state.pulse, schedulerPaused,
 app.get("/api/backup/status", async () => currentBackupReplicationStatus());
 app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: socialBudgetCents }));
 app.get("/api/design", async () => ({ themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN }));
+app.get("/api/reflection", async () => ({ projection: projectFirstGlowObserver(state.firstGlowState), runtime: aiRuntime.status(), timelineId: activeTimelineId }));
 app.get("/api/resonance", async () => {
   const fixturePath = resolve(process.cwd(), "docs", "resonance-anchor-fixtures.json");
   if (!existsSync(fixturePath)) return { source: "committed-objective-events", observations: [], currentPulse: state.pulse };
