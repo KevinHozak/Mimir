@@ -54,7 +54,9 @@
     "ai-p19:determinant-review": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && node scripts/first-glow-ai-p19-determinant-review.mjs",
     "ai-p19:determinant-review:test": "node scripts/first-glow-ai-p19-determinant-review.test.mjs",
     "rc-p4:evaluation": "npm run build && node scripts/first-glow-rc-p4-evaluation.mjs",
-    "rc-p4:evaluation:test": "node scripts/first-glow-rc-p4-evaluation.test.mjs"
+    "rc-p4:evaluation:test": "node scripts/first-glow-rc-p4-evaluation.test.mjs",
+    "lives-p5:study": "npm run build && node scripts/first-glow-lives-p5-study.mjs",
+    "lives-p5:study:test": "npm run build && node scripts/first-glow-lives-p5-study.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.5.1",
