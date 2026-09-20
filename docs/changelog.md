@@ -2,6 +2,11 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-09-20 — Lives-P3 bounded conversation foundation
+
+- Added a deterministic, co-present two-turn First Glow conversation record with stable encounter and utterance IDs, pulse, participants, quoted text, witnessed evidence, prompt/context versions, accepted effects, and recipient-memory propagation.
+- Added strict participant/evidence/length validation, duplicate suppression, checkpoint validation, history/API exposure, and focused hidden-evidence and duplicate-turn regression tests. Historical replay remains provider-free and no unrestricted chat or live provider run is enabled.
+
 ## 2026-09-20 — Lives-P2 follow mode
 
 - Added a browser-local World/Follow presentation path for First Glow Sparks. A viewer can follow a selected Spark through committed movement and rest updates, inspect its recorded intention and encounter records, switch between immersive and explanatory presentation, manually pan or zoom, resume tracking, and return to World view.

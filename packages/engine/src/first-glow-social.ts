@@ -63,6 +63,16 @@ export interface FirstGlowSocialState {
   commitments: FirstGlowCommitmentRecord[];
 }
 
+export interface FirstGlowCommunication {
+  id: string;
+  eventId: string;
+  sourceSparkId: string;
+  recipientSparkId: string;
+  claim: string;
+  evidenceEventIds: string[];
+  pulse: number;
+}
+
 export interface FirstGlowDilemmaChoice {
   dilemmaId: "weakening-pool-report" | "shelter-or-trace" | "public-or-private-mark" | "wild-cache-risk";
   alternativeId: string;
@@ -145,6 +155,17 @@ export function canFirstGlowActOnEvent(state: FirstGlowSocialState, sparkId: str
   const knowledge = knowledgeFor(state, sparkId);
   if (hasWitnessed(knowledge, eventId)) return true;
   return knowledge.communicatedClaims.some(claim => claim.eventId === eventId && claim.evidenceEventIds.includes(eventId) && trustFor(state, claim.sourceSparkId, sparkId).value >= FIRST_GLOW_CREDIBLE_TRUST_THRESHOLD);
+}
+
+export function recordFirstGlowCommunication(state: FirstGlowSocialState, communication: FirstGlowCommunication): void {
+  const source = knowledgeFor(state, communication.sourceSparkId);
+  const recipient = knowledgeFor(state, communication.recipientSparkId);
+  if (communication.sourceSparkId === communication.recipientSparkId || !Number.isInteger(communication.pulse) || communication.pulse < 0 || !communication.claim.trim() || communication.claim.length > 240) throw new Error("invalid First Glow communication");
+  const evidenceEventIds = sortedUnique(communication.evidenceEventIds);
+  if (!evidenceEventIds.length || !evidenceEventIds.every(eventId => source.witnessedFacts.some(fact => fact.eventId === eventId))) throw new Error("communication references unwitnessed evidence");
+  if (recipient.communicatedClaims.some(claim => claim.id === communication.id)) return;
+  recipient.communicatedClaims.push({ id: communication.id, eventId: communication.eventId, sourceSparkId: communication.sourceSparkId, recipientSparkId: communication.recipientSparkId, claim: communication.claim, evidenceEventIds, communicatedPulse: communication.pulse });
+  recipient.communicatedClaims.sort((a, b) => a.communicatedPulse - b.communicatedPulse || compare(a.id, b.id));
 }
 
 function updateTrust(state: FirstGlowSocialState, sourceSparkId: string, targetSparkId: string, delta: number, evidenceEventIds: string[], pulse: number): void {

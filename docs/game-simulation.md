@@ -22,6 +22,8 @@ The game loop is:
 
 The important distinction is between the world and the observer. The world proceeds according to its rules even when the browser is only watching. The browser can animate and explain the result, but it is not allowed to invent or commit simulation outcomes.
 
+In the active First Glow runtime, a co-present meeting may produce one bounded recorded exchange. The exchange uses only the meeting event witnessed by both Sparks, can add a communicated claim to the recipient's later local memory, and is saved with the checkpoint/history record. It is not unrestricted dialogue, does not reveal hidden or future facts, and is replayed from saved data without a provider call.
+
 ## The world model
 
 The engine's top-level `WorldState` contains:
