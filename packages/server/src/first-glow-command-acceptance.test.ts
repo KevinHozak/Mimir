@@ -28,6 +28,8 @@ const json = (value: unknown) => JSON.stringify(value);
 try {
   let output = start(); await waitFor(output);
   let response = await request("/api/owner/reset-v3", { method: "POST", headers: { "content-type": "application/json" }, body: json({ bundleHash: hash, seed: 71, sparkCount: 1 }) }); assert.equal(response.status, 200);
+  const reflection = await (await request("/api/reflection")).json() as { projection?: { worldAge?: string; sparks?: Array<Record<string, unknown>> }; runtime?: { historicalPlaybackUsesAI?: boolean } };
+  assert.equal(reflection.projection?.worldAge, "first-glow"); assert.equal(reflection.projection?.sparks?.length, 1); assert.equal(reflection.runtime?.historicalPlaybackUsesAI, false); assert.equal("reflectionMemory" in (reflection.projection?.sparks?.[0] ?? {}), false);
   const first = { settlementId: "first-glow-region", objectId: "tiled-101", blocked: true, idempotencyKey: "ordered-first" };
   const second = { settlementId: "first-glow-region", objectId: "tiled-102", blocked: true, idempotencyKey: "ordered-second" };
   const firstQueued = await request("/api/owner/world/object", { method: "POST", headers: { "content-type": "application/json" }, body: json(first) }); assert.equal(firstQueued.status, 202); const firstResult = await firstQueued.json() as { commandId: string; status: string };
