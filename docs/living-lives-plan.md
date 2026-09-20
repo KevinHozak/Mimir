@@ -4,7 +4,7 @@
 
 **Proposed epic:** Living Lives — follow an AI-influenced society from everyday moments to remembered history.
 
-Related references: [Roadmap](roadmap.md), [Incubator](incubator.md), [World Theme](world-theme.md), [AI plan](ai-plan.md), [Reflection capacity](reflection-capacity-plan.md), [Architecture](architecture.md), and [writer reliability review](reliability-security-maintenance-review.md).
+Related references: [Roadmap](roadmap.md), [Incubator](incubator.md), [World Theme](world-theme.md), [AI plan](ai-plan.md), [Reflection capacity](reflection-capacity-plan.md), [Architecture](architecture.md), [writer reliability review](reliability-security-maintenance-review.md), and the [Lives-P1 connected experience contract](lives-experience-contract.md).
 
 ## 1. Purpose and intended experience
 
@@ -130,11 +130,11 @@ Reading a chapter must not consume Mira's reflection allowance. Stronger narrati
 
 ## 7. Proposed Lives phases
 
-These phases are candidates for a GitHub epic, not existing issue assignments. Use the `Lives-P<number>: <outcome>` naming pattern if promoted. Preserve the Security workstream's existing scope and dependencies.
+These phases are tracked under the [Living Lives epic #228](https://github.com/KevinHozak/Mimir/issues/228) as issues #229 through #234. The phase issues describe delivery gates, not proof that their runtime behavior exists. Preserve the Security workstream's existing scope and dependencies.
 
-### Lives-P1: Define the connected experience
+### [Lives-P1: Define the connected experience](https://github.com/KevinHozak/Mimir/issues/229)
 
-**Deliver:** a concise interaction contract, rough layouts for World/Follow/Chronicle, and one illustrative encounter shown in all three views. Inventory existing components and integration gaps. Label mock conversations and storyboards as authored examples.
+**Delivered by #229 contract:** a concise interaction contract, rough layouts for World/Follow/Chronicle, and one illustrative encounter shown in all three views. Existing components and integration gaps are inventoried in [the contract](lives-experience-contract.md); mock conversations and storyboards are labeled as authored examples.
 
 **Decide:** camera prototype, live/history navigation, observer visibility, first conversation type, chapter evidence format, and how AI contributes to the first slice.
 

@@ -10,11 +10,11 @@ Reconciled on 2026-09-15 against merged `main` at `b646770` and GitHub issue sta
 
 The implemented AI path is an explicitly gated internal Vertex pilot with rules-only defaults, deterministic server authority, and provider-free replay. The original AI-P1 deferral was followed by authorized bounded evaluations and implementation; it is not the current delivery queue. The selected First Glow capacity is world-age RC 1 with explicit test Heroes at RC 2; natural Hero generation remains disabled. See the [AI plan](ai-plan.md), [Reflection capacity plan](reflection-capacity-plan.md), and [bounded rollout runbook](ai-p14-rollout-runbook.md).
 
-## Proposed next experience workstream: Living Lives
+## Living Lives workstream
 
-The [Living Lives design and phased plan](living-lives-plan.md) records the proposed next experience epic: AI-influenced lives presented through connected World, Follow a Spark, and Chronicle views. It includes six candidate phases, a Mira/Tovan first slice, and evaluation of increasingly capable models across future ages. These are proposals, not delivered features or newly created GitHub issues.
+The [Living Lives design and phased plan](living-lives-plan.md) records the active epic [#228](https://github.com/KevinHozak/Mimir/issues/228): AI-influenced lives presented through connected World, Follow a Spark, and Chronicle views. The six phase issues are now tracked as [#229](https://github.com/KevinHozak/Mimir/issues/229) through [#234](https://github.com/KevinHozak/Mimir/issues/234). Lives-P1 is a documentation contract in [lives-experience-contract.md](lives-experience-contract.md); it does not claim runtime delivery.
 
-Experience design and camera prototypes can proceed alongside writer hardening. Sustained live AI and durable conversation/history work depend on the relevant [writer reliability fixes](reliability-security-maintenance-review.md); provider execution and wider hosted access retain their separate gates. First Glow remains the only supported runtime.
+Experience design and camera prototypes can proceed alongside writer hardening. Sustained live AI and durable conversation/history work depend on the relevant [writer reliability fixes](reliability-security-maintenance-review.md); provider execution and wider hosted access retain their separate gates. P2 uses fixtures, P3 depends on the relevant merged writer fixes, P5 requires the Security epic checks, and P6 follows P5 evidence. First Glow remains the only supported runtime.
 
 ## Gates before widening hosted access
 
