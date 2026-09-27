@@ -19,6 +19,7 @@ The [Living Lives design and phased plan](living-lives-plan.md) records complete
 Lives-P5 completed its six-run offline fake-provider study, but deferred a live-model benefit claim and independent human review. Lives-P6 delivered versioned age/model progression and a matched offline comparison; its diagnostic fixture did not assess benefit. See the [P5 study](evidence/first-glow-lives-p5-study-2026-09-20.md) and [P6 comparison](evidence/first-glow-lives-p6-comparison-2026-09-20.md). Neither phase authorizes new provider calls or changes First Glow defaults.
 
 No new implementation phase is selected. The next decision is whether to authorize a bounded live-model/human-review study or prioritize the remaining hosted operational validation. First Glow remains the only supported runtime.
+
 ## Writer-hardening closeout
 
 The First Glow server remains a single authoritative SQLite writer, with serialized pulse/backup operations, fail-closed owner authentication for hosted and public binds, append-only committed history, and provider-free replay. The original review is preserved as historical evidence in the [reliability/security review](reliability-security-maintenance-review.md), with the dated post-merge status and implementation links there.
