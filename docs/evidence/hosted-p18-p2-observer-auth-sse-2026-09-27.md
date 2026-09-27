@@ -1,6 +1,6 @@
 # Hosted-P18-P2 observer auth and SSE verification — 2026-09-27
 
-Status: **Partial; issue #255 remains open.** This record contains a limited live boundary check and local token-policy coverage. It does not claim the missing live token matrix or full SSE lifecycle has passed.
+Status: **Partial; issue #255 remains open.** This record contains a limited live boundary check, local token-policy coverage, and a synthetic local bridge SSE lifecycle check. It does not claim the missing live token matrix or hosted SSE lifecycle has passed.
 
 ## Setup and safety boundary
 
@@ -35,6 +35,14 @@ These probes did not change simulation state. The visible pulse remained 0 acros
 npm run test:observer-bridge-auth
 ```
 
+`scripts/observer-bridge-sse.test.mjs` runs the bridge and a synthetic upstream on ephemeral loopback ports. It verifies that an unapproved synthetic bearer is rejected before upstream access, an approved synthetic bearer receives an SSE response and initial event, and aborting the client closes the upstream response. This test exposed an unhandled upstream stream error on client disconnect; the bridge now uses a managed stream pipeline that handles aborts. The lifecycle test runs with:
+
+```powershell
+npm run test:observer-bridge-sse
+```
+
+Both bridge tests passed locally. The SSE test proves the bridge's local stream lifecycle behavior only; it does not use Firebase credentials or establish hosted cleanup telemetry.
+
 After installing dependencies from the repository lockfile, `npm run build` passed for all four packages and `npm run test:observer-bridge-auth` passed. `git diff --check` also passed.
 
 ## Remaining acceptance gaps
@@ -44,7 +52,7 @@ After installing dependencies from the repository lockfile, `npm run build` pass
 - No valid, verified but unapproved identity token was presented to the live bridge.
 - Token refresh was not observed; the reload used the browser's existing Firebase session and does not prove an expired token refreshed successfully.
 - Reconnect rendered the live page, but stream continuity/reconnect event identity was not measured independently of normal world reads.
-- Client closure was initiated, but bridge/upstream cleanup was not confirmed from logs or metrics.
+- Synthetic local client closure was confirmed to close its upstream SSE response. Hosted bridge/upstream cleanup was not confirmed from logs or metrics.
 - Observer reads against owner/mutation routes were bounded to one hidden owner route and one rejected POST; this is not a complete endpoint inventory audit.
 
 No evidence in this report authorizes widening the observer allowlist or making an availability/capacity claim.
