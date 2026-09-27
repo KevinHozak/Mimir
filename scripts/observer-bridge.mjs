@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import { Readable } from "node:stream";
 import { getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import { createObserverTokenVerifier } from "./observer-bridge-auth.mjs";
 
 const port = Number(process.env.PORT ?? 8080);
 const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
@@ -14,6 +15,7 @@ if (!projectId || approvedEmails.size === 0 || !upstreamOrigin) throw new Error(
 const upstream = new URL(upstreamOrigin);
 if (upstream.protocol !== "http:" || !/^10\.(?:[0-9]{1,3}\.){2}[0-9]{1,3}$/.test(upstream.hostname)) throw new Error("OBSERVER_UPSTREAM_ORIGIN must be an HTTP private 10.x address");
 const auth = getAuth(getApps()[0] ?? initializeApp({ projectId }));
+const verifyObserverToken = createObserverTokenVerifier({ projectId, approvedEmails, verifyIdToken: token => auth.verifyIdToken(token) });
 
 const allowedExact = new Set(["/api/world", "/api/events", "/api/interpretations", "/api/metrics", "/api/design", "/api/region", "/api/resonance", "/api/reflection", "/api/live"]);
 function allowedPath(pathname) {
@@ -29,24 +31,13 @@ function setCors(request, response) {
     response.setHeader("access-control-allow-methods", "GET, OPTIONS");
   }
 }
-async function verify(request) {
-  const value = request.headers.authorization;
-  if (!value?.startsWith("Bearer ")) return null;
-  try {
-    const decoded = await auth.verifyIdToken(value.slice("Bearer ".length));
-    const email = decoded.email?.trim().toLowerCase();
-    return decoded.aud === projectId && decoded.iss === `https://securetoken.google.com/${projectId}` && decoded.email_verified === true && email && approvedEmails.has(email) ? email : null;
-  } catch {
-    return null;
-  }
-}
 const server = createServer(async (request, response) => {
   const parsed = new URL(request.url ?? "/", "http://bridge.invalid");
   setCors(request, response);
   if (request.method === "OPTIONS") return response.writeHead(204).end();
   if (request.method !== "GET" && request.method !== "HEAD") return response.writeHead(405, { allow: "GET, HEAD, OPTIONS" }).end("read-only observer");
   if (!allowedPath(parsed.pathname)) return response.writeHead(404).end("observer route unavailable");
-  if (!await verify(request)) return response.writeHead(401, { "content-type": "application/json" }).end(JSON.stringify({ error: "approved Google account required" }));
+  if (!await verifyObserverToken(request.headers.authorization)) return response.writeHead(401, { "content-type": "application/json" }).end(JSON.stringify({ error: "approved Google account required" }));
 
   const controller = new AbortController();
   const abort = () => controller.abort();
@@ -73,3 +64,4 @@ const server = createServer(async (request, response) => {
   }
 });
 server.listen({ port, host: "0.0.0.0" });
+

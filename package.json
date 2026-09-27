@@ -14,6 +14,7 @@
     "publish:archive": "node scripts/publish-public-archive.mjs",
     "deploy:hosting": "node scripts/deploy-hosting.mjs",
     "test:public-archive": "node scripts/public-archive.test.mjs",
+    "test:observer-bridge-auth": "node scripts/observer-bridge-auth.test.mjs",
     "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",
     "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",
     "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",
@@ -66,6 +67,7 @@
     "typescript": "^5.7.2"
   }
 }
+
 
 
 
