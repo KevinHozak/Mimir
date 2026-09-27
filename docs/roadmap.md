@@ -6,7 +6,7 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Current delivery position
 
-Reconciled on 2026-09-26 against GitHub `main` at `11c4f2e705da6a81b921d859661accadab571e7e`. Security: Harden the First Glow writer epic (#218) and Living Lives epic (#228) are complete; all six Lives phase issues (#229–#234) are closed. The current issue search found no open issues. One dependency-update PR, [#250](https://github.com/KevinHozak/Mimir/pull/250), remains open with a passing CI run; it updates Fastify to the security-fixed 5.12.5 and `@types/node` to 26.6.1. The working checkout used for this review is behind GitHub `main`; use the verified remote source as the documentation/code baseline.
+Reconciled on 2026-09-27 against GitHub `main` at `100089f2335c8eee88c9be9ddb2b0552c7685135`. Security: Harden the First Glow writer epic (#218) and Living Lives epic (#228) are complete; all six Lives phase issues (#229–#234) are closed. The current issue search found no open issues, and PRs [#250](https://github.com/KevinHozak/Mimir/pull/250) and [#251](https://github.com/KevinHozak/Mimir/pull/251) are merged. PR #250 updates Fastify to the security-fixed 5.12.5 and `@types/node` to 26.6.1. The local review checkout remains behind GitHub `main`; use the verified remote source as the documentation/code baseline.
 
 Completed AI-P1 through AI-P20, RC-P1 through RC-P5, Resonance, hosted work, and writer hardening belong in the [Changelog](changelog.md), with their dated evidence and limits. The latest Living Lives phase evidence is recorded below.
 
