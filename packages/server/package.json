@@ -25,7 +25,7 @@
     "@mimir/engine": "0.1.0",
     "@mimir/world-data": "0.1.0",
     "fastify": "^5.12.5",
-    "firebase-admin": "^14.4.0"
+    "firebase-admin": "^14.5.0"
   }
 }
 
