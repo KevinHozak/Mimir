@@ -252,7 +252,7 @@ The server can also run independently with `npm run dev:server`, and the browser
 - Daily local backup copies under `/var/data/backups`.
 - An externally supplied `OWNER_TOKEN`.
 
-The current hosted deployment is Firebase Hosting at `https://mimir-realm.web.app/`, backed by the `mimir-observer-bridge` Cloud Run service in `us-central1`, which validates approved Google ID tokens and forwards read-only traffic to the private `mimir-staging` Compute Engine `e2-micro` VM. The VM and SQLite database remain the sole simulation writer. Hosted-P5 uses the separate `mimir-realm-backups` project for operator-managed independent copies. PostgreSQL or another coordinated persistence layer is required before horizontal scaling. The hosted path is still limited staging; archive completeness, wider traffic, and full token/recovery matrices remain validation gates.
+The hosted path is limited staging: Firebase Hosting fronts the authenticated observer bridge, which forwards read-only traffic to one private SQLite-writing VM. The 2026-09-26 status report found the mapped Hosting release behind `origin/main`; it did not verify the current release or bridge source identity. The 2026-09-28 P4 readiness review collected no rendering, audience, load, quota, or billing measurements. Issues #255 and #256 are closed as not planned, but their token/SSE, restart, outage replay, and writer-safety acceptance evidence remains outstanding. See the [dated P4 readiness review](evidence/hosted-p18-p4-readiness-2026-09-28.md). PostgreSQL or another coordinated persistence layer is required before horizontal scaling.
 
 ### Hosted replay and release verification
 
@@ -260,7 +260,7 @@ The hosted browser supports authenticated archive selection and interactive chec
 
 `npm run deploy:hosting` checks a clean merged `origin/main`, builds with `VITE_FIREBASE_AUTH_ENABLED=true`, deploys Hosting, and verifies served HTML and hashed assets. Hostname enforcement also requires auth at `mimir-realm.web.app`. See [the hosted runbook](hosted-observer-runbook.md).
 
-The dated Hosted-P17 closeout records Hosting version `82cc93e9b9470f8e` from `fbd4eb8` on 2026-09-15. Missing/malformed token rejection, observer-only UI, VM continuity, bridge-to-VM recovery, and synthetic/quota evidence were recorded. Expired/wrong-project/unapproved tokens, authenticated SSE refresh/reconnect/closure, bridge process restart, outage replay, and real audience/billing telemetry remain unverified. This is limited staging; no fresh deployment validation is implied.
+The dated Hosted-P17 closeout records Hosting version `82cc93e9b9470f8e` from `fbd4eb8` on 2026-09-15. Missing/malformed token rejection, observer-only UI, VM continuity, bridge-to-VM recovery, and synthetic/quota evidence were recorded. Expired/wrong-project/unapproved tokens, authenticated SSE refresh/reconnect/closure, bridge process restart, outage replay, and real audience/billing telemetry remain unverified. The 2026-09-26 console recheck mapped a displayed release suffix to this retained version and found it behind `origin/main`; it did not provide a current source/build linkage. No fresh deployment or readiness is implied.
 
 ## 9. Verification architecture
 
