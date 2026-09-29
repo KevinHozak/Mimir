@@ -261,6 +261,7 @@ function VillageCanvas({ villagers, sparks = [], events = [], conversationRecord
   useEffect(() => {
     const tileSize = 24;
     let isActive = true;
+    const assetObjectUrls: string[] = [];
     let disposeInput = () => undefined;
     document.getElementById("village-canvas")?.replaceChildren();
     const game = new Phaser.Game({ type: Phaser.AUTO, pixelArt: debugOverlay, transparent: true, width: 768 * displayResolution, height: 768 * displayResolution, parent: "village-canvas", scene: { create() {
@@ -378,7 +379,42 @@ function VillageCanvas({ villagers, sparks = [], events = [], conversationRecord
         canvas.removeEventListener("dblclick", onDoubleClick);
       };
        const glowBundle = firstGlowBundle ?? (worldDefinition as (WorldDefinition & { firstGlowBundle?: FirstGlowBundle }) | undefined)?.firstGlowBundle;
-        if (sparks.length && glowBundle && assetBaseUrl && glowBundle.assets?.length) { const assetKeys = new Map(glowBundle.assets.map(asset => [asset.path, firstGlowAssetKey(glowBundle.bundle.contentHash, asset.path)])); for (const asset of glowBundle.assets) scene.load.image(assetKeys.get(asset.path)!, firstGlowAssetUrl(assetBaseUrl, glowBundle.bundle.contentHash, asset.path)); scene.load.once("complete", () => { worldDefinition?.objects.forEach(object => { const visualAsset = glowBundle.objectDefinitions[object.definitionId]?.visualAsset; const key = visualAsset ? assetKeys.get(visualAsset) : undefined; if (!key || !scene.textures.exists(key)) return; const definition = glowBundle.objectDefinitions[object.definitionId]; const contact = definition?.groundContact ?? { x: 0, y: 0 }; const foregroundDepth = definition?.foreground ? 200 : 0; const image = scene.add.image((object.position.x + 0.5) * tileSize, (object.position.y + 0.5) * tileSize, key).setDisplaySize(tileSize, tileSize).setDepth(firstGlowGroundDepth({ x: object.position.x + contact.x, y: object.position.y + contact.y }) + 2 + foregroundDepth); image.setAlpha(0.9); }); }); scene.load.start(); }
+        if (sparks.length && glowBundle && assetBaseUrl && glowBundle.assets?.length) {
+          const assetKeys = new Map(glowBundle.assets.map(asset => [asset.path, firstGlowAssetKey(glowBundle.bundle.contentHash, asset.path)]));
+          const assetToken = getGoogleIdToken();
+          const addLoadedAssets = () => {
+            if (!isActive) return;
+            worldDefinition?.objects.forEach(object => {
+              const visualAsset = glowBundle.objectDefinitions[object.definitionId]?.visualAsset;
+              const key = visualAsset ? assetKeys.get(visualAsset) : undefined;
+              if (!key || !scene.textures.exists(key)) return;
+              const definition = glowBundle.objectDefinitions[object.definitionId];
+              const contact = definition?.groundContact ?? { x: 0, y: 0 };
+              const foregroundDepth = definition?.foreground ? 200 : 0;
+              const image = scene.add.image((object.position.x + 0.5) * tileSize, (object.position.y + 0.5) * tileSize, key).setDisplaySize(tileSize, tileSize).setDepth(firstGlowGroundDepth({ x: object.position.x + contact.x, y: object.position.y + contact.y }) + 2 + foregroundDepth);
+              image.setAlpha(0.9);
+            });
+            assetObjectUrls.splice(0).forEach(url => URL.revokeObjectURL(url));
+          };
+          void Promise.all(glowBundle.assets.map(async asset => {
+            const key = assetKeys.get(asset.path)!;
+            const url = firstGlowAssetUrl(assetBaseUrl, glowBundle.bundle.contentHash, asset.path);
+            if (url.startsWith("/")) return { key, url };
+            try {
+              const response = await observerFetchUrl(url, {}, assetToken);
+              if (!response.ok) return undefined;
+              const objectUrl = URL.createObjectURL(await response.blob());
+              if (!isActive) { URL.revokeObjectURL(objectUrl); return undefined; }
+              assetObjectUrls.push(objectUrl);
+              return { key, url: objectUrl };
+            } catch { return undefined; }
+          })).then(loadedAssets => {
+            if (!isActive) { assetObjectUrls.splice(0).forEach(url => URL.revokeObjectURL(url)); return; }
+            loadedAssets.forEach(asset => { if (asset) scene.load.image(asset.key, asset.url); });
+            scene.load.once("complete", addLoadedAssets);
+            scene.load.start();
+          });
+        }
        const terrainColors: Record<string, number> = sparks.length ? { open: 0x050912, gap: 0x02040b } : { grass: 0x9dbc72, road: 0xd8b878, water: 0x5797b5 };
        for (let y = 0; y < (worldDefinition?.height ?? 100); y += 1) for (let x = 0; x < (worldDefinition?.width ?? 100); x += 1) {
          const kind = worldDefinition?.terrain[y]?.[x] ?? "grass";
@@ -398,7 +434,7 @@ function VillageCanvas({ villagers, sparks = [], events = [], conversationRecord
         if (!sparks.length) scene.add.text(8, 22, "THE FIRST WINTER", { color: "#fff7e8", fontSize: "22px", fontFamily: "monospace", stroke: "#493b2a", strokeThickness: 4 });
        if (sparks.length) { syncVillagers(scene, []); syncSparks(scene, sparks); } else syncVillagers(scene, villagersRef.current);
     } } });
-    return () => { isActive = false; disposeInput(); sceneRef.current = null; peopleRef.current.clear(); atmosphereRef.current = null; lastPulseRef.current = null; if (firstGlowSceneLifecycle.dispose === "destroy") game.destroy(true); };
+    return () => { isActive = false; assetObjectUrls.splice(0).forEach(url => URL.revokeObjectURL(url)); disposeInput(); sceneRef.current = null; peopleRef.current.clear(); atmosphereRef.current = null; lastPulseRef.current = null; if (firstGlowSceneLifecycle.dispose === "destroy") game.destroy(true); };
    }, [debugOverlay, firstGlowBundle?.bundle.contentHash, firstGlowRuntime?.navigationRevision, firstGlowRuntime?.objects.map(item => `${item.objectId}:${item.blocked}`).join(","), worldDefinition?.id, worldDefinition?.bundle.contentHash]);
   useEffect(() => {
     if (sceneRef.current && sparks.length) syncSparks(sceneRef.current, sparks); else if (sceneRef.current && peopleRef.current.size > 0) syncVillagers(sceneRef.current, villagers);
@@ -561,11 +597,15 @@ async function readAuthenticatedLiveStream(onMessage: (data: string) => void, si
   }
 }
 
-async function observerFetch(path: string, init: RequestInit = {}): Promise<Response> {
-  const token = await getGoogleIdToken();
+async function observerFetchUrl(url: string, init: RequestInit = {}, tokenPromise: Promise<string | undefined> = getGoogleIdToken()): Promise<Response> {
+  const token = await tokenPromise;
   const headers = new Headers(init.headers);
   if (token) headers.set("authorization", `Bearer ${token}`);
-  return fetch(`${api}${path}`, { ...init, headers });
+  return fetch(url, { ...init, headers });
+}
+
+async function observerFetch(path: string, init: RequestInit = {}): Promise<Response> {
+  return observerFetchUrl(`${api}${path}`, init);
 }
 
 function FirstGlowLoading({ message, detail, error = false }: { message: string; detail?: string; error?: boolean }) {

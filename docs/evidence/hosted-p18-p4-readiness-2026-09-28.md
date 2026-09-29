@@ -2,7 +2,7 @@
 
 ## Disposition
 
-**Not ready for a hosted audience rehearsal; measurements not collected.** The initial desk review used repository evidence and local GitHub issue status; the supplemental check below performed one read-only authenticated page visit. No multi-viewer load, configuration/access change, paid resource creation, or writer operation was performed. No capacity, availability, or cost claim follows from these checks.
+**Not ready for a hosted audience rehearsal; multi-viewer, host-load, quota, and attributable-billing measurements remain incomplete.** The initial desk review used repository evidence and local GitHub issue status; supplemental desktop and mobile-sized checks used one read-only authenticated browser session. No multi-viewer load, configuration/access change, paid resource creation, or writer operation was performed. No capacity, availability, or cost claim follows from these checks.
 
 The GitHub issue sequence records P1 (#254) completed and P2 (#255) and P3 (#256) closed as not planned. The parent issue #253 marks #255 and #256 complete, while both child issues are closed as not planned with unchecked acceptance lists and the retained P2 evidence records remaining cases; this is a planning/status mismatch, not proof those cases passed. In particular, #255's token rejection and authenticated SSE cases and #256's bridge restart, outage replay, writer verification, and rollback identity remain prerequisites to safely evaluating the P4 hosted audience path.
 
@@ -26,9 +26,10 @@ No test plan can substitute for the issue's required bounded window and cleanup 
 | Measure | Result | Evidence status |
 | --- | --- | --- |
 | Desktop rendering | Visually checked at 1635 × 916 | Pass; no per-request asset status/byte capture |
-| Mobile rendering | Not rechecked | Unknown |
-| Audience rehearsal / active streams | Not run; proposed cap is two sessions for three minutes | No sample |
-| Request counts, statuses, bytes, cache | Not measured | No sample |
+| Mobile rendering | Visually checked at a 390 × 844 requested viewport (375 CSS px content width) | Page fits without horizontal overflow; season label truncates |
+| Required authenticated world assets | Five bundle SVG requests returned 401 in the mobile sample | Fail; client fix prepared, not yet deployed or rechecked |
+| Audience rehearsal / active streams | No multi-viewer rehearsal; one browser `/api/live` request remained open | No multi-viewer sample; server-side stream total/cleanup unavailable |
+| Request counts, statuses, bytes, cache | Partial 30-second single-session browser capture below | Measured only for observed requests; not a load estimate |
 | Bridge/VM load and quotas | No populated current telemetry retained | Unknown |
 | Observed billing | No Mimir-hosting bill attributed | Unknown; unrelated project detail excluded; no estimate made |
 | Rollback identity for a new rehearsal | Not established in this review | Required before test |
@@ -41,14 +42,25 @@ The authenticated live observer at `https://mimir-realm.web.app/` reached its co
 
 Mobile viewport rendering was not verified. The Mimir VM Observability page opened read-only, but its chart area displayed no metrics, so current VM CPU/memory could not be recorded. No multi-viewer traffic was generated and no billing value was attributed to the hosted service. The inspected billing detail was not attributable to the Mimir hosting resources and is excluded. The page's signed-in identity is intentionally omitted.
 
+## Supplemental mobile and request check — 2026-09-28 20:34 CDT
+
+In a read-only authenticated browser session, the observer was opened at a requested 390 × 844 viewport; its content layout width was 375 CSS pixels. The page rendered the First Glow header, controls, map, and observer content without horizontal overflow (`scrollWidth` 375). The season card visibly ellipsized “The First Glow” at this width. This is a mobile-sized browser check, not a physical-device test. The viewport override was reset and the temporary tab was closed.
+
+A 30-second browser network sample recorded 37 request events and 36 response events. The seven read endpoints `/api/world`, `/api/design`, `/api/region`, `/api/events`, `/api/metrics`, `/api/resonance`, and `/api/interpretations` each returned three 200 responses; combined encoded response size was 157,340 bytes, with `Cache-Control: private` and no disk-cache hits. Five referenced world-bundle SVG requests returned 401 (1,524 encoded bytes total, no cache header). Three optional `/api/reflection` requests returned cached 404 responses (`max-age=600`, zero encoded bytes). The main JavaScript and CSS bundles were served from disk cache with 200 responses and zero encoded bytes in this reload sample. These are single-session browser observations, not the bounded multi-viewer rehearsal or an estimate of capacity or cost.
+
+The page remained connected and one GET `/api/live` request was open in the browser capture. Closing the temporary tab ended the local observation, but no server-side metric was available to verify when the stream returned to baseline. No simulation or owner route was used; no multi-viewer traffic, configuration/access change, or paid resource was introduced.
+
+The asset failures match the client path that passed bundle URLs directly to Phaser without the bearer header used by observer API reads. A client-side bearer-fetch correction is prepared in the current review branch; it has not been merged, deployed, or verified against the hosted service. Until a post-deployment recheck returns 200 for the required assets, that acceptance gate remains failed.
+
 ## Updated acceptance status
 
 | Acceptance area | Current evidence |
 | --- | --- |
 | Desktop rendering | Visual smoke pass at 1635 × 916; no request-level asset status/byte capture |
-| Mobile rendering | Not verified |
-| Multi-viewer window and cleanup | Proposed cap of two sessions for three minutes; actual observation window and cleanup not performed |
-| Request, stream, status, transfer, and cache measurements | Not collected |
+| Mobile rendering | 375 CSS px content width; no horizontal overflow; season label ellipsized |
+| Required authenticated world assets | Five SVG responses returned 401; correction not deployed/retested |
+| Multi-viewer window and cleanup | Not run; two-session / three-minute cap remains a proposal; server stream baseline unavailable |
+| Request, status, transfer, and cache measurements | Partial 30-second one-session capture above |
 | Bridge/VM load and relevant quotas | Current VM chart blank; bridge/VM load unknown |
 | Observed billing | No Mimir-hosted-service billing value attributable from available view |
 | Rollback identity | Not established for a new rehearsal |
