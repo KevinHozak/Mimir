@@ -2,7 +2,7 @@
 
 ## Disposition
 
-Issue [#269](https://github.com/KevinHozak/Mimir/issues/269) is **partially verified, not closed**. Available Hosting rollback, bridge revision metadata, the authoritative VM process/checkpoint, and an existing local bundle-inclusive recovery unit were read. The independent historical recovery object remains available through its existing recovery identity. The independent archive manifest/content check passed after explicit download approval; exact VM source-commit linkage remains unresolved. No rollback, restart, restore, deployment, world mutation, IAM change, key creation, or new writer was performed. Audience rehearsal #272 and final disposition #257 remain gated.
+Issue [#269](https://github.com/KevinHozak/Mimir/issues/269) has **completed read-only recovery evidence, pending PR merge**. Available Hosting rollback, bridge revision metadata, the authoritative VM process/checkpoint, and an existing local bundle-inclusive recovery unit were read. The independent historical recovery object remains available through its existing recovery identity. The independent archive manifest/content check passed after explicit download approval; the deployed backend has a byte-matched reproducible recovery source at `e5b5b114a7b2990bd6dfb305364079a29aad9aae` (details below). No rollback, restart, restore, deployment, world mutation, IAM change, key creation, or new writer was performed. Audience rehearsal #272 and final disposition #257 retain their separate audience, window, telemetry, and operational-test gates.
 
 The clean audit checkout was based on fetched `origin/main` at `e69828f`. Dependency #254 was read as closed/completed. This report distinguishes current metadata/integrity reads from historical restore tests.
 
@@ -64,7 +64,7 @@ The deployed directory has no `.git` directory or observed source-commit marker.
 | `packages/engine/dist/index.js` | `2bd4a7fc9166a3119cbb1c1b66f313270203d2ad56bbe3125d34b97c3f9ea9d5` |
 | `package-lock.json` | `badfe25557f7630fbf9b1bd5a20ac5ccb4afe7a1a4ea40e1908d9d10b695226c` |
 
-A single Node count supports the observed service shape; it is not a comprehensive OS-wide SQLite-writer proof. Exact VM source commit and a complete source recovery package remain gaps.
+A single Node count supports the observed service shape; it is not a comprehensive OS-wide SQLite-writer proof. The follow-up below establishes a reproducible backend recovery source by complete deployed JavaScript comparison; it does not invent the historical deployment command.
 
 The latest existing local manifest by file modification time was `/var/lib/mimir/backups/mimir-2026-10-03T01-15-51.145Z-interval.db.manifest.json` (backup-name timestamp October 2, 20:15:51 CDT). In-place read/hash verification returned:
 
@@ -74,6 +74,23 @@ The latest existing local manifest by file modification time was `/var/lib/mimir
 - Backup SQLite read-only checkpoint summary: timeline `main`, one checkpoint, pulse 0.
 
 This verifies an available local bundle-inclusive unit, not independent durability, full semantic restore validation, or a successful restore. No new backup was created.
+
+## Reproducible VM backend recovery source — approved follow-up
+
+The deployed backend is reproduced by committed source **`e5b5b114a7b2990bd6dfb305364079a29aad9aae`**, the pulse-terminology merge (#198). This is a verified recovery source identity, not proof of the original deployment command or a unique historical checkout: other commits with identical runtime inputs can produce the same bytes.
+
+Read-only IAP inspection fingerprinted all 36 deployed non-test `.js` files under `packages/world-data/dist`, `packages/engine/dist`, and `packages/server/dist`, plus five package/lock manifests. A fresh isolated export of that commit, `npm ci --ignore-scripts --no-audit --no-fund`, and dependency-ordered TypeScript builds reproduced **all 36 JavaScript hashes exactly**. Root package/lock and engine/server package manifests also matched exactly. The world-data package manifest is JSON-identical; converting the source's LF to CRLF reproduces its deployed hash exactly. The complete sanitized [fingerprint inventory](observer-p4-runtime-fingerprints-2026-10-03.json) records tool versions, hashes, and comparison scope.
+
+VM Node is `v22.14.0`; the local byte-equivalence build used Node `v24.14.0`, npm `11.11.1`, and the lockfile-selected TypeScript version recorded in the inventory. Both the VM and local compiled outputs matched despite that Node difference. No runtime behavior equivalence or dependency-tree inventory is inferred from compilation hashes. The earlier `51276f5` candidate matched the lockfile and backup library but not the server/engine entry points; it is not the selected recovery source. One initial build began before dependency installation completed and failed; the completed installation followed by all three ordered builds succeeded.
+
+Recovery preparation, without starting a server:
+
+1. Export or check out the exact recovery commit into a fresh isolated directory. Retain its unchanged `package-lock.json`, the fingerprint inventory, and the selected immutable world bundle. Use a Node runtime supporting `node:sqlite`; the recorded VM version is `v22.14.0`.
+2. Run `npm ci --ignore-scripts --no-audit --no-fund`, then `npm run build --workspace @mimir/world-data`, `npm run build --workspace @mimir/engine`, and `npm run build --workspace @mimir/server`, stopping on any failure. Compare every non-test backend JavaScript file and the package/lock manifests with the inventory; permit only the documented world-data manifest newline difference. Historical dependencies are recovery inputs, not a recommendation to replace current main with this old source.
+3. For a separately authorized database recovery, retain the selected database, manifest, and accompanying `.bundles` directory together. Use the supplied backup CLI to restore into a new isolated destination and select its restored bundle root. No restore was performed here.
+4. Preserve the existing private unit contract: `/opt/node/bin/node /opt/mimir/packages/server/dist/index.js`, port 8888, existing private owner-secret configuration, `AUTO_PULSE=false`, and one authoritative writer. Do not copy credentials into the recovery artifact. An actual service cutover requires separate authorization and stopping the existing writer first.
+
+This links the current backend's bytes to a committed, reproducible recovery source. Firebase frontend and Cloud Run bridge identities are recorded separately above; this comparison does not claim the entire `/opt/mimir` tree or installed dependency tree matches one historical deployment archive.
 
 ## Independent recovery artifact and approved content verification
 
@@ -88,11 +105,11 @@ The initial archive download was rejected by automatic approval review because i
 - Database: 430,080 bytes; SHA-256 matches the manifest and historical value above.
 - All seven manifest-listed bundle files exist in the archive and match their recorded SHA-256 values; the manifest lists the same First Glow bundle.
 
-This closes the fresh independent manifest/content verification gap. It verifies this historical recovery unit, not a fresh backup, semantic restore, or current VM source linkage. Scheduled independent replication and freshness were not established by this audit. The private archive and inspection script remain ignored local artifacts and are not committed.
+This closes the fresh independent manifest/content verification gap. It verifies this historical recovery unit, not a fresh backup, semantic restore, or a successful VM cutover. Scheduled independent replication and freshness were not established by this audit. The private archive and inspection script remain ignored local artifacts and are not committed.
 
 ## Stop and recovery plan
 
-1. Keep #272 rehearsal stopped until the source-linkage gap above and its separate audience/window/telemetry gates are resolved. An observed identifier is not permission for disruption.
+1. Keep #272 rehearsal stopped until its separate audience/window/telemetry gates are resolved. An observed identifier is not permission for disruption.
 2. During any later approved rehearsal, immediately close participant sessions on unexpected auth exposure, write behavior, checkpoint changes, resource/error threshold breach, or unavailable cleanup evidence. Recheck active-stream baseline; closing tabs alone does not prove server cleanup.
 3. Preserve the one authoritative paused VM and its existing recovery units. Do not reset/pulse, expose the VM, add a scheduler/writer/database, or change IAM to work around failure.
 4. For a Hosting-only regression, stop observation first, evaluate the known prior release's asset regression, and obtain approval before the console rollback. Verify the selected release and auth/rendering afterward.
@@ -100,4 +117,4 @@ This closes the fresh independent manifest/content verification gap. It verifies
 6. For database recovery, select the intended checkpoint and recheck the approved independent unit identity and manifest integrity first. Under separate restore authorization, restore to a new isolated destination using the backup CLI and its accompanying bundles, with no scheduler or listener started. Validate checkpoints and bundle integrity before any proposed replacement. Shut down the sole live writer before a separately approved cutover; never run a second writer against live state.
 7. Keep the current source/byte fingerprints, backup identities, selected checkpoint, and post-recovery evidence together. A deployment, traffic switch, or copied database is not recovery success.
 
-Documentation verification: local links/content, public-field redaction, and whitespace checks. No simulation suite was run for this documentation-only audit. Issue #269 stays open for exact VM source/recovery linkage; #257/#253 retain their broader limitations.
+Documentation verification: local links/content, public-field redaction, and whitespace checks. No simulation suite was run for this documentation-only audit. Issue #269 now has its recovery-source linkage and read-only acceptance evidence; closure awaits this PR merge. #257/#253 retain their broader limitations.
