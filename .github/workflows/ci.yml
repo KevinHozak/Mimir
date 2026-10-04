@@ -53,6 +53,7 @@ jobs:
           npm run test:observer-bridge-auth
           npm run test:observer-bridge-sse
           npm run test:observer-bridge-lifecycle
+          npm run test:observer-bridge-http2
       - name: Install browser runtime
         run: npx playwright install --with-deps chromium
       - name: Browser integration

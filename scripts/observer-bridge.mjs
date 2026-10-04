@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { createServer as createHttp2Server } from "node:http2";
 import { resolve } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
@@ -14,7 +15,7 @@ function allowedPath(pathname) {
   if (allowedExact.has(pathname)) return true;
   return /^\/api\/world\/bundles\/sha256-[a-f0-9]{64}(?:\/assets\/.+)?$/.test(pathname);
 }
-export function createObserverBridgeServer({ upstreamOrigin, hostedOrigin = "https://mimir-realm.web.app", streamMaxMs = 900000, verifyObserverToken, onStreamTelemetry }) {
+export function createObserverBridgeServer({ upstreamOrigin, hostedOrigin = "https://mimir-realm.web.app", streamMaxMs = 900000, verifyObserverToken, onStreamTelemetry, http2 = false }) {
 const upstream = new URL(upstreamOrigin);
 if (upstream.protocol !== "http:") throw new Error("observer upstream must use HTTP");
 if (typeof verifyObserverToken !== "function") throw new Error("observer token verifier is required");
@@ -27,7 +28,7 @@ const emit = (event, details = {}) => {
   // Only fixed lifecycle fields are emitted: never tokens, URLs, claims, or raw errors.
   try { onStreamTelemetry?.({ ...snapshot(), event, ...details }); } catch { /* telemetry must not interrupt cleanup */ }
 };
-const server = createServer(async (request, response) => {
+const server = (http2 ? createHttp2Server : createServer)(async (request, response) => {
   const parsed = new URL(request.url ?? "/", "http://bridge.invalid");
   const origin = request.headers.origin;
   if (origin === hostedOrigin) {
@@ -111,7 +112,8 @@ if (isMain) {
   const verifyObserverToken = createObserverTokenVerifier({ projectId, approvedEmails, verifyIdToken: token => auth.verifyIdToken(token) });
   const telemetryEnabled = process.env.OBSERVER_STREAM_TELEMETRY === "1";
   const onStreamTelemetry = telemetryEnabled ? record => console.log(JSON.stringify({ kind: "observer-stream", revision: process.env.K_REVISION ?? "local", ...record })) : undefined;
-  const server = createObserverBridgeServer({ upstreamOrigin, hostedOrigin, streamMaxMs, verifyObserverToken, onStreamTelemetry });
+  const http2 = process.env.OBSERVER_HTTP2 === "1";
+  const server = createObserverBridgeServer({ upstreamOrigin, hostedOrigin, streamMaxMs, verifyObserverToken, onStreamTelemetry, http2 });
   if (telemetryEnabled) {
     onStreamTelemetry({ ...server.observerStreamSnapshot(), event: "baseline" });
     const sampleTimer = setInterval(() => onStreamTelemetry({ ...server.observerStreamSnapshot(), event: "sample" }), 30000);
