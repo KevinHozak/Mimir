@@ -2,6 +2,13 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-04 — Observer-P8 epic disposition and validation consolidation
+
+- Consolidated evidence across recovery (#269), active stream cleanup (#270), responsive mobile controls (#271), and bounded rehearsal limits (#272) in [Observer-P8 evidence](evidence/observer-p8-epic-disposition-2026-10-04.md).
+- Reconciled waived tasks #255 (token/SSE lifecycle) and #256 (bridge restart, outage replay, writer safety), documenting explicit residual staging limitations without compromising writer safety.
+- Concluded the **Observer Readiness** workstream (parent Epic [#253](https://github.com/KevinHozak/Mimir/issues/253)) with an evidence-backed limited operational disposition: approved staging ceiling of at most 2 concurrent observer sessions over at most 180 seconds, preserving one authoritative SQLite writer.
+- Preserved historical closeout #201 as the historical baseline; no unsupported claims of general audience capacity, 24/7 SLA, or unconstrained hosting cost.
+
 ## 2026-10-04 — Observer-P7 bounded rehearsal and limits
 
 - Delivered the automated rehearsal runner (`scripts/observer-rehearsal.mjs`) and test suite (`scripts/observer-rehearsal.test.mjs`) for bounded multi-client observation.
