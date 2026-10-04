@@ -29,7 +29,10 @@ function assertEntryGuard(path) {
   assert.match(result.stderr, /existing authenticated observer bridge directly/);
 }
 assertEntryGuard(entry);
-if (process.platform === "win32") assertEntryGuard(entry.toUpperCase());
+if (process.platform === "win32") {
+  // Node requires a lowercase .mjs extension even on a case-insensitive disk.
+  assertEntryGuard(entry.replace(/^(.*[\\/])([^\\/]+)$/, (_, directory, file) => directory.toUpperCase() + file));
+}
 else {
   const directory = mkdtempSync(join(tmpdir(), "mimir-hosting-entry-"));
   try {
