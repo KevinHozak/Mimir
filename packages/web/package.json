@@ -12,6 +12,7 @@
     "test:first-glow-atmosphere": "tsx src/first-glow-atmosphere.test.ts",
     "test:first-glow-issue-42": "npm run build && tsx src/first-glow-issue-42-e2e.test.ts",
     "test:first-glow-header": "npm run build && tsx src/first-glow-header.test.ts",
+    "test:observer-zoom": "npm run build && tsx src/observer-zoom.test.ts",
     "test:first-glow-audio": "tsx src/first-glow-audio.test.ts",
     "test:first-glow-audio-p5": "npm run build && tsx src/first-glow-audio-p5.test.ts",
     "test:first-glow-settings": "tsx src/first-glow-settings.test.ts",
