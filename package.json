@@ -16,6 +16,7 @@
     "test:public-archive": "node scripts/public-archive.test.mjs",
     "test:observer-bridge-auth": "node scripts/observer-bridge-auth.test.mjs",
     "test:observer-bridge-sse": "node scripts/observer-bridge-sse.test.mjs",
+    "test:observer-bridge-lifecycle": "node scripts/observer-bridge-lifecycle.test.mjs",
     "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",
     "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",
     "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",

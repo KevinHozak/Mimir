@@ -48,6 +48,11 @@ jobs:
         run: npm run test:hosted-auth-boundary --workspace @mimir/web
       - name: Public archive
         run: npm run test:public-archive
+      - name: Observer authentication and stream lifecycle
+        run: |
+          npm run test:observer-bridge-auth
+          npm run test:observer-bridge-sse
+          npm run test:observer-bridge-lifecycle
       - name: Install browser runtime
         run: npx playwright install --with-deps chromium
       - name: Browser integration
