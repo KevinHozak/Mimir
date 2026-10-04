@@ -6,7 +6,7 @@ Status: **Pass for hosted independent backup and recovery validation; durable/pu
 
 ## Selected independent destination policy
 
-The configured independent destination is project `mimir-realm-backups` (`172815598347`), billed to the approved billing account `01E836-7FDB98-C1FD83`. The regional Standard bucket is `gs://mimir-realm-backups-uscentral1-172815598347` in `US-CENTRAL1`, with Google-managed encryption at rest, uniform bucket-level access, object versioning, seven-day soft delete, and 395-day lifecycle retention for live and noncurrent objects. A separate `$10/month` budget alert (`3d88a91f-0b28-4997-9a8c-2955e73e1923`) covers the backup project.
+The configured independent destination is project `mimir-realm-backups` (`172815598347`), billed to the approved billing account `billingAccounts/REDACTED-BILLING-ACCOUNT`. The regional Standard bucket is `gs://mimir-realm-backups-uscentral1-172815598347` in `US-CENTRAL1`, with Google-managed encryption at rest, uniform bucket-level access, object versioning, seven-day soft delete, and 395-day lifecycle retention for live and noncurrent objects. A separate `$10/month` budget alert (`3d88a91f-0b28-4997-9a8c-2955e73e1923`) covers the backup project.
 
 The keyless writer identity is `mimir-backup-writer@mimir-realm-backups.iam.gserviceaccount.com`; it has object-create and read/verification access but no object-delete permission. The separate recovery identity is `mimir-backup-recovery@mimir-realm-backups.iam.gserviceaccount.com`; it has object-read access only. No service-account key was created or copied to the VM.
 
