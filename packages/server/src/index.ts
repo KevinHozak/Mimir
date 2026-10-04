@@ -145,7 +145,13 @@ app.addHook("onResponse", async (request) => { releaseWriter(request); });
 app.addHook("onError", async (request) => { releaseWriter(request); });
 function requireOwner(request: FastifyRequest, reply: FastifyReply): boolean { const loopbackWithoutToken = !ownerToken && !ownerAuthRequired(host, serveWeb, hostedStart); if (loopbackWithoutToken || hasValidOwnerToken(ownerToken, request.headers["x-owner-token"])) return true; reply.code(401).send({ error: "owner authorization required" }); return false; }
 async function requireObserver(request: FastifyRequest, reply: FastifyReply): Promise<boolean> { if (!observerAuthRequired) return true; if (await verifyObserverToken(request.headers.authorization)) return true; reply.code(401).send({ error: "approved Google account required" }); return false; }
-app.addHook("onRequest", async (request, reply) => { const path = (request.url ?? "").split("?", 1)[0]; if (observerAuthRequired && path.startsWith("/api/") && !path.startsWith("/api/owner/") && !(await requireObserver(request, reply))) return reply; });
+app.addHook("onRequest", async (request, reply) => {
+  const path = (request.url ?? "").split("?", 1)[0];
+  if (observerAuthRequired && path.startsWith("/api/") && !path.startsWith("/api/owner/")) {
+    if (isOwnerAuthorized(host, serveWeb, hostedStart, ownerToken, request.headers["x-owner-token"])) return;
+    if (!(await requireObserver(request, reply))) return reply;
+  }
+});
 function currentTimeline() { return database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines WHERE id = ?").get(activeTimelineId) as { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; }
 function saveActiveTimeline() { database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId); }
 function chronicleInput(timelineId: string, cutoffPulse: number) {
@@ -217,10 +223,12 @@ app.get("/health", async (request) => {
     backupReplication: sanitizedReplication,
   };
 });
-app.get("/api/backup/status", async (request, reply) => {
+const backupStatusHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   if (!requireOwner(request, reply)) return;
   return currentBackupReplicationStatus();
-});
+};
+app.get("/api/backup/status", backupStatusHandler);
+app.get("/api/owner/backup/status", backupStatusHandler);
 app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: socialBudgetCents }));
 app.get("/api/design", async () => ({ themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN }));
 app.get("/api/reflection", async () => ({ projection: projectFirstGlowObserver(state.firstGlowState), runtime: aiRuntime.status(), timelineId: activeTimelineId }));
