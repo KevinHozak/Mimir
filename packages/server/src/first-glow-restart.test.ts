@@ -1,11 +1,12 @@
+import { testPort, stopTestProcesses, waitForTestExit } from "../../../scripts/test-runtime.mjs";
 import assert from "node:assert/strict";
 import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
 const root = join(process.cwd(), "..", "..");
-const restartedPort = 34138;
-const controlPort = 34139;
+const restartedPort = await testPort();
+const controlPort = await testPort();
 const tempRoot = join(root, ".tmp", `first-glow-restart-${Date.now()}`);
 const restartedDatabase = join(tempRoot, "restarted.db");
 const controlDatabase = join(tempRoot, "control.db");
@@ -26,11 +27,7 @@ const start = (port: number, database: string) => spawn(process.execPath, [join(
   env: { ...process.env, PORT: String(port), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated"), OWNER_TOKEN: token },
   stdio: "ignore",
 });
-const stop = async (child: ChildProcess | undefined) => {
-  if (!child) return;
-  if (child.exitCode === null) child.kill();
-  await new Promise<void>(resolve => { if (child.exitCode !== null) resolve(); else child.once("exit", () => resolve()); });
-};
+const stop = (child: ChildProcess | undefined) => stopTestProcesses([child]);
 const reset = async (port: number) => {
   const response = await fetch(`http://127.0.0.1:${port}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": token }, body: JSON.stringify({ bundleHash: hash, seed: 19, sparkCount: 12 }) });
   assert.equal(response.status, 200);

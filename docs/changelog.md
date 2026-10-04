@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-04 — Observer controls and validation
+
+- Merged [PR #288](https://github.com/KevinHozak/Mimir/pull/288) keeps the narrow read-only observer's audio and zoom rows inside one compact panel. Local regression and public-safe captures cover 320–1280px; hosted authentication/assets and post-deployment bounds remain separate #271 gates.
+- Local audit follow-up (pending publication): corrected delayed Web Audio gain scheduling and added browser error coverage for enabled ambience and score. Frontend type checking now gates the web build, with explicit React/Vite types and canonical First Glow bundle types.
+- The local audit follow-up adds CI coverage for observer/owner layout and writer security contracts. Affected tests allocate loopback ports, await signalled process exits, use a cooperative social fixture, and preserve historical captures by writing test output under `.tmp`.
+
 ## 2026-10-03 — Observer stream cleanup measured
 
 - Delivered awaited stream cleanup, bounded full-body deadlines, private process-scoped lifecycle telemetry, and cancellation regressions in [PR #281](https://github.com/KevinHozak/Mimir/pull/281). [PR #282](https://github.com/KevinHozak/Mimir/pull/282) adds h2c cancellation support without changing observer authentication or the private single writer.

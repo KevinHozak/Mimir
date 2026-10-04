@@ -304,10 +304,10 @@ export class FirstGlowAudioRuntime {
         const scoreIndex = isScore ? index - 2 : 0;
         const start = isScore ? now + scoreIndex * 0.52 : now;
         const target = isScore ? scoreTarget * (scoreIndex === 1 ? 0.82 : 0.7) : ambienceTarget * (index === 0 ? 0.65 : 0.42);
-        voice.gain.cancelScheduledValues(now);
-        voice.gain.setValueAtTime(0.0001, start);
-        voice.gain.linearRampToValueAtTime(Math.max(0.0001, target), start + (isScore ? 0.28 : 1.1));
-        voice.gain.linearRampToValueAtTime(0.0001, start + (isScore ? 1.75 : 3.2));
+        voice.gain.gain.cancelScheduledValues(now);
+        voice.gain.gain.setValueAtTime(0.0001, start);
+        voice.gain.gain.linearRampToValueAtTime(Math.max(0.0001, target), start + (isScore ? 0.28 : 1.1));
+        voice.gain.gain.linearRampToValueAtTime(0.0001, start + (isScore ? 1.75 : 3.2));
       });
       this.ambientPulseTimer = window.setTimeout(() => { this.ambientPulseTimer = null; this.scheduleAmbientPulse(); }, 7000);
     }, 1200);

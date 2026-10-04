@@ -44,6 +44,13 @@ jobs:
         run: npm run test:backup-replication --workspace @mimir/server
       - name: AI runtime contract
         run: npm run test:ai-runtime --workspace @mimir/server
+      - name: Writer safety and Chronicle contracts
+        run: |
+          npm run test:pulse-gate --workspace @mimir/server
+          npm run test:owner-auth --workspace @mimir/server
+          npm run test:security-p4 --workspace @mimir/server
+          npm run test:security-p5 --workspace @mimir/server
+          npm run test:chronicle --workspace @mimir/server
       - name: Hosted auth boundary
         run: npm run test:hosted-auth-boundary --workspace @mimir/web
       - name: Public archive
@@ -59,6 +66,12 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Browser integration
         run: npm run test:first-glow --workspace @mimir/web
+      - name: Observer zoom and owner layout regression
+        run: |
+          npm run test:observer-zoom --workspace @mimir/web
+          npm run test:first-glow-header --workspace @mimir/web
+          npm run test:first-glow-live-panel --workspace @mimir/web
+          npm run test:first-glow-issue-42 --workspace @mimir/web
       - name: First Glow audio validation
         run: npm run test:first-glow-audio-p5 --workspace @mimir/web
       - name: Tiled importer acceptance

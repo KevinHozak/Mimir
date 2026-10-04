@@ -1,3 +1,4 @@
+import { testPort, stopTestProcesses } from "../../../scripts/test-runtime.mjs";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { mkdirSync, existsSync, rmSync } from "node:fs";
@@ -5,8 +6,8 @@ import { join } from "node:path";
 import { spawn, type ChildProcess } from "node:child_process";
 
 const root = join(process.cwd(), "..", "..");
-const apiPort = 34221;
-const webPort = 5198;
+const apiPort = await testPort();
+const webPort = await testPort();
 const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const tempRoot = join(root, ".tmp", "browser-tests");
 mkdirSync(tempRoot, { recursive: true });
@@ -16,7 +17,7 @@ const waitFor = async (url: string) => { for (let attempt = 0; attempt < 60; att
 try {
   const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: "browser-header", WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" }));
-  children.push(spawn(process.execPath, [join(root, "node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
+  children.push(spawn(process.execPath, [join(root, "node_modules", "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`); await waitFor(`http://127.0.0.1:${webPort}/`);
   const reset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": "browser-header" }, body: JSON.stringify({ bundleHash: hash, seed: 23 }) }); assert.equal(reset.status, 200);
   const browser = await chromium.launch({ headless: true });
@@ -26,6 +27,6 @@ try {
     console.log("First Glow header desktop and mobile test passed");
   } finally { await browser.close(); }
 } finally {
-  await Promise.all(children.map(child => new Promise<void>(resolve => { if (child.exitCode !== null) { resolve(); return; } child.once("exit", () => resolve()); child.kill(); setTimeout(resolve, 3000); })));
+  await stopTestProcesses(children);
   for (const path of [database, `${database}-wal`, `${database}-shm`]) if (existsSync(path)) rmSync(path, { force: true });
 }
