@@ -1,6 +1,6 @@
 # Observer-P5 stream cleanup — October 3, 2026
 
-Issue [#270](https://github.com/KevinHozak/Mimir/issues/270) remains incomplete for hosted acceptance. Focused instrumentation and regression coverage are prepared for review. No deployment, cloud permission change, public telemetry endpoint, logging service, new writer, or hosted test traffic was introduced.
+Issue [#270](https://github.com/KevinHozak/Mimir/issues/270) has a successful bounded single-client cleanup observation after the authorized bridge and Hosting deployments. The initial failed transport is retained below. This is process-scoped evidence, not audience capacity or an atomic fleet gauge.
 
 The above describes the initial preparation. The user subsequently explicitly authorized PR delivery, deployment, and the single-client verification. The initial authorized rollout and its failed cleanup observation are recorded below; they supersede the preparation-only disposition without erasing the failure.
 
@@ -20,7 +20,7 @@ Local regression scenarios cover two concurrent approved synthetic clients and i
 
 `npm ci --no-audit --no-fund` installed locked dependencies without manifest/lock changes. `npm run test:observer-bridge-lifecycle`, `npm run test:observer-bridge-sse`, and `npm run test:observer-bridge-auth` passed on Node 24.14.0. The initial ordinary-shell lifecycle/SSE runs failed with loopback `EACCES`; the approved execution with loopback access passed. This is an environment limitation, not an application assertion failure. `git diff --check` passed. No simulation suites were required for this bridge-only lifecycle change.
 
-## Remaining hosted acceptance
+## Initial preparation gaps (superseded by authorized observations below)
 
 - Fresh timestamped hosted baseline, all serving revision/process coverage, and active stream counts are unknown.
 - One approved hosted client's connect/close and baseline recovery have not been observed in this task; VM-side release timing remains unknown.
@@ -43,4 +43,22 @@ The trusted existing PuTTY/IAP VM path reported the service active, one Node pro
 
 This is a hosted cleanup failure, not acceptance evidence. [Cloud Run explicitly states that HTTP/1.1 client disconnect events are not propagated to containers](https://docs.cloud.google.com/run/docs/troubleshooting#client-disconnect-does-not-propagate-to-cloud-run), and recommends HTTP/2 or WebSockets. The bridge was using HTTP/1.1. [Firebase Hosting also limits rewritten requests to 60 seconds](https://firebase.google.com/docs/hosting/cloud-run). These facts explain why local direct-socket cancellation tests do not establish hosted cancellation; attribution of additional openings remains unverified.
 
-An HTTP/2 follow-up adds optional h2c support and a synthetic regression proving HTTP/2 cancellation releases the private upstream. Its hosted rollout and repeat measurement remain pending at this entry.
+## Authorized HTTP/2 and direct API delivery
+
+PR [#282](https://github.com/KevinHozak/Mimir/pull/282) merged at `051550b090e2e4cb486059181d790cd6f1ad7aab` after successful CI `37172475178`. Cloud Build `55b4caf2-aa79-4362-aa24-7b5cf7c0cc77` produced digest `sha256:9b50923271ad57435d45ccbcab850b7d1bcb250519a3a3636209c94e19124d2a` from head `596163445ff7abd98d257e74c1b774d0b52133b1`. Serving revision `mimir-observer-bridge-p5-h2b-596163` received 100% traffic at `03:03:28.523Z`, with verified `OBSERVER_HTTP2=1`, `OBSERVER_STREAM_TELEMETRY=1`, and h2c container protocol. A preceding no-traffic revision with incorrectly combined environment values was detected by readback and never served traffic. Existing authentication, upstream, identity, limits, and single-writer settings were preserved.
+
+HTTP/2 behind the Hosting rewrite still failed prompt cleanup: the tab closed at `03:05:58.028Z–03:05:58.049Z`, and retained handlers eventually drained through their deadlines. This did not pass acceptance. Hosting was then built from clean exact main `051550b` with the existing authenticated bridge URL as `VITE_API_URL`. Hosting version `075c16f2594c0bd4` passed exact live-index and both asset-byte checks (`index-DQv4i-Sc.js`, `index-BUYIgogU.css`). Existing CORS preflight returned 204 for the Hosting origin; unauthenticated live reads remain 401 and owner reads 404. No IAM or origin allowlist widening occurred.
+
+An ordinary navigation initially reused the previous cached bundle and still requested the Hosting rewrite. That attempt was discarded as direct-route evidence. Fresh navigation loaded the new script and confirmed direct bridge API requests. Previously cached clients need a fresh navigation or hard reload; old rewrite tails may persist until their bounded deadline. The deployment script now defaults to this exact existing direct bridge and rejects same-origin, empty, or unrelated API overrides before building/deploying.
+
+## Clean final single-client observation
+
+All following timestamps are October 4 UTC (October 3 CDT). Serving revision is `mimir-observer-bridge-p5-h2b-596163`. Logs observed two process sessions: `1d59047d-67ac-4472-babf-03303a91b634` had startup zero counts and no observed opens; `c5cf4d83-f4e1-48bf-b569-d27437962816` handled the tests. The latter's repeated samples from `03:30:14.965827Z` through `03:36:14.975693Z` showed 0 handlers / 0 streams after earlier tails drained. Idle-process samples can stop with CPU inactivity, so this coverage does not establish an atomic all-instance total or classify an absent process as zero.
+
+One approved fresh browser tab loaded `index-DQv4i-Sc.js`, rendered pulse 0 / 12 Sparks / 7 sites, and made API requests directly to the bridge. Its authenticated live handler opened at `03:36:27.165771Z`, SSE body at `03:36:27.171598Z`, raising counts from 0/0 to 1/1. The tab closed during `03:37:13.423Z–03:37:13.535Z`. At `03:37:24.724496Z`, `request-close` with reason `client-close` returned both gauges to 0. Observed closure lag is 11.189496 seconds from close completion (11.301496 seconds from close start); total handler duration was 57,558 ms. This is cancellation, not five-minute deadline expiry. No other live opens were observed in this clean window.
+
+The earlier direct-route test also recorded `client-close` at `03:24:16.823906Z`, approximately 11.2 seconds after tab closure, but overlapped old rewrite tails and is not the clean baseline test. VM established port-8888 connections were zero at `03:28:02.666Z` through `03:28:03.440Z`. Final read-only VM sampling distinguishes all established TCP sockets, including ordinary HTTP keep-alives, from the bridge's SSE body gauge. Its final release result is recorded below.
+
+Final VM sampling ran `03:36:11.865Z–03:38:45.820Z` at approximately 257-ms intervals. Initial TCP count was zero; it rose to six at `03:36:27.279Z` (SSE plus ordinary API sockets), was five after the bridge's close, and returned to zero at `03:38:22.192Z`, remaining zero through the window's end. Complete TCP baseline recovery was observed 68.657 seconds after tab close completion. TCP totals do not identify individual sockets as SSE; the bridge body gauge and actual upstream-cancellation regression provide that distinction. The VM remained the existing service/writer; no reset or runtime mutation was issued.
+
+Lifecycle, auth, SSE, and HTTP/2 regression tests passed locally and in both merged PR CI runs. The HTTP/2 fixture asserts actual upstream cancellation. Deployment-origin tests cover default/approved origin and override precedence/rejection. Raw cloud logs, identities, tokens, and SSH metadata remain private ignored artifacts. #272's audience rehearsal and #257's readiness disposition retain separate gates; this observation does not complete them.

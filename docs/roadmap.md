@@ -35,9 +35,9 @@ The October 3 [Observer-P4 recovery audit](evidence/observer-p4-recovery-identit
 Do not widen access or make availability, capacity, or cost claims based on Hosted-P18-P4. Its rehearsal is blocked until a safe window and rollback identity are established, and P2/P3 gaps remain. The dated [P4 readiness review](evidence/hosted-p18-p4-readiness-2026-09-28.md) contains the bounded plan and current unknowns. The remaining validation includes:
 
 - Expired, wrong-project, and unapproved-user token rejection cases; missing and malformed cases have dated passing evidence.
-- Authenticated SSE reconnect, clean closure, and token refresh, plus a bridge process restart. VM restart continuity and bridge-to-VM recovery do not establish these results.
+- Authenticated SSE reconnect and token refresh, plus a bridge process restart. Observer-P5 now records bounded single-client clean closure; VM restart continuity and bridge-to-VM recovery do not establish the remaining cases.
 - Authenticated archive playback during live unavailability. Merged archive replay and multi-checkpoint publication do not prove outage independence operationally.
-- A real multi-viewer rehearsal, server active-stream cleanup telemetry, remaining service quotas, and attributable current billing. The 2026-10-03 single-session and cloud measurements establish neither audience capacity nor browser-attributable cost.
+- A real multi-viewer rehearsal, remaining service quotas, and attributable current billing. The [Observer-P5 evidence](evidence/observer-p5-stream-cleanup-2026-10-03.md) establishes process-scoped active-stream cleanup and one approved client returning to baseline, superseding the earlier absent-telemetry gate. #272 still requires its approved audience cap and safe window; #257/#253 remain open. These single-session measurements establish neither audience capacity nor browser-attributable cost.
 
 ## Gates before further AI or world expansion
 

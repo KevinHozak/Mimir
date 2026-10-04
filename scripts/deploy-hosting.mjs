@@ -8,6 +8,13 @@ const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const projectId = "mimir-realm";
 const hostingSite = "mimir-realm";
 const liveOrigin = "https://mimir-realm.web.app";
+const observerBridgeOrigin = "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app";
+
+export function resolveObserverApiOrigin(environment = process.env) {
+  const origin = environment.VITE_LIVE_API_URL ?? environment.VITE_API_URL ?? observerBridgeOrigin;
+  if (origin !== observerBridgeOrigin) throw new Error("Hosting builds must target the existing authenticated observer bridge directly");
+  return origin;
+}
 
 function run(command, args, options = {}) {
   const windowsCmd = new Set(["firebase", "npm"]);
@@ -61,36 +68,40 @@ async function verifyLiveAssets() {
   return assets;
 }
 
-try {
-  const status = run("git", ["status", "--porcelain"]);
-  assert(status.trim() === "", "working tree is not clean; deploy from a clean checkout");
-
-  run("git", ["fetch", "origin", "main"], { capture: false });
-  const head = run("git", ["rev-parse", "HEAD"]).trim();
-  const originMain = run("git", ["rev-parse", "origin/main"]).trim();
-  assert(head === originMain, `checkout is not at origin/main (HEAD ${head}, origin/main ${originMain})`);
-
-  console.log(`Building ${head}...`);
-  run("npm", ["run", "build"], { capture: false, env: { ...process.env, VITE_FIREBASE_AUTH_ENABLED: "true" } });
-
-  console.log(`Deploying Firebase Hosting site ${hostingSite} in project ${projectId}...`);
-  const deploymentOutput = run("firebase", ["deploy", "--only", `hosting:${hostingSite}`, "--project", projectId, "--json"]);
-  let deployment;
+const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
   try {
-    deployment = JSON.parse(deploymentOutput);
-  } catch {
-    throw new Error(`Firebase did not return parseable JSON:\n${deploymentOutput}`);
-  }
-  assert(deployment.status === "success", `Firebase deployment was not successful: ${deploymentOutput}`);
-  const version = deployment.result?.hosting;
-  assert(version, `Firebase did not return a Hosting version: ${deploymentOutput}`);
+    const observerApiOrigin = resolveObserverApiOrigin();
+    const status = run("git", ["status", "--porcelain"]);
+    assert(status.trim() === "", "working tree is not clean; deploy from a clean checkout");
 
-  console.log("Verifying the live index and every hashed asset...");
-  const assets = await verifyLiveAssets();
-  console.log(`Deployment verified: ${version}`);
-  console.log(`Live URL: ${liveOrigin}/`);
-  console.log(`Verified assets: ${assets.length}`);
-} catch (error) {
-  console.error(`Deployment failed: ${error.message}`);
-  process.exitCode = 1;
+    run("git", ["fetch", "origin", "main"], { capture: false });
+    const head = run("git", ["rev-parse", "HEAD"]).trim();
+    const originMain = run("git", ["rev-parse", "origin/main"]).trim();
+    assert(head === originMain, `checkout is not at origin/main (HEAD ${head}, origin/main ${originMain})`);
+
+    console.log(`Building ${head}...`);
+    run("npm", ["run", "build"], { capture: false, env: { ...process.env, VITE_FIREBASE_AUTH_ENABLED: "true", VITE_API_URL: observerApiOrigin } });
+
+    console.log(`Deploying Firebase Hosting site ${hostingSite} in project ${projectId}...`);
+    const deploymentOutput = run("firebase", ["deploy", "--only", `hosting:${hostingSite}`, "--project", projectId, "--json"]);
+    let deployment;
+    try {
+      deployment = JSON.parse(deploymentOutput);
+    } catch {
+      throw new Error(`Firebase did not return parseable JSON:\n${deploymentOutput}`);
+    }
+    assert(deployment.status === "success", `Firebase deployment was not successful: ${deploymentOutput}`);
+    const version = deployment.result?.hosting;
+    assert(version, `Firebase did not return a Hosting version: ${deploymentOutput}`);
+
+    console.log("Verifying the live index and every hashed asset...");
+    const assets = await verifyLiveAssets();
+    console.log(`Deployment verified: ${version}`);
+    console.log(`Live URL: ${liveOrigin}/`);
+    console.log(`Verified assets: ${assets.length}`);
+  } catch (error) {
+    console.error(`Deployment failed: ${error.message}`);
+    process.exitCode = 1;
+  }
 }
