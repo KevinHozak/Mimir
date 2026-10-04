@@ -6,7 +6,7 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Current delivery position
 
-Reconciled on 2026-10-04 against GitHub `main` at `e4a7286`. Writer hardening (#218), Living Lives (#228), public repository hygiene (#274/#278), generator path hygiene (#289), mobile observer zoom (#288), audio scheduling (#293), and owner-token auth (#290) are delivered. Observer-P7 (#272) delivered the bounded audience rehearsal harness and limits evidence. Observer-P8 (#257) consolidates all operational evidence, reconciles waived tasks #255/#256, establishes the bounded two-session/three-minute operational envelope, and closes Epic #253. Current active follow-up is documentation reconciliation (#258). The earlier September 27 issue inventory is historical and does not describe the current queue.
+Reconciled on 2026-10-04 against GitHub `main` at `26ac5e402308052b739336067ba2637c9accda45` (`26ac5e4`). Writer hardening (#218), Living Lives foundation (#228), public repository hygiene (#274/#278), generator path hygiene (#289), mobile observer zoom (#288), audio scheduling (#293), and owner-token auth (#290) are delivered. Observer Readiness Epic #253 is closed complete via Observer-P8 (#257) with an evidence-backed operational envelope (at most two concurrent sessions for at most 180 seconds). No issues or PRs remain open on GitHub other than documentation reconciliation (#258).
 
 Completed AI-P1 through AI-P20, RC-P1 through RC-P5, Resonance, hosted work, writer hardening, and Observer Readiness (#253) belong in the [Changelog](changelog.md), with their dated evidence and limits. The latest Living Lives phase evidence is recorded below.
 
@@ -18,7 +18,24 @@ The [Living Lives design and phased plan](living-lives-plan.md) records complete
 
 Lives-P5 completed its six-run offline fake-provider study, but deferred a live-model benefit claim and independent human review. Lives-P6 delivered versioned age/model progression and a matched offline comparison; its diagnostic fixture did not assess benefit. See the [P5 study](evidence/first-glow-lives-p5-study-2026-09-20.md) and [P6 comparison](evidence/first-glow-lives-p6-comparison-2026-09-20.md). Neither phase authorizes new provider calls or changes First Glow defaults.
 
-With Observer Readiness epic [#253](https://github.com/KevinHozak/Mimir/issues/253) closed via #257 disposition, the active queue turns to general documentation reconciliation (#258). A bounded live-model/human-review study remains deferred. First Glow remains the only supported runtime.
+## Next-workstream decision and priority analysis
+
+With the completion and closeout of Observer Readiness Epic [#253](https://github.com/KevinHozak/Mimir/issues/253) (phases #254–#257, #269–#272) and documentation reconciliation (#258), two candidate priorities were evaluated:
+
+1. **Candidate A: Reliability & Hosting Operational Hardening (beyond Epic #253 boundaries)**
+   - *Scope:* Re-opening and verifying the residual staging limitations waived in #255/#256 (expired/wrong-project token rejection against live GCP IAM, seamless in-flight SSE token refresh/reconnect without page reload, container survival across bridge restarts, live VM shutdown during archive replay, or multi-writer durability).
+   - *Evaluation:* As documented in the Observer-P8 disposition ([`docs/evidence/observer-p8-epic-disposition-2026-10-04.md`](evidence/observer-p8-epic-disposition-2026-10-04.md)), none of these limitations threaten the single authoritative SQLite writer invariant or system security. Unauthenticated access already fails closed, client stream cleanup is verified (11.19s), and the 2-session / 180-second staging ceiling is adequate for current development needs. Further operational hardening would require dedicated infrastructure expansion, live IAM token simulation, or persistence architecture changes without advancing core simulation value.
+
+2. **Candidate B: Bounded Living Lives Observer Slice (Recommended Next Workstream)**
+   - *Scope:* A small, tightly bounded observer refinement to the delivered Living Lives slice (Mira & Tovan encounter / Chronicle integration) to evaluate viewer engagement, narrative coherence, and evidence navigation during ordinary play—prioritizing offline, deterministic fixtures or authorized bounded studies before any live provider rollout.
+   - *Evaluation:* The primary creative and research question of Mimir is whether individual Sparks feel like someone living a life and whether AI-influenced encounters produce meaningful, traceable social consequences. With writer security, rehearsal harnesses, and observer baseline rendering stabilized, closing the loop on observer interaction with lived memories and the Chronicle delivers the highest value toward core project goals.
+
+**Decision & Recorded Direction:**
+- **Selected Next Workstream:** Candidate B — a bounded Living Lives observer evaluation and slice refinement.
+  - *Rationale:* Directly serves the central simulation goals while respecting established single-writer and provider-free replay invariants.
+  - *Dependencies:* Delivered Lives-P1 through Lives-P4 contracts, existing Chronicle and Follow mode UI, and the writer-hardening base.
+  - *Acceptance Gate:* Verified observer experience across World, Follow, and Chronicle on committed First Glow history, preserving Spark-local knowledge and deterministic fallback behavior, with explicit evidence documentation before considering live provider evaluations.
+  - *Deferred Scope:* Candidate A (further hosted audience scaling, live IAM token fuzzing, or multi-writer persistence) is formally deferred until a wider audience or production SLA is explicitly required. First Glow remains the only supported runtime.
 
 ## Writer-hardening closeout
 

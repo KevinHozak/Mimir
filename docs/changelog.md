@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-04 — Hosted-P19 roadmap priority reconciliation
+
+- Reconciled roadmap delivery position and open/closed GitHub issue state against `main` at `26ac5e4`.
+- Reconciled the conclusion of Observer Readiness Epic [#253](https://github.com/KevinHozak/Mimir/issues/253) (phases #254–#257, #269–#272) and verified that all open issues/PRs are resolved.
+- Evaluated candidate priorities between further hosting/reliability hardening and a bounded Living Lives observer slice; recorded the decision to prioritize the bounded Living Lives observer slice while formally deferring further hosting expansion.
+
 ## 2026-10-04 — Observer-P8 epic disposition and validation consolidation
 
 - Consolidated evidence across recovery (#269), active stream cleanup (#270), responsive mobile controls (#271), and bounded rehearsal limits (#272) in [Observer-P8 evidence](evidence/observer-p8-epic-disposition-2026-10-04.md).
