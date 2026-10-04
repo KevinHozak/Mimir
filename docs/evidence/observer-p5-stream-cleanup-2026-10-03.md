@@ -2,7 +2,7 @@
 
 Issue [#270](https://github.com/KevinHozak/Mimir/issues/270) has a successful bounded single-client cleanup observation after the authorized bridge and Hosting deployments. The initial failed transport is retained below. This is process-scoped evidence, not audience capacity or an atomic fleet gauge.
 
-The above describes the initial preparation. The user subsequently explicitly authorized PR delivery, deployment, and the single-client verification. The initial authorized rollout and its failed cleanup observation are recorded below; they supersede the preparation-only disposition without erasing the failure.
+Initial preparation introduced no hosted changes. The user subsequently explicitly authorized PR delivery, deployment, and the single-client verification. The authorized rollouts, failed cleanup observations, and final successful direct-route observation are recorded below without erasing the failures.
 
 ## Existing evidence and access
 
