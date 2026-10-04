@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY packages ./packages
 COPY scripts/observer-bridge.mjs ./scripts/observer-bridge.mjs
+COPY scripts/observer-bridge-auth.mjs ./scripts/observer-bridge-auth.mjs
 RUN npm ci --ignore-scripts
 ENV NODE_ENV=production
 CMD ["node", "scripts/observer-bridge.mjs"]

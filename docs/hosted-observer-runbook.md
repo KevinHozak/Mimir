@@ -144,6 +144,14 @@ The response path is: inspect `/api/backup/status`, preserve the failed local ba
 
 ## Independent-backup validation evidence
 
+### Observer stream lifecycle diagnostics
+
+The bridge supports opt-in `OBSERVER_STREAM_TELEMETRY=1` JSON records on its existing stdout. Enabling this on a hosted revision requires separate deployment/configuration authorization. It adds no HTTP endpoint or logging service. Each record contains a UTC timestamp, revision, random process-session identity, event, and process-local counts. `activeRequests` counts authenticated GET `/api/live` handlers, including pending upstream headers; `activeUpstreamStreams` counts successful upstream SSE bodies until pipeline settlement. HEAD, rejected identities, regular API reads, completed Cloud Run requests, and container counts are different measures.
+
+Records include startup baseline, 30-second samples, opens, and closes. Close records carry a bounded reason and total handler duration in milliseconds; this duration is not client-close-to-VM-release latency. Records omit bearer tokens, identity claims, URLs, and raw errors. Counters and timers settle when the body pipeline ends, including client closure, upstream failure, and timeout. `npm run test:observer-bridge-lifecycle` checks local counters alongside actual upstream socket closure.
+
+Before claiming a hosted baseline, inventory every serving revision and process session during a timestamped window, verify log access and sampling coverage, and account for processes that terminate without close records. These are process-local gauges, not an atomic all-instance total; missing logs cannot establish zero streams. For one separately approved observer client, correlate connect/close timestamps, bridge counts returning to the prior baseline, and VM-side connection release. Keep #270 open until those hosted observations exist. See [Observer-P5 evidence and gaps](evidence/observer-p5-stream-cleanup-2026-10-03.md).
+
 The automated replication contract and operator response path are recorded in the dated [Hosted-P8 replication evidence](evidence/hosted-backup-replication-2026-09-11.md).
 
 The dated validation record is [hosted-backup-recovery-2026-09-11.md](evidence/hosted-backup-recovery-2026-09-11.md). It verifies the actual independent object-storage transfer, bundle-inclusive manifest, fresh restore, latest First Glow checkpoint recovery, one continued pulse from the restored database, and pre-startup failure when a referenced asset is missing. It does not claim automatic cloud upload, public availability, durable multi-writer operation, or final production readiness.
