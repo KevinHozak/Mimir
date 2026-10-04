@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { assertOwnerAuthConfiguration, hasValidOwnerToken, isLoopbackHost, ownerAuthRequired } from "./owner-auth.js";
+import { assertOwnerAuthConfiguration, hasValidOwnerToken, isLoopbackHost, isOwnerAuthorized, ownerAuthRequired } from "./owner-auth.js";
 
 assert.equal(isLoopbackHost("127.0.0.1"), true);
 assert.equal(isLoopbackHost("::1"), true);
@@ -12,4 +12,9 @@ assert.throws(() => assertOwnerAuthConfiguration("0.0.0.0", false, false, undefi
 assert.equal(hasValidOwnerToken("correct horse", "correct horse"), true);
 assert.equal(hasValidOwnerToken("correct horse", "wrong token"), false);
 assert.equal(hasValidOwnerToken("correct horse", undefined), false);
+assert.equal(isOwnerAuthorized("127.0.0.1", false, false, undefined, undefined), true);
+assert.equal(isOwnerAuthorized("127.0.0.1", false, false, "token", undefined), false);
+assert.equal(isOwnerAuthorized("127.0.0.1", false, false, "token", "token"), true);
+assert.equal(isOwnerAuthorized("0.0.0.0", false, false, "token", undefined), false);
+assert.equal(isOwnerAuthorized("0.0.0.0", false, false, "token", "token"), true);
 console.log("Owner authentication rules passed");

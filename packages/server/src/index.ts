@@ -13,7 +13,7 @@ import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
 import { observerAuthRequired, verifyObserverToken } from "./observer-auth.js";
 import { PulseGate, PulseInFlightError } from "./pulse-gate.js";
-import { assertOwnerAuthConfiguration, hasValidOwnerToken, ownerAuthRequired } from "./owner-auth.js";
+import { assertOwnerAuthConfiguration, hasValidOwnerToken, isOwnerAuthorized, ownerAuthRequired } from "./owner-auth.js";
 
 const port = Number(process.env.PORT ?? 8888);
 const host = process.env.HOST ?? "127.0.0.1";
@@ -202,8 +202,25 @@ function applyFirstGlowPendingCommands(base: WorldState, pulse: number): { state
   return { state: next, events, commands };
 }
 
-app.get("/health", async () => ({ ok: true, pulse: state.pulse, schedulerPaused, databasePath, timeline: currentTimeline(), socialMode, socialBudgetCents, backupReplication: currentBackupReplicationStatus() }));
-app.get("/api/backup/status", async () => currentBackupReplicationStatus());
+app.get("/health", async (request) => {
+  const isOwner = isOwnerAuthorized(host, serveWeb, hostedStart, ownerToken, request.headers["x-owner-token"]);
+  const replication = currentBackupReplicationStatus();
+  const sanitizedReplication = isOwner ? replication : { enabled: replication.enabled, stale: replication.stale };
+  return {
+    ok: true,
+    pulse: state.pulse,
+    schedulerPaused,
+    ...(isOwner ? { databasePath } : {}),
+    timeline: currentTimeline(),
+    socialMode,
+    socialBudgetCents,
+    backupReplication: sanitizedReplication,
+  };
+});
+app.get("/api/backup/status", async (request, reply) => {
+  if (!requireOwner(request, reply)) return;
+  return currentBackupReplicationStatus();
+});
 app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: socialBudgetCents }));
 app.get("/api/design", async () => ({ themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN }));
 app.get("/api/reflection", async () => ({ projection: projectFirstGlowObserver(state.firstGlowState), runtime: aiRuntime.status(), timelineId: activeTimelineId }));

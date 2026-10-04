@@ -19,3 +19,8 @@ export function hasValidOwnerToken(expected: string | undefined, provided: strin
   const providedBytes = Buffer.from(provided);
   return expectedBytes.length === providedBytes.length && timingSafeEqual(expectedBytes, providedBytes);
 }
+
+export function isOwnerAuthorized(host: string, serveWeb: boolean, hostedStart: boolean, ownerToken: string | undefined, providedToken: string | string[] | undefined): boolean {
+  const loopbackWithoutToken = !ownerToken && !ownerAuthRequired(host, serveWeb, hostedStart);
+  return loopbackWithoutToken || hasValidOwnerToken(ownerToken, providedToken);
+}
