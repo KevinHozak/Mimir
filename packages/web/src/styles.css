@@ -257,7 +257,10 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 @media (max-width: 520px) { .observer-control-area { justify-content: stretch; } .observer-control-area .observer-zoom-controls, .audio-quick-controls { flex: 1 1 100%; justify-content: center; } .audio-quick-button { flex: 1; } }
 
 /* Keep the hosted observer controls as one compact, two-row panel. */
-.first-glow .first-glow-header .observer-control-area { box-sizing: border-box; gap: 6px; width: min(260px, calc(100vw - 56px)); height: 88px; max-width: calc(100vw - 56px); padding: 4px 8px; }
+.first-glow .first-glow-header .observer-control-area { box-sizing: border-box; flex-wrap: nowrap; gap: 6px; width: min(260px, calc(100vw - 56px)); height: 88px; max-width: calc(100vw - 56px); padding: 4px 8px; }
+/* These are rows in a column panel, not full-height items in a wrapping row. */
+.first-glow .first-glow-header .observer-control-area > .observer-zoom-controls,
+.first-glow .first-glow-header .observer-control-area > .audio-quick-controls { flex: 0 0 36px; min-width: 0; }
 .first-glow .first-glow-header .observer-control-area .observer-zoom-controls { box-sizing: border-box; display: flex !important; justify-content: center; gap: 6px; width: 100% !important; height: 36px !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }
 .first-glow .first-glow-header .observer-control-area .audio-quick-controls { justify-content: center; width: 100%; gap: 6px; }
 
