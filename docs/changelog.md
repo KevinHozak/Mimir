@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-03 — Observer stream cleanup measured
+
+- Delivered awaited stream cleanup, bounded full-body deadlines, private process-scoped lifecycle telemetry, and cancellation regressions in [PR #281](https://github.com/KevinHozak/Mimir/pull/281). [PR #282](https://github.com/KevinHozak/Mimir/pull/282) adds h2c cancellation support without changing observer authentication or the private single writer.
+- Authorized bridge and exact clean-main Hosting deployments now use the existing direct authenticated API route. One approved fresh client showed 0 → 1 → 0 streams with client-close cleanup about 11.2 seconds after tab closure; VM TCP connections returned to baseline. Failed rewrite attempts and cached-client limits are preserved in [dated evidence](evidence/observer-p5-stream-cleanup-2026-10-03.md).
+- Guarded Hosting builds default to the exact direct bridge and reject conflicting API origins, with regression coverage. Multi-viewer capacity and broader readiness remain separate #272/#257 gates.
+
 ## 2026-10-03 — Authenticated bundle assets deployed
 
 - Deployed merged [PR #266](https://github.com/KevinHozak/Mimir/pull/266) with guarded clean-main Hosting verification: version `2b0287700b57d854`, exact index and both hashed assets matched.

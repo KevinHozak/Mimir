@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { resolveObserverApiOrigin } from "./deploy-hosting-config.mjs";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -62,6 +63,7 @@ async function verifyLiveAssets() {
 }
 
 try {
+  const observerApiOrigin = resolveObserverApiOrigin();
   const status = run("git", ["status", "--porcelain"]);
   assert(status.trim() === "", "working tree is not clean; deploy from a clean checkout");
 
@@ -71,7 +73,7 @@ try {
   assert(head === originMain, `checkout is not at origin/main (HEAD ${head}, origin/main ${originMain})`);
 
   console.log(`Building ${head}...`);
-  run("npm", ["run", "build"], { capture: false, env: { ...process.env, VITE_FIREBASE_AUTH_ENABLED: "true" } });
+  run("npm", ["run", "build"], { capture: false, env: { ...process.env, VITE_FIREBASE_AUTH_ENABLED: "true", VITE_API_URL: observerApiOrigin } });
 
   console.log(`Deploying Firebase Hosting site ${hostingSite} in project ${projectId}...`);
   const deploymentOutput = run("firebase", ["deploy", "--only", `hosting:${hostingSite}`, "--project", projectId, "--json"]);
