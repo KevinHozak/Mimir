@@ -1,0 +1,400 @@
+{
+  "desktop": {
+    "start": "2026-10-04T00:22:44.957Z",
+    "end": "2026-10-04T00:22:49.402Z",
+    "complete": true,
+    "requestCount": 20,
+    "responseCount": 19,
+    "liveRequests": 1,
+    "rows": [
+      {
+        "path": "/",
+        "status": 200,
+        "encodedBytes": 412,
+        "fromDiskCache": false,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/assets/index-BUYIgogU.css",
+        "status": 200,
+        "encodedBytes": 7222,
+        "fromDiskCache": false,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/assets/index-DQwFr22r.js",
+        "status": 200,
+        "encodedBytes": 397600,
+        "fromDiskCache": false,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/favicon.ico",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/api/reflection",
+        "status": 404,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=600"
+      },
+      {
+        "path": "/api/events",
+        "status": 200,
+        "encodedBytes": 380,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/interpretations",
+        "status": 200,
+        "encodedBytes": 389,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world",
+        "status": 200,
+        "encodedBytes": 38403,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/metrics",
+        "status": 200,
+        "encodedBytes": 578,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/resonance",
+        "status": 200,
+        "encodedBytes": 422,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/region",
+        "status": 200,
+        "encodedBytes": 630,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/design",
+        "status": 200,
+        "encodedBytes": 11683,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/mimir-light-mark.svg",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+        "status": 200,
+        "encodedBytes": 837,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg",
+        "status": 200,
+        "encodedBytes": 727,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+        "status": 200,
+        "encodedBytes": 800,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+        "status": 200,
+        "encodedBytes": 723,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+        "status": 200,
+        "encodedBytes": 769,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/mimir-light-mark.svg",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      }
+    ]
+  },
+  "mobile": {
+    "start": "2026-10-04T00:23:16.973Z",
+    "end": "2026-10-04T00:23:50.887Z",
+    "complete": true,
+    "requestCount": 36,
+    "responseCount": 35,
+    "liveRequests": 1,
+    "rows": [
+      {
+        "path": "/",
+        "status": 200,
+        "encodedBytes": 256,
+        "fromDiskCache": false,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/assets/index-BUYIgogU.css",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/assets/index-DQwFr22r.js",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/favicon.ico",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/api/reflection",
+        "status": 404,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=600"
+      },
+      {
+        "path": "/api/region",
+        "status": 200,
+        "encodedBytes": 630,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/design",
+        "status": 200,
+        "encodedBytes": 11689,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/interpretations",
+        "status": 200,
+        "encodedBytes": 389,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/metrics",
+        "status": 200,
+        "encodedBytes": 578,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/resonance",
+        "status": 200,
+        "encodedBytes": 422,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/events",
+        "status": 200,
+        "encodedBytes": 380,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world",
+        "status": 200,
+        "encodedBytes": 38369,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/mimir-light-mark.svg",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+        "status": 200,
+        "encodedBytes": 768,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+        "status": 200,
+        "encodedBytes": 837,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+        "status": 200,
+        "encodedBytes": 723,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg",
+        "status": 200,
+        "encodedBytes": 726,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+        "status": 200,
+        "encodedBytes": 800,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/mimir-light-mark.svg",
+        "status": 200,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=3600"
+      },
+      {
+        "path": "/api/reflection",
+        "status": 404,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=600"
+      },
+      {
+        "path": "/api/events",
+        "status": 200,
+        "encodedBytes": 380,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/world",
+        "status": 200,
+        "encodedBytes": 38388,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/interpretations",
+        "status": 200,
+        "encodedBytes": 389,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/region",
+        "status": 200,
+        "encodedBytes": 630,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/resonance",
+        "status": 200,
+        "encodedBytes": 422,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/metrics",
+        "status": 200,
+        "encodedBytes": 577,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/design",
+        "status": 200,
+        "encodedBytes": 11680,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/reflection",
+        "status": 404,
+        "encodedBytes": 0,
+        "fromDiskCache": true,
+        "cacheControl": "max-age=600"
+      },
+      {
+        "path": "/api/world",
+        "status": 200,
+        "encodedBytes": 38378,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/interpretations",
+        "status": 200,
+        "encodedBytes": 389,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/events",
+        "status": 200,
+        "encodedBytes": 380,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/metrics",
+        "status": 200,
+        "encodedBytes": 578,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/design",
+        "status": 200,
+        "encodedBytes": 11686,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/resonance",
+        "status": 200,
+        "encodedBytes": 422,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      },
+      {
+        "path": "/api/region",
+        "status": 200,
+        "encodedBytes": 630,
+        "fromDiskCache": false,
+        "cacheControl": "private"
+      }
+    ]
+  }
+}

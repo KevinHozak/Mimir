@@ -2,28 +2,24 @@
 
 The supported hosted experience is limited Google-authenticated observation at [mimir-realm.web.app](https://mimir-realm.web.app/), through Firebase Hosting and the Cloud Run bridge to one private Compute Engine VM and SQLite writer. `render.yaml` remains an alternative single-instance configuration, not evidence of a live Render deployment.
 
-## Current disposition — 2026-09-28
+## Current disposition — 2026-10-03
 
-Hosted-P14 through Hosted-P16 are delivered; Hosted-P17 is closed with explicit limitations. The latest retained validation records Firebase Hosting version `82cc93e9b9470f8e` from merged commit `fbd4eb8`. Missing/malformed tokens were rejected, the authenticated observer hid owner controls, and VM continuity, bridge-to-VM recovery, synthetic traffic, and Compute Engine quota evidence were recorded. See [Hosted-P17 operational evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md).
+Hosted-P14 through Hosted-P16 are delivered; Hosted-P17 is closed with explicit limitations. The historical 2026-09-15 validation records Firebase Hosting version `82cc93e9b9470f8e` from merged commit `fbd4eb8`. Missing/malformed tokens were rejected, the authenticated observer hid owner controls, and VM continuity, bridge-to-VM recovery, synthetic traffic, and Compute Engine quota evidence were recorded. See [Hosted-P17 operational evidence](evidence/hosted-p17-operational-closeout-2026-09-14.md).
 
-Expired/wrong-project/unapproved token cases, authenticated SSE refresh/reconnect/closure, a bridge process restart, archive replay during live unavailability, and real audience/billing telemetry remain unverified. Hosted-P18 (#253) revisits these gates: #255 and #256 are closed as not planned, without evidence satisfying their listed acceptance cases. Desktop and mobile-sized rendering were visually checked on 2026-09-28; the 375 CSS-pixel layout had no horizontal overflow, but five required world-bundle SVG requests returned 401 in the single-session network sample. The client bearer-fetch correction is in review and is not deployed; repeat the asset check against the updated hosted build before marking this gate passed. The P4 audience rehearsal (#257) is not run and still lacks a safe window and verified rollback identity. Do not widen access or make capacity, availability, or cost claims. See the dated [P4 readiness review and rehearsal plan](evidence/hosted-p18-p4-readiness-2026-09-28.md). The snapshots below retain their original dates and do not establish current live configuration.
+On 2026-10-03, merged PR #266 at `d1aa17e` was deployed with the guarded clean-main workflow to Hosting version `2b0287700b57d854`; exact live index and both hashed assets matched. Desktop and mobile-sized core rendering succeeded and all five required authenticated bundle SVGs returned 200. Mobile zoom controls remain clipped, so this is not an unqualified usability pass. Single-session request/cache/transfer measurements, bridge/VM CPU and bridge memory, Compute quotas, and September project/service billing are recorded in the [dated deployment evidence](evidence/hosted-p18-p4-deployment-2026-10-03.md). The multi-viewer rehearsal remains blocked by no approved audience cap or safe window, unverified available rollback/recovery identities, and absent server active-stream cleanup telemetry. #257/#253 stay open; #201 remains the historical closeout with limitations. P2/P3 closed-as-not-planned status is not acceptance evidence. No capacity, availability, or browser-attributable cost claim follows.
 
 ## Google Cloud pre-provisioning snapshot
 
 Last verified: 2026-09-11.
 
-- Google account: `khozak@gmail.com`
-- Dedicated project: **Mimir** (`mimir-realm`, project number `487827684488`)
+- Dedicated project: **Mimir** (`mimir-realm`)
 - Target region: `us-central1` (Iowa), selected because it is an eligible US region for the Compute Engine free tier and keeps the runtime and planned bucket in the same location
-- Billing: enabled on billing account `billingAccounts/01E836-7FDB98-C1FD83`
 - Enabled services: `compute.googleapis.com`, `storage.googleapis.com`, `billingbudgets.googleapis.com`, and `iap.googleapis.com`
-- Monthly budget alert: `$10 USD`, scoped to `mimir-realm`, with current-spend thresholds at 50%, 75%, 90%, and 100%
-- Budget resource ID: `6b5b23a7-494e-4ef6-9a1e-e09eec716a5f`
 - `us-central1` quota during audit: 24 instances, 24 E2 CPUs, 4,096 GB total disks, and 8 external addresses allowed; current usage was 0 for each relevant resource
 - Hosted-P4/P6 staging resources: `mimir-staging` in `us-central1-a`, one `e2-micro`, and one 30 GB standard persistent disk; the VM has no external address. Hosted-P5's independent bucket is recorded below in the backup boundary and evidence sections.
 - A separate existing project named `mimir-20260911` is not part of this plan; only `mimir-realm` is the Mimir hosting project
 
-This budget is an alert, not a hard spending cap. The existing Codex Realm project remains separate from Mimir hosting. Local Application Default Credentials still use a different quota project; align that before application-level cloud calls if needed.
+The existing Codex Realm project remains separate from Mimir hosting. Local Application Default Credentials still use a different quota project; align that before application-level cloud calls if needed.
 
 The planned low-cost shape is one small Compute Engine VM running the existing single-writer Node/SQLite service, a standard persistent disk for runtime state, and a separately isolated Cloud Storage backup destination. Hosted-P4 provisioned and tested the private staging VM, and Hosted-P5 has now provisioned and recovery-tested the independent backup destination. Public/durable readiness remains a later phase.
 
@@ -39,9 +35,9 @@ The 2026-09-11 pricing check supports `e2-micro` in `us-central1` as the first s
 | Egress | Compute Engine Always Free includes 1 GB/month of outbound transfer from North America to eligible destinations. | Keep the first deployment a small observer/staging service and treat traffic above that allowance as billable. |
 | Backup storage | Cloud Storage Standard in `us-central1` is `$0.000027397/GiB-hour`, approximately `$0.02/GiB-month`; Always Free includes 5 GB-months in supported US regions, plus limited operations and North America transfer. | Use a Standard bucket in an independent backup project, with lifecycle retention and a size cap reviewed before creation. |
 
-An eligible account staying within the documented allowances could keep the initial VM and 30 GB disk at approximately `$0` in service charges, but the public IPv4, overage traffic, backup retention, operations, logging, and any ineligible-account usage can still bill. The `$10/month` alert is therefore a warning threshold, not a hard cap. Pricing and free-tier terms are drift-prone and must be rechecked immediately before provisioning.
+An eligible account staying within the documented allowances could keep the initial VM and 30 GB disk at approximately `$0` in service charges, but the public IPv4, overage traffic, backup retention, operations, logging, and any ineligible-account usage can still bill. Pricing and free-tier terms are drift-prone and must be rechecked immediately before provisioning.
 
-Without applicable free-tier credit, the simple 730-hour baseline is approximately `$10.96/month` before backup storage, egress, logging, or operations (`$6.11` VM + `$1.20` for 30 GiB-months of disk + `$3.65` IPv4). Therefore, Hosted-P4 must not provision a continuously public VM under the `$10` plan until free-tier eligibility or a revised budget is explicitly confirmed.
+Without applicable free-tier credit, the simple 730-hour baseline is approximately `$10.96/month` before backup storage, egress, logging, or operations (`$6.11` VM + `$1.20` for 30 GiB-months of disk + `$3.65` IPv4). Therefore, Hosted-P4 must not provision a continuously public VM under the selected private spending envelope until free-tier eligibility or a revised budget is explicitly confirmed.
 
 Pricing sources checked on 2026-09-11: [Compute Engine general-purpose VM pricing](https://cloud.google.com/products/compute/pricing/general-purpose), [Google Cloud Free Tier limits](https://cloud.google.com/free/docs/free-cloud-features), [VPC network pricing](https://cloud.google.com/vpc/network-pricing), and [Cloud Storage pricing](https://cloud.google.com/storage/pricing).
 
@@ -57,7 +53,7 @@ The boundary for any future public model is explicit:
 - Owner operations remain private and authenticated. The `OWNER_TOKEN` must never be shipped to the browser, placed in a public URL, or accepted through an unauthenticated public route.
 - The server remains the sole simulation writer. A public client cannot pulse, reset, branch, archive, continue, or otherwise create outcomes, and the deployment remains one SQLite writer unless a separate persistence decision is made.
 - No public deployment, endpoint, credential, service account, load balancer, external IPv4 address, or other billable resource is created by this phase.
-- Before reconsidering the decision, recheck current Google Cloud prices and free-tier eligibility, privacy/support expectations, traffic and egress assumptions, backup freshness evidence, and the `$10` alert configuration. The alert is not a spending cap.
+- Before reconsidering the decision, recheck current Google Cloud prices and free-tier eligibility, privacy/support expectations, traffic and egress assumptions, backup freshness evidence, and privately held spending controls. An alert is not a spending cap.
 
 Hosted-P8 through Hosted-P16 are complete through their merged implementation and validation work. Hosted-P17 is now closed as a bounded staging closeout with explicit limitations; the current hosted boundary and unverified follow-up risks are recorded below.
 
@@ -75,11 +71,11 @@ Hosted-P13 retained the bounded scale decision: Firebase remains the public web/
 
 The 2026-09-13 Hosted-P14 deployment established limited authenticated staging at `https://mimir-realm.web.app/`. Firebase Hosting rewrites `/api/**` to the `mimir-observer-bridge` Cloud Run service in `us-central1`; revision `mimir-observer-bridge-00004-qff` was verified. The bridge validates an approved, verified Google ID token and forwards only observer reads and SSE to the private `mimir-staging` VM. It has no service-account key, does not receive `OWNER_TOKEN`, and rejects owner/mutation routes.
 
-In that 2026-09-13 sample, the unauthenticated `GET /api/world` check returned HTTP 401 with `approved Google account required`. An authenticated browser check as `khozak@gmail.com` loaded the live First Glow observer at pulse 28 with 12 Sparks and 7 sites; owner controls were absent. The hosted frontend build, restart-equivalence, and queued-command/idempotency checks passed. Those were initial P14 measurements. Later archive implementation and P17 validation supersede parts of that initial gate list; the remaining limits are listed in the current disposition above. See [P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md).
+In that 2026-09-13 sample, the unauthenticated `GET /api/world` check returned HTTP 401 with `approved Google account required`. An authenticated browser check using an existing approved identity loaded the live First Glow observer at pulse 28 with 12 Sparks and 7 sites; owner controls were absent. The hosted frontend build, restart-equivalence, and queued-command/idempotency checks passed. Those were initial P14 measurements. Later archive implementation and P17 validation supersede parts of that initial gate list; the remaining limits are listed in the current disposition above. See [P14 deployment evidence](evidence/hosted-live-observer-2026-09-13.md).
 
 ## Independent backup boundary
 
-The backup destination is intentionally separate from the runtime project. Hosted-P5 provisioned project `mimir-realm-backups` (`172815598347`) under billing account `01E836-7FDB98-C1FD83`, with bucket `gs://mimir-realm-backups-uscentral1-172815598347` in `US-CENTRAL1`. A separate `$10/month` project-scoped budget alert (`3d88a91f-0b28-4997-9a8c-2955e73e1923`) covers this project; the existing `mimir-realm` alert does not cover it.
+The backup destination is intentionally separate from the runtime project. Hosted-P5 provisioned an independently administered encrypted object-storage destination in US-CENTRAL1. Private project numbers, bucket identities, billing identifiers, and spending controls are omitted from this public guide.
 
 The configured backup controls are:
 
@@ -92,13 +88,13 @@ The configured backup controls are:
 - bucket/project administration and retention-policy changes reserved for a separate administrator identity; and
 - no long-lived service-account key committed to the repository or copied into the VM image.
 
-The project ID, bucket name, identities, retention settings, and budget are recorded in the dated [Hosted-P5 backup evidence](evidence/hosted-backup-recovery-2026-09-11.md). Hosted-P8 adds optional scheduled replication without changing the single-writer runtime. When `BACKUP_GCS_URI` is configured, each existing `BACKUP_INTERVAL_MS` backup is packaged as one temporary archive containing the database, manifest, and referenced bundle directory, uploaded with `gcloud storage cp`, and verified with `gcloud storage objects describe`. The VM must use its attached keyless writer identity; no service-account key is accepted by this path.
+Historical backup validation is recorded in the dated [Hosted-P5 backup evidence](evidence/hosted-backup-recovery-2026-09-11.md). Hosted-P8 adds optional scheduled replication without changing the single-writer runtime. When `BACKUP_GCS_URI` is configured, each existing `BACKUP_INTERVAL_MS` backup is packaged as one temporary archive containing the database, manifest, and referenced bundle directory, uploaded with `gcloud storage cp`, and verified with `gcloud storage objects describe`. The VM must use its attached keyless writer identity; no service-account key is accepted by this path.
 
 The operator-visible status is available at `/api/backup/status` and is also included in `/health`. It reports whether replication is enabled, the destination, the freshness threshold, last attempt/success timestamps, last object URI, archive hash/size, consecutive failures, and a `stale` flag. A stale or failed replication does not make the process pretend that local disk is independent recovery: investigate the recorded error, verify the bucket and attached identity, and perform a fresh isolated restore before declaring the backup path healthy.
 
 ## Hosted-P3 verification record (historical pre-provisioning audit)
 
-The 2026-09-11 pre-provisioning audit used the active `gcloud` account `khozak@gmail.com` and project `mimir-realm`. At that point it confirmed the project was `ACTIVE`, billing was enabled on `billingAccounts/01E836-7FDB98-C1FD83`, the relevant Compute Engine, Cloud Storage, and Billing Budgets services were enabled, and the project-scoped `$10` budget had 50%, 75%, 90%, and 100% current-spend thresholds. The then-empty resource listing is historical; Hosted-P4/P5/P6 provisioning and validation are recorded in the sections above and below.
+The 2026-09-11 pre-provisioning audit confirmed the selected project was active, billing was enabled, and relevant services were enabled. Private operator and spending details are omitted. The then-empty resource listing is historical; Hosted-P4/P5/P6 provisioning and validation are recorded above and below.
 
 The following claims remain unproven: the account's actual Free Tier eligibility, exact billed amount after continued traffic, billing-alert delivery timing, public availability, durable multi-writer operation, and horizontal scaling. Hosted-P3 did not create an owner token. Hosted-P4 created a staging-only owner token in root-only secret configuration; Hosted-P6 verified that the live VM token file is root-owned mode `600` and did not print or commit it.
 
