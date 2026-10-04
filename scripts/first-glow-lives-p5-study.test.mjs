@@ -1,5 +1,5 @@
 import { readFileSync, rmSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runStudy } from "./first-glow-lives-p5-study.mjs";
 
@@ -13,7 +13,9 @@ assert(report.runs.length === 6 && report.integrity.allRunsComplete, "resume mus
 assert(report.integrity.allReplayProviderFree && report.integrity.allReplayBudgetFree && report.integrity.allKnowledgeBounded && report.integrity.allAccountingComplete, "replay, knowledge, or accounting integrity failed");
 assert(report.integrity.allMatchedInputs && report.integrity.noViewingAdvantage, "matched watched/unwatched controls failed");
 assert(report.review.independentHumanReview === "pending" && report.decision === "defer", "offline fixture must not claim benefit");
-assert(report.manifests.every(item => item.sanitizedOutputs === temp && item.replayInputs.includes("#runs/")), "run manifest links are incomplete");
+const expectedRelTemp = relative(root, temp).replace(/\\/g, "/");
+assert(report.manifests.every(item => item.sanitizedOutputs === expectedRelTemp && item.replayInputs.includes("#runs/")), "run manifest links are incomplete");
 assert(JSON.parse(readFileSync(temp, "utf8")).runs.length === 6, "written report is incomplete");
 rmSync(temp, { force: true });
+rmSync(temp.replace(/\.json$/, ".md"), { force: true });
 console.log("Lives-P5 study harness verified: resume, integrity, replay, accounting, and benefit-gate deferral pass.");
