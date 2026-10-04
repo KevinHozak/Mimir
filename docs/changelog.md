@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-03 — Authenticated bundle assets deployed
+
+- Deployed merged [PR #266](https://github.com/KevinHozak/Mimir/pull/266) with guarded clean-main Hosting verification: version `2b0287700b57d854`, exact index and both hashed assets matched.
+- Verified five required bundle SVGs return 200 in authenticated desktop and mobile-sized observation. Retained client transfer/cache data, read-only load/quota measurements, and historical service billing in [dated evidence](evidence/hosted-p18-p4-deployment-2026-10-03.md).
+- Mobile zoom clipping and the multi-viewer/rollback/stream-cleanup gates remain open; this does not complete #257/#253 or establish production readiness.
+
 ## 2026-09-20 — Lives-P4 evidence-linked Chronicle baseline
 
 - Added immutable, versioned Chronicle editions with moment, personal, and season chapters derived from committed First Glow records at an explicit timeline/pulse cutoff. Each chapter carries a source snapshot hash, evidence references, selected Sparks, narrator provenance, and historical-scene illustration provenance.
@@ -84,7 +90,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Verified local bundle-inclusive backup and restore, including referenced bundle recovery and integrity failure behavior, then transferred a hosted bundle-inclusive backup to independent Cloud Storage and restored it with a separate recovery identity.
 - Added optional Hosted-P8 scheduled replication of the complete bundle-inclusive backup unit to Cloud Storage with remote size/checksum verification and operator-visible freshness/failure status. The path uses the VM's attached keyless identity and preserves the separate recovery identity; it does not create public access or replace isolated restore validation.
 - Captured a production-preview profile with fixed First Glow inputs and desktop/mobile evidence. The mobile DPR2 result remains a documented performance limitation, not a broad readiness claim.
-- Established the Google Cloud staging guardrails, including the selected project, billing connection, small VM shape, and $10 budget alert.
+- Established the Google Cloud staging guardrails, including the selected project, billing connection, small VM shape, and privately recorded spending guardrails.
 - Provisioned the private IAP-only, single-writer staging observer with same-origin web serving and persistent state, then verified 24 authenticated pulses, restart continuity, and owner-token protection. It is not public or durable production hosting.
 
   - Through [PR #112](https://github.com/KevinHozak/Mimir/pull/112), [PR #113](https://github.com/KevinHozak/Mimir/pull/113), [PR #114](https://github.com/KevinHozak/Mimir/pull/114), [PR #118](https://github.com/KevinHozak/Mimir/pull/118), [PR #119](https://github.com/KevinHozak/Mimir/pull/119), [PR #120](https://github.com/KevinHozak/Mimir/pull/120), and [PR #121](https://github.com/KevinHozak/Mimir/pull/121).
