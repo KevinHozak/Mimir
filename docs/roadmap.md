@@ -6,7 +6,7 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Current delivery position
 
-Reconciled on 2026-10-04 against GitHub `main` at `1c56fd9d9ab8cc05a20e513b1b3e491f12e61feb`. Writer hardening (#218), Living Lives (#228), public repository hygiene (#274/#278), and generator path hygiene (#289) are delivered. PR #288 merges the mobile observer zoom correction with local bounds and interaction evidence; authenticated hosted verification for #271 remains open. Current unfinished work includes Observer Readiness (#253/#257/#271/#272), documentation reconciliation (#258), and the backup-status owner/observer auth boundary (#290). The earlier September 27 issue inventory is historical and does not describe the current queue.
+Reconciled on 2026-10-04 against GitHub `main` at `f25cd2d7075b02f41771dc9f00a060e850130a3e`. Writer hardening (#218), Living Lives (#228), public repository hygiene (#274/#278), and generator path hygiene (#289) are delivered. PR #288 merges the mobile observer zoom correction; PR #293 repairs audio scheduling and test runtime; PR #290 delivers owner-token bypass and backup status aliasing. Observer-P7 (#272) delivers the bounded audience rehearsal harness and operational limits evidence, with the live rehearsal gate open pending authorized scheduling. Current unfinished work includes Observer Readiness final disposition (#253/#257), hosted audience rehearsal execution (#272), and documentation reconciliation (#258). The earlier September 27 issue inventory is historical and does not describe the current queue.
 
 Completed AI-P1 through AI-P20, RC-P1 through RC-P5, Resonance, hosted work, and writer hardening belong in the [Changelog](changelog.md), with their dated evidence and limits. The latest Living Lives phase evidence is recorded below.
 
@@ -18,7 +18,7 @@ The [Living Lives design and phased plan](living-lives-plan.md) records complete
 
 Lives-P5 completed its six-run offline fake-provider study, but deferred a live-model benefit claim and independent human review. Lives-P6 delivered versioned age/model progression and a matched offline comparison; its diagnostic fixture did not assess benefit. See the [P5 study](evidence/first-glow-lives-p5-study-2026-09-20.md) and [P6 comparison](evidence/first-glow-lives-p6-comparison-2026-09-20.md). Neither phase authorizes new provider calls or changes First Glow defaults.
 
-The current delivery priority is Observer Readiness: verify the merged mobile controls in the authorized hosted environment, then complete #272 within an explicitly approved audience cap/window and consolidate #257. A bounded live-model/human-review study remains deferred. First Glow remains the only supported runtime.
+The current delivery priority is Observer Readiness: verify merged mobile controls in the authorized hosted environment (#271), authorize and execute the bounded audience rehearsal (#272, with harness delivered in [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md)), and consolidate #257. A bounded live-model/human-review study remains deferred. First Glow remains the only supported runtime.
 
 ## Writer-hardening closeout
 
@@ -37,7 +37,7 @@ Do not widen access or make availability, capacity, or cost claims based on Host
 - Expired, wrong-project, and unapproved-user token rejection cases; missing and malformed cases have dated passing evidence.
 - Authenticated SSE reconnect and token refresh, plus a bridge process restart. Observer-P5 now records bounded single-client clean closure; VM restart continuity and bridge-to-VM recovery do not establish the remaining cases.
 - Authenticated archive playback during live unavailability. Merged archive replay and multi-checkpoint publication do not prove outage independence operationally.
-- A real multi-viewer rehearsal, remaining service quotas, and attributable current billing. The [Observer-P5 evidence](evidence/observer-p5-stream-cleanup-2026-10-03.md) establishes process-scoped active-stream cleanup and one approved client returning to baseline, superseding the earlier absent-telemetry gate. #272 still requires its approved audience cap and safe window; #257/#253 remain open. These single-session measurements establish neither audience capacity nor browser-attributable cost.
+- A real multi-viewer rehearsal, remaining service quotas, and attributable current billing. The [Observer-P5 evidence](evidence/observer-p5-stream-cleanup-2026-10-03.md) and [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md) establish active-stream cleanup, rehearsal stop thresholds, and bounded two-client rehearsal validation. #257/#253 remain open for final evidence-backed disposition. These measurements establish bounded limits, not arbitrary audience capacity or unconstrained hosting cost.
 
 ## Gates before further AI or world expansion
 

@@ -206,3 +206,14 @@ For local runs, the default database is `data/local/mimir.db` and scheduled back
 ## Mobile observer follow-up — 2026-10-04
 
 PR [#288](https://github.com/KevinHozak/Mimir/pull/288) is merged. Its local regression covers all three zoom controls at 320, 375, 390, 800, and 1280px, with bounds, hit testing, no document overflow, and read-only requests. See [local evidence](evidence/observer-p6-mobile-zoom-2026-10-04.md). This does not verify a hosted release: after separately authorized deployment, confirm real authenticated bundle SVGs return 200 and repeat mobile/desktop zoom checks against the exact deployed assets. Keep #271 open until that evidence exists; #272 retains its audience/window approval requirement, and #257 remains the final disposition gate.
+
+## Bounded audience rehearsal and operational limits — 2026-10-04
+
+Issue [#272](https://github.com/KevinHozak/Mimir/issues/272) delivers the bounded rehearsal runner (`scripts/observer-rehearsal.mjs`) and test suite (`scripts/observer-rehearsal.test.mjs`). See [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md).
+
+The operational limits and procedure are:
+1. **Audience cap**: Upper limit of 2 concurrent authenticated observer sessions over a maximum window of 180 seconds (3 minutes).
+2. **Stop thresholds**: Abort immediately on HTTP 401/403 auth regression, HTTP 5xx errors, active stream count exceeding 2, or loss of rollback confidence.
+3. **Cleanup verification**: Client controllers abort; in-flight bridge counters must return to 0/0; upstream VM TCP connections must return to baseline.
+4. **Single writer**: The authoritative server remains one SQLite writer on the private VM accessed via IAP.
+5. **No credential leakage**: All rehearsal telemetry records must pass `assertRedacted` checks.

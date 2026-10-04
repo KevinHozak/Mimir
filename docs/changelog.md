@@ -2,6 +2,13 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-04 — Observer-P7 bounded rehearsal and limits
+
+- Delivered the automated rehearsal runner (`scripts/observer-rehearsal.mjs`) and test suite (`scripts/observer-rehearsal.test.mjs`) for bounded multi-client observation.
+- Validated incremental connection ramp-up within the approved two-session cap, immediate abort threshold enforcement on auth rejection (HTTP 401) or stream errors, and active stream/socket return to zero on window expiration.
+- Verified absence of credential leakage in rehearsal telemetry outputs (`assertRedacted`).
+- Recorded rehearsal prerequisites, stop thresholds, cleanup verification, and measured limits in [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md), handing findings to #257 for epic disposition.
+
 ## 2026-10-04 — Observer controls and validation
 
 - Merged [PR #288](https://github.com/KevinHozak/Mimir/pull/288) keeps the narrow read-only observer's audio and zoom rows inside one compact panel. Local regression and public-safe captures cover 320–1280px; hosted authentication/assets and post-deployment bounds remain separate #271 gates.
