@@ -19,6 +19,7 @@
     "test:observer-bridge-lifecycle": "node scripts/observer-bridge-lifecycle.test.mjs",
     "test:observer-bridge-http2": "node scripts/observer-bridge-http2.test.mjs",
     "test:deploy-hosting-config": "node scripts/deploy-hosting-config.test.mjs",
+    "test:observer-rehearsal": "node scripts/observer-rehearsal.test.mjs",
     "world:import": "npm run build --workspace @mimir/world-data && node scripts/import-world.mjs",
     "world:validate": "npm run build --workspace @mimir/world-data && node scripts/validate-world.mjs",
     "world:test": "npm run build --workspace @mimir/world-data && node scripts/import-world.test.mjs",
