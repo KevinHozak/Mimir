@@ -1,3 +1,4 @@
+import { testPort, stopTestProcesses } from "../../../scripts/test-runtime.mjs";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { existsSync, mkdirSync, rmSync } from "node:fs";
@@ -6,14 +7,14 @@ import { spawn, type ChildProcess } from "node:child_process";
 
 const root = join(process.cwd(), "..", "..");
 const nodeModules = existsSync(join(root, "node_modules")) ? join(root, "node_modules") : join(root, "..", "..", "node_modules");
-const apiPort = 34212;
-const webPort = 5189;
+const apiPort = await testPort();
+const webPort = await testPort();
 const token = "audio-p5-browser";
 const hash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 const tempRoot = join(root, ".tmp", "browser-tests");
 mkdirSync(tempRoot, { recursive: true });
 const database = join(tempRoot, `first-glow-audio-p5-${Date.now()}.db`);
-const evidence = join(root, "docs", "evidence");
+const evidence = process.env.MIMIR_TEST_EVIDENCE_DIR ?? tempRoot;
 mkdirSync(evidence, { recursive: true });
 const children: ChildProcess[] = [];
 const waitFor = async (url: string) => {
@@ -25,9 +26,9 @@ const waitFor = async (url: string) => {
 };
 
 try {
-  const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: token, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
+  const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: token, OBSERVER_ORIGIN: `http://127.0.0.1:${webPort}`, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
   children.push(spawn(process.execPath, [join(root, "packages", "server", "dist", "index.js")], { cwd: root, env, stdio: "ignore" }));
-  children.push(spawn(process.execPath, [join(nodeModules, "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort)], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
+  children.push(spawn(process.execPath, [join(nodeModules, "vite", "bin", "vite.js"), "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], { cwd: join(root, "packages", "web"), env: { ...env, VITE_API_URL: `http://127.0.0.1:${apiPort}` }, stdio: "ignore" }));
   await waitFor(`http://127.0.0.1:${apiPort}/health`);
   await waitFor(`http://127.0.0.1:${webPort}/`);
   const reset = await fetch(`http://127.0.0.1:${apiPort}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": token }, body: JSON.stringify({ bundleHash: hash, seed: 23, sparkCount: 6 }) });
@@ -37,6 +38,8 @@ try {
   try {
     const desktop = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     const audioRequests: string[] = [];
+    const browserErrors: string[] = [];
+    desktop.on("pageerror", error => browserErrors.push(error.message));
     desktop.on("request", request => { if (request.url().includes("/audio/first-glow/")) audioRequests.push(new URL(request.url()).pathname); });
     await desktop.goto(`http://127.0.0.1:${webPort}/`);
     await desktop.locator('main[data-theme="living-circuit"]').waitFor();
@@ -46,10 +49,13 @@ try {
     assert.equal(audioRequests.length, 0, "audio must remain opt-in before a user gesture");
     await desktop.getByRole("button", { name: "Enable audio" }).click();
     await desktop.getByRole("button", { name: "Disable audio" }).waitFor();
+    await desktop.waitForTimeout(1600);
+    assert.deepEqual(browserErrors, [], "enabled ambience must schedule without browser errors");
     await desktop.getByRole("button", { name: "Ambience on" }).click();
     await desktop.getByRole("button", { name: "Music off" }).click();
     await desktop.locator("#audio-effects").fill("25");
-    await desktop.waitForTimeout(400);
+    await desktop.waitForTimeout(1600);
+    assert.deepEqual(browserErrors, [], "enabled score must schedule without browser errors");
     assert.ok(audioRequests.length >= 17, `enabled audio should request the music and effect library, got ${audioRequests.length}`);
     assert.equal(new Set(audioRequests).size, 17, "each shipped audio asset should be loaded once");
     await desktop.screenshot({ path: join(evidence, "first-glow-audio-p5-desktop.png"), fullPage: true });
@@ -87,6 +93,6 @@ try {
     console.log("First Glow Audio-P5 browser validation passed");
   } finally { await browser.close(); }
 } finally {
-  await Promise.all(children.map(child => new Promise<void>(resolve => { if (child.exitCode !== null) { resolve(); return; } child.once("exit", () => resolve()); child.kill(); setTimeout(resolve, 3000); })));
+  await stopTestProcesses(children);
   for (const path of [database, `${database}-wal`, `${database}-shm`]) if (existsSync(path)) rmSync(path, { force: true });
 }

@@ -202,3 +202,7 @@ Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -He
 ```
 
 For local runs, the default database is `data/local/mimir.db` and scheduled backups default to `data/backups/`. When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.
+
+## Mobile observer follow-up — 2026-10-04
+
+PR [#288](https://github.com/KevinHozak/Mimir/pull/288) is merged. Its local regression covers all three zoom controls at 320, 375, 390, 800, and 1280px, with bounds, hit testing, no document overflow, and read-only requests. See [local evidence](evidence/observer-p6-mobile-zoom-2026-10-04.md). This does not verify a hosted release: after separately authorized deployment, confirm real authenticated bundle SVGs return 200 and repeat mobile/desktop zoom checks against the exact deployed assets. Keep #271 open until that evidence exists; #272 retains its audience/window approval requirement, and #257 remains the final disposition gate.
