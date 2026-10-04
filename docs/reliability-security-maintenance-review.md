@@ -125,7 +125,7 @@ CI runs a solid First Glow core (world-data/engine tests, state normalization, c
 - `test:public-archive`
 - `test:ai-runtime`, `test:backup-replication`, `test:first-glow-command-acceptance` (`@mimir/server`)
 
-Hosted auth is hostname-hardcoded to `mimir-realm.web.app` in `hosted-auth-boundary.ts`. Firebase Storage rules hardcode `khozak@gmail.com` separately from `PUBLIC_OBSERVER_EMAILS`. Those three allowlists can drift.
+Hosted auth is hostname-hardcoded to `mimir-realm.web.app` in `hosted-auth-boundary.ts`. Firebase Storage rules decoupled from hardcoded personal emails to verified tokens, but allowlists can drift across layers if not aligned with `PUBLIC_OBSERVER_EMAILS`.
 
 Each checkpoint embeds the full world bundle (`FirstGlowSettlement.bundle`). A 360-pulse season plus branches will grow SQLite and backups quickly (including the 1 GB Render disk in `render.yaml`). A later persistence change should store `contentHash` plus runtime, not a copy of `world.json` per pulse.
 

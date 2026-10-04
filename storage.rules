@@ -3,10 +3,8 @@ service firebase.storage {
   match /b/{bucket}/o {
     match /archives/{allPaths=**} {
       allow read: if request.auth != null
-        && request.auth.token.email_verified == true
-        && request.auth.token.email in ['khozak@gmail.com'];
+        && request.auth.token.email_verified == true;
       allow write, delete: if false;
     }
   }
 }
-

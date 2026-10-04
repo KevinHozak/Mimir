@@ -12,7 +12,7 @@ test("Gemini adapter records bounded output and metadata without putting the key
 test("Gemini adapter fails closed for a disabled kill switch or invalid cap", () => { assert.throws(() => createFirstGlowGeminiFlashLiteProvider({ apiKey: "key", projectId: "project", accountId: "account", hardCapCents: 1, killSwitch: "disabled" as never }), /kill switch/); assert.throws(() => createFirstGlowGeminiFlashLiteProvider({ apiKey: "key", projectId: "project", accountId: "account", hardCapCents: 0, killSwitch: "enabled" }), /hard cap/); });
 
 test("Vertex pilot requires the explicit P11 contract", () => {
-  const base = { accessToken: "token", projectId: "mimir-realm", accountId: "khozak@gmail.com", hardCapCents: 100, killSwitch: "enabled" as const };
+  const base = { accessToken: "token", projectId: "mimir-realm", accountId: "observer@example.com", hardCapCents: 100, killSwitch: "enabled" as const };
   assert.throws(() => createFirstGlowVertexGeminiPilotProvider({ ...base, runtimeMode: "rules-only" as never, billingMode: "vertex-ai", dataPolicy: "spark-local-minimized" }), /bounded-internal-pilot/);
   assert.throws(() => createFirstGlowVertexGeminiPilotProvider({ ...base, runtimeMode: "bounded-internal-pilot", billingMode: "vertex-ai", dataPolicy: "spark-local-minimized", hardCapCents: 4 }), /\$1.00/);
   assert.throws(() => createFirstGlowVertexGeminiPilotProvider({ ...base, runtimeMode: "bounded-internal-pilot", billingMode: "vertex-ai", dataPolicy: "spark-local-minimized", maxOutputTokens: 256 }), /128 tokens/);
