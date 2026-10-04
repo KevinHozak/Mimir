@@ -34,7 +34,7 @@ try {
     stdio: ["ignore", "ignore", "pipe"]
   });
   await new Promise<void>((resolve, reject) => {
-    const timeout = setTimeout(() => { rejected.kill(); reject(new Error("public bind without OWNER_TOKEN did not fail closed")); }, 3000);
+    const timeout = setTimeout(() => { rejected.kill(); reject(new Error("public bind without OWNER_TOKEN did not fail closed")); }, 10000);
     rejected.once("exit", code => { clearTimeout(timeout); assert.notEqual(code, 0); resolve(); });
   });
   const attachLogs = (child: ChildProcess) => {

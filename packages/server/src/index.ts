@@ -148,7 +148,7 @@ async function requireObserver(request: FastifyRequest, reply: FastifyReply): Pr
 app.addHook("onRequest", async (request, reply) => {
   const path = (request.url ?? "").split("?", 1)[0];
   if (observerAuthRequired && path.startsWith("/api/") && !path.startsWith("/api/owner/")) {
-    if (isOwnerAuthorized(host, serveWeb, hostedStart, ownerToken, request.headers["x-owner-token"])) return;
+    if (hasValidOwnerToken(ownerToken, request.headers["x-owner-token"])) return;
     if (!(await requireObserver(request, reply))) return reply;
   }
 });
