@@ -35,6 +35,28 @@ try {
     stdio: ["ignore", "pipe", "pipe"]
   });
   await waitForHealth();
+  const unauthHealthRes = await fetch(`http://127.0.0.1:${port}/health`);
+  assert.equal(unauthHealthRes.status, 200);
+  const unauthHealth = await unauthHealthRes.json() as Record<string, unknown>;
+  assert.equal(unauthHealth.ok, true);
+  assert.equal(unauthHealth.databasePath, undefined);
+  assert.deepEqual(unauthHealth.backupReplication, { enabled: false, stale: false });
+
+  const authHealthRes = await fetch(`http://127.0.0.1:${port}/health`, { headers: { "x-owner-token": token } });
+  assert.equal(authHealthRes.status, 200);
+  const authHealth = await authHealthRes.json() as Record<string, unknown>;
+  assert.equal(authHealth.ok, true);
+  assert.equal(authHealth.databasePath, database);
+  assert.equal(typeof (authHealth.backupReplication as Record<string, unknown>)?.freshnessMaxAgeMs, "number");
+
+  const unauthBackupStatus = await fetch(`http://127.0.0.1:${port}/api/backup/status`);
+  assert.equal(unauthBackupStatus.status, 401);
+
+  const authBackupStatus = await fetch(`http://127.0.0.1:${port}/api/backup/status`, { headers: { "x-owner-token": token } });
+  assert.equal(authBackupStatus.status, 200);
+  const backupStatus = await authBackupStatus.json() as Record<string, unknown>;
+  assert.equal(backupStatus.enabled, false);
+
   const pulse = await fetch(`http://127.0.0.1:${port}/api/pulse`, { method: "POST" });
   assert.equal(pulse.status, 401);
   const reset = await fetch(`http://127.0.0.1:${port}/api/owner/reset-v3`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ bundleHash: "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e", seed: 7 }) });

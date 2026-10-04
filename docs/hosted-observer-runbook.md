@@ -92,7 +92,25 @@ The configured backup controls are:
 
 Historical backup validation is recorded in the dated [Hosted-P5 backup evidence](evidence/hosted-backup-recovery-2026-09-11.md). Hosted-P8 adds optional scheduled replication without changing the single-writer runtime. When `BACKUP_GCS_URI` is configured, each existing `BACKUP_INTERVAL_MS` backup is packaged as one temporary archive containing the database, manifest, and referenced bundle directory, uploaded with `gcloud storage cp`, and verified with `gcloud storage objects describe`. The VM must use its attached keyless writer identity; no service-account key is accepted by this path.
 
-The operator-visible status is available at `/api/backup/status` and is also included in `/health`. It reports whether replication is enabled, the destination, the freshness threshold, last attempt/success timestamps, last object URI, archive hash/size, consecutive failures, and a `stale` flag. A stale or failed replication does not make the process pretend that local disk is independent recovery: investigate the recorded error, verify the bucket and attached identity, and perform a fresh isolated restore before declaring the backup path healthy.
+The operator-visible status is available at `/api/backup/status` (which requires owner authentication) and is also summarized in `/health`. For authenticated owner requests (`x-owner-token`), `/health` reports `databasePath` and full backup replication details (destination, freshness threshold, timestamps, last object URI, archive hash/size, consecutive failures, and `stale` flag). For unauthenticated callers or public observers, `/health` suppresses internal `databasePath` and sanitizes backup replication details to `{ enabled: boolean, stale: boolean }`, preventing internal file path or GCS destination exposure. A stale or failed replication does not make the process pretend that local disk is independent recovery: investigate the recorded error, verify the bucket and attached identity, and perform a fresh isolated restore before declaring the backup path healthy.
+
+## Google Cloud API key and public surface restrictions
+
+For the public client and Firebase Hosting deployment, the web app configuration in `packages/web/src/firebase-auth.ts` references the Firebase Web Client API key (`AIzaSyDTsAPI1fEcvsLA-KyTcaYfo6ot9kySPC8`) for project `mimir-realm`.
+
+Because client-side API keys are embedded in public web bundles, the key must be strictly constrained in the Google Cloud Console (**APIs & Services > Credentials**):
+
+1. **Application restrictions (HTTP referrers):**
+   - Restricted to authorized Mimir origins and local development loopbacks:
+     - `https://mimir-realm.web.app/*`
+     - `https://mimir-realm.firebaseapp.com/*`
+     - `http://localhost:*`
+     - `http://127.0.0.1:*`
+2. **API restrictions:**
+   - Explicitly restricted to only the APIs needed by the observer client:
+     - **Identity Platform** / **Firebase Authentication API** (for Google ID token sign-in)
+     - **Cloud Storage for Firebase** / **Google Cloud Storage JSON API** (for client-side archive asset reads)
+   - All other GCP APIs (notably **Vertex AI**, **Generative Language API**, **Compute Engine**, and resource management APIs) are explicitly blocked from using this key, preventing unauthorized access or quota/billing consumption.
 
 ## Hosted-P3 verification record (historical pre-provisioning audit)
 
@@ -128,7 +146,7 @@ frontend also enforces auth when served from `mimir-realm.web.app`.
 
 Run these checks against a private operator connection and an isolated test or restored timeline. They include mutations and are not checks to run through the read-only Firebase observer. The Compute Engine deployment uses `/var/lib/mimir/mimir.db`; `/var/data/mimir.db` belongs to the Render configuration.
 
-1. Open `/health` and verify the service reports `ok: true` and the expected configured database path.
+1. Open `/health` and verify the service reports `ok: true`. With an owner token (`x-owner-token`), verify it reports the expected configured `databasePath` and full `backupReplication` details; without the owner token, verify internal file paths and GCS destinations are suppressed.
 2. Open `/` and verify the browser client loads from the same origin.
 3. Enter the owner token and verify pause, pulse, branch, archive, continue, and reset.
 4. Let a short test season advance, restart the service, and verify the latest checkpoint and timeline remain available.
