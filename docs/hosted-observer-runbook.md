@@ -96,7 +96,7 @@ The operator-visible status is available at `/api/backup/status` and is also inc
 
 ## Hosted-P3 verification record (historical pre-provisioning audit)
 
-The 2026-09-11 pre-provisioning audit confirmed the selected project was active, billing was enabled, and relevant services were enabled. Private operator and spending details are omitted. The then-empty resource listing is historical; Hosted-P4/P5/P6 provisioning and validation are recorded above and below.
+The 2026-09-11 pre-provisioning audit confirmed the selected project was active, billing was enabled on `billingAccounts/REDACTED-BILLING-ACCOUNT`, and relevant services were enabled. Private operator and spending details are omitted. The then-empty resource listing is historical; Hosted-P4/P5/P6 provisioning and validation are recorded above and below.
 
 The following claims remain unproven: the account's actual Free Tier eligibility, exact billed amount after continued traffic, billing-alert delivery timing, public availability, durable multi-writer operation, and horizontal scaling. Hosted-P3 did not create an owner token. Hosted-P4 created a staging-only owner token in root-only secret configuration; Hosted-P6 verified that the live VM token file is root-owned mode `600` and did not print or commit it.
 

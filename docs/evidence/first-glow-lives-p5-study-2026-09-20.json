@@ -25203,9 +25203,9 @@
         "simulationVersion": "mimir-sim-v3-first-glow",
         "spatialModel": "structured-v2"
       },
-      "sanitizedOutputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json",
-      "replayInputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/2-dependable-supply/ai/outputs",
-      "telemetry": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/2-dependable-supply/ai/telemetry",
+      "sanitizedOutputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json",
+      "replayInputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/2-dependable-supply/ai/outputs",
+      "telemetry": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/2-dependable-supply/ai/telemetry",
       "reviewArtifacts": [
         "docs/evidence/first-glow-lives-p5-protocol.md",
         "docs/living-lives-plan.md"
@@ -25224,9 +25224,9 @@
         "simulationVersion": "mimir-sim-v3-first-glow",
         "spatialModel": "structured-v2"
       },
-      "sanitizedOutputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json",
-      "replayInputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/2-scarcity/ai/outputs",
-      "telemetry": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/2-scarcity/ai/telemetry",
+      "sanitizedOutputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json",
+      "replayInputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/2-scarcity/ai/outputs",
+      "telemetry": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/2-scarcity/ai/telemetry",
       "reviewArtifacts": [
         "docs/evidence/first-glow-lives-p5-protocol.md",
         "docs/living-lives-plan.md"
@@ -25245,9 +25245,9 @@
         "simulationVersion": "mimir-sim-v3-first-glow",
         "spatialModel": "structured-v2"
       },
-      "sanitizedOutputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json",
-      "replayInputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/4-dependable-supply/ai/outputs",
-      "telemetry": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/4-dependable-supply/ai/telemetry",
+      "sanitizedOutputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json",
+      "replayInputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/4-dependable-supply/ai/outputs",
+      "telemetry": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/4-dependable-supply/ai/telemetry",
       "reviewArtifacts": [
         "docs/evidence/first-glow-lives-p5-protocol.md",
         "docs/living-lives-plan.md"
@@ -25266,9 +25266,9 @@
         "simulationVersion": "mimir-sim-v3-first-glow",
         "spatialModel": "structured-v2"
       },
-      "sanitizedOutputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json",
-      "replayInputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/4-scarcity/ai/outputs",
-      "telemetry": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/4-scarcity/ai/telemetry",
+      "sanitizedOutputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json",
+      "replayInputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/4-scarcity/ai/outputs",
+      "telemetry": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/4-scarcity/ai/telemetry",
       "reviewArtifacts": [
         "docs/evidence/first-glow-lives-p5-protocol.md",
         "docs/living-lives-plan.md"
@@ -25287,9 +25287,9 @@
         "simulationVersion": "mimir-sim-v3-first-glow",
         "spatialModel": "structured-v2"
       },
-      "sanitizedOutputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json",
-      "replayInputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/8-dependable-supply/ai/outputs",
-      "telemetry": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/8-dependable-supply/ai/telemetry",
+      "sanitizedOutputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json",
+      "replayInputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/8-dependable-supply/ai/outputs",
+      "telemetry": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/8-dependable-supply/ai/telemetry",
       "reviewArtifacts": [
         "docs/evidence/first-glow-lives-p5-protocol.md",
         "docs/living-lives-plan.md"
@@ -25308,9 +25308,9 @@
         "simulationVersion": "mimir-sim-v3-first-glow",
         "spatialModel": "structured-v2"
       },
-      "sanitizedOutputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json",
-      "replayInputs": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/8-scarcity/ai/outputs",
-      "telemetry": "C:\\Users\\khoza\\.codex\\worktrees\\lives-p5-evaluation\\Mimir\\docs\\evidence\\first-glow-lives-p5-study-2026-09-20.json#runs/8-scarcity/ai/telemetry",
+      "sanitizedOutputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json",
+      "replayInputs": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/8-scarcity/ai/outputs",
+      "telemetry": "docs/evidence/first-glow-lives-p5-study-2026-09-20.json#runs/8-scarcity/ai/telemetry",
       "reviewArtifacts": [
         "docs/evidence/first-glow-lives-p5-protocol.md",
         "docs/living-lives-plan.md"
