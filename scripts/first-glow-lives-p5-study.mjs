@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildFirstGlowInterpretationContext, createFirstGlowFakeProvider, createFirstGlowState, runFirstGlowHybridRuntime, recordFirstGlowWitnesses } from "@mimir/engine";
 import { decodeWorldBundle } from "@mimir/world-data";
@@ -55,7 +55,19 @@ async function replay(armRun, contexts) {
   return { calls, outputs: result.outcomes.map(sanitizeOutcome), budgetUsed: result.interpretationBudget.used };
 }
 
-const manifestFor = (run, outputPath) => ({ runId: run.runId, configuration: run.configuration, sanitizedOutputs: outputPath, replayInputs: `${outputPath}#runs/${run.runId}/ai/outputs`, telemetry: `${outputPath}#runs/${run.runId}/ai/telemetry`, reviewArtifacts: ["docs/evidence/first-glow-lives-p5-protocol.md", "docs/living-lives-plan.md"], status: run.status });
+const repoRelative = path => relative(root, path).replace(/\\/g, "/");
+const manifestFor = (run, outputPath) => {
+  const relPath = repoRelative(outputPath);
+  return {
+    runId: run.runId,
+    configuration: run.configuration,
+    sanitizedOutputs: relPath,
+    replayInputs: `${relPath}#runs/${run.runId}/ai/outputs`,
+    telemetry: `${relPath}#runs/${run.runId}/ai/telemetry`,
+    reviewArtifacts: ["docs/evidence/first-glow-lives-p5-protocol.md", "docs/living-lives-plan.md"],
+    status: run.status,
+  };
+};
 
 export async function runStudy({ outputPath = defaultOutput, failureAfterRun = null, resume = null } = {}) {
   assert(existsSync(protocolPath), "Prerequisite protocol is missing");
@@ -80,9 +92,10 @@ export async function runStudy({ outputPath = defaultOutput, failureAfterRun = n
     runs.push({ runId: `${plan.seed}-${plan.condition}`, configuration: { ...plan, sparks: sparks.length, cycles, pulsesPerCycle, bundleHash, simulationVersion: "mimir-sim-v3-first-glow", spatialModel: "structured-v2" }, rules: publicArm(rules), ai: publicArm(ai), watched: publicArm(watched), replay: { ai: aiReplay, watched: watchedReplay }, checks: { sameInputs, noFutureKnowledge, accountingComplete, replayProviderFree: aiReplay.calls === 0 && watchedReplay.calls === 0, replayBudgetFree: aiReplay.budgetUsed === 0 && watchedReplay.budgetUsed === 0, noViewingAdvantage: JSON.stringify(ai.outputs.map(item => item.alternativeId)) === JSON.stringify(watched.outputs.map(item => item.alternativeId)), completeManifest: true }, status: "complete" });
   }
   const report = { schemaVersion: 1, generatedAt: new Date().toISOString(), protocol: { path: "docs/evidence/first-glow-lives-p5-protocol.md", preregistered: true }, study: { seeds, conditions, arms: ["rules-only", "authorized-ai-offline-fixture"], population: sparks.length, cycles, pulsesPerCycle, totalPulses }, runs, manifests: runs.map(run => manifestFor(run, outputPath)), integrity: { allRunsComplete: runs.length === plans.length && runs.every(run => run.status === "complete"), allReplayProviderFree: runs.every(run => run.checks.replayProviderFree), allReplayBudgetFree: runs.every(run => run.checks.replayBudgetFree), allMatchedInputs: runs.every(run => run.checks.sameInputs), allKnowledgeBounded: runs.every(run => run.checks.noFutureKnowledge), allAccountingComplete: runs.every(run => run.checks.accountingComplete), noViewingAdvantage: runs.every(run => run.checks.noViewingAdvantage) }, review: { independentHumanReview: "pending", humanEngagementClaims: "not assessed", views: ["World", "Follow", "Chronicle"] }, decision: "defer", nextImprovement: null, limitations: ["The fake provider validates harness integrity, not real-model quality.", "No human review was authorized or conducted.", "This report cannot pass the AI benefit gate or authorize model/age rollout."] };
+  const markdownPath = outputPath.replace(/\.json$/, ".md");
   mkdirSync(dirname(outputPath), { recursive: true });
   writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
-  writeFileSync(defaultMarkdown, `# First Glow Lives-P5 Study\n\nGenerated: ${report.generatedAt}\n\nProtocol: preregistered before outputs\n\nRuns: **${runs.length}** complete matched seed/condition studies\n\nIntegrity: replay provider-free **${report.integrity.allReplayProviderFree ? "pass" : "fail"}**, matched inputs **${report.integrity.allMatchedInputs ? "pass" : "fail"}**, no viewing advantage **${report.integrity.noViewingAdvantage ? "pass" : "fail"}**\n\nDecision: **defer**\n\nThe offline fake-provider harness is complete, but live AI quality and independent human review remain pending. No benefit claim or model rollout is authorized.\n`, "utf8");
+  writeFileSync(markdownPath, `# First Glow Lives-P5 Study\n\nGenerated: ${report.generatedAt}\n\nProtocol: preregistered before outputs\n\nRuns: **${runs.length}** complete matched seed/condition studies\n\nIntegrity: replay provider-free **${report.integrity.allReplayProviderFree ? "pass" : "fail"}**, matched inputs **${report.integrity.allMatchedInputs ? "pass" : "fail"}**, no viewing advantage **${report.integrity.noViewingAdvantage ? "pass" : "fail"}**\n\nDecision: **defer**\n\nThe offline fake-provider harness is complete, but live AI quality and independent human review remain pending. No benefit claim or model rollout is authorized.\n`, "utf8");
   return report;
 }
 
