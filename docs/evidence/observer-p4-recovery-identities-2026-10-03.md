@@ -2,7 +2,7 @@
 
 ## Disposition
 
-Issue [#269](https://github.com/KevinHozak/Mimir/issues/269) is **partially verified, not closed**. Available Hosting rollback, bridge revision metadata, the authoritative VM process/checkpoint, and an existing local bundle-inclusive recovery unit were read. The independent historical recovery object remains available through its existing recovery identity. A fresh independent manifest-content check and exact VM source-commit linkage remain unresolved. No rollback, restart, restore, deployment, world mutation, IAM change, key creation, or new writer was performed. Audience rehearsal #272 and final disposition #257 remain gated.
+Issue [#269](https://github.com/KevinHozak/Mimir/issues/269) is **partially verified, not closed**. Available Hosting rollback, bridge revision metadata, the authoritative VM process/checkpoint, and an existing local bundle-inclusive recovery unit were read. The independent historical recovery object remains available through its existing recovery identity. The independent archive manifest/content check passed after explicit download approval; exact VM source-commit linkage remains unresolved. No rollback, restart, restore, deployment, world mutation, IAM change, key creation, or new writer was performed. Audience rehearsal #272 and final disposition #257 remain gated.
 
 The clean audit checkout was based on fetched `origin/main` at `e69828f`. Dependency #254 was read as closed/completed. This report distinguishes current metadata/integrity reads from historical restore tests.
 
@@ -75,22 +75,29 @@ The latest existing local manifest by file modification time was `/var/lib/mimir
 
 This verifies an available local bundle-inclusive unit, not independent durability, full semantic restore validation, or a successful restore. No new backup was created.
 
-## Independent recovery artifact and remaining blocker
+## Independent recovery artifact and approved content verification
 
 Metadata for the existing September 11 recovery archive was freshly read through the existing separate recovery identity. Metadata matches the historical [recovery test](hosted-backup-recovery-2026-09-11.md): generation `1789166774423545`, size 37,774 bytes, MD5 `JEPmC03DjaLV4eCWB1/Eyw==`, CRC32C `TA9GsQ==`, update time `2026-09-11T22:46:14Z`.
 
 The retained manifest record identifies a 430,080-byte database, SHA-256 `a729277e1a348b409bb40ea8e96f6f7a072ff4e2a5a1d5550523c8dd77956d4f`, and the same First Glow bundle. Historical tests recorded an isolated restore, continued pulse, and rejection of a missing asset. These were not rerun, and this old pulse-4 archive must not be treated as the current pulse-0 timeline or as a fresh backup.
 
-Automatic approval review rejected downloading this archive into the local checkout because it may copy private database contents beyond the metadata audit. No archive download occurred and no alternate route bypassed that rejection. Fresh independent manifest/content verification therefore remains blocked pending explicit user approval for a private, isolated inspection destination. Metadata equality supports retained-object identity but does not independently inspect its manifest today. Scheduled independent replication and freshness were not established by this audit.
+The initial archive download was rejected by automatic approval review because it could copy private database contents beyond the metadata audit. The user subsequently explicitly approved downloading this existing archive into isolated, ignored `.tmp/269` solely to verify its manifest and hashes, without restoring it. The approved download and in-memory tar-member verification completed at **2026-10-04 01:46:36 UTC / October 3, 20:46:36 CDT**. No archive member was extracted to disk and no restore or database startup was performed.
+
+- Archive: 37,774 bytes; MD5 matches the freshly read object metadata above. SHA-256 `7dd8c6ef1b00d5bf01874f3af02535323f82216f548ea667c0e74851d4d5b0af`.
+- Manifest: `mimir-staging-p5-backup.db.manifest.json`, SHA-256 `49492910b7a952533b1a3aab125ba14b538b47796db05ebbcb08e0ac5ebd3114`.
+- Database: 430,080 bytes; SHA-256 matches the manifest and historical value above.
+- All seven manifest-listed bundle files exist in the archive and match their recorded SHA-256 values; the manifest lists the same First Glow bundle.
+
+This closes the fresh independent manifest/content verification gap. It verifies this historical recovery unit, not a fresh backup, semantic restore, or current VM source linkage. Scheduled independent replication and freshness were not established by this audit. The private archive and inspection script remain ignored local artifacts and are not committed.
 
 ## Stop and recovery plan
 
-1. Keep #272 rehearsal stopped until the source/content gaps above and its separate audience/window/telemetry gates are resolved. An observed identifier is not permission for disruption.
+1. Keep #272 rehearsal stopped until the source-linkage gap above and its separate audience/window/telemetry gates are resolved. An observed identifier is not permission for disruption.
 2. During any later approved rehearsal, immediately close participant sessions on unexpected auth exposure, write behavior, checkpoint changes, resource/error threshold breach, or unavailable cleanup evidence. Recheck active-stream baseline; closing tabs alone does not prove server cleanup.
 3. Preserve the one authoritative paused VM and its existing recovery units. Do not reset/pulse, expose the VM, add a scheduler/writer/database, or change IAM to work around failure.
 4. For a Hosting-only regression, stop observation first, evaluate the known prior release's asset regression, and obtain approval before the console rollback. Verify the selected release and auth/rendering afterward.
 5. For bridge recovery, use exact-revision traffic recovery only after compatibility review and authorization. Re-read traffic and auth/SSE behavior; retained retired metadata is insufficient.
-6. For database recovery, obtain approval to inspect/download the independent unit and verify its complete manifest first. Under separate restore authorization, restore to a new isolated destination using the backup CLI and its accompanying bundles, with no scheduler or listener started. Validate checkpoints and bundle integrity before any proposed replacement. Shut down the sole live writer before a separately approved cutover; never run a second writer against live state.
+6. For database recovery, select the intended checkpoint and recheck the approved independent unit identity and manifest integrity first. Under separate restore authorization, restore to a new isolated destination using the backup CLI and its accompanying bundles, with no scheduler or listener started. Validate checkpoints and bundle integrity before any proposed replacement. Shut down the sole live writer before a separately approved cutover; never run a second writer against live state.
 7. Keep the current source/byte fingerprints, backup identities, selected checkpoint, and post-recovery evidence together. A deployment, traffic switch, or copied database is not recovery success.
 
-Documentation verification: local links/content, public-field redaction, and whitespace checks. No simulation suite was run for this documentation-only audit. Issue #269 stays open for independent manifest verification and exact VM source/recovery linkage; #257/#253 retain their broader limitations.
+Documentation verification: local links/content, public-field redaction, and whitespace checks. No simulation suite was run for this documentation-only audit. Issue #269 stays open for exact VM source/recovery linkage; #257/#253 retain their broader limitations.
