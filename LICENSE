@@ -19,3 +19,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+### Third-Party and Candidate Assets Notice
+
+Except where otherwise noted:
+- Authored vector assets (`assets/world/`) and codebase sources are provided under this MIT License (see `assets/licenses/first-glow-assets.md`).
+- Review-candidate audio tracks and sound effects under `assets/audio/first-glow/` and `packages/web/public/audio/first-glow/` are excluded from this MIT License grant until their redistribution rights and provenance are independently verified (see `assets/licenses/first-glow-audio.md`).
