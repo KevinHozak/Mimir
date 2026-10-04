@@ -6,7 +6,7 @@ This is the current delivery order. It complements the dated planning documents 
 
 ## Current delivery position
 
-Reconciled on 2026-10-04 against GitHub `main` at `f25cd2d7075b02f41771dc9f00a060e850130a3e`. Writer hardening (#218), Living Lives (#228), public repository hygiene (#274/#278), and generator path hygiene (#289) are delivered. PR #288 merges the mobile observer zoom correction; PR #293 repairs audio scheduling and test runtime; PR #290 delivers owner-token bypass and backup status aliasing. Observer-P7 (#272) delivers the bounded audience rehearsal harness and operational limits evidence. Current unfinished work includes Observer Readiness final disposition (#253/#257) and documentation reconciliation (#258). The earlier September 27 issue inventory is historical and does not describe the current queue.
+Reconciled on 2026-10-04 against GitHub `main` at `f25cd2d7075b02f41771dc9f00a060e850130a3e`. Writer hardening (#218), Living Lives (#228), public repository hygiene (#274/#278), and generator path hygiene (#289) are delivered. PR #288 merges the mobile observer zoom correction; PR #293 repairs audio scheduling and test runtime; PR #290 delivers owner-token bypass and backup status aliasing. Observer-P7 (#272) delivers the bounded audience rehearsal harness and operational limits evidence, with the live rehearsal gate open pending authorized scheduling. Current unfinished work includes Observer Readiness final disposition (#253/#257), hosted audience rehearsal execution (#272), and documentation reconciliation (#258). The earlier September 27 issue inventory is historical and does not describe the current queue.
 
 Completed AI-P1 through AI-P20, RC-P1 through RC-P5, Resonance, hosted work, and writer hardening belong in the [Changelog](changelog.md), with their dated evidence and limits. The latest Living Lives phase evidence is recorded below.
 
@@ -18,7 +18,7 @@ The [Living Lives design and phased plan](living-lives-plan.md) records complete
 
 Lives-P5 completed its six-run offline fake-provider study, but deferred a live-model benefit claim and independent human review. Lives-P6 delivered versioned age/model progression and a matched offline comparison; its diagnostic fixture did not assess benefit. See the [P5 study](evidence/first-glow-lives-p5-study-2026-09-20.md) and [P6 comparison](evidence/first-glow-lives-p6-comparison-2026-09-20.md). Neither phase authorizes new provider calls or changes First Glow defaults.
 
-The current delivery priority is Observer Readiness: complete #272 within an explicitly approved audience cap/window (delivered in [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md)), verify merged mobile controls in the authorized hosted environment (#271), and consolidate #257. A bounded live-model/human-review study remains deferred. First Glow remains the only supported runtime.
+The current delivery priority is Observer Readiness: verify merged mobile controls in the authorized hosted environment (#271), authorize and execute the bounded audience rehearsal (#272, with harness delivered in [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md)), and consolidate #257. A bounded live-model/human-review study remains deferred. First Glow remains the only supported runtime.
 
 ## Writer-hardening closeout
 

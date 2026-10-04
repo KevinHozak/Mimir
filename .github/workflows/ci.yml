@@ -61,6 +61,7 @@ jobs:
           npm run test:observer-bridge-sse
           npm run test:observer-bridge-lifecycle
           npm run test:observer-bridge-http2
+          npm run test:observer-rehearsal
           npm run test:deploy-hosting-config
       - name: Install browser runtime
         run: npx playwright install --with-deps chromium

@@ -18,6 +18,7 @@ This evidence confirms:
 3. **Verified recovery identities**: Rollback and recovery targets remain verified by [#269](observer-p4-recovery-identities-2026-10-03.md) (Firebase Hosting prior release `82cc93e9b9470f8e`, Cloud Run bridge revision `mimir-observer-bridge-00004-qff` and HTTP/2 revision `mimir-observer-bridge-p5-h2b-596163`, VM local recovery unit `mimir-staging.service`, and independent GCS backup archive).
 4. **Automated rehearsal harness**: Dedicated rehearsal runner `scripts/observer-rehearsal.mjs` and test suite `scripts/observer-rehearsal.test.mjs` implement incremental connection ramp-up, stop-threshold enforcement, active stream tracking, client cancellation, and return-to-baseline assertions with verified zero credential leakage.
 5. **No unsupported claims**: Measured results are strictly separated from estimates, cloud monitoring ingestion delays, and historical billing. This rehearsal does not claim general public audience capacity, unconstrained scaling, or multi-writer durability.
+6. **Operational gate status**: Local harness tooling, stop-threshold enforcement, and loopback regression checks are delivered and verified. In accordance with project policy (AGENTS.md), loopback harness runs do not substitute for live hosted execution; the real multi-viewer hosted rehearsal gate remains open pending an explicitly authorized observation window with approved operator identities.
 
 ---
 
@@ -101,5 +102,11 @@ In compliance with project constraints:
 
 ## 7. Next actions and handoff
 
-This rehearsal protocol and evidence update completes the requirements of **Issue [#272](https://github.com/KevinHozak/Mimir/issues/272)**.
-Findings and operational limits are handed off to **Issue [#257](https://github.com/KevinHozak/Mimir/issues/257)** (Observer-P8: Consolidate validation evidence and decide epic disposition) for final disposition of parent Epic **[#253](https://github.com/KevinHozak/Mimir/issues/253)**.
+This delivery establishes the automated rehearsal harness, stop thresholds, credential redaction, and local loopback operational limits for **Issue [#272](https://github.com/KevinHozak/Mimir/issues/272)**.
+
+The real hosted multi-viewer rehearsal gate remains open pending:
+1. Operator authorization of a dedicated live rehearsal window.
+2. Participation of approved authenticated observer identities against the live Cloud Run bridge (`mimir-observer-bridge-mah4b2udkq-uc.a.run.app`) and private staging VM.
+3. Telemetry capture of live bridge session cleanup and VM socket baseline return under actual hosted conditions.
+
+Once authorized and executed, live rehearsal findings will be handed off to **Issue [#257](https://github.com/KevinHozak/Mimir/issues/257)** (Observer-P8: Consolidate validation evidence and decide epic disposition) for the final disposition of parent Epic **[#253](https://github.com/KevinHozak/Mimir/issues/253)**.
