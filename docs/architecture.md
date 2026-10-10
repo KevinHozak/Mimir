@@ -266,6 +266,8 @@ The dated Hosted-P17 closeout records Hosting version `82cc93e9b9470f8e` from `f
 
 The web package runs `npm run typecheck --workspace @mimir/web` before Vite bundling. React/Vite declarations and ES2022 browser library contracts are explicit. Geometry is a browser projection of the canonical First Glow bundle, not a second simulation contract. CI also runs the observer zoom, owner header/layout, item chooser, pulse gate, owner authentication, security-P4/P5, and Chronicle checks.
 
+All changes to `main`, including documentation, require a pull request. The CI workflow classifies the complete PR diff: changes entirely under `docs/` or to files ending in `.md` skip the build and test suite. Code, configuration, mixed changes, and manual workflow dispatches run the full suite. The required `CI gate` check passes only after successful classification and either a confirmed documentation-only skip or a successful build/test job; classification failures and failed or cancelled tests block merging. Force pushes and deletion of `main` are blocked.
+
 Affected local browser and server integration tests allocate temporary loopback ports, await child exit (including signal-only exits), and use isolated databases. Browser captures default to `.tmp`; explicitly selected evidence destinations are used for publication. The ambient-audio regression waits through delayed ambience/score scheduling and fails on browser runtime errors.
 
 The repository includes these verification layers:
