@@ -2,10 +2,6 @@ name: CI
 
 on:
   pull_request:
-    # Documentation-only pull requests do not need the full build/browser suite.
-    paths-ignore:
-      - 'docs/**'
-      - '**.md'
   workflow_dispatch:
 
 permissions:
@@ -16,8 +12,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  classify:
+    name: Classify changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      docs_only: ${{ steps.changes.outputs.docs_only }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Classify pull request paths
+        id: changes
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/ci-policy.mjs classify
+
   build-and-test:
     name: Build and test
+    needs: classify
+    if: needs.classify.outputs.docs_only == 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -27,6 +42,8 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: CI policy regression checks
+        run: node --test scripts/ci-policy.test.mjs
       - run: npm run build
       - name: World data and engine tests
         run: npm test
@@ -79,3 +96,18 @@ jobs:
         run: npm run world:test
       - name: History request sequencing
         run: npm run test:history --workspace @mimir/web
+
+  ci-gate:
+    name: CI gate
+    needs: [classify, build-and-test]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Require tests or a confirmed documentation-only change
+        env:
+          CLASSIFY_RESULT: ${{ needs.classify.result }}
+          DOCS_ONLY: ${{ needs.classify.outputs.docs_only }}
+          BUILD_RESULT: ${{ needs.build-and-test.result }}
+        run: node scripts/ci-policy.mjs gate
