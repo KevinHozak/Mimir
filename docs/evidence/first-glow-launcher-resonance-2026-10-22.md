@@ -23,6 +23,11 @@ The [original evaluation](first-glow-observer-evaluation-2026-10-22.md) and
 
 ## Verification
 
+Publication CI exposed an existing Windows-only npm lookup in the launcher on Linux
+Node 22. The follow-up prefers npm's supplied `npm_execpath` and checks Windows/Unix
+installation layouts for direct Node startup. Configuration tests cover each lookup,
+and the real-launcher restart deliberately omits `npm_execpath` to exercise fallback.
+
 `npm run test:local-observer` runs configuration cases plus the real production launcher
 on dynamically allocated loopback ports and an isolated temporary database. It checks
 GET reads, OPTIONS preflight, unrelated-origin rejection, explicit-origin override

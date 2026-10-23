@@ -269,6 +269,8 @@ move away from the allowed origin. Direct server startup keeps the server's defa
 deny policy. `npm run test:local-observer` exercises the real launcher, CORS reads and
 preflight, explicit overrides, example provenance, and desktop/mobile rendering on
 isolated ports/databases; CI runs it after the browser runtime is installed.
+Launcher builds prefer npm's supplied entry point and support Windows/Unix installation
+layouts when started directly through Node.
 
 ### Hosted configuration
 

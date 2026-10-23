@@ -4,10 +4,10 @@
   "base": "79a3723c0a2d383f991e05c1c9d65c8e5c48f3a3",
   "delivery": "local-uncommitted",
   "sourceHashes": {
-    "scripts/run-local.mjs": "2221c5c5fffd33a84456058afed457b2f346110c8b5711bfc80cd8d903cd581b",
-    "scripts/run-local-config.mjs": "23f937ee44601a1e5966dd83b37d28e915be30403cf99f793026e03c558997ad",
-    "scripts/run-local-config.test.mjs": "6cb6edeb73c449cca8fa55f7b52015a36b771cc54d08b0ae656d32e3b6734d80",
-    "scripts/local-observer.test.mjs": "abae568995d316c4199aca97844b8fd97babe796678151c651c0163a5deac60c",
+    "scripts/run-local.mjs": "01c311950efcf9e90001e74348a4c9bf4208a43a547e3161286521c46819fa4d",
+    "scripts/run-local-config.mjs": "608d1ab2b4dc7e6eaae84081f37bd262d2e0d40d76ce8814195c1264e66c28ac",
+    "scripts/run-local-config.test.mjs": "f5252148eb40e683921a70e32f025f9c2b8376f0ce9150a838d6204f604cc3b1",
+    "scripts/local-observer.test.mjs": "a9e610581328c7ab2a74c5dac374b558b7f068bb774893f1c1ffd213f04ffb08",
     "packages/server/src/index.ts": "780b980f8fa23a32b3e51e5a44db98e42c3970682b7670bc12ea5bd81b711f61",
     "packages/web/src/main.tsx": "33517f4711b920aaf38bc54890adcd0836ae72155d3679c604951f1b3eb05959",
     "packages/web/src/styles.css": "7c23bbfb7e552b348f0c55d9e3a634be8152751f784be531c0d9a81ea13a8106",
@@ -91,5 +91,12 @@
   "remaining": [
     "independent human review",
     "human engagement and real-model benefit unassessed"
-  ]
+  ],
+  "publicationRepair": {
+    "firstCIRun": "https://github.com/KevinHozak/Mimir/actions/runs/39890177132",
+    "finding": "Windows-only npm lookup failed on Linux Node 22",
+    "repair": "Prefer npm_execpath; discover Windows and Unix installation layouts for standalone startup",
+    "localLauncherRegression": "passed",
+    "localLogSha256": "6fecc8069b1dbf933b55de09fc979943b1f7ac67bf8d8674dfb369a909f33faf"
+  }
 }

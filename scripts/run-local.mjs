@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { localObserverConfig } from "./run-local-config.mjs";
+import { localNpmCli, localObserverConfig } from "./run-local-config.mjs";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const node = process.execPath;
@@ -15,7 +15,7 @@ function run(command, args, options = {}) {
 }
 
 if (!existsSync(serverEntry) || !existsSync(resolve(root, "packages/web/dist/index.html")) || process.env.VITE_API_URL || process.env.PORT || process.env.WEB_PORT) {
-  const npmCli = resolve(node, "..", "node_modules", "npm", "bin", "npm-cli.js");
+  const npmCli = localNpmCli();
   const build = run(node, [npmCli, "run", "build"], { env: { VITE_API_URL: apiUrl } });
   const buildExit = await new Promise((resolveExit) => build.once("exit", (code) => resolveExit(code ?? 1)));
   if (buildExit !== 0) process.exit(buildExit);

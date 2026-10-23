@@ -23,6 +23,7 @@ async function start(origin) {
   delete env.VITE_API_URL;
   delete env.VITE_LIVE_API_URL;
   if (origin !== undefined) env.OBSERVER_ORIGIN = origin;
+  if (origin !== undefined) delete env.npm_execpath; // Exercise standalone Node fallback on restart.
   output = "";
   launcher = spawn(process.execPath, [join(root, "scripts/run-local.mjs")], { cwd: root, env, stdio: ["ignore", "pipe", "pipe"] });
   const capture = chunk => { output = (output + String(chunk)).slice(-12000); };

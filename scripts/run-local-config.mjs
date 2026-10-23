@@ -1,3 +1,14 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
+
+/** Prefer npm's own entry point; support standalone Node on Windows and Unix layouts. */
+export function localNpmCli(env = process.env, node = process.execPath, exists = existsSync) {
+  const candidates = [env.npm_execpath, resolve(node, "..", "node_modules", "npm", "bin", "npm-cli.js"), resolve(node, "..", "..", "lib", "node_modules", "npm", "bin", "npm-cli.js")];
+  const cli = candidates.find(candidate => candidate && exists(candidate));
+  if (!cli) throw new Error("Cannot locate npm; start with npm start or install npm alongside Node");
+  return cli;
+}
+
 /** The launcher exposes one loopback preview; an explicit CORS policy takes precedence. */
 export function localObserverConfig(env = process.env) {
   const port = env.PORT ?? "8888";
