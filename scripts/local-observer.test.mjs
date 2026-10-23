@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { spawn, execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
+import { createConnection } from "node:net";
 import { mkdirSync, rmSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -39,9 +40,24 @@ async function stop() {
   if (!launcher) return;
   if (process.platform === "win32" && launcher.exitCode === null && launcher.signalCode === null) {
     // The entire tree belongs to this test; Windows SIGTERM does not invoke Node's handler.
-    execFileSync("taskkill", ["/PID", String(launcher.pid), "/T", "/F"], { stdio: "ignore" });
-    await waitForTestExit(launcher);
+    let terminationError;
+    try { execFileSync("taskkill", ["/PID", String(launcher.pid), "/T", "/F"], { stdio: "ignore" }); }
+    catch (error) { terminationError = error; } // A tree member can exit while taskkill enumerates it.
+    try { await waitForTestExit(launcher); }
+    catch (error) { throw new Error("Launcher did not exit after process-tree cleanup", { cause: terminationError ?? error }); }
   } else await stopTestProcesses([launcher]);
+  // A successful parent exit alone is insufficient: neither owned listener may remain.
+  const listening = port => new Promise((resolve, reject) => {
+    const socket = createConnection({ host: "127.0.0.1", port });
+    socket.once("connect", () => { socket.destroy(); resolve(true); });
+    socket.once("error", error => { socket.destroy(); if (error.code === "ECONNREFUSED") resolve(false); else reject(error); });
+    socket.setTimeout(250, () => { socket.destroy(); resolve(true); });
+  });
+  for (let attempt = 0; ; attempt++) {
+    if (!(await Promise.all([apiPort, webPort].map(listening))).some(Boolean)) break;
+    if (attempt === 49) throw new Error("Launcher cleanup left an API or preview listener running");
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
   launcher = undefined;
 }
 function historyHash() {
