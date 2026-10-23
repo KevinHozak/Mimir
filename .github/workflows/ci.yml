@@ -96,6 +96,8 @@ jobs:
         run: npm run world:test
       - name: History request sequencing
         run: npm run test:history --workspace @mimir/web
+      - name: Local launcher and Resonance examples
+        run: npm run test:local-observer
 
   ci-gate:
     name: CI gate

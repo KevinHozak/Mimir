@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-22",
+  "issue": "MIM-S001",
+  "base": "79a3723c0a2d383f991e05c1c9d65c8e5c48f3a3",
+  "delivery": "local-uncommitted",
+  "sourceHashes": {
+    "scripts/run-local.mjs": "2221c5c5fffd33a84456058afed457b2f346110c8b5711bfc80cd8d903cd581b",
+    "scripts/run-local-config.mjs": "23f937ee44601a1e5966dd83b37d28e915be30403cf99f793026e03c558997ad",
+    "scripts/run-local-config.test.mjs": "6cb6edeb73c449cca8fa55f7b52015a36b771cc54d08b0ae656d32e3b6734d80",
+    "scripts/local-observer.test.mjs": "abae568995d316c4199aca97844b8fd97babe796678151c651c0163a5deac60c",
+    "packages/server/src/index.ts": "780b980f8fa23a32b3e51e5a44db98e42c3970682b7670bc12ea5bd81b711f61",
+    "packages/web/src/main.tsx": "33517f4711b920aaf38bc54890adcd0836ae72155d3679c604951f1b3eb05959",
+    "packages/web/src/styles.css": "7c23bbfb7e552b348f0c55d9e3a634be8152751f784be531c0d9a81ea13a8106",
+    "package.json": "decc2e602b647cc3d5a3e908cfaedbd4570b0973a2d37c657fb6dc53914603d7",
+    ".github/workflows/ci.yml": "96ba6bcd7d594800ebb8d235f03f9ecb45a603287e0965c131b527f6866cd8a3"
+  },
+  "checks": [
+    {
+      "command": "root build",
+      "result": "passed"
+    },
+    {
+      "command": "local launcher configuration",
+      "result": "passed"
+    },
+    {
+      "command": "real launcher/API/browser regression",
+      "result": "passed"
+    },
+    {
+      "command": "npm test",
+      "result": "passed"
+    },
+    {
+      "command": "web test:first-glow",
+      "result": "passed"
+    },
+    {
+      "command": "web test:history (3 seeds, 240 pulses)",
+      "result": "passed"
+    },
+    {
+      "command": "web test:hosted-auth-boundary",
+      "result": "passed"
+    }
+  ],
+  "logs": {
+    "local-observer-final.log": "e71c294b2303ca9b678c89725d56005a6eba7f5559d59d84f59e88759f4e3dca",
+    "local-followup-core.log": "f8f6bf98678cb5bbc7e68d32eaad44948d6821dc9bfb0dbe37751db5ad3d04f6",
+    "local-followup-browser.log": "0635a9f2e4dd356763b631fbaff58a4eca6645798aae2bbc6bd640cd0109a99a",
+    "local-followup-history.log": "a67cdf51d924de9ad715ad4fb26cff32fc0912fd5717b3bb1dd920a9ba6d6302"
+  },
+  "reviewRuntime": {
+    "allowedOrigin": "http://127.0.0.1:4189",
+    "unrelatedOriginAllowed": false,
+    "manualObserverOriginOverride": false,
+    "fixtureSource": "resonance-contract-fixtures",
+    "exampleCount": 4,
+    "liveCountFieldsAbsent": true,
+    "providerCalls": 0
+  },
+  "originalHistory": {
+    "checkpointCount": 244,
+    "checkpointHash": "118d70e87dfe343f66646ca93b1507afbb77d80b18ffb7c9984f1a6bb582a5df",
+    "eventCount": 952,
+    "eventHash": "90c3d3a8d71695fa87f85afed5e6c6e50eded85de72860bc2dcdae773dbd8d46",
+    "interpretationCount": 341,
+    "interpretationHash": "35fee80983c7dd59dcce1005825e35492b1265606c6b383b31db98a57040ec50",
+    "metadata": [
+      {
+        "key": "active_timeline",
+        "value": "timeline-b81be67e-dfc9-4ba8-98f9-178f4065097d"
+      }
+    ],
+    "unchanged": true
+  },
+  "visualReview": {
+    "viewports": [
+      [
+        1440,
+        900
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "mobilePanelWidth": 345,
+    "mobilePanelContentWidth": 345
+  },
+  "remaining": [
+    "independent human review",
+    "human engagement and real-model benefit unassessed"
+  ]
+}
