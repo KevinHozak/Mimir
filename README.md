@@ -20,6 +20,13 @@ Open the URL printed by the launcher. The local API listens on `127.0.0.1:8888` 
 
 The writer binds to loopback by default and may run without `OWNER_TOKEN` for local development. Set `HOST` to a non-loopback address, set `SERVE_WEB=true`, or use `npm run start:hosted` only with an `OWNER_TOKEN`; those configurations fail closed without one. Cross-origin requests are denied unless the exact `OBSERVER_ORIGIN` is configured.
 
+Select a Spark, enter Follow, then open **Chronicle & history** to read its personal
+chapter. Evidence links open the exact recorded timeline and pulse with a rendered
+scene. **Return to live observer** restores the original Spark and Follow presentation,
+even after selecting another Spark in history. Historical viewing does not advance
+the world or request AI output. Configure `OBSERVER_ORIGIN` to the preview's exact
+origin (normally `http://127.0.0.1:4173`) when running the separate API and preview.
+
 ## Local data
 
 Mutable local runtime data lives under `data/` and is ignored by Git:

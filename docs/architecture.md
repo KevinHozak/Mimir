@@ -87,6 +87,27 @@ The P3 conversation slice records a co-present `meet` event as a deterministic, 
 
 The P4 Chronicle surface is served by `GET /api/chronicle` and regenerated explicitly through the owner-only `POST /api/owner/chronicle/regenerate`. The server assembles only committed events, interpretations, and checkpoint history at or before the requested pulse, validates the edition before persistence, and links observer reading back to `/api/history` scenes. Chronicle text is not Spark knowledge and does not change world state, Spark capacity, or provider budgets.
 
+The offline observer carries an explicit Spark selection through `?view=history`,
+the personal chapter, and evidence links to an exact timeline/pulse/event. The history
+viewer renders that checkpoint's immutable bundle and committed Spark positions, and
+keeps the original live Spark, Follow mode, and presentation as a separate return target.
+Unavailable checkpoints and absent Sparks remain explicit. Hosted archive navigation
+continues to use its separate authenticated archive viewer.
+
+`GET /api/chronicle` accepts `sparkId`; editions retain that selection and use a
+selection-aware source identity/cache lookup. Revision numbers remain unique per
+timeline/cutoff, and existing editions are retained unchanged. New public event rows
+preserve `actorId`, `participants`, and `structuredKind` alongside their coarse event
+category. For older rows, the read projection joins the exact event ID and pulse to
+the original checkpoint's structured events. Missing attribution stays missing; no
+saved checkpoint or event row is rewritten or inferred from message text.
+
+`npm run test:history --workspace @mimir/web` includes the connected offline browser
+regression: three six-Spark cohorts, 80 pulses each, archived and earlier evidence,
+quiet cutoffs, desktop/mobile navigation, the live return target, unchanged simulation
+history hashes, and zero provider calls. Chronicle tests cover selected-edition
+persistence and read-only attribution recovery.
+
 The versioned First Glow personality profile is materialized from authored Spark cards into each interpretation context and its hash, then recorded on the interpretation. It carries value tendencies, practical needs, relevant relationship tendencies, and the authored knowledge boundary; it is separate from mutable Spark-local knowledge and never exposes another Spark's private knowledge.
 
 The product decision for AI-P1 is to defer any external provider runtime role. The local fake provider and matched review harness are offline evaluation tools only; they do not transmit data, require credentials, or establish provider readiness. The rules-only resolver remains the normal-operation product path and the simulation authority. Historical playback never requests a provider, and invalid or unsupported proposals, unavailable evaluation inputs, timeouts, and budget exhaustion use the deterministic fallback.

@@ -24,3 +24,19 @@ test("Chronicle validation rejects a quote without its saved utterance evidence"
   moment.evidence = moment.evidence.filter(reference => reference.kind !== "utterance");
   assert.throws(() => validateChronicleEdition(edition, input()), /utterance evidence/);
 });
+
+test("personal selection is explicit, isolated, cutoff-bounded, and never invented", () => {
+  const source = input();
+  source.events.push({ id: "solo-2", pulse: 2, kind: "meet", actorId: "spark-1", participants: ["spark-1"], message: "Lumen stayed alone." });
+  const lumen = buildChronicleEdition({ ...source, selectedSparkId: "spark-1" });
+  const veil = buildChronicleEdition({ ...source, selectedSparkId: "spark-2" });
+  assert.notEqual(lumen.id, veil.id);
+  assert.deepEqual(veil.chapters[1].selectedSparkIds, ["spark-2"]);
+  assert.equal(veil.chapters[1].title, "Veil's trace");
+  assert.deepEqual(veil.chapters[1].evidence.map(ref => ref.id), ["meet-1"]);
+  assert.ok(lumen.chapters[1].evidence.some(ref => ref.id === "solo-2"));
+  const quiet = buildChronicleEdition({ ...source, cutoffPulse: 0, selectedSparkId: "spark-2" });
+  assert.equal(quiet.chapters[1].evidence.length, 0);
+  assert.match(quiet.chapters[1].paragraphs[0], /No personal history/);
+  assert.throws(() => buildChronicleEdition({ ...source, selectedSparkId: "absent" }), /unavailable/);
+});

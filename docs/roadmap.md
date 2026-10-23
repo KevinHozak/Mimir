@@ -14,6 +14,14 @@ The implemented AI path is an explicitly gated internal Vertex pilot with rules-
 
 ## Living Lives workstream
 
+The current local follow-up is [MIM-S001](../issues/MIM-S001.md). The October 22
+offline evaluation found attribution and navigation gaps; a local implementation now
+connects the selected Spark, personal Chronicle, exact historical scene, and live
+return target. Keep independent human review, launcher-origin integration, and fixture
+labeling as outstanding evaluation findings; local checks do not establish hosted
+delivery or real-model benefit. See the [original evaluation](evidence/first-glow-observer-evaluation-2026-10-22.md)
+and [repair verification](evidence/first-glow-observer-fix-2026-10-22.md).
+
 The [Living Lives design and phased plan](living-lives-plan.md) records completed epic [#228](https://github.com/KevinHozak/Mimir/issues/228), delivered through all six phase issues [#229–#234](https://github.com/KevinHozak/Mimir/issues/229). The connected experience now includes Follow a Spark, persisted consequential conversations, and an evidence-linked Chronicle.
 
 Lives-P5 completed its six-run offline fake-provider study, but deferred a live-model benefit claim and independent human review. Lives-P6 delivered versioned age/model progression and a matched offline comparison; its diagnostic fixture did not assess benefit. See the [P5 study](evidence/first-glow-lives-p5-study-2026-09-20.md) and [P6 comparison](evidence/first-glow-lives-p6-comparison-2026-09-20.md). Neither phase authorizes new provider calls or changes First Glow defaults.

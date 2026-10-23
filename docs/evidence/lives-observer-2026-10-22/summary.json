@@ -1,0 +1,216 @@
+{
+  "source": "1d451d87f3e351f6caf814c89645d481502862da",
+  "protocol": {
+    "seeds": [
+      2,
+      4,
+      8
+    ],
+    "sparks": 6,
+    "pulses": 80,
+    "checkpoints": [
+      0,
+      16,
+      40,
+      80
+    ],
+    "mode": "rules-only",
+    "executionOrder": [
+      4,
+      8,
+      2
+    ],
+    "injectedSocialChoices": false
+  },
+  "runs": [
+    {
+      "seed": 2,
+      "timelineId": "timeline-b81be67e-dfc9-4ba8-98f9-178f4065097d",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "checkpoints": [
+        {
+          "pulse": 0,
+          "hash": "47c45bac064cf1324f098c83b82b69ca4cead30b67fac282d043db66d4d06f4d"
+        },
+        {
+          "pulse": 16,
+          "hash": "c3e6268b9337539603b7f73ffd00cd5980ceb384e8ca97e692a4568c84c64301"
+        },
+        {
+          "pulse": 40,
+          "hash": "2fdd166f8bb80e41d421865cda4cca522d982f42a13713247848dcd48da328e9"
+        },
+        {
+          "pulse": 80,
+          "hash": "c8526542eb384a11afeb5c85f32b7ae3442dfc6e572ec8965179f22b67a69816"
+        }
+      ],
+      "eventCount": 323,
+      "kinds": {
+        "world-object": 127,
+        "pulse": 95,
+        "collection": 22,
+        "sharing": 79
+      },
+      "attributedServerEvents": 0,
+      "conversations": 0,
+      "persistentIntentions": 0,
+      "commitments": 118,
+      "chapters": [
+        {
+          "kind": "moment",
+          "title": "A moment at pulse 1",
+          "pulseStart": 1,
+          "pulseEnd": 1,
+          "evidenceCount": 1
+        },
+        {
+          "kind": "personal",
+          "title": "Spark 1's trace",
+          "pulseStart": 80,
+          "pulseEnd": 80,
+          "evidenceCount": 0
+        },
+        {
+          "kind": "season",
+          "title": "The First Glow through pulse 80",
+          "pulseStart": 77,
+          "pulseEnd": 80,
+          "evidenceCount": 8
+        }
+      ],
+      "providerCalls": 0
+    },
+    {
+      "seed": 4,
+      "timelineId": "timeline-7c1da76a-c14b-4e13-88d7-9fd7dfd889d6",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "checkpoints": [
+        {
+          "pulse": 0,
+          "hash": "b9cf54f60cb5dbae764b585f12e3af28caee4ef6a7685d712d214b07daffe1fd"
+        },
+        {
+          "pulse": 16,
+          "hash": "a6be83b353f9458da3f4a9f7d338476c76808f04d8efe6b43fb9943438c0800a"
+        },
+        {
+          "pulse": 40,
+          "hash": "0463147e54c09bd62509d4753e3f92f59fe00d253d62eb716440167243e69766"
+        },
+        {
+          "pulse": 80,
+          "hash": "f1ffe8fac8a4b599a8ccabba968bcc2fbce899991e41e9a53660870acd51a350"
+        }
+      ],
+      "eventCount": 306,
+      "kinds": {
+        "world-object": 133,
+        "pulse": 83,
+        "collection": 21,
+        "sharing": 69
+      },
+      "attributedServerEvents": 0,
+      "conversations": 0,
+      "persistentIntentions": 0,
+      "commitments": 105,
+      "chapters": [
+        {
+          "kind": "moment",
+          "title": "A moment at pulse 1",
+          "pulseStart": 1,
+          "pulseEnd": 1,
+          "evidenceCount": 1
+        },
+        {
+          "kind": "personal",
+          "title": "Spark 1's trace",
+          "pulseStart": 80,
+          "pulseEnd": 80,
+          "evidenceCount": 0
+        },
+        {
+          "kind": "season",
+          "title": "The First Glow through pulse 80",
+          "pulseStart": 77,
+          "pulseEnd": 80,
+          "evidenceCount": 8
+        }
+      ],
+      "providerCalls": 0
+    },
+    {
+      "seed": 8,
+      "timelineId": "timeline-8363a343-7f6d-4d51-bcde-a0b9c7ef5d02",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "checkpoints": [
+        {
+          "pulse": 0,
+          "hash": "cb05d0693bb89a611e32f42d21518fd4c417602044a96446ce3da4ad7c2e05d7"
+        },
+        {
+          "pulse": 16,
+          "hash": "e1c15be6dd584a22d6f885ff120af15b03cbbb2f899cf43441b2437b06758d5c"
+        },
+        {
+          "pulse": 40,
+          "hash": "1042284516133f636842372ed904d89ed897a2c642485164c1afa4c5c1561832"
+        },
+        {
+          "pulse": 80,
+          "hash": "c1f02b160023057439686fae91918c51d4179cd6f3ca52b776523aada3f7e304"
+        }
+      ],
+      "eventCount": 323,
+      "kinds": {
+        "world-object": 127,
+        "pulse": 95,
+        "collection": 22,
+        "sharing": 79
+      },
+      "attributedServerEvents": 0,
+      "conversations": 0,
+      "persistentIntentions": 0,
+      "commitments": 118,
+      "chapters": [
+        {
+          "kind": "moment",
+          "title": "A moment at pulse 1",
+          "pulseStart": 1,
+          "pulseEnd": 1,
+          "evidenceCount": 1
+        },
+        {
+          "kind": "personal",
+          "title": "Spark 1's trace",
+          "pulseStart": 80,
+          "pulseEnd": 80,
+          "evidenceCount": 0
+        },
+        {
+          "kind": "season",
+          "title": "The First Glow through pulse 80",
+          "pulseStart": 77,
+          "pulseEnd": 80,
+          "evidenceCount": 8
+        }
+      ],
+      "providerCalls": 0
+    }
+  ],
+  "integrity": {
+    "checkpointCount": 244,
+    "checkpointHash": "118d70e87dfe343f66646ca93b1507afbb77d80b18ffb7c9984f1a6bb582a5df",
+    "eventCount": 952,
+    "eventHash": "90c3d3a8d71695fa87f85afed5e6c6e50eded85de72860bc2dcdae773dbd8d46",
+    "interpretationCount": 341,
+    "interpretationHash": "35fee80983c7dd59dcce1005825e35492b1265606c6b383b31db98a57040ec50",
+    "metadata": [
+      {
+        "key": "active_timeline",
+        "value": "timeline-b81be67e-dfc9-4ba8-98f9-178f4065097d"
+      }
+    ],
+    "unchanged": true
+  }
+}

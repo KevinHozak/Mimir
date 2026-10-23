@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-22",
+  "issue": "MIM-S001",
+  "base": "1d451d87f3e351f6caf814c89645d481502862da",
+  "delivery": "local-uncommitted",
+  "sourceHashes": {
+    "packages/engine/src/index.ts": "b11ef43c315f7419f5b6db80f0deb52666c48fe648846dee967231a970b7c9d0",
+    "packages/engine/src/chronicle.ts": "b28cccdc40d8c59e6c6854997c5d0f3e35dcf32b501962fc034a0e89d3475dcb",
+    "packages/server/src/index.ts": "ba4f0e24de799dbb829e59ca82bcdb50087cc586653b525310758f8d8b37d557",
+    "packages/server/src/chronicle-events.ts": "bbaaaeea586c6c2548b0f99431f277c29986cdb6bd5860d92aab4a4b68fbd10d",
+    "packages/web/src/main.tsx": "c5d60f4c98c007d2d2f74673cb02c24294571d4c1bf7eb96558545e09b15d42d",
+    "packages/web/src/styles.css": "e00edcb66707ac64701d6501f5bd687ade0799169f5f7be4f5ac74ec120aac04",
+    "packages/web/src/observer-navigation.ts": "b7e4e55932eae2d6cc18bc6491faa8c653d1ce32cabb083ed673711ef55463e1",
+    "packages/engine/src/chronicle.test.ts": "c4ad9b7ad3a80a6c8fd79a5e0004f4e9eeec75f2f4c945688db63ff6d6962fb9",
+    "packages/engine/src/first-glow-history.test.ts": "b36e7b44bdf20175be35d32a3d9e478d347044a18e11f877dfbc34a0f62f1c49",
+    "packages/server/src/chronicle-events.test.ts": "74907946bc46173c01ed0f6cc0cfa10a882341ee66880a1b871be5894b862e76",
+    "packages/server/src/chronicle.test.ts": "c162e2eb9a0286db7c0ab2d4f35b7a71be5bdf72d1c4f8d7238954fb557c46a7",
+    "packages/web/src/connected-observer-e2e.test.ts": "3261f5df35e34b99e14aca46df027786db050c3d039032b24d5c80f3a1b15190",
+    "packages/web/src/history-sequencing.test.ts": "caab599fe814b5f10264bb5b162aad9e778d4a40e661971d92358ff6413dda5a"
+  },
+  "freshRegression": {
+    "seeds": [
+      4,
+      8,
+      2
+    ],
+    "sparksPerCohort": 6,
+    "pulsesPerCohort": 80,
+    "totalPulses": 240,
+    "checkpoints": [
+      0,
+      16,
+      40,
+      80
+    ],
+    "viewports": [
+      [
+        1440,
+        900
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "result": "passed",
+    "simulationHistoryUnchanged": true,
+    "providerCalls": 0,
+    "timelineIds": "ephemeral test databases removed by test cleanup"
+  },
+  "originalHistory": {
+    "checkpointCount": 244,
+    "checkpointHash": "118d70e87dfe343f66646ca93b1507afbb77d80b18ffb7c9984f1a6bb582a5df",
+    "eventCount": 952,
+    "eventHash": "90c3d3a8d71695fa87f85afed5e6c6e50eded85de72860bc2dcdae773dbd8d46",
+    "interpretationCount": 341,
+    "interpretationHash": "35fee80983c7dd59dcce1005825e35492b1265606c6b383b31db98a57040ec50",
+    "metadata": [
+      {
+        "key": "active_timeline",
+        "value": "timeline-b81be67e-dfc9-4ba8-98f9-178f4065097d"
+      }
+    ],
+    "unchanged": true
+  },
+  "currentProviderRuntime": {
+    "requested": false,
+    "enabled": false,
+    "runtimeMode": "rules-only",
+    "calls": 0
+  },
+  "checks": [
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "npm test",
+      "result": "passed"
+    },
+    {
+      "command": "engine first-glow-history and chronicle tests",
+      "result": "passed"
+    },
+    {
+      "command": "server test:chronicle",
+      "result": "passed"
+    },
+    {
+      "command": "web test:history",
+      "result": "passed"
+    },
+    {
+      "command": "web test:history-viewer",
+      "result": "passed"
+    },
+    {
+      "command": "web test:first-glow",
+      "result": "passed"
+    },
+    {
+      "command": "web test:first-glow-audio-p5",
+      "result": "passed"
+    },
+    {
+      "command": "server test:state",
+      "result": "passed"
+    },
+    {
+      "command": "server test:first-glow-restart",
+      "result": "passed"
+    },
+    {
+      "command": "server test:backup-restore",
+      "result": "passed"
+    }
+  ],
+  "remaining": [
+    "launcher-origin integration",
+    "Resonance fixture labeling",
+    "independent human review",
+    "real-model benefit unassessed"
+  ],
+  "review": {
+    "kind": "agent source and browser review",
+    "independent": false
+  }
+}

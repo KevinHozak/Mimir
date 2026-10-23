@@ -33,8 +33,21 @@ try {
   assert.equal(regeneratedBody.edition.revision, 2); assert.notEqual(regeneratedBody.edition.id, firstBody.edition.id);
   const reread = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0`); const rereadBody = await reread.json() as { edition: { id: string; revision: number }; reread: boolean };
   assert.equal(rereadBody.edition.id, regeneratedBody.edition.id); assert.equal(rereadBody.edition.revision, 2); assert.equal(rereadBody.reread, true);
+  const selected = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&sparkId=spark-1`);
+  assert.equal(selected.status, 200);
+  const selectedBody = await selected.json() as { edition: { id: string; selectedSparkId: string; chapters: Array<{ selectedSparkIds: string[] }> } };
+  assert.equal(selectedBody.edition.selectedSparkId, "spark-1");
+  assert.deepEqual(selectedBody.edition.chapters[1].selectedSparkIds, ["spark-1"]);
+  assert.notEqual(selectedBody.edition.id, regeneratedBody.edition.id);
+  const absent = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&sparkId=absent`);
+  assert.equal(absent.status, 404);
+  const missingEdition = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&editionId=absent`);
+  assert.equal(missingEdition.status, 404);
   await stopServer(); await startServer();
   const afterRestart = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0`); const afterRestartBody = await afterRestart.json() as { edition: { id: string; revision: number } };
   assert.equal(afterRestartBody.edition.id, regeneratedBody.edition.id); assert.equal(afterRestartBody.edition.revision, 2);
+  const selectedRestart = await (await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&sparkId=spark-1`)).json() as { edition: { id: string }; reread: boolean };
+  assert.equal(selectedRestart.edition.id, selectedBody.edition.id);
+  assert.equal(selectedRestart.reread, true);
   console.log("Chronicle persistence and immutable revision checks passed");
 } finally { await stopServer(); for (const suffix of ["", "-wal", "-shm"]) { const path = `${databasePath}${suffix}`; if (existsSync(path)) rmSync(path); } if (existsSync(tempRoot)) rmSync(tempRoot, { recursive: true, force: true }); }

@@ -2,6 +2,16 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-22 — Connected offline observer (local implementation)
+
+- [MIM-S001](../issues/MIM-S001.md): carry the selected Spark through its personal
+  Chronicle, exact historical timeline/pulse/event scene, and return to the original
+  live Spark with Follow mode and presentation preserved.
+- Preserve Spark attribution in new event rows; read older attribution from original
+  checkpoints without rewriting simulation history or existing narrator editions.
+- Add connected offline browser and selected-edition persistence regressions.
+  This local change does not establish a hosted deployment or independent human review.
+
 ## 2026-10-04 — Hosted-P19 roadmap priority reconciliation
 
 - Reconciled roadmap delivery position and open/closed GitHub issue state against `main` at `26ac5e4`.

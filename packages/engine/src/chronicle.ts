@@ -26,11 +26,11 @@ export interface ChronicleChapter {
   narrator: ChronicleNarratorProvenance;
   illustration: ChronicleIllustrationProvenance;
 }
-export interface ChronicleEdition { schemaVersion: typeof CHRONICLE_SCHEMA_VERSION; id: string; timelineId: string; cutoffPulse: number; revision: number; sourceSnapshotHash: string; chapters: ChronicleChapter[]; narrator: ChronicleNarratorProvenance; }
-export interface ChronicleInput { timelineId: string; cutoffPulse: number; revision: number; events: StructuredEvent[]; interpretations: Array<{ id: string; pulse: number; summary: string; evidenceEventIds: string[] }>; history: FirstGlowHistory; sparkNames: Record<string, string>; bundleHash: string; }
+export interface ChronicleEdition { schemaVersion: typeof CHRONICLE_SCHEMA_VERSION; id: string; timelineId: string; cutoffPulse: number; revision: number; selectedSparkId?: string; sourceSnapshotHash: string; chapters: ChronicleChapter[]; narrator: ChronicleNarratorProvenance; }
+export interface ChronicleInput { timelineId: string; cutoffPulse: number; revision: number; selectedSparkId?: string; events: StructuredEvent[]; interpretations: Array<{ id: string; pulse: number; summary: string; evidenceEventIds: string[] }>; history: FirstGlowHistory; sparkNames: Record<string, string>; bundleHash: string; }
 
 const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
-const unique = (values: string[]) => [...new Set(values)].sort(compare);
+const unique = (values: string[]) => [...new Set(values.filter(value => typeof value === "string" && value.length > 0))].sort(compare);
 const bounded = (value: string, limit = 280) => value.length <= limit ? value : `${value.slice(0, limit - 1)}…`;
 const conversations = (history: FirstGlowHistory, cutoffPulse: number) => (history.conversations ?? []).filter(item => item.pulse <= cutoffPulse).sort((a, b) => a.pulse - b.pulse || compare(a.id, b.id));
 
@@ -46,7 +46,8 @@ function conversationQuote(record: FirstGlowConversationRecord | undefined, inpu
 
 export function buildChronicleEdition(input: ChronicleInput): ChronicleEdition {
   if (!Number.isInteger(input.cutoffPulse) || input.cutoffPulse < 0) throw new Error("chronicle cutoff must be a non-negative integer");
-  const snapshotHash = `sha256-${sha256(JSON.stringify(sourceSnapshot(input)))}`;
+  if (input.selectedSparkId && !Object.hasOwn(input.sparkNames, input.selectedSparkId)) throw new Error("selected Spark is unavailable at this checkpoint");
+  const snapshotHash = `sha256-${sha256(JSON.stringify(input.selectedSparkId ? { source: sourceSnapshot(input), selectedSparkId: input.selectedSparkId } : sourceSnapshot(input)))}`;
   const visibleEvents = input.events.filter(event => (event.pulse ?? 0) <= input.cutoffPulse).sort((a, b) => (a.pulse ?? 0) - (b.pulse ?? 0) || compare(a.id, b.id));
   const meets = visibleEvents.filter(event => event.kind === "meet" && (event.participants?.length ?? 0) > 0);
   const notable = meets[0] ?? visibleEvents.find(event => ["share", "shelter-loom-choice", "crossing-voices-choice", "mark-trace", "explore"].includes(event.kind)) ?? visibleEvents[0];
@@ -60,7 +61,7 @@ export function buildChronicleEdition(input: ChronicleInput): ChronicleEdition {
   const momentEvidence = [sourceEvent, ...(firstConversation ? [evidence(input, "utterance", firstConversation.turns[0].id, firstConversation.pulse)] : [])];
   const momentParagraphs = notable ? [`At pulse ${notable.pulse ?? 0}, ${notable.message}`, ...(quote ? [`${names[0] ?? "A Spark"} said ${quote}`] : []), "This account names the recorded outcome and leaves motives unresolved when the history does not establish them."] : ["No recorded moment met the Chronicle selection criteria at this cutoff. The quiet is part of the record."];
   const moment: ChronicleChapter = { schemaVersion: 1, id: "moment", editionId: `edition-${snapshotHash.slice(7, 23)}-${input.revision}`, kind: "moment", title: notable ? `A moment at pulse ${notable.pulse ?? 0}` : "A quiet checkpoint", summary: bounded(momentParagraphs[0]), paragraphs: momentParagraphs, selectedSparkIds: sparkIds, pulseStart: notable?.pulse ?? input.cutoffPulse, pulseEnd: notable?.pulse ?? input.cutoffPulse, evidence: [...momentEvidence, ...quoteEvidence.map(id => evidence(input, "event", id, notable?.pulse ?? input.cutoffPulse))], sourceSnapshotHash: snapshotHash, narrator: { mode: "deterministic-baseline", promptVersion: "chronicle-baseline-v1" }, illustration: { kind: "historical-scene-capture", timelineId: input.timelineId, pulse: notable?.pulse ?? input.cutoffPulse, bundleHash: input.bundleHash, sourceEventIds: sourceIds } };
-  const personalSpark = sparkIds[0] ?? Object.keys(input.sparkNames).sort(compare)[0];
+  const personalSpark = input.selectedSparkId ?? sparkIds[0] ?? Object.keys(input.sparkNames).sort(compare)[0];
   const personalEvents = visibleEvents.filter(event => event.actorId === personalSpark || event.participants?.includes(personalSpark));
   const personalNames = input.sparkNames[personalSpark] ?? personalSpark ?? "No selected Spark";
   const personalEvidence = personalEvents.slice(-4).map(event => evidence(input, "event", event.id, event.pulse ?? 0));
@@ -68,7 +69,7 @@ export function buildChronicleEdition(input: ChronicleInput): ChronicleEdition {
   const seasonEvents = visibleEvents.slice(-8);
   const season: ChronicleChapter = { ...moment, id: "season", kind: "season", title: `The First Glow through pulse ${input.cutoffPulse}`, summary: `${visibleEvents.length} committed event(s) and ${input.interpretations.filter(item => item.pulse <= input.cutoffPulse).length} bounded reading(s) are available for this chapter.`, paragraphs: seasonEvents.length ? seasonEvents.map(event => `Pulse ${event.pulse ?? 0}: ${event.message}`) : ["This chapter contains no committed events yet."], selectedSparkIds: unique(seasonEvents.flatMap(event => [event.actorId, ...(event.participants ?? [])])), pulseStart: seasonEvents[0]?.pulse ?? 0, pulseEnd: seasonEvents.at(-1)?.pulse ?? input.cutoffPulse, evidence: seasonEvents.map(event => evidence(input, "event", event.id, event.pulse ?? 0)), sourceSnapshotHash: snapshotHash, narrator: moment.narrator, illustration: { ...moment.illustration, pulse: input.cutoffPulse, sourceEventIds: seasonEvents.map(event => event.id) } };
   const editionId = moment.editionId;
-  return { schemaVersion: 1, id: editionId, timelineId: input.timelineId, cutoffPulse: input.cutoffPulse, revision: input.revision, sourceSnapshotHash: snapshotHash, chapters: [moment, personal, season], narrator: moment.narrator };
+  return { schemaVersion: 1, id: editionId, timelineId: input.timelineId, cutoffPulse: input.cutoffPulse, revision: input.revision, ...(input.selectedSparkId ? { selectedSparkId: input.selectedSparkId } : {}), sourceSnapshotHash: snapshotHash, chapters: [moment, personal, season], narrator: moment.narrator };
 }
 
 export function validateChronicleEdition(edition: ChronicleEdition, input?: Pick<ChronicleInput, "timelineId" | "cutoffPulse" | "events" | "history">): void {
