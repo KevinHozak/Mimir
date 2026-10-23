@@ -2,9 +2,23 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
-## 2026-10-22 — Connected offline observer (local implementation)
+## 2026-10-22 — Observer follow-up and local verification
 
-- Local follow-up for MIM-S001: the launcher supplies its exact loopback preview
+- Explanation evidence links open the exact saved timeline, pulse, and event and preserve the original Spark/Follow return. Historical fragment highlighting is applied after asynchronous evidence renders.
+- Recorded events appear before reflection schedules and choice-scoring detail. New Chronicle editions prefer distinct recorded outcomes over repeated travel, with deterministic movement-only fallback; saved editions remain immutable.
+- Add desktop/mobile regressions for the evidence round trip, event reading order, and dark page margins. The complete local suite passed 66 command steps. The margin PR also passed all 66 steps from its isolated exact revision before merge.
+- Add a local verification entry point with fail-fast results, source-change detection, bounded credential redaction, and preview restoration. The automatic GitHub test workflow and its required status rule are disabled while PR and history protections remain in force. Every PR uses the full local verifier; GitHub Actions is not the test runner.
+- Move selected unfinished roadmap work into two local epics with child stories and five standalone stories; retain the existing observer evaluation. The roadmap now holds direction and selection gates rather than duplicated issue plans or completed delivery history.
+
+## 2026-10-22 — Dark desktop margins (merged and hosted)
+
+- [PR #311](https://github.com/KevinHozak/Mimir/pull/311) makes the live First Glow root background and color scheme match Chronicle, with automated desktop coverage for both views. Windows launcher cleanup verifies process exit and released test ports after termination races.
+- Merged main at `cacb4d4` passed the 66-step local suite at its identical source tree. Firebase Hosting version `fd6fe26323122408` serves the byte-matched index and both hashed assets from that merged build.
+- Hosting updates the web observer only. The backend remains paused at pulse zero; the local evidence-link, mobile event-order, Chronicle-summary, and verifier changes above are outside this release.
+
+## 2026-10-22 — Connected offline observer (merged implementation)
+
+- Merged follow-up for MIM-S001 ([PR #310](https://github.com/KevinHozak/Mimir/pull/310)): the launcher supplies its exact loopback preview
   origin for CORS while preserving explicit overrides, and uses a strict preview port.
   Resonance fixtures are labeled as examples with example evidence and no live-event
   count. Add real-launcher/API/browser regression coverage for CORS and example labels.
@@ -15,7 +29,7 @@ This is a functional record of meaningful delivered changes. It groups related w
 - Preserve Spark attribution in new event rows; read older attribution from original
   checkpoints without rewriting simulation history or existing narrator editions.
 - Add connected offline browser and selected-edition persistence regressions.
-  This local change does not establish a hosted deployment or independent human review.
+  [PR #309](https://github.com/KevinHozak/Mimir/pull/309) merged the connected journey. Merge verification does not establish a hosted deployment or independent human review.
 
 ## 2026-10-04 — Hosted-P19 roadmap priority reconciliation
 

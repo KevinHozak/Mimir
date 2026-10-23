@@ -268,7 +268,7 @@ retain denial of cross-origin reads. Preview uses a strict port so it cannot sil
 move away from the allowed origin. Direct server startup keeps the server's default
 deny policy. `npm run test:local-observer` exercises the real launcher, CORS reads and
 preflight, explicit overrides, example provenance, and desktop/mobile rendering on
-isolated ports/databases; CI runs it after the browser runtime is installed.
+isolated ports/databases; the complete local verifier runs it after the browser checks.
 Launcher builds prefer npm's supplied entry point and support Windows/Unix installation
 layouts when started directly through Node.
 
@@ -295,13 +295,17 @@ The dated Hosted-P17 closeout records Hosting version `82cc93e9b9470f8e` from `f
 
 ## 9. Verification architecture
 
-The web package runs `npm run typecheck --workspace @mimir/web` before Vite bundling. React/Vite declarations and ES2022 browser library contracts are explicit. Geometry is a browser projection of the canonical First Glow bundle, not a second simulation contract. CI also runs the observer zoom, owner header/layout, item chooser, pulse gate, owner authentication, security-P4/P5, and Chronicle checks.
+The web package runs `npm run typecheck --workspace @mimir/web` before Vite bundling. React/Vite declarations and ES2022 browser library contracts are explicit. Geometry is a browser projection of the canonical First Glow bundle, not a second simulation contract. The local verifier also runs the observer zoom, owner header/layout, item chooser, pulse gate, owner authentication, security-P4/P5, and Chronicle checks.
 
 Dependency maintenance keeps the React plugin on its Vite-8-compatible 5.2 line so npm does not install a separate Vite 6 peer. The root override pins `@grpc/grpc-js` to 1.14.5 across Firebase client/Admin dependency paths to address certificate-validation and error-disclosure advisories; revisit the override when upstream dependency ranges include patched versions. The refreshed Google Storage dependency chain no longer requires the vulnerable UUID 9 package. Use `npm ci` and `npm audit` to verify the locked graph; a clear audit is not a substitute for server and browser acceptance checks.
 
 The 2026-10-22 lockfile refresh used npm 10.9.9. npm 11.11.1 successfully installs and audits this lockfile but can report the forced Firebase gRPC dependency as invalid in `npm ls`; npm 10.9.9 recognizes the override. Check the installed versions and compatibility tests rather than downgrading gRPC to satisfy that reporting discrepancy.
 
-All changes to `main`, including documentation, require a pull request. The CI workflow classifies the complete PR diff: changes entirely under `docs/` or to files ending in `.md` skip the build and test suite. Code, configuration, mixed changes, and manual workflow dispatches run the full suite. The required `CI gate` check passes only after successful classification and either a confirmed documentation-only skip or a successful build/test job; classification failures and failed or cancelled tests block merging. Force pushes and deletion of `main` are blocked.
+All changes to `main`, including documentation, require a pull request. Verification is local-only: run `npm run verify:local` before creating or updating a PR and stop on failed or blocked checks. The automatic GitHub test workflow is disabled and the required CI status rule has been removed; pull-request, force-push, and branch-deletion protections remain active.
+
+`scripts/verify-local.mjs` builds once and runs the former CI build/test checks sequentially, including the connected-history, dedicated history-viewer, and real-launcher browser tests. It records actual exit codes, logs, and start/end source identities under `.tmp/verification/`; source changes invalidate the result. A failure stops subsequent checks. Launcher tests use disposable ports and databases, and the runner restores its freshly built web output afterward so a custom local preview keeps its API target.
+
+Recognized credential-shaped child output is redacted before console and log writes and fails verification. Complete-line buffering handles split chunks, private-key bodies are withheld, and overlong lines fail closed. These patterns are an additional diagnostic guard, not proof that arbitrary output contains no secrets; authenticated CLI account/configuration JSON must still be reduced to allowlisted non-secret fields before printing.
 
 Affected local browser and server integration tests allocate temporary loopback ports, await child exit (including signal-only exits), and use isolated databases. Browser captures default to `.tmp`; explicitly selected evidence destinations are used for publication. The ambient-audio regression waits through delayed ambience/score scheduling and fails on browser runtime errors.
 

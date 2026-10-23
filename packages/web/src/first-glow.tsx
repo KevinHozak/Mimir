@@ -82,11 +82,11 @@ export function FirstGlowEntityChooser({ sparks, objects, selectedEntityId, onSe
   </section>;
 }
 
-function EvidenceList({ title, evidence, empty }: { title: string; evidence: FirstGlowExplanationEvent[]; empty: string }) {
-  return <section className="explanation-evidence"><h4>{title}</h4>{evidence.length ? <ul>{evidence.map(item => <li key={item.id}><a href={`#${item.id}`}>Pulse {item.pulse}: {item.message}</a></li>)}</ul> : <p>{empty}</p>}</section>;
+function EvidenceList({ title, evidence, empty, evidenceHref }: { title: string; evidence: FirstGlowExplanationEvent[]; empty: string; evidenceHref?: (event: FirstGlowExplanationEvent) => string }) {
+  return <section className="explanation-evidence"><h4>{title}</h4>{evidence.length ? <ul>{evidence.map(item => <li key={item.id}><a href={evidenceHref?.(item) ?? `#${item.id}`}>Pulse {item.pulse}: {item.message}</a></li>)}</ul> : <p>{empty}</p>}</section>;
 }
 
-export function FirstGlowExplanationPanel({ explanations, currentPulse }: { explanations: FirstGlowExplanation[]; currentPulse: number }) {
+export function FirstGlowExplanationPanel({ explanations, currentPulse, evidenceHref }: { explanations: FirstGlowExplanation[]; currentPulse: number; evidenceHref?: (event: FirstGlowExplanationEvent) => string }) {
   const visible = [...new Map(explanations.filter(explanation => explanation.pulse <= currentPulse).sort((a, b) => a.pulse - b.pulse || a.id.localeCompare(b.id)).map(explanation => [explanation.dilemmaId, explanation])).values()].reverse();
   return <><ReflectionCadencePanel /><section className="first-glow-explanations" data-testid="first-glow-explanations" aria-label="First Glow choice explanations">
     <h2>Why this happened</h2>
@@ -95,10 +95,10 @@ export function FirstGlowExplanationPanel({ explanations, currentPulse }: { expl
       <header><div><h3>{explanation.alternativeLabel}</h3><p>Pulse {explanation.pulse} · {explanation.actorName}{explanation.targetSparkName ? ` with ${explanation.targetSparkName}` : ""}</p></div><strong>{explanation.dilemmaId.replaceAll("-", " ")}</strong></header>
       <p>{explanation.summary}</p>
       <dl className="explanation-score"><dt>Need</dt><dd>{explanation.score.need}</dd><dt>Values</dt><dd>{explanation.score.values}</dd><dt>Local knowledge</dt><dd>{explanation.score.localKnowledge}</dd><dt>Trust</dt><dd>{explanation.score.trust}</dd><dt>Commitments</dt><dd>{explanation.score.commitments}</dd><dt>Cost</dt><dd>{explanation.score.cost}</dd><dt>Risk</dt><dd>{explanation.score.risk}</dd><dt>Total</dt><dd>{explanation.score.total}</dd></dl>
-      <EvidenceList title="Objective evidence" evidence={explanation.objectiveEvents} empty="No objective event was recorded." />
-      <EvidenceList title={`What ${explanation.actorName} knew`} evidence={explanation.knownFacts} empty="This Spark had no recorded witnessed fact for this choice." />
+      <EvidenceList evidenceHref={evidenceHref} title="Objective evidence" evidence={explanation.objectiveEvents} empty="No objective event was recorded." />
+      <EvidenceList evidenceHref={evidenceHref} title={`What ${explanation.actorName} knew`} evidence={explanation.knownFacts} empty="This Spark had no recorded witnessed fact for this choice." />
       <section className="explanation-evidence"><h4>Uncertain interpretation</h4>{explanation.uncertainInferences.length ? <ul>{explanation.uncertainInferences.map(inference => <li key={inference}>{inference}</li>)}</ul> : <p>No uncertain inference was recorded.</p>}</section>
-      <EvidenceList title="What changed afterward" evidence={explanation.consequenceEvents} empty="No consequence event was recorded." />
+      <EvidenceList evidenceHref={evidenceHref} title="What changed afterward" evidence={explanation.consequenceEvents} empty="No consequence event was recorded." />
     </article>) : <p className="empty-selection">No consequential choice has been committed at this pulse yet.</p>}
   </section></>;
 }

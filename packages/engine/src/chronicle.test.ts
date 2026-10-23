@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { buildChronicleEdition, validateChronicleEdition } from "./chronicle.js";
 import { createFirstGlowHistory } from "./first-glow-history.js";
+import type { StructuredEvent } from "./structured.js";
 
 function input() {
   const history = createFirstGlowHistory();
@@ -39,4 +40,39 @@ test("personal selection is explicit, isolated, cutoff-bounded, and never invent
   assert.equal(quiet.chapters[1].evidence.length, 0);
   assert.match(quiet.chapters[1].paragraphs[0], /No personal history/);
   assert.throws(() => buildChronicleEdition({ ...source, selectedSparkId: "absent" }), /unavailable/);
+});
+
+test("personal and season chapters retain distinct outcomes before repetitive travel", () => {
+  const events: StructuredEvent[] = [
+    { id: "share-1", pulse: 1, kind: "share", actorId: "spark-1", message: "Lumen shared charge." },
+    { id: "share-2", pulse: 2, kind: "share", actorId: "spark-1", message: "Lumen shared charge again." },
+    { id: "cache-3", pulse: 3, kind: "wild-cache", actorId: "spark-1", message: "Lumen probed the Wild Cache." },
+    ...Array.from({ length: 12 }, (_, index): StructuredEvent => ({ id: `move-${index + 4}`, pulse: index + 4, kind: "movement", actorId: "spark-1", message: "Lumen moved one cell." })),
+    { id: "future", pulse: 30, kind: "mark-trace", actorId: "spark-1", message: "A future trace." },
+  ];
+  const source = { ...input(), history: createFirstGlowHistory(), events, cutoffPulse: 20, selectedSparkId: "spark-1" };
+  const before = JSON.stringify(source);
+  const edition = buildChronicleEdition(source);
+  validateChronicleEdition(edition, source);
+  for (const chapter of edition.chapters.filter(chapter => chapter.kind !== "moment")) {
+    assert.deepEqual(chapter.evidence.map(ref => [ref.id, ref.pulse, ref.timelineId]), [
+      ["share-2", 2, "timeline-test"], ["cache-3", 3, "timeline-test"], ["move-15", 15, "timeline-test"],
+    ]);
+    assert.deepEqual(chapter.illustration.sourceEventIds, chapter.evidence.map(ref => ref.id));
+    assert.equal(chapter.paragraphs.length, 3);
+  }
+  assert.equal(edition.narrator.promptVersion, "chronicle-baseline-v2");
+  assert.deepEqual(buildChronicleEdition(source), edition);
+  assert.equal(JSON.stringify(source), before, "selection must not rewrite recorded inputs");
+});
+
+test("movement-only chapters keep a truthful latest movement fallback", () => {
+  const events: StructuredEvent[] = [1, 2, 3].map(pulse => ({ id: `move-${pulse}`, pulse, kind: "movement", actorId: "spark-1", message: `Lumen moved at pulse ${pulse}.` }));
+  const source = { ...input(), history: createFirstGlowHistory(), events, cutoffPulse: 3, selectedSparkId: "spark-1" };
+  const edition = buildChronicleEdition(source);
+  for (const chapter of edition.chapters.filter(chapter => chapter.kind !== "moment")) {
+    assert.deepEqual(chapter.paragraphs, ["Pulse 3: Lumen moved at pulse 3."]);
+    assert.deepEqual(chapter.evidence.map(ref => ref.id), ["move-3"]);
+  }
+  validateChronicleEdition(edition, source);
 });

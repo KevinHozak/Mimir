@@ -1,21 +1,23 @@
 # GitHub development workflow
 
-[Mimir Development](https://github.com/users/KevinHozak/projects/2) tracks implementation and bugs. Repository documentation remains the design reference, especially [World Theme](world-theme.md). Issues define bounded work and acceptance criteria; the project tracks its priority, area, and status.
+The [local issue backlog](../issues/) tracks unfinished implementation, bugs, and acceptance criteria. Repository documentation remains the design reference, especially [World Theme](world-theme.md). Create local issues through the shared issue runner; publish an issue to GitHub only when explicitly requested.
 
 ## Daily work
 
-Use the bug or implementation issue form. Link the relevant design reference and describe observable completion criteria. Move work through Backlog, Ready, In progress, In review, and Done. Only mark Done when acceptance criteria and relevant checks pass. Avoid treating every brainstorming proposal as committed work.
+Describe observable acceptance criteria and relevant design references in each local issue. Work with more than three major phases uses an epic with child stories. Mark work complete only when acceptance and relevant checks pass; brainstorming remains a proposal until selected.
 
-Use focused pull requests. The PR template records behavior, validation, and compatibility effects on saved histories, simulation versions, bundles, or hosting.
+Use focused pull requests for changes to main. The PR description records behavior, local validation, and compatibility effects on saved histories, simulation versions, bundles, or hosting.
 
-## Automated checks
+## Local automated checks
 
-The CI workflow runs on pull requests, pushes to main, and manual dispatch. It uses Node 22, installs locked dependencies, builds all four packages, and runs world-data, engine, server state, integration, structured restart, backup/restore, and browser tests. Test harnesses use isolated runtime paths and ports. CI does not deploy or advance the normal local world.
+Run `npm run verify:local` before creating or updating every PR, using Node 22 or newer and the locked npm dependencies. Install Playwright Chromium before the first run. The command builds all four packages and runs the engine, server, security, persistence, importer, launcher, and browser regressions. It stops on failure and records exit codes and source identities under `.tmp/verification/`; source changes invalidate the run. See [README](../README.md#verify-locally-before-a-pull-request) for setup and preview configuration.
 
-Actions are pinned to commit hashes. Dependabot checks npm and GitHub Actions weekly, grouping npm minor/patch updates and Actions updates. npm major updates remain separate for compatibility review. Dependency updates are not automatically merged.
+GitHub Actions does not run the test suite. The automatic CI workflow is removed and its former required status rule is disabled. Local checks use isolated databases and ports, do not deploy, and do not call paid providers. Include the successful run and tested source in the PR validation notes; failed or blocked verification stops publication.
+
+Dependabot checks npm dependencies weekly. Dependency updates are reviewed and verified locally before merge; they are not automatically merged.
 
 ## Repository settings
 
-On September 7, 2026, Dependabot alerts and automated security fixes were enabled and verified. GitHub rejected branch rules for this private repository with a requirement to upgrade to Pro or make it public. Secret scanning was reported unavailable; CodeQL default setup was rejected as not enabled. The repository remains private and no paid plan was added.
+The current main rules require a pull request and block branch deletion and non-fast-forward pushes. No CI status check is required under the local-only policy. Do not bypass these rules or force-push main.
 
-Until branch rules are available, check the CI result before merging. If the account becomes eligible, require the `Build and test` check and prohibit force pushes to main. Do not require another reviewer for solo work. Recheck CodeQL and secret scanning/push protection availability before enabling them; this configuration does not claim they are active.
+Dependabot alerts and automated security fixes were enabled in the September 7, 2026 review. That dated review reported secret scanning and CodeQL unavailable; this guide does not claim they are active now. Avoid printing authenticated account/configuration output, and never commit credentials or runtime databases.

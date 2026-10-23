@@ -115,6 +115,7 @@ Inspect `packages/server/src/index.ts`, `scripts/run-local.mjs`, and `render.yam
 - When configured, owner authentication uses `OWNER_TOKEN` via `x-owner-token`. The current local server permits owner operations when the token is unset; do not describe this as an authenticated public deployment.
 - Use the supplied backup CLI rather than copying a running SQLite file casually: `npm run backup --workspace @mimir/server -- backup <destination>`. Restore with `npm run backup --workspace @mimir/server -- restore <backup> <new-destination>`. Default scheduled backup output is `data/backups/`.
 - Preserve backup manifests and accompanying `.bundles` directories. Database-only recovery may omit world assets needed by saved histories. Restore to a new destination and verify it before replacing any live state.
+- Do not print raw authenticated CLI account/configuration JSON: it may contain stored credentials. Extract only allowlisted non-secret fields before producing diagnostic output. The local verifier redacts recognized credential formats and fails on detection; this is an additional guard, not permission to emit secrets.
 - Never commit secrets, tokens, live databases, WAL/SHM files, or arbitrary test outputs. Do not print credentials while troubleshooting.
 - No paid AI provider is connected by default. Treat adding real provider calls or spending money as separate scope; fictional charge has no connection to API billing.
 
@@ -136,6 +137,7 @@ Inspect `packages/server/src/index.ts`, `scripts/run-local.mjs`, and `render.yam
 - Start with `git status --short` and inspect the relevant diff. Other tasks may be editing the same checkout; recheck before committing.
 - Make focused changes. Do not revert, overwrite, stage, or clean unrelated work.
 - Keep selected names and aesthetics consistent with `docs/world-theme.md`; keep implementation and historical references honest about their version.
+- Verification is local-only. Before creating or updating any pull request, run `npm run verify:local` for the exact source being published and inspect its summary under `.tmp/verification/`. Repeat after changes; do not reuse results for different source content. Stop publication on failed or blocked checks and report the limitation. GitHub Actions is not the test runner; keep pull requests as the review/merge path.
 - Run `git diff --check` and appropriate verification. For newly added files, inspect the staged diff after explicit staging so they are included in whitespace checks.
 - When asked to commit or push, stage exact intended paths, inspect the staged content, use a subject describing what changed, and verify the resulting commit and remote branch. Do not force-push or rewrite history as routine cleanup.
 - Use `codex/` as the prefix when a new branch is needed, unless the user requests another name. Creating a branch is not required for every documentation edit.
