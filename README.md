@@ -30,6 +30,23 @@ the world or request AI output. When starting the API and browser separately, co
 **Resonance examples** are illustrative fixture scenarios with example evidence.
 They are separate from recorded events and server-committed Resonance Anchors.
 
+## Verify locally before a pull request
+
+Run `npm ci`, then install Chromium once with `npx playwright install --with-deps chromium`.
+Use Node 22 or newer with `node:sqlite` support. Run `npm run verify:local` for the complete
+local build, server, engine, importer, authentication, stream, launcher, and browser suite.
+It runs sequentially, stops on the first failure, and writes command logs and actual exit
+codes to `.tmp/verification/<run>/summary.json`. No GitHub Actions run is required.
+The tests use disposable databases and ports; they do not deploy or call paid providers.
+Credential-shaped child output is redacted before console or log writes and fails the
+run. The guard recognizes common tokens, bearer credentials, and private keys; these
+patterns cannot guarantee detection of every secret. Overlong output lines are withheld.
+
+The runner builds all workspaces once and restores that build's web output after launcher
+tests rebuild it for disposable ports. If a preview is already open on a custom API, set
+`$env:VERIFY_PREVIEW_API_URL = 'http://127.0.0.1:8898'` before running verification so it
+keeps using that API afterward. Avoid running builds or other verification suites concurrently.
+
 ## Local data
 
 Mutable local runtime data lives under `data/` and is ignored by Git:

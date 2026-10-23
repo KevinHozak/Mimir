@@ -13,6 +13,17 @@ const api = `http://127.0.0.1:${apiPort}`, web = `http://127.0.0.1:${webPort}`;
 const temp = join(root, ".tmp", "browser-tests", `connected-${Date.now()}`);
 mkdirSync(temp, { recursive: true });
 const database = join(temp, "observer.db"), children: ChildProcess[] = [];
+const startupDiagnostics: string[] = [];
+function startService(name: string, args: string[], cwd: string, env: NodeJS.ProcessEnv) {
+  const child = spawn(process.execPath, args, { cwd, env, stdio: ["ignore", "pipe", "pipe"] });
+  for (const output of [child.stdout, child.stderr]) output?.on("data", chunk => {
+    startupDiagnostics.push(`${name}: ${String(chunk).slice(-4000)}`);
+    if (startupDiagnostics.length > 20) startupDiagnostics.shift();
+  });
+  child.on("error", error => startupDiagnostics.push(`${name}: ${error.message}`));
+  child.on("exit", (code, signal) => startupDiagnostics.push(`${name}: exited code=${code} signal=${signal}`));
+  children.push(child);
+}
 const token = "connected-offline-test";
 const hash = "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e";
 async function request(path: string, body?: unknown) {
@@ -22,7 +33,7 @@ async function request(path: string, body?: unknown) {
 }
 async function waitFor(url: string) {
   for (let attempt = 0; attempt < 100; attempt++) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await new Promise(resolve => setTimeout(resolve, 100)); }
-  throw new Error(`Service did not start: ${url}`);
+  throw new Error(`Service did not start: ${url}\n${startupDiagnostics.join("\n")}`);
 }
 function simulationHash() {
   const db = new DatabaseSync(database, { readOnly: true });
@@ -33,8 +44,8 @@ function simulationHash() {
 }
 try {
   const env = { ...process.env, HOST: "127.0.0.1", PORT: String(apiPort), AUTO_PULSE: "false", AI_ENABLED: "false", PUBLIC_OBSERVER_AUTH_REQUIRED: "false", DATABASE_PATH: database, OWNER_TOKEN: token, OBSERVER_ORIGIN: web, WORLD_BUNDLE_ROOT: join(root, "assets", "world", "generated") };
-  children.push(spawn(process.execPath, [join(root, "packages/server/dist/index.js")], { cwd: root, env, stdio: "ignore" }));
-  children.push(spawn(process.execPath, [join(root, "node_modules/vite/bin/vite.js"), "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], { cwd: join(root, "packages/web"), env: { ...env, VITE_API_URL: api }, stdio: "ignore" }));
+  startService("API", [join(root, "packages/server/dist/index.js")], root, env);
+  startService("Web", [join(root, "node_modules/vite/bin/vite.js"), "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], join(root, "packages/web"), { ...env, VITE_API_URL: api });
   await Promise.all([waitFor(`${api}/health`), waitFor(web)]);
   const runs: Array<{ seed: number; timelineId: string }> = [];
   for (const seed of [4, 8, 2]) {
@@ -61,6 +72,49 @@ try {
     await page.goto(web);
     await page.getByLabel("Selected entity", { exact: true }).selectOption("spark:spark-6");
     await page.getByRole("button", { name: "Follow Spark 6", exact: true }).click();
+    // Evidence can outlive the six live event rows. It must open its recorded
+    // checkpoint rather than leave a fragment pointing at an absent row.
+    await page.getByTestId("first-glow-explanations").locator("a").first().waitFor();
+    const liveHistory = await request(`/api/history?timelineId=${runs[2].timelineId}&pulse=80`);
+    const recentIds = new Set(liveHistory.events.slice(-6).map((event: { id: string }) => event.id));
+    const evidenceHrefs = await page.getByTestId("first-glow-explanations").locator("a").evaluateAll(links => links.map(link => link.getAttribute("href")));
+    const olderHref = evidenceHrefs.find(href => {
+      if (!href) return false;
+      const target = new URL(href, web);
+      return target.searchParams.get("view") === "history" && !recentIds.has(decodeURIComponent(target.hash.slice(1)));
+    });
+    assert.ok(olderHref, "offline cohort must expose explanation evidence older than the live event window");
+    const explanationTarget = new URL(olderHref, web);
+    const explanationEventId = decodeURIComponent(explanationTarget.hash.slice(1));
+    const explanationPulse = explanationTarget.searchParams.get("pulse")!;
+    assert.equal(explanationTarget.searchParams.get("timelineId"), runs[2].timelineId);
+    assert.equal(await page.getByTestId("objective-events").locator(`[id="${explanationEventId}"]`).count(), 0);
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      await page.getByTestId("first-glow-explanations").locator(`a[href="${olderHref}"]`).first().click();
+      await page.locator(`[data-testid="historical-scene"][data-timeline-id="${runs[2].timelineId}"][data-pulse="${explanationPulse}"]`).waitFor();
+      assert.equal(await page.getByLabel("Checkpoint", { exact: true }).inputValue(), explanationPulse);
+      const highlightedEvidence = page.locator(`[id="${explanationEventId}"]:target`);
+      try { await highlightedEvidence.waitFor({ state: "visible" }); }
+      catch (error) {
+        throw new Error(`Historical evidence did not become a visible target: ${JSON.stringify({ url: page.url(), evidenceId: explanationEventId, matchingElements: await page.locator(`[id="${explanationEventId}"]`).count(), renderedTargets: await page.locator(":target").evaluateAll(elements => elements.map(element => element.id)) })}`, { cause: error });
+      }
+      assert.notEqual(await highlightedEvidence.evaluate(element => getComputedStyle(element).outlineStyle), "none");
+      await page.getByRole("link", { name: "Return to live observer", exact: true }).click();
+      await page.getByTestId("follow-controls").waitFor();
+      assert.equal(await page.getByLabel("Selected entity", { exact: true }).inputValue(), "spark:spark-6");
+      assert.equal(await page.locator("main").getAttribute("data-follow-view"), "follow");
+      assert.equal(await page.locator("main").getAttribute("data-follow-presentation"), "explanatory");
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByTestId("reflection-observer").waitFor();
+    const factsBox = await page.getByTestId("objective-events").boundingBox();
+    const reflectionBox = await page.getByTestId("reflection-observer").boundingBox();
+    const explanationsBox = await page.getByTestId("first-glow-explanations").boundingBox();
+    assert.ok(factsBox && reflectionBox && explanationsBox);
+    assert.ok(factsBox.y + factsBox.height <= reflectionBox.y, "mobile recorded events must precede reflection capacity");
+    assert.ok(factsBox.y + factsBox.height <= explanationsBox.y, "mobile recorded events must precede choice explanations");
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.getByRole("button", { name: "Immersive", exact: true }).click();
     await page.getByRole("link", { name: "Chronicle & history", exact: true }).click();
     await page.getByTestId("chronicle-personal").waitFor();
