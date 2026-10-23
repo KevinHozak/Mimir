@@ -66,6 +66,9 @@
     "lives-p6:evaluation": "npm run build && node scripts/first-glow-lives-p6-evaluation.mjs",
     "lives-p6:evaluation:test": "node scripts/first-glow-lives-p6-evaluation.test.mjs"
   },
+  "overrides": {
+    "@grpc/grpc-js": "1.14.5"
+  },
   "devDependencies": {
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
