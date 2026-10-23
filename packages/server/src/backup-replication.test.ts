@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -20,7 +21,7 @@ try {
     commands.push({ command, args });
     if (command === "tar") { await execFileAsync(command, args); archiveEntries = (await execFileAsync(command, ["-tzf", args[1]])).stdout; }
     if (command === "gcloud" && args[0] === "storage" && args[1] === "objects") {
-      return { stdout: JSON.stringify({ size: readFileSync(resultArchive(commands)).length }), stderr: "" };
+      return { stdout: JSON.stringify({ size: readFileSync(resultArchive(commands)).length, md5_hash: createHash("md5").update(readFileSync(resultArchive(commands))).digest("base64") }), stderr: "" };
     }
     return { stdout: "", stderr: "" };
   });
@@ -40,6 +41,15 @@ try {
     /simulated upload failure/,
   );
   assert.equal(commands.some(command => command.command === "gcloud" && command.args.includes("--quiet")), true);
+  for (const metadata of [{ size: 0 }, { size: "actual", md5_hash: "wrong" }, { size: "actual" }]) {
+    let archive = "";
+    await assert.rejects(replicateBackup(backup, "gs://mimir-test-bucket/daily", async (command, args) => {
+      if (command === "tar") { archive = args[1]; await execFileAsync(command, args); }
+      if (command === "gcloud") assert.ok(args.includes("--impersonate-service-account=writer@example.invalid"));
+      if (args.includes("describe")) return { stdout: JSON.stringify({ ...metadata, size: metadata.size === "actual" ? readFileSync(archive).length : metadata.size }), stderr: "" };
+      return { stdout: "", stderr: "" };
+    }, new Date(), "writer@example.invalid"), /remote backup/);
+  }
   console.log("Backup replication contract passed");
 } finally {
   rmSync(root, { recursive: true, force: true });

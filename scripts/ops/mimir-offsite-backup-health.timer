@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly independent Mimir backup health check
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=mimir-offsite-backup-health.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily independent Mimir backup
+
+[Timer]
+OnCalendar=*-*-* 06:30:00 UTC
+RandomizedDelaySec=10min
+Persistent=true
+Unit=mimir-offsite-backup.service
+
+[Install]
+WantedBy=timers.target
