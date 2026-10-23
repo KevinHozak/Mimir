@@ -25,3 +25,6 @@ coverage/
 
 # Local Git worktrees
 .worktrees/
+
+# Local issue allocator state (issue Markdown remains authoritative)
+issues/.issue-ids.sqlite3*

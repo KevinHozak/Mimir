@@ -2,7 +2,7 @@ import { advanceFirstGlow } from "./first-glow-actions.js";
 import { buildFirstGlowInterpretationContext, createRulesOnlyFirstGlowInterpretation } from "./first-glow-interpretations.js";
 import { appendFirstGlowDecision, createFirstGlowHistory } from "./first-glow-history.js";
 import { classifyFirstGlowAttentionTrigger } from "./first-glow-attention.js";
-import { createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState } from "./structured.js";
+import { createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState, type StructuredEvent } from "./structured.js";
 import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data";
 export { queryCell } from "@mimir/world-data";
 export type { Cell } from "@mimir/world-data";
@@ -33,7 +33,7 @@ export * from "./resonance-crossing-rule.js";
 export * from "./resonance-transition.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
-export interface WorldEvent { id: string; pulse: number; kind: "pulse" | "sharing" | "collection" | "world-object"; message: string; villagerIds: string[]; settlementIds?: string[]; }
+export interface WorldEvent { id: string; pulse: number; kind: "pulse" | "sharing" | "collection" | "world-object"; structuredKind?: StructuredEvent["kind"]; actorId?: string; participants?: string[]; message: string; villagerIds: string[]; settlementIds?: string[]; }
 export interface SocialInterpretation { id: string; pulse: number; eventId: string; sparkId?: string; villagerId?: string; source: "rules" | "ai"; summary: string; evidenceEventIds: string[]; [key: string]: unknown; }
 export interface WorldState {
   worldId: string; seed: number; pulse: number; simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION; spatialModel: "structured-v2"; firstGlowState: FirstGlowState;
@@ -64,7 +64,7 @@ export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-g
 }
 
 function toWorldEvents(state: FirstGlowState, priorIds = new Set<string>()): WorldEvent[] {
-  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, pulse: state.pulse, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "pulse", message: event.message, villagerIds: [], settlementIds: [] }));
+  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, pulse: state.pulse, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "pulse", structuredKind: event.kind, actorId: event.actorId, participants: event.participants ? [...event.participants] : undefined, message: event.message, villagerIds: [], settlementIds: [] }));
 }
 
 function openingChargeIntake(world: WorldState): number {

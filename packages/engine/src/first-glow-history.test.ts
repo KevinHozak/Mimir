@@ -28,3 +28,14 @@ test("First Glow history stays deterministic across repeated playback", () => {
   };
   assert.deepEqual(run(), run());
 });
+
+test("public outcomes retain the Spark attribution needed to trace personal history", () => {
+  const result = advanceWorld(createWorldV3(bundle, 31, "attribution-test", 6));
+  assert.ok(result.events.length > 0);
+  for (const event of result.events) {
+    const original = result.state.firstGlowState.events.find(candidate => candidate.id === event.id)!;
+    assert.equal(event.actorId, original.actorId);
+    assert.equal(event.structuredKind, original.kind);
+    assert.deepEqual(event.participants, original.participants);
+  }
+});

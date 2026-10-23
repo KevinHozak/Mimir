@@ -9,6 +9,7 @@ import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildC
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
+import { recordedChronicleEvents } from "./chronicle-events.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
 import { observerAuthRequired, verifyObserverToken } from "./observer-auth.js";
@@ -154,17 +155,28 @@ app.addHook("onRequest", async (request, reply) => {
 });
 function currentTimeline() { return database.prepare("SELECT id, parent_id, created_at, status, archived_at FROM timelines WHERE id = ?").get(activeTimelineId) as { id: string; parent_id: string | null; created_at: string; status: string; archived_at: string | null }; }
 function saveActiveTimeline() { database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId); }
+function chronicleEvents(timelineId: string, cutoffPulse: number): StructuredEvent[] {
+  const events = (database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse ASC, id ASC").all(timelineId, cutoffPulse) as { event_json: string }[]).flatMap(row => JSON.parse(row.event_json) as WorldEvent | WorldEvent[]);
+  // Only old, unattributed rows need checkpoint recovery. New rows preserve identity directly.
+  const missingPulses = [...new Set(events.filter(event => !event.structuredKind).map(event => event.pulse))];
+  const readCheckpoint = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse = ?");
+  const checkpoints = missingPulses.flatMap(pulse => {
+    const row = readCheckpoint.get(timelineId, pulse) as { state_json: string } | undefined;
+    return row ? [{ pulse, events: (JSON.parse(row.state_json) as WorldState).firstGlowState?.events ?? [] }] : [];
+  });
+  return recordedChronicleEvents(events, checkpoints);
+}
 function chronicleInput(timelineId: string, cutoffPulse: number) {
   const checkpoint = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse = ?").get(timelineId, cutoffPulse) as { state_json: string } | undefined;
   if (!checkpoint) return undefined;
   const world = normalizeState(JSON.parse(checkpoint.state_json) as WorldState);
-  const events = (database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse ASC, id ASC").all(timelineId, cutoffPulse) as { event_json: string }[]).map(row => JSON.parse(row.event_json) as StructuredEvent);
+  const events = chronicleEvents(timelineId, cutoffPulse);
   const interpretations = (database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse ASC, id ASC").all(timelineId, cutoffPulse) as { interpretation_json: string }[]).map(row => JSON.parse(row.interpretation_json) as { id: string; pulse: number; summary: string; evidenceEventIds: string[] });
   const glow = world.firstGlowState;
   return { timelineId, cutoffPulse, events, interpretations, history: glow.history!, sparkNames: Object.fromEntries(glow.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, spark.name]))), bundleHash: glow.settlements[0]?.bundle.bundle.contentHash ?? "" };
 }
 function persistChronicle(edition: ChronicleEdition): void { database.prepare("INSERT INTO chronicle_editions (timeline_id, cutoff_pulse, revision, edition_json, created_at) VALUES (?, ?, ?, ?, ?)").run(edition.timelineId, edition.cutoffPulse, edition.revision, JSON.stringify(edition), new Date().toISOString()); }
-function generateChronicle(timelineId: string, cutoffPulse: number, revision: number): ChronicleEdition | undefined { const input = chronicleInput(timelineId, cutoffPulse); if (!input) return undefined; const edition = buildChronicleEdition({ ...input, revision }); validateChronicleEdition(edition, input); persistChronicle(edition); return edition; }
+function generateChronicle(timelineId: string, cutoffPulse: number, revision: number, selectedSparkId?: string): ChronicleEdition | undefined { const input = chronicleInput(timelineId, cutoffPulse); if (!input || (selectedSparkId && !Object.hasOwn(input.sparkNames, selectedSparkId))) return undefined; const edition = buildChronicleEdition({ ...input, revision, selectedSparkId }); validateChronicleEdition(edition, input); persistChronicle(edition); return edition; }
 function commitResonanceMutation(nextState: WorldState, events: WorldEvent[]): { state: WorldState; events: WorldEvent[] } {
   const mutationPulse = state.pulse + 1;
   const committedEvents = events.map(event => ({ ...event, pulse: mutationPulse }));
@@ -261,21 +273,27 @@ app.get("/api/history", async (request, reply) => {
   if (!checkpoint) return reply.code(404).send({ state: "unavailable", error: `No checkpoint exists for pulse ${selectedPulse}` });
   try {
     const world = normalizeState(JSON.parse(checkpoint.state_json) as WorldState);
-    const eventRows = database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse ASC, id ASC").all(timelineId, selectedPulse) as { event_json: string }[];
+    const events = chronicleEvents(timelineId, selectedPulse);
     const interpretationRows = database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse ASC, id ASC").all(timelineId, selectedPulse) as { interpretation_json: string }[];
-    return { state: "ready", activeTimelineId, timeline, checkpoints: checkpoints.map(item => item.pulse), selectedPulse, world, events: eventRows.map(row => JSON.parse(row.event_json) as WorldEvent[]).flat(), interpretations: interpretationRows.map(row => JSON.parse(row.interpretation_json) as SocialInterpretation), movementRecords: world.firstGlowState.history?.movements ?? [], decisionRecords: world.firstGlowState.history?.decisions ?? [], conversationRecords: world.firstGlowState.history?.conversations ?? [] };
+    return { state: "ready", activeTimelineId, timeline, checkpoints: checkpoints.map(item => item.pulse), selectedPulse, world, events, interpretations: interpretationRows.map(row => JSON.parse(row.interpretation_json) as SocialInterpretation), movementRecords: world.firstGlowState.history?.movements ?? [], decisionRecords: world.firstGlowState.history?.decisions ?? [], conversationRecords: world.firstGlowState.history?.conversations ?? [] };
   } catch (error) {
     return reply.code(409).send({ state: "incompatible", activeTimelineId, timeline, checkpoints: checkpoints.map(item => item.pulse), error: error instanceof Error ? error.message : "checkpoint is incompatible with First Glow" });
   }
 });
 app.get("/api/chronicle", async (request, reply) => {
-  const query = request.query as { timelineId?: string; pulse?: string; editionId?: string };
+  const query = request.query as { timelineId?: string; pulse?: string; editionId?: string; sparkId?: string };
   const timelineId = query.timelineId ?? activeTimelineId;
   const latestCheckpoint = database.prepare("SELECT MAX(pulse) AS pulse FROM timeline_checkpoints WHERE timeline_id = ?").get(timelineId) as { pulse: number | null };
   const cutoffPulse = query.pulse === undefined ? latestCheckpoint.pulse : Number(query.pulse);
   if (!Number.isInteger(cutoffPulse) || cutoffPulse === null || cutoffPulse < 0) return reply.code(404).send({ state: "unavailable", error: "no Chronicle checkpoint exists" });
-  let row = query.editionId ? database.prepare("SELECT edition_json FROM chronicle_editions WHERE timeline_id = ? AND edition_json LIKE ? ORDER BY revision DESC LIMIT 1").get(timelineId, `%\"id\":\"${query.editionId}\"%`) as { edition_json: string } | undefined : database.prepare("SELECT edition_json FROM chronicle_editions WHERE timeline_id = ? AND cutoff_pulse = ? ORDER BY revision DESC LIMIT 1").get(timelineId, cutoffPulse) as { edition_json: string } | undefined;
-  if (!row) { const edition = generateChronicle(timelineId, cutoffPulse, 1); if (!edition) return reply.code(404).send({ state: "unavailable", error: "Chronicle source checkpoint is unavailable" }); return { state: "ready", edition, reread: false }; }
+  const row = query.editionId ? database.prepare("SELECT edition_json FROM chronicle_editions WHERE timeline_id = ? AND json_extract(edition_json, '$.id') = ? ORDER BY revision DESC LIMIT 1").get(timelineId, query.editionId) as { edition_json: string } | undefined : database.prepare("SELECT edition_json FROM chronicle_editions WHERE timeline_id = ? AND cutoff_pulse = ? AND json_extract(edition_json, '$.selectedSparkId') IS ? ORDER BY revision DESC LIMIT 1").get(timelineId, cutoffPulse, query.sparkId ?? null) as { edition_json: string } | undefined;
+  if (query.editionId && !row) return reply.code(404).send({ state: "unavailable", error: "Chronicle edition is unavailable" });
+  if (!row) {
+    const existing = database.prepare("SELECT MAX(revision) AS revision FROM chronicle_editions WHERE timeline_id = ? AND cutoff_pulse = ?").get(timelineId, cutoffPulse) as { revision: number | null };
+    const edition = generateChronicle(timelineId, cutoffPulse, (existing.revision ?? 0) + 1, query.sparkId);
+    if (!edition) return reply.code(404).send({ state: "unavailable", error: "Chronicle source checkpoint or selected Spark is unavailable" });
+    return { state: "ready", edition, reread: false };
+  }
   const edition = JSON.parse(row.edition_json) as ChronicleEdition; try { validateChronicleEdition(edition); } catch (error) { return reply.code(409).send({ state: "incompatible", error: error instanceof Error ? error.message : "invalid Chronicle edition" }); }
   return { state: "ready", edition, reread: true };
 });

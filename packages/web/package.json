@@ -19,7 +19,7 @@
     "test:first-glow-live-panel": "npm run build && tsx src/first-glow-live-panel.test.ts",
     "test:first-glow-identity": "npm run build && tsx src/first-glow-identity.test.ts",
     "test:first-glow-identity-e2e": "npm run build && tsx src/first-glow-identity-e2e.test.ts",
-    "test:history": "npm run build && tsx src/history-sequencing.test.ts",
+    "test:history": "npm run build && tsx src/history-sequencing.test.ts && tsx src/connected-observer-e2e.test.ts",
     "test:history-viewer": "npm run build && tsx src/history-viewer-e2e.test.ts",
     "test:hosted-auth-boundary": "tsx src/hosted-auth-boundary.test.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json"
