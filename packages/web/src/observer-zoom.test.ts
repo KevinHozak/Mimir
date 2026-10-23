@@ -33,11 +33,19 @@ try {
       await page.route('**/src/firebase-auth.ts', route => route.fulfill({ contentType: 'text/javascript', body: `
         export const hostedAuthEnabled = true;
         export const observeAuth = callback => { callback({ email: '' }); return () => {}; };
-        export const getGoogleIdToken = async () => 'local-test-token';
+        export const observeTokenRefresh = callback => { window.observerAuthFixture = { refresh: callback, forced: 0 }; return () => {}; };
+        export const getGoogleIdToken = async force => { if (force && window.observerAuthFixture) window.observerAuthFixture.forced++; return 'local-test-token'; };
         export const signInWithGoogle = async () => {};
         export const signOutGoogle = async () => {};
         export const readFirebaseBytes = async () => { throw new Error('Cloud access forbidden in local layout test'); };
       ` }));
+      let firstLive = true;
+      const errors: string[] = [];
+      page.on("pageerror", error => errors.push(error.message));
+      await page.route(`http://127.0.0.1:${apiPort}/api/live`, route => {
+        if (firstLive) { firstLive = false; return route.fulfill({ status: 401, headers: { "access-control-allow-origin": "*" }, body: "expired fixture" }); }
+        return route.continue();
+      });
       await page.goto(`http://127.0.0.1:${webPort}/`);
       const controls = page.locator('.observer-control-area');
       await controls.waitFor();
@@ -67,6 +75,14 @@ try {
       const initialZoom = await zoom();
       await controls.getByRole('button', { name: 'Zoom in', exact: true }).click();
       await page.waitForFunction(previous => Number(document.querySelector('#village-canvas canvas')?.getAttribute('data-camera-zoom')) > previous, initialZoom);
+      const requestsBeforeRefresh = apiRequests.filter(request => request.path === "/api/live").length;
+      await page.evaluate(() => (window as any).observerAuthFixture.refresh());
+      await page.waitForTimeout(100);
+      for (let attempt = 0; attempt < 50 && apiRequests.filter(request => request.path === "/api/live").length <= requestsBeforeRefresh; attempt++) await page.waitForTimeout(50);
+      assert.ok(apiRequests.filter(request => request.path === "/api/live").length > requestsBeforeRefresh);
+      assert.ok(await zoom() > initialZoom, "token rotation must preserve observer zoom state");
+      assert.ok(await page.evaluate(() => (window as any).observerAuthFixture.forced) >= 1);
+      assert.deepEqual(errors, []);
       await controls.getByRole('button', { name: 'Zoom out', exact: true }).click();
       await page.waitForFunction(previous => Number(document.querySelector('#village-canvas canvas')?.getAttribute('data-camera-zoom')) === previous, initialZoom);
       await controls.getByRole('button', { name: 'Zoom in', exact: true }).click();

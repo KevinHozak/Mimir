@@ -2,6 +2,11 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-23 - Observer session recovery (local)
+
+- Recover from clean live-stream closure and network loss, retry rejected read tokens once with forced refresh, and rotate streams on Firebase token changes without remounting the observer.
+- Add automated Chromium and failure-path checks for refresh, reconnection and tab-close cleanup. Live Firebase refresh and Cloud Run cleanup remain separate acceptance limits; see [local evidence](evidence/observer-session-lifecycle-2026-10-23.md).
+
 ## 2026-10-23 - Hosted authentication harness and live acceptance
 
 - Add a bounded read-only authentication matrix with Google certificate verification, isolated identity requirements, positive controls, and strict rejection leak checks. Local RSA/canary regressions run through the local verifier.

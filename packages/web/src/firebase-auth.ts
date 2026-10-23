@@ -1,5 +1,5 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, type User } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, onIdTokenChanged, signInWithPopup, signOut, type User } from "firebase/auth";
 import { getBytes, getStorage, ref } from "firebase/storage";
 import { requiresHostedObserverAuth } from "./hosted-auth-boundary.js";
 
@@ -18,7 +18,14 @@ export const hostedAuthEnabled = requiresHostedObserverAuth(window.location.host
 export const observeAuth = (callback: (user: User | null) => void) => onAuthStateChanged(auth, callback);
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
 export const signOutGoogle = () => signOut(auth);
-export const getGoogleIdToken = () => auth.currentUser?.getIdToken();
+export const getGoogleIdToken = (forceRefresh = false) => auth.currentUser?.getIdToken(forceRefresh);
+export const observeTokenRefresh = (callback: () => void) => {
+  let initial = true;
+  return onIdTokenChanged(auth, () => {
+    if (!initial) callback();
+    initial = false;
+  });
+};
 export const firebaseStorage = getStorage(firebaseApp);
 export const readFirebaseBytes = async (path: string): Promise<Uint8Array> => {
   const result = await Promise.race([
