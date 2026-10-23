@@ -95,7 +95,9 @@ jobs:
       - name: Tiled importer acceptance
         run: npm run world:test
       - name: History request sequencing
-        run: npm run test:history --workspace @mimir/web
+        run: |
+          npm run test:history --workspace @mimir/web
+          npm run test:history-viewer --workspace @mimir/web
       - name: Local launcher and Resonance examples
         run: npm run test:local-observer
 

@@ -74,7 +74,7 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 .resonance-review .resonance-card { min-width: 0; overflow-wrap: anywhere; }
 .resonance-review .stream-heading { flex-wrap: wrap; }
 .resonance-review .stream-badge { max-width: 100%; white-space: normal; }
-:root:has(.history-viewer) { background: #050912; color-scheme: dark; }
+:root:has(.first-glow), :root:has(.history-viewer) { background: #050912; color-scheme: dark; }
 .history-identity { overflow-wrap: anywhere; }
 .history-viewer :target { outline: 2px solid #8addf2; outline-offset: 4px; scroll-margin-block: 24px; }
 @media (max-width: 700px) { .history-viewer header, .history-columns { display: block; }.history-live-link { display: inline-block; margin-top: 18px; }.history-columns > section { margin-bottom: 18px; }.history-toolbar select { min-width: min(100%, 280px); } }
