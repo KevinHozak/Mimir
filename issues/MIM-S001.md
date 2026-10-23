@@ -66,3 +66,19 @@ The three-cohort browser regression passed with seeds 4/8/2, six Sparks each, an
 [Repair report, screenshots, limitations, and verification](../docs/evidence/first-glow-observer-fix-2026-10-22.md).
 
 The connected-experience repair is complete locally and uncommitted. Keep this issue open for the original evaluation's other findings: launcher-origin integration, Resonance fixture labeling, and independent human review. The zero-conversation sample does not establish human engagement or live AI benefit. No provider rollout, deployment, remote issue action, commit, or push was performed.
+## Authorized launcher and example-label repair (2026-10-22)
+
+The connected-experience repair was subsequently merged in PR #309. The user then authorized fixing the remaining launcher CORS and Resonance fixture-labeling gaps and running verification.
+
+- [x] Derive the exact loopback preview origin for local startup and preserve explicit/empty overrides.
+- [x] Use a strict preview port so fallback cannot silently invalidate the CORS policy.
+- [x] Label the Resonance panel and disclosures as examples, separated from live recorded events and actual Anchors.
+- [x] Remove live pulse/event counts from the fixture projection; keep missing fixtures explicitly unavailable.
+- [x] Verify actual launcher GET/preflight behavior, unrelated-origin denial, explicit override precedence, and desktop/mobile rendering.
+- [x] Repeat core, observer, connected-history, and hosted frontend auth-boundary checks.
+
+All checks passed. The real-launcher regression uses isolated ports/databases, verifies unchanged history and zero provider calls, and now runs in CI. The connected-history regression repeated seeds 4/8/2 and 240 pulses successfully. The original 244 checkpoints, 952 events, 341 interpretations, and active-timeline metadata retained identical hashes through the automatically configured review app's restart and visual inspection.
+
+[Follow-up report and screenshots](../docs/evidence/first-glow-launcher-resonance-2026-10-22.md).
+
+Both remaining technical gaps are fixed locally and uncommitted. This issue stays open for independent human review. Human engagement and real-model benefit remain unassessed; there was no provider rollout, deployment, commit, push, or remote issue action in this follow-up.

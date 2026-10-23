@@ -34,7 +34,7 @@ type DilemmaResolution = { id: string; pulse: number; title: string; choiceLabel
 type Settlement = { id: string; name: string; foodReserve: number; villagerIds: string[]; worldDefinition?: WorldDefinition; worldRuntime?: { blockedObjectIds: string[] } };
 type Trade = { id: string; pulse: number; villagerId: string; fromSettlementId: string; toSettlementId: string; amount: number; summary: string };
 type Hazard = { id: string; kind: string; status: string; summary: string };
-type ResonanceReview = { source: string; currentPulse: number; committedEventCount: number; observations: Array<{ fixtureId: string; status: string; location: { objectId: string; slotId: string }; evidenceEventIds: string[]; participantSparkIds: string[]; occurrenceCount: number; distinctParticipantCount: number; totalChargeCost: number; pulseSpan: number; reasons: string[]; threshold: { requiredOccurrences: number; distinctParticipantMinimum: number; minimumChargeCost: number; maximumPulseSpan: number }; evidence: Array<{ id: string; pulse: number; participants: string[]; chargeCost: number; pattern?: string }> }>; };
+type ResonanceReview = { source: string; observations: Array<{ fixtureId: string; status: string; location: { objectId: string; slotId: string }; evidenceEventIds: string[]; participantSparkIds: string[]; occurrenceCount: number; distinctParticipantCount: number; totalChargeCost: number; pulseSpan: number; reasons: string[]; threshold: { requiredOccurrences: number; distinctParticipantMinimum: number; minimumChargeCost: number; maximumPulseSpan: number }; evidence: Array<{ id: string; pulse: number; participants: string[]; chargeCost: number; pattern?: string }> }>; };
   type ResonanceAnchor = { id: string; candidateId: string; anchorKind: string; authoredObjectId: string; authoredSlotId: string; createdPulse: number; accessRuleId: string; possibility: string; tension: string; state: string; evidenceEventIds: string[] };
   type ShelterLoomDecision = { id: string; anchorId: string; pulse: number; actorSparkId: string; beneficiarySparkId: string; choice: "yield-rest" | "hold-rest"; chargeCost: number; actorReadinessDelta: number; beneficiaryReadinessDelta: number; outcome: string; durableConsequence: string; evidenceEventIds: string[] };
   type CrossingVoicesDecision = { id: string; anchorId: string; pulse: number; actorSparkId: string; choice: "follow-signal" | "hold-course"; chargeCost: number; readinessDelta: number; intendedActivity: string; outcome: string; durableConsequence: string; evidenceEventIds: string[] };
@@ -490,18 +490,17 @@ function SeasonReview({ world, metrics }: { world: State; metrics: Metric[] }) {
 }
 
 function ResonanceReview({ review }: { review: ResonanceReview | null }) {
-  if (!review) return null;
+  if (!review || review.source !== "resonance-contract-fixtures" || !review.observations.length) return null;
   const label = (status: string) => status === "qualifying" ? "Qualifying-looking" : status === "near-miss" ? "Near miss" : status === "conflicting" ? "Conflicting" : "Unresolved";
   return <section className="season-review resonance-review" data-testid="resonance-review">
-    <div className="season-review-heading"><div><h2>Resonance signals</h2><p>Deterministic observations over committed evidence; no Anchor or gameplay state is created.</p></div><strong>{review.committedEventCount} live event(s)</strong></div>
+    <div className="season-review-heading"><div><h2>Resonance examples</h2><p>Illustrative scenarios, separate from this world's recorded events. No Anchors are created.</p></div><strong>{review.observations.length} examples</strong></div>
     <div className="resonance-grid">{review.observations.map((observation) => <article className={`resonance-card resonance-${observation.status}`} key={observation.fixtureId}>
       <div className="stream-heading"><h3>{label(observation.status)}</h3><span className="stream-badge">{observation.fixtureId}</span></div>
       <p><strong>{observation.location.objectId} / {observation.location.slotId}</strong> · {observation.occurrenceCount} occurrence(s) · pulses span {observation.pulseSpan}</p>
       <p>Participants: {observation.participantSparkIds.join(", ") || "none"} · charge cost {observation.totalChargeCost}</p>
       <small>Thresholds: {observation.occurrenceCount}/{observation.threshold.requiredOccurrences} occurrences · {observation.distinctParticipantCount}/{observation.threshold.distinctParticipantMinimum} Sparks · {observation.totalChargeCost}/{observation.threshold.minimumChargeCost} charge · max span {observation.threshold.maximumPulseSpan}</small>
       {observation.reasons.length > 0 && <small>Why not met: {observation.reasons.join(", ")}</small>}
-      <details><summary>Committed evidence ({observation.evidenceEventIds.length})</summary><ul>{observation.evidence.map((event) => <li key={event.id}><strong>Pulse {event.pulse}</strong> · {event.id} · {event.participants.join(", ")} · cost {event.chargeCost}{event.pattern ? ` · ${event.pattern}` : ""}</li>)}</ul></details>
-      <small>Public observer view only; private Spark knowledge is excluded.</small>
+      <details><summary>Example evidence ({observation.evidenceEventIds.length})</summary><ul>{observation.evidence.map((event) => <li key={event.id}><strong>Pulse {event.pulse}</strong> · {event.id} · {event.participants.join(", ")} · cost {event.chargeCost}{event.pattern ? ` · ${event.pattern}` : ""}</li>)}</ul></details>
     </article>)}</div>
   </section>;
 }

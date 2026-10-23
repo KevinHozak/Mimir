@@ -246,14 +246,12 @@ app.get("/api/design", async () => ({ themeId: "living-circuit", ageId: "first-g
 app.get("/api/reflection", async () => ({ projection: projectFirstGlowObserver(state.firstGlowState), runtime: aiRuntime.status(), timelineId: activeTimelineId }));
 app.get("/api/resonance", async () => {
   const fixturePath = resolve(process.cwd(), "docs", "resonance-anchor-fixtures.json");
-  if (!existsSync(fixturePath)) return { source: "committed-objective-events", observations: [], currentPulse: state.pulse };
+  if (!existsSync(fixturePath)) return { source: "resonance-contract-fixtures", observations: [], available: false };
   const fixture = JSON.parse(readFileSync(fixturePath, "utf8")) as { schemaVersion: number; rule: ResonanceObservationRule; cases: Array<{ id: string; events: ResonanceObservationEvent[] }> };
   return {
     source: "resonance-contract-fixtures",
     schemaVersion: fixture.schemaVersion,
     rule: fixture.rule,
-    currentPulse: state.pulse,
-    committedEventCount: state.firstGlowState?.events.length ?? 0,
     observations: fixture.cases.map((item) => ({ fixtureId: item.id, ...observeResonance(item.events, fixture.rule), evidence: item.events.slice().sort((left, right) => left.pulse - right.pulse || left.id.localeCompare(right.id)) })),
   };
 });

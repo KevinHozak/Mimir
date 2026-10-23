@@ -18,14 +18,17 @@ npm start
 
 Open the URL printed by the launcher. The local API listens on `127.0.0.1:8888` by default, and the browser preview is served at `127.0.0.1:4173`. The server owns simulation outcomes, SQLite stores committed history, and the browser renders the current or replayed First Glow state. Override the API port with `PORT` when needed.
 
-The writer binds to loopback by default and may run without `OWNER_TOKEN` for local development. Set `HOST` to a non-loopback address, set `SERVE_WEB=true`, or use `npm run start:hosted` only with an `OWNER_TOKEN`; those configurations fail closed without one. Cross-origin requests are denied unless the exact `OBSERVER_ORIGIN` is configured.
+The writer binds to loopback by default and may run without `OWNER_TOKEN` for local development. Set `HOST` to a non-loopback address, set `SERVE_WEB=true`, or use `npm run start:hosted` only with an `OWNER_TOKEN`; those configurations fail closed without one. `npm start` supplies the exact loopback preview origin for CORS, including a custom `WEB_PORT`, and fails if that preview port is occupied. An explicit `OBSERVER_ORIGIN` overrides this default; an empty value keeps cross-origin reads disabled. Servers started directly still deny cross-origin reads unless an origin is configured.
 
 Select a Spark, enter Follow, then open **Chronicle & history** to read its personal
 chapter. Evidence links open the exact recorded timeline and pulse with a rendered
 scene. **Return to live observer** restores the original Spark and Follow presentation,
 even after selecting another Spark in history. Historical viewing does not advance
-the world or request AI output. Configure `OBSERVER_ORIGIN` to the preview's exact
-origin (normally `http://127.0.0.1:4173`) when running the separate API and preview.
+the world or request AI output. When starting the API and browser separately, configure
+`OBSERVER_ORIGIN` to the browser's exact origin (normally `http://127.0.0.1:4173`).
+
+**Resonance examples** are illustrative fixture scenarios with example evidence.
+They are separate from recorded events and server-committed Resonance Anchors.
 
 ## Local data
 

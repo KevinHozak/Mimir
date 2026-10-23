@@ -197,7 +197,7 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 - `GET /api/metrics` — checkpoint-derived charge, readiness, deficit, travel, and collection metrics.
 - `GET /api/report` — current timeline and season summary.
 - `GET /api/design` — Living Circuit/First Glow identity and `FIRST_GLOW_DESIGN` cards, event prompts, opening question, and knowledge boundary under `firstGlow`; legacy card/dilemma arrays are empty and the shared store is omitted.
-- `GET /api/resonance` — the authored Resonance observation-rule fixture review and its evidence projection, plus the live First Glow objective-event count. It is an observer diagnostic, not a state-changing Anchor endpoint.
+- `GET /api/resonance` — the authored Resonance observation-rule examples and their fixture evidence, labeled `source: resonance-contract-fixtures`. It excludes live pulse/event counts; missing fixtures return an empty, unavailable example projection. The observer labels the panel and evidence as examples, separately from committed events and Anchors. It is not a state-changing Anchor endpoint.
 - `GET /api/resonance/anchors` — the active timeline's persisted Resonance candidates and Anchors.
 - `GET /api/region` — settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
 - `GET /api/timelines` — available timeline metadata.
@@ -261,6 +261,16 @@ npm start
 ```
 
 The server can also run independently with `npm run dev:server`, and the browser can run with `npm run dev:web`.
+
+The local launcher supplies the exact loopback preview origin as `OBSERVER_ORIGIN`
+unless explicitly overridden, including custom `WEB_PORT` values. Empty overrides
+retain denial of cross-origin reads. Preview uses a strict port so it cannot silently
+move away from the allowed origin. Direct server startup keeps the server's default
+deny policy. `npm run test:local-observer` exercises the real launcher, CORS reads and
+preflight, explicit overrides, example provenance, and desktop/mobile rendering on
+isolated ports/databases; CI runs it after the browser runtime is installed.
+Launcher builds prefer npm's supplied entry point and support Windows/Unix installation
+layouts when started directly through Node.
 
 ### Hosted configuration
 

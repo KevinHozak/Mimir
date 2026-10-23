@@ -4,6 +4,11 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 ## 2026-10-22 — Connected offline observer (local implementation)
 
+- Local follow-up for MIM-S001: the launcher supplies its exact loopback preview
+  origin for CORS while preserving explicit overrides, and uses a strict preview port.
+  Resonance fixtures are labeled as examples with example evidence and no live-event
+  count. Add real-launcher/API/browser regression coverage for CORS and example labels.
+
 - [MIM-S001](../issues/MIM-S001.md): carry the selected Spark through its personal
   Chronicle, exact historical timeline/pulse/event scene, and return to the original
   live Spark with Follow mode and presentation preserved.
