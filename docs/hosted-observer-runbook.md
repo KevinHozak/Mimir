@@ -6,7 +6,38 @@ The supported hosted experience is limited Google-authenticated observation at [
 
 The bounded rules-only run is archived and paused at pulse 64. Authenticated History & scenarios now offers verified checkpoints 0, 16, 32, 48, and 64. A fresh bundle-inclusive recovery copy is retained off the VM. The hosted backup library now uses the current consistent SQLite snapshot implementation; fresh backup and restore matched every archived history row after a controlled restart.
 
-The operation recovered an unlinked WAL before restarting; do not restart a writer whose external backup is behind its reported pulse until its latest journal has been preserved and verified. Automatic off-VM replication remains disabled. The rest of the backend has not been upgraded to current main. Existing two-session/three-minute staging limits and the single authoritative writer remain unchanged. See [bounded-run and backup evidence](evidence/hosted-bounded-history-2026-10-23.md).
+The operation recovered an unlinked WAL before restarting; do not restart a writer whose external backup is behind its reported pulse until its latest journal has been preserved and verified. Automatic off-VM replication is now enabled through the dedicated daily service described below. The simulation backend has not been upgraded to current main. Existing two-session/three-minute staging limits and the single authoritative writer remain unchanged. See [bounded-run and backup evidence](evidence/hosted-bounded-history-2026-10-23.md).
+
+## Automatic independent backups — 2026-10-23
+
+[MIM-S017](../issues/MIM-S017.md) uses a dedicated systemd worker, not an upgrade or restart of the older simulation backend. `mimir-offsite-backup.timer` runs daily at 06:30 UTC with up to ten minutes of jitter and persistent catch-up after downtime. `mimir-offsite-backup-health.timer` checks the durable status hourly. Both timers are enabled on the private VM. The world remains archived and paused at pulse 64.
+
+The worker takes a consistent bundle-inclusive snapshot, rejects a snapshot behind the live writer's reported timeline/pulse, checks database integrity and referenced bundles, and uploads one archive plus its recovery receipt. Both uploads must pass remote size and MD5 checks before success is recorded. The receipt includes SHA-256 of the archive, per-table history hashes, latest checkpoints, and bundle file count. A failed or interrupted attempt remains unhealthy even when a previous successful backup is still fresh; missing, malformed, future, or older-than-48-hour success timestamps fail freshness checks. Status persists across worker runs and restarts.
+
+The attached compute identity impersonates only the existing backup writer via a service-account-level Token Creator grant. That writer has object Creator and Viewer on the independent backup bucket, without delete/admin access. The runtime cannot impersonate the separate read-only recovery identity. `CLOUDSDK_CONFIG` is isolated under `/var/lib/mimir/offsite/gcloud`, so the worker uses attached workload credentials rather than an operator login or key file. The bucket remains in the separate backup project, versioned, with uniform access, seven-day soft delete, and 395-day live/noncurrent lifecycle deletion. This policy is verified configuration, not a claim that a year of scheduled copies already exists.
+
+Source-controlled unit templates and the non-secret environment example are under `scripts/ops/`. Build the server, install only `backup-lib.js`, `backup-replication.js`, `backup-offsite.js`, `backup-offsite-cli.js`, and a `{"type":"module"}` package file under `/opt/mimir-backup/`. Install the four unit templates under `/etc/systemd/system/`, and the actual private environment file at `/etc/mimir/offsite-backup.env` with mode 0600. Worker code and status are private to the operator; no owner token is needed. Validate units with `systemd-analyze verify`, reload systemd, start the backup once, then enable both timers. Do not install the whole current server or engine as a backup-only change.
+
+Operator checks (run on the private VM):
+
+```sh
+sudo systemctl list-timers 'mimir-offsite-backup*'
+sudo systemctl show mimir-offsite-backup.service mimir-offsite-backup-health.service -p Result -p ExecMainStatus
+sudo systemctl start mimir-offsite-backup-health.service
+sudo cat /var/lib/mimir/offsite/status.json
+```
+
+The health service exits nonzero for stale, failed, interrupted, or unreadable status. Its timer and systemd failure state expose an operational failure; this does not send an external alert. The older backend's `/health` and `/api/backup/status` still describe its own in-process uploader, which remains disabled. They do not represent this dedicated worker. Use the worker status and units above for independent recovery readiness; a future backend deployment can integrate that status explicitly.
+
+To rehearse recovery outside the VM, list the independent bucket with the separate recovery identity and download the selected archive's adjacent `.receipt.json`. Never treat the VM's local backup directory or public observer archive bucket as the independent recovery destination. From a built checkout, run:
+
+```sh
+python scripts/verify-offsite-recovery.py --receipt /absolute/private/receipt.json --directory /absolute/new/recovery-directory --account OPERATOR_ACCOUNT --recovery-service-account EXISTING_RECOVERY_SERVICE_ACCOUNT
+```
+
+The command downloads the exact recorded object with read-only impersonation, rejects stale/failed receipts, verifies archive SHA-256 and size, rejects traversal/links/unexpected archive members, and uses the normal backup CLI to validate manifests and every world asset before comparing all restored history hashes. It refuses existing outputs and never replaces live state. Keep its private `recovery-result.json` and receipt outside Git. The first automatic archive and its independently stored receipt passed this recovery on October 23; see [dated evidence](evidence/automatic-offsite-backups-2026-10-23.md).
+
+To roll back scheduling, disable both new timers and stop only the backup units. Preserve all snapshots, receipts, and independent objects. If retiring writer access, remove only the newly added per-writer impersonation binding after confirming that no scheduled worker needs it. Do not stop, replace, or restore the simulation as routine backup rollback.
 
 ## Bounded staging baseline — 2026-10-04
 

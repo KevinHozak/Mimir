@@ -22,7 +22,7 @@ export type BackupReplicationStatus = {
 type CommandRunner = (command: string, args: string[]) => Promise<{ stdout: string; stderr: string }>;
 
 const defaultCommandRunner: CommandRunner = async (command, args) => {
-  const result = await execFileAsync(command, args, { encoding: "utf8", maxBuffer: 1024 * 1024 });
+  const result = await execFileAsync(command, args, { encoding: "utf8", maxBuffer: 1024 * 1024, timeout: 120000 });
   return { stdout: result.stdout, stderr: result.stderr };
 };
 
@@ -42,11 +42,21 @@ function normalizeDestination(destination: string): string {
   return value;
 }
 
+export async function uploadVerifiedFile(path: string, objectUri: string, impersonateServiceAccount?: string, commandRunner: CommandRunner = defaultCommandRunner) {
+  const identity = impersonateServiceAccount ? [`--impersonate-service-account=${impersonateServiceAccount}`] : [];
+  await commandRunner("gcloud", ["storage", "cp", path, objectUri, "--quiet", ...identity]);
+  const metadata = parseJsonObject((await commandRunner("gcloud", ["storage", "objects", "describe", objectUri, "--format=json", ...identity])).stdout);
+  if (Number(metadata.size) !== statSync(path).size) throw new Error("remote backup size mismatch");
+  const remoteMd5 = metadata.md5_hash ?? metadata.md5Hash;
+  if (typeof remoteMd5 !== "string" || remoteMd5 !== md5Base64File(path)) throw new Error("remote backup MD5 missing or mismatched");
+}
+
 export async function replicateBackup(
   backupPath: string,
   destination: string,
   commandRunner: CommandRunner = defaultCommandRunner,
   now = new Date(),
+  impersonateServiceAccount?: string,
 ): Promise<{ objectUri: string; archivePath: string; archiveSha256: string; archiveBytes: number }> {
   const normalizedDestination = normalizeDestination(destination);
   const manifestPath = `${backupPath}.manifest.json`;
@@ -62,10 +72,7 @@ export async function replicateBackup(
     const archiveSha256 = sha256File(archivePath);
     const archiveBytes = statSync(archivePath).size;
     const objectUri = `${normalizedDestination}/${archiveName}`;
-    await commandRunner("gcloud", ["storage", "cp", archivePath, objectUri, "--quiet"]);
-    const metadata = parseJsonObject((await commandRunner("gcloud", ["storage", "objects", "describe", objectUri, "--format=json"])).stdout);
-    if (Number(metadata.size) !== archiveBytes) throw new Error(`remote backup size mismatch: expected ${archiveBytes}, got ${String(metadata.size)}`);
-    if (typeof metadata.md5Hash === "string" && metadata.md5Hash !== md5Base64File(archivePath)) throw new Error("remote backup MD5 mismatch");
+    await uploadVerifiedFile(archivePath, objectUri, impersonateServiceAccount, commandRunner);
     return { objectUri, archivePath, archiveSha256, archiveBytes };
   } finally {
     if (existsSync(archivePath)) rmSync(archivePath, { force: true });

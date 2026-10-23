@@ -1,0 +1,96 @@
+{
+  "verified": true,
+  "database": {
+    "integrity": "ok",
+    "latest": [
+      {
+        "timeline_id": "main",
+        "pulse": 64,
+        "checkpoints": 65
+      }
+    ],
+    "tables": {
+      "timelines": {
+        "count": 1,
+        "sha256": "86dd14b65e77aad3908f893c86e0f657242c2bceae14d73a4a7002f505c613eb"
+      },
+      "timeline_checkpoints": {
+        "count": 65,
+        "sha256": "50ca5fe188986e3f197f4e511ccb23c9350f1ddbc8faa536a5155761102ed9ac"
+      },
+      "timeline_events": {
+        "count": 710,
+        "sha256": "5c8c273d5bcfe5f7f6c63bd77b6302d59a7dcc944316ed78981f41589ef3d724"
+      },
+      "timeline_interpretations": {
+        "count": 127,
+        "sha256": "9d33c0d6de8e023902a5ea9704427e070c06c6d94612055448ff01e9f33f7276"
+      },
+      "runtime_metadata": {
+        "count": 1,
+        "sha256": "f51559827f8d298d868695bcaef06c849df9bb82cc3ecf74e1e18325fd18ed73"
+      }
+    }
+  },
+  "bundleFiles": 8,
+  "archiveSha256": "56ac86e7bb5ef43bc81bcaea40ee38849c908c6e97e4655cc6d69c3a9874adf0",
+  "date": "2026-10-23",
+  "issue": "MIM-S017",
+  "runtime": {
+    "pulse": 64,
+    "archived": true,
+    "schedulerPaused": true,
+    "simulationRestarted": false,
+    "paidProviderCalls": 0
+  },
+  "schedule": {
+    "dailyUtc": "06:30",
+    "maximumJitterMinutes": 10,
+    "persistentCatchUp": true,
+    "healthCheck": "hourly",
+    "freshnessMaxAgeHours": 48
+  },
+  "identity": {
+    "writerImpersonationScoped": true,
+    "runtimeCannotImpersonateRecovery": true,
+    "writerCanCreateAndReadWithoutDelete": true,
+    "recoveryReadOnly": true,
+    "publicBucketBindingsAbsent": true
+  },
+  "retention": {
+    "versioning": true,
+    "uniformAccess": true,
+    "softDeleteDays": 7,
+    "liveAndNoncurrentDeletionAgeDays": 395
+  },
+  "recovery": {
+    "outsideVm": true,
+    "separateReadOnlyIdentity": true,
+    "archiveAndReceiptDownloadedFromIndependentBucket": true,
+    "isolatedNewDestination": true
+  },
+  "workerBuildSha256": {
+    "backup-lib.js": "dd6952f350b742447b6b1b29801b6c708e1a47941ec7dbfae38372edcd7e8bfd",
+    "backup-replication.js": "4dcb75efa7443d4a715c3d459c12c28afd60d73dad36bd8f9ace42ac3c8f76f1",
+    "backup-offsite.js": "7111dc22b830ec4d92b3698aa9e7a4328903cb9595ffcb76d263419bdc838af5",
+    "backup-offsite-cli.js": "a5b6a3c9ad2aef883e17b34f72f86fc26ddc874c968fd0ec7257867bd1316811"
+  },
+  "activation": {
+    "dailyTimerEnabled": true,
+    "hourlyHealthTimerEnabled": true,
+    "backupServiceSucceeded": true,
+    "healthServiceSucceeded": true,
+    "simulationPidUnchanged": true
+  },
+  "verification": {
+    "fullLocalSuite": {
+      "status": "passed",
+      "steps": 69,
+      "sourceHash": "8e61646ba56c1944ba5617dc8d5799a208b4aefb7adf5d76f6a2eecf71e3c913",
+      "summary": ".tmp/verification/2026-10-23T15-10-20-181Z/summary.json"
+    },
+    "finalRecoveryInputRegressions": "passed",
+    "finalLiveReceiptInputValidation": "passed",
+    "scopeNote": "The full-suite snapshot precedes the final recovery receipt-input hardening and issue closure; the focused automated recovery suite was rerun after that hardening."
+  }
+}

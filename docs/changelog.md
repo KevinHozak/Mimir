@@ -2,11 +2,17 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-23 — Automatic independent backups
+
+- Enable a daily, keyless off-VM backup worker and hourly status checks using the existing independent bucket and separate writer/recovery identities. The simulation stays archived and paused at pulse 64 without a restart or backend upgrade.
+- Verify remote archive and receipt checksums, preserve success/failure status across runs, reject stale/interrupted uploads and snapshots behind the writer, and automate isolated recovery with complete history and asset comparison.
+- Add regression checks for upload failures, missing bundles, freshness, interrupted status, corrupted archives, unsafe archive paths, and isolated restore. See [operational evidence](evidence/automatic-offsite-backups-2026-10-23.md).
+
 ## 2026-10-23 — Bounded hosted history and backup recovery
 
 - Advanced the private rules-only world to pulse 64 within its bounded run, then archived and paused it. Published five protected checkpoints and verified actual cloud bytes plus authenticated browser playback; no provider calls or human engagement review.
 - Preserved the latest committed history from an unlinked WAL before restart, updated only the hosted backup library to the current consistent-snapshot implementation, and verified fresh backup/restore against all 65 checkpoints and recorded outcomes.
-- Add a pinned-WAL snapshot regression to the backup suite. Automatic off-VM replication remains disabled; the operation retained verified manual recovery copies. See [dated evidence](evidence/hosted-bounded-history-2026-10-23.md).
+- Add a pinned-WAL snapshot regression to the backup suite. At that operation, automatic off-VM replication was disabled and verified manual recovery copies were retained; the subsequent automatic-backup entry above supersedes that configuration. See [dated evidence](evidence/hosted-bounded-history-2026-10-23.md).
 
 ## 2026-10-22 — Observer follow-up and local verification
 

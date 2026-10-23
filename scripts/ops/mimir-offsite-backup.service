@@ -1,0 +1,20 @@
+[Unit]
+Description=Mimir consistent snapshot and verified independent backup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/mimir/offsite-backup.env
+Environment=PATH=/opt/node/bin:/snap/google-cloud-cli/current/bin:/usr/bin:/bin
+Environment=CLOUDSDK_CONFIG=/var/lib/mimir/offsite/gcloud
+Environment=CLOUDSDK_CORE_DISABLE_PROMPTS=1
+ExecStart=/opt/node/bin/node /opt/mimir-backup/backup-offsite-cli.js backup
+TimeoutStartSec=10min
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+# SQLite may need to create/open WAL sidecars beside the source database.
+ReadWritePaths=/var/lib/mimir

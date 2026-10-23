@@ -1,0 +1,11 @@
+[Unit]
+Description=Check independent Mimir backup freshness and failures
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/mimir/offsite-backup.env
+ExecStart=/opt/node/bin/node /opt/mimir-backup/backup-offsite-cli.js status
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
