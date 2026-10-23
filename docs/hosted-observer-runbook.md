@@ -261,3 +261,9 @@ The operational limits and procedure are:
 3. **Cleanup verification**: Client controllers abort; in-flight bridge counters must return to 0/0; upstream VM TCP connections must return to baseline.
 4. **Single writer**: The authoritative server remains one SQLite writer on the private VM accessed via IAP.
 5. **No credential leakage**: All rehearsal telemetry records must pass `assertRedacted` checks.
+
+## Genuine expired and wrong-project authentication checks
+
+Use the [isolated fixture proposal](hosted-auth-fixture-setup.md) before provisioning or changing the observer allowlist. The harness accepts private fixture file paths, requires matching isolated verified identities and genuine Google-signed Firebase tokens, and bounds sequential requests to 180 seconds. A successful valid-token control brackets each origin's denial matrix. Missing fixtures, rejected controls, unexpected bodies/headers, and request failures stop acceptance. Never edit JWT claims or substitute local signatures for live evidence.
+
+The [October 23 live fixture evidence](evidence/hosted-auth-live-fixtures-2026-10-23.md) verifies all 28 genuine-token matrix requests and four post-rollback access checks through both origins. Original traffic, audience, image, and runtime configuration are restored; temporary users, signer grants/accounts, allowlist revision, and token files are removed. The disposable project is in scheduled deletion. The separate [eight-request baseline](evidence/hosted-auth-rejection-2026-10-23.md) remains historical evidence. Use private structured gcloud flags files on Windows and explicitly select the new no-traffic revision; preflight rollout/rollback before waiting for expiry.
