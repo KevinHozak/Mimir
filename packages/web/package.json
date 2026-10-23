@@ -21,7 +21,7 @@
     "test:first-glow-identity-e2e": "npm run build && tsx src/first-glow-identity-e2e.test.ts",
     "test:history": "npm run build && tsx src/history-sequencing.test.ts && tsx src/connected-observer-e2e.test.ts",
     "test:history-viewer": "npm run build && tsx src/history-viewer-e2e.test.ts",
-    "test:hosted-auth-boundary": "tsx src/hosted-auth-boundary.test.ts && tsx src/observer-session.test.ts",
+    "test:hosted-auth-boundary": "tsx src/hosted-auth-boundary.test.ts && tsx src/observer-session.test.ts && tsx src/observer-outage.test.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {

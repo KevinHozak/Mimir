@@ -271,3 +271,7 @@ The [October 23 live fixture evidence](evidence/hosted-auth-live-fixtures-2026-1
 ## Observer token lifecycle (local automation, 2026-10-23)
 
 The browser retries a read-only 401 once with a forced Firebase token refresh, rotates its stream on Firebase token-change notifications, and reconnects after clean EOF or network failure. Local Chromium and failure-path regressions are part of the full verifier. See [scope and remaining live acceptance limits](evidence/observer-session-lifecycle-2026-10-23.md). This does not expand the private audience or establish live refresh/Cloud Run cleanup acceptance.
+
+## Bridge restart and backend-outage preparation (MIM-S009)
+
+The local full-verifier matrix now includes a bridge process crash, backend stop/recovery, uncached protected archive rendering on desktop/mobile, fixed outage/denial responses and checksum rejection. Shared explanation panels no longer request live reflection data during archive playback. See [local evidence](evidence/observer-outage-2026-10-23.md). Live disruption remains unexecuted and requires approval of the [bounded rehearsal proposal](hosted-outage-rehearsal-plan.md), including its recovery watchdog and fresh backup gates. Revision replacement is not evidence of an in-flight Cloud Run crash.
