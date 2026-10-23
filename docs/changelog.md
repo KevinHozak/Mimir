@@ -2,6 +2,11 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-23 - Hosted authentication harness and live acceptance
+
+- Add a bounded read-only authentication matrix with Google certificate verification, isolated identity requirements, positive controls, and strict rejection leak checks. Local RSA/canary regressions run through the local verifier.
+- Verify genuine expired/wrong-project rejection through both hosted origins with fresh positive controls: all 28 matrix requests and four post-rollback access checks pass. Restore original configuration and remove temporary access and fixtures; retain the separate eight-request missing/malformed baseline. See [live fixture evidence](evidence/hosted-auth-live-fixtures-2026-10-23.md).
+
 ## 2026-10-23 — Automatic independent backups
 
 - Enable a daily, keyless off-VM backup worker and hourly status checks using the existing independent bucket and separate writer/recovery identities. The simulation stays archived and paused at pulse 64 without a restart or backend upgrade.

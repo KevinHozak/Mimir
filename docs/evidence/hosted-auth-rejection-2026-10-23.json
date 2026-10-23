@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-23T16:15:41.643Z",
+  "targetProjectId": "mimir-realm",
+  "sourceKind": "deployed-bridge",
+  "mutations": false,
+  "providerCalls": 0,
+  "status": "passed",
+  "coverage": "anonymous-baseline-only",
+  "durationMs": 4211,
+  "results": [
+    {
+      "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+      "case": "missing",
+      "path": "/api/world",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+      "case": "missing",
+      "path": "/api/live",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+      "case": "malformed",
+      "path": "/api/world",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+      "case": "malformed",
+      "path": "/api/live",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-realm.web.app",
+      "case": "missing",
+      "path": "/api/world",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-realm.web.app",
+      "case": "missing",
+      "path": "/api/live",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-realm.web.app",
+      "case": "malformed",
+      "path": "/api/world",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    },
+    {
+      "origin": "https://mimir-realm.web.app",
+      "case": "malformed",
+      "path": "/api/live",
+      "status": 401,
+      "exactPublicError": true,
+      "credentialAndPrivateDataLeak": false
+    }
+  ]
+}

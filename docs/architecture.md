@@ -379,3 +379,9 @@ Future changes should preserve these rules:
 6. New world definitions must be validated before entering simulation state.
 7. Any persistence-schema or rules change must declare compatibility behavior for old checkpoints.
 8. Scaling beyond one simulation writer requires a deliberate persistence architecture change.
+
+## Hosted authentication verification boundary
+
+`npm run test:observer-bridge-auth` includes the isolated RSA/canary harness regressions. `npm run check:hosted-auth` is a separate explicit live operation: full mode requires private absolute-path fixture files, verifies genuine Firebase signatures using Google's certificates, then performs sequential read-only requests with valid controls. Reports retain fixed public results rather than tokens, claims, or private response bodies. Baseline mode covers only missing/malformed credentials; local tests do not prove genuine expired/wrong-project rejection. See the [fixture setup proposal](hosted-auth-fixture-setup.md).
+
+The separately authorized October 23 [live fixture run](evidence/hosted-auth-live-fixtures-2026-10-23.md) passed with genuine Google-signed tokens and verified temporary-access removal. That dated acceptance does not turn ordinary local RSA tests into live IAM evidence or authorize future cloud provisioning implicitly.

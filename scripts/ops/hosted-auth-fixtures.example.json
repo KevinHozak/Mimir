@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "targetProjectId": "mimir-realm",
+  "wrongProjectId": "replace-with-approved-fixture-project",
+  "validTokenFile": "C:/PRIVATE_FIXTURES/mim-s007/valid.jwt",
+  "expiredTokenFile": "C:/PRIVATE_FIXTURES/mim-s007/expired.jwt",
+  "wrongProjectTokenFile": "C:/PRIVATE_FIXTURES/mim-s007/wrong-project.jwt"
+}

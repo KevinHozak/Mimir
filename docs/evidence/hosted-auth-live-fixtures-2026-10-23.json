@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "live": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-23T19:02:20.137Z",
+    "targetProjectId": "mimir-realm",
+    "sourceKind": "deployed-bridge",
+    "mutations": false,
+    "providerCalls": 0,
+    "fixtureProof": {
+      "subjectSha256": "c2f51d1a5fc3ccc10015de32d4f01aa2e257f8c529a6f263139c318fc43de993",
+      "googleSignaturesVerified": true,
+      "matchingApprovedIdentityRequired": true
+    },
+    "status": "passed",
+    "coverage": "live-expired-and-wrong-project",
+    "durationMs": 3615,
+    "results": [
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "valid-control",
+        "path": "/api/world",
+        "status": 200,
+        "privateBodyRetained": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "expired",
+        "path": "/api/world",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "expired",
+        "path": "/api/events",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "expired",
+        "path": "/api/interpretations",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "expired",
+        "path": "/api/live",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "expired",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "expired",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/auth-check.svg",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "wrong-project",
+        "path": "/api/world",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "wrong-project",
+        "path": "/api/events",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "wrong-project",
+        "path": "/api/interpretations",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "wrong-project",
+        "path": "/api/live",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "wrong-project",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "wrong-project",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/auth-check.svg",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "case": "valid-control",
+        "path": "/api/world",
+        "status": 200,
+        "privateBodyRetained": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "valid-control",
+        "path": "/api/world",
+        "status": 200,
+        "privateBodyRetained": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "expired",
+        "path": "/api/world",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "expired",
+        "path": "/api/events",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "expired",
+        "path": "/api/interpretations",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "expired",
+        "path": "/api/live",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "expired",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "expired",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/auth-check.svg",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "wrong-project",
+        "path": "/api/world",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "wrong-project",
+        "path": "/api/events",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "wrong-project",
+        "path": "/api/interpretations",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "wrong-project",
+        "path": "/api/live",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "wrong-project",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "wrong-project",
+        "path": "/api/world/bundles/sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e/assets/auth-check.svg",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "case": "valid-control",
+        "path": "/api/world",
+        "status": 200,
+        "privateBodyRetained": false
+      }
+    ]
+  },
+  "postRollbackAccess": {
+    "status": "passed",
+    "coverage": "fresh-fixture-rejected-after-allowlist-rollback",
+    "fixtureWasStillFresh": true,
+    "results": [
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "path": "/api/world",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app",
+        "path": "/api/live",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "path": "/api/world",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      },
+      {
+        "origin": "https://mimir-realm.web.app",
+        "path": "/api/live",
+        "status": 401,
+        "exactPublicError": true,
+        "credentialAndPrivateDataLeak": false
+      }
+    ]
+  },
+  "rollback": {
+    "phase": "bridge-rollback-verified",
+    "originalTrafficRestored": true,
+    "originalAllowlistRestored": true,
+    "originalImageDigestRestored": true,
+    "otherRuntimeConfigurationUnchanged": true,
+    "temporaryRevision": "mimir-observer-bridge-s007-fixture-1792782108",
+    "restoredTemplateRevision": "mimir-observer-bridge-s007-restore-1792782160"
+  },
+  "cleanup": {
+    "phase": "fixture-cleanup-verified",
+    "temporaryAllowlistRevisionDeleted": true,
+    "fixtureUsersAbsent": true,
+    "conditionalBindingsRemoved": true,
+    "fixtureSignersAbsent": true,
+    "localCredentialFilesAbsent": true,
+    "disposableProjectState": "DELETE_REQUESTED",
+    "fixtureProviderConfigurationRestored": true,
+    "billingNeverLinked": true
+  },
+  "independentReadback": {
+    "originalTrafficAndAllowlistVerified": true,
+    "allOwnedFixtureRevisionsAbsent": true,
+    "bothTargetAttemptSignersAbsent": true,
+    "targetFixtureUserAbsent": true,
+    "localCredentialFilesAbsent": true,
+    "disposableProjectState": "DELETE_REQUESTED"
+  },
+  "harnessSourceSha256": "a2654674379ca65031c18f58d27a84b9a8990ad8e80e0e0ffbe4bb134a51738b",
+  "localOperationRegressionTests": 5,
+  "fixtureMethods": {
+    "target": "keyless custom sign-in through fixture-only signer",
+    "wrongProject": "isolated email/password fixture; random password held only in memory"
+  },
+  "firstAttempt": {
+    "liveMatrixNotRun": true,
+    "reason": "Windows custom-delimiter parsing",
+    "resourcesCleaned": true,
+    "correctedRolloutBaselineChecksPassed": 8
+  },
+  "pinnedImageDigest": "sha256:9b50923271ad57435d45ccbcab850b7d1bcb250519a3a3636209c94e19124d2a",
+  "harnessBaseCommit": "eab1ba1dc60c1e3a47fca609193c58197e77ac75",
+  "finalLocalAuthRegressions": "passed"
+}
