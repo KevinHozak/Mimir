@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-23",
+  "scope": "Recovery readiness, bounded rules-only run, protected archive publication, hosted backup component repair",
+  "run": {
+    "rulesOnly": true,
+    "providerBudgetCents": 0,
+    "startPulse": 0,
+    "endPulse": 64,
+    "runWithin150SecondGate": true,
+    "schedulerPaused": true,
+    "timelineArchived": true,
+    "openingCheckpointUnchanged": true,
+    "counts": {
+      "timeline_checkpoints": 65,
+      "timeline_events": 710,
+      "timeline_interpretations": 127
+    },
+    "backupVerified": true,
+    "restoreIntegrity": "ok",
+    "orphanedWalPreserved": true,
+    "stableFileHashesDuringPreservation": {
+      "db": "0a8867625256ac6cf92dac7062e17655b898aa16c0cb8e02c7979f98a4248ec8",
+      "wal": "715d4874657fb4bb54199f29decf666a3963c3a70b2484e9ce439a90e597b02f"
+    },
+    "priorExternalSnapshotRejected": {
+      "maxPulse": 61,
+      "timelineStatus": "active"
+    }
+  },
+  "backupRepair": {
+    "backupComponentUpdated": true,
+    "deployedBackupHash": "dd6952f350b742447b6b1b29801b6c708e1a47941ec7dbfae38372edcd7e8bfd",
+    "controlledRestart": true,
+    "restoredAtCutover": false,
+    "livePulse": 64,
+    "archived": true,
+    "schedulerPaused": true,
+    "freshBackupAndRestoreMatchAllHistory": true,
+    "checkpointCount": 65,
+    "orphanedJournalHandles": false,
+    "otherRuntimeComponentsChanged": false
+  },
+  "publication": {
+    "runId": "run-2026-10-23T05-08-40-335Z-1ec42c2a",
+    "archiveId": "main",
+    "cloudBytesMatchExport": true,
+    "catalogAndManifestVerified": true,
+    "firstGlowValidationPassed": true,
+    "checkpoints": [
+      0,
+      16,
+      32,
+      48,
+      64
+    ],
+    "totalChunkBytes": 4271284
+  },
+  "browser": {
+    "checkpoints": [
+      {
+        "pulse": 0,
+        "verifiedReplay": true,
+        "hasCanvas": 1,
+        "hasAlert": 0
+      },
+      {
+        "pulse": 16,
+        "verifiedReplay": true,
+        "hasCanvas": 1,
+        "hasAlert": 0
+      },
+      {
+        "pulse": 32,
+        "verifiedReplay": true,
+        "hasCanvas": 1,
+        "hasAlert": 0
+      },
+      {
+        "pulse": 48,
+        "verifiedReplay": true,
+        "hasCanvas": 1,
+        "hasAlert": 0
+      },
+      {
+        "pulse": 64,
+        "verifiedReplay": true,
+        "hasCanvas": 1,
+        "hasAlert": 0
+      }
+    ],
+    "verifiedAfterFreshReload": true
+  },
+  "residualLimits": {
+    "automaticOffVmReplicationEnabled": false,
+    "restOfBackendUpdated": false,
+    "humanEngagementReviewPerformed": false,
+    "paidProviderCalls": 0,
+    "liveOutageReplayVerified": false
+  },
+  "finalState": {
+    "serviceHealthy": true,
+    "authoritativeNodeProcesses": 1,
+    "pulse": 64,
+    "archived": true,
+    "schedulerPaused": true,
+    "socialMode": "rules-only",
+    "socialBudgetCents": 0,
+    "automaticBackupReplicationEnabled": false,
+    "unauthenticatedCatalogStatus": 403
+  }
+}

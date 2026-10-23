@@ -2,7 +2,13 @@
 
 The supported hosted experience is limited Google-authenticated observation at [mimir-realm.web.app](https://mimir-realm.web.app/), through Firebase Hosting and the Cloud Run bridge to one private Compute Engine VM and SQLite writer. `render.yaml` remains an alternative single-instance configuration, not evidence of a live Render deployment.
 
-## Current disposition — 2026-10-04
+## Current operation — 2026-10-23
+
+The bounded rules-only run is archived and paused at pulse 64. Authenticated History & scenarios now offers verified checkpoints 0, 16, 32, 48, and 64. A fresh bundle-inclusive recovery copy is retained off the VM. The hosted backup library now uses the current consistent SQLite snapshot implementation; fresh backup and restore matched every archived history row after a controlled restart.
+
+The operation recovered an unlinked WAL before restarting; do not restart a writer whose external backup is behind its reported pulse until its latest journal has been preserved and verified. Automatic off-VM replication remains disabled. The rest of the backend has not been upgraded to current main. Existing two-session/three-minute staging limits and the single authoritative writer remain unchanged. See [bounded-run and backup evidence](evidence/hosted-bounded-history-2026-10-23.md).
+
+## Bounded staging baseline — 2026-10-04
 
 Hosted-P14 through Hosted-P16 are delivered; Hosted-P17 is closed with explicit limitations. Epic #253 (Observer Readiness) is concluded with the evidence-backed [Observer-P8 disposition](evidence/observer-p8-epic-disposition-2026-10-04.md).
 

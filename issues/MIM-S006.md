@@ -4,7 +4,7 @@ id: "MIM-S006"
 parent: ["MIM-E002"]
 priority: "medium"
 schema_version: 1
-status: "open"
+status: "closed"
 title: "Define the next hosted verification envelope"
 type: "enhancement"
 ---
@@ -18,6 +18,10 @@ docs/hosted-observer-runbook.md
 
 ## Acceptance
 
-- [ ] Record approved audience, duration, budget and rollback/stop conditions.
-- [ ] Map existing evidence to residual token, stream and outage cases.
-- [ ] Preserve private VM access and one authoritative SQLite writer.
+- [x] Record approved audience, duration, budget and rollback/stop conditions.
+- [x] Map existing evidence to residual token, stream and outage cases.
+- [x] Preserve private VM access and one authoritative SQLite writer.
+
+## Completion evidence — 2026-10-23
+
+[Bounded run, recovery, backup repair, and verification](../docs/evidence/hosted-bounded-history-2026-10-23.md). The world remains archived and paused at pulse 64. Human engagement review and wider hosting verification remain outside this completion. Regression and verification evidence accompany this issue.
