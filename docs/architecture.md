@@ -389,3 +389,7 @@ The separately authorized October 23 [live fixture run](evidence/hosted-auth-liv
 ### Observer session lifecycle
 
 `packages/web/src/observer-session.ts` owns authenticated GET/HEAD retry and one active SSE connection. Concurrent 401 responses share a forced refresh; a second rejection is returned without another immediate retry. Firebase ID-token notifications rotate the stream without remounting the application. Clean closure and failures reconnect after three seconds; cancellation releases the reader and stops timers. The server remains the sole outcome writer. [Local lifecycle evidence](evidence/observer-session-lifecycle-2026-10-23.md) distinguishes synthetic browser coverage from live Firebase and Cloud Run acceptance.
+
+### Isolated restart and outage acceptance
+
+`observer-outage.test.ts` exercises the production bridge in a separate loopback child process, real backend stop/restart against isolated SQLite history, and cold hosted archive rendering through independent synthetic protected storage. Archive and historical explanation panels never fetch live reflection state; only the live observer renders its authenticated projection. These checks are included in the full local verifier. [Evidence and live boundaries](evidence/observer-outage-2026-10-23.md) distinguish process faults from genuine hosted VM/Cloud Run acceptance.

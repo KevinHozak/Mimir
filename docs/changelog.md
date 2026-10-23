@@ -2,6 +2,11 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-23 - Isolated observer outage coverage (local)
+
+- Automate bridge process crash/restart, backend loss/recovery and cold protected archive playback on desktop/mobile, including denial, checksum rejection and stream cleanup.
+- Remove live reflection fetches from shared historical explanations; the live observer uses its authenticated projection. See [local evidence](evidence/observer-outage-2026-10-23.md) and the [unexecuted live rehearsal proposal](hosted-outage-rehearsal-plan.md).
+
 ## 2026-10-23 - Observer session recovery (local)
 
 - Recover from clean live-stream closure and network loss, retry rejected read tokens once with forced refresh, and rotate streams on Firebase token changes without remounting the observer.
