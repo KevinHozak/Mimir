@@ -1,3 +1,4 @@
+import { createObserverFetch, startObserverStream } from "./observer-session.js";
 import { StrictMode, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import Phaser from "phaser";
@@ -24,7 +25,7 @@ import { createFollowNavigation, enterFollow, getFollowCameraState, leaveFollow,
 import { audioPreferencePercent, loadFirstGlowAudioPreferences, saveFirstGlowAudioPreferences, type FirstGlowAudioPreferences } from "./first-glow-audio.js";
 import { FirstGlowAudioRuntime } from "./first-glow-audio-runtime.js";
 import { loadFirstGlowViewerSettings, saveFirstGlowViewerSettings } from "./first-glow-settings.js";
-import { getGoogleIdToken, hostedAuthEnabled, observeAuth, readFirebaseBytes, signInWithGoogle, signOutGoogle } from "./firebase-auth.js";
+import { getGoogleIdToken, hostedAuthEnabled, observeAuth, observeTokenRefresh, readFirebaseBytes, signInWithGoogle, signOutGoogle } from "./firebase-auth.js";
 import "./styles.css";
 
 type TilePosition = Cell;
@@ -592,24 +593,7 @@ function ReflectionObserverPanel({ projection }: { projection: ReflectionProject
   return <section className="reflection-observer" data-testid="reflection-observer" aria-label="Reflection capacity and effects"><div className="stream-heading"><div><h2>Reflection cadence</h2><p>Public schedule for the First Glow. Private memory contents stay with each Spark.</p></div><span className="stream-badge">CAPACITY</span></div><div className="reflection-summary"><span>World age <strong>{projection.worldAge}</strong></span><span>Baseline RC <strong>{projection.policy.baselineCapacity}</strong></span><span>Global today <strong>{projection.global.used}/{projection.policy.globalDailyLimit}</strong></span><span>Opportunities left <strong>{projection.global.remaining}</strong></span></div><div className="reflection-sparks">{projection.sparks.map(spark => <article key={spark.id}><h3>{spark.name}{spark.isHero ? " · Hero" : ""}</h3><p><strong>{spark.used}/{spark.capacity}</strong> used · <strong>{spark.remaining}</strong> remaining · next scheduled pulse <strong>{spark.nextScheduledPulse}</strong>{spark.slotEndPulse !== undefined ? ` (slot ends ${spark.slotEndPulse})` : ""}</p>{spark.intention && <p className="reflection-intention">Current intention: <strong>{spark.intention.activity}</strong> · {spark.intention.status} · {spark.intention.summary}</p>}{spark.reflections.length > 0 && <ul>{spark.reflections.slice().reverse().map(reflection => <li key={`${spark.id}-${reflection.pulse}`}>Pulse {reflection.pulse}: {reflection.created ? "reflection committed" : reflection.reason}{reflection.forcedAtSlotEnd ? " · forced at slot end" : ""}{reflection.evidenceEventIds.length ? ` · evidence ${reflection.evidenceEventIds.join(", ")}` : ""}</li>)}</ul>}</article>)}</div><small>Reflections are committed by the server. Historical playback reads recorded decisions and never calls a provider.</small></section>;
 }
 
-async function readAuthenticatedLiveStream(onMessage: (data: string) => void, signal: AbortSignal): Promise<void> {
-  const token = await getGoogleIdToken();
-  const response = await fetch(`${api}/api/live`, { headers: token ? { authorization: `Bearer ${token}` } : {}, signal });
-  if (!response.ok || !response.body) throw new Error(`live observer rejected (${response.status})`);
-  const reader = response.body.getReader(); const decoder = new TextDecoder(); let buffer = "";
-  while (!signal.aborted) {
-    const next = await reader.read(); if (next.done) return; buffer += decoder.decode(next.value, { stream: true });
-    const messages = buffer.split("\n\n"); buffer = messages.pop() ?? "";
-    for (const message of messages) { const line = message.split("\n").find(item => item.startsWith("data: ")); if (line) onMessage(line.slice(6)); }
-  }
-}
-
-async function observerFetchUrl(url: string, init: RequestInit = {}, tokenPromise: Promise<string | undefined> | undefined = getGoogleIdToken()): Promise<Response> {
-  const token = await tokenPromise;
-  const headers = new Headers(init.headers);
-  if (token) headers.set("authorization", `Bearer ${token}`);
-  return fetch(url, { ...init, headers });
-}
+const observerFetchUrl = createObserverFetch(getGoogleIdToken);
 
 async function observerFetch(path: string, init: RequestInit = {}): Promise<Response> {
   return observerFetchUrl(`${api}${path}`, init);
@@ -726,7 +710,6 @@ function App({ readOnly = false }: { readOnly?: boolean } = {}) {
   useEffect(() => {
     void loadLive().catch(() => setLoadError("The observer could not load committed First Glow data. Check the server and retry."));
     if (!readOnly) void loadReport();
-    const controller = new AbortController(); let stopped = false; let reconnectTimer: number | undefined;
     const handleLiveMessage = (data: string) => {
       const payload = JSON.parse(data) as { state: ApiState; events?: Event[]; interpretations?: Interpretation[] };
       const nextState = normalizeApiState(payload.state);
@@ -737,10 +720,16 @@ function App({ readOnly = false }: { readOnly?: boolean } = {}) {
       if (payload.interpretations?.length) setInterpretations((current) => Array.from(new Map([...current, ...payload.interpretations!].map((interpretation) => [interpretation.id, interpretation])).values()).slice(-200));
       if (viewPulseRef.current === null) setWorld((current) => current && current.pulse > nextState.pulse ? current : nextState);
     };
-    const connect = async () => { try { await readAuthenticatedLiveStream(handleLiveMessage, controller.signal); } catch { if (!stopped) { setLoadError("The live connection is unavailable. Previously committed data remains visible until it reconnects."); reconnectTimer = window.setTimeout(() => void connect(), 3000); } } };
-    void connect();
+    const stream = startObserverStream({
+      url: `${api}/api/live`, request: observerFetchUrl, onMessage: handleLiveMessage,
+      onConnected: () => setLoadError(""),
+      onDisconnected: () => setLoadError("The live connection is unavailable. Previously committed data remains visible until it reconnects."),
+    });
+    const unsubscribe = observeTokenRefresh(() => stream.refresh());
+    const onPageHide = (event: PageTransitionEvent) => { if (!event.persisted) stream.stop(); };
+    window.addEventListener("pagehide", onPageHide);
     const timer = window.setInterval(() => void loadLive().catch(() => setLoadError("The observer could not refresh committed First Glow data.")), 15000);
-    return () => { stopped = true; controller.abort(); if (reconnectTimer) window.clearTimeout(reconnectTimer); window.clearInterval(timer); };
+    return () => { unsubscribe(); stream.stop(); window.removeEventListener("pagehide", onPageHide); window.clearInterval(timer); };
   }, []);
   const showPulse = async (pulse: number | null) => {
     if (pulse === null) invalidateHistoryRequest();
