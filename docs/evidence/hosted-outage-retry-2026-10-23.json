@@ -1,0 +1,317 @@
+{
+  "localDate": "2026-10-23",
+  "timezone": "America/Chicago",
+  "startUtc": "2026-10-24T00:50:17.361000+00:00",
+  "result": "failed-vm-operation-and-cold-replay-timing",
+  "sourceCommit": "6e663954a8b0f6889c46fe9bf89638f4d3871dbd",
+  "hostingVersion": "cdf29343210a5da7",
+  "pinnedBridgeImage": "sha256:9b50923271ad57435d45ccbcab850b7d1bcb250519a3a3636209c94e19124d2a",
+  "originalRevision": "mimir-observer-bridge-p5-h2b-596163",
+  "replacementRevision": "mimir-observer-bridge-s009-1792802709",
+  "readiness": {
+    "freshIndependentBackupRestore": true,
+    "recoveryIamVerified": true,
+    "originalBaselineReady": true,
+    "actualRouteVerifiedSeconds": 11.419,
+    "replacementStreamVerifiedSeconds": 23.973,
+    "sparkFollowPresentationZoomAndSixEventIdsRetained": true,
+    "browserDeadlineDryRunPassed": true
+  },
+  "execution": {
+    "events": [
+      {
+        "event": "baseline",
+        "elapsed": 2.059
+      },
+      {
+        "event": "replacement-routing",
+        "elapsed": 2.711
+      },
+      {
+        "event": "replacement-route-verified",
+        "elapsed": 11.419
+      },
+      {
+        "event": "replacement-stream-verified",
+        "elapsed": 23.973
+      },
+      {
+        "event": "stop-requested",
+        "elapsed": 50.339
+      },
+      {
+        "event": "aborted",
+        "elapsed": 79.114,
+        "errorClass": "RuntimeError"
+      },
+      {
+        "event": "recovery-confirmed",
+        "elapsed": 121.044
+      }
+    ],
+    "stopRequestedSeconds": 50.339,
+    "watchdogStartRequestedSeconds": 107.732,
+    "stopToStartSeconds": 57.393,
+    "vmRunningSeconds": 120.987,
+    "clientCutoffSeconds": 165.023,
+    "approvedStopToStartLimitSeconds": 30,
+    "approvedRestartDeadlineSeconds": 80,
+    "coldPlaybackWhileTerminatedVerified": false,
+    "retainedUiAfterRecoveryVerified": false
+  },
+  "recovery": {
+    "vmRunning": true,
+    "originalSpecAndTrafficRestored": true,
+    "historyHashesUnchanged": true,
+    "pausedPulse64": true,
+    "backupHealthy": true,
+    "writerPidAfter": 566,
+    "observedStreamProcesses": 3,
+    "allObservedLatestCountersZero": false,
+    "candidateLatestCountersZero": true,
+    "boundedAllProcessCleanupProven": false,
+    "ownedCandidateDeleted": true,
+    "singleWriter": true,
+    "integrity": "ok",
+    "noOrphanedJournals": true,
+    "stopProperties": [
+      "TimeoutStopUSec=1min 30s",
+      "KillMode=control-group",
+      "KillSignal=15"
+    ],
+    "previousBootJournalAvailable": true,
+    "longestServiceStops": [
+      {
+        "unit": "snapd.service",
+        "seconds": 8.031
+      },
+      {
+        "unit": "snapd.service",
+        "seconds": 8.031
+      },
+      {
+        "unit": "finalrd.service",
+        "seconds": 3.144
+      },
+      {
+        "unit": "finalrd.service",
+        "seconds": 3.143
+      },
+      {
+        "unit": "apport.service",
+        "seconds": 2.896
+      }
+    ],
+    "timedOutUnits": [],
+    "allOwnedRecoveryWorkersExited": true,
+    "allFourTemporaryRevisionsAbsent": true,
+    "ownedBrowserTabsClosed": true,
+    "freshRecoveryCopyPreserved": true
+  },
+  "streamCleanup": {
+    "sessions": [
+      {
+        "revision": "mimir-observer-bridge-p5-h2b-596163",
+        "lastStreamOpenedSeconds": 12.792,
+        "finalZeroAfterLastOpenSeconds": null,
+        "closeReason": null
+      },
+      {
+        "revision": "mimir-observer-bridge-s009-1792802709",
+        "lastStreamOpenedSeconds": 23.706,
+        "finalZeroAfterLastOpenSeconds": 93.15,
+        "closeReason": "completed"
+      },
+      {
+        "revision": "mimir-observer-bridge-p5-h2b-596163",
+        "lastStreamOpenedSeconds": 168.376,
+        "finalZeroAfterLastOpenSeconds": 176.394,
+        "closeReason": "client-close"
+      }
+    ],
+    "originalRevisionAggregateZeroInstancePoints": [
+      {
+        "timestamp": "2026-10-24T00:52:00Z",
+        "seconds": 102.639,
+        "active": 0,
+        "idle": 0
+      }
+    ],
+    "metricDefinition": {
+      "metricDescriptors": [
+        {
+          "metricKind": "GAUGE",
+          "valueType": "INT64",
+          "description": "Number of container instances that exist, broken down by state."
+        }
+      ]
+    },
+    "clientCutoffWithin180Seconds": true,
+    "allSurvivingObservedStreamsFinalZeroWithin180": true,
+    "earlierOriginalProcessFinalZeroLogged": false,
+    "earlierOriginalRetirementSupportedByAggregateMetric": true,
+    "strictAllProcessFinalZeroAcceptancePassed": false
+  },
+  "optionalCapability": {
+    "path": "/api/reflection",
+    "authenticatedStatus": 404,
+    "anonymousStatus": 401,
+    "fixedMissingRouteBodyVerified": true,
+    "optionalInCurrentUi": true,
+    "backendNotUpgraded": true
+  },
+  "localChecks": {
+    "browserHarnessTests": 11,
+    "controllerWatchdogTests": 11,
+    "fullVerification": "See source-bound summary under .tmp/verification; final result reported separately"
+  },
+  "attempts": [
+    {
+      "run": 6,
+      "vmStopIssued": false,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 22.695
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 23.334
+        },
+        {
+          "event": "aborted",
+          "elapsed": 50.71,
+          "errorClass": "AssertionError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 54.794
+        }
+      ]
+    },
+    {
+      "run": 7,
+      "vmStopIssued": false,
+      "outcome": "watchdog preparation failed; controller not started"
+    },
+    {
+      "run": 8,
+      "vmStopIssued": false,
+      "outcome": "preparation only; no browser lease activated"
+    },
+    {
+      "run": 9,
+      "vmStopIssued": false,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 0.085
+        },
+        {
+          "event": "aborted",
+          "elapsed": 0.092,
+          "errorClass": "FileNotFoundError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 2.609
+        }
+      ]
+    },
+    {
+      "run": 10,
+      "vmStopIssued": false,
+      "outcome": "preparation only; no browser lease activated"
+    },
+    {
+      "run": 11,
+      "vmStopIssued": false,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 0.103
+        },
+        {
+          "event": "aborted",
+          "elapsed": 2.149,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 2.903
+        }
+      ]
+    },
+    {
+      "run": 12,
+      "vmStopIssued": false,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 0.138
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 10.91
+        },
+        {
+          "event": "aborted",
+          "elapsed": 47.385,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 49.665
+        }
+      ]
+    },
+    {
+      "run": 13,
+      "vmStopIssued": false,
+      "outcome": "preparation only; no browser lease activated"
+    },
+    {
+      "run": 14,
+      "vmStopIssued": true,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.059
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 2.711
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 11.419
+        },
+        {
+          "event": "replacement-stream-verified",
+          "elapsed": 23.973
+        },
+        {
+          "event": "stop-requested",
+          "elapsed": 50.339
+        },
+        {
+          "event": "aborted",
+          "elapsed": 79.114,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 121.044
+        }
+      ]
+    }
+  ],
+  "noWriterUpgradeOrSimulationPulses": true,
+  "noProviderCalls": true,
+  "liveAcceptancePassed": false,
+  "operatorTooling": {
+    "delivery": "local uncommitted scripts; no observer/writer redeploy",
+    "postRunLocalRepair": "Recognize observed Compute Engine PROVISIONING/STAGING transitions and require a fresh VM request initiated after checkpoint rendering; regression-tested locally after the recorded run"
+  },
+  "noNewIamBindingsOrCredentialFixtures": true
+}

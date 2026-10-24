@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-23",
+  "status": "readiness-aborted-before-VM-disruption",
+  "approvedLimits": {
+    "observers": 2,
+    "totalSeconds": 180,
+    "vmOperationSeconds": 80,
+    "readinessSeconds": 30,
+    "clientCutoffSeconds": 165,
+    "replaySeconds": 10,
+    "restartDeadlineSeconds": 110,
+    "applicationRecoverySeconds": 160
+  },
+  "attempts": [
+    {
+      "run": "run-15",
+      "start": 1792807359.989,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.091
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 2.73
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 28.932
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.941,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 33.35
+        }
+      ],
+      "vmStopRequested": false,
+      "watchdogComplete": true,
+      "watchdogStartRequestedAt": null,
+      "clientClosedAtSeconds": 42.503,
+      "observersAfterClose": 0
+    },
+    {
+      "run": "run-16",
+      "start": 1792807473.418,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 4.913
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 5.546
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 19.383
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.318,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 40.358
+        }
+      ],
+      "vmStopRequested": false,
+      "watchdogComplete": true,
+      "watchdogStartRequestedAt": null,
+      "clientClosedAtSeconds": 50.08,
+      "observersAfterClose": 0
+    }
+  ],
+  "freshIndependentBackupRestore": true,
+  "restoreBundleFiles": 8,
+  "recoveryAndRollback": {
+    "vmRunning": true,
+    "originalSpecAndTrafficRestored": true,
+    "historyHashesUnchanged": true,
+    "pausedPulse64": true,
+    "backupHealthy": true,
+    "writerPidAfter": 566,
+    "observedStreamProcesses": 2,
+    "allObservedLatestCountersZero": false,
+    "candidateLatestCountersZero": false,
+    "boundedAllProcessCleanupProven": false,
+    "ownedCandidateDeleted": true
+  },
+  "ownedWorkersRemaining": 0,
+  "ownedTabsRemaining": 0,
+  "allObservedFinalZero": false,
+  "candidateInstancesAt0206UTC": {
+    "active": 0,
+    "idle": 0
+  },
+  "originalInstancesAt0207UTC": {
+    "active": 0,
+    "idle": 1
+  },
+  "localVerification": {
+    "browserHarnessTestsPassed": 11,
+    "controllerWatchdogTestsPassed": 12,
+    "rehearsalThresholdTestsPassed": true,
+    "fullSuiteRerun": false
+  },
+  "liveAcceptancePassed": false,
+  "laterClockCorrection": {
+    "rawCloudTimestampMinusLocalLeaseSeconds": 33.534,
+    "browserStreamReceivedElapsedSeconds": 22.179,
+    "rawCrossClockComparisonValid": false,
+    "requiredProofDeadlineStillFailed": true,
+    "supersedingEvidence": "hosted-outage-readiness-fix-2026-10-23.md"
+  }
+}

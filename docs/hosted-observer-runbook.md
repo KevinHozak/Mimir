@@ -2,13 +2,23 @@
 
 The supported hosted experience is limited Google-authenticated observation at [mimir-realm.web.app](https://mimir-realm.web.app/), through Firebase Hosting and the Cloud Run bridge to one private Compute Engine VM and SQLite writer. `render.yaml` remains an alternative single-instance configuration, not evidence of a live Render deployment.
 
-## Current operation — 2026-10-23
+## Current operation â€” 2026-10-23
 
 The bounded rules-only run is archived and paused at pulse 64. Authenticated History & scenarios now offers verified checkpoints 0, 16, 32, 48, and 64. A fresh bundle-inclusive recovery copy is retained off the VM. The hosted backup library now uses the current consistent SQLite snapshot implementation; fresh backup and restore matched every archived history row after a controlled restart.
 
 The operation recovered an unlinked WAL before restarting; do not restart a writer whose external backup is behind its reported pulse until its latest journal has been preserved and verified. Automatic off-VM replication is now enabled through the dedicated daily service described below. The simulation backend has not been upgraded to current main. Existing two-session/three-minute staging limits and the single authoritative writer remain unchanged. See [bounded-run and backup evidence](evidence/hosted-bounded-history-2026-10-23.md).
 
-## Automatic independent backups — 2026-10-23
+## Bounded recovery and cleanup acceptance â€” 2026-10-23
+
+[MIM-S009](../issues/MIM-S009.md) passed the full approved rehearsal: cold verified pulses 64/48, 59.432-second stop-to-restart interval, retained live recovery and automatic client closure by T+138, state/writer/backup attestation by T+141 and full rollback/final-zero/owned-revision cleanup by T+161. [Measured evidence](evidence/hosted-outage-cleanup-2026-10-23.md) supersedes the earlier readiness and late-cleanup gaps below. All three observed process sessions have direct zero counters; aggregate instance retirement is not substituted. The VM remains archived and paused at pulse 64, original full configuration/traffic is restored and no owned test resources remain. Source implementation is local and awaiting review; hosted assets/image were not upgraded.
+
+The independent watchdog now restores the complete saved service spec, including its actual template revision (which need not equal the traffic-serving revision). It launches a read-only audit during boot, then waits for client closure and real final-zero records before deleting and GET-verifying absence of the unused candidate. It also accounts for failed live requests and the actual post-restart original stream. Cancellation is issued while the original document remains alive; an anonymous request that must return 401 keeps the process scheduled to finish cancellation before traffic moves. A second denied wake follows final client closure. Neither request reaches private upstream data.
+
+Preparation uses a fresh private run directory beneath `.tmp/` with `rollback.json` (the exact private original service snapshot), `candidate.json` (owned pinned candidate), `baseline-audit.json` (verified history hashes) and `clock-samples.json` (fresh cloud/local offset bounds). Capture these privately; never print the full service environment or authenticated account configuration. Verify backup/restore, identity/permissions, image/configuration and normal-traffic preservation before starting. Preauthenticate controller and watchdog with their `--prepare <private-run-directory>` mode; both wait for the browser's immutable lease. The browser phase runner owns at most two child observers and an absolute T+165 cutoff. It requires timely positive gates before a stop and automatically closes clients on phase failure or successful recovery.
+
+The audit has an absolute pre-T+160 result window and performs only read-only integrity, history-hash, single-writer, journal, health and backup checks. Full cleanup is captured in `resource-cleanup.json`: `gatePassed` requires closed clients, exact rollback, verified candidate absence, valid audit, genuine zero counters and accounted recovery stream within T+180. Safe deadline fallback still attempts cleanup, but records a failed gate if any proof is missing. Combine that cleanup result with the timed browser journey and VM budget; cleanup success alone is not an overall rehearsal pass. Future live faults require a fresh approved window. The two-observer/three-minute staging ceiling and separate MIM-S010 expansion decision remain unchanged.
+
+## Automatic independent backups â€” 2026-10-23
 
 [MIM-S017](../issues/MIM-S017.md) uses a dedicated systemd worker, not an upgrade or restart of the older simulation backend. `mimir-offsite-backup.timer` runs daily at 06:30 UTC with up to ten minutes of jitter and persistent catch-up after downtime. `mimir-offsite-backup-health.timer` checks the durable status hourly. Both timers are enabled on the private VM. The world remains archived and paused at pulse 64.
 
@@ -39,7 +49,7 @@ The command downloads the exact recorded object with read-only impersonation, re
 
 To roll back scheduling, disable both new timers and stop only the backup units. Preserve all snapshots, receipts, and independent objects. If retiring writer access, remove only the newly added per-writer impersonation binding after confirming that no scheduled worker needs it. Do not stop, replace, or restore the simulation as routine backup rollback.
 
-## Bounded staging baseline — 2026-10-04
+## Bounded staging baseline â€” 2026-10-04
 
 Hosted-P14 through Hosted-P16 are delivered; Hosted-P17 is closed with explicit limitations. Epic #253 (Observer Readiness) is concluded with the evidence-backed [Observer-P8 disposition](evidence/observer-p8-epic-disposition-2026-10-04.md).
 
@@ -48,7 +58,7 @@ The supported hosted experience remains limited Google-authenticated observation
 Operational gates established across the Observer Readiness phases:
 - **Recovery & Rollback (#269)**: Verified Hosting rollback row `82cc93e9b9470f8e`, Cloud Run revision `mimir-observer-bridge-00004-qff` fallback, local recovery unit `mimir-staging.service`, and byte-matched reproducible backend source `e5b5b114a7b2990bd6dfb305364079a29aad9aae`.
 - **Stream Cleanup (#270)**: Cloud Run bridge HTTP/2 container protocol with direct route eliminates rewrite tail drop; measured clean client disconnect returns bridge streams to 0 in 11.2s and VM TCP sockets in 68.7s.
-- **Mobile Zoom Layout (#271)**: Fixed narrow viewport control wrapping; zero horizontal overflow verified across 320–1280px.
+- **Mobile Zoom Layout (#271)**: Fixed narrow viewport control wrapping; zero horizontal overflow verified across 320â€“1280px.
 - **Rehearsal & Limits (#272)**: Delivered bounded rehearsal runner (`scripts/observer-rehearsal.mjs`) with strict stop thresholds on HTTP 401/403 auth regression, HTTP 5xx errors, or concurrency breach, and verified zero credential leakage.
 - **Reconciled Residual Cases (#255/#256)**: Transparent mid-stream token refresh, live bridge crash restart continuity, and live VM outage archive playback are documented staging limitations that do not threaten writer safety.
 
@@ -214,7 +224,7 @@ For hosted disconnect propagation, enable `OBSERVER_HTTP2=1` together with Cloud
 
 Records include startup baseline, 30-second samples, opens, and closes. Close records carry a bounded reason and total handler duration in milliseconds; this duration is not client-close-to-VM-release latency. Records omit bearer tokens, identity claims, URLs, and raw errors. Counters and timers settle when the body pipeline ends, including client closure, upstream failure, and timeout. `npm run test:observer-bridge-lifecycle` checks local counters alongside actual upstream socket closure.
 
-Before claiming a hosted baseline, inventory every serving revision and process session during a timestamped window, verify log access and sampling coverage, and account for processes that terminate without close records. These are process-local gauges, not an atomic all-instance total; missing logs cannot establish zero streams. For one separately approved observer client, correlate connect/close timestamps, bridge counts returning to the prior baseline, and VM-side connection release. The October 3 authorized [Observer-P5 measurement](evidence/observer-p5-stream-cleanup-2026-10-03.md) observed 0 → 1 → 0 with client-close cleanup and VM TCP baseline recovery. It supersedes the earlier absent-telemetry gate, but does not complete #272/#257.
+Before claiming a hosted baseline, inventory every serving revision and process session during a timestamped window, verify log access and sampling coverage, and account for processes that terminate without close records. These are process-local gauges, not an atomic all-instance total; missing logs cannot establish zero streams. For one separately approved observer client, correlate connect/close timestamps, bridge counts returning to the prior baseline, and VM-side connection release. The October 3 authorized [Observer-P5 measurement](evidence/observer-p5-stream-cleanup-2026-10-03.md) observed 0 â†’ 1 â†’ 0 with client-close cleanup and VM TCP baseline recovery. It supersedes the earlier absent-telemetry gate, but does not complete #272/#257.
 
 The active Hosting build connects API/SSE directly to `https://mimir-observer-bridge-mah4b2udkq-uc.a.run.app`, preserving the existing Google token validation and allowed Hosting origin. Hosting rewrites retained streams after tab closure even with h2c enabled. `npm run deploy:hosting` selects the exact direct bridge by default and rejects conflicting `VITE_LIVE_API_URL` or `VITE_API_URL` values; `npm run test:deploy-hosting-config` verifies this boundary. Use a fresh navigation or hard reload after deployment: cached previous bundles can still use the rewrite and retain bounded tails. The user-facing page remains `https://mimir-realm.web.app/`.
 
@@ -247,11 +257,11 @@ Invoke-RestMethod http://127.0.0.1:$env:PORT/api/owner/reset-v3 -Method Post -He
 
 For local runs, the default database is `data/local/mimir.db` and scheduled backups default to `data/backups/`. When testing a restored database, point `WORLD_BUNDLE_ROOT` at `<restored.db>.bundles`. The server validates each persisted bundle asset before listening and serves only the hash-qualified, manifest-referenced paths.
 
-## Mobile observer follow-up — 2026-10-04
+## Mobile observer follow-up â€” 2026-10-04
 
 PR [#288](https://github.com/KevinHozak/Mimir/pull/288) is merged. Its local regression covers all three zoom controls at 320, 375, 390, 800, and 1280px, with bounds, hit testing, no document overflow, and read-only requests. See [local evidence](evidence/observer-p6-mobile-zoom-2026-10-04.md). This does not verify a hosted release: after separately authorized deployment, confirm real authenticated bundle SVGs return 200 and repeat mobile/desktop zoom checks against the exact deployed assets. Keep #271 open until that evidence exists; #272 retains its audience/window approval requirement, and #257 remains the final disposition gate.
 
-## Bounded audience rehearsal and operational limits — 2026-10-04
+## Bounded audience rehearsal and operational limits â€” 2026-10-04
 
 Issue [#272](https://github.com/KevinHozak/Mimir/issues/272) delivers the bounded rehearsal runner (`scripts/observer-rehearsal.mjs`) and test suite (`scripts/observer-rehearsal.test.mjs`). See [Observer-P7 evidence](evidence/observer-p7-audience-rehearsal-2026-10-04.md).
 
@@ -272,6 +282,22 @@ The [October 23 live fixture evidence](evidence/hosted-auth-live-fixtures-2026-1
 
 The browser retries a read-only 401 once with a forced Firebase token refresh, rotates its stream on Firebase token-change notifications, and reconnects after clean EOF or network failure. Local Chromium and failure-path regressions are part of the full verifier. See [scope and remaining live acceptance limits](evidence/observer-session-lifecycle-2026-10-23.md). This does not expand the private audience or establish live refresh/Cloud Run cleanup acceptance.
 
-## Bridge restart and backend-outage preparation (MIM-S009)
+## Historical bridge restart and backend-outage preparation (MIM-S009)
 
-The local full-verifier matrix now includes a bridge process crash, backend stop/recovery, uncached protected archive rendering on desktop/mobile, fixed outage/denial responses and checksum rejection. Shared explanation panels no longer request live reflection data during archive playback. See [local evidence](evidence/observer-outage-2026-10-23.md). Live disruption remains unexecuted and requires approval of the [bounded rehearsal proposal](hosted-outage-rehearsal-plan.md), including its recovery watchdog and fresh backup gates. Revision replacement is not evidence of an in-flight Cloud Run crash.
+The local full-verifier matrix now includes a bridge process crash, backend stop/recovery, uncached protected archive rendering on desktop/mobile, fixed outage/denial responses and checksum rejection. Shared explanation panels no longer request live reflection data during archive playback. See [local evidence](evidence/observer-outage-2026-10-23.md). An approved live retry passed those readiness gates and stopped the VM, but failed its VM timing/cold-replay window; see [measured retry evidence](evidence/hosted-outage-retry-2026-10-23.md). That attempt led to the subsequently approved [revised timing proposal](hosted-outage-follow-up-proposal.md). Revision replacement is not evidence of an in-flight Cloud Run crash.
+
+## Latest observer deployment and outage readiness â€” 2026-10-23
+
+Hosting version `cdf29343210a5da7` remains on merged source `6e66395`, with unchanged verified index/assets. The repaired browser/routing gates passed in the approved retry. Graceful VM stop took about 57.4 seconds before restart was possible, exceeding the approved 30-second budget. The watchdog recovered the VM; the world remains archived and paused at pulse 64 with identical history, one writer and healthy independent backups. Original service configuration/traffic is restored and all owned temporary revisions/tabs/workers are removed. [Retry evidence](evidence/hosted-outage-retry-2026-10-23.md) separates operational recovery/cleanup from the still-unaccepted cold-replay and timely UI-recovery gates. The [follow-up proposal](hosted-outage-follow-up-proposal.md) was subsequently approved and completed; see the bounded acceptance above.
+
+The local operational driver uses `scripts/hosted-outage-browser-harness.mjs`, `hosted-outage-browser-driver.mjs`, `hosted-outage-controller.py` and `hosted-outage-guard.py`. Authentication preparation precedes the immutable browser lease; actual route/process evidence precedes VM stop. The parent document owns an absolute cutoff that survives child navigation. Normal Browser Use observations resolve document handoffs before raw diagnostics. These are live operational tools for an approved plan; they are not invoked against cloud resources by the test suite. `npm run test:observer-rehearsal` covers their bounded/fake behavior through Node and Python test entry points included in `verify:local`.
+
+The older backend does not implement the optional reflection projection: authenticated `/api/reflection` returns fixed missing-route metadata, while anonymous requests remain denied. The observer skips that optional projection. Auth failures and missing required world/stream data still fail readiness; no writer upgrade is implied by the tooling repair.
+
+### Approved 80-second rehearsal follow-up (2026-10-23)
+
+The [revised plan](hosted-outage-follow-up-proposal.md) is approved, but [both subsequent readiness attempts](evidence/hosted-outage-80s-retry-2026-10-23.md) aborted before VM disruption. At that stage the 80-second VM operation budget remained unexercised live. Fresh independent backup/restore, unchanged paused pulse-64 history/single writer and complete original bridge rollback are verified; owned resources are removed. Replacement SSE establishment missed the T+30 gate, and per-process final-zero telemetry remains incomplete. Those findings prompted the readiness and cleanup repairs recorded below and in the completed acceptance above.
+
+### Readiness repair and cold replay result (2026-10-23)
+
+[Earlier bounded evidence](evidence/hosted-outage-readiness-fix-2026-10-23.md) proves replacement readiness, two checksum-verified cold historical scenes while the VM is TERMINATED, and automatic retained-UI recovery before T+160. The final VM stop-to-restart interval was 60.477 seconds under the approved 80-second cap; both clients closed by T+148. Full-spec rollback/candidate absence was verified only at T+197, and an initial process still lacks final-zero proof. Post-run integrity/writer/history checks do not establish the in-window attestation gate. That attempt left independent, bounded full rollback/audit/process cleanup outstanding; the completed acceptance above resolves it. No hosted image or observer asset upgrade occurred.
