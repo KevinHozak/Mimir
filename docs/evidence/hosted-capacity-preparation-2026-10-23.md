@@ -1,0 +1,13 @@
+# MIM-S010 preparation evidence — 2026-10-23
+
+Status: local implementation and automated checks; no MIM-S010 live execution or expansion decision.
+
+Reviewed the current roadmap, MIM-S006–S010, the historical two-client loopback record, genuine-token matrix and MIM-S009 bounded cleanup evidence. The remaining work is steady two-live-stream capacity, current resource peaks and current attributable cost. MIM-S008 genuine hosted refresh remains an explicit limitation; merged local code does not prove that case.
+
+The rehearsal runner now rejects oversized/invalid caps, unsafe origins, redirects, non-SSE success responses and premature EOF. It counts peak clients, simultaneous hold time, bytes for each client and aggregate bytes; enforces a client timer and external cancellation; releases pending reads on cancellation; and stops on diagnostic callback failure. Loopback tests verify two real bridge streams and zero upstream sockets. A pending-read cancellation stall discovered during this work was fixed; the earlier stalled test processes were stopped separately, not counted as passes.
+
+The capacity module automates bounded baseline/poll/final-check adapters, abort on measurement loss, conservative five-scope cost evaluation, direct per-process zero accounting, resource-headroom gates and a separate billing decision gate. Pricing is tied to the real run clock; unknown/partial billing is not zero; local fixtures cannot establish hosted acceptance. Output never authorizes expansion.
+
+`npm run test:observer-rehearsal` includes capacity failure-path tests, the existing real loopback bridge tests, 19 browser harness tests and 24 Python controller/watchdog tests. New capacity checks cover missing/late/over-cap telemetry, mean/incomplete resource metrics, disappeared/stale process zeros, late cleanup, unknown/stale/over-budget costs, partial billing, unsafe limits, early EOF, HTML/redirect rejection, hung headers and automatic cancellation on measurement loss. All prices in tests are synthetic. Targeted HTTP/2 and bridge lifecycle checks also passed. The complete verifier result will be reported separately after it runs against the final source.
+
+[Proposed rehearsal](../hosted-capacity-rehearsal-plan.md): two clients for 120 seconds, at least 90 seconds together, 180 seconds overall, no infrastructure faults or changes, and a proposed USD 0.10 conservative allocated ceiling. Actual read-only hosted collectors, fresh rate/quantity bounds and approval are required before execution. Capacity, current billing and genuine hosted refresh remain unverified; no availability claim follows.

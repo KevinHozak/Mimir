@@ -46,6 +46,10 @@ async function until(predicate, maxWaitMs = 2000) {
     });
 
     assert.equal(summary.maxSessions, 2);
+    assert.equal(summary.peakClients, 2);
+    assert.ok(summary.fullCapacityMs > 0);
+    assert.equal(summary.clientBytes.length, 2);
+    assert.ok(summary.clientBytes.every(bytes => bytes > 0));
     assert.equal(summary.totalRequests, 2);
     assert.equal(summary.totalErrors, 0);
     assert.equal(summary.statusCounts[200], 2);

@@ -1,0 +1,294 @@
+{
+  "date": "2026-10-24",
+  "issue": "MIM-S010",
+  "attempt": 10,
+  "runtimeAndCleanupPassed": true,
+  "costEnvelopeVerified": true,
+  "finalAttributableBillingVerified": false,
+  "decisionReady": false,
+  "expansionAuthorized": false,
+  "approval": {
+    "clients": 2,
+    "runSeconds": 120,
+    "overallSeconds": 180,
+    "cumulativeCeilingUsd": 0.15
+  },
+  "measurements": {
+    "clientSeconds": 120.039,
+    "twoStreamHoldLowerBoundSeconds": 116.4186041355133,
+    "directZeroAndRecoverySeconds": 124.77653646469116,
+    "exactRestoreAndDeleteSeconds": 135.46586561203003,
+    "finalCleanupSeconds": 139.0896759033203,
+    "samples": 108,
+    "directSampleMaxGapSeconds": 1.1912140846252441,
+    "observedProcessSessions": 1,
+    "peakRequests": 2,
+    "peakStreams": 2,
+    "sseStatuses": [
+      200,
+      200
+    ],
+    "perClientReceivedBytes": [
+      838148,
+      838148
+    ],
+    "corsPreflights": 2,
+    "uiErrors": 0,
+    "bridgeResponseBytes": 17358336,
+    "vmWireBytes": 17898507
+  },
+  "resources": {
+    "bridgeCpuMaxObserved": 0.24975026783387774,
+    "bridgeMemoryMaxObserved": 0.1755218505859375,
+    "vmCpuMaxObserved": 0.62,
+    "vmMemoryMaxObserved": 0.49954324805931627,
+    "bridgeLogMaxGapSeconds": 1.002000093460083,
+    "bridgeLoggedThroughElapsedLowerBound": 135.581955909729,
+    "vmSampledThroughElapsed": 137.9984610080719,
+    "samplingNote": "Direct process probes plus delayed per-second logs through retirement; VM samples through collector shutdown. Minute-level platform samples are supporting evidence, not instantaneous concurrency."
+  },
+  "recovery": {
+    "baselineUnchanged": true,
+    "integrity": true,
+    "singleWriter": true,
+    "paused": true,
+    "pulse": 64,
+    "backupsHealthy": true,
+    "upstreamSockets": 0,
+    "serviceExactlyRestored": true,
+    "candidateAbsent": true,
+    "vmCollectorExitCode": 0
+  },
+  "cost": {
+    "conservativeCumulativeUpperBoundUsd": 0.1469663581,
+    "allocationsUsd": {
+      "prior": 0.105,
+      "current-preparation": 0.004327455910714285,
+      "retry": 0.037638902189285714
+    },
+    "boundsChecks": {
+      "responseBytes": true,
+      "vmWireBytes": true,
+      "httpRequests": true,
+      "candidateBillableSeconds": true,
+      "originalBillableSeconds": true,
+      "postedAggregateNetworkPlusHostingReserve": true,
+      "postedLogging": true,
+      "storageOperations": true,
+      "cloudStorageInventory": true,
+      "cumulativeAllocation": true
+    },
+    "postedBillableSeconds": {
+      "candidate": 183.00829692030052,
+      "original": 4.301701444518391
+    },
+    "postedBridgeEgressBytes": 17522506.0,
+    "postedVmEgressBytes": 18045752.0,
+    "postedLoggingBytes": 120232.0,
+    "postedStorageEgressBytes": 1069.0,
+    "postedStorageOperations": 4.0,
+    "hostingTransferPosted": null,
+    "finalBilling": "pending",
+    "actualAttributableUsd": null,
+    "fullMeasuredQuantityReconciliationComplete": false,
+    "components": [
+      {
+        "phase": "prior",
+        "scope": "bridge",
+        "unit": "all-prior-work-allocated-USD",
+        "quantityUpperBound": 0.105,
+        "usdPerUnit": 1,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "vm",
+        "unit": "e2-micro-hour",
+        "quantityUpperBound": 0.3333333333333333,
+        "usdPerUnit": 0.008376428,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "storage",
+        "unit": "pd-standard-GiB-month",
+        "quantityUpperBound": 0.01488095238095238,
+        "usdPerUnit": 0.04,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "storage",
+        "unit": "standard-GiB-hour",
+        "quantityUpperBound": 0.3333333333333333,
+        "usdPerUnit": 4e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "storage",
+        "unit": "hosting-GB-month",
+        "quantityUpperBound": 0.0005327380952380952,
+        "usdPerUnit": 0.026,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "network",
+        "unit": "control-egress-GiB",
+        "quantityUpperBound": 0.0009765625,
+        "usdPerUnit": 0.23,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "logging",
+        "unit": "ingested-GiB",
+        "quantityUpperBound": 0.0009765625,
+        "usdPerUnit": 0.5,
+        "boundsVerified": true
+      },
+      {
+        "phase": "current-preparation",
+        "scope": "storage",
+        "unit": "class-A-operation",
+        "quantityUpperBound": 20,
+        "usdPerUnit": 1e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "temporary-instance-vCPU-second",
+        "quantityUpperBound": 270,
+        "usdPerUnit": 1.8e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "temporary-instance-GiB-second",
+        "quantityUpperBound": 135,
+        "usdPerUnit": 2e-06,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "original-vCPU-second-including-full-boost",
+        "quantityUpperBound": 540,
+        "usdPerUnit": 2.4e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "original-GiB-second",
+        "quantityUpperBound": 135,
+        "usdPerUnit": 2.5e-06,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "overlap-vCPU-second",
+        "quantityUpperBound": 60,
+        "usdPerUnit": 2.4e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "overlap-GiB-second",
+        "quantityUpperBound": 30,
+        "usdPerUnit": 2.5e-06,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "vm",
+        "unit": "e2-micro-hour",
+        "quantityUpperBound": 0.075,
+        "usdPerUnit": 0.008376428,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "storage",
+        "unit": "pd-standard-GiB-month",
+        "quantityUpperBound": 0.0033482142857142855,
+        "usdPerUnit": 0.04,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "storage",
+        "unit": "standard-GiB-hour",
+        "quantityUpperBound": 0.075,
+        "usdPerUnit": 4e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "storage",
+        "unit": "hosting-GB-month",
+        "quantityUpperBound": 0.00011986607142857144,
+        "usdPerUnit": 0.026,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "storage",
+        "unit": "class-A-operation",
+        "quantityUpperBound": 20,
+        "usdPerUnit": 1e-05,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "network",
+        "unit": "all-directions-allocated-egress-GiB",
+        "quantityUpperBound": 0.0625,
+        "usdPerUnit": 0.23,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "logging",
+        "unit": "ingested-GiB",
+        "quantityUpperBound": 0.00390625,
+        "usdPerUnit": 0.5,
+        "boundsVerified": true
+      },
+      {
+        "phase": "retry",
+        "scope": "bridge",
+        "unit": "request",
+        "quantityUpperBound": 1000,
+        "usdPerUnit": 4.0000000000000003e-07,
+        "boundsVerified": true
+      }
+    ],
+    "notes": [
+      "Prior USD 0.105 carry-forward includes earlier failures, corrected startup boost, late-posted usage and unresolved-charge reserve.",
+      "Original CPU is priced at two vCPU for the entire 270-second allocation; temporary revision boost is disabled.",
+      "Hosting transfer without a usable series remains unknown and reserved, not zero.",
+      "This is an allocated cost ceiling, not a cloud-enforced billing cap or final invoice."
+    ]
+  },
+  "verification": {
+    "targetedCommand": "npm run test:observer-rehearsal",
+    "capacityTests": 12,
+    "collectorTests": 19,
+    "browserHarnessTests": 19,
+    "controllerTests": 24,
+    "fullLocalSuiteRerun": false
+  },
+  "sourceSha256": {
+    "observer-capacity-controller.py": "6440bf1551eb50ea50585e290ed69e5bf35f2fe8787d83721fc02f4a8462d1d1",
+    "observer-capacity-collectors.py": "2f54524ecdf333b5199c75ae79c55dd317bce63927452f5f1b876eac48ac32dd",
+    "observer-capacity-watchdog.py": "6283982521a5919d32d4067e862c4a83aa01726576f3851bd51d8a7ebbf16836",
+    "observer-capacity-bridge.mjs": "482f85afe8213e5649c4ebf784e7b7c20dae26a82ccf9cbc9ccda2047a394bf4",
+    "observer-capacity-browser.mjs": "0aaae755a6839abbcfdf47317e7fd7b8f280ecc4da91d4288f012de9cb014d16"
+  }
+}

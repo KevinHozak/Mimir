@@ -2,6 +2,12 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-24 - Capacity collector and cost guards (local)
+
+- Add expiring stats-only bridge probes, direct cgroup/VM sampling, bounded browser abort handling and exact rollback tooling. Close ordinary private upstream HTTP pools while retaining SSE cancellation. Require cumulative cost allocation and account explicitly for startup CPU boost.
+- Replace repeatedly overwritten live snapshots with an immutable per-sample controller journal. Windows held-reader and complete mocked-controller lifecycle regressions cover measurement persistence and final-zero/recovery handoffs.
+- Verify two authenticated live observers for 120.039 seconds, direct zeros/unchanged recovery by T+124.774 and full cleanup by T+139.090 under the approved USD 0.15 cumulative ceiling. Retained allocated cost bound is USD 0.146966358; final billing and financial readiness remain pending. See [successful bounded retry](evidence/hosted-capacity-journal-retry-2026-10-24.md). Earlier [cleanup failures](evidence/hosted-capacity-retry-2026-10-24.md) and the [preflight cost correction](evidence/hosted-capacity-cost-reconciliation-2026-10-24.md) remain explicit historical evidence. Source changes remain local; no permanent deployment or audience expansion occurred.
+
 ## 2026-10-23 - Hosted fault-readiness tooling (local)
 
 - Add run-scoped browser/controller/watchdog tooling with atomic handoffs, a navigation-independent client deadline, actual revision-routing verification and strict response gates. These operational tools execute locally against an explicitly approved plan.
@@ -259,3 +265,9 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 - Mimir began as a broader village-simulation concept and evolved into an observer simulation about Sparks, values, relationships, cooperation, conflict, and consequences in the Living Circuit.
 - The First Glow was selected as the opening age: a quiet, sparse world of charge pools, shelter niches, traces, exploration, and informal cooperation before formal institutions or known Originators.
+
+
+## 2026-10-23 - Capacity rehearsal preparation (local, uncommitted)
+
+- Enforce bounded read-only stream rehearsal limits, detect early EOF/invalid responses, release cancelled reads and measure two-client hold time and bytes.
+- Add automated capacity/cleanup/resource/cost gates and bounded read-only probe adapters. Keep unknown billing and hosted refresh limitations explicit; prepare the [S010 approval proposal](hosted-capacity-rehearsal-plan.md) without running live load or expanding access.

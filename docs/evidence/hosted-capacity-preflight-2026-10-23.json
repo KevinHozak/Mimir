@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-23",
+  "checkedAt": "2026-10-24T04:44:51+00:00",
+  "status": "aborted-before-load",
+  "approvedLimits": {
+    "clients": 2,
+    "runSeconds": 120,
+    "overallSeconds": 180,
+    "ceilingUsd": 0.1
+  },
+  "liveRehearsalPerformed": false,
+  "clientsOpened": 0,
+  "mutations": 0,
+  "collectorPreflight": {
+    "passed": false,
+    "streamSamplesLastHour": 2,
+    "latestStreamSampleAgeSeconds": 3552.672,
+    "latestObservedProcessCountersZero": true,
+    "currentProcessZeroVerified": false,
+    "sourceSampleCadenceSeconds": 30,
+    "requiredMaxSampleGapSeconds": 15,
+    "vmMemoryMonitoringPoints": 0,
+    "readOnlyVmCollectorDurationSeconds": 17.322,
+    "adapterDeadlineSeconds": 5,
+    "vmMemorySnapshotFraction": 0.524580627982713,
+    "snapshotIsWholeWindowEvidence": false,
+    "availableMetrics": {
+      "bridgeCpu": {
+        "series": 1,
+        "points": 7,
+        "truncated": false,
+        "valueTypes": [
+          "DISTRIBUTION"
+        ]
+      },
+      "bridgeMemory": {
+        "series": 1,
+        "points": 7,
+        "truncated": false,
+        "valueTypes": [
+          "DISTRIBUTION"
+        ]
+      },
+      "instances": {
+        "series": 2,
+        "points": 16,
+        "truncated": false,
+        "valueTypes": [
+          "INT64"
+        ]
+      },
+      "vmCpu": {
+        "series": 1,
+        "points": 58,
+        "truncated": false,
+        "valueTypes": [
+          "DOUBLE"
+        ]
+      },
+      "vmMemory": {
+        "series": 0,
+        "points": 0,
+        "truncated": false,
+        "valueTypes": []
+      }
+    }
+  },
+  "pricingPreflight": {
+    "passed": false,
+    "freshPublicRatesReviewed": true,
+    "fullFiveScopeBoundVerified": false,
+    "estimatedUpperBoundUsd": null,
+    "attributableBillingUsd": null,
+    "computeCatalogHttpStatus": 403,
+    "discountsOrFreeTierAssumed": false,
+    "publicSources": [
+      "https://cloud.google.com/run/pricing",
+      "https://cloud.google.com/storage/pricing",
+      "https://cloud.google.com/products/observability/pricing",
+      "https://cloud.google.com/vpc/network-pricing",
+      "https://cloud.google.com/products/compute/pricing"
+    ],
+    "verifiedPointRates": {
+      "cloudRunActiveCpuUsdPerVcpuSecond": 2.4e-05,
+      "cloudRunActiveMemoryUsdPerGiBSecond": 2.5e-06,
+      "cloudRunUsdPerMillionRequests": 0.4,
+      "cloudLoggingUsdPerGiBIngested": 0.5,
+      "standardStorageUsCentral1UsdPerGiBHour": 2.7397e-05,
+      "premiumNetworkToNorthAmericaUsdPerGiBFirstPaidTier": 0.12
+    },
+    "limitsDoNotBoundAllUsage": {
+      "bridgeConfiguredMaxInstances": 20,
+      "bridgeMemoryMiB": 512,
+      "bridgeVcpu": 1,
+      "bridgeConcurrency": 80
+    }
+  },
+  "recoveryVerification": {
+    "pulse": 64,
+    "paused": true,
+    "integrity": true,
+    "singleWriter": true,
+    "upstreamSockets": 0,
+    "vmMemoryUsedFraction": 0.524580627982713,
+    "backupsHealthy": true,
+    "backupLastSuccessAt": "2026-10-24T03:27:19.172Z",
+    "historyMatchesS009": true,
+    "collectorDurationSeconds": 17.322
+  },
+  "cleanup": {
+    "loadStarted": false,
+    "clientsOpened": 0,
+    "mutations": 0,
+    "serviceSpecUnchanged": true,
+    "trafficOriginal": true,
+    "vmRunning": true,
+    "vmExternalAddressAbsent": true,
+    "ownedCloudResourcesCreated": 0,
+    "ownedCloudResourcesToDelete": 0
+  },
+  "blockers": [
+    "Process counters cannot satisfy fresh direct 15-second sampling; latest observed zero is historical.",
+    "VM memory has no Monitoring series; one SSH snapshot is not whole-window evidence and cold SSH exceeds five-second adapter deadline.",
+    "No verified complete five-scope upper cost bound; Compute catalog denied HTTP 403 and usage bounds remain unverified."
+  ],
+  "nextWork": [
+    "Preflight fresh bounded hosted process sampling without treating event logs as instantaneous counters.",
+    "Provide an already connected read-only VM collector for memory and socket samples.",
+    "Complete fresh SKU and conservative usage bounds within USD 0.10 before any load."
+  ],
+  "expansionAuthorized": false
+}

@@ -1,183 +1,93 @@
-import { EventEmitter } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 
-/**
- * Validates that an object or string contains no sensitive tokens, emails, or credentials.
- * @param {unknown} value
- */
+/** Reject recognizable credentials; never forward free-form network error text. */
 export function assertRedacted(value) {
   const text = typeof value === "string" ? value : JSON.stringify(value);
-  if (/Bearer\s+[^\s"]+/i.test(text) || /password|secret|token/i.test(text) && !/verifyObserverToken|x-owner-token|token-bearing/i.test(text)) {
-    // Check if real token leaked
-    if (/Bearer\s+[a-zA-Z0-9_\-\.]{15,}/.test(text)) {
-      throw new Error("Potential credential leakage detected in rehearsal telemetry");
-    }
+  if (/Bearer\s+[^\s"]{15,}|\bya29\.[\w.-]{20,}|\bgh[opsur]_[\w]{20,}|-----BEGIN (?:[A-Z]+ )?PRIVATE KEY-----|eyJ[\w-]+\.eyJ[\w-]+\.[\w-]+/i.test(text)) {
+    throw new Error("Potential credential leakage detected in rehearsal telemetry");
   }
 }
 
-/**
- * Runs a bounded concurrent rehearsal against an observer endpoint.
- *
- * @param {object} options
- * @param {string} options.targetOrigin - Base URL of the observer bridge (e.g. http://127.0.0.1:8080)
- * @param {string} [options.token] - Authorization header value (e.g. "Bearer ...")
- * @param {number} [options.maxSessions=2] - Approved concurrent session cap
- * @param {number} [options.windowMs=180000] - Duration of the observation window in ms (default 3 min)
- * @param {number} [options.rampDelayMs=200] - Delay between connecting each incremental session
- * @param {number} [options.maxErrorThreshold=0] - Maximum tolerable errors before immediate abort
- * @param {function} [options.onTelemetry] - Callback for telemetry events
- * @returns {Promise<object>} Rehearsal summary
- */
-export async function runBoundedRehearsal({
-  targetOrigin,
-  token,
-  maxSessions = 2,
-  windowMs = 180000,
-  rampDelayMs = 200,
-  maxErrorThreshold = 0,
-  onTelemetry,
-}) {
-  const startTime = Date.now();
-  const deadline = startTime + windowMs;
-  let activeClients = 0;
-  let totalRequests = 0;
-  let totalErrors = 0;
-  const statusCounts = {};
-  const sessions = [];
-  let abortedDueToThreshold = false;
-  let abortReason = null;
+export function validateRehearsalLimits({ maxSessions, windowMs, rampDelayMs, maxErrorThreshold }) {
+  if (!Number.isInteger(maxSessions) || maxSessions < 1 || maxSessions > 2
+      || !Number.isFinite(windowMs) || windowMs <= 0 || windowMs > 165000
+      || !Number.isFinite(rampDelayMs) || rampDelayMs < 0 || rampDelayMs >= windowMs
+      || maxErrorThreshold !== 0) throw new Error("Outside approved rehearsal limits");
+}
 
+/** Read-only streams only. A client deadline leaves 15 seconds for independent cleanup. */
+export async function runBoundedRehearsal({ targetOrigin, token, maxSessions = 2,
+  windowMs = 120000, rampDelayMs = 200, maxErrorThreshold = 0, onTelemetry, signal }) {
+  validateRehearsalLimits({ maxSessions, windowMs, rampDelayMs, maxErrorThreshold });
+  const origin = new URL(targetOrigin);
+  if (origin.username || origin.password || origin.search || origin.hash || origin.pathname !== "/"
+      || !(origin.protocol === "https:" || (origin.protocol === "http:" && ["127.0.0.1", "localhost", "[::1]"].includes(origin.hostname)))) {
+    throw new Error("Expected HTTPS origin or isolated loopback origin");
+  }
+  const startTime = performance.now(), sessions = [], statusCounts = {};
+  let activeClients = 0, peakClients = 0, totalRequests = 0, totalErrors = 0,
+    receivedBytes = 0, abortedDueToThreshold = false, abortReason = null, ending = false,
+    fullCapacityStarted, fullCapacityMs = 0, callbackFailed = false;
   const emit = (event, data = {}) => {
-    const record = {
-      timestamp: new Date().toISOString(),
-      event,
-      activeClients,
-      totalRequests,
-      totalErrors,
-      ...data,
-    };
-    onTelemetry?.(record);
+    const record = { event, elapsedMs: performance.now() - startTime, activeClients, totalRequests, totalErrors, ...data };
+    assertRedacted(record);
+    try { onTelemetry?.(record); } catch { callbackFailed = true; stop("telemetry-callback-failed"); }
   };
-
-  emit("rehearsal-start", { maxSessions, windowMs });
-
-  const stopAll = async (reason) => {
-    abortedDueToThreshold = true;
-    abortReason = reason;
-    emit("rehearsal-stopping", { reason });
-    for (const session of sessions) {
-      session.controller.abort();
-    }
+  const cancel = () => { for (const session of sessions) session.controller.abort(); };
+  const stop = reason => {
+    if (!abortedDueToThreshold) { abortedDueToThreshold = true; abortReason = reason; totalErrors++; }
+    ending = true; cancel();
   };
-
-  async function connectSession(sessionId) {
-    const controller = new AbortController();
-    const session = { id: sessionId, controller, open: false };
-    sessions.push(session);
-
-    totalRequests += 1;
-    const url = new URL("/api/live", targetOrigin);
-    const headers = {};
-    if (token) headers["authorization"] = token;
-
+  const externalAbort = () => stop("operator-or-measurement-abort");
+  signal?.addEventListener("abort", externalAbort, { once: true });
+  if (signal?.aborted) externalAbort();
+  const timer = setTimeout(() => { ending = true; cancel(); }, windowMs);
+  const connect = async sessionId => {
+    const session = { controller: new AbortController(), open: false, receivedBytes: 0 }; sessions.push(session); totalRequests++;
+    let reader;
+    const cancelled = new Promise(resolve => session.controller.signal.addEventListener("abort", () => resolve({ done: true }), { once: true }));
     try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers,
-        signal: controller.signal,
+      const response = await fetch(new URL("/api/live", origin), {
+        headers: token ? { authorization: token } : {}, signal: session.controller.signal, redirect: "error",
       });
-
-      statusCounts[response.status] = (statusCounts[response.status] || 0) + 1;
-
-      if (!response.ok) {
-        totalErrors += 1;
-        emit("session-status-error", { sessionId, status: response.status });
-        if (totalErrors > maxErrorThreshold) {
-          await stopAll(`error-threshold-exceeded: status ${response.status}`);
-        }
-        return;
+      statusCounts[response.status] = (statusCounts[response.status] ?? 0) + 1;
+      if (response.status !== 200) { stop(`error-threshold-exceeded: status ${response.status}`); return; }
+      if (!/^text\/event-stream(?:;|$)/i.test(response.headers.get("content-type") ?? "") || !response.body) {
+        stop("invalid-stream-response"); return;
       }
-
-      session.open = true;
-      activeClients += 1;
+      session.open = true; activeClients++; peakClients = Math.max(peakClients, activeClients);
+      if (activeClients === maxSessions) fullCapacityStarted = performance.now();
       emit("session-connected", { sessionId, status: response.status });
-
-      const reader = response.body?.getReader();
-      if (!reader) {
-        emit("session-no-body", { sessionId });
-        return;
+      reader = response.body.getReader();
+      while (!ending) {
+        const { done, value } = await Promise.race([reader.read(), cancelled]);
+        if (done) { if (!ending) stop("premature-stream-eof"); break; }
+        receivedBytes += value.byteLength; session.receivedBytes += value.byteLength;
       }
-
-      try {
-        while (!controller.signal.aborted) {
-          const { done } = await reader.read();
-          if (done) break;
-        }
-      } catch (streamError) {
-        if (!controller.signal.aborted) {
-          totalErrors += 1;
-          emit("session-stream-error", { sessionId, error: streamError.message });
-          if (totalErrors > maxErrorThreshold) {
-            await stopAll("stream-error");
-          }
-        }
-      } finally {
-        reader.releaseLock();
-      }
-    } catch (fetchError) {
-      if (!controller.signal.aborted) {
-        totalErrors += 1;
-        emit("session-connect-error", { sessionId, error: fetchError.message });
-        if (totalErrors > maxErrorThreshold) {
-          await stopAll("connect-error");
-        }
-      }
+    } catch {
+      if (!ending) stop("stream-or-connect-error");
     } finally {
+      if (reader) { reader.cancel().catch(() => {}); try { reader.releaseLock(); } catch { /* pending read is cancelled independently */ } }
+      session.controller.abort();
       if (session.open) {
-        session.open = false;
-        activeClients -= 1;
-        emit("session-closed", { sessionId });
+        if (activeClients === maxSessions && fullCapacityStarted !== undefined) fullCapacityMs += performance.now() - fullCapacityStarted;
+        session.open = false; activeClients--; emit("session-closed", { sessionId });
       }
     }
-  }
-
-  // Incremental connection ramp-up within cap
-  const connectionPromises = [];
-  for (let i = 1; i <= maxSessions; i++) {
-    if (abortedDueToThreshold || Date.now() >= deadline) break;
-    connectionPromises.push(connectSession(`client-${i}`));
-    if (i < maxSessions && rampDelayMs > 0) {
-      await delay(rampDelayMs);
-    }
-  }
-
-  // Observe until window expires or stop threshold breached
-  while (!abortedDueToThreshold && Date.now() < deadline) {
-    await delay(100);
-  }
-
-  // Tear down all active sessions
-  if (!abortedDueToThreshold) {
-    emit("rehearsal-window-expired");
-    for (const session of sessions) {
-      session.controller.abort();
-    }
-  }
-
-  await Promise.allSettled(connectionPromises);
-
-  const durationMs = Date.now() - startTime;
-  const summary = {
-    durationMs,
-    maxSessions,
-    activeClientsAtClose: activeClients,
-    totalRequests,
-    totalErrors,
-    statusCounts,
-    abortedDueToThreshold,
-    abortReason,
   };
-
+  const connections = [];
+  emit("rehearsal-start", { maxSessions, windowMs });
+  try {
+    for (let i = 1; i <= maxSessions && !ending; i++) {
+      connections.push(connect(`client-${i}`));
+      if (i < maxSessions && rampDelayMs) await delay(Math.min(rampDelayMs, Math.max(0, windowMs - (performance.now() - startTime))));
+    }
+    while (!ending) await delay(Math.min(20, Math.max(1, windowMs - (performance.now() - startTime))));
+  } finally { ending = true; clearTimeout(timer); signal?.removeEventListener("abort", externalAbort); cancel(); await Promise.allSettled(connections); }
+  const summary = { durationMs: performance.now() - startTime, maxSessions, peakClients, fullCapacityMs,
+    receivedBytes, clientBytes: sessions.map(s => s.receivedBytes), activeClientsAtClose: activeClients, totalRequests, totalErrors, statusCounts,
+    abortedDueToThreshold, abortReason, callbackFailed };
   emit("rehearsal-complete", summary);
+  summary.callbackFailed = callbackFailed;
   return summary;
 }
