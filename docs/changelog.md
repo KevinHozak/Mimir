@@ -271,3 +271,9 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 - Enforce bounded read-only stream rehearsal limits, detect early EOF/invalid responses, release cancelled reads and measure two-client hold time and bytes.
 - Add automated capacity/cleanup/resource/cost gates and bounded read-only probe adapters. Keep unknown billing and hosted refresh limitations explicit; prepare the [S010 approval proposal](hosted-capacity-rehearsal-plan.md) without running live load or expanding access.
+
+
+### Bounded hosted refresh preparation
+
+- Added a standalone memory-only Firebase/production-transport verification harness, fail-closed admission and independent browser cutoff with automated synthetic privacy, refresh, cancellation, navigation and driver-loss tests. No hosted diagnostic endpoint or deployment is included.
+- Prepared the [MIM-S008 approval packet](hosted-token-refresh-approval-packet.md), retaining the USD 0.15 cumulative ceiling and blocked live readiness; local implementation is not proof of genuine hosted SDK refresh.

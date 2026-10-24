@@ -335,3 +335,8 @@ The [billing review](evidence/hosted-capacity-billing-review-2026-10-24.md) pres
 ### Recorded limited-staging decision — 2026-10-24
 
 The owner [recorded HOLD expansion and retain limited staging](hosted-observer-readiness-decision.md). At most two observers/three-minute sessions, one writer and the cumulative USD 0.15 S010 ceiling remain. This completes S010 decision recording without accepting unresolved final billing as verified. S009 is closed from its merged bounded recovery evidence. S008 is in progress for genuine hosted expiry/refresh under the [prepared bounded plan](hosted-token-refresh-verification-plan.md); no live execution or deployment is authorized. The hosting epic remains in progress with financial attribution, real refresh and any future wider-access decision outstanding.
+
+
+### MIM-S008 harness readiness — 2026-10-24
+
+The standalone harness and independent cutoff have targeted automated coverage. [Read-only readiness](evidence/hosted-refresh-preparation-2026-10-24.md) confirms the original bridge/private VM metadata but does not establish direct process/state/backup readiness. Public JS differs from current local output. The [approval packet](hosted-token-refresh-approval-packet.md) is blocked on deployed UI observation, full integration and all-in cost admission under the unchanged USD 0.15 cumulative ceiling. No token-aging session, observer trial, deployment or access change occurred.

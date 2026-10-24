@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-24",
+  "issue": "MIM-S008",
+  "liveRunApproved": false,
+  "liveRunPerformed": false,
+  "expansionAuthorized": false,
+  "ceilingUsd": 0.15,
+  "retainedAllocationUsd": 0.1469663581,
+  "unreleasedHeadroomUsd": 0.0030336419,
+  "costAdmissionVerified": false,
+  "publicStaticReadiness": {
+    "checkedAt": "2026-10-24T19:11:07.358Z",
+    "origin": "https://mimir-realm.web.app",
+    "observerClientsOpened": 0,
+    "authRequests": 0,
+    "configurationChanged": false,
+    "assets": [
+      {
+        "path": "/assets/index-n99ipfKB.js",
+        "bytes": 1830475,
+        "sha256": "432f7f5ba27b270280373a3bd745dff1b1d3a591965795c541475ecd8150a3dd",
+        "localSha256": null,
+        "matches": false
+      },
+      {
+        "path": "/assets/index-Dkj6arcL.css",
+        "bytes": 37716,
+        "sha256": "235ce565ee2dd12450114aaf71551d27d1d749a85cba78445465c8a4054fbbab",
+        "localSha256": "235ce565ee2dd12450114aaf71551d27d1d749a85cba78445465c8a4054fbbab",
+        "matches": true
+      }
+    ],
+    "frontendExactMatch": false,
+    "deployedSdkObservationVerified": false,
+    "costAdmissionVerified": false
+  },
+  "operatorReadiness": {
+    "checkedAt": "2026-10-24T19:11:41.563798+00:00",
+    "readOnly": true,
+    "observerClientsOpened": 0,
+    "configurationChanged": false,
+    "directProcessTelemetryVerified": false,
+    "recoveryBaselineVerified": false,
+    "costAdmissionVerified": false,
+    "vmStatus": "RUNNING",
+    "vmHasExternalAddress": false,
+    "serviceTraffic": [
+      {
+        "revision": "mimir-observer-bridge-p5-h2b-596163",
+        "percent": 100
+      }
+    ],
+    "imageDigests": [
+      "us-central1-docker.pkg.dev/mimir-realm/mimir/mimir-observer-bridge@sha256:9b50923271ad57435d45ccbcab850b7d1bcb250519a3a3636209c94e19124d2a"
+    ],
+    "environmentNames": [
+      "FIREBASE_HOSTING_ORIGIN",
+      "FIREBASE_PROJECT_ID",
+      "OBSERVER_HTTP2",
+      "OBSERVER_STREAM_MAX_MS",
+      "OBSERVER_STREAM_TELEMETRY",
+      "OBSERVER_UPSTREAM_ORIGIN",
+      "PUBLIC_OBSERVER_EMAILS"
+    ]
+  },
+  "localTargetedTests": {
+    "harness": 8,
+    "supervisor": 2,
+    "typescript": "passed"
+  },
+  "remainingGates": [
+    "specific execution approval",
+    "all-in cumulative cost admission",
+    "exact deployed frontend parity and supported automatic-refresh UI observation",
+    "direct per-process telemetry and fresh recovery baseline",
+    "real token aging and SDK refresh timing admission"
+  ]
+}
