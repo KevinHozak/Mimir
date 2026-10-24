@@ -28,7 +28,7 @@ Harness preparation must use the real SDK through supported APIs, with no forged
 1. **Naturally expired credential, real forced refresh.** Retain one genuine originally valid token in harness memory until its actual expiry plus verified verifier clock allowance. In a reviewed harness using the production read-only transport and genuine Firebase SDK, send that original token for one protected read; expect 401 with no private body, followed by exactly one forced SDK refresh and a successful retry. Never inject a synthetic 401. This deliberately supplies a stale initial credential and proves the real forced-refresh path, not automatic SDK refresh. Open one stream with the real refreshed credential, verify baseline identity and close it. Report this harness result separately from deployed UI acceptance.
 2. **Real SDK refresh and deployed UI continuity.** With the unchanged deployed observer, admit a short observation window only when a genuine SDK refresh boundary can be observed within that window. Use supported SDK observation in an isolated browser harness; do not assume a fixed refresh lead time or reset the clock/cutoff. Capture a real token-change/refresh event and replacement authenticated stream while preserving Spark selection, Follow, presentation, zoom, timeline/pulse and event identity. If the SDK already refreshed during preparation or the boundary cannot be admitted safely, return blocked/inconclusive rather than extending the session. A manual `getIdToken(true)` is optional separately labeled diagnostic evidence and cannot pass automatic-refresh acceptance.
 
-Implementation must resolve the supported deployed-SDK observation hook and trigger timing locally before approval. This document is not an executable harness and does not claim those hooks already exist. Never create an authenticated automation backdoor in the hosted app.
+Implementation must resolve the supported deployed-SDK observation hook and trigger timing locally before approval. Standalone SDK/transport harness and independent browser supervisor are now implemented and locally tested; the deployed-UI observation and live integration bindings remain unverified. Never create an authenticated automation backdoor in the hosted app.
 
 ## Proposed trial timeline and assertions
 
@@ -49,3 +49,8 @@ Before requesting execution approval, provide: reviewed automated harness and lo
 - [ ] Direct cleanup and unchanged recovery invariants within each 180-second window.
 - [ ] Cumulative conservative cost remains within USD 0.15; final attribution and uncertainty recorded honestly.
 - [ ] Redacted evidence distinguishes forced, automatic, local, deployed and blocked cases.
+
+
+## Implementation and readiness update — 2026-10-24
+
+See [local harness/read-only readiness evidence](evidence/hosted-refresh-preparation-2026-10-24.md) and the [blocked approval packet](hosted-token-refresh-approval-packet.md). No real-token/live run occurred, and the completion criteria above remain unchecked. The SDK adapter uses supported [Firebase Auth APIs](https://firebase.google.com/docs/reference/js/auth), including in-memory persistence and token-change observation. Local clock simulation is confined to synthetic tests; live clocks/tokens are never patched.

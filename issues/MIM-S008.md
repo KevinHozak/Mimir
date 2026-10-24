@@ -35,3 +35,10 @@ See [dated local evidence and unsupported live cases](../docs/evidence/observer-
 ## Status reconciliation — 2026-10-24
 
 Original local implementation merged in PR 316; the current exact-source full suite passed 76 steps for PR 320. Local acceptance stays checked. Reopened to in_progress for the explicitly unchecked genuine hosted follow-up above; synthetic proof does not close it. S009/S010 subsequently verified hosted process cleanup, superseding only that earlier limitation. The [bounded plan](../docs/hosted-token-refresh-verification-plan.md) is prepared, not executed or approved for execution. Cost admission, deployed-code parity and supported SDK observation remain prerequisites; the existing USD 0.15 cumulative ceiling and access limits are unchanged.
+
+
+## Standalone harness and blocked live packet — 2026-10-24
+
+Implemented production-transport harness with memory-only isolated SDK adapter, fixed approval/origin/cumulative-cost admission, bounded preparation, actual-expiry forced-refresh case, automatic-notification stream rotation and fixed-schema redacted reports. Independent IPC watchdog closes only the task browser on driver loss or absolute lease expiry. Eight synthetic harness tests and two supervisor tests plus TypeScript pass; new checks are wired into the full local verifier. Full-suite result is reported separately after execution.
+
+[Fresh static/control-plane readiness](../docs/evidence/hosted-refresh-preparation-2026-10-24.md) found original bridge/private VM metadata but different deployed JS, no fresh direct-process/recovery attestation and no verified cost admission. The [live approval packet](../docs/hosted-token-refresh-approval-packet.md) is NOT READY. Supported deployed-UI observation and exact integration-driver bindings remain prerequisites. No real SDK sign-in, token aging, live observer, deployment, access change or provider call occurred. Both genuine hosted acceptance boxes stay unchecked. USD 0.15 remains cumulative; USD 0.0030336419 headroom is not released or new approval.
