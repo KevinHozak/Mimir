@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-24",
+  "issue": "MIM-S010",
+  "decision": "draft_hold_expansion",
+  "expansionAuthorized": false,
+  "cumulativeCeilingUsd": "0.15",
+  "conservativeAllocationUsd": "0.1469663581",
+  "remainingAllocatedHeadroomUsd": "0.0030336419",
+  "allocationComponentsUsd": {
+    "priorAndUnresolved": "0.105",
+    "preparation": "0.004327455910714285",
+    "retryReserve": "0.037638902189285714"
+  },
+  "finalAttributableBillingVerified": false,
+  "fullMeasuredQuantityReconciliationComplete": false,
+  "billingReport": {
+    "scope": [
+      "Mimir",
+      "Mimir Realm Backups"
+    ],
+    "chargeDates": [
+      "2026-10-23",
+      "2026-10-24"
+    ],
+    "precision": "displayed rounded USD; not final invoice or rehearsal-only attribution",
+    "displayedCloudRunGrossUsd": "0.10",
+    "displayedNetworkingGrossUsd": "0.08",
+    "displayedNetTotalUsd": "0.00",
+    "exportsEnabled": false,
+    "csvDownload": "timed out; no CSV obtained"
+  },
+  "freshMonitoringRefresh": "operator authentication failed before API reads; historical measurements retained",
+  "newRehearsalClients": 0,
+  "cloudConfigurationChanged": false,
+  "verification": {
+    "mergedPr": 319,
+    "fullLocalStepsPassed": 76,
+    "testedSourceCommit": "68e8ea280ee2e0488eb6981760f6cf8ab58685c9",
+    "mergedCommit": "4b085502d326ea5505b2867b5fed4df5c1f31bd7"
+  }
+}

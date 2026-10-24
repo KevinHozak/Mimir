@@ -57,3 +57,10 @@ Immutable sample journaling, the reusable measurement controller, absolute expir
 The verified conservative allocation is USD 0.146966358, including a USD 0.105 prior-work/unresolved-charge reserve and full boosted original CPU pricing. Observed and posted usage fit the reserved caps. Final attributable billing, a complete actual-quantity reconciliation and a separate readiness decision remain pending; no measured quantities were invented to pass the stricter evaluator. This checks off the bounded-run/evidence task, not full financial readiness or audience expansion.
 
 Targeted automated checks passed, including the new complete mocked controller lifecycle. The latest 76-step full local verifier result remains for earlier source. The issue stays in progress; no permanent deployment, commit/PR, simulation pulse, provider call, VM disruption or IAM/allowlist expansion occurred.
+
+
+## Billing review and prepared readiness decision — 2026-10-24
+
+[Billing reconciliation](../docs/evidence/hosted-capacity-billing-review-2026-10-24.md) retains USD 0.1469663581 allocated against USD 0.15, with USD 0.0030336419 headroom. Scoped October 23–24 billing is rounded and includes baseline/other activity; final attributable charges and missing quantities remain unresolved. Exports are disabled, CSV download was unavailable and fresh Monitoring reads stopped at operator authentication. No uncertainty reserve is released.
+
+[Prepared readiness decision](../docs/hosted-observer-readiness-decision.md): recommend HOLD expansion and retain existing two-observer/three-minute staging. Genuine hosted Firebase expiry/refresh remains a separate gate. Owner approval is pending; the final acceptance criterion stays unchecked and this issue stays in progress. PR 319 merged the implementation after all 76 exact-source local checks passed; earlier uncommitted/verification notes are historical. No clients, cloud configuration changes, paid query jobs, deployment or widened access occurred during this review.
