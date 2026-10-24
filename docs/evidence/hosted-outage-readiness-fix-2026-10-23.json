@@ -1,0 +1,422 @@
+{
+  "date": "2026-10-23",
+  "status": "replay-and-recovery-passed-full-cleanup-deadline-failed",
+  "overallRehearsalPassed": false,
+  "sourceCommit": "6e663954a8b0f6889c46fe9bf89638f4d3871dbd",
+  "operatorChangesUncommitted": true,
+  "limits": {
+    "observers": 2,
+    "readinessSeconds": 30,
+    "vmOperationSeconds": 80,
+    "clientCutoffSeconds": 165,
+    "overallSeconds": 180
+  },
+  "attempts": [
+    {
+      "run": 17,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 3.395
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 4.069
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 17.758
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.508,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 40.296
+        }
+      ],
+      "vmStopRequested": false
+    },
+    {
+      "run": 18,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.817
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 3.523
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 15.632
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.697,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 33.15
+        }
+      ],
+      "vmStopRequested": false
+    },
+    {
+      "run": 19,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.218
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 3.471
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 19.152
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.199,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 32.568
+        }
+      ],
+      "vmStopRequested": false
+    },
+    {
+      "run": 20,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 3.965
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 4.644
+        },
+        {
+          "event": "aborted",
+          "elapsed": 16.129,
+          "errorClass": "TimeoutError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 18.637
+        }
+      ],
+      "vmStopRequested": false
+    },
+    {
+      "run": 21,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.795
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 3.363
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 16.323
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.762,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 33.408
+        }
+      ],
+      "vmStopRequested": false
+    },
+    {
+      "run": 22,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.372
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 2.947
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 18.916
+        },
+        {
+          "event": "replacement-stream-verified",
+          "elapsed": 29.168
+        },
+        {
+          "event": "stop-requested",
+          "elapsed": 29.372
+        },
+        {
+          "event": "watchdog-start-observed",
+          "elapsed": 30.228
+        },
+        {
+          "event": "aborted",
+          "elapsed": 129.855,
+          "errorClass": "RuntimeError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 145.585
+        }
+      ],
+      "vmStopRequested": true
+    },
+    {
+      "run": 23,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.86
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 3.511
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 19.787
+        },
+        {
+          "event": "replacement-stream-verified",
+          "elapsed": 30.39
+        },
+        {
+          "event": "aborted",
+          "elapsed": 30.614,
+          "errorClass": "AssertionError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 40.505
+        }
+      ],
+      "vmStopRequested": false
+    },
+    {
+      "run": 24,
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 2.079
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 2.709
+        },
+        {
+          "event": "replacement-route-verified",
+          "elapsed": 13.735
+        },
+        {
+          "event": "replacement-stream-verified",
+          "elapsed": 24.75
+        },
+        {
+          "event": "stop-requested",
+          "elapsed": 24.972
+        },
+        {
+          "event": "vm-terminated",
+          "elapsed": 76.481
+        },
+        {
+          "event": "watchdog-start-observed",
+          "elapsed": 87.367
+        },
+        {
+          "event": "vm-running",
+          "elapsed": 100.757
+        },
+        {
+          "event": "recovered-traffic",
+          "elapsed": 101.259
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 101.811
+        }
+      ],
+      "vmStopRequested": true
+    }
+  ],
+  "finalRun": {
+    "controllerEvents": [
+      {
+        "event": "baseline",
+        "elapsed": 2.079
+      },
+      {
+        "event": "replacement-routing",
+        "elapsed": 2.709
+      },
+      {
+        "event": "replacement-route-verified",
+        "elapsed": 13.735
+      },
+      {
+        "event": "replacement-stream-verified",
+        "elapsed": 24.75
+      },
+      {
+        "event": "stop-requested",
+        "elapsed": 24.972
+      },
+      {
+        "event": "vm-terminated",
+        "elapsed": 76.481
+      },
+      {
+        "event": "watchdog-start-observed",
+        "elapsed": 87.367
+      },
+      {
+        "event": "vm-running",
+        "elapsed": 100.757
+      },
+      {
+        "event": "recovered-traffic",
+        "elapsed": 101.259
+      },
+      {
+        "event": "recovery-confirmed",
+        "elapsed": 101.811
+      }
+    ],
+    "restartElapsed": 85.4490647315979,
+    "stopToRestartSeconds": 60.4770647315979,
+    "verifiedPulses": [
+      64,
+      48
+    ],
+    "proofs": [
+      {
+        "at": 1792809780071,
+        "checkpoint": "4",
+        "error": "",
+        "outcomes": 13,
+        "proofText": "Verified local replay\n\nmain \u00c2\u00b7 Pulse 64 \u00c2\u00b7 archived 2026-10-23T04:59:17.367Z\n\nSimulation mimir-sim-v3-first-glow \u00c2\u00b7 spatial model structured-v2 \u00c2\u00b7 bundle sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e\n\nCatalog, manifest, chunk checksum, First Glow schema, simulation version, spatial model, world bundle references, and asset references verified before replay. Recorded outcomes, movement, decisions, and interpretations are read-only.",
+        "scene": true,
+        "verified": true,
+        "pulse": 64,
+        "vmBefore": {
+          "state": "TERMINATED",
+          "requestedAt": 1792809779.4658787,
+          "at": 1792809779.7939265
+        },
+        "vmAfter": {
+          "state": "TERMINATED",
+          "requestedAt": 1792809780.7990756,
+          "at": 1792809781.1428096
+        }
+      },
+      {
+        "at": 1792809783043,
+        "checkpoint": "3",
+        "error": "",
+        "outcomes": 13,
+        "proofText": "Verified local replay\n\nmain \u00c2\u00b7 Pulse 48 \u00c2\u00b7 archived 2026-10-23T04:59:17.367Z\n\nSimulation mimir-sim-v3-first-glow \u00c2\u00b7 spatial model structured-v2 \u00c2\u00b7 bundle sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e\n\nCatalog, manifest, chunk checksum, First Glow schema, simulation version, spatial model, world bundle references, and asset references verified before replay. Recorded outcomes, movement, decisions, and interpretations are read-only.",
+        "scene": true,
+        "verified": true,
+        "pulse": 48,
+        "vmBefore": {
+          "state": "TERMINATED",
+          "requestedAt": 1792809782.147833,
+          "at": 1792809782.5016537
+        },
+        "vmAfter": {
+          "state": "TERMINATED",
+          "requestedAt": 1792809783.5068195,
+          "at": 1792809783.8033507
+        }
+      }
+    ],
+    "recovery": {
+      "recovered": true,
+      "elapsed": 139.978,
+      "retainedState": true,
+      "freshStream": true,
+      "duplicateEvents": false
+    },
+    "clientsClosedElapsed": 147.78799986839294,
+    "fullResourceCleanupElapsed": 197.30122065544128,
+    "audit": {
+      "vmRunning": true,
+      "originalSpecAndTrafficRestored": true,
+      "historyHashesUnchanged": true,
+      "pausedPulse64": true,
+      "backupHealthy": true,
+      "writerPidAfter": 566,
+      "observedStreamProcesses": 3,
+      "allObservedLatestCountersZero": false,
+      "candidateLatestCountersZero": true,
+      "boundedAllProcessCleanupProven": false
+    },
+    "finalZeroForAllObservedProcesses": false,
+    "ownedWorkersRemaining": 0,
+    "historyPaneRestored": true,
+    "postRunIntegrity": {
+      "integrityPassed": true,
+      "singleWriter": true,
+      "writerPid": 566,
+      "noOrphanedJournals": true,
+      "timersHealthy": true,
+      "historyHashesUnchanged": true,
+      "pausedPulse": 64
+    },
+    "allOwnedRevisionsAbsent": true,
+    "inWindowWriterHistoryAttestationProven": false
+  },
+  "clockCalibration": [
+    {
+      "begin": 1792808101.2565842,
+      "end": 1792808101.651926,
+      "cloudDate": 1792808113.0,
+      "cloudMinusLocalLower": 11.348073959350586,
+      "cloudMinusLocalUpper": 12.743415832519531
+    },
+    {
+      "begin": 1792808101.6520386,
+      "end": 1792808101.947235,
+      "cloudDate": 1792808113.0,
+      "cloudMinusLocalLower": 11.052764892578125,
+      "cloudMinusLocalUpper": 12.34796142578125
+    },
+    {
+      "begin": 1792808101.9473264,
+      "end": 1792808102.3051126,
+      "cloudDate": 1792808113.0,
+      "cloudMinusLocalLower": 10.694887399673462,
+      "cloudMinusLocalUpper": 12.052673578262329
+    }
+  ],
+  "verification": {
+    "browserHarnessTests": 15,
+    "controllerWatchdogTests": 14,
+    "rehearsalThresholdTestsPassed": true,
+    "http2CancellationPassed": true,
+    "streamLifecyclePassed": true,
+    "browserAuthAndOutageSuitePassed": true,
+    "fullSuiteRerunForThisSource": false
+  }
+}

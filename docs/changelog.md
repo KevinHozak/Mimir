@@ -2,10 +2,20 @@
 
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
+## 2026-10-23 - Hosted fault-readiness tooling (local)
+
+- Add run-scoped browser/controller/watchdog tooling with atomic handoffs, a navigation-independent client deadline, actual revision-routing verification and strict response gates. These operational tools execute locally against an explicitly approved plan.
+- Automate exact full-spec rollback, boot-overlapped read-only recovery attestation, per-process final-zero collection and protected owned-revision deletion. Verify cold pulses 64/48 while the VM is terminated, retained live recovery, integrity/history/writer/backup checks and complete cleanup by T+161 within the approved two-observer/180-second envelope. MIM-S009 is ready for review; broader access remains separate. See [complete acceptance evidence](evidence/hosted-outage-cleanup-2026-10-23.md); earlier failed attempts are preserved separately.
+
+## 2026-10-23 - Hosted observer update and recovery readiness
+
+- Publish observer source `6e66395` as verified Hosting version `cdf29343210a5da7` and validate a fresh independent backup/restore.
+- Abort the live outage attempt at the browser-deadline readiness gate without stopping the VM; restore original bridge configuration/traffic and verify unchanged history. Live VM-outage acceptance remains pending. See [operational evidence](evidence/hosted-outage-readiness-2026-10-23.md).
+
 ## 2026-10-23 - Isolated observer outage coverage (local)
 
 - Automate bridge process crash/restart, backend loss/recovery and cold protected archive playback on desktop/mobile, including denial, checksum rejection and stream cleanup.
-- Remove live reflection fetches from shared historical explanations; the live observer uses its authenticated projection. See [local evidence](evidence/observer-outage-2026-10-23.md) and the [unexecuted live rehearsal proposal](hosted-outage-rehearsal-plan.md).
+- Remove live reflection fetches from shared historical explanations; the live observer uses its authenticated projection. See [local evidence](evidence/observer-outage-2026-10-23.md) and the [live rehearsal plan](hosted-outage-rehearsal-plan.md).
 
 ## 2026-10-23 - Observer session recovery (local)
 

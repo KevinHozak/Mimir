@@ -1,6 +1,6 @@
-# MIM-S009 bounded live rehearsal — approval proposal
+# MIM-S009 bounded live rehearsal â€” approval proposal
 
-Status: prepared for approval; **no live disruption, deployment or traffic change has been executed**. Local fault/browser evidence is [recorded separately](evidence/observer-outage-2026-10-23.md). MIM-S009 remains open until live acceptance is verified.
+Status: approved execution was retried after browser/routing readiness repairs. The final attempt reached a graceful VM stop but exceeded the 30-second VM-operation and T+80 restart limits. Recovery and rollback were verified; cold replay and timely UI recovery remain unaccepted. See [retry evidence](evidence/hosted-outage-retry-2026-10-23.md) and the subsequently approved [revised timing proposal](hosted-outage-follow-up-proposal.md). This original plan is historical; [final acceptance](evidence/hosted-outage-cleanup-2026-10-23.md) verifies all gates under the revised limits. Earlier [readiness evidence](evidence/hosted-outage-readiness-2026-10-23.md) records preparation aborts before VM disruption.
 
 ## Targets and scope
 
@@ -30,11 +30,11 @@ At most **two concurrent observer tabs**: one live observer and one cold archive
 
 | Time | Action and required observation |
 | --- | --- |
-| T+0–30 | Establish authenticated baseline through Hosting and the direct bridge. Record pause/pulse/hash and redacted per-process stream counters. Open one live observer. |
-| T+30–50 | Route to the verified same-image replacement revision, deliberately close the old client stream and reconnect to the new revision. Verify the new process/revision identity, retained observer state, no duplicate displayed outcomes and cleanup. Keep the original revision for rollback. |
-| T+50–80 | Stop `mimir-staging` once using `gcloud compute instances stop mimir-staging --project mimir-realm --zone us-central1-a --account khozak@gmail.com --quiet`. Start it again within 30 seconds; independent watchdog starts it by T+80. During the stopped interval verify explicit live unavailability and cold protected archive playback at two checkpoints. |
-| T+80–140 | Verify VM `RUNNING`, exactly one healthy writer, archived/paused pulse 64 and unchanged history/bundle hashes. Confirm automatic live reconnect, no duplicated outcomes and retained selection/presentation. Restore original bridge revision to 100% and verify it. |
-| T+140–180 | Close both tabs, verify bounded upstream cleanup and backup health, verify original traffic/configuration, and stop the measurement window. |
+| T+0â€“30 | Establish authenticated baseline through Hosting and the direct bridge. Record pause/pulse/hash and redacted per-process stream counters. Open one live observer. |
+| T+30â€“50 | Route to the verified same-image replacement revision, deliberately close the old client stream and reconnect to the new revision. Verify the new process/revision identity, retained observer state, no duplicate displayed outcomes and cleanup. Keep the original revision for rollback. |
+| T+50â€“80 | Stop `mimir-staging` once using `gcloud compute instances stop mimir-staging --project mimir-realm --zone us-central1-a --account khozak@gmail.com --quiet`. Start it again within 30 seconds; independent watchdog starts it by T+80. During the stopped interval verify explicit live unavailability and cold protected archive playback at two checkpoints. |
+| T+80â€“140 | Verify VM `RUNNING`, exactly one healthy writer, archived/paused pulse 64 and unchanged history/bundle hashes. Confirm automatic live reconnect, no duplicated outcomes and retained selection/presentation. Restore original bridge revision to 100% and verify it. |
+| T+140â€“180 | Close both tabs, verify bounded upstream cleanup and backup health, verify original traffic/configuration, and stop the measurement window. |
 
 Cloud Run revision replacement plus a deliberate client reconnect is **not an in-flight container crash test**. The local child-process regression proves that case in isolation. Do not report a live process crash as passed unless a separately reviewed supported termination mechanism is selected; no diagnostic kill endpoint is proposed.
 

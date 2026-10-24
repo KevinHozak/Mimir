@@ -1,0 +1,157 @@
+{
+  "date": "2026-10-23",
+  "result": "readiness-aborted-no-vm-outage",
+  "sourceCommit": "6e663954a8b0f6889c46fe9bf89638f4d3871dbd",
+  "hosting": {
+    "previousVersion": "048f3555d2424baf",
+    "deployedVersion": "cdf29343210a5da7",
+    "liveIndexAndBothHashedAssetsVerified": true,
+    "keptApprovedVerifiedDeployment": true
+  },
+  "readiness": {
+    "freshIndependentBackup": true,
+    "isolatedRestoreVerified": true,
+    "singleWriter": true,
+    "noOrphanedJournalHandles": true,
+    "recoveryIamPermissionsVerified": true,
+    "privateControllerTestsPassed": 4,
+    "browserDeadlineGatePassed": false
+  },
+  "attempts": [
+    {
+      "scope": "arming",
+      "outcome": "aborted",
+      "failures": [
+        "navigation-persistent CDP script method unsupported",
+        "Windows heartbeat file replacement failed"
+      ],
+      "vmStopIssued": false
+    },
+    {
+      "scope": "arming/revision routing",
+      "outcome": "aborted-before-vm-stop",
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": -2.413
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 31.505
+        },
+        {
+          "event": "aborted",
+          "elapsed": 50.811,
+          "errorClass": "AssertionError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 60.374
+        }
+      ],
+      "vmStopIssued": false,
+      "browserFailure": "Runtime.evaluate cleanup deadline command timed out on the live page"
+    },
+    {
+      "scope": "arming/revision routing",
+      "outcome": "aborted-before-vm-stop",
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 6.396
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 31.201
+        },
+        {
+          "event": "aborted",
+          "elapsed": 50.471,
+          "errorClass": "AssertionError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 53.352
+        }
+      ],
+      "vmStopIssued": false,
+      "browserFailure": "browser deadline/reconnect readiness was not established"
+    },
+    {
+      "scope": "arming/revision routing",
+      "outcome": "aborted-before-vm-stop",
+      "events": [
+        {
+          "event": "baseline",
+          "elapsed": 17.339
+        },
+        {
+          "event": "replacement-routing",
+          "elapsed": 17.943
+        },
+        {
+          "event": "aborted",
+          "elapsed": 60.31,
+          "errorClass": "AssertionError"
+        },
+        {
+          "event": "recovery-confirmed",
+          "elapsed": 64.512
+        }
+      ],
+      "vmStopIssued": false,
+      "browserFailure": "browser deadline/reconnect readiness was not established"
+    },
+    {
+      "scope": "browser preparation only",
+      "outcome": "readiness-blocked-before-controller-start",
+      "vmStopIssued": false,
+      "browserFailure": "World locator timed out despite diagnostic visible match; no further arming attempted"
+    }
+  ],
+  "rollback": {
+    "originalServiceSpecRestored": true,
+    "originalTrafficRestored": true,
+    "diagnosticTagRemoved": true,
+    "unusedOwnedRevisionDeleted": true,
+    "deletedOwnedRevision": "mimir-observer-bridge-s009-1792793112",
+    "vmNeverStopped": true,
+    "vmRunning": true,
+    "hostingVersion": "cdf29343210a5da7"
+  },
+  "postAudit": {
+    "historyTableHashesUnchanged": true,
+    "writerPidUnchanged": true,
+    "archived": true,
+    "paused": true,
+    "pulse": 64,
+    "backupHealthy": true,
+    "timersActive": true,
+    "temporaryObserverTabsClosed": true,
+    "independentProcessesExited": true,
+    "ownedDeploymentCheckoutRemoved": true,
+    "finalReadOnlyAuditRepeatedAfterAllAttempts": true
+  },
+  "cleanupTelemetry": {
+    "bothSampledOriginalRevisionProcessesZero": true,
+    "deletedCandidateLastSampleRequests": 1,
+    "deletedCandidateLastSampleUpstreams": 1,
+    "boundedCandidateDisconnectCleanupProven": false,
+    "finalSampleCheck": {
+      "newestTwoOriginalProcessSamplesZero": true,
+      "secondCandidateSampledProcessesZero": true,
+      "olderOriginalProcessLastSampleRequests": 1,
+      "olderOriginalProcessLastSampleUpstreams": 1,
+      "allProcessFinalZeroProven": false
+    }
+  },
+  "remaining": [
+    "durable browser/controller deadline integration",
+    "verified live reconnect across revision replacement",
+    "cold authorized archive replay while VM is confirmed TERMINATED",
+    "post-outage exact recovery and bounded all-process cleanup"
+  ],
+  "credentialsOrIdentityChangesIssued": false,
+  "providerCallsIssued": false,
+  "vmOutageAcceptancePassed": false
+}

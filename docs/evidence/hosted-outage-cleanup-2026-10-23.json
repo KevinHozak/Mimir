@@ -1,0 +1,368 @@
+{
+  "date": "2026-10-23",
+  "status": "passed-within-approved-limits",
+  "overallRehearsalPassed": true,
+  "baseCommit": "6e663954a8b0f6889c46fe9bf89638f4d3871dbd",
+  "operatorChangesUncommitted": true,
+  "limits": {
+    "observers": 2,
+    "readinessSeconds": 30,
+    "vmOperationSeconds": 80,
+    "replayAfterTerminationSeconds": 10,
+    "applicationAndAuditSeconds": 160,
+    "clientCutoffSeconds": 165,
+    "overallSeconds": 180
+  },
+  "sourceHashes": {
+    "scripts/hosted-outage-browser-driver.mjs": "e4917b2e661bf84a5949bb9f5370188df008470b296616e0fcdbf90152dc1606",
+    "scripts/hosted-outage-browser-harness.mjs": "ed1383a40bceb853165e45ae30fc3145be137eb0a3b579cff5d18cb3867069f0",
+    "scripts/hosted-outage-guard.py": "59cd291768fe66564daa333022a8b784c16dc53b58f6d48668597bbea81da083",
+    "scripts/hosted-outage-controller.py": "a8a3c28fd2d5f14cada11b8470a05c163b2ba455f33a595d9f204c5f543822bc",
+    "scripts/hosted-outage-recovery-audit.py": "18412b79cbccdd459c2db9d561cf67de978c0b7dc69dbce8504e55b238a951ff",
+    "scripts/hosted-outage-browser-harness.test.mjs": "416ce9bd4f0a680735396d70962d0c8553e2ead49b082907fba2c063aeacf839",
+    "scripts/hosted-outage-controller.test.py": "0bf9e51d0fe579cbd4a4b347d843bab1717f8da17ccb700b165718ad90b42768"
+  },
+  "controllerEvents": [
+    {
+      "event": "baseline",
+      "elapsed": 3.633
+    },
+    {
+      "event": "replacement-routing",
+      "elapsed": 4.4
+    },
+    {
+      "event": "replacement-route-verified",
+      "elapsed": 15.404
+    },
+    {
+      "event": "replacement-stream-verified",
+      "elapsed": 28.921
+    },
+    {
+      "event": "stop-requested",
+      "elapsed": 29.139
+    },
+    {
+      "event": "vm-terminated",
+      "elapsed": 81.644
+    },
+    {
+      "event": "watchdog-start-observed",
+      "elapsed": 89.719
+    },
+    {
+      "event": "recovered-traffic",
+      "elapsed": 101.713
+    },
+    {
+      "event": "recovery-confirmed",
+      "elapsed": 102.209
+    }
+  ],
+  "restartElapsed": 88.5710220336914,
+  "stopToRestartSeconds": 59.43202203369141,
+  "browserJourney": {
+    "phase": "finished",
+    "passed": true,
+    "readiness": {
+      "ready": true,
+      "elapsed": 28.921,
+      "observedElapsed": 28.987,
+      "retainedEventIds": 6
+    },
+    "replay": {
+      "verifiedPulses": [
+        64,
+        48
+      ],
+      "vmTerminated": true,
+      "elapsed": 87.22
+    },
+    "recovery": {
+      "recovered": true,
+      "elapsed": 137.692,
+      "retainedState": true,
+      "freshStream": true
+    },
+    "closed": {
+      "closed": true,
+      "observers": 0,
+      "elapsed": 137.808
+    }
+  },
+  "replayProofs": [
+    {
+      "at": 1792812797966,
+      "checkpoint": "4",
+      "error": "",
+      "outcomes": 13,
+      "proofText": "Verified local replay\n\nmain \u00b7 Pulse 64 \u00b7 archived 2026-10-23T04:59:17.367Z\n\nSimulation mimir-sim-v3-first-glow \u00b7 spatial model structured-v2 \u00b7 bundle sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e\n\nCatalog, manifest, chunk checksum, First Glow schema, simulation version, spatial model, world bundle references, and asset references verified before replay. Recorded outcomes, movement, decisions, and interpretations are read-only.",
+      "scene": true,
+      "verified": true,
+      "pulse": 64,
+      "vmBefore": {
+        "state": "TERMINATED",
+        "requestedAt": 1792812796.761653,
+        "at": 1792812797.0658565
+      },
+      "vmAfter": {
+        "state": "TERMINATED",
+        "requestedAt": 1792812798.0702388,
+        "at": 1792812798.460171
+      }
+    },
+    {
+      "at": 1792812800149,
+      "checkpoint": "3",
+      "error": "",
+      "outcomes": 13,
+      "proofText": "Verified local replay\n\nmain \u00b7 Pulse 48 \u00b7 archived 2026-10-23T04:59:17.367Z\n\nSimulation mimir-sim-v3-first-glow \u00b7 spatial model structured-v2 \u00b7 bundle sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e\n\nCatalog, manifest, chunk checksum, First Glow schema, simulation version, spatial model, world bundle references, and asset references verified before replay. Recorded outcomes, movement, decisions, and interpretations are read-only.",
+      "scene": true,
+      "verified": true,
+      "pulse": 48,
+      "vmBefore": {
+        "state": "TERMINATED",
+        "requestedAt": 1792812799.4647796,
+        "at": 1792812799.813283
+      },
+      "vmAfter": {
+        "state": "TERMINATED",
+        "requestedAt": 1792812800.8296645,
+        "at": 1792812801.1489236
+      }
+    }
+  ],
+  "recoveryAudit": {
+    "passed": true,
+    "at": 1792812855.2383442,
+    "elapsed": 141.1253445148468,
+    "report": {
+      "integrity": true,
+      "singleWriter": true,
+      "noOrphanedJournals": true,
+      "backupsHealthy": true,
+      "pid": 567,
+      "pulse": 64,
+      "paused": true,
+      "tableHashes": {
+        "timelines": "2f2a74070b696680a7934b68fab81ef799fc5edd7a3218f19916f19d27f3ec73",
+        "timeline_checkpoints": "038545984414fb99133c71fddfe4285cfe6a3f645e7d36fffd492e688d314096",
+        "timeline_events": "92a12ecab2ff06ce629c183b49f9c36279036f49e47e8ead9afb78b61c14252b",
+        "timeline_interpretations": "870c935cf2d1dca1524cec4dcd0b6c5b4e1ba9d5f40da7b98db1c35ed09f45c6"
+      }
+    }
+  },
+  "auditLaunchedElapsed": 89.12556600570679,
+  "resourceCleanup": {
+    "at": 1792812875.1688137,
+    "elapsed": 161.05581426620483,
+    "fullSpecRestored": true,
+    "candidateAbsent": true,
+    "allProcessesFinalZero": true,
+    "auditPassed": true,
+    "recoveryStreamAccounted": true,
+    "clientsClosed": true,
+    "withinOverallLimit": true,
+    "gatePassed": true
+  },
+  "streamDisposition": {
+    "at": 1792812874.5730772,
+    "rows": [
+      {
+        "revision": "mimir-observer-bridge-p5-h2b-596163",
+        "processSession": "3a7e3cd2-31fd-4601-8ff9-14d305a03bd4",
+        "timestamp": "2026-10-24T03:34:23.279Z",
+        "event": "request-close",
+        "activeRequests": 0,
+        "activeUpstreamStreams": 0,
+        "lastStreamOpenedAt": "2026-10-24T03:34:22.560Z"
+      },
+      {
+        "revision": "mimir-observer-bridge-p5-h2b-596163",
+        "processSession": "af924678-f371-487b-9e72-9c37cd8585a7",
+        "timestamp": "2026-10-24T03:32:12.017Z",
+        "event": "sample",
+        "activeRequests": 0,
+        "activeUpstreamStreams": 0,
+        "lastStreamOpenedAt": "2026-10-24T03:32:06.756Z"
+      },
+      {
+        "revision": "mimir-observer-bridge-s009-1792812462",
+        "processSession": "d0b8b953-735d-4a1a-8869-5541d48db053",
+        "timestamp": "2026-10-24T03:33:51.557Z",
+        "event": "request-close",
+        "activeRequests": 0,
+        "activeUpstreamStreams": 0,
+        "lastStreamOpenedAt": "2026-10-24T03:32:21.352Z"
+      }
+    ],
+    "allZero": true
+  },
+  "finalCloudVerification": {
+    "at": 1792812973.9861841,
+    "vmRunning": true,
+    "originalFullSpecAndTrafficRestored": true,
+    "allOwnedCandidatesAbsent": true,
+    "absentRevisions": [
+      "mimir-observer-bridge-s009-1792811214",
+      "mimir-observer-bridge-s009-1792811706",
+      "mimir-observer-bridge-s009-1792812462"
+    ]
+  },
+  "localCleanup": {
+    "InventoryReadSucceeded": true,
+    "OwnedWorkersRemaining": 0
+  },
+  "freshIndependentBackupRestore": true,
+  "restoreBundleFiles": 8,
+  "clockSamples": [
+    {
+      "begin": 1792812696.252354,
+      "end": 1792812696.7155015,
+      "cloudDate": 1792812708.0,
+      "cloudMinusLocalLower": 11.284498453140259,
+      "cloudMinusLocalUpper": 12.74764609336853
+    },
+    {
+      "begin": 1792812696.7156103,
+      "end": 1792812697.003823,
+      "cloudDate": 1792812708.0,
+      "cloudMinusLocalLower": 10.996176958084106,
+      "cloudMinusLocalUpper": 12.284389734268188
+    },
+    {
+      "begin": 1792812697.0039146,
+      "end": 1792812697.2960327,
+      "cloudDate": 1792812708.0,
+      "cloudMinusLocalLower": 10.703967332839966,
+      "cloudMinusLocalUpper": 11.996085405349731
+    }
+  ],
+  "priorFailedAttempts": [
+    {
+      "run": 25,
+      "controller": {
+        "events": [
+          {
+            "event": "baseline",
+            "elapsed": 4.219
+          },
+          {
+            "event": "replacement-routing",
+            "elapsed": 5.015
+          },
+          {
+            "event": "replacement-route-verified",
+            "elapsed": 16.716
+          },
+          {
+            "event": "replacement-stream-verified",
+            "elapsed": 29.425
+          },
+          {
+            "event": "stop-requested",
+            "elapsed": 29.637
+          },
+          {
+            "event": "aborted",
+            "elapsed": 31.513,
+            "errorClass": "RuntimeError"
+          },
+          {
+            "event": "recovery-pending",
+            "elapsed": 105.236
+          }
+        ],
+        "phase": "recovery-pending"
+      },
+      "resourceCleanup": {
+        "at": 1792811619.7260454,
+        "elapsed": 175.8400456905365,
+        "fullSpecRestored": true,
+        "candidateAbsent": true,
+        "allProcessesFinalZero": true,
+        "auditPassed": true,
+        "recoveryStreamAccounted": false,
+        "clientsClosed": true,
+        "withinOverallLimit": true,
+        "gatePassed": false
+      },
+      "audit": {
+        "passed": true,
+        "at": 1792811589.105693,
+        "elapsed": 145.21969318389893
+      }
+    },
+    {
+      "run": 26,
+      "controller": {
+        "events": [
+          {
+            "event": "baseline",
+            "elapsed": 2.276
+          },
+          {
+            "event": "replacement-routing",
+            "elapsed": 2.924
+          },
+          {
+            "event": "replacement-route-verified",
+            "elapsed": 13.666
+          },
+          {
+            "event": "replacement-stream-verified",
+            "elapsed": 26.193
+          },
+          {
+            "event": "stop-requested",
+            "elapsed": 26.381
+          },
+          {
+            "event": "vm-terminated",
+            "elapsed": 103.142
+          },
+          {
+            "event": "watchdog-start-observed",
+            "elapsed": 107.119
+          },
+          {
+            "event": "recovered-traffic",
+            "elapsed": 122.775
+          },
+          {
+            "event": "recovery-confirmed",
+            "elapsed": 123.301
+          }
+        ],
+        "phase": "recovery-confirmed"
+      },
+      "resourceCleanup": {
+        "at": 1792811975.659193,
+        "elapsed": 174.32219338417053,
+        "fullSpecRestored": true,
+        "candidateAbsent": true,
+        "allProcessesFinalZero": true,
+        "auditPassed": false,
+        "recoveryStreamAccounted": false,
+        "clientsClosed": false,
+        "withinOverallLimit": true,
+        "gatePassed": false
+      },
+      "audit": {
+        "passed": false,
+        "errorClass": "TimeoutError",
+        "at": 1792811956.8810453
+      }
+    }
+  ],
+  "verification": {
+    "browserHarnessDriverTestsPassed": 19,
+    "controllerWatchdogAuditTestsPassed": 24,
+    "rehearsalThresholdChecksPassed": true,
+    "http2CancellationPassed": true,
+    "bridgeLifecyclePassed": true,
+    "browserAuthSessionOutageSuitePassed": true,
+    "fullVerifyLocalRunForThisSource": false
+  }
+}

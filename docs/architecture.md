@@ -1,6 +1,6 @@
-# Mimir: A Light of Our Own — Current Architecture
+# Mimir: A Light of Our Own â€” Current Architecture
 
-Date: 2026-09-20
+Date: 2026-10-23
 Status: Current implementation reference for the local and single-instance hosted First Glow observer.
 
 This document describes what is implemented in the repository today. Dated plans contain proposals and historical implementation notes; they do not establish runtime support.
@@ -189,20 +189,20 @@ SQLite WAL checkpoints and scheduled local database copies are supported. The sc
 
 ### Observer reads
 
-- `GET /health` — service health, current pulse, scheduler state, active timeline, database path, and social configuration.
-- `GET /api/world` — current state; `?pulse=` retrieves a stored checkpoint.
-- `GET /api/events` — objective events for the active timeline.
-- `GET /api/interpretations` — persisted social interpretations.
-- `GET /api/history` — persisted timeline/checkpoint history plus canonical movement and decision records from the selected historical state. The viewer reads these records directly; it does not reconstruct them through AI.
-- `GET /api/metrics` — checkpoint-derived charge, readiness, deficit, travel, and collection metrics.
-- `GET /api/report` — current timeline and season summary.
-- `GET /api/design` — Living Circuit/First Glow identity and `FIRST_GLOW_DESIGN` cards, event prompts, opening question, and knowledge boundary under `firstGlow`; legacy card/dilemma arrays are empty and the shared store is omitted.
-- `GET /api/resonance` — the authored Resonance observation-rule examples and their fixture evidence, labeled `source: resonance-contract-fixtures`. It excludes live pulse/event counts; missing fixtures return an empty, unavailable example projection. The observer labels the panel and evidence as examples, separately from committed events and Anchors. It is not a state-changing Anchor endpoint.
-- `GET /api/resonance/anchors` — the active timeline's persisted Resonance candidates and Anchors.
-- `GET /api/region` — settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
-- `GET /api/timelines` — available timeline metadata.
-- `GET /api/history` — a bounded historical-view response for one timeline and checkpoint, including lineage, version identity, recorded objective events, and recorded interpretations. Empty timelines, missing checkpoints, and incompatible checkpoints return explicit states; no replay or new interpretation is generated.
-- `GET /api/live` — Server-Sent Events stream with the current state and committed pulse updates.
+- `GET /health` â€” service health, current pulse, scheduler state, active timeline, database path, and social configuration.
+- `GET /api/world` â€” current state; `?pulse=` retrieves a stored checkpoint.
+- `GET /api/events` â€” objective events for the active timeline.
+- `GET /api/interpretations` â€” persisted social interpretations.
+- `GET /api/history` â€” persisted timeline/checkpoint history plus canonical movement and decision records from the selected historical state. The viewer reads these records directly; it does not reconstruct them through AI.
+- `GET /api/metrics` â€” checkpoint-derived charge, readiness, deficit, travel, and collection metrics.
+- `GET /api/report` â€” current timeline and season summary.
+- `GET /api/design` â€” Living Circuit/First Glow identity and `FIRST_GLOW_DESIGN` cards, event prompts, opening question, and knowledge boundary under `firstGlow`; legacy card/dilemma arrays are empty and the shared store is omitted.
+- `GET /api/resonance` â€” the authored Resonance observation-rule examples and their fixture evidence, labeled `source: resonance-contract-fixtures`. It excludes live pulse/event counts; missing fixtures return an empty, unavailable example projection. The observer labels the panel and evidence as examples, separately from committed events and Anchors. It is not a state-changing Anchor endpoint.
+- `GET /api/resonance/anchors` â€” the active timeline's persisted Resonance candidates and Anchors.
+- `GET /api/region` â€” settlement metadata and retained route/trade/weather/hazard envelope fields. These fields do not establish an active market, trade network, or weather simulation.
+- `GET /api/timelines` â€” available timeline metadata.
+- `GET /api/history` â€” a bounded historical-view response for one timeline and checkpoint, including lineage, version identity, recorded objective events, and recorded interpretations. Empty timelines, missing checkpoints, and incompatible checkpoints return explicit states; no replay or new interpretation is generated.
+- `GET /api/live` â€” Server-Sent Events stream with the current state and committed pulse updates.
 
 Firebase Hosting serves the observer page; its active build requests API/SSE directly from the existing `mimir-observer-bridge` Cloud Run service. The bridge requires an approved, verified Google ID token, forwards only the read/SSE allowlist to the private VM, and never forwards owner or mutation routes. Hosted auth is forced by the guarded deployment command. The bridge uses h2c behind Cloud Run TLS termination to propagate cancellation. Opt-in process-scoped stdout gauges distinguish authenticated live handlers from successful SSE bodies; no public telemetry endpoint exists. Hosting rewrites remain configured but failed prompt disconnect propagation in the dated [Observer-P5 observation](evidence/observer-p5-stream-cleanup-2026-10-03.md). Previously cached bundles require fresh navigation. Hosting is not simulation authority.
 
@@ -210,17 +210,17 @@ Firebase Hosting serves the observer page; its active build requests API/SSE dir
 
 State-changing operations require the configured `OWNER_TOKEN`, supplied through the `x-owner-token` header:
 
-- `POST /api/pulse` — commit one pulse.
-- `POST /api/scheduler` — pause/resume the scheduler or change pulse interval.
-- `POST /api/owner/archive` — archive the active timeline.
-- `POST /api/owner/continue` — reactivate the active timeline.
-- `POST /api/owner/branch` — branch from a selected checkpoint.
-- `POST /api/owner/reset-v3` — archive the current timeline and create a schema-3 First Glow world.
-- `POST /api/owner/world/object` — change runtime blocking for a known world object.
-- `POST /api/owner/resonance-anchor` — create the Shelter Loom only from a complete, server-validated candidate whose evidence IDs are already committed on the active timeline.
-- `POST /api/owner/resonance-choice` — commit one witnessed Shelter Loom `yield-rest` or `hold-rest` choice, with explicit eligibility, resource deltas, durable consequence, and objective evidence.
-- `POST /api/owner/resonance-crossing-anchor` — create the contrasting Crossing of Voices only from a complete candidate whose committed evidence meets the relay-crossing rule.
-- `POST /api/owner/resonance-crossing-choice` — commit one witnessed `follow-signal` or `hold-course` decision with explicit resource, activity, and evidence consequences.
+- `POST /api/pulse` â€” commit one pulse.
+- `POST /api/scheduler` â€” pause/resume the scheduler or change pulse interval.
+- `POST /api/owner/archive` â€” archive the active timeline.
+- `POST /api/owner/continue` â€” reactivate the active timeline.
+- `POST /api/owner/branch` â€” branch from a selected checkpoint.
+- `POST /api/owner/reset-v3` â€” archive the current timeline and create a schema-3 First Glow world.
+- `POST /api/owner/world/object` â€” change runtime blocking for a known world object.
+- `POST /api/owner/resonance-anchor` â€” create the Shelter Loom only from a complete, server-validated candidate whose evidence IDs are already committed on the active timeline.
+- `POST /api/owner/resonance-choice` â€” commit one witnessed Shelter Loom `yield-rest` or `hold-rest` choice, with explicit eligibility, resource deltas, durable consequence, and objective evidence.
+- `POST /api/owner/resonance-crossing-anchor` â€” create the contrasting Crossing of Voices only from a complete candidate whose committed evidence meets the relay-crossing rule.
+- `POST /api/owner/resonance-crossing-choice` â€” commit one witnessed `follow-signal` or `hold-course` decision with explicit resource, activity, and evidence consequences.
 
 Owner authentication is required whenever `SERVE_WEB=true`, `MIMIR_HOSTED=true`, or the server binds to a non-loopback host. Startup fails closed if that configuration has no `OWNER_TOKEN`, and state-changing requests must supply the matching `x-owner-token` header. Only explicit loopback local development may run tokenless. A configured token provides owner authentication, not a multi-user account or role system.
 
@@ -357,7 +357,7 @@ Still open:
 - Wider distribution and production readiness beyond limited authenticated staging. Hosted-P17 closed with unverified token classes, authenticated SSE behavior, bridge process restart, outage replay, and audience/billing limits. Observer-P5 established process-scoped stream cleanup and baseline return, while Observer-P7 delivered the bounded rehearsal runner and stop-threshold validation within a two-session cap. Observer-P8 concluded Epic #253 with an explicit operational boundary (at most 2 concurrent sessions, at most 180 seconds) and reconciled residual gaps (#255/#256); broader audience capacity, 24/7 SLA, and multi-writer durability remain unverified.
 - Human incarnation, multi-user control leases, and shared-world alpha operations.
 - Migration from a single SQLite writer if the project scales beyond one hosted process.
-- The 2026-09-15 [reliability, security, and maintenance review](reliability-security-maintenance-review.md) remains historical evidence. Its seven writer-hardening findings were delivered through Security-P1–P7; remaining deployment, audience, and independent-recovery checks are operational validation gaps, not claims that those code findings remain open.
+- The 2026-09-15 [reliability, security, and maintenance review](reliability-security-maintenance-review.md) remains historical evidence. Its seven writer-hardening findings were delivered through Security-P1â€“P7; remaining deployment, audience, and independent-recovery checks are operational validation gaps, not claims that those code findings remain open.
 
 ## AI-P15 through AI-P18 evaluation procedures
 
@@ -393,3 +393,14 @@ The separately authorized October 23 [live fixture run](evidence/hosted-auth-liv
 ### Isolated restart and outage acceptance
 
 `observer-outage.test.ts` exercises the production bridge in a separate loopback child process, real backend stop/restart against isolated SQLite history, and cold hosted archive rendering through independent synthetic protected storage. Archive and historical explanation panels never fetch live reflection state; only the live observer renders its authenticated projection. These checks are included in the full local verifier. [Evidence and live boundaries](evidence/observer-outage-2026-10-23.md) distinguish process faults from genuine hosted VM/Cloud Run acceptance.
+
+
+## Bounded hosted fault tooling
+
+`hosted-outage-browser-harness.mjs` owns a temporary same-origin parent deadline and at most two observer frames. `hosted-outage-browser-driver.mjs` runs inside Browser Use with its origin-scoped diagnostic handle; per-run clock/path/cursor state and atomic files connect it to separately authenticated Python controller/watchdog processes. The controller requires data-plane revision evidence, an actual replacement stream and a fresh watchdog heartbeat before one VM stop. The watchdog restores traffic and attempts recovery independently of browser/controller failure. VM control-plane recovery and successful application-stream recovery are separate gates. No diagnostic kill endpoint, auth export, simulation writer change or public access expansion is introduced.
+
+`npm run test:observer-rehearsal` includes the existing audience-runner tests, browser-harness/driver regressions and a Node entry point for fake Python watchdog/controller tests. These checks perform no live cloud operations and are part of `npm run verify:local`. The [measured hosted retry](evidence/hosted-outage-retry-2026-10-23.md) remains distinct from local success; its graceful VM transition exceeded the approved operational budget.
+
+The [readiness repair](evidence/hosted-outage-readiness-fix-2026-10-23.md) requires a complete pulse-64 event baseline, allows cached immutable startup assets while disabling HTTP cache for cold replay, and uses short positive-proof polls. Replay state survives short diagnostic calls. An initial RUNNING state after a stop request is not restart evidence; the independent watchdog has early request margins. Hosted cold replay and retained-UI recovery are now measured, while that attempt still lacked integrated full-spec rollback/deletion and timed audit/process disposition; its post-run cleanup was not an overall-limit pass. The completed acceptance below resolves those gaps.
+
+The [completed bounded acceptance](evidence/hosted-outage-cleanup-2026-10-23.md) adds exact snapshot-based full-spec rollback, an independent `hosted-outage-recovery-audit.py` worker launched during restart, and automatic final-zero/deletion cleanup before the overall cap. The audit uses fixed read-only SSH/SQLite/process/health checks and an absolute result deadline; it cannot advance the world. Process accounting includes failed live requests, rejects stale zeros and requires a calibrated post-restart original stream. An original-process cancellation/wake barrier and positive zero record precede VM disruption. Safe deadline fallback can remove an unused test revision while recording failed acceptance; it never fabricates zero counters. Browser phase transitions close clients automatically on either success or failure. Run 27 satisfied all gates; earlier late-cleanup evidence remains historical. These operator sources remain local pending review/publication.
