@@ -4,7 +4,7 @@ id: "MIM-S010"
 parent: ["MIM-E002"]
 priority: "medium"
 schema_version: 1
-status: "in_progress"
+status: "closed"
 title: "Rehearse and decide whether hosted access can widen"
 type: "enhancement"
 ---
@@ -20,7 +20,7 @@ docs/roadmap.md
 
 - [x] Run an approved bounded automated rehearsal and capture capacity, cleanup and cost evidence.
 - [x] List unresolved limitations and recovery/rollback evidence.
-- [ ] Record a separate approval decision before any audience or availability expansion.
+- [x] Record a separate approval decision before any audience or availability expansion.
 
 ## Local preparation
 
@@ -64,3 +64,10 @@ Targeted automated checks passed, including the new complete mocked controller l
 [Billing reconciliation](../docs/evidence/hosted-capacity-billing-review-2026-10-24.md) retains USD 0.1469663581 allocated against USD 0.15, with USD 0.0030336419 headroom. Scoped October 23–24 billing is rounded and includes baseline/other activity; final attributable charges and missing quantities remain unresolved. Exports are disabled, CSV download was unavailable and fresh Monitoring reads stopped at operator authentication. No uncertainty reserve is released.
 
 [Prepared readiness decision](../docs/hosted-observer-readiness-decision.md): recommend HOLD expansion and retain existing two-observer/three-minute staging. Genuine hosted Firebase expiry/refresh remains a separate gate. Owner approval is pending; the final acceptance criterion stays unchecked and this issue stays in progress. PR 319 merged the implementation after all 76 exact-source local checks passed; earlier uncommitted/verification notes are historical. No clients, cloud configuration changes, paid query jobs, deployment or widened access occurred during this review.
+
+
+## Owner decision and closure — 2026-10-24
+
+Closed with the owner-authorized [limited-staging decision](../docs/hosted-observer-readiness-decision.md): HOLD expansion, retain at most two observers/three-minute sessions and the USD 0.15 cumulative ceiling. PR 320 merged the billing review and prepared recommendation; all 76 local verifier steps passed on its exact source. This final disposition supersedes the pending-decision status in historical entries above.
+
+Closure records a no-expansion decision, not successful final billing attribution or permission for another run. USD 0.1469663581 remains allocated; USD 0.0030336419 is not released or newly authorized. Unresolved attribution stays tracked in parent MIM-E002, and genuine hosted refresh stays in MIM-S008 with a prepared plan. No live or access changes occurred.

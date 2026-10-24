@@ -4,7 +4,7 @@ id: "MIM-S009"
 parent: ["MIM-E002"]
 priority: "medium"
 schema_version: 1
-status: "in_review"
+status: "closed"
 title: "Verify bridge restart and archive replay during VM outage"
 type: "enhancement"
 ---
@@ -48,4 +48,9 @@ The world remains archived and paused at pulse 64 with unchanged history hashes.
 
 [Initial readiness attempts](../docs/evidence/hosted-outage-readiness-2026-10-23.md), [failed original VM budget](../docs/evidence/hosted-outage-retry-2026-10-23.md), [80-second preparation](../docs/evidence/hosted-outage-80s-retry-2026-10-23.md) and [functional replay with late cleanup](../docs/evidence/hosted-outage-readiness-fix-2026-10-23.md) remain historical evidence. Their failures and later clock correction are preserved, not relabeled as passes.
 
-Status is in_review: operator code and evidence remain local and uncommitted. The full local verifier is required before PR publication and was not rerun for this change set. Hosted frontend assets and the pinned bridge image are unchanged. [MIM-S010](MIM-S010.md) remains the separate audience/capacity/cost decision.
+Historical pre-publication status was in_review; operator code and evidence were then local and uncommitted. Hosted frontend assets and the pinned bridge image are unchanged. [MIM-S010](MIM-S010.md) remains the separate audience/capacity/cost decision.
+
+
+## Status reconciliation — 2026-10-24
+
+Closed: all stated acceptance criteria are checked and the completed bounded recovery/cleanup evidence above remains authoritative. Implementation and evidence merged in PR 318 (`af2bf66`); later main/PR 320 exact-source verification passed all 76 local steps. Closure does not imply a deployment of current main or wider access. Earlier failed runs remain preserved.
