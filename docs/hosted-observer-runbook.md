@@ -330,3 +330,8 @@ The cumulative conservative allocation is USD 0.146966358: prior-work reserve US
 ### S010 billing review and prepared readiness decision — 2026-10-24
 
 The [billing review](evidence/hosted-capacity-billing-review-2026-10-24.md) preserves the USD 0.1469663581 conservative allocation under the USD 0.15 ceiling. Rounded posted project totals do not establish final rehearsal attribution; disabled exports, unavailable CSV and an authentication-blocked metric refresh leave that gate open. The [prepared decision](hosted-observer-readiness-decision.md) recommends retaining existing limited staging and holding expansion. No access or availability change is approved. PR 319 is merged and its exact source passed all 76 local checks; older local/uncommitted statements above describe historical evidence.
+
+
+### Recorded limited-staging decision — 2026-10-24
+
+The owner [recorded HOLD expansion and retain limited staging](hosted-observer-readiness-decision.md). At most two observers/three-minute sessions, one writer and the cumulative USD 0.15 S010 ceiling remain. This completes S010 decision recording without accepting unresolved final billing as verified. S009 is closed from its merged bounded recovery evidence. S008 is in progress for genuine hosted expiry/refresh under the [prepared bounded plan](hosted-token-refresh-verification-plan.md); no live execution or deployment is authorized. The hosting epic remains in progress with financial attribution, real refresh and any future wider-access decision outstanding.

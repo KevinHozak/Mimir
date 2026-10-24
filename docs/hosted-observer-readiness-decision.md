@@ -1,6 +1,6 @@
-# Hosted observer readiness decision — prepared 2026-10-24
+# Hosted observer readiness decision — recorded 2026-10-24
 
-**Recommendation: HOLD expansion; retain existing limited staging.** This is a prepared recommendation, not approval to widen access. MIM-S010 remains in progress and its separate approval criterion remains unchecked.
+**Owner decision: retain limited staging; HOLD audience and availability expansion.** Recorded from the owner's explicit instruction on 2026-10-24. This completes MIM-S010's decision criterion without asserting that unresolved billing or hosted refresh has passed.
 
 | Gate | Evidence and disposition |
 | --- | --- |
@@ -14,10 +14,12 @@
 
 Evidence: [successful bounded attempt](evidence/hosted-capacity-journal-retry-2026-10-24.md), [billing reconciliation and limitations](evidence/hosted-capacity-billing-review-2026-10-24.md), [local issue](../issues/MIM-S010.md).
 
-## Decision proposed for the owner
+## Recorded owner decision
 
 Retain the current Google-authenticated allowlist, at most two observers and three-minute staging sessions, one authoritative SQLite writer, paused archived pulse 64, existing backup policy, and USD 0.15 cumulative S010 ceiling. No audience or availability expansion is proposed now. The residual allocation is not a new spending authorization.
 
 Before reconsidering expansion: obtain sufficiently attributable billing evidence or explicitly decide how to accept the documented uncertainty; resolve the genuine hosted token-expiry/refresh gap under a separately bounded plan; and define the intended operating workload and availability envelope. Existing exports are disabled, so any export setup requires a separate scoped decision. Do not infer approval from this document or mark S010 complete merely because the rehearsal passed.
 
-**Owner decision: pending.** No access, deployment, infrastructure or billing configuration changed during preparation.
+The owner authorized recording this limited-staging disposition, preparation of a bounded hosted refresh plan, and local issue reconciliation. No new live run, spending, deployment, infrastructure, billing configuration or access change is authorized. The USD 0.15 ceiling is retained, not reset.
+
+Follow-up: [hosted token-expiry and refresh plan](hosted-token-refresh-verification-plan.md), tracked under [MIM-S008](../issues/MIM-S008.md). [MIM-E002](../issues/MIM-E002.md) retains the financial and wider-access gates. PR 320 merged the billing review; all 76 full local checks passed for its exact source, including a documented successful rerun after a timing-sensitive fixture failure.
