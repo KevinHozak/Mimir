@@ -1,0 +1,372 @@
+{
+  "date": "2026-10-24",
+  "issue": "MIM-S010",
+  "attempt": 9,
+  "rehearsalPassed": false,
+  "decisionReady": false,
+  "expansionAuthorized": false,
+  "approved": {
+    "clients": 2,
+    "runSeconds": 120,
+    "overallSeconds": 180,
+    "budgetUsd": 0.1
+  },
+  "actual": {
+    "clientSeconds": 93.382,
+    "directZeroSeconds": 98.42652678489685,
+    "exactRollbackAndDeletionSeconds": 111.30147385597229,
+    "collectorExitAndFinalSeconds": 116.75433468818665,
+    "withinOverallLimit": true,
+    "maximumObservedRequests": 2,
+    "maximumObservedStreams": 2,
+    "uiErrors": 0
+  },
+  "failure": {
+    "category": "local-sample-status-replacement",
+    "observedRuntimeError": true,
+    "unpublishedImmutableNextFilePresent": true,
+    "runtimeMessageNotRetained": true,
+    "rootCauseAssessment": "Evidence points to the repeated Windows snapshot replacement exhausting its permission retries; exact lock owner unknown."
+  },
+  "recovery": {
+    "integrity": true,
+    "singleWriter": true,
+    "paused": true,
+    "pulse": 64,
+    "backupsHealthy": true,
+    "historyUnchanged": true,
+    "upstreamSockets": 0,
+    "serviceExactlyRestored": true,
+    "candidateAbsent": true,
+    "vmCollectorExitCode": 0
+  },
+  "cost": {
+    "declaredPreflightUsd": 0.099216458275,
+    "correctedPreflightUsd": 0.100272458275,
+    "completedConservativeAllocationUsd": 0.086280958275,
+    "unspentCeilingUsd": 0.013719041725000006,
+    "sameProfileAdditionalReservationUsd": 0.031158902189285718,
+    "nextAttemptFits": false,
+    "finalBilling": "pending",
+    "startupBoostOmissionCorrected": true,
+    "missingCurrentHostingAndLoggingUsage": "reserved at nonzero bounds; not treated as zero"
+  },
+  "usage": {
+    "prior": {
+      "bridgeSeconds": 1468.4822730167095,
+      "bridgeSent": 34543489.0,
+      "vmSent": 35845856.0,
+      "hostingSent": 3408.0,
+      "storageSent": 1187.0,
+      "storageRequests": 7.0,
+      "logging": 1517853.0
+    },
+    "current": {
+      "bridgeSeconds": 217.870674077,
+      "bridgeSent": 15547699.0,
+      "vmSent": 16011652.0,
+      "hostingSent": null,
+      "storageSent": 1069.0,
+      "storageRequests": 5.0,
+      "logging": null
+    }
+  },
+  "localVerification": {
+    "command": "npm run test:observer-rehearsal",
+    "capacityTests": 12,
+    "collectorTests": 18,
+    "browserHarnessTests": 19,
+    "controllerTests": 24,
+    "fullLocalSuiteRerun": false
+  },
+  "costComponents": [
+    {
+      "phase": "prior",
+      "scope": "bridge",
+      "unit": "temporary-instance-vCPU-second",
+      "quantityUpperBound": 1200,
+      "usdPerUnit": 1.8e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "bridge",
+      "unit": "temporary-instance-GiB-second",
+      "quantityUpperBound": 600,
+      "usdPerUnit": 2e-06,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "bridge",
+      "unit": "original-vCPU-second",
+      "quantityUpperBound": 280,
+      "usdPerUnit": 2.4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "bridge",
+      "unit": "original-GiB-second",
+      "quantityUpperBound": 140,
+      "usdPerUnit": 2.5e-06,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "vm",
+      "unit": "e2-micro-hour",
+      "quantityUpperBound": 1.5166666666666666,
+      "usdPerUnit": 0.008376428,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "storage",
+      "unit": "pd-standard-GiB-month",
+      "quantityUpperBound": 0.06770833333333333,
+      "usdPerUnit": 0.04,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "storage",
+      "unit": "standard-GiB-hour",
+      "quantityUpperBound": 1.5166666666666666,
+      "usdPerUnit": 4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "storage",
+      "unit": "hosting-GB-month",
+      "quantityUpperBound": 0.0024239583333333335,
+      "usdPerUnit": 0.026,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "storage",
+      "unit": "class-A-operation",
+      "quantityUpperBound": 100,
+      "usdPerUnit": 1e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "network",
+      "unit": "all-bridge-and-VM-egress-GiB",
+      "quantityUpperBound": 0.068359375,
+      "usdPerUnit": 0.23,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "network",
+      "unit": "hosting-storage-control-egress-GiB",
+      "quantityUpperBound": 0.0009765625,
+      "usdPerUnit": 0.23,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "logging",
+      "unit": "ingested-GiB",
+      "quantityUpperBound": 0.001953125,
+      "usdPerUnit": 0.5,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "bridge",
+      "unit": "request",
+      "quantityUpperBound": 1000,
+      "usdPerUnit": 4.0000000000000003e-07,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "vm",
+      "unit": "e2-micro-hour",
+      "quantityUpperBound": 0.3333333333333333,
+      "usdPerUnit": 0.008376428,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "storage",
+      "unit": "pd-standard-GiB-month",
+      "quantityUpperBound": 0.01488095238095238,
+      "usdPerUnit": 0.04,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "storage",
+      "unit": "standard-GiB-hour",
+      "quantityUpperBound": 0.3333333333333333,
+      "usdPerUnit": 4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "storage",
+      "unit": "hosting-GB-month",
+      "quantityUpperBound": 0.0005327380952380952,
+      "usdPerUnit": 0.026,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "network",
+      "unit": "control-egress-GiB",
+      "quantityUpperBound": 0.0009765625,
+      "usdPerUnit": 0.23,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "logging",
+      "unit": "ingested-GiB",
+      "quantityUpperBound": 0.0009765625,
+      "usdPerUnit": 0.5,
+      "boundsVerified": true
+    },
+    {
+      "phase": "current-preparation",
+      "scope": "storage",
+      "unit": "class-A-operation",
+      "quantityUpperBound": 20,
+      "usdPerUnit": 1e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "temporary-instance-vCPU-second",
+      "quantityUpperBound": 160,
+      "usdPerUnit": 1.8e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "temporary-instance-GiB-second",
+      "quantityUpperBound": 80,
+      "usdPerUnit": 2e-06,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "original-vCPU-second",
+      "quantityUpperBound": 70,
+      "usdPerUnit": 2.4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "original-GiB-second",
+      "quantityUpperBound": 35,
+      "usdPerUnit": 2.5e-06,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "overlap-vCPU-second",
+      "quantityUpperBound": 60,
+      "usdPerUnit": 2.4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "overlap-GiB-second",
+      "quantityUpperBound": 30,
+      "usdPerUnit": 2.5e-06,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "vm",
+      "unit": "e2-micro-hour",
+      "quantityUpperBound": 0.075,
+      "usdPerUnit": 0.008376428,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "storage",
+      "unit": "pd-standard-GiB-month",
+      "quantityUpperBound": 0.0033482142857142855,
+      "usdPerUnit": 0.04,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "storage",
+      "unit": "standard-GiB-hour",
+      "quantityUpperBound": 0.075,
+      "usdPerUnit": 4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "storage",
+      "unit": "hosting-GB-month",
+      "quantityUpperBound": 0.00011986607142857144,
+      "usdPerUnit": 0.026,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "storage",
+      "unit": "class-A-operation",
+      "quantityUpperBound": 20,
+      "usdPerUnit": 1e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "network",
+      "unit": "all-directions-allocated-egress-GiB",
+      "quantityUpperBound": 0.03125,
+      "usdPerUnit": 0.23,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "logging",
+      "unit": "ingested-GiB",
+      "quantityUpperBound": 0.00390625,
+      "usdPerUnit": 0.5,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "request",
+      "quantityUpperBound": 400,
+      "usdPerUnit": 4.0000000000000003e-07,
+      "boundsVerified": true
+    },
+    {
+      "phase": "prior",
+      "scope": "bridge",
+      "unit": "original-startup-boost-vCPU-second",
+      "quantityUpperBound": 44,
+      "usdPerUnit": 2.4e-05,
+      "boundsVerified": true
+    },
+    {
+      "phase": "retry",
+      "scope": "bridge",
+      "unit": "original-startup-boost-vCPU-second",
+      "quantityUpperBound": 24,
+      "usdPerUnit": 2.4e-05,
+      "boundsVerified": true
+    }
+  ]
+}

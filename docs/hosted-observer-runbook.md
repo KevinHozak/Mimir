@@ -301,3 +301,27 @@ The [revised plan](hosted-outage-follow-up-proposal.md) is approved, but [both s
 ### Readiness repair and cold replay result (2026-10-23)
 
 [Earlier bounded evidence](evidence/hosted-outage-readiness-fix-2026-10-23.md) proves replacement readiness, two checksum-verified cold historical scenes while the VM is TERMINATED, and automatic retained-UI recovery before T+160. The final VM stop-to-restart interval was 60.477 seconds under the approved 80-second cap; both clients closed by T+148. Full-spec rollback/candidate absence was verified only at T+197, and an initial process still lacks final-zero proof. Post-run integrity/writer/history checks do not establish the in-window attestation gate. That attempt left independent, bounded full rollback/audit/process cleanup outstanding; the completed acceptance above resolves it. No hosted image or observer asset upgrade occurred.
+
+
+## MIM-S010 capacity preparation
+
+The [bounded capacity proposal](hosted-capacity-rehearsal-plan.md) consolidates existing auth/recovery evidence and proposes a steady two-live-stream rehearsal without changing infrastructure. New automated checks cover simultaneous duration, cancellation, direct final zeros, resource peaks and conservative allocated cost. See [local preparation evidence](evidence/hosted-capacity-preparation-2026-10-23.md). No live S010 run is approved or performed by preparation; fresh hosted collection adapters, pricing/bounds and preflight remain execution prerequisites. Unknown metrics or billing remain unresolved. Access stays limited to two observers/three minutes, and genuine hosted Firebase refresh remains a separate unverified case.
+
+
+### Approved S010 preflight abort
+
+The user approved the bounded 120-second/two-client rehearsal with a 180-second overall limit and USD 0.10 ceiling. [Live read-only preflight](evidence/hosted-capacity-preflight-2026-10-23.md) failed fresh process sampling, whole-window VM memory collection and complete cost bounds; no load client or configuration mutation was started. Exact original service spec/traffic and healthy paused pulse-64 history, one writer, backups and zero upstream sockets were independently verified. Historical process zeros do not establish current final-zero acceptance. The approval remains conditional; do not widen timing or change hosted settings to turn missing evidence into a pass.
+
+### S010 collector repair and failed timed cleanup (2026-10-24)
+
+[Measured retry evidence](evidence/hosted-capacity-retry-2026-10-24.md) supersedes the earlier no-load state. Two observers completed 120.043 seconds, but upstream HTTP pools prevented socket zero and cleanup missed T+180. Exact service restoration, all eight temporary revisions absent, zero sockets and unchanged healthy pulse-64 history were verified afterward. The latest local pool-drain fix passes regression tests but has not been retried live. Direct expiring probes replace delayed Logging for instantaneous counters. Include prior attempts in the same USD 0.10 allocation; actual billing and cumulative ancillary cost remain unresolved, so further retries are held. No expansion is authorized.
+
+### S010 cumulative cost reconciliation and timely abort cleanup
+
+[Attempt 9 and cost correction](evidence/hosted-capacity-cost-reconciliation-2026-10-24.md) verifies direct zeros by T+98.427 and exact restoration/deletion plus collector exit by T+116.754. A local snapshot handoff failure ended observation at 93.382 seconds, so the full 120-second gate still fails. The declared USD 0.09922 preflight omitted prior original-revision startup boost; corrected worst-case preflight was USD 0.10027 and must not be labeled compliant. Completed conservative allocation is USD 0.08628 with billing and some usage ingestion pending, leaving less than the current retry reserve. No additional run fits that model. Immutable sample journaling and explicit boost accounting pass local regressions but have not been retried live. Keep the issue open and do not expand access.
+
+### S010 approved USD 0.15 immutable-journal retry
+
+The user raised only the cumulative ceiling, preserving two clients, a 120-second run and 180-second overall limit. [Attempt 10](evidence/hosted-capacity-journal-retry-2026-10-24.md) passed the operational window at 120.039 seconds, with direct zeros and unchanged healthy pulse-64 attestation by T+124.774, exact full-spec/traffic restoration and candidate absence by T+135.466, and collector exit/final cleanup by T+139.090. The immutable journal worked live and no process/resource sampling gap exceeded its bound. Observed bridge CPU/memory and VM guest CPU/memory stayed below 80%. The temporary browser tab is closed.
+
+The cumulative conservative allocation is USD 0.146966358: prior-work reserve USD 0.105, current preparation USD 0.004327456 and retry reserve USD 0.037638902, including full boosted original CPU and overlap allowance. Collected physical usage fits the reserved caps. Missing Hosting transfer and delayed attributable billing remain unknown and reserved, not zero. Do not claim a final invoice, complete per-component actual reconciliation or a wider-access readiness decision. No permanent image/Hosting update occurred; the temporary revision is removed and the original service restored.

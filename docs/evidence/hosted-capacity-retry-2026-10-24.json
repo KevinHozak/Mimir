@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-24",
+  "issue": "MIM-S010",
+  "rehearsalPassed": false,
+  "decisionReady": false,
+  "expansionAuthorized": false,
+  "limits": {
+    "clients": 2,
+    "runSeconds": 120,
+    "overallSeconds": 180,
+    "budgetUsd": 0.1
+  },
+  "attempts": 8,
+  "latestRun": {
+    "clientWindowSeconds": 120.043,
+    "uiErrors": 0,
+    "observedPeakRequests": 2,
+    "observedPeakStreams": 2,
+    "samples": 125,
+    "maximumSampleGapSeconds": 1.2478816509246826,
+    "sampledThroughSeconds": 144.9887306690216,
+    "lastBridgeRequests": 0,
+    "lastBridgeStreams": 0,
+    "lastVmSockets": 8,
+    "timedCleanupPassed": false
+  },
+  "observedResourcePeaks": {
+    "wholeOverallWindowCoverage": false,
+    "bridgeCpuFraction": 0.2070329586254087,
+    "bridgeMemoryBytes": 92889088,
+    "vmCpuFraction": 0.6089108910891089,
+    "vmMemoryFraction": 0.538582225590398
+  },
+  "eventualCleanup": {
+    "exactServiceRestored": true,
+    "temporaryRevisionsAbsent": 8,
+    "upstreamSockets": 0,
+    "integrity": true,
+    "singleWriter": true,
+    "backupsHealthy": true,
+    "historyUnchanged": true,
+    "paused": true,
+    "pulse": 64
+  },
+  "cost": {
+    "latestPreflightAllocationUsd": 0.09778780704761905,
+    "measuredPriorInstanceSeconds": 1190.3831284562477,
+    "actualBilling": "pending",
+    "furtherRetryHeadroom": "not verified",
+    "newRetryStarted": false
+  },
+  "localFixLiveVerification": "upstream pool fix not retried live",
+  "verification": {
+    "command": "npm run verify:local",
+    "status": "passed",
+    "completedChecks": 76,
+    "sourceHash": "2f18f43a69d74eb8b09389918e5dc0427d18caa9a71671178928f1f1e12ba316",
+    "summary": ".tmp\\verification\\2026-10-24T05-56-15-399Z\\summary.json",
+    "documentationUpdatedAfterSuite": true
+  }
+}
