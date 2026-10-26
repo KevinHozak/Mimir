@@ -28,7 +28,7 @@
   "dependencies": {
     "@mimir/engine": "0.1.0",
     "@vitejs/plugin-react": "^5.2.0",
-    "firebase": "^12.19.0",
+    "firebase": "^13.1.0",
     "phaser": "^4.2.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
