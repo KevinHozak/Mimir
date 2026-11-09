@@ -72,6 +72,7 @@ export function identityChanged(before, after) {
 // package test scripts are omitted after the initial full workspace build.
 export const checks = [
   [".", "test"],
+  [".", "test:model-study"],
   ...["state", "first-glow-commands", "first-glow-command-acceptance", "first-glow-restart", "backup-restore", "backup-replication", "ai-runtime", "pulse-gate", "owner-auth", "security-p4", "security-p5", "chronicle"].map(name => ["packages/server", `test:${name}`]),
   ["packages/web", "test:hosted-auth-boundary"],
   ...["public-archive", "observer-bridge-auth", "observer-bridge-sse", "observer-bridge-lifecycle", "observer-bridge-http2", "observer-rehearsal", "deploy-hosting-config"].map(name => [".", `test:${name}`]),

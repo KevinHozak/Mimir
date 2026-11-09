@@ -1,5 +1,5 @@
 import { canonicalize } from "@mimir/world-data";
-import { applyFirstGlowDilemmaChoice, type FirstGlowDilemmaChoice } from "./first-glow-social.js";
+import { applyFirstGlowDilemmaChoice, validateFirstGlowSocialState, type FirstGlowDilemmaChoice } from "./first-glow-social.js";
 import { validateFirstGlowInterpretationRecord, type FirstGlowInterpretationContext, type FirstGlowInterpretationRecord } from "./first-glow-interpretations.js";
 import type { FirstGlowState } from "./structured.js";
 
@@ -65,6 +65,7 @@ function result(state: FirstGlowState, context: FirstGlowInterpretationContext, 
       pulse: context.pulse
     };
     staged = { ...state, social: applyFirstGlowDilemmaChoice(state.social, choice) };
+    validateFirstGlowSocialState(staged.social, state.settlements.flatMap(settlement => settlement.sparks.map(spark => spark.id)));
   }
   const after = snapshot(staged);
   return { accepted, alternativeId: record.alternativeId, before, after, changedFields: changedFields(before, after), ...(rejection ? { rejection } : {}) };
@@ -72,8 +73,8 @@ function result(state: FirstGlowState, context: FirstGlowInterpretationContext, 
 
 /**
  * Apply one already-validated interpretation to a disposable state clone.
- * This is deliberately not wired into the server pulse: the existing social
- * transition remains the only authority, and the caller owns staging output.
+ * The server runtime commits only accepted social transitions; validate the
+ * complete staged social state before returning it to that authority boundary.
  */
 export function applyFirstGlowStagingChoice(state: FirstGlowState, context: FirstGlowInterpretationContext, record: FirstGlowInterpretationRecord): FirstGlowStagingTransition {
   try {

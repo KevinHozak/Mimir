@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "sourceProtocolHash": "00c9fd5080421b7edb8b8de71bc4b5a71641e15373a85589c1a71436d2e8f823",
+  "kind": "read-only-artifact-audit-with-disposable-shadow-accounting",
+  "providerCalls": 0,
+  "checkpointsVerified": 24,
+  "inputHashes": {
+    "report.json": "7abc5ccb5e6444fe34ef9581498bdc4342e28dec624b263458a27c4076075b4e",
+    "2-rules-0.json": "515fa33f60a932fcc2bb234c1e0494fdb7e3b77dc8452ff2f908f6b70910d333",
+    "2-rules-16.json": "449db2eff217269dcdbb40d72cc202517af9d7182695f952fe6a6241c6478b42",
+    "2-rules-40.json": "1da64de8f7073af4905ac6bcb817c28bb99f9efd5024510215a57cfc4343e4e1",
+    "2-rules-80.json": "dbc9e4fafe1232ad41a384363af47feb58bd1128f3c2145e435c776d9a1bfb9d",
+    "2-model-0.json": "515fa33f60a932fcc2bb234c1e0494fdb7e3b77dc8452ff2f908f6b70910d333",
+    "2-model-16.json": "f289115c21466a2ec560c9e4f8f131911c844d8868d9d1855c3d7f39600cf83a",
+    "2-model-40.json": "8c2d086682c815aaa1996588bec65afe7d75b50473d0933dc0944ec70314d8fc",
+    "2-model-80.json": "fd8094ad8e41c154faee0476e3b274220ddc00aad2473db32d5b7be883b197b6",
+    "4-rules-0.json": "0072229fdcd1719c18f98e9dd6f22ba554fa6a9d6f57de2289746803bad7fe4f",
+    "4-rules-16.json": "643e3192efa08c08178d322ec510f5249aa58f3e713eb95d642ada578730194f",
+    "4-rules-40.json": "1043b19eac5acc99f74ee24052a79c45d749635e03f0c195e0fce7aea4f6c00f",
+    "4-rules-80.json": "7e256aa063729761280cd7b253da6289939628ddb1a6253bbcf64e10ec1a071f",
+    "4-model-0.json": "0072229fdcd1719c18f98e9dd6f22ba554fa6a9d6f57de2289746803bad7fe4f",
+    "4-model-16.json": "5c7ee1aa6820454e34ca2448cffd12b6f4f16a42a697f8e2d50aacf0722f464d",
+    "4-model-40.json": "8768a30eac98c5442ef9023becfc980e6c327a074fa09620a3f1cb77f6dae2d1",
+    "4-model-80.json": "3695d407d976173007c8a1d1c49a5743ee0fd59922fee162ba2b071f12d87de2",
+    "8-rules-0.json": "18ab0fd04fcf58a0c4e2e5de50da40f97f706f9a0d2eb15a8535d668fdfc851d",
+    "8-rules-16.json": "37783e9004b9c559e94d072c20fae733ecaff54f0e99dd6ba3eaa8826552db3a",
+    "8-rules-40.json": "81a8c8f0dbec2896767a713819938a876ed82f6fb58cfa03843a69070bea20e0",
+    "8-rules-80.json": "52fec972bd78fa9bc8f25394714be68f6526029ab5d3857ec77c5811279fd6ee",
+    "8-model-0.json": "18ab0fd04fcf58a0c4e2e5de50da40f97f706f9a0d2eb15a8535d668fdfc851d",
+    "8-model-16.json": "c67221176bbe17bf26188b1b9b8007c0d9728727ac6437a30b78083d3abd8aa4",
+    "8-model-40.json": "e60440068052ceda0fb230957782fe3104e94184a46106cca7bbd37c7a3ef255",
+    "8-model-80.json": "e3b62ee9995dcf6efa60330ad2cdc164ac0243342db5aedd15a83c9d18aa7291",
+    "2-model-last-state.json": "fd8094ad8e41c154faee0476e3b274220ddc00aad2473db32d5b7be883b197b6",
+    "2-model-outcomes.jsonl": "37408ec400d70b5c7e4280499f65ce50172a66bdf93a2652cdb5edbcf3fcd83b",
+    "4-model-last-state.json": "3695d407d976173007c8a1d1c49a5743ee0fd59922fee162ba2b071f12d87de2",
+    "4-model-outcomes.jsonl": "7a9f125e80ce80dd86d6bb12cffb5d275936b945ed52d9db4d40346e740ec332",
+    "8-model-last-state.json": "e3b62ee9995dcf6efa60330ad2cdc164ac0243342db5aedd15a83c9d18aa7291",
+    "8-model-outcomes.jsonl": "002fd9984773469a4f754644a90bafb14e86b34c69a11843990df7f10ea6ca69"
+  },
+  "phaseOffsets": {
+    "spark-1": 26,
+    "spark-2": 27,
+    "spark-3": 28,
+    "spark-4": 29,
+    "spark-5": 30,
+    "spark-6": 31
+  },
+  "seeds": [
+    {
+      "seed": 2,
+      "rcDecisionCount": 0,
+      "rcCreatedCount": 0,
+      "legacyCandidates": 3,
+      "trace": [
+        {
+          "sparkId": "spark-5",
+          "pulse": 4,
+          "eventId": "event-4-spark-5-explore",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": false,
+          "shadowReason": "cadence-window-not-ready"
+        },
+        {
+          "sparkId": "spark-6",
+          "pulse": 4,
+          "eventId": "event-4-spark-6-explore",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": false,
+          "shadowReason": "cadence-window-not-ready"
+        },
+        {
+          "sparkId": "spark-6",
+          "pulse": 52,
+          "eventId": "event-52-spark-6-wild-cache",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": true,
+          "shadowReason": "created"
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "rcDecisionCount": 0,
+      "rcCreatedCount": 0,
+      "legacyCandidates": 3,
+      "trace": [
+        {
+          "sparkId": "spark-5",
+          "pulse": 4,
+          "eventId": "event-4-spark-5-explore",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": false,
+          "shadowReason": "cadence-window-not-ready"
+        },
+        {
+          "sparkId": "spark-6",
+          "pulse": 4,
+          "eventId": "event-4-spark-6-explore",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": false,
+          "shadowReason": "cadence-window-not-ready"
+        },
+        {
+          "sparkId": "spark-6",
+          "pulse": 48,
+          "eventId": "event-48-spark-6-wild-cache",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": true,
+          "shadowReason": "created"
+        }
+      ]
+    },
+    {
+      "seed": 8,
+      "rcDecisionCount": 0,
+      "rcCreatedCount": 0,
+      "legacyCandidates": 3,
+      "trace": [
+        {
+          "sparkId": "spark-5",
+          "pulse": 4,
+          "eventId": "event-4-spark-5-explore",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": false,
+          "shadowReason": "cadence-window-not-ready"
+        },
+        {
+          "sparkId": "spark-6",
+          "pulse": 4,
+          "eventId": "event-4-spark-6-explore",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": false,
+          "shadowReason": "cadence-window-not-ready"
+        },
+        {
+          "sparkId": "spark-6",
+          "pulse": 52,
+          "eventId": "event-52-spark-6-wild-cache",
+          "trigger": "novelty",
+          "v2Recorded": false,
+          "shadowCreated": true,
+          "shadowReason": "created"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Shadow-created slots are counterfactual feasibility estimates, not recorded world outcomes or provider calls.",
+    "An integrated scheduler changes later state; this audit cannot predict all later contexts or establish model benefit."
+  ]
+}

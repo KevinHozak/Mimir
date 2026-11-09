@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "status": "selected-account-base-prices-and-privacy-facts-verified-live-bounds-blocked",
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "selectedIdentityKeptPrivate": true,
+  "explicitlySelectedAccountUsed": true,
+  "accountBasePricesVerified": true,
+  "basePrices": [
+    {
+      "skuId": "A078-09CB-E461",
+      "description": "Gemini 3.5 Flash Lite Regional Text Input - Predictions",
+      "currency": "USD",
+      "usdPerMillionTokens": "0.33",
+      "microusdPerMillionTokens": 330000,
+      "priceReason": "default-price",
+      "effectiveDiscountPercent": 0
+    },
+    {
+      "skuId": "A841-F27B-EE62",
+      "description": "Gemini 3.5 Flash Lite Regional Text Output - Predictions",
+      "currency": "USD",
+      "usdPerMillionTokens": "2.75",
+      "microusdPerMillionTokens": 2750000,
+      "priceReason": "default-price",
+      "effectiveDiscountPercent": 0
+    }
+  ],
+  "billingEnabled": true,
+  "billingAccountOpen": true,
+  "billingCurrency": "USD",
+  "forcedConsumerBillingReadApiDisabled": true,
+  "resourceScopedBillingReadsSucceeded": true,
+  "billingApiEnabledByReview": false,
+  "publisherMetadata": {
+    "name": "publishers/google/models/gemini-3.5-flash-lite",
+    "versionId": "default",
+    "launchStage": "GA",
+    "generatedModelVersionVerified": false,
+    "regionGenerationAccessProbed": false
+  },
+  "privacy": {
+    "cacheRetentionType": "DURABLE",
+    "explicitDisableCacheFieldPresent": false,
+    "loggingOverrideAbsent": true,
+    "defaultLoggingOffInferred": true,
+    "explicitLoggingDisabledReadback": false,
+    "agreementType": "unknown",
+    "abuseLoggingExemptionVerified": false,
+    "zeroDataRetentionClaimed": false,
+    "retentionApproved": false
+  },
+  "tokens": {
+    "smallInputUpperBoundVerified": false,
+    "combinedReasoningOutputUpperBoundVerified": false,
+    "substituteTokenizerUsed": false,
+    "providerTokenizationRequests": 0
+  },
+  "fees": {
+    "maximumTaxFeeRate": null,
+    "allInFeeBoundVerified": false,
+    "priorAllocationApproved": false,
+    "outsideCheckoutAttempts": "unknown",
+    "ownerAnswer": "Unknown"
+  },
+  "inferenceRequests": 0,
+  "countTokensRequests": 0,
+  "computeTokensRequests": 0,
+  "paidBillingExportQueries": 0,
+  "providerConfigurationMutations": 0,
+  "sdkAndRepoConfigurationUnchanged": true,
+  "metadataRequests": 14,
+  "privateMetadataEvidence": [
+    {
+      "path": ".tmp/model-study-approval-preparation/s004-v4-selected-requirements-metadata.json",
+      "sha256": "384ae7b016aef6fb6e32bbf380a4b19adaed54702cd3793b87d5f793fcd8270e"
+    },
+    {
+      "path": ".tmp/model-study-approval-preparation/s004-v4-selected-requirements-followup.json",
+      "sha256": "3c2eff1736ce20ccb5975aeff1eebd5db594492ae33b030fe255de10bb809c8c"
+    },
+    {
+      "path": ".tmp/model-study-approval-preparation/s004-v4-account-pricing-metadata.json",
+      "sha256": "11614baef7f0483538e66df4840b9ce75519b06f38654e0026e3b42d0dab1ee8"
+    },
+    {
+      "path": ".tmp/model-study-approval-preparation/s004-v4-account-pricing-followup.json",
+      "sha256": "0bd3a31156147f0bbe544d9b96a0db67aa6d2bf6899d2c091ad1001a74e33c0e"
+    },
+    {
+      "path": ".tmp/model-study-approval-preparation/s004-v4-account-pricing-skus.json",
+      "sha256": "9b60c28a4b9946d32d806073c6b22ffe26af4caf6e733f970a8540347bed9ab7"
+    },
+    {
+      "path": ".tmp/model-study-approval-preparation/s004-v4-account-pricing-skus-page2.json",
+      "sha256": "0f31a69dbc073a7f4bdc0eedc32c228fe57c5dab77df2003a2f2c84a871fa9b3"
+    }
+  ],
+  "liveApproved": false,
+  "effectiveAdmittedLiveAttempts": 0,
+  "remainingGates": [
+    "proven-exact-model-token-bounds",
+    "tax-fee-and-prior-allocation-evidence",
+    "agreement-and-retention-acceptance",
+    "S001-and-reviewer-disposition",
+    "manifest-specific-owner-approval"
+  ],
+  "sourceFreezeChanged": false,
+  "gitDelivery": "local-uncommitted"
+}

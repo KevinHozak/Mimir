@@ -12,6 +12,13 @@ The [local issue backlog](../issues/) is the source of truth for unfinished work
 
 Completed functional delivery belongs in the [Changelog](changelog.md). Historical planning remains in [Project History](history.md), and dated verification remains in [Evidence](evidence/).
 
+## Current selection order
+
+- [MIM-S001](../issues/MIM-S001.md): independent human review of World, Follow, and Chronicle remains the observer gate. The connected journey and launcher/example-label repairs are merged; do not repeat them as unfinished implementation.
+- [MIM-E001](../issues/MIM-E001.md): approve a frozen study packet ([S002](../issues/MIM-S002.md)) before the bounded comparison ([S004](../issues/MIM-S004.md)), then evidence and decision (S005). The comparison also depends on S001 and the [S003 protocol](../issues/MIM-S003.md). [S004 v4](model-study-s004-protocol-v4.md) now has an implemented isolated adapter, revised budget guard and [fresh offline verification](evidence/model-study-v4-verification-2026-11-08.md). The matched comparison remains deferred. The owner separately authorized a USD 5 local Spark AI pilot, now implemented and live-verified; see the [pilot guide](spark-ai-local.md). Its operational use does not establish study or human-review acceptance.
+- [MIM-E002](../issues/MIM-E002.md): genuine hosted expiry/refresh remains in [S008](../issues/MIM-S008.md), alongside unresolved financial attribution and a separate decision before wider access. Other child stories are closed; closure does not establish broad readiness.
+- Deferred design remains in [S011](../issues/MIM-S011.md), [S012](../issues/MIM-S012.md), [S013](../issues/MIM-S013.md), and [S014](../issues/MIM-S014.md): natural Hero rarity, capacity progression/presentation, and the next-age gate. These do not change First Glow defaults.
+
 ## Gates for selecting new work
 
 - First Glow remains the sole runtime until a separately selected and verified age transition is approved. Use [World Theme](world-theme.md) for intended setting and terminology.

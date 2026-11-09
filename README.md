@@ -1,5 +1,10 @@
 # Mimir: A Light of Our Own
 
+## Real Spark AI locally
+
+Run `npm run start:ai` to open a separate, paused AI world at `http://127.0.0.1:4175/`. It uses the owner's existing Google Cloud credentials and a persistent **USD 5 pilot allocation**. Select **Resume clock** to continue; **Stop AI spending** persistently stops new requests. Read the [launch and budget guide](docs/spark-ai-local.md) before changing its data or configuration.
+
+
 Mimir is an observer simulation of the Living Circuit during the First Glow. Watch luminous Sparks explore charge pools, shelter niches, traces, relays, and one another while the server commits deterministic history.
 
 The active runtime is a schema-3 world bundle with `themeId: living-circuit`, `ageId: first-glow`, `simulationVersion: mimir-sim-v3-first-glow`, and `spatialModel: structured-v2`.

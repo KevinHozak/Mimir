@@ -1,0 +1,113 @@
+{
+  "date": "2026-11-08",
+  "protocolRevision": 4,
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "sourceFilesVerified": 266,
+  "status": "offline-verified-live-blocked",
+  "model": "gemini-3.5-flash-lite",
+  "location": "us",
+  "host": "aiplatform.us.rep.googleapis.com",
+  "node": "v24.14.0",
+  "sourceStudyReport": ".tmp/model-study-integration/run-BiNhoG/report.json",
+  "sourceStudyReportSha256": "712a5378ccb00778f6470348baad567712626a4df99c3808578b4bb244e95d6a",
+  "histories": 6,
+  "authoritativePulses": 480,
+  "syntheticRequests": 3,
+  "providerRequests": 0,
+  "tokenCountingRequests": 0,
+  "credentialsAcquired": false,
+  "configurationMutations": false,
+  "studyTests": {
+    "passed": 27,
+    "failed": 0
+  },
+  "rootBuild": "passed-with-nonfatal-web-chunk-warning",
+  "serverRuntimeTests": {
+    "passed": 3,
+    "failed": 0,
+    "cwd": "packages/server"
+  },
+  "serverNormalizationTests": {
+    "passed": 1,
+    "failed": 0
+  },
+  "rootNpmTestRunThisTurn": false,
+  "rulesRepeat": {
+    "seeds": 3,
+    "pulses": 240,
+    "checkpointsMatched": 15,
+    "forbiddenProviderCalls": 0,
+    "networkTrap": true
+  },
+  "observer": {
+    "receipt": ".tmp/model-study-review/run-zfE9mt/review.json",
+    "sha256": "7c9c1a06fa6f1a023e0b16c07a34771d1cdad8c70322e43316b8a79a11017b13",
+    "histories": 6,
+    "widths": [
+      1440,
+      390
+    ],
+    "captures": 12,
+    "browserMutationRequests": 0,
+    "providerCalls": 0,
+    "canonicalHashesUnchanged": true,
+    "externalRequestsBlocked": true,
+    "ownedServicesClosed": true
+  },
+  "budgetFixture": {
+    "inputTokenUpperBound": 16384,
+    "reasoningTokenUpperBound": 65536,
+    "billableOutputTokenUpperBound": 65664,
+    "requestReserveMicrousd": 185983,
+    "overheadReserveMicrousd": 100000,
+    "fundedAttempts": 4,
+    "retainedTotalMicrousd": 657949,
+    "actualSpend": null,
+    "liveBoundVerified": false
+  },
+  "admissions": [
+    {
+      "seed": 2,
+      "sparkId": "spark-6",
+      "pulse": 52,
+      "inputHash": "b3da51571fa038c7a059f0600f2232eb7987aaa3b372236e880576d0be748681",
+      "outcome": "completed"
+    },
+    {
+      "seed": 4,
+      "sparkId": "spark-6",
+      "pulse": 48,
+      "inputHash": "1e01b06c6ab97b6f57e25d57615363e86179c749521001ec0f19a5c242a62aea",
+      "outcome": "completed"
+    },
+    {
+      "seed": 8,
+      "sparkId": "spark-6",
+      "pulse": 52,
+      "inputHash": "db68606fdca8eb2936e5150c687a8f317741645dce95f2a1ff626c83e6d2650c",
+      "outcome": "completed"
+    }
+  ],
+  "v3Preservation": {
+    "reportHash": "03924e7bcea4910cdf613ea56b0b146b6cde3f05ff15f929108013bdbe04ed1d",
+    "checkpointHashesVerified": 30,
+    "protocolHash": "b5b614fc6079aa08da0c751e818a584f1746981f46f2554c165a952c942a5a46"
+  },
+  "serializationExample": {
+    "kind": "injected-synthetic-not-treatment",
+    "bytes": 3169,
+    "sha256": "5d73e1347638fe0b0993c19e9bbc366cec2147df5578cbebe65c66affaf9733d",
+    "tokenBoundVerified": false
+  },
+  "effectiveAdmittedLiveAttempts": 0,
+  "liveApproved": false,
+  "humanReview": "unmeasured",
+  "providerBenefit": "unmeasured",
+  "remainingGates": [
+    "proven-token-and-all-in-fee-bounds",
+    "account-project-billing-access-and-privacy-evidence",
+    "S001-and-reviewer-presentation",
+    "manifest-specific-owner-approval"
+  ],
+  "gitDelivery": "local-uncommitted"
+}

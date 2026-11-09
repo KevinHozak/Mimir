@@ -74,3 +74,11 @@ test("verification identity detects source edits and HEAD changes", () => {
   assert.equal(identityChanged(original, { ...original, head: "commit-two" }), true);
   assert.equal(identityChanged(original, { ...original, sourceHash: "content-two" }), true);
 });
+
+
+test("local verification includes Spark spending regressions and fixture-only study checks", () => {
+  const steps = checks.flatMap(([directory, name]) => expandScript(directory, name));
+  assert.ok(steps.some(step => step.args.includes("dist/spark-ai-live.test.js")));
+  const study = steps.find(step => step.args.includes("scripts/model-study-protocol.mjs"));
+  assert.ok(study.args.includes("--fixtures-only"));
+});

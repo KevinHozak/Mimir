@@ -24,6 +24,12 @@ assert.deepEqual(applied.changedFields, ["social"]);
 assert.equal(applied.after.runtime.events.length, state.events.length);
 assert.equal(applied.after.runtime.ledger.length, state.ledger.length);
 assert.equal(applied.after.social.commitments.length, 1);
+const alreadyApplied = { ...state, social: applied.after.social };
+const repeated = applyFirstGlowStagingChoice(alreadyApplied, context, baseline);
+assert.equal(repeated.accepted, false, "same-pulse duplicate commitment must not reach committed state");
+assert.equal(repeated.rejection, "invalid-record");
+assert.deepEqual(repeated.changedFields, []);
+assert.deepEqual(alreadyApplied.social, applied.after.social, "rejection preserves the first commitment and trust");
 const expectedTrust = ["reveal-pool", "help-shelter", "make-mark-public", "stay-on-trace"].includes(baseline.alternativeId) ? 1 : -1;
 assert.equal(applied.after.social.trust.find(item => item.sourceSparkId === "spark-1" && item.targetSparkId === "spark-2")?.value, expectedTrust);
 
