@@ -82,3 +82,16 @@ All checks passed. The real-launcher regression uses isolated ports/databases, v
 [Follow-up report and screenshots](../docs/evidence/first-glow-launcher-resonance-2026-10-22.md).
 
 Both remaining technical gaps are fixed locally and uncommitted. This issue stays open for independent human review. Human engagement and real-model benefit remain unassessed; there was no provider rollout, deployment, commit, push, or remote issue action in this follow-up.
+## Guided human review — 2026-11-09
+
+The owner reviewed the existing seed-2 Spark-6 recording through World/Follow, personal Chronicle, the pulse-77 movement evidence scene, and return to live Follow at pulse 80. Immediate charge-seeking, historical context and return continuity were understood. The owner found that the Chronicle and evidence did not explain what mattered about the journey and would need clearer purpose and consequence to sustain interest.
+
+[Human feedback, integrity checks and proposed next improvement](../docs/evidence/first-glow-human-observer-review-2026-11-09.md). Recommend one evidence-linked personal Chronicle journey summary connecting recorded purpose/choice with observed consequence, compressing routine movement and preserving uncertainty and immutable editions. This is a proposal, not implemented behavior.
+
+AI was disabled and the clock paused; all recorded world hashes remained unchanged. Human coverage here is guided seed-2 desktop only. Keep S001 open for this gap and remaining seed-4/8 and mobile human coverage; do not equate navigational success with sustained engagement or model benefit.
+
+## Evidence-linked journey implementation — 2026-11-09 (local)
+
+Implemented the selected personal Chronicle improvement with public checkpoint purpose, saved choice explanations, exact linked outcomes and condensed travel. Explicit uncertainty separates explanation labels from established social actions and avoids invented motives or causation. New deterministic narrator revisions preserve older editions; selected-Spark regeneration is supported.
+
+[Implementation evidence](../docs/evidence/first-glow-chronicle-journey-2026-11-09.md): seven engine tests, server revision/restart checks, all three recorded seeds and desktop/mobile inspection passed. World hashes and all 13 prior review editions are unchanged; AI disabled and zero calls. Keep S001 open for post-change human feedback and remaining cohort/mobile human coverage. No commit, push or deployment is included.

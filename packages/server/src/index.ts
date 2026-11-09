@@ -176,7 +176,7 @@ function chronicleInput(timelineId: string, cutoffPulse: number) {
   const events = chronicleEvents(timelineId, cutoffPulse);
   const interpretations = (database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ? ORDER BY pulse ASC, id ASC").all(timelineId, cutoffPulse) as { interpretation_json: string }[]).map(row => JSON.parse(row.interpretation_json) as { id: string; pulse: number; summary: string; evidenceEventIds: string[] });
   const glow = world.firstGlowState;
-  return { timelineId, cutoffPulse, events, interpretations, history: glow.history!, sparkNames: Object.fromEntries(glow.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, spark.name]))), bundleHash: glow.settlements[0]?.bundle.bundle.contentHash ?? "" };
+  return { timelineId, cutoffPulse, events, interpretations, explanations: glow.explanations ?? [], publicSparks: Object.fromEntries(glow.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, { pulse: cutoffPulse, activity: spark.intendedActivity, status: spark.status, destination: spark.destinationObjectId ? settlement.bundle.objectDefinitions[settlement.bundle.objects.find(object => object.id === spark.destinationObjectId)?.definitionId ?? ""]?.label ?? spark.destinationObjectId : undefined, charge: spark.carriedCharge, chargeDeficit: spark.chargeDeficit }]))), history: glow.history!, sparkNames: Object.fromEntries(glow.settlements.flatMap(settlement => settlement.sparks.map(spark => [spark.id, spark.name]))), bundleHash: glow.settlements[0]?.bundle.bundle.contentHash ?? "" };
 }
 function persistChronicle(edition: ChronicleEdition): void { database.prepare("INSERT INTO chronicle_editions (timeline_id, cutoff_pulse, revision, edition_json, created_at) VALUES (?, ?, ?, ?, ?)").run(edition.timelineId, edition.cutoffPulse, edition.revision, JSON.stringify(edition), new Date().toISOString()); }
 function generateChronicle(timelineId: string, cutoffPulse: number, revision: number, selectedSparkId?: string): ChronicleEdition | undefined { const input = chronicleInput(timelineId, cutoffPulse); if (!input || (selectedSparkId && !Object.hasOwn(input.sparkNames, selectedSparkId))) return undefined; const edition = buildChronicleEdition({ ...input, revision, selectedSparkId }); validateChronicleEdition(edition, input); persistChronicle(edition); return edition; }
@@ -303,13 +303,13 @@ app.get("/api/chronicle", async (request, reply) => {
 });
 app.post("/api/owner/chronicle/regenerate", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
-  const body = request.body as { timelineId?: unknown; pulse?: unknown } | undefined;
+  const body = request.body as { timelineId?: unknown; pulse?: unknown; sparkId?: unknown } | undefined;
   const timelineId = typeof body?.timelineId === "string" ? body.timelineId : activeTimelineId;
   const latest = database.prepare("SELECT MAX(pulse) AS pulse FROM timeline_checkpoints WHERE timeline_id = ?").get(timelineId) as { pulse: number | null };
   const cutoffPulse = body?.pulse === undefined ? latest.pulse : Number(body.pulse);
   if (cutoffPulse === null || !Number.isInteger(cutoffPulse) || cutoffPulse < 0) return reply.code(400).send({ error: "pulse must identify a recorded checkpoint" });
   const existing = database.prepare("SELECT MAX(revision) AS revision FROM chronicle_editions WHERE timeline_id = ? AND cutoff_pulse = ?").get(timelineId, cutoffPulse) as { revision: number | null };
-  const edition = generateChronicle(timelineId, cutoffPulse, (existing.revision ?? 0) + 1);
+  const edition = generateChronicle(timelineId, cutoffPulse, (existing.revision ?? 0) + 1, typeof body?.sparkId === "string" ? body.sparkId : undefined);
   if (!edition) return reply.code(404).send({ error: "Chronicle source checkpoint is unavailable" });
   return { state: "ready", edition, reread: false };
 });
