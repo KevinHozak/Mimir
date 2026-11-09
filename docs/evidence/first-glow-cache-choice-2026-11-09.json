@@ -1,0 +1,76 @@
+{
+  "ruleVersion": "choice-before-probe-v1",
+  "scope": "local offline; no provider calls; explicit fresh-history opt-in",
+  "histories": [
+    {
+      "name": "seed-2",
+      "setup": "unmodified authored spawns",
+      "pulses": 80,
+      "sha256": "bc9a9369853b67aeb1bcb2573bbdcdd6d11a023adf0933ac846f0e2190b6132f",
+      "decisions": [
+        {
+          "pulse": 52,
+          "actor": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness."
+        }
+      ],
+      "restartEquivalent": true
+    },
+    {
+      "name": "seed-4",
+      "setup": "unmodified authored spawns",
+      "pulses": 80,
+      "sha256": "d801766d60aebee0654a0988cb5e324b67edb2d4f8353642c122c903f57ff474",
+      "decisions": [
+        {
+          "pulse": 48,
+          "actor": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness."
+        }
+      ],
+      "restartEquivalent": true
+    },
+    {
+      "name": "seed-8",
+      "setup": "unmodified authored spawns",
+      "pulses": 80,
+      "sha256": "67e1f5b630227d1fe7c680e29a82d09b75afcbc57f4ec2ca6fdfe8c405e29e31",
+      "decisions": [
+        {
+          "pulse": 52,
+          "actor": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness."
+        }
+      ],
+      "restartEquivalent": true
+    },
+    {
+      "name": "probe",
+      "setup": "controlled pulse-zero cache-contact scenario",
+      "pulses": 80,
+      "sha256": "15362d6b464411a03f9cca962bffd314073091b3023912bca753ebb26afc91f0",
+      "decisions": [
+        {
+          "pulse": 1,
+          "actor": "spark-1",
+          "message": "Spark 1 chose to probe rather than conserve: at least 3 charge, no charge deficit, and at least 75 readiness."
+        }
+      ],
+      "restartEquivalent": true
+    },
+    {
+      "name": "conserve",
+      "setup": "controlled pulse-zero cache-contact scenario",
+      "pulses": 80,
+      "sha256": "e7409fbfee2fc287b61143ba836e9201cf0b583ee7aaf583f3fd0e5cce65b255",
+      "decisions": [
+        {
+          "pulse": 1,
+          "actor": "spark-1",
+          "message": "Spark 1 chose to conserve rather than probe: protect remaining charge and readiness."
+        }
+      ],
+      "restartEquivalent": true
+    }
+  ]
+}

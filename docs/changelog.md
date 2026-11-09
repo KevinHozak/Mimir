@@ -1,5 +1,12 @@
 # Mimir Changelog
 
+## 2026-11-09 — Wild Cache choice before probing (local, opt-in)
+
+- Record a deterministic probe-or-conserve decision before effects at valid Wild Cache contact
+- A sufficiently supplied Spark can spend one charge and two readiness surveying a real route to a Pattern Shard; conservation avoids that cost and records a recovery goal
+- Link actual decisions, consequences and the next committed goal to Chronicle evidence; retain untagged history behavior
+- See [offline verification](evidence/first-glow-cache-choice-2026-11-09.md); engagement acceptance remains open
+
 ## 2026-11-09 — Evidence-linked personal Chronicle journeys (local)
 
 - Add deterministic summaries of public activity, saved choice explanations and recorded outcomes with exact evidence links and explicit uncertainty

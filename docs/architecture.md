@@ -1,5 +1,13 @@
 # Mimir: A Light of Our Own â€” Current Architecture
 
+## Fresh-history Wild Cache choice (local, opt-in)
+
+The engine exports `initializeWildCacheChoice(firstGlowState)`, restricted to pulse-zero histories without events or explanations. Alternatively, pass `{ wildCacheChoice: true }` as the fifth argument to `createWorldV3` or `createWorldFromBundle`. This stores the explicit `choice-before-probe-v1` rule marker. Untagged histories retain their original probe and social-label behavior; normal server creation defaults are unchanged. No existing recording or frozen study fixture is migrated.
+
+At validated cache contact, the tagged rule records the decision before effects. Each Spark's bounded choice record stores its alternative, evidence IDs, follow-up goal and (only after probing) a surveyed Pattern Shard route with navigation revision. The normal need and reachability checks take precedence next pulse. Actual follow-up goals are linked as consequence evidence; planned goals are not successful arrivals. The deterministic threshold rule does not use a scored personality contest (the legacy explanation score fields remain neutral).
+
+See [offline verification](evidence/first-glow-cache-choice-2026-11-09.md). This engine opt-in does not enable AI, create or advance a running observer, or update previously generated Chronicle editions.
+
 ## Owner-selected live Spark pilot — 2026-11-08
 
 The owner selected real Spark AI with a **USD 5 total pilot allocation**, replacing privacy-paperwork admission for this local pilot. [The live pilot guide](spark-ai-local.md) and [verification](evidence/spark-ai-live-2026-11-08.md) describe the implemented path. One real response was validated and committed; the observer is paused. This is operational pilot evidence, not completion of the matched S004 study or independent S001 human review. Earlier study requirements and no-call statements below describe their dated study scope; the frozen v4 manifest is retained unchanged and is not the current live application's source fingerprint.

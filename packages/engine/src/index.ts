@@ -1,3 +1,4 @@
+import { initializeWildCacheChoice } from "./first-glow-cache-choice.js";
 import { advanceFirstGlow } from "./first-glow-actions.js";
 import { buildFirstGlowInterpretationContext, createRulesOnlyFirstGlowInterpretation } from "./first-glow-interpretations.js";
 import { appendFirstGlowDecision, createFirstGlowHistory } from "./first-glow-history.js";
@@ -7,6 +8,7 @@ import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data"
 export { queryCell } from "@mimir/world-data";
 export type { Cell } from "@mimir/world-data";
 export * from "./structured.js";
+export * from "./first-glow-cache-choice.js";
 export * from "./design.js";
 export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
@@ -52,16 +54,17 @@ export function createWorldV2(..._args: unknown[]): never { throw new Error("str
 export function setObjectBlocked<T extends { blockedObjectIds?: string[] }>(world: unknown, runtime: T, objectId: string, blocked: boolean): T { const ids = runtime.blockedObjectIds ?? []; return { ...runtime, blockedObjectIds: blocked ? [...new Set([...ids, objectId])] : ids.filter(id => id !== objectId) }; }
 export function parseWorldDefinition<T>(value: T): T { return value; }
 
-export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {
+export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1, options: { wildCacheChoice?: boolean } = {}): WorldState {
   const firstGlowState = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount);
+  if (options.wildCacheChoice) initializeWildCacheChoice(firstGlowState);
   const settlements = firstGlowState.settlements.map(settlement => ({ id: settlement.id, name: settlement.name, villagerIds: [], foodReserve: 0, worldRuntime: settlement.runtime }));
   return { worldId, seed, pulse: 0, season: 0, simulationVersion: FIRST_GLOW_SIMULATION_VERSION, spatialModel: "structured-v2", firstGlowState, settlements, villagers: [], events: [], interpretations: [], foodReserve: 0, scenario: { name: "The First Glow", seasonPulseLimit: 360 }, weather: { kind: "clear", forecast: "clear", severity: 0 }, hazards: [], tradeHistory: [], dilemmaHistory: [], sharedStore: undefined, worldRuntime: firstGlowState.settlements[0].runtime };
 }
 
-export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-glow-v3", sparkCount = 1): WorldState {
+export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-glow-v3", sparkCount = 1, options: { wildCacheChoice?: boolean } = {}): WorldState {
   const bundle = decodeWorldBundle(raw);
   if (bundle.schemaVersion !== 3) throw new Error("First Glow requires a schema-3 world bundle");
-  return createWorldV3(bundle, seed, worldId, sparkCount);
+  return createWorldV3(bundle, seed, worldId, sparkCount, options);
 }
 
 function toWorldEvents(state: FirstGlowState, priorIds = new Set<string>()): WorldEvent[] {
