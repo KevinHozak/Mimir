@@ -25,8 +25,9 @@ function chooseAutonomousActivities(state: FirstGlowState): void {
     const target = settlement.sparks.slice().sort((a, b) => a.id.localeCompare(b.id)).find(candidate => candidate.id !== spark.id);
     const shelterCarePreferred = target && firstGlowActionScore(state.social, spark.id, target.id, "shelter-or-trace") >= 3 && spark.readiness < 90;
     if (spark.readiness < 70 || shelterCarePreferred) priorities.push("seek-shelter");
+    if (spark.wildCacheChoice && spark.wildCacheChoice.pulse === state.pulse && (spark.wildCacheChoice.alternative !== "probe" || spark.wildCacheChoice.routeFact?.navigationRevision === settlement.runtime.navigationRevision)) priorities.push(spark.wildCacheChoice.nextActivity);
     if (!hasLearned(spark, "explore")) priorities.push("explore");
-    if (hasLearned(spark, "explore") && !hasLearned(spark, "scavenge-cache")) priorities.push("scavenge-cache");
+    if (hasLearned(spark, "explore") && !spark.wildCacheChoice && !hasLearned(spark, "scavenge-cache")) priorities.push("scavenge-cache");
     if (hasLearned(spark, "explore") && !hasLearned(spark, "mark-trace")) priorities.push("mark-trace");
     if (!hasLearned(spark, "shape-pattern")) priorities.push("shape-pattern");
     priorities.push("seek-shelter", "idle");
@@ -103,6 +104,18 @@ export function advanceFirstGlow(input: FirstGlowState, external: FirstGlowExter
     if (recipient) { shares.push({ actorId: spark.id, recipientId: recipient.id }); claimedRecipients.add(recipient.id); spark.status = "waiting"; recipient.status = "waiting"; restoredActivities.set(recipient.id, recipient.intendedActivity); recipient.intendedActivity = "share-charge"; }
   }
   const state = advanceFirstGlowState(working, external.validate !== false);
+  // Link the first committed follow-up goal, rather than treating the plan as an outcome.
+  for (const settlement of state.settlements) for (const spark of settlement.sparks) {
+    const choice = spark.wildCacheChoice;
+    if (!choice || choice.pulse !== state.pulse - 1) continue;
+    const causedByChoice = spark.intendedActivity === choice.nextActivity;
+    const event = { id: `event-${state.pulse}-${spark.id}-cache-follow-up`, pulse: state.pulse, kind: "wild-cache-choice" as const, actorId: spark.id, evidenceEventIds: [choice.decisionEventId, choice.outcomeEventId], source: "rules" as const, message: `${spark.name} ${causedByChoice ? "followed the Wild Cache choice with" : "rechecked needs and instead selected"} ${spark.intendedActivity.replaceAll("-", " ")}; status: ${spark.status}. This records the goal, not successful arrival.` };
+    state.events.push(event);
+    const explanation = state.explanations.find(item => item.id === `explanation-${choice.decisionEventId}`);
+    if (explanation) {
+      explanation.consequenceEvents.push({ id: event.id, pulse: state.pulse, message: event.message });
+    }
+  }
   for (const event of state.events.filter(event => event.kind === "movement" && event.cells && event.cells.length > 1)) {
     const spark = state.settlements.flatMap(settlement => settlement.sparks).find(candidate => candidate.id === event.actorId);
     const settlement = state.settlements.find(candidate => candidate.sparks.some(spark => spark.id === event.actorId));

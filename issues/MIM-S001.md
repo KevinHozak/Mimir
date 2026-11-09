@@ -95,3 +95,27 @@ AI was disabled and the clock paused; all recorded world hashes remained unchang
 Implemented the selected personal Chronicle improvement with public checkpoint purpose, saved choice explanations, exact linked outcomes and condensed travel. Explicit uncertainty separates explanation labels from established social actions and avoids invented motives or causation. New deterministic narrator revisions preserve older editions; selected-Spark regeneration is supported.
 
 [Implementation evidence](../docs/evidence/first-glow-chronicle-journey-2026-11-09.md): seven engine tests, server revision/restart checks, all three recorded seeds and desktop/mobile inspection passed. World hashes and all 13 prior review editions are unchanged; AI disabled and zero calls. Keep S001 open for post-change human feedback and remaining cohort/mobile human coverage. No commit, push or deployment is included.
+
+## Post-change human feedback — 2026-11-09
+
+After merged PR #329, the owner repeated the same seed-2 Spark-6 journey and reported that the updated summary is clearer. They understood the Wild Cache probe and subsequent charge-seeking as recorded facts without treating their sequence as established causation. The pulse-52 evidence confirmed the probe while leaving consequences and the connection to later charge need unresolved. Return restored Spark 6/Follow at paused pulse 80; world hashes were unchanged and no AI calls were made.
+
+[Recorded post-change feedback](../docs/evidence/first-glow-human-observer-review-2026-11-09.md#post-change-guided-review-after-pr-329). Keep S001 open: this guided desktop comparison supports improved clarity, while sustained interest and the remaining seed-4/8 and mobile human coverage remain unassessed.
+
+Seed-4 follow-up: the owner reviewed Spark 6 at pulse 80 and confirmed that the charge-draw evidence establishes 8 charge drawn while leaving the explanation's suggested disclosure unproven. [Human review evidence](../docs/evidence/first-glow-human-observer-review-2026-11-09.md#seed-4-guided-human-review-after-pr-329). Seed-8 review is underway; S001 remains open for the remaining review coverage and interest assessment. No AI calls or world changes.
+
+Seed-8 follow-up: the owner confirmed the pulse-52 Wild Cache probe while leaving consequences and the connection to later charge need unresolved. Return restored the original active seed-2 Spark-6 Follow view at paused pulse 80 without changing either recording. [Recorded seed-8 review](../docs/evidence/first-glow-human-observer-review-2026-11-09.md#seed-8-guided-human-review-after-pr-329). Guided desktop feedback now covers seeds 2/4/8; S001 remains open for mobile human review and an explicit post-change sustained-interest assessment. World hashes are unchanged; no AI calls.
+
+## Mobile human feedback recorded — 2026-11-09
+
+The owner completed guided 390×844 browser review across seeds 2/4/8 using Spark 6's personal journey and evidence links. They found text/events readable, links distinct, historical moments clear, and the distinction between recorded facts and unproven causation/disclosure understandable. Exact event/timeline destinations and the final return to original active Spark 6/Follow at paused pulse 80 were verified; the viewport was restored. All world hashes are unchanged; no additional AI calls.
+
+[Mobile-sized review findings](../docs/evidence/first-glow-human-observer-review-2026-11-09.md#mobile-sized-guided-human-review-after-pr-329). Desktop and mobile-sized human coverage now spans all three seeds. Keep S001 open for an explicit post-change interest judgment; these guided readability/comprehension findings do not prove sustained engagement, physical-device support or model benefit.
+
+## Interest assessment recorded — 2026-11-09
+
+Owner finding: “The summaries are clearer, but I’d still need more meaningful choices and consequences to keep following a Spark.”
+
+The explicit post-change interest assessment is now complete for this guided review. Desktop and mobile-sized review activities across the selected recordings are documented. Improved clarity, readability and factual/causal distinctions are supported; sufficient interest to keep following a Spark is not established. The remaining gap is meaningful observed choices and consequences, not a missing interest response.
+
+[Final interest finding](../docs/evidence/first-glow-human-observer-review-2026-11-09.md#final-post-change-interest-finding--2026-11-09). Keep S001 open with this acceptance gap. This bounded finding does not prove a general root cause or model benefit and does not authorize further gameplay changes or provider calls. World hashes remain unchanged; no additional AI calls, commit, push or deployment.

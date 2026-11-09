@@ -7,6 +7,12 @@ Mimir is an observer game about a small society trying to live together under pr
 
 The simulation is designed to make tradeoffs visible. It should be possible for cooperation, independence, and reflection to each produce useful results in some circumstances and costs in others. The engine does not select a winning philosophy.
 
+## Current First Glow exception: Wild Cache choice
+
+Fresh histories explicitly tagged `choice-before-probe-v1` decide at valid cache contact before any probe effects. Probing requires at least three carried charge, no charge deficit, at least 75 readiness and a currently reachable Pattern Shard. It spends one charge and two readiness to survey a route to that shard; this is a bounded local navigation fact, not lore or proof of future success. The surveyed route can prioritize shaping a pattern on the next pulse, after immediate needs and reachability are checked again.
+
+Otherwise the Spark conserves: no probe cost, no route discovery, and a recovery goal toward reachable charge or shelter (or idle if neither recovery route is available). Travel already spent reaching the cache is not refunded. Automatic exploration does not repeatedly return to the cache after a recorded decision. The choice, immediate outcome and next actual goal have separate evidence records. This opt-in changes neither untagged histories nor existing recordings, and makes no AI calls. See [verification](evidence/first-glow-cache-choice-2026-11-09.md).
+
 ## The core loop
 
 The game loop is:

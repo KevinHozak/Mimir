@@ -130,9 +130,10 @@ export function finalizeFirstGlowIntentions(state: FirstGlowState): void {
     const intention = spark.intention;
     if (!intention || intention.status !== "active") continue;
     const completionKinds: Partial<Record<FirstGlowActivity, string>> = { "seek-charge": "draw", "draw-charge": "draw", "seek-shelter": "idle", "scavenge-cache": "wild-cache" };
-    const completed = state.events.find(event => event.actorId === spark.id && (event.kind === intention.activity || event.kind === completionKinds[intention.activity]));
+    const completed = state.events.find(event => event.actorId === spark.id && (event.kind === intention.activity || event.kind === completionKinds[intention.activity] || (intention.activity === "scavenge-cache" && event.kind === "wild-cache-choice")));
     const failed = spark.waitReason === "invalid-destination" || spark.waitReason === "no-route" || spark.waitReason === "no-free-slot";
-    if (completed) { intention.status = "completed"; intention.completedPulse = state.pulse; intention.causalEventIds = sortedUnique([...intention.causalEventIds, completed.id]); }
+    if (intention.activity === "scavenge-cache" && spark.wildCacheChoice?.pulse === state.pulse && spark.wildCacheChoice.alternative === "conserve") { intention.status = "interrupted"; intention.reason = "wild-cache-conserved"; intention.causalEventIds = sortedUnique([...intention.causalEventIds, spark.wildCacheChoice.decisionEventId, spark.wildCacheChoice.outcomeEventId]); }
+    else if (completed) { intention.status = "completed"; intention.completedPulse = state.pulse; intention.causalEventIds = sortedUnique([...intention.causalEventIds, completed.id]); }
     else if (failed) { intention.status = "interrupted"; intention.reason = spark.waitReason; }
     if (state.history) appendFirstGlowIntention(state.history, { id: intention.id, sparkId: intention.sparkId, createdPulse: intention.createdPulse, activity: intention.activity, source: intention.source, contextHash: intention.contextHash, evidenceEventIds: intention.evidenceEventIds, status: intention.status, causalEventIds: intention.causalEventIds, completionPulse: intention.completedPulse, reason: intention.reason });
   }
