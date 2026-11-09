@@ -281,3 +281,7 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
   .first-glow .first-glow-header .controls button[aria-label="Zoom out"] { grid-column: 3; grid-row: 2; }
   .first-glow .village-stage > .first-glow-inspector { grid-row: 1; margin: 0; align-self: stretch; }
 }
+
+/* Separate wrapped journey citations so each has an unambiguous click target. */
+.chronicle-journey-evidence > span { display: block; }
+.chronicle-journey-evidence a { overflow-wrap: anywhere; }

@@ -1,15 +1,19 @@
 import { canonicalize, sha256 } from "@mimir/world-data";
 import type { FirstGlowHistory } from "./first-glow-history.js";
 import type { FirstGlowConversationRecord } from "./first-glow-conversations.js";
+import type { FirstGlowExplanation } from "./first-glow-explanations.js";
 import type { StructuredEvent } from "./structured.js";
 
 export const CHRONICLE_SCHEMA_VERSION = 1 as const;
+export const CHRONICLE_NARRATOR_VERSION = "chronicle-journey-v3" as const;
 export type ChronicleChapterKind = "moment" | "personal" | "season";
 export type ChronicleEvidenceKind = "event" | "utterance" | "interpretation" | "checkpoint";
 
 export interface ChronicleEvidenceRef { kind: ChronicleEvidenceKind; id: string; pulse: number; timelineId: string; }
 export interface ChronicleIllustrationProvenance { kind: "historical-scene-capture" | "future-generated-slot"; timelineId: string; pulse: number; bundleHash?: string; sourceEventIds: string[]; }
 export interface ChronicleNarratorProvenance { mode: "deterministic-baseline" | "ai"; providerId?: string; model?: string; promptVersion: string; }
+export interface ChronicleJourneyItem { label: string; text: string; evidence: ChronicleEvidenceRef[]; }
+export interface ChroniclePublicSpark { pulse: number; activity: string; status: string; destination?: string; charge: number; chargeDeficit: number; }
 export interface ChronicleChapter {
   schemaVersion: typeof CHRONICLE_SCHEMA_VERSION;
   id: string;
@@ -18,6 +22,7 @@ export interface ChronicleChapter {
   title: string;
   summary: string;
   paragraphs: string[];
+  journey?: ChronicleJourneyItem[];
   selectedSparkIds: string[];
   pulseStart: number;
   pulseEnd: number;
@@ -27,7 +32,7 @@ export interface ChronicleChapter {
   illustration: ChronicleIllustrationProvenance;
 }
 export interface ChronicleEdition { schemaVersion: typeof CHRONICLE_SCHEMA_VERSION; id: string; timelineId: string; cutoffPulse: number; revision: number; selectedSparkId?: string; sourceSnapshotHash: string; chapters: ChronicleChapter[]; narrator: ChronicleNarratorProvenance; }
-export interface ChronicleInput { timelineId: string; cutoffPulse: number; revision: number; selectedSparkId?: string; events: StructuredEvent[]; interpretations: Array<{ id: string; pulse: number; summary: string; evidenceEventIds: string[] }>; history: FirstGlowHistory; sparkNames: Record<string, string>; bundleHash: string; }
+export interface ChronicleInput { publicSparks?: Record<string, ChroniclePublicSpark>; explanations?: FirstGlowExplanation[]; timelineId: string; cutoffPulse: number; revision: number; selectedSparkId?: string; events: StructuredEvent[]; interpretations: Array<{ id: string; pulse: number; summary: string; evidenceEventIds: string[] }>; history: FirstGlowHistory; sparkNames: Record<string, string>; bundleHash: string; }
 
 const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
 const unique = (values: string[]) => [...new Set(values.filter(value => typeof value === "string" && value.length > 0))].sort(compare);
@@ -55,7 +60,7 @@ function chapterEvents(events: StructuredEvent[], limit: number): StructuredEven
 }
 
 function sourceSnapshot(input: ChronicleInput): unknown {
-  return canonicalize({ timelineId: input.timelineId, cutoffPulse: input.cutoffPulse, events: input.events.filter(event => (event.pulse ?? 0) <= input.cutoffPulse), interpretations: input.interpretations.filter(item => item.pulse <= input.cutoffPulse), history: { conversations: conversations(input.history, input.cutoffPulse), movements: input.history.movements.filter(item => item.pulse <= input.cutoffPulse), decisions: input.history.decisions.filter(item => item.pulse <= input.cutoffPulse), intentions: (input.history.intentions ?? []).filter(item => item.createdPulse <= input.cutoffPulse) }, bundleHash: input.bundleHash });
+  return canonicalize({ timelineId: input.timelineId, cutoffPulse: input.cutoffPulse, events: input.events.filter(event => (event.pulse ?? 0) <= input.cutoffPulse), interpretations: input.interpretations.filter(item => item.pulse <= input.cutoffPulse), history: { conversations: conversations(input.history, input.cutoffPulse), movements: input.history.movements.filter(item => item.pulse <= input.cutoffPulse), decisions: input.history.decisions.filter(item => item.pulse <= input.cutoffPulse), intentions: (input.history.intentions ?? []).filter(item => item.createdPulse <= input.cutoffPulse) }, bundleHash: input.bundleHash, ...(input.publicSparks ? { publicSparks: input.publicSparks } : {}), ...(input.explanations ? { explanations: input.explanations.filter(item => item.pulse <= input.cutoffPulse) } : {}) });
 }
 
 function evidence(input: ChronicleInput, kind: ChronicleEvidenceKind, id: string, pulse: number): ChronicleEvidenceRef { return { kind, id, pulse, timelineId: input.timelineId }; }
@@ -64,10 +69,31 @@ function conversationQuote(record: FirstGlowConversationRecord | undefined, inpu
   return turn ? `“${turn.quote}”` : undefined;
 }
 
+function personalJourney(input: ChronicleInput, sparkId: string, events: StructuredEvent[]): ChronicleJourneyItem[] {
+  const items: ChronicleJourneyItem[] = [];
+  const checkpoint = evidence(input, "checkpoint", `checkpoint-${input.cutoffPulse}`, input.cutoffPulse);
+  const spark = input.publicSparks?.[sparkId];
+  if (spark?.pulse === input.cutoffPulse) {
+    items.push({ label: "Recorded purpose", text: `At pulse ${input.cutoffPulse}, recorded activity: ${spark.activity.replaceAll("-", " ")}; status: ${spark.status}.${spark.destination ? ` Destination: ${spark.destination}.` : " No destination is recorded."} Charge: ${spark.charge}; charge deficit: ${spark.chargeDeficit}. This describes the checkpoint, not a private motive.`, evidence: [checkpoint] });
+  } else items.push({ label: "Recorded purpose", text: "No public activity snapshot is available at this cutoff; purpose is not established by movement alone.", evidence: [checkpoint] });
+  const byId = new Map(events.map(event => [event.id, event]));
+  const choices = (input.explanations ?? []).filter(item => item.actorSparkId === sparkId && item.pulse <= input.cutoffPulse && item.evidenceEventIds.length && item.evidenceEventIds.every(id => { const event = byId.get(id); return event && (event.pulse ?? 0) <= item.pulse; })).sort((a, b) => b.pulse - a.pulse || compare(a.id, b.id));
+  const choice = choices[0];
+  if (choice) {
+    const refs = choice.evidenceEventIds.map(id => evidence(input, "event", id, byId.get(id)!.pulse ?? 0));
+    items.push({ label: "Meaningful choice", text: `At pulse ${choice.pulse}, the saved choice explanation labels this moment “${choice.alternativeLabel}”. The label alone does not prove that a social action occurred or establish a private motive.`, evidence: [...refs, checkpoint] });
+    const outcomes = unique(choice.consequenceEvents.map(item => item.id)).map(id => byId.get(id)).filter((event): event is StructuredEvent => Boolean(event && (event.pulse ?? 0) >= choice.pulse));
+    items.push({ label: "Recorded outcome", text: outcomes.length ? outcomes.map(event => `Pulse ${event.pulse ?? 0}: ${event.message}`).join(" ") + " The record does not establish that this choice caused the current need or destination." : "No linked consequence is established in the available record.", evidence: outcomes.length ? outcomes.map(event => evidence(input, "event", event.id, event.pulse ?? 0)) : refs });
+  } else items.push({ label: "Choice and consequence", text: "No evidence-linked choice explanation is available for this Spark at this cutoff; a meaningful choice or its consequences cannot be inferred from travel alone.", evidence: [checkpoint] });
+  const moves = events.filter(event => event.kind === "movement");
+  if (moves.length) items.push({ label: "Travel in context", text: `${moves.length} recorded movement event(s) through pulse ${input.cutoffPulse}; repeated travel is condensed here. Movement alone does not establish what mattered to the Spark.`, evidence: [moves[0], moves.at(-1)!].filter((event, index, all) => all.findIndex(other => other.id === event.id) === index).map(event => evidence(input, "event", event.id, event.pulse ?? 0)) });
+  return items;
+}
+
 export function buildChronicleEdition(input: ChronicleInput): ChronicleEdition {
   if (!Number.isInteger(input.cutoffPulse) || input.cutoffPulse < 0) throw new Error("chronicle cutoff must be a non-negative integer");
   if (input.selectedSparkId && !Object.hasOwn(input.sparkNames, input.selectedSparkId)) throw new Error("selected Spark is unavailable at this checkpoint");
-  const snapshotHash = `sha256-${sha256(JSON.stringify(input.selectedSparkId ? { source: sourceSnapshot(input), selectedSparkId: input.selectedSparkId } : sourceSnapshot(input)))}`;
+  const snapshotHash = `sha256-${sha256(JSON.stringify({ narratorVersion: CHRONICLE_NARRATOR_VERSION, source: sourceSnapshot(input), selectedSparkId: input.selectedSparkId ?? null }))}`;
   const visibleEvents = input.events.filter(event => (event.pulse ?? 0) <= input.cutoffPulse).sort((a, b) => (a.pulse ?? 0) - (b.pulse ?? 0) || compare(a.id, b.id));
   const meets = visibleEvents.filter(event => event.kind === "meet" && (event.participants?.length ?? 0) > 0);
   const notable = meets[0] ?? visibleEvents.find(event => ["share", "shelter-loom-choice", "crossing-voices-choice", "mark-trace", "explore"].includes(event.kind)) ?? visibleEvents[0];
@@ -80,13 +106,13 @@ export function buildChronicleEdition(input: ChronicleInput): ChronicleEdition {
   const quoteEvidence = firstConversation?.turns.find(item => item.accepted)?.evidenceEventIds ?? [];
   const momentEvidence = [sourceEvent, ...(firstConversation ? [evidence(input, "utterance", firstConversation.turns[0].id, firstConversation.pulse)] : [])];
   const momentParagraphs = notable ? [`At pulse ${notable.pulse ?? 0}, ${notable.message}`, ...(quote ? [`${names[0] ?? "A Spark"} said ${quote}`] : []), "This account names the recorded outcome and leaves motives unresolved when the history does not establish them."] : ["No recorded moment met the Chronicle selection criteria at this cutoff. The quiet is part of the record."];
-  const moment: ChronicleChapter = { schemaVersion: 1, id: "moment", editionId: `edition-${snapshotHash.slice(7, 23)}-${input.revision}`, kind: "moment", title: notable ? `A moment at pulse ${notable.pulse ?? 0}` : "A quiet checkpoint", summary: bounded(momentParagraphs[0]), paragraphs: momentParagraphs, selectedSparkIds: sparkIds, pulseStart: notable?.pulse ?? input.cutoffPulse, pulseEnd: notable?.pulse ?? input.cutoffPulse, evidence: [...momentEvidence, ...quoteEvidence.map(id => evidence(input, "event", id, notable?.pulse ?? input.cutoffPulse))], sourceSnapshotHash: snapshotHash, narrator: { mode: "deterministic-baseline", promptVersion: "chronicle-baseline-v2" }, illustration: { kind: "historical-scene-capture", timelineId: input.timelineId, pulse: notable?.pulse ?? input.cutoffPulse, bundleHash: input.bundleHash, sourceEventIds: sourceIds } };
+  const moment: ChronicleChapter = { schemaVersion: 1, id: "moment", editionId: `edition-${snapshotHash.slice(7, 23)}-${input.revision}`, kind: "moment", title: notable ? `A moment at pulse ${notable.pulse ?? 0}` : "A quiet checkpoint", summary: bounded(momentParagraphs[0]), paragraphs: momentParagraphs, selectedSparkIds: sparkIds, pulseStart: notable?.pulse ?? input.cutoffPulse, pulseEnd: notable?.pulse ?? input.cutoffPulse, evidence: [...momentEvidence, ...quoteEvidence.map(id => evidence(input, "event", id, notable?.pulse ?? input.cutoffPulse))], sourceSnapshotHash: snapshotHash, narrator: { mode: "deterministic-baseline", promptVersion: CHRONICLE_NARRATOR_VERSION }, illustration: { kind: "historical-scene-capture", timelineId: input.timelineId, pulse: notable?.pulse ?? input.cutoffPulse, bundleHash: input.bundleHash, sourceEventIds: sourceIds } };
   const personalSpark = input.selectedSparkId ?? sparkIds[0] ?? Object.keys(input.sparkNames).sort(compare)[0];
   const personalEvents = visibleEvents.filter(event => event.actorId === personalSpark || event.participants?.includes(personalSpark));
   const personalNames = input.sparkNames[personalSpark] ?? personalSpark ?? "No selected Spark";
   const personalHighlights = chapterEvents(personalEvents, 4);
   const personalEvidence = personalHighlights.map(event => evidence(input, "event", event.id, event.pulse ?? 0));
-  const personal: ChronicleChapter = { ...moment, id: "personal", kind: "personal", title: personalSpark ? `${personalNames}'s trace` : "A Spark's trace", summary: personalEvents.length ? `${personalNames} appears in ${personalEvents.length} recorded event(s) through pulse ${input.cutoffPulse}.` : "No selected Spark has a recorded event at this cutoff.", paragraphs: personalEvents.length ? personalHighlights.map(event => `Pulse ${event.pulse ?? 0}: ${event.message}`) : ["No personal history is available at this cutoff; no private context has been invented."], selectedSparkIds: personalSpark ? [personalSpark] : [], pulseStart: personalEvents[0]?.pulse ?? input.cutoffPulse, pulseEnd: personalEvents.at(-1)?.pulse ?? input.cutoffPulse, evidence: personalEvidence, sourceSnapshotHash: snapshotHash, narrator: moment.narrator, illustration: { ...moment.illustration, pulse: personalHighlights.at(-1)?.pulse ?? input.cutoffPulse, sourceEventIds: personalHighlights.map(event => event.id) } };
+  const personal: ChronicleChapter = { ...moment, journey: personalJourney(input, personalSpark, personalEvents), id: "personal", kind: "personal", title: personalSpark ? `${personalNames}'s trace` : "A Spark's trace", summary: personalEvents.length ? `${personalNames} appears in ${personalEvents.length} recorded event(s) through pulse ${input.cutoffPulse}.` : "No personal history is available at this cutoff.", paragraphs: personalEvents.length ? personalHighlights.map(event => `Pulse ${event.pulse ?? 0}: ${event.message}`) : ["No personal history is available at this cutoff; no private context has been invented."], selectedSparkIds: personalSpark ? [personalSpark] : [], pulseStart: personalEvents[0]?.pulse ?? input.cutoffPulse, pulseEnd: personalEvents.at(-1)?.pulse ?? input.cutoffPulse, evidence: personalEvidence, sourceSnapshotHash: snapshotHash, narrator: moment.narrator, illustration: { ...moment.illustration, pulse: personalHighlights.at(-1)?.pulse ?? input.cutoffPulse, sourceEventIds: personalHighlights.map(event => event.id) } };
   const seasonEvents = chapterEvents(visibleEvents, 8);
   const season: ChronicleChapter = { ...moment, id: "season", kind: "season", title: `The First Glow through pulse ${input.cutoffPulse}`, summary: `${visibleEvents.length} committed event(s) and ${input.interpretations.filter(item => item.pulse <= input.cutoffPulse).length} bounded reading(s) are available for this chapter.`, paragraphs: seasonEvents.length ? seasonEvents.map(event => `Pulse ${event.pulse ?? 0}: ${event.message}`) : ["This chapter contains no committed events yet."], selectedSparkIds: unique(seasonEvents.flatMap(event => [event.actorId, ...(event.participants ?? [])])), pulseStart: seasonEvents[0]?.pulse ?? 0, pulseEnd: seasonEvents.at(-1)?.pulse ?? input.cutoffPulse, evidence: seasonEvents.map(event => evidence(input, "event", event.id, event.pulse ?? 0)), sourceSnapshotHash: snapshotHash, narrator: moment.narrator, illustration: { ...moment.illustration, pulse: input.cutoffPulse, sourceEventIds: seasonEvents.map(event => event.id) } };
   const editionId = moment.editionId;
@@ -98,6 +124,6 @@ export function validateChronicleEdition(edition: ChronicleEdition, input?: Pick
   const kinds = new Set<ChronicleChapterKind>();
   const events = new Set((input?.events ?? []).filter(event => (event.pulse ?? 0) <= edition.cutoffPulse).map(event => event.id));
   const turns = new Map((input ? conversations(input.history, edition.cutoffPulse) : []).flatMap(record => record.turns.map(turn => [turn.id, turn.quote] as const)));
-  for (const chapter of edition.chapters) { if (chapter.schemaVersion !== 1 || chapter.editionId !== edition.id || chapter.sourceSnapshotHash !== edition.sourceSnapshotHash || chapter.pulseEnd > edition.cutoffPulse || kinds.has(chapter.kind)) throw new Error(`invalid Chronicle chapter ${chapter.id}`); kinds.add(chapter.kind); for (const ref of chapter.evidence) { if (ref.timelineId !== edition.timelineId || ref.pulse > edition.cutoffPulse || (ref.kind === "event" && input && !events.has(ref.id))) throw new Error(`Chronicle evidence is unavailable: ${ref.id}`); } }
+  for (const chapter of edition.chapters) { if (chapter.schemaVersion !== 1 || chapter.editionId !== edition.id || chapter.sourceSnapshotHash !== edition.sourceSnapshotHash || chapter.pulseEnd > edition.cutoffPulse || kinds.has(chapter.kind)) throw new Error(`invalid Chronicle chapter ${chapter.id}`); kinds.add(chapter.kind); for (const ref of [...chapter.evidence, ...(chapter.journey ?? []).flatMap(item => item.evidence)]) { if (ref.timelineId !== edition.timelineId || ref.pulse > edition.cutoffPulse || (ref.kind === "event" && input && !events.has(ref.id))) throw new Error(`Chronicle evidence is unavailable: ${ref.id}`); if (ref.kind === "checkpoint" && (ref.id !== `checkpoint-${edition.cutoffPulse}` || ref.pulse !== edition.cutoffPulse)) throw new Error("invalid journey checkpoint"); if (ref.kind === "event" && input && !input.events.some(event => event.id === ref.id && (event.pulse ?? 0) === ref.pulse)) throw new Error("invalid journey event pulse"); } }
   for (const chapter of edition.chapters) for (const paragraph of chapter.paragraphs) for (const [id, quote] of turns) if (paragraph.includes(`“${quote}”`) && !chapter.evidence.some(ref => ref.kind === "utterance" && ref.id === id)) throw new Error(`Chronicle quote is missing utterance evidence: ${id}`);
 }

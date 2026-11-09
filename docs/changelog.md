@@ -1,5 +1,12 @@
 # Mimir Changelog
 
+## 2026-11-09 — Evidence-linked personal Chronicle journeys (local)
+
+- Add deterministic summaries of public activity, saved choice explanations and recorded outcomes with exact evidence links and explicit uncertainty
+- Condense travel, preserve older editions and support selected-Spark regeneration into a new versioned revision
+- Verify immutable recordings and desktop/mobile navigation; post-change human engagement remains unassessed
+- See [implementation evidence](evidence/first-glow-chronicle-journey-2026-11-09.md)
+
 ## 2026-11-08 — Real Spark AI pilot (local)
 
 - Add an explicit `npm run start:ai` launcher with a separate paused world and observer, pinned Gemini 3.5 Flash-Lite routing, real token preflight, strict evidence validation and deterministic rules fallback

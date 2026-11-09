@@ -39,6 +39,12 @@ try {
   assert.equal(selectedBody.edition.selectedSparkId, "spark-1");
   assert.deepEqual(selectedBody.edition.chapters[1].selectedSparkIds, ["spark-1"]);
   assert.notEqual(selectedBody.edition.id, regeneratedBody.edition.id);
+  const personalRevision = await (await fetch(`http://127.0.0.1:${port}/api/owner/chronicle/regenerate`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": token }, body: JSON.stringify({ pulse: 0, sparkId: "spark-1" }) })).json() as { edition: { id: string; selectedSparkId: string; chapters: Array<{ journey?: unknown[] }>; narrator: { promptVersion: string } } };
+  assert.equal(personalRevision.edition.selectedSparkId, "spark-1");
+  assert.ok(personalRevision.edition.chapters[1].journey?.length);
+  assert.equal(personalRevision.edition.narrator.promptVersion, "chronicle-journey-v3");
+  const preservedPersonal = await (await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&editionId=${selectedBody.edition.id}`)).json() as { edition: { id: string } };
+  assert.equal(preservedPersonal.edition.id, selectedBody.edition.id);
   const absent = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&sparkId=absent`);
   assert.equal(absent.status, 404);
   const missingEdition = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&editionId=absent`);
@@ -47,7 +53,7 @@ try {
   const afterRestart = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0`); const afterRestartBody = await afterRestart.json() as { edition: { id: string; revision: number } };
   assert.equal(afterRestartBody.edition.id, regeneratedBody.edition.id); assert.equal(afterRestartBody.edition.revision, 2);
   const selectedRestart = await (await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&sparkId=spark-1`)).json() as { edition: { id: string }; reread: boolean };
-  assert.equal(selectedRestart.edition.id, selectedBody.edition.id);
+  assert.equal(selectedRestart.edition.id, personalRevision.edition.id);
   assert.equal(selectedRestart.reread, true);
   console.log("Chronicle persistence and immutable revision checks passed");
 } finally { await stopServer(); for (const suffix of ["", "-wal", "-shm"]) { const path = `${databasePath}${suffix}`; if (existsSync(path)) rmSync(path); } if (existsSync(tempRoot)) rmSync(tempRoot, { recursive: true, force: true }); }

@@ -38,6 +38,7 @@ test("personal selection is explicit, isolated, cutoff-bounded, and never invent
   assert.ok(lumen.chapters[1].evidence.some(ref => ref.id === "solo-2"));
   const quiet = buildChronicleEdition({ ...source, cutoffPulse: 0, selectedSparkId: "spark-2" });
   assert.equal(quiet.chapters[1].evidence.length, 0);
+  assert.match(quiet.chapters[1].summary, /No personal history/);
   assert.match(quiet.chapters[1].paragraphs[0], /No personal history/);
   assert.throws(() => buildChronicleEdition({ ...source, selectedSparkId: "absent" }), /unavailable/);
 });
@@ -61,7 +62,7 @@ test("personal and season chapters retain distinct outcomes before repetitive tr
     assert.deepEqual(chapter.illustration.sourceEventIds, chapter.evidence.map(ref => ref.id));
     assert.equal(chapter.paragraphs.length, 3);
   }
-  assert.equal(edition.narrator.promptVersion, "chronicle-baseline-v2");
+  assert.equal(edition.narrator.promptVersion, "chronicle-journey-v3");
   assert.deepEqual(buildChronicleEdition(source), edition);
   assert.equal(JSON.stringify(source), before, "selection must not rewrite recorded inputs");
 });
@@ -75,4 +76,34 @@ test("movement-only chapters keep a truthful latest movement fallback", () => {
     assert.deepEqual(chapter.evidence.map(ref => ref.id), ["move-3"]);
   }
   validateChronicleEdition(edition, source);
+});
+
+
+test("journey links public purpose, a recorded choice and its outcome without inventing causation", () => {
+  const source = { ...input(), history: createFirstGlowHistory(), cutoffPulse: 4, selectedSparkId: "spark-1", publicSparks: { "spark-1": { pulse: 4, activity: "seek-charge", status: "traveling", destination: "Charge Pool", charge: 0, chargeDeficit: 12 } }, explanations: [{ id: "choice", pulse: 2, actorSparkId: "spark-1", alternativeLabel: "Probe the Wild Cache", evidenceEventIds: ["cache"], consequenceEvents: [{ id: "cache", pulse: 2 }] }] as any, events: [{ id: "cache", pulse: 2, actorId: "spark-1", kind: "wild-cache", message: "Lumen probed the Wild Cache." }, { id: "move", pulse: 4, actorId: "spark-1", kind: "movement", message: "Lumen moved." }] as StructuredEvent[] };
+  const before = JSON.stringify(source);
+  const edition = buildChronicleEdition(source), journey = edition.chapters[1].journey!;
+  validateChronicleEdition(edition, source);
+  assert.match(journey[0].text, /seek charge.*Charge Pool/);
+  assert.match(journey[1].text, /saved choice explanation.*Probe the Wild Cache/);
+  assert.match(journey[1].text, /does not prove that a social action occurred/);
+  assert.match(journey[2].text, /Lumen probed.*does not establish/);
+  assert.deepEqual(journey[0].evidence, [{ kind: "checkpoint", id: "checkpoint-4", pulse: 4, timelineId: source.timelineId }]);
+  assert.ok(journey[1].evidence.filter(ref => ref.kind === "event").every(ref => ref.id === "cache" && ref.pulse === 2));
+  assert.deepEqual(buildChronicleEdition(source), edition);
+  assert.equal(JSON.stringify(source), before);
+  const changed = structuredClone(edition); changed.chapters[1].journey![1].evidence[0].pulse = 3;
+  assert.throws(() => validateChronicleEdition(changed, source), /event pulse/);
+  const unknown = buildChronicleEdition({ ...source, cutoffPulse: 1 }).chapters[1].journey!;
+  assert.ok(unknown.every(item => !item.text.includes("Charge Pool") && !item.text.includes("Probe the Wild Cache")));
+  assert.match(unknown[1].text, /cannot be inferred/);
+});
+
+test("journey rejects future, unrelated and missing choice evidence and changes identity with public facts", () => {
+  const source = { ...input(), selectedSparkId: "spark-1", explanations: [{ id: "future", pulse: 3, actorSparkId: "spark-1", alternativeLabel: "SECRET", evidenceEventIds: ["meet-1"], consequenceEvents: [] }, { id: "other", pulse: 1, actorSparkId: "spark-2", alternativeLabel: "SECRET", evidenceEventIds: ["meet-1"], consequenceEvents: [] }, { id: "missing", pulse: 1, actorSparkId: "spark-1", alternativeLabel: "SECRET", evidenceEventIds: ["absent"], consequenceEvents: [] }] as any };
+  const edition = buildChronicleEdition(source);
+  assert.ok(!JSON.stringify(edition).includes("SECRET"));
+  const withPurpose = buildChronicleEdition({ ...source, publicSparks: { "spark-1": { pulse: 2, activity: "rest", status: "acting", charge: 4, chargeDeficit: 0 } } });
+  assert.notEqual(withPurpose.sourceSnapshotHash, edition.sourceSnapshotHash);
+  assert.match(withPurpose.chapters[1].journey![0].text, /rest/);
 });
