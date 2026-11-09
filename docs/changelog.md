@@ -1,32 +1,64 @@
 # Mimir Changelog
 
+## 2026-11-08 — Real Spark AI pilot (local)
+
+- Add an explicit `npm run start:ai` launcher with a separate paused world and observer, pinned Gemini 3.5 Flash-Lite routing, real token preflight, strict evidence validation and deterministic rules fallback
+- Enforce a persistent USD 5 allocation with USD 0.50 retained per attempt, no automatic retries or refunds, restart-safe receipts and a persistent owner stop control
+- Commit one genuine Spark 6 interpretation at pulse 52; verify its survival across restart, unchanged reservation, eight passing runtime tests and desktop/mobile budget display
+- Preserve the earlier matched-study freeze as historical evidence; this operational pilot does not complete that study or independent human review. See [live verification](evidence/spark-ai-live-2026-11-08.md)
+
+
 This is a functional record of meaningful delivered changes. It groups related work instead of mirroring every commit, pull request, or implementation detail. For the earlier design evolution, see [Project History](history.md); for current and upcoming work, see the [Roadmap](roadmap.md).
 
-## 2026-10-24 - Capacity collector and cost guards (local)
+## 2026-11-08 — Shared RC admission for isolated study histories (local)
+
+### S004 v4 adapter and budget migration (local)
+
+- Add a study-specific Gemini 3.5 Flash-Lite serializer with pinned US multi-region routing, explicit minimal thinking and no unsupported sampling overrides; preserve normal application defaults
+- Reserve overhead and full candidate/reasoning cost inside the USD 1 ceiling, enforce funded-attempt limits and protect initial funding for all three seeds; reconcile all token categories and stop immediately on identity/accounting breaches
+- Preserve v3 source/guide/control snapshots and use a separate v4 source freeze with fresh study world IDs; live token/fee/account/privacy evidence and explicit owner approval remain required
+- [Offline verification](evidence/model-study-v4-verification-2026-11-08.md): 27 study tests, six complete synthetic histories, a 240-pulse deterministic rules repeat and desktop/mobile observer replay for all six histories passed; no provider calls or live cost/quality claim
+
+- Add fresh-history `event-rc-v1` ownership, persisted attention accounting and deterministic shared RC admission before provider selection. Preserve legacy histories and reject mixed-policy continuation; cadence denials no longer masquerade as provider errors.
+- Verify the revised Spark 6/pulse-80 sample across all six histories: natural admissions at 52/48/52, three synthetic requests, accepted bounded social effects and exact deterministic rules repeats. No real-model or human-benefit finding is implied.
+- Add study-only read-only observer configuration and exact admitted-event checkpoints. Desktop/mobile Chronicle/evidence round trips leave canonical data unchanged; see [v3 verification](evidence/model-study-v3-verification-2026-11-08.md). Live approval and deployment remain separate.
+
+## 2026-11-08 — Model-study eligibility investigation (local)
+
+- Trace all nine suppressed candidates to a missing RC scheduler producer and verify 24 historical checkpoint hashes. Disposable shadow accounting admits three later candidates while retaining six early suppressions; no world or provider behavior changed.
+- Prepare a separate S004 v3 proposal for shared authoritative RC admission and Spark 6/pulse-80 review. It retains the original seeds, duration and ceilings, and remains unimplemented and unapproved; see the [investigation](evidence/model-study-zero-opportunities-2026-11-08.md).
+
+## 2026-11-08 — Offline model-study protocol and control tooling (local)
+
+- Freeze three matched First Glow openings, twelve rules-only checkpoint hashes, source fingerprints and a separate human-review rubric. No live-model or engagement result is claimed.
+- Integrate the existing Vertex adapter with durable wire-level budget admission, an independent per-request watchdog, parent-loss cleanup and private outcome journals. Both study arms use the same server interpretation/staging path. The CLI remains synthetic-only; provider access requires separate S004 approval.
+- Reject invalid duplicate same-pulse social commitments before commit, with regression coverage. Keep provider benefit and human engagement unmeasured; see [S003 verification](evidence/model-study-protocol-verification-2026-11-08.md).
+
+## 2026-10-24 - Capacity collector and cost guards (merged tooling)
 
 - Add expiring stats-only bridge probes, direct cgroup/VM sampling, bounded browser abort handling and exact rollback tooling. Close ordinary private upstream HTTP pools while retaining SSE cancellation. Require cumulative cost allocation and account explicitly for startup CPU boost.
 - Replace repeatedly overwritten live snapshots with an immutable per-sample controller journal. Windows held-reader and complete mocked-controller lifecycle regressions cover measurement persistence and final-zero/recovery handoffs.
-- Verify two authenticated live observers for 120.039 seconds, direct zeros/unchanged recovery by T+124.774 and full cleanup by T+139.090 under the approved USD 0.15 cumulative ceiling. Retained allocated cost bound is USD 0.146966358; final billing and financial readiness remain pending. See [successful bounded retry](evidence/hosted-capacity-journal-retry-2026-10-24.md). Earlier [cleanup failures](evidence/hosted-capacity-retry-2026-10-24.md) and the [preflight cost correction](evidence/hosted-capacity-cost-reconciliation-2026-10-24.md) remain explicit historical evidence. Source changes remain local; no permanent deployment or audience expansion occurred.
+- Verify two authenticated live observers for 120.039 seconds, direct zeros/unchanged recovery by T+124.774 and full cleanup by T+139.090 under the approved USD 0.15 cumulative ceiling. Retained allocated cost bound is USD 0.146966358; final billing and financial readiness remain pending. See [successful bounded retry](evidence/hosted-capacity-journal-retry-2026-10-24.md). Earlier [cleanup failures](evidence/hosted-capacity-retry-2026-10-24.md) and the [preflight cost correction](evidence/hosted-capacity-cost-reconciliation-2026-10-24.md) remain explicit historical evidence. Source and evidence merged in PR #319; PRs #320 and #321 record the billing review and owner decision to HOLD expansion. Final attribution remains outstanding in [MIM-E002](../issues/MIM-E002.md). No permanent deployment or audience expansion is established by these merges.
 
-## 2026-10-23 - Hosted fault-readiness tooling (local)
+## 2026-10-23 - Hosted fault-readiness tooling (merged tooling)
 
 - Add run-scoped browser/controller/watchdog tooling with atomic handoffs, a navigation-independent client deadline, actual revision-routing verification and strict response gates. These operational tools execute locally against an explicitly approved plan.
-- Automate exact full-spec rollback, boot-overlapped read-only recovery attestation, per-process final-zero collection and protected owned-revision deletion. Verify cold pulses 64/48 while the VM is terminated, retained live recovery, integrity/history/writer/backup checks and complete cleanup by T+161 within the approved two-observer/180-second envelope. MIM-S009 is ready for review; broader access remains separate. See [complete acceptance evidence](evidence/hosted-outage-cleanup-2026-10-23.md); earlier failed attempts are preserved separately.
+- Automate exact full-spec rollback, boot-overlapped read-only recovery attestation, per-process final-zero collection and protected owned-revision deletion. Verify cold pulses 64/48 while the VM is terminated, retained live recovery, integrity/history/writer/backup checks and complete cleanup by T+161 within the approved two-observer/180-second envelope. [MIM-S009](../issues/MIM-S009.md) is closed on merged PR #318 evidence; broader access remains separate. See [complete acceptance evidence](evidence/hosted-outage-cleanup-2026-10-23.md); earlier failed attempts are preserved separately.
 
 ## 2026-10-23 - Hosted observer update and recovery readiness
 
 - Publish observer source `6e66395` as verified Hosting version `cdf29343210a5da7` and validate a fresh independent backup/restore.
 - Abort the live outage attempt at the browser-deadline readiness gate without stopping the VM; restore original bridge configuration/traffic and verify unchanged history. Live VM-outage acceptance remains pending. See [operational evidence](evidence/hosted-outage-readiness-2026-10-23.md).
 
-## 2026-10-23 - Isolated observer outage coverage (local)
+## 2026-10-23 - Isolated observer outage coverage (merged in PR #317)
 
 - Automate bridge process crash/restart, backend loss/recovery and cold protected archive playback on desktop/mobile, including denial, checksum rejection and stream cleanup.
 - Remove live reflection fetches from shared historical explanations; the live observer uses its authenticated projection. See [local evidence](evidence/observer-outage-2026-10-23.md) and the [live rehearsal plan](hosted-outage-rehearsal-plan.md).
 
-## 2026-10-23 - Observer session recovery (local)
+## 2026-10-23 - Observer session recovery (merged in PR #316)
 
 - Recover from clean live-stream closure and network loss, retry rejected read tokens once with forced refresh, and rotate streams on Firebase token changes without remounting the observer.
-- Add automated Chromium and failure-path checks for refresh, reconnection and tab-close cleanup. Live Firebase refresh and Cloud Run cleanup remain separate acceptance limits; see [local evidence](evidence/observer-session-lifecycle-2026-10-23.md).
+- Add automated Chromium and failure-path checks for refresh, reconnection and tab-close cleanup. Genuine hosted Firebase refresh remains open in [MIM-S008](../issues/MIM-S008.md); subsequent bounded cleanup evidence is recorded above. See [local evidence](evidence/observer-session-lifecycle-2026-10-23.md).
 
 ## 2026-10-23 - Hosted authentication harness and live acceptance
 

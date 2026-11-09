@@ -3,6 +3,8 @@ import { createRulesOnlyFirstGlowInterpretation, evaluateFirstGlowInterpretation
 import { firstGlowDecisionRecord } from "./first-glow-fake-provider.js";
 import type { FirstGlowDecisionRecord } from "./first-glow-history.js";
 import type { StructuredEvent } from "./structured.js";
+import { admitFirstGlowEvent } from "./first-glow-event-admission.js";
+import type { FirstGlowReflectionCapacityState, FirstGlowEventAdmission } from "./first-glow-reflection-capacity.js";
 
 export type FirstGlowRuntimeMode = "rules-only" | "bounded-internal-pilot";
 
@@ -14,6 +16,7 @@ export interface FirstGlowHybridRuntimeOptions {
   attentionPolicy?: FirstGlowAttentionPolicyOptions;
   historicalPlayback?: boolean;
   recorded?: FirstGlowInterpretationRecord[];
+  reflectionCapacity?: FirstGlowReflectionCapacityState;
 }
 
 export interface FirstGlowHybridRuntimeOutcome {
@@ -21,6 +24,7 @@ export interface FirstGlowHybridRuntimeOutcome {
   interpretation: FirstGlowInterpretationRecord;
   usage: Awaited<ReturnType<typeof evaluateFirstGlowInterpretation>>["usage"];
   decision: FirstGlowDecisionRecord;
+  reflectionAdmission?: FirstGlowEventAdmission;
 }
 
 export interface FirstGlowHybridRuntimeResult {
@@ -60,7 +64,10 @@ export async function runFirstGlowHybridRuntime(
       { ...options.attentionPolicy, historicalPlayback: options.historicalPlayback },
       priorEvents.slice(0, index)
     );
-    const shouldUseProvider = Boolean(provider && attention.created);
+    const reflectionAdmission = attention.created && options.reflectionCapacity && !options.historicalPlayback
+      ? admitFirstGlowEvent(options.reflectionCapacity, context.event.id, context.actorSparkId, context.pulse)
+      : undefined;
+    const shouldUseProvider = Boolean(provider && attention.created && (!options.reflectionCapacity || reflectionAdmission?.created));
     const shouldReplay = Boolean(options.historicalPlayback);
     const evaluation = shouldReplay || shouldUseProvider
       ? await evaluateFirstGlowInterpretation(context, {
@@ -86,6 +93,7 @@ export async function runFirstGlowHybridRuntime(
         };
     outcomes.push({
       attention,
+      reflectionAdmission,
       interpretation: evaluation.record,
       usage: evaluation.usage,
       decision: firstGlowDecisionRecord(

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "scope": "public-documentation-and-offline-specification",
+  "status": "replacement-selected-for-offline-migration-live-blocked",
+  "sources": [
+    {
+      "kind": "model",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "thinking",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/thinking",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "pricing",
+      "url": "https://cloud.google.com/model-garden/pricing",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "inference",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/reference/models/inference",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "locations",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/locations",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    }
+  ],
+  "providerInferenceCalls": 0,
+  "tokenCountingCalls": 0,
+  "authenticatedMetadataCalls": 0,
+  "credentialsAcquired": false,
+  "configurationMutations": false,
+  "sourceFreezeChanged": false,
+  "remainingBlockers": [
+    "study-adapter-migration",
+    "reasoning-and-total-usage-accounting",
+    "documented-token-bounds",
+    "verified-all-in-fees-and-prior-allocation",
+    "account-model-access-and-privacy-evidence",
+    "source-bound-offline-verification",
+    "S001-and-reviewer-presentation",
+    "manifest-specific-owner-approval"
+  ]
+}

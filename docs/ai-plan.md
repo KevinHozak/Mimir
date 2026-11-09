@@ -1,10 +1,23 @@
 # Mimir AI Plan
 
+## Owner-selected live Spark pilot — 2026-11-08
+
+The owner selected real Spark AI with a **USD 5 total pilot allocation**, replacing privacy-paperwork admission for this local pilot. [The live pilot guide](spark-ai-local.md) and [verification](evidence/spark-ai-live-2026-11-08.md) describe the implemented path. One real response was validated and committed; the observer is paused. This is operational pilot evidence, not completion of the matched S004 study or independent S001 human review. Earlier study requirements and no-call statements below describe their dated study scope; the frozen v4 manifest is retained unchanged and is not the current live application's source fingerprint.
+
+
 This is the implementation plan for selective AI-assisted First Glow decisions. It does not add credentials or make a provider call by itself. AI-P11 defines the bounded Vertex AI contract; the rules-only engine remains the fallback and the provider-free public/historical path alongside the gated internal runtime.
 
 ## Current implementation status — 2026-09-15
 
 AI-P1 through AI-P20 and RC-P1 through RC-P5 have merged implementation and retained evaluation evidence. The server includes a disabled-by-default, explicitly gated Vertex adapter and internal rollout; the browser and historical replay do not call a provider. Proposed visual and future-world sections below remain design guidance. See the [architecture](architecture.md), [changelog](changelog.md), and [AI-P14 rollout runbook](ai-p14-rollout-runbook.md) for implemented boundaries and configuration. New provider runs remain separately authorized.
+
+## Living Lives study planning — 2026-11-08
+
+The [S002 study controls](model-study-controls.md) propose a matched observer-benefit study with a USD 1 cumulative ceiling and a separate manifest-specific approval gate. Provider/account admission and S003 enforcement remain outstanding; these controls do not authorize a run or change runtime defaults.
+
+The [S003 preregistration](model-study-protocol.md) freezes matched rules-only fixtures and reviewer scoring. The integrated Vertex-adapter, reservation ledger and independent request-worker cutoff are verified with synthetic transports. Live account/privacy/pricing admission and explicit execution approval remain separate gates. See the [offline verification record](evidence/model-study-protocol-verification-2026-11-08.md).
+
+The [S004 investigation](evidence/model-study-zero-opportunities-2026-11-08.md) found a missing RC record producer in v2. [Protocol v3](model-study-protocol.md) now implements a shared, opt-in authoritative admission stage and Spark 6/pulse-80 review, retaining the original seeds/duration/ceilings. [Offline evidence](evidence/model-study-v3-verification-2026-11-08.md) verifies natural coverage, three synthetic requests, deterministic repeats and read-only observer navigation. V2 is preserved as historical evidence; real account/privacy/pricing admission, human review and live execution approval remain open.
 
 ## Direction
 
@@ -154,6 +167,20 @@ Measure:
 Fluent narration alone is not a success. Flash-Lite earns a later implementation phase only if it produces a meaningful improvement over rules-only on observer understanding or plausible downstream choices while preserving all evidence, privacy, determinism, and cost boundaries.
 
 ## Cost and authorization
+
+The [owner decision record](model-study-s004-owner-decisions.md) now defers fees, leaves outside attempts/prior allocation unknown, and conditionally accepts documented retention subject to agreement verification. This is a policy choice, not a passed agreement/privacy gate or live-run approval. All executable approval flags remain false.
+
+The [offline bound investigation](evidence/model-study-v4-offline-bound-investigation-2026-11-08.md) confirms exact natural wire sizes/hashes and identifies proof routes, but no affordable live bound. The [owner decision sheet](model-study-s004-owner-decisions.md) prepares fees, prior cost/count reconciliation and retention without interpreting unknowns as zero or acceptance. The published full input ceiling cannot fund the three-seed minimum; byte measurements do not establish tokenizer or schema/wrapper overhead. Keep the source freeze and live gates unchanged.
+
+[Selected-account S004 verification](evidence/model-study-v4-selected-requirements-2026-11-08.md) confirms account contract prices of USD 0.33 input / 2.75 output per million tokens for the exact standard regional text SKUs, matching the frozen reference rates. This does not establish all-in taxes/fees or exact token maxima. Durable caching and an absent model-logging override are documented; agreement/exemption/prior-allocation evidence is unknown and privacy acceptance remains open. Live admission stays blocked without inference/countTokens or source changes.
+
+[S004 account identification](evidence/model-study-s004-account-project-identification-2026-11-08.md) now establishes a qualified cached account for the repository Mimir project: tested project/service-use/predict permissions, active project, enabled Vertex API and enabled/open USD billing. This supersedes the earlier default-account access blocker. The private draft carries the candidate without live approval; SDK defaults and ADC were not changed. Durable cache configuration is observed and model logging remains unknown after a 404, so privacy acceptance and proven token/all-in fee bounds still block execution.
+
+[Current v4 admission review](evidence/model-study-v4-bound-account-review-2026-11-08.md) verifies the public tariff but leaves live token/fee/privacy bounds blocked. The configured candidate returned no tested permissions and metadata reads were denied; exact-model offline tokenization and the Cloud combined reasoning/output ceiling were not established. Read-only metadata access was explicitly authorized, with zero inference/countTokens calls and no account or provider configuration changes. The active source freeze and all live approval flags remain unchanged.
+
+[S004 v4](model-study-s004-protocol-v4.md) now implements the isolated Gemini 3.5 Flash-Lite adapter with explicit `MINIMAL` thinking and the documented US multi-region endpoint. Published non-global standard text rates are USD 0.33 input / 2.75 output including reasoning per million tokens. The revised USD 1 guard reserves overhead and all billable output, protects minimum funding for all three seeds and reconciles reasoning/total usage. Token/fee bounds, account/privacy evidence and live approval remain unverified; effective admitted live calls remain zero. Normal application defaults are unchanged, and v3 source/guide/controls bytes are archived separately from the active v4 freeze.
+
+S004 admission history (2026-11-08): the [live-study approval packet](model-study-s004-live-approval-packet.md) was blocked after the v3 pinned `gemini-2.5-flash-lite` retirement on 2026-10-20 was verified. V4 replaces the isolated study adapter and accounting; account/billing/privacy and token/fee-bound evidence still block live approval. The historical estimates below are not an available-model recommendation or an approved all-in cost bound.
 
 Google AI Pro is not itself an API key or a blanket authorization for billable Gemini API or Vertex AI usage. Any evaluation requires a separately identified Google project/account, an explicitly selected channel, a price snapshot, an isolated hard budget cap, data-minimization and retention rules, usage telemetry, and an operator kill switch.
 

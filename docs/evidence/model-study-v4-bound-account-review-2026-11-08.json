@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "protocolRevision": 4,
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "status": "blocked-needs-account-selection-and-token-fee-privacy-evidence",
+  "liveApproved": false,
+  "effectiveAdmittedLiveAttempts": 0,
+  "modelInferenceRequests": 0,
+  "countTokensRequests": 0,
+  "readOnlyCloudMetadataExplicitlyAuthorized": true,
+  "newLoginOrKey": false,
+  "providerConfigurationMutations": false,
+  "publicTariff": {
+    "verified": true,
+    "currency": "USD",
+    "nonGlobalStandardInputMicrousdPerMillion": 330000,
+    "nonGlobalStandardOutputIncludingReasoningMicrousdPerMillion": 2750000,
+    "accountAllInPriceVerified": false
+  },
+  "tokens": {
+    "publishedContextWindow": 1048576,
+    "publishedMaximumOutputTokens": 65536,
+    "exactModelMappedInReviewedOfficialLocalTokenizer": false,
+    "alternateTokenizerSubstituted": false,
+    "tokenizerAssetsDownloaded": false,
+    "smallInputUpperBoundVerified": false,
+    "combinedReasoningOutputUpperBoundVerified": false,
+    "approvedInputTokenUpperBound": null,
+    "approvedReasoningTokenUpperBound": null,
+    "approvedBillableOutputTokenUpperBound": null,
+    "fullContextInputOnlyRequestReserveMicrousd": 346031,
+    "minimumThreeSeedInputOnlyPlusOverheadMicrousd": 1138093,
+    "minimumStudyAffordableUnderFullContextReservation": false
+  },
+  "account": {
+    "configuredCandidateCached": true,
+    "configuredCandidateActive": true,
+    "existingCredentialsAcceptedForIamTest": true,
+    "configuredProjectMatchesRepoFirebase": true,
+    "projectAccessVerified": false,
+    "requiredPermissionsTested": [
+      "resourcemanager.projects.get",
+      "serviceusage.services.use",
+      "aiplatform.endpoints.predict"
+    ],
+    "testedPermissionsGranted": [],
+    "directRestMetadataResponses": 6,
+    "projectHttpStatus": 403,
+    "billingLinkHttpStatus": 403,
+    "vertexApiHttpStatus": 403,
+    "iamTestHttpStatus": 200,
+    "billingCurrencyVerified": false,
+    "priorAllocationApproved": false,
+    "accountVerified": false,
+    "selectionQuestionPending": true
+  },
+  "privacy": {
+    "publicTermsReviewed": true,
+    "trainingRestrictedWithoutPermissionOrInstruction": true,
+    "cacheConfigHttpStatus": 403,
+    "modelLoggingConfigHttpStatus": 403,
+    "accountCacheConfigVerified": false,
+    "accountModelLoggingVerified": false,
+    "accountAgreementVerified": false,
+    "abuseLoggingExemptionVerified": false,
+    "zeroDataRetentionClaimed": false,
+    "retentionApproved": false,
+    "privacyTermsVerified": false
+  },
+  "knownLocalIntegrationReports": {
+    "count": 7,
+    "synthetic": 7,
+    "live": 0,
+    "unknownMode": 0,
+    "outsideCheckoutVerified": false
+  },
+  "privateEvidenceDirectory": ".tmp/model-study-approval-preparation",
+  "sources": [
+    {
+      "kind": "model",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd2b-62b2-7109-8538-7eaaf563de0c"
+    },
+    {
+      "kind": "parameters",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/capabilities/content-generation-parameters",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd23-7dce-739a-ba2b-0d32dd588942"
+    },
+    {
+      "kind": "thinking",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/thinking",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd23-7e20-71e7-b29e-10046bc219a1"
+    },
+    {
+      "kind": "tokens",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/capabilities/get-token-count",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd23-7df6-723d-874c-6dd728f2784b"
+    },
+    {
+      "kind": "tokenizerSource",
+      "url": "https://raw.githubusercontent.com/googleapis/python-genai/main/google/genai/_local_tokenizer_loader.py",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd24-88e0-730e-b54f-a8bb1789f7b3"
+    },
+    {
+      "kind": "localTokenizer",
+      "url": "https://raw.githubusercontent.com/googleapis/python-genai/main/google/genai/local_tokenizer.py",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd26-3241-7269-8711-b4c1232da346"
+    },
+    {
+      "kind": "developerThinking",
+      "url": "https://ai.google.dev/gemini-api/docs/thinking",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd29-df87-76e8-888f-994a425600d8"
+    },
+    {
+      "kind": "privacy",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd24-885f-7185-a139-13959395c637"
+    },
+    {
+      "kind": "abuse",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/abuse-monitoring",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd24-885e-72c0-8b2a-aa863a0bd1f4"
+    },
+    {
+      "kind": "pricing",
+      "url": "https://cloud.google.com/model-garden/pricing",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd24-88a2-7474-ae97-9f85f76f1786"
+    },
+    {
+      "kind": "logging",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/capabilities/request-response-logging",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "scrapeId": "01a1bd25-33cc-7391-90d9-4f1d1079e834"
+    }
+  ],
+  "sourceFreezeChanged": false,
+  "simulationRerunRequired": false,
+  "changes": "local-uncommitted"
+}

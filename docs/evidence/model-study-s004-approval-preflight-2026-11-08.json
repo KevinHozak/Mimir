@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "status": "blocked-not-approved",
+  "protocolHash": "b5b614fc6079aa08da0c751e818a584f1746981f46f2554c165a952c942a5a46",
+  "inferenceRequests": 0,
+  "tokenCountingRequests": 0,
+  "credentialAcquisition": false,
+  "configurationMutations": false,
+  "account": {
+    "localCandidatePresent": true,
+    "authenticatedPrincipalVerified": false,
+    "projectVerified": false,
+    "billingVerified": false,
+    "apiEnablementVerified": false,
+    "diagnosticCause": "unclassified"
+  },
+  "model": {
+    "id": "gemini-2.5-flash-lite",
+    "retiredOn": "2026-10-20",
+    "replacementSelected": false
+  },
+  "privacyVerified": false,
+  "pricingVerified": false,
+  "allInReasoningBoundVerified": false,
+  "s001Accepted": false,
+  "reviewerBlindingVerified": false,
+  "liveApprovalCreated": false,
+  "sources": [
+    {
+      "kind": "model",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/2-5-flash-lite",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "lifecycle",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/model-versions",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "pricing",
+      "url": "https://cloud.google.com/model-garden/pricing",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "retention",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "abuse",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/abuse-monitoring",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    },
+    {
+      "kind": "thinking",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/thinking",
+      "httpStatus": 200,
+      "retrievedOn": "2026-11-08",
+      "method": "Firecrawl public documentation scrape"
+    }
+  ]
+}

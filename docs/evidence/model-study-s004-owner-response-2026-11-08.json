@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "source": "explicit owner answers to the three S004 decision questions",
+  "answers": {
+    "priorAllocation": "I still don\u2019t know",
+    "fees": "Defer until evidence is available",
+    "retention": "Accept this documented retention policy, subject to agreement verification"
+  },
+  "interpretation": {
+    "feesDeferred": true,
+    "outsideAttemptsUnknown": true,
+    "zeroPriorAllocationAttested": false,
+    "priorAllocationMicrousd": null,
+    "priorAttemptCounts": null,
+    "retentionPolicyConditionallyAccepted": true,
+    "agreementVerificationRequired": true,
+    "localRetentionDaysAfterSignoff": [
+      30,
+      90
+    ],
+    "loggingDefaultOffIsInference": true,
+    "privacyTermsVerified": false,
+    "executionRetentionApproved": false,
+    "settingsChangesAuthorized": false
+  },
+  "liveApproved": false,
+  "approvedFor": null,
+  "inferenceRequests": 0,
+  "countTokensRequests": 0,
+  "sourceFreezeChanged": false,
+  "decisionRecordSha256": "b68836faeef957a4d47ff597e76f52f108fe1126e9b5ff7ce76db3c2bf663f1d"
+}

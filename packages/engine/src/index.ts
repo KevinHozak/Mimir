@@ -13,6 +13,7 @@ export * from "./first-glow-explanations.js";
 export * from "./first-glow-interpretations.js";
 export * from "./first-glow-attention.js";
 export * from "./first-glow-reflection-capacity.js";
+export * from "./first-glow-event-admission.js";
 export * from "./first-glow-reflection-memory.js";
 export * from "./first-glow-context.js";
 export * from "./first-glow-intentions.js";
@@ -71,7 +72,9 @@ function openingChargeIntake(world: WorldState): number {
   return world.pulse > 0 && world.pulse % 4 === 0 ? 24 : 0;
 }
 
-export function advanceWorld(input: WorldState): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
+export function advanceWorld(input: WorldState, options: { eventAdmissionPolicy?: "event-rc-v1" } = {}): { state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } {
+  const policy = input.firstGlowState.reflectionCapacity?.eventAdmission?.version;
+  if (policy !== options.eventAdmissionPolicy) throw new Error("event RC policy dispatch mismatch; choose the matching history runtime explicitly");
   validateFirstGlowState(input.firstGlowState);
   const previousIds = new Set(input.firstGlowState.events.map(event => event.id));
   const firstGlowState = advanceFirstGlow(input.firstGlowState, { sourceCharge: openingChargeIntake(input), deterministicSeed: input.seed });

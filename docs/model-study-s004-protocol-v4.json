@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "protocolRevision": 4,
+  "status": "offline-implementation-live-approval-pending",
+  "liveApproved": false,
+  "sourceFreeze": "docs/model-study-protocol.json",
+  "supersedesDesignRevision": 3,
+  "priorOfflineProtocolHash": "b5b614fc6079aa08da0c751e818a584f1746981f46f2554c165a952c942a5a46",
+  "selection": {
+    "service": "Google Cloud managed Gemini",
+    "model": "gemini-3.5-flash-lite",
+    "launchStage": "GA",
+    "releasedOn": "2026-07-21",
+    "supportedUntilAtLeast": "2027-07-21",
+    "consumption": "standard-paygo",
+    "location": "us",
+    "host": "aiplatform.us.rep.googleapis.com",
+    "endpointTemplate": "https://aiplatform.us.rep.googleapis.com/v1/projects/<approved-project>/locations/us/publishers/google/models/gemini-3.5-flash-lite:generateContent",
+    "accountId": null,
+    "projectId": null,
+    "accountAccessVerified": false
+  },
+  "sample": {
+    "seeds": [
+      2,
+      4,
+      8
+    ],
+    "population": 6,
+    "pulses": 80,
+    "focalSpark": "spark-6",
+    "reviewCheckpoint": 80,
+    "checkpoints": [
+      0,
+      16,
+      40,
+      80
+    ],
+    "admissionPolicy": "event-rc-v1",
+    "minimumFundedTreatmentAttempts": 3
+  },
+  "wire": {
+    "candidateCount": 1,
+    "maxOutputTokens": 128,
+    "responseMimeType": "application/json",
+    "thinkingConfig": {
+      "thinkingLevel": "MINIMAL"
+    },
+    "omittedParameters": [
+      "temperature",
+      "topP",
+      "topK",
+      "presencePenalty",
+      "frequencyPenalty",
+      "thinkingBudget"
+    ],
+    "textOnly": true,
+    "toolsAllowed": false,
+    "redirectsAllowed": false,
+    "retries": 0
+  },
+  "limits": {
+    "attempts": 24,
+    "attemptsPerSeed": 8,
+    "concurrency": 1,
+    "maxInputBytes": 16384,
+    "timeoutMs": 10000,
+    "windowMs": 1800000,
+    "budgetMicrousd": 1000000
+  },
+  "budget": {
+    "currency": "USD",
+    "referenceInputMicrousdPerMillion": 330000,
+    "referenceOutputMicrousdPerMillion": 2750000,
+    "overheadReserveMicrousd": 100000,
+    "overheadBoundVerified": false,
+    "priorAllocationMicrousd": null,
+    "inputTokenUpperBound": null,
+    "reasoningTokenUpperBound": null,
+    "billableOutputTokenUpperBound": null,
+    "pricingVerified": false,
+    "effectiveAdmittedLiveAttempts": 0,
+    "reservationsReleasedOnUsage": false,
+    "planningScenarios": [
+      {
+        "id": "candidate-only-unsafe",
+        "inputTokens": 16384,
+        "candidateTokens": 128,
+        "reasoningTokens": 0,
+        "reserveMicrousd": 5759,
+        "minimumSamplePlusOverheadMicrousd": 117277,
+        "admissible": false
+      },
+      {
+        "id": "small-input-separate-thinking-envelope",
+        "inputTokens": 16384,
+        "candidateTokens": 128,
+        "reasoningTokens": 65536,
+        "reserveMicrousd": 185983,
+        "minimumSamplePlusOverheadMicrousd": 657949,
+        "conditionallyFundedAttempts": 4,
+        "admissible": false
+      },
+      {
+        "id": "full-input-context-envelope",
+        "inputTokens": 1048576,
+        "candidateTokens": 128,
+        "reasoningTokens": 65536,
+        "reserveMicrousd": 526607,
+        "minimumSamplePlusOverheadMicrousd": 1679821,
+        "conditionallyFundedAttempts": 1,
+        "admissible": false
+      }
+    ]
+  },
+  "requiredUsageFields": [
+    "promptTokenCount",
+    "candidatesTokenCount",
+    "thoughtsTokenCount",
+    "totalTokenCount"
+  ],
+  "requiredApproval": {
+    "ownerApproved": false,
+    "s001Accepted": false,
+    "privacyTermsVerified": false,
+    "pricingVerified": false,
+    "retentionApproved": false,
+    "validFrom": null,
+    "validUntil": null,
+    "runDirectory": null,
+    "accountVerified": false,
+    "tokenBoundsVerified": false,
+    "feeBoundsVerified": false,
+    "reviewerPresentationApproved": false,
+    "tokenBoundEvidenceHash": null,
+    "feeBoundEvidenceHash": null,
+    "accountEvidenceHash": null
+  },
+  "providerCallsMade": 0
+}

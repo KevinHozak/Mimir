@@ -1,0 +1,55 @@
+# Living Lives preregistration v4
+
+Date: 2026-11-08. Implemented for isolated offline verification under [S004](../issues/MIM-S004.md). **Live approval: false.** The [machine manifest](model-study-protocol.json) binds this document, source and compiled runtime. Prior offline results and their limits remain in the [v3 evidence record](evidence/model-study-v3-verification-2026-11-08.md); current v4 verification is recorded separately; no human or model-benefit result is asserted here.
+
+## Provenance and compatibility
+
+Revision 2 remains byte-preserved in its [manifest](evidence/model-study-protocol-v2-2026-11-08.json) and [original guide snapshot](evidence/model-study-protocol-v2-2026-11-08.txt). Its zero-request histories are not migrated, continued or relabeled. [The investigation](evidence/model-study-zero-opportunities-2026-11-08.md) motivated the [pilot-informed v3 proposal](model-study-s004-protocol-v3-proposal.md), which the user authorized for offline implementation without provider calls.
+
+New study openings carry `reflectionCapacity.eventAdmission.version=event-rc-v1` and world IDs `study-v4-seed-<seed>`. Initialization is permitted only on a fresh pulse-zero scheduler. The opt-in server evaluator rejects legacy or incompatible policy histories instead of inventing admission records. Old schema-3 histories remain readable with their original policy; normal server configuration does not opt into the study admission policy. The dispatcher rejects tagged histories unless their matching policy is explicitly selected. The default server may render v3 fixtures but cannot advance or apply Resonance mutations to them. No new runtime age, Hero generation or schema relabeling is introduced.
+
+## Fixed sample and comparison
+
+Keep seeds 2/4/8, six Sparks, 80 authoritative pulses, and checkpoints 0/16/40/80. Follow Spark 6 at review checkpoint 80 in every pair. Also save the exact checkpoint of each admitted event for evidence navigation. Use the content-addressed bundle and matched opening hashes in the machine manifest. The engine-reference checkpoint hashes are separate deterministic reference fixtures, not predictions for integrated arm outcomes.
+
+Both scored arms use `advanceWorld` and `FirstGlowServerAIRuntime`, deterministic event-ID order, the same staging, ten-second interpretation limit and one shared canonical RC scheduler. The rules arm selects rules-only mode; only the model arm can reach an admitted provider. Normal server timeout defaults remain one second. Routine activity, quiet periods, refused choices and identical alternatives are retained. Do not inject encounters, increase RC, replace seeds, force Anchors or purchase replacement calls.
+
+## Authoritative event RC admission
+
+Meaningful-event attention is evaluated first. Each resulting context then consults the candidate world's persisted RC scheduler before provider selection. `event-rc-v1` records event/actor/pulse/day, admission and a specific reason, linking accepted records to a created scheduler slot. The event stage shares the existing allowance with other RC consumers; it cannot independently replenish it. Its event-attention ledger is persisted with the policy so restarting the evaluator cannot erase cooldown or duplicate-event accounting.
+
+Enforce assignment capacity per Spark/day, global limits, cadence, duplicate-event rejection and already-owned actor/pulse protection. A slot-end opportunity cannot bypass exhausted capacity. JSON-restored ownership blocks another dispatch or rewriting a committed decision. Historical candidates cannot move the scheduler backward. Read-only replay does not request or consume slots. Ordinary cadence/capacity denials produce rules-only outcomes and explicit admission records, not provider errors.
+
+The state is cloned before evaluation; the caller retains the existing server commit boundary. A rejected candidate does not mutate its input. Complete social-state validation prevents duplicate commitments from entering a committed checkpoint. Policy records are validated on state loading. No intention evaluator is invoked merely to manufacture an RC record.
+
+## Resource, privacy and stop controls
+
+Retain [S002 controls](model-study-controls.md): proposed USD 1 cumulative all-in maximum, 24 attempts total/eight per seed, concurrency one, zero retries, 16 KiB complete wire input, 128 output tokens, ten-second absolute request/evaluator limit and 30-minute generation window. Account/model/region, current terms/pricing, prior allocations and execution approval remain unselected or unverified for live admission.
+
+The study-specific Vertex serializer's actual payload passes through the persistent reservation guard before worker dispatch. Durable attempt/context/event identity, token usage and latency are retained without interpreting usage as settled billing. No full reservation is automatically released, including on failure. Independent request watchdogs enforce absolute deadlines and terminate their owned worker on operator cancellation or parent IPC loss. Privacy-boundary rejection stops new dispatch immediately; malformed/transport failures stop after two consecutive failures. The live fetch branch is not used by offline tests.
+
+## Offline verification and review fixtures
+
+After `npm run build`, run `npm run test:model-study` for manifest drift, admission, guard and worker tests and the complete six-history synthetic comparison. Core event-admission tests and server runtime tests additionally verify other consumers, day/global caps, startup provenance, serialization/restart, duplicate history preservation and rules-equivalent objective effects.
+
+Each rules/model seed must naturally admit at least one focal-Spark opportunity. The shadow prediction was Spark 6 at pulses 52/48/52; report actual timing and any drift. If coverage is absent, defer rather than substitute another sample. Synthetic responses exercise transport and validation; they do not establish model quality. Intention-to-treat keeps failures and identical accepted choices in the report; no valid live response means treatment-not-delivered/inconclusive.
+
+The runner saves fsynced journals with events, interpretations, admission/suppression records and accepted/rejected transitions, plus complete or interrupted endpoint states. Exact admitted-event checkpoints support provider-free evidence replay. No normal local database or hosted world is opened.
+
+`node scripts/model-study-observer.test.mjs <completed-v4-directory>` imports derived copies into fresh isolated databases, with AI and pulsing disabled. It checks World -> Spark 6 Follow -> personal Chronicle at 80 -> exact admitted event -> return to the same Spark at desktop/mobile widths, no owner/pulse controls in study-observer mode, zero browser mutation requests, public reflection projection and unchanged canonical tables. Captures are technical evidence, not independent human review. The synthetic fixture service uses `VITE_STUDY_OBSERVER=true`; normal local UI configuration remains unchanged.
+
+## Human protocol and remaining execution gates
+
+Keep seed order 2/4/8 and first-arm order rules/model/rules, eight-minute review windows, the same four-point immediate explanation tasks, ten-minute delayed recall, interest 1–5 and evidence-location timing. Spark 6 at pulse 80 is a pilot-informed change fixed before live output. Require an independent consenting reviewer for all pairs and disclose operator bias. No human results have been collected.
+
+Existing observer provenance labels must not be falsified for A/B blinding. Offline verification does not certify blind presentation: a final reviewer packet must either implement source-concealed presentation with provenance available after scoring, or explicitly obtain approval for an unblinded exploratory review and report that limitation. No human-benefit conclusion may silently assume blinding.
+
+S001 review, the verified offline source-bound manifest, real provider/account/privacy/pricing admission, reviewer arrangements, kill/recovery receipts and explicit manifest-specific owner approval still gate S004 execution. This protocol, a successful synthetic run, or a CLI invocation does not authorize real calls, spend, publication or deployment. The CLI remains synthetic-only.
+
+## V4 model and all-in accounting migration
+
+The [v4 specification](model-study-s004-protocol-v4.md) selects `gemini-3.5-flash-lite` at the exact US multi-region `aiplatform.us.rep.googleapis.com` endpoint, explicit `MINIMAL` thinking, one candidate and no unsupported sampling overrides. The study-specific serializer replaces the legacy study adapter; normal application defaults remain unchanged. V3 manifest, guide and controls bytes are archived in `docs/evidence/model-study-*-v3-2026-11-08.*`. Fresh world IDs use `study-v4-seed-*`.
+
+The USD 1 cumulative ceiling includes at least USD 0.10 reserved overhead, explicit prior allocation and every full request reservation. Input, reasoning and combined billable output bounds and account-specific fee evidence must be approved. The small-input synthetic fixture reserves 185,983 micro-USD per request, funding four attempts with zero prior allocation; this is arithmetic for offline verification, not a live bound. The guard protects one first attempt per seed, enforces the tighter funded allowance, never refunds usage-based differences and retains uncertain attempts. Unknown live bounds, inadequate funding for three seeds, missing evidence hashes or absent approvals block before credentials/dispatch.
+
+Receipts require exact model identity and integer prompt/candidate/thinking/total counts, reconciled totals, permitted text-only breakdowns and valid included-cache counts without assumed discounts. Unknown categories, accounting/identity mismatches or privacy violations stop immediately; other malformed/transport failures retain the two-failure ceiling. The independent worker rechecks host/model/payload identity before its live branch; its synthetic branch forbids network. No provider-side token guarantee, account approval or real-model benefit follows from these checks.

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "status": "unique-read-only-qualified-account-project-identified-live-blocked",
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "pinnedSourceHashesVerified": 266,
+  "inspectedSdkConfigurations": 1,
+  "cachedAccountsCompared": 2,
+  "repositoryProjectCandidates": 1,
+  "qualifiedCandidates": 1,
+  "qualifiedCandidateLabel": "cached-2",
+  "identifiersKeptPrivate": true,
+  "privateIdentityRecord": ".tmp/model-study-approval-preparation/s004-identified-account-project.json",
+  "privateIdentityRecordSha256": "d4d9b6e700261e1cfab6c6df3677ef87116da93297fd4e2a1ce8842920bb7980",
+  "privateComparisonSha256": "8ad71615560753a0990214eb115bb331f580ef3e6073dec4c700ac49d35ce340",
+  "comparison": [
+    {
+      "candidate": "cached-1",
+      "authentication": "existing-credentials-loaded",
+      "permissionsGranted": [],
+      "httpStatuses": {
+        "iamPermissions": 200
+      }
+    },
+    {
+      "candidate": "cached-2",
+      "authentication": "existing-credentials-loaded",
+      "permissionsGranted": [
+        "aiplatform.endpoints.predict",
+        "resourcemanager.projects.get",
+        "serviceusage.services.use"
+      ],
+      "httpStatuses": {
+        "iamPermissions": 200,
+        "project": 200,
+        "billingLink": 200,
+        "billingAccount": 200,
+        "vertexApi": 200,
+        "cacheConfig": 200,
+        "requestLogging": 404
+      }
+    }
+  ],
+  "projectActive": true,
+  "billingEnabled": true,
+  "billingAccountOpen": true,
+  "billingCurrency": "USD",
+  "vertexApiEnabled": true,
+  "cacheRetentionType": "DURABLE",
+  "disableCacheExplicitlyPresent": false,
+  "modelLoggingVerified": false,
+  "modelLoggingHttpStatus": 404,
+  "sdkAndRepositoryConfigurationChanged": false,
+  "adc": {
+    "present": true,
+    "principalVerified": false,
+    "type": "authorized_user",
+    "quotaProjectMatchesQualifiedProject": false,
+    "impersonationConfigured": false
+  },
+  "explicitCredentialSelectionRequired": true,
+  "restMetadataRequests": 8,
+  "inferenceRequests": 0,
+  "countTokensRequests": 0,
+  "providerConfigurationMutations": 0,
+  "newLoginOrKey": false,
+  "liveApproved": false,
+  "tokenBoundsVerified": false,
+  "allInFeeBoundVerified": false,
+  "retentionApproved": false,
+  "remainingGates": [
+    "proven-token-bounds",
+    "verified-all-in-fees-and-prior-allocation",
+    "logging-agreement-retention-acceptance",
+    "S001-reviewer-disposition",
+    "manifest-specific-owner-approval"
+  ],
+  "gitDelivery": "local-uncommitted"
+}

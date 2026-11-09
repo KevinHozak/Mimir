@@ -1,3 +1,5 @@
+import type { FirstGlowAttentionBudgetState } from "./first-glow-attention.js";
+
 export const FIRST_GLOW_REFLECTION_CAPACITY_VERSION = "world-age-v1" as const;
 export const FIRST_GLOW_REFLECTION_HERO_POLICY_VERSION = "explicit-only-v1" as const;
 export const FIRST_GLOW_REFLECTION_PULSES_PER_DAY = 64 as const;
@@ -53,6 +55,20 @@ export interface FirstGlowReflectionCapacityState {
   policy: FirstGlowReflectionCapacityPolicy;
   assignments: Record<string, FirstGlowReflectionAssignment>;
   scheduler: FirstGlowReflectionScheduler;
+  eventAdmission?: {
+    version: "event-rc-v1";
+    records: FirstGlowEventAdmission[];
+    attentionBudget: FirstGlowAttentionBudgetState;
+  };
+}
+
+export interface FirstGlowEventAdmission {
+  eventId: string;
+  sparkId: string;
+  pulse: number;
+  simulatedDay: number;
+  created: boolean;
+  reason: string;
 }
 
 const positiveInteger = (value: number | undefined, fallback: number) => Number.isInteger(value) && value !== undefined && value > 0 ? value : fallback;
@@ -120,6 +136,23 @@ export function validateFirstGlowReflectionCapacity(state: FirstGlowReflectionCa
   for (const sparkId of sparkIds) { const assignment = state.assignments[sparkId]; if (!assignment || assignment.sparkId !== sparkId || assignment.capacity !== reflectionCapacityFor(assignment.isHero) || !["policy-default", "explicit-test"].includes(assignment.provenance)) throw new Error(`invalid Reflection assignment ${sparkId}`); }
   if (Object.keys(state.assignments).some(sparkId => !ids.has(sparkId))) throw new Error("Reflection assignment references an unknown Spark");
   if (!Number.isInteger(state.scheduler.globalUsed) || state.scheduler.globalUsed < 0 || !Array.isArray(state.scheduler.decisions)) throw new Error("invalid Reflection scheduler state");
+  if (state.eventAdmission) {
+    if (state.eventAdmission.version !== "event-rc-v1" || !Array.isArray(state.eventAdmission.records)) throw new Error("unsupported event RC admission policy");
+    const attention = state.eventAdmission.attentionBudget;
+    if (!attention || !Array.isArray(attention.decisions) || !Array.isArray(attention.requestedEventIds) || !Number.isInteger(attention.simulatedDay) || !Number.isInteger(attention.globalUsed) || attention.globalUsed < 0) throw new Error("invalid persisted event attention state");
+    const events = new Set<string>();
+    const counts = new Map<string, number>();
+    for (const record of state.eventAdmission.records) {
+      if (!ids.has(record.sparkId) || !record.eventId || !Number.isInteger(record.pulse) || record.pulse < 0 || record.simulatedDay !== Math.floor(record.pulse / state.policy.pulsesPerDay) || typeof record.created !== "boolean" || !record.reason) throw new Error("invalid event RC admission record");
+      if (record.created) {
+        const key = `${record.sparkId}:${record.simulatedDay}`;
+        const count = (counts.get(key) ?? 0) + 1;
+        counts.set(key, count);
+        if (events.has(record.eventId) || count > state.assignments[record.sparkId].capacity || !state.scheduler.decisions.some(item => item.created && item.sparkId === record.sparkId && item.pulse === record.pulse)) throw new Error("invalid event RC slot ownership");
+        events.add(record.eventId);
+      }
+    }
+  }
 }
 
 export function ensureFirstGlowReflectionCapacity(state: { firstGlowState: { settlements: Array<{ sparks: Array<{ id: string }> }>; reflectionCapacity?: FirstGlowReflectionCapacityState } }): FirstGlowReflectionCapacityState {

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "proposedRevision": 3,
+  "status": "proposal-not-executable",
+  "liveApproved": false,
+  "sourceProtocolHash": "00c9fd5080421b7edb8b8de71bc4b5a71641e15373a85589c1a71436d2e8f823",
+  "audit": "docs/evidence/model-study-opportunity-audit-2026-11-08.json",
+  "sample": {
+    "seeds": [
+      2,
+      4,
+      8
+    ],
+    "population": 6,
+    "totalPulses": 80,
+    "checkpoints": [
+      0,
+      16,
+      40,
+      80
+    ],
+    "focalSpark": "spark-6",
+    "reviewCheckpoint": 80
+  },
+  "limits": {
+    "attempts": 24,
+    "attemptsPerSeed": 8,
+    "concurrency": 1,
+    "maxInputBytes": 16384,
+    "maxOutputTokens": 128,
+    "budgetMicrousd": 1000000,
+    "timeoutMs": 10000,
+    "windowMs": 1800000
+  },
+  "admissionDesign": "authoritative-event-first-shared-recorded-RC-admission",
+  "expectedShadowCandidates": {
+    "2": 52,
+    "4": 48,
+    "8": 52
+  },
+  "shadowResultsAreCanonical": false,
+  "minimumOfflineNaturalOpportunitiesPerSeed": 1,
+  "executionReadiness": "blocked-pending-implementation-offline-verification-and-owner-approval",
+  "proposalSourceHashes": {
+    "docs/model-study-s004-protocol-v3-proposal.md": "38edcbf7e8af8a96b872dfa5d1f5b45a63cb256353f04d6615d11066bc17b2f9",
+    "docs/evidence/model-study-opportunity-audit-2026-11-08.json": "e70778c2adf7d1fa5e61c68bab08f9854e32fcae9d42f9fdbecbcf2d81b04368",
+    "scripts/model-study-opportunity-audit.mjs": "26d314e65fc0d5c422552410d3210218b9f11db5b96fed8032ae9c26041784a6",
+    "scripts/model-study-opportunity-audit.test.mjs": "71405bcd7e6f05e1815618f3c5658323fb2952aa1facd133f4db339b0b34bc37"
+  },
+  "originalProposalSourceHashes": {
+    "docs/model-study-s004-protocol-v3-proposal.md": "9528be38c0deafc4bd56da855f193bff02a19a4d676821c34834eea2d511f52f",
+    "docs/evidence/model-study-opportunity-audit-2026-11-08.json": "e70778c2adf7d1fa5e61c68bab08f9854e32fcae9d42f9fdbecbcf2d81b04368",
+    "scripts/model-study-opportunity-audit.mjs": "26d314e65fc0d5c422552410d3210218b9f11db5b96fed8032ae9c26041784a6",
+    "scripts/model-study-opportunity-audit.test.mjs": "71405bcd7e6f05e1815618f3c5658323fb2952aa1facd133f4db339b0b34bc37"
+  },
+  "implementation": {
+    "status": "offline-verified",
+    "activeProtocol": "docs/model-study-protocol.json",
+    "protocolHash": "b5b614fc6079aa08da0c751e818a584f1746981f46f2554c165a952c942a5a46",
+    "liveApproved": false
+  }
+}

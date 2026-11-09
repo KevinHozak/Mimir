@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-08",
+  "protocolRevision": 3,
+  "protocolHash": "b5b614fc6079aa08da0c751e818a584f1746981f46f2554c165a952c942a5a46",
+  "admissionPolicy": "event-rc-v1",
+  "node": "v24.14.0",
+  "sourceStudyReport": ".tmp/model-study-integration/run-JVstAA/report.json",
+  "sourceStudyReportSha256": "03924e7bcea4910cdf613ea56b0b146b6cde3f05ff15f929108013bdbe04ed1d",
+  "histories": 6,
+  "authoritativePulses": 480,
+  "syntheticRequests": 3,
+  "liveProviderRequests": 0,
+  "seeds": [
+    {
+      "seed": 2,
+      "admissionPulses": {
+        "rules": [
+          52
+        ],
+        "model": [
+          52
+        ]
+      },
+      "syntheticRequests": 1
+    },
+    {
+      "seed": 4,
+      "admissionPulses": {
+        "rules": [
+          48
+        ],
+        "model": [
+          48
+        ]
+      },
+      "syntheticRequests": 1
+    },
+    {
+      "seed": 8,
+      "admissionPulses": {
+        "rules": [
+          52
+        ],
+        "model": [
+          52
+        ]
+      },
+      "syntheticRequests": 1
+    }
+  ],
+  "studyTests": {
+    "passed": 20,
+    "failed": 0
+  },
+  "rulesRepeat": {
+    "seeds": 3,
+    "pulses": 240,
+    "matchedCheckpointHashes": 15,
+    "providerCalls": 0,
+    "scriptSha256": "a434cdeb36fff0180e43bea7f3bd0f44b6d27f1947fdec9dc8f5086ec6494726"
+  },
+  "observer": {
+    "receipt": ".tmp/model-study-review/run-KXCo9D/review.json",
+    "receiptSha256": "cd41a4b37634bbdc15a84654937a66cebe44cc3eb068bf8c272d81a1ed7bc9de",
+    "histories": 6,
+    "widths": [
+      1440,
+      390
+    ],
+    "canonicalMutations": 0,
+    "browserMutationRequests": 0
+  },
+  "liveApproved": false,
+  "humanReview": "unmeasured",
+  "modelBenefit": "unmeasured",
+  "publication": "not-performed"
+}

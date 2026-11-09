@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "status": "offline-investigation-complete-no-affordable-live-bound-established",
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "publishedInputCeiling": 1048576,
+  "fullContextInputOnlyRequestReserveMicrousd": 346031,
+  "minimumThreeSeedInputOnlyPlusOverheadMicrousd": 1138093,
+  "minimumThreeSeedFitsFromFullContextReservation": false,
+  "exactModelOfflineTokenizerMappingFound": false,
+  "smallInputTokenBoundVerified": false,
+  "combinedReasoningOutputBoundVerified": false,
+  "wireBytesAreNotTokenCounts": true,
+  "reconstruction": {
+    "privateReceipt": ".tmp/model-study-offline-bounds/run-U9BRoz/receipt.json",
+    "privateReceiptSha256": "acf1fb8ba20334f7a3ade1dbc04dc20fc5f0c33b76e26194c7c752925cc6303a",
+    "sourceStudyReportSha256": "712a5378ccb00778f6470348baad567712626a4df99c3808578b4bb244e95d6a",
+    "authoritativePulses": 32,
+    "contextAndWireHashesMatched": 3,
+    "forbiddenProviderCalls": 0,
+    "networkTrap": true,
+    "allPossibleFuturePayloadsCovered": false,
+    "runtimePayloadAllowlistImplemented": false,
+    "requests": [
+      {
+        "seed": 2,
+        "pulse": 52,
+        "sparkId": "spark-6",
+        "contextHash": "sha256-296283d147748135f76180e6686964c4e6445f48019fbc5a83ec7044c442e94f",
+        "inputHash": "b3da51571fa038c7a059f0600f2232eb7987aaa3b372236e880576d0be748681",
+        "wireBytes": 6083,
+        "promptUtf8Bytes": 5108,
+        "promptCodePoints": 5108,
+        "contextMatchedLedger": true,
+        "wireMatchedLedger": true,
+        "tokenCount": null,
+        "tokenBoundVerified": false
+      },
+      {
+        "seed": 4,
+        "pulse": 48,
+        "sparkId": "spark-6",
+        "contextHash": "sha256-d9f52c966246a31aed77cc497731ab2c160ce9c202de03de595606a5ad130e36",
+        "inputHash": "1e01b06c6ab97b6f57e25d57615363e86179c749521001ec0f19a5c242a62aea",
+        "wireBytes": 6109,
+        "promptUtf8Bytes": 5130,
+        "promptCodePoints": 5130,
+        "contextMatchedLedger": true,
+        "wireMatchedLedger": true,
+        "tokenCount": null,
+        "tokenBoundVerified": false
+      },
+      {
+        "seed": 8,
+        "pulse": 52,
+        "sparkId": "spark-6",
+        "contextHash": "sha256-23df60e60bf30cb52b26ccbe0cd9ef80cb8512df949bed2117e583114bcffb90",
+        "inputHash": "db68606fdca8eb2936e5150c687a8f317741645dce95f2a1ff626c83e6d2650c",
+        "wireBytes": 6064,
+        "promptUtf8Bytes": 5089,
+        "promptCodePoints": 5089,
+        "contextMatchedLedger": true,
+        "wireMatchedLedger": true,
+        "tokenCount": null,
+        "tokenBoundVerified": false
+      }
+    ]
+  },
+  "conditionalProofTarget": {
+    "priorAllocationMicrousd": 0,
+    "overheadReserveMicrousd": 100000,
+    "minimumRequests": 3,
+    "assumedBillableOutputTokens": 65664,
+    "outputAssumptionVerified": false,
+    "sufficientProvenInputCeiling": 361890,
+    "liveBoundApproved": false
+  },
+  "feeDecisionExamples": [
+    {
+      "fixtureRequestReserveMicrousd": 185983,
+      "fixtureBoundVerified": false,
+      "priorAllocationMicrousd": 0,
+      "overheadReserveMicrousd": 100000,
+      "fundedAttempts": 4,
+      "hypotheticalFeeBasisPoints": 1000,
+      "perRequestRoundedPercentageFeesMicrousd": 74396,
+      "remainingFixedFeeRoomMicrousd": 25604,
+      "feeReserveSufficient": true
+    },
+    {
+      "fixtureRequestReserveMicrousd": 185983,
+      "fixtureBoundVerified": false,
+      "priorAllocationMicrousd": 0,
+      "overheadReserveMicrousd": 100000,
+      "fundedAttempts": 4,
+      "hypotheticalFeeBasisPoints": 1500,
+      "perRequestRoundedPercentageFeesMicrousd": 111592,
+      "remainingFixedFeeRoomMicrousd": 0,
+      "feeReserveSufficient": false
+    },
+    {
+      "fixtureRequestReserveMicrousd": 185983,
+      "fixtureBoundVerified": false,
+      "priorAllocationMicrousd": 0,
+      "overheadReserveMicrousd": 150000,
+      "fundedAttempts": 4,
+      "hypotheticalFeeBasisPoints": 1500,
+      "perRequestRoundedPercentageFeesMicrousd": 111592,
+      "remainingFixedFeeRoomMicrousd": 38408,
+      "feeReserveSufficient": true
+    }
+  ],
+  "priorAttemptCountFinding": {
+    "initialCostSupported": true,
+    "historicalAttemptCountImportSupported": false,
+    "outsideAttemptsRequireCountReconciliationAndEnforcement": true,
+    "sourceChanged": false
+  },
+  "ownerDecisionDraft": "docs/model-study-s004-owner-decisions.json",
+  "ownerDecisionsAccepted": false,
+  "inferenceRequests": 0,
+  "countTokensRequests": 0,
+  "computeTokensRequests": 0,
+  "authenticatedCloudMetadataRequestsThisTurn": 0,
+  "tokenizerAssetsDownloaded": false,
+  "cloudSettingsChanged": false,
+  "sourceFreezeChanged": false,
+  "liveApproved": false,
+  "gitDelivery": "local-uncommitted"
+}

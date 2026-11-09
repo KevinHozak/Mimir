@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-08",
+  "purpose": "owner-facts-and-policy-record-not-execution-approval",
+  "status": "owner-decisions-recorded-evidence-blocked",
+  "protocolHash": "4f9802ac746d456bd8d2b763cff40a2207c9dcc81fc1cec907d627c921b770c7",
+  "approvedFor": null,
+  "liveApproved": false,
+  "technicalTokenBoundVerified": false,
+  "currentOwnerFacts": {
+    "agreementType": "unknown",
+    "maximumTaxFeeRate": null,
+    "outsideCheckoutAttempts": "unknown",
+    "source": "explicit owner replies on 2026-11-08; agreement and maximum fee remain unknown"
+  },
+  "fees": {
+    "proposedDisposition": "defer",
+    "ownerDecision": "defer-until-evidence-available",
+    "agreementEvidence": null,
+    "maximumAggregatePercentageBasisPoints": null,
+    "maximumFixedTotalFeesIncludingRoundingMicrousd": null,
+    "proposedOverheadReserveMicrousd": null,
+    "evidenceReferences": [],
+    "verified": false
+  },
+  "priorAllocation": {
+    "proposedDisposition": "defer",
+    "ownerDecision": "outside-attempts-still-unknown",
+    "noOutsideAttemptsAttestation": null,
+    "reconciledAllocationMicrousd": null,
+    "totalPriorAttempts": null,
+    "priorAttemptsPerSeed": null,
+    "uncertainReservationsReconciled": false,
+    "countEnforcementVerified": false,
+    "evidenceReferences": [],
+    "verified": false
+  },
+  "retention": {
+    "proposedDisposition": "defer",
+    "ownerDecision": "accept-documented-policy-subject-to-agreement-verification",
+    "agreementEvidence": null,
+    "cachePolicyAcceptance": "accepted-subject-to-agreement-verification",
+    "abuseRetentionAndHumanReviewAcceptance": "accepted-subject-to-agreement-verification",
+    "loggingEvidenceDisposition": "accept-default-off-inference-subject-to-agreement-verification",
+    "zeroDataRetentionClaimed": false,
+    "localTransientRetentionDaysAfterSignoff": 30,
+    "localHistoryRetentionDaysAfterSignoff": 90,
+    "localRetentionConfirmed": true,
+    "reportSignoffDate": null,
+    "settingsChangesAuthorized": false,
+    "evidenceReferences": [],
+    "verified": false,
+    "policyChoiceAccepted": true,
+    "agreementVerificationRequired": true
+  },
+  "execution": {
+    "ownerApproved": false,
+    "s001Accepted": false,
+    "reviewerPresentationApproved": false,
+    "privacyTermsVerified": false,
+    "retentionApproved": false,
+    "pricingVerified": false,
+    "feeBoundsVerified": false,
+    "tokenBoundsVerified": false,
+    "runDirectory": null,
+    "validFrom": null,
+    "validUntil": null
+  },
+  "notes": [
+    "No unknown may be converted to zero or acceptance",
+    "Technical token proof cannot be waived by this form",
+    "Any outside attempts require both cost and cumulative/per-seed count reconciliation; current guard imports prior dollars only",
+    "Owner facts/policy decisions do not authorize provider calls, settings changes or outreach"
+  ],
+  "ownerResponseEvidence": "evidence/model-study-s004-owner-response-2026-11-08.json"
+}

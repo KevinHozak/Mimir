@@ -1,0 +1,72 @@
+{
+  "checkedAt": "2026-11-09T00:34:14.230Z",
+  "budget": {
+    "capMicrousd": 5000000,
+    "reservedMicrousd": 500000,
+    "remainingMicrousd": 4500000,
+    "reservationPerRequestMicrousd": 500000,
+    "attempts": 1,
+    "completed": 1,
+    "uncertain": 0,
+    "stopped": false,
+    "estimatedTokenCostMicrousd": 748,
+    "reservationsAreNotFinalBills": true
+  },
+  "budgetCents": 500,
+  "model": "gemini-3.5-flash-lite",
+  "aiInterpretations": [
+    {
+      "id": "interpretation-52-event-52-spark-6-wild-cache-7044c442e94f",
+      "pulse": 52,
+      "eventId": "event-52-spark-6-wild-cache",
+      "sparkId": "spark-6",
+      "source": "ai",
+      "summary": "Spark 6 probed the Wild Cache, noting an uncertain signal and a less familiar return route, leaning into its independent value tendency.",
+      "evidenceEventIds": [
+        "event-52-spark-6-wild-cache"
+      ],
+      "schemaVersion": 2,
+      "personalityProfileVersion": 1,
+      "encounterId": "encounter-52-event-52-spark-6-wild-cache",
+      "contextHash": "sha256-296283d147748135f76180e6686964c4e6445f48019fbc5a83ec7044c442e94f",
+      "dilemmaId": "wild-cache-risk",
+      "alternativeId": "enter-wild-cache",
+      "claim": "plausible-choice",
+      "confidence": "provider-proposed",
+      "requestedSource": "ai",
+      "plausibleChoiceChanged": true
+    }
+  ],
+  "verification": {
+    "build": "root four-workspace build passed",
+    "tests": {
+      "command": "node --test dist/spark-ai-live.test.js dist/first-glow-ai-runtime.test.js",
+      "cwd": "packages/server",
+      "passed": 8,
+      "failed": 0
+    },
+    "ui": {
+      "desktop": true,
+      "mobileViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "restoredDefaultViewport": true
+    },
+    "realCountTokensRequests": 1,
+    "realGenerateContentRequests": 1,
+    "automaticRetries": 0,
+    "matchedStudyCompleted": false,
+    "committedOrPublished": false
+  },
+  "ownerDecision": {
+    "budgetUSD": 5,
+    "scope": "new cumulative local Spark pilot allocation",
+    "privacyPaperwork": "waived for this pilot",
+    "historicalExternalSpend": "unknown and not attributed to this allocation"
+  },
+  "screenshots": {
+    "desktop-budget.png": "3e1c30ea5fed07c994f66d29a093d38d792d85db6dc2967da02dc2353352f62c",
+    "mobile-budget.png": "b02daac8328895cf05be71c7abb602d5f3f4f689fe43a5af2b38f59c152d6901"
+  }
+}
