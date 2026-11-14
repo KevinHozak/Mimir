@@ -35,8 +35,11 @@ export class SparkAIBudget {
     const totals = accountingTotals(rows, recorded);
     const retired = Boolean(this.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='budget_retirement'").get());
     const target = this.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='budget_target'").get() ? this.db.prepare("SELECT run_id,world_bound FROM budget_target WHERE id=1").get() as {run_id:string;world_bound:number}|undefined : undefined;
+    const recovery = this.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='budget_recoveries'").get() ? this.db.prepare("SELECT attempt_count FROM budget_recoveries ORDER BY id DESC LIMIT 1").get() as { attempt_count: number } | undefined : undefined;
+    const recoveredThrough = recovery?.attempt_count ?? 0;
+    if (!Number.isSafeInteger(recoveredThrough) || recoveredThrough < 0 || recoveredThrough > rows.length) throw Error("Invalid allocation recovery boundary");
     let consecutiveFailures = 0;
-    for (const row of rows.slice().reverse()) { if (row.status !== "uncertain" && row.status !== "rejected") break; consecutiveFailures++; }
+    for (const row of rows.slice(recoveredThrough).reverse()) { if (row.status !== "uncertain" && row.status !== "rejected") break; consecutiveFailures++; }
     return { ...(this.allocationId?{allocationId:this.allocationId}:{}), accountingPolicy: recorded ? RECORDED_COST_POLICY : "retained-reservations-v1", costBufferMultiplier: recorded ? 2 : undefined, ...totals, capMicrousd: this.cap, reservedMicrousd: totals.historicalReservedMicrousd, remainingMicrousd: Math.max(0, this.cap - totals.accountedMicrousd), reservationPerRequestMicrousd: SPARK_AI_RESERVATION_MICROUSD, attempts: rows.length, completed: rows.filter(r => r.status === "completed").length, uncertain: rows.filter(r => r.status === "uncertain").length, rejected: rows.filter(r => r.status === "rejected").length, consecutiveFailures, stopped: Boolean(profile.stopped) || retired, retired, targetRunId: target?.run_id, targetWorldBound: Boolean(target?.world_bound), reservationsAreNotFinalBills: true };
 
   }
@@ -123,6 +126,20 @@ export class SparkAIBudget {
       this.db.prepare("UPDATE budget_profile SET stopped=0 WHERE id=1").run();
       this.db.exec("COMMIT");
     } catch (error) { this.db.exec("ROLLBACK"); throw error; }
+  }
+  /** Explicit repaired-run continuation; retain unknown holds and prohibit retrying their contexts. */
+  resumeAfterRecovery(expectedRemainingMicrousd: number, authorization: string, recovery: { runId: string; uncertainAttemptIds: number[]; evidenceSha256: string }) {
+    if (!Number.isSafeInteger(expectedRemainingMicrousd) || expectedRemainingMicrousd < SPARK_AI_RESERVATION_MICROUSD || !authorization.trim() || authorization.length > 240 || !/^[a-f0-9]{64}$/.test(recovery.evidenceSha256) || !Array.isArray(recovery.uncertainAttemptIds) || !recovery.uncertainAttemptIds.length || recovery.uncertainAttemptIds.some((id,i,ids)=>!Number.isSafeInteger(id)||id<1||(i>0&&id<=ids[i-1]))) throw Error("Invalid repaired-run authorization");
+    this.db.exec("BEGIN IMMEDIATE");
+    try {
+      const status=this.snapshot();
+      const unresolved=this.db.prepare("SELECT id,status FROM ai_attempts WHERE status!='completed' ORDER BY id").all() as {id:number;status:string}[];
+      if(status.retired || !status.stopped || !status.targetWorldBound || status.targetRunId!==recovery.runId || status.accountingPolicy!==RECORDED_COST_POLICY || status.remainingMicrousd!==expectedRemainingMicrousd || unresolved.some(row=>row.status!=="uncertain") || JSON.stringify(unresolved.map(row=>row.id))!==JSON.stringify(recovery.uncertainAttemptIds)) throw Error("Recovery requires stopped bound writer, exact headroom and all retained uncertain holds");
+      this.db.exec("CREATE TABLE IF NOT EXISTS budget_recoveries(id INTEGER PRIMARY KEY,run_id TEXT NOT NULL,attempt_count INTEGER NOT NULL,uncertain_ids_json TEXT NOT NULL,accounted_before INTEGER NOT NULL,remaining_before INTEGER NOT NULL,evidence_sha256 TEXT NOT NULL,authorization TEXT NOT NULL)");
+      this.db.prepare("INSERT INTO budget_recoveries(run_id,attempt_count,uncertain_ids_json,accounted_before,remaining_before,evidence_sha256,authorization) VALUES(?,?,?,?,?,?,?)").run(recovery.runId,status.attempts,JSON.stringify(recovery.uncertainAttemptIds),status.accountedMicrousd,status.remainingMicrousd,recovery.evidenceSha256,authorization);
+      this.db.prepare("UPDATE budget_profile SET stopped=0 WHERE id=1").run();
+      this.db.exec("COMMIT");
+    } catch(error) { this.db.exec("ROLLBACK"); throw error; }
   }
   close() { this.db.close(); }
 }

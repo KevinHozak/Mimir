@@ -20,7 +20,7 @@
     "test:security-p4": "npm run build && node dist/security-p4.test.js",
     "test:security-p5": "npm run build && node dist/security-p5.test.js",
     "test:chronicle": "npm run build && node dist/chronicle-events.test.js && node dist/chronicle.test.js",
-    "test:online-run": "npm run build && node --test dist/online-run.test.js dist/spark-ai-accounting.test.js && node ../../scripts/spark-ai-cloud-broker.test.mjs && node ../../scripts/online-run-runtime.test.mjs && node ../../scripts/online-pilot-watchdog.test.mjs && node ../../scripts/online-control-entrypoints.test.mjs"
+    "test:online-run": "npm run build && node --test dist/online-run.test.js dist/spark-ai-accounting.test.js && node ../../scripts/spark-ai-cloud-broker.test.mjs && node ../../scripts/online-run-runtime.test.mjs && node ../../scripts/online-pilot-watchdog.test.mjs && node ../../scripts/online-control-entrypoints.test.mjs && node ../../scripts/online-private-ai-endpoint.test.mjs"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",

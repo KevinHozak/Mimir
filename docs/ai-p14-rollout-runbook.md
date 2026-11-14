@@ -1,5 +1,10 @@
 # AI-P14 bounded First Glow rollout runbook
 
+## S021 repaired-run admission — 2026-11-14
+
+The private US Vertex route uses a run-owned Private Service Connect endpoint with early-deadline and guest-shutdown cleanup. The endpoint/model/location and original AI/hosting caps remain pinned. Audited `resumeAfterRecovery` retains uncertain holds and creates a `budget_recoveries` record carrying the run, attempt boundary, all uncertain IDs, guarded totals, authorization and evidence hash. Only the new failure window resets; original uncertain contexts remain non-retriable. Backups carry the complete ledger including this additive audit table. Normal unresolved-attempt resume stays closed, and pending attempts cannot recover. Provider diagnostics persist only bounded stage/status codes. [Operating and verification boundaries](spark-ai-online.md).
+
+
 ## Current online operation — 2026-11-14
 
 The owner-authorized bounded S021 pilot is active under the original USD 5 AI allocation and USD 2 hosting ceiling. The deployed writer uses Node 22.23.5, a fixed deadline, one spending ledger and an independent paired offsite backup worker. Older local-only/preparation sections retain their dated scope. [Current operating record](spark-ai-online.md) and [deployment evidence](evidence/spark-online-2026-11-14.md) distinguish activation from remaining qualification.

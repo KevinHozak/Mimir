@@ -24,3 +24,9 @@ test('sanitizes provider errors and never retries a rejected generation',async()
  const receipt=await requestSpark(payload,async()=>{calls++;return calls===1?Response.json({access_token:'private',token_type:'Bearer'}):calls===2?Response.json({totalTokens:12}):new Response('private provider error',{status:403});});
  assert.equal(calls,3);assert.deepEqual(receipt,{ok:false,stage:'generateContent',httpStatus:403,error:'bounded-provider-request-failed'});
 });
+
+test('network failure before token counting is distinguishable and never generates',async()=>{
+ let calls=0;
+ const receipt=await requestSpark(payload,async()=>{if(++calls===1)return Response.json({access_token:'private-test-token',token_type:'Bearer'});throw Error('private transport details');});
+ assert.deepEqual(receipt,{ok:false,stage:'countTokens',failureKind:'transport',error:'bounded-provider-request-failed'});assert.equal(calls,2);
+});
