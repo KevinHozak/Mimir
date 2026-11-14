@@ -1,5 +1,9 @@
 # Mimir: A Light of Our Own
 
+## Hosted observer polling
+
+The hosted read-only observer uses one serialized refresh every four minutes while its tab is visible. It opens no SSE connection and preserves the selected Spark, Follow view and historical view across refreshes. The header shows the update cadence. Local owner sessions retain their existing transport. The bridge can enforce polling-only access, compressed response limits and a fixed pilot deadline. See [operating controls](docs/spark-ai-online.md).
+
 ## Expanded frontier (local)
 
 Run `npm run start:frontier` for the separate paused 12-Spark world at `http://127.0.0.1:4178/`. It uses `data/local/mimir-frontier.db`, enables goal loops and disables paid AI. Three regions offer exploration, real rendezvous contacts and cooperative trace weaves that improve rest. Existing saved worlds remain intact. Use **Fit map** for the whole frontier. See [S020 evidence](docs/evidence/first-glow-frontier-2026-11-13.md).

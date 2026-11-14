@@ -1,5 +1,11 @@
 # S021 bounded online pilot
 
+## Occasional polling implementation — 2026-11-14
+
+The owner authorized restoring the live view through occasional polling under the same original USD 2 hosting allowance, USD 5 AI allocation and cutoff. Hosted clients now support serialized, visible-tab four-minute polling with no SSE or 15-second background reload. Polling preserves current Spark/Follow/history context; old committed data stays visible on failures. The bridge's polling-only and gzip modes retain owner token verification and read-only routes, with separate raw/wire caps and fixed end time.
+
+A private live read-size probe measured 193,948 gzip bytes for the complete eight-response refresh, including a 3,489,327-byte raw world compressed to 167,681 bytes. These are dated current-world measurements, not a bound on future history growth or an invoice. Hidden tabs make no periodic reads. The new cumulative guard retains the USD 0.963233 legacy floor and counts both revisions; USD 1.00 bridge valuation closes viewing, while USD 1.05 remains the hard bridge ceiling alongside USD 0.95 other reserves. Prior guard receipts, original two uncertain AI holds, ledger cap, cadence and cutoff remain. The source snapshot prepares the authorized rollout; it does not claim an active public bridge. See [local evidence](evidence/observer-polling-local-2026-11-14.md) and [rollout controls](hosted-observer-runbook.md#polling-only-pilot-observer--2026-11-14).
+
 ## Blocking chart read repair — 2026-11-14
 
 Before activation of the merged AI recovery, the paused pulse-150 server stopped answering health requests and filled its TCP accept queue. `/api/metrics` synchronously normalized and fully validated every historical world, including spatial/replay material. The already-paused writer was stopped; its checkpoint and pause were independently read from SQLite, and a proper stopped-writer paired offsite backup succeeded in 22 seconds. AI remains stopped in this source snapshot.

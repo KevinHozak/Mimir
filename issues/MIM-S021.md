@@ -58,3 +58,8 @@ The online check reached pulse 132 with a healthy world but two uncertain provid
 ## Pulse-150 chart/read recovery — 2026-11-14
 
 AI recovery PR #334 is merged but was not activated: the old paused server blocked on chart/history reads and stopped answering health requests. The already-paused writer was stopped and its run/pause/checkpoint were independently verified. A proper stopped-writer paired backup succeeded in 22 seconds. The narrow metrics projection/cache passes focused tests and a real read-only Node22 probe of 151 checkpoints (3.44 s cold, 36 ms warm). Full source verification, repaired HTTP responsiveness, same-world audited resume, independent restoration and real AI decisions remain required. The original budget and hard cutoff remain fixed.
+
+
+## Cost-bounded polling implementation — 2026-11-14
+
+The owner selected occasional polling to restore observation without extending the original budgets or deadline. The implementation supplies visible-tab four-minute refresh, no streaming or old 15-second reload, compressed/authenticated bounded reads, and cumulative two-revision accounting with private-only viewing fallback. Local synthetic browser checks passed cadence, new committed pulse, selection/follow preservation and desktop/mobile layout. Exact-source verification and actual image/Hosting/live admission remain rollout gates; S021 remains in progress. See [local evidence](../docs/evidence/observer-polling-local-2026-11-14.md).
