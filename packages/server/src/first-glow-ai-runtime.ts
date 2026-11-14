@@ -1,3 +1,4 @@
+import { coordinatedGoalFor, firstGlowGoalOptionCount } from "@mimir/engine";
 import { ORIGINAL_SPARK_ALLOCATION_ID, RECORDED_COST_POLICY } from "./spark-ai-accounting.js";
 import {
   FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY,
@@ -129,13 +130,13 @@ export class FirstGlowServerAIRuntime {
     const events: StructuredEvent[] = [];
     for (const sparkId of state.settlements.flatMap(s => s.sparks.map(a => a.id)).sort()) {
       const actor = next.settlements.flatMap(s=>s.sparks).find(a=>a.id===sparkId)!;
-      if (next.goalLoops!.goals.some(g=>g.sparkId===sparkId&&g.status==="active") || actor.intention?.status==="active" || actor.destinationObjectId || actor.destinationCell || !["choosing","waiting","idle"].includes(actor.status)) continue;
+      if (coordinatedGoalFor(next,sparkId) || next.goalLoops!.goals.some(g=>g.sparkId===sparkId&&g.status==="active") || actor.intention?.status==="active" || actor.destinationObjectId || actor.destinationCell || !["choosing","waiting","idle"].includes(actor.status)) continue;
       const context = buildFirstGlowGoalContext(next, sparkId)!;
       const budget = this.config.budgetStatus?.();
       const stopped = budget?.stopped === true;
       const exhausted = typeof budget?.remainingMicrousd === "number" && typeof budget.reservationPerRequestMicrousd === "number" && budget.remainingMicrousd < budget.reservationPerRequestMicrousd;
-      const provider = this.config.enabled && !stopped && !exhausted && context.candidates.length >= 2 ? this.config.goalProvider?.(timelineId) : undefined;
-      const evaluated = await requestFirstGlowGoal(next, sparkId, { provider, timeoutMs: 10000, fallbackReason: stopped ? "provider-stopped" : exhausted ? "provider-budget-exhausted" : context.candidates.length < 2 ? "no-consequential-alternative" : "provider-unavailable" });
+      const provider = this.config.enabled && !stopped && !exhausted && firstGlowGoalOptionCount(context) >= 2 ? this.config.goalProvider?.(timelineId) : undefined;
+      const evaluated = await requestFirstGlowGoal(next, sparkId, { provider, timeoutMs: 10000, fallbackReason: stopped ? "provider-stopped" : exhausted ? "provider-budget-exhausted" : firstGlowGoalOptionCount(context) < 2 ? "no-consequential-alternative" : "provider-unavailable" });
       next = evaluated.state;
       if (!evaluated.goal) continue;
       const goal = evaluated.goal;

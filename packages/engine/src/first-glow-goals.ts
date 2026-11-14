@@ -1,3 +1,4 @@
+import { GOAL_PLANNING_VERSION, validateGoalPlanning, finishCoordinatedMeetings, coordinatedGoalFor, type GoalPlanning, type GoalMeeting } from "./first-glow-goal-planning.js";
 import { frontierOpportunities, type FrontierOpportunity } from "./first-glow-frontier.js";
 import { canonicalize, sha256, type FirstGlowActivity } from "@mimir/world-data";
 import { canFirstGlowReach, clearFirstGlowPlan, firstGlowExploreCandidate, firstGlowRouteCandidates, initializeActivityCompletion, validateFirstGlowState, type FirstGlowSettlement, type FirstGlowSpark, type FirstGlowState } from "./structured.js";
@@ -15,6 +16,8 @@ export interface FirstGlowGoal {
   id: string;
   sparkId: string;
   targetObjectId?: string;
+  preferredPartnerId?: string;
+  meeting?: GoalMeeting;
   targetCell?: { x: number; y: number };
   kind: FirstGlowGoalKind;
   source: "rules" | "ai";
@@ -34,8 +37,9 @@ export interface FirstGlowGoal {
   completedPulse?: number;
   reason?: string;
 }
-export interface FirstGlowGoals { version: typeof FIRST_GLOW_GOAL_VERSION; providerAttempts: number; goals: FirstGlowGoal[]; }
+export interface FirstGlowGoals { version: typeof FIRST_GLOW_GOAL_VERSION; providerAttempts: number; planning?: GoalPlanning; goals: FirstGlowGoal[]; }
 export interface FirstGlowGoalContext {
+  planning?: { version: typeof GOAL_PLANNING_VERSION; recentGoals: Array<{ kind: FirstGlowGoalKind; objectId: string; completedPulse: number; evidenceEventId: string }> };
   version: typeof FIRST_GLOW_GOAL_VERSION;
   sparkId: string;
   pulse: number;
@@ -83,17 +87,21 @@ export function buildFirstGlowGoalContext(state: FirstGlowState, sparkId: string
   const nextTrace = state.frontier ? firstGlowExploreCandidate(settlement, { ...spark, frontierTargetObjectId: undefined, frontierTargetCell: undefined }) : null;
   const regionEvidence = state.frontier?.visits.find(v=>v.sparkId===sparkId)?.eventId;
   const frontierExploration = nextTrace && regionEvidence ? { target: nextTrace.target, routeCost: nextTrace.cost, evidenceEventId: regionEvidence } : undefined;
-  const candidates: FirstGlowGoalKind[] = opportunities ? [...opportunities.map(o=>o.kind), ...(frontierExploration ? ["follow-trace" as const] : [])] : (Object.keys(plans) as FirstGlowGoalKind[]).filter(kind => (kind !== "follow-trace" && kind !== "explore-contribute" && (kind !== "explore-meet-mark" || meetingSite)) && plans[kind].every(a => canFirstGlowReach(settlement, spark, a)));
+  const candidates: FirstGlowGoalKind[] = opportunities ? [...new Set(opportunities.map(o=>o.kind)), ...(frontierExploration ? ["follow-trace" as const] : [])] : (Object.keys(plans) as FirstGlowGoalKind[]).filter(kind => (kind !== "follow-trace" && kind !== "explore-contribute" && (kind !== "explore-meet-mark" || meetingSite)) && plans[kind].every(a => canFirstGlowReach(settlement, spark, a)));
   const relationships = { trust: structuredClone(state.social.trust.filter(t => t.sourceSparkId === sparkId)), commitments: structuredClone(state.social.commitments.filter(c => c.promisorSparkId === sparkId)) };
-  const context = { ...(frontierExploration ? { frontierExploration } : {}), ...(opportunities ? { opportunities } : {}), version: FIRST_GLOW_GOAL_VERSION, sparkId, pulse: state.pulse, candidates, charge: spark.carriedCharge, chargeDeficit: spark.chargeDeficit, readiness: spark.readiness, memory, evidenceEventIds, personality: firstGlowSparkPersonalityProfile(sparkId), relationships };
+  const planning = state.goalLoops.planning ? { version: GOAL_PLANNING_VERSION, recentGoals: state.goalLoops.goals.filter(g=>g.sparkId===sparkId&&g.status==="completed"&&g.targetObjectId).slice(-2).map(g=>({kind:g.kind,objectId:g.targetObjectId!,completedPulse:g.completedPulse!,evidenceEventId:g.completions.at(-1)!.eventId})) } : undefined;
+  const context = { ...(planning ? { planning } : {}), ...(frontierExploration ? { frontierExploration } : {}), ...(opportunities ? { opportunities } : {}), version: FIRST_GLOW_GOAL_VERSION, sparkId, pulse: state.pulse, candidates, charge: spark.carriedCharge, chargeDeficit: spark.chargeDeficit, readiness: spark.readiness, memory, evidenceEventIds, personality: firstGlowSparkPersonalityProfile(sparkId), relationships };
   return compactFirstGlowGoalContext({ ...context, contextHash: "" });
 }
 
-function checkedProposal(value: unknown, context: FirstGlowGoalContext): { kind: FirstGlowGoalKind; summary: string; evidenceEventIds: string[] } | null {
+export function firstGlowGoalTargetAllowed(context: FirstGlowGoalContext, kind: FirstGlowGoalKind, objectId: unknown): boolean { return !context.planning || (kind === "follow-trace" ? objectId === "visible-trace" && Boolean(context.frontierExploration) : context.opportunities?.some(o=>o.kind===kind&&o.objectId===objectId) === true); }
+export function firstGlowGoalOptionCount(context: FirstGlowGoalContext): number { return context.planning ? (context.opportunities?.length ?? 0) + Number(context.candidates.includes("follow-trace")) : context.candidates.length; }
+
+function checkedProposal(value: unknown, context: FirstGlowGoalContext): { kind: FirstGlowGoalKind; summary: string; evidenceEventIds: string[]; objectId?: string } | null {
   if (!value || typeof value !== "object") return null;
   const p = value as Record<string, unknown>;
-  if (!context.candidates.includes(p.kind as FirstGlowGoalKind) || typeof p.summary !== "string" || !p.summary.trim() || p.summary.length > 240 || !Array.isArray(p.evidenceEventIds) || !p.evidenceEventIds.length || p.evidenceEventIds.length > 8 || p.evidenceEventIds.some(id => typeof id !== "string" || !context.evidenceEventIds.includes(id))) return null;
-  return { kind: p.kind as FirstGlowGoalKind, summary: p.summary.trim(), evidenceEventIds: unique(p.evidenceEventIds as string[]) };
+  if (!firstGlowGoalTargetAllowed(context,p.kind as FirstGlowGoalKind,p.objectId) || !context.candidates.includes(p.kind as FirstGlowGoalKind) || typeof p.summary !== "string" || !p.summary.trim() || p.summary.length > 240 || !Array.isArray(p.evidenceEventIds) || !p.evidenceEventIds.length || p.evidenceEventIds.length > 8 || p.evidenceEventIds.some(id => typeof id !== "string" || !context.evidenceEventIds.includes(id))) return null;
+  return { ...(context.planning ? {objectId:p.objectId as string} : {}), kind: p.kind as FirstGlowGoalKind, summary: p.summary.trim(), evidenceEventIds: unique(p.evidenceEventIds as string[]) };
 }
 
 /** Returns a new candidate checkpoint. The server must commit it through its single writer. */
@@ -102,7 +110,7 @@ export async function requestFirstGlowGoal(input: FirstGlowState, sparkId: strin
   if (options.historicalPlayback) return { state: input, reason: "historical-playback" };
   const spark = input.settlements.flatMap(s => s.sparks).find(a => a.id === sparkId);
   if (!input.goalLoops || !spark) return { state: input, reason: "goals-disabled-or-unknown-spark" };
-  if (input.goalLoops.goals.some(g => g.sparkId === sparkId && g.status === "active") || spark.intention?.status === "active" || spark.destinationObjectId || spark.destinationCell || !["choosing", "waiting", "idle"].includes(spark.status)) return { state: input, reason: "existing-activity-continues" };
+  if (coordinatedGoalFor(input,sparkId) || input.goalLoops.goals.some(g => g.sparkId === sparkId && g.status === "active") || spark.intention?.status === "active" || spark.destinationObjectId || spark.destinationCell || !["choosing", "waiting", "idle"].includes(spark.status)) return { state: input, reason: "existing-activity-continues" };
   if (input.goalLoops.goals.length >= 64) return { state: input, reason: "goal-record-limit" };
   const context = buildFirstGlowGoalContext(input, sparkId)!;
   if (!context.candidates.length || !context.evidenceEventIds.length) return { state: input, reason: "no-local-opportunity-evidence" };
@@ -128,14 +136,15 @@ export async function requestFirstGlowGoal(input: FirstGlowState, sparkId: strin
   const source = selected ? "ai" : "rules";
   const fallbackKind = context.opportunities ? [...context.candidates].sort((a,b)=>next.goalLoops!.goals.filter(g=>g.sparkId===sparkId&&g.kind===a).length-next.goalLoops!.goals.filter(g=>g.sparkId===sparkId&&g.kind===b).length || (["explore-contribute","follow-trace","explore-meet-mark","explore-shape","explore-mark"].indexOf(a)-["explore-contribute","follow-trace","explore-meet-mark","explore-shape","explore-mark"].indexOf(b)))[0] : context.candidates.includes("explore-mark") ? "explore-mark" : context.candidates[0];
   selected ??= { kind: fallbackKind, summary: fallbackKind === "explore-contribute" ? "Contribute charge at a locally noticed trace weave." : fallbackKind === "follow-trace" ? "Explore a locally visible unfamiliar trace cell." : fallbackKind === "explore-shape" ? "Explore a reachable trace and examine a pattern shard." : "Explore a reachable trace and leave a light mark.", evidenceEventIds: context.evidenceEventIds.slice(0, 1) };
-  const targetObjectId = context.opportunities?.find(o=>o.kind===selected!.kind)?.objectId;
-  const goal: FirstGlowGoal = { ...(selected.kind === "follow-trace" ? { targetCell: context.frontierExploration!.target } : {}), ...(targetObjectId ? { targetObjectId } : {}), id: `goal-${next.pulse}-${sparkId}-${next.goalLoops!.goals.length}`, sparkId, ...selected, source, ...(source === "ai" ? { providerId: options.provider!.providerId } : { fallbackReason }), contextHash: context.contextHash, context, createdPulse: next.pulse, expiresPulse: next.pulse + 128, status: "active", step: 0, dispatches: 0, completions: [] };
+  const chosenOpportunity = context.opportunities?.find(o=>o.kind===selected!.kind&&(!context.planning||o.objectId===(selected!.objectId??context.opportunities?.find(o=>o.kind===selected!.kind)?.objectId)));
+  const targetObjectId = chosenOpportunity?.objectId;
+  const goal: FirstGlowGoal = { ...(selected.kind === "follow-trace" ? { targetCell: context.frontierExploration!.target } : {}), ...(targetObjectId ? { targetObjectId } : {}), id: `goal-${next.pulse}-${sparkId}-${next.goalLoops!.goals.length}`, sparkId, kind: selected.kind, summary: selected.summary, evidenceEventIds: selected.evidenceEventIds, ...(chosenOpportunity?.partnerSparkId ? {preferredPartnerId:chosenOpportunity.partnerSparkId} : {}), source, ...(source === "ai" ? { providerId: options.provider!.providerId } : { fallbackReason }), contextHash: context.contextHash, context, createdPulse: next.pulse, expiresPulse: next.pulse + 128, status: "active", step: 0, dispatches: 0, completions: [] };
   next.goalLoops!.goals.push(goal);
   validateFirstGlowGoals(next);
   return { state: next, goal, reason: source === "ai" ? "provider-selected" : fallbackReason };
 }
 
-function interrupt(state: FirstGlowState, goal: FirstGlowGoal, reason: string): void {
+export function interruptFirstGlowGoal(state: FirstGlowState, goal: FirstGlowGoal, reason: string): void {
   goal.status = "interrupted";
   goal.reason = reason;
   const settlement = state.settlements.find(s => s.sparks.some(a => a.id === goal.sparkId))!;
@@ -148,13 +157,14 @@ function interrupt(state: FirstGlowState, goal: FirstGlowGoal, reason: string): 
 
 /** Selects only at an activity boundary: never teleports, grants resources or steals reservations. */
 export function selectFirstGlowGoalActivity(state: FirstGlowState, settlement: FirstGlowSettlement, spark: FirstGlowSpark): boolean {
+  if (coordinatedGoalFor(state, spark.id)) return true;
   const goal = state.goalLoops?.goals.find(g => g.sparkId === spark.id && g.status === "active");
   if (!goal) { delete spark.frontierTargetObjectId; delete spark.frontierTargetCell; return false; }
   if (goal.kind === "explore-contribute") {
     const project=state.frontier?.projects.find(p=>p.objectId===goal.targetObjectId);
     const site=settlement.bundle.objects.find(o=>o.id===goal.targetObjectId);
     if(project?.completedPulse!==undefined && !project.contributions.some(c=>c.sparkId===spark.id) && site && Math.abs(site.origin.x-spark.position.x)+Math.abs(site.origin.y-spark.position.y)<=5){
-      interrupt(state,goal,"observed-project-already-completed"); return false;
+      interruptFirstGlowGoal(state,goal,"observed-project-already-completed"); return false;
     }
   }
   if (spark.destinationObjectId || spark.destinationCell || spark.status === "traveling" || spark.status === "interacting") return true;
@@ -190,7 +200,7 @@ export function selectFirstGlowGoalActivity(state: FirstGlowState, settlement: F
 export function finishFirstGlowGoals(state: FirstGlowState): void {
   if (!state.goalLoops) return;
   for (const goal of state.goalLoops.goals.filter(g => g.status === "active")) {
-    if (state.pulse > goal.expiresPulse) { interrupt(state, goal, "goal-expired"); continue; }
+    if (state.pulse > goal.expiresPulse) { interruptFirstGlowGoal(state, goal, "goal-expired"); continue; }
     const activity = plans[goal.kind][goal.step];
     const event = state.events.find(e => e.kind === activity && (!goal.targetCell || e.cells?.some(c=>c.x===goal.targetCell!.x&&c.y===goal.targetCell!.y)) && (!goal.targetObjectId || e.objectId === goal.targetObjectId) && (goal.kind !== "explore-contribute" || activity !== "shape-pattern" || state.frontier?.projects.some(p=>p.objectId===goal.targetObjectId&&p.contributions.some(c=>c.sparkId===goal.sparkId&&c.eventId===e.id))) && (e.actorId === goal.sparkId || activity === "meet" && e.participants?.includes(goal.sparkId)) && (activity !== "meet" || e.participants?.length === 2) && !goal.completions.some(c => c.eventId === e.id));
     if (event) {
@@ -204,15 +214,16 @@ export function finishFirstGlowGoals(state: FirstGlowState): void {
       }
       state.events.push({ id: `event-${state.pulse}-${goal.id}-step-${goal.step}`, pulse: state.pulse, kind: "goal", actorId: goal.sparkId, source: "rules", evidenceEventIds: goal.completions.map(c => c.eventId), message: `${goal.sparkId} completed ${activity} (${goal.step}/${plans[goal.kind].length}) for ${goal.kind}${goal.status === "completed" ? "; goal completed" : "; goal continues"}.` });
     }
-    if (goal.status === "active" && (state.pulse >= goal.expiresPulse || goal.dispatches >= 64)) interrupt(state, goal, state.pulse >= goal.expiresPulse ? "goal-expired" : "dispatch-limit");
+    if (goal.status === "active" && (state.pulse >= goal.expiresPulse || goal.dispatches >= 64)) interruptFirstGlowGoal(state, goal, state.pulse >= goal.expiresPulse ? "goal-expired" : "dispatch-limit");
   }
+  finishCoordinatedMeetings(state);
 }
 
 /** A real contact may wait for another independently arriving Spark; no fabricated partner. */
 export function waitingForFirstGlowGoalMeeting(state: FirstGlowState, spark: FirstGlowSpark): boolean {
   const target = state.settlements.find(s => s.sparks.some(a => a.id === spark.id))?.sparks.find(a => a.id !== spark.id);
   const care = target && firstGlowActionScore(state.social, spark.id, target.id, "shelter-or-trace") >= 3;
-  return spark.carriedCharge > 0 && spark.chargeDeficit === 0 && spark.readiness >= (care ? 90 : 70) && Boolean(state.goalLoops?.goals.some(g => g.sparkId === spark.id && g.status === "active" && plans[g.kind][g.step] === "meet" && state.pulse < g.expiresPulse));
+  return spark.carriedCharge > 0 && spark.chargeDeficit === 0 && spark.readiness >= (care ? 90 : 70) && Boolean(coordinatedGoalFor(state,spark.id) || state.goalLoops?.goals.some(g => g.sparkId === spark.id && g.status === "active" && plans[g.kind][g.step] === "meet" && state.pulse < g.expiresPulse));
 }
 
 export function summarizeFirstGlowGoals(state: FirstGlowState) {
@@ -220,6 +231,7 @@ export function summarizeFirstGlowGoals(state: FirstGlowState) {
 }
 
 export function validateFirstGlowGoals(state: FirstGlowState): void {
+  validateGoalPlanning(state);
   const policy = state.goalLoops;
   if (policy === undefined) return;
   const fail = () => { throw new Error("Invalid or unsupported Spark goal checkpoint"); };
@@ -230,10 +242,12 @@ export function validateFirstGlowGoals(state: FirstGlowState): void {
     const spark = sparks.find(a => a.id === g.sparkId);
     if (!spark || !g.id || ids.has(g.id) || !Object.hasOwn(plans, g.kind) || !["rules", "ai"].includes(g.source) || typeof g.summary !== "string" || !g.summary.trim() || g.summary.length > 240 || !/^sha256-[a-f0-9]{64}$/.test(g.contextHash) || !Array.isArray(g.evidenceEventIds) || !g.evidenceEventIds.length || g.evidenceEventIds.some(id => typeof id !== "string") || !["active", "completed", "interrupted"].includes(g.status) || !Number.isInteger(g.createdPulse) || g.createdPulse < 0 || g.createdPulse > state.pulse || g.expiresPulse !== g.createdPulse + 128 || !Number.isInteger(g.step) || g.step < 0 || g.step > plans[g.kind].length || !Number.isInteger(g.dispatches) || g.dispatches < 0 || g.dispatches > 64 || !Array.isArray(g.completions) || g.completions.length !== g.step) fail();
     if (g.kind === "explore-contribute" && !state.frontier) fail();
-    if (g.targetObjectId !== undefined && (!state.frontier || g.context.opportunities?.find(o=>o.kind===g.kind)?.objectId!==g.targetObjectId || !state.frontier.discoveries.some(d=>d.sparkId===g.sparkId&&d.objectId===g.targetObjectId&&d.pulse<=g.createdPulse))) fail();
+    if (g.targetObjectId !== undefined && (!state.frontier || !g.context.opportunities?.some(o=>o.kind===g.kind&&o.objectId===g.targetObjectId) || !state.frontier.discoveries.some(d=>d.sparkId===g.sparkId&&d.objectId===g.targetObjectId&&d.pulse<=g.createdPulse))) fail();
     if (g.context.opportunities && !g.targetObjectId && g.kind!=="follow-trace") fail();
     if (g.targetCell && (g.kind!=="follow-trace" || !Number.isInteger(g.targetCell.x) || !Number.isInteger(g.targetCell.y) || g.targetCell.x<0 || g.targetCell.y<0 || g.targetCell.x>=state.settlements[0].bundle.width || g.targetCell.y>=state.settlements[0].bundle.height)) fail();
     if (g.kind==="follow-trace" && (!state.frontier || !g.targetCell || JSON.stringify(g.targetCell)!==JSON.stringify(g.context.frontierExploration?.target))) fail();
+    if (g.context.planning && (!policy.planning || g.context.planning.version !== policy.planning.version || g.createdPulse < policy.planning.activatedPulse)) fail();
+    if (g.preferredPartnerId !== undefined && (!g.context.planning || !g.context.opportunities?.some(o=>o.kind===g.kind&&o.objectId===g.targetObjectId&&o.partnerSparkId===g.preferredPartnerId))) fail();
     const { contextHash, ...context } = g.context ?? {};
     validateFirstGlowGoalContextProjection(g.context);
     if (contextHash !== g.contextHash || hash(context) !== g.contextHash || g.context.sparkId !== g.sparkId || g.context.pulse !== g.createdPulse || g.context.version !== FIRST_GLOW_GOAL_VERSION || !g.context.candidates.includes(g.kind) || g.evidenceEventIds.some(id => !g.context.evidenceEventIds.includes(id)) || g.source === "ai" && (!g.providerId || g.providerId.length > 120) || g.source === "rules" && !g.fallbackReason) fail();

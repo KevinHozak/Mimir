@@ -1,3 +1,4 @@
+import { willingMeetingPartner } from "./first-glow-goal-planning.js";
 import type { FirstGlowState, FirstGlowSettlement, FirstGlowSpark } from "./structured.js";
 import { firstGlowRouteCandidates } from "./structured.js";
 export const FRONTIER_VERSION = "local-frontier-v1" as const;
@@ -7,7 +8,7 @@ export interface FrontierState {
   visits: { sparkId: string; regionId: string; eventId: string; pulse: number }[];
   projects: { objectId: string; contributions: { sparkId: string; eventId: string; pulse: number }[]; completedPulse?: number }[];
 }
-export interface FrontierOpportunity { kind: "explore-mark" | "explore-shape" | "explore-meet-mark" | "explore-contribute"; objectId: string; label: string; regionId: string; routeCost: number; evidenceEventId: string; }
+export interface FrontierOpportunity { kind: "explore-mark" | "explore-shape" | "explore-meet-mark" | "explore-contribute"; objectId: string; label: string; regionId: string; routeCost: number; evidenceEventId: string; recentCompletions?: number; partnerSparkId?: string; }
 export function initializeFrontier(state: FirstGlowState): void {
   const config = state.settlements[0].bundle.frontier;
   if (config && (state.pulse!==0 || state.events.length || state.frontier)) throw new Error("Frontier initialization requires a fresh history");
@@ -50,9 +51,12 @@ export function frontierOpportunities(state: FirstGlowState, settlement: FirstGl
       const route = firstGlowRouteCandidates(settlement, { ...spark, frontierTargetObjectId: undefined }, activity, object.id)[0];
       if (!route) return [];
       const region = settlement.bundle.frontier!.regions.find(r=>object.origin.x>=r.x&&object.origin.x<r.x+r.width&&object.origin.y>=r.y&&object.origin.y<r.y+r.height)!;
-      return [{ kind, objectId: object.id, label: definition.label, regionId: region.id, routeCost: route.cost, evidenceEventId: d.eventId }];
-    }).sort((a,b)=>a.routeCost-b.routeCost || (a.objectId<b.objectId?-1:1));
-    if (choices[0]) result.push(choices[0]);
+      const partner = kind === "explore-meet-mark" && state.goalLoops?.planning ? willingMeetingPartner(state,settlement,spark,object.id) : undefined;
+      if (kind === "explore-meet-mark" && state.goalLoops?.planning && !partner) return [];
+      const recentCompletions = state.goalLoops?.goals.filter(g=>g.sparkId===spark.id&&g.status==="completed").slice(-2).filter(g=>g.targetObjectId===object.id).length ?? 0;
+      return [{ ...(state.goalLoops?.planning ? {recentCompletions,...(partner ? {partnerSparkId:partner.peer.id} : {})} : {}), kind, objectId: object.id, label: definition.label, regionId: region.id, routeCost: route.cost, evidenceEventId: d.eventId }];
+    }).sort((a,b)=>(a.recentCompletions??0)-(b.recentCompletions??0)||a.routeCost-b.routeCost || (a.objectId<b.objectId?-1:1));
+    result.push(...choices.slice(0,state.goalLoops?.planning ? 2 : 1));
   }
   return result;
 }
