@@ -1,3 +1,4 @@
+import { GOAL_PLANNING_VERSION } from "./first-glow-goal-planning.js";
 import { canonicalize, sha256 } from "@mimir/world-data";
 import type { FirstGlowGoalContext } from "./first-glow-goals.js";
 
@@ -29,7 +30,9 @@ export function compactFirstGlowGoalContext(input: FirstGlowGoalContext): FirstG
   const known = new Set(input.evidenceEventIds.filter(ref));
   const references = (ids: string[]) => unique(ids.filter(id => ref(id) && known.has(id))).slice(-limits.references);
   const allMemories = input.memory.memories;
-  const memories = allMemories.filter(m => m.pulse <= input.pulse && known.has(m.sourceEventId) && ref(m.sourceEventId)).slice(-limits.memories);
+  const requiredPlanningRefs = input.planning ? unique([...(input.frontierExploration ? [input.frontierExploration.evidenceEventId] : []),...(input.opportunities?.map(o=>o.evidenceEventId)??[]),...input.planning.recentGoals.map(g=>g.evidenceEventId)]) : [];
+  const memoryLimit = input.planning ? Math.max(0,Math.min(limits.memories,limits.evidence-requiredPlanningRefs.length)) : limits.memories;
+  const memories = allMemories.filter(m => m.pulse <= input.pulse && known.has(m.sourceEventId) && ref(m.sourceEventId)).slice(-memoryLimit).filter(()=>memoryLimit>0);
   const allTrust = input.relationships?.trust ?? [];
   const trust = allTrust.filter(t => t.sourceSparkId === input.sparkId && ref(t.targetSparkId) && t.lastUpdatedPulse <= input.pulse)
     .slice().sort((a, b) => b.lastUpdatedPulse - a.lastUpdatedPulse || compare(a.targetSparkId, b.targetSparkId)).slice(0, limits.trust);
@@ -39,6 +42,7 @@ export function compactFirstGlowGoalContext(input: FirstGlowGoalContext): FirstG
   // Reserve a citation for each retained memory first, then a small spread across
   // relationships, before filling with other already-known local references.
   const evidenceEventIds = unique([
+    ...(input.planning?.recentGoals.map(g=>g.evidenceEventId) ?? []),
     ...(input.frontierExploration ? [input.frontierExploration.evidenceEventId] : []),
     ...(input.opportunities?.map(o=>o.evidenceEventId).filter(id=>known.has(id)) ?? []),
     ...memories.map(m => m.sourceEventId),
@@ -60,7 +64,7 @@ export function compactFirstGlowGoalContext(input: FirstGlowGoalContext): FirstG
     commitments: commitments.map(c => ({ id: c.id, promisorSparkId: c.promisorSparkId, beneficiarySparkId: c.beneficiarySparkId, dilemmaId: c.dilemmaId, alternativeId: c.alternativeId, status: c.status, createdPulse: c.createdPulse, resolvedPulse: c.resolvedPulse, evidenceEventIds: retainedRefs(c.evidenceEventIds), omittedEvidence: (c.omittedEvidence ?? 0) + c.evidenceEventIds.length - retainedRefs(c.evidenceEventIds).length }))
   };
   const context = {
-    version: input.version, sparkId: input.sparkId, pulse: input.pulse,
+    ...(input.planning ? {planning:structuredClone(input.planning)} : {}), version: input.version, sparkId: input.sparkId, pulse: input.pulse,
     candidates: [...input.candidates], charge: input.charge, chargeDeficit: input.chargeDeficit, readiness: input.readiness,
     memory, evidenceEventIds,
     ...(input.frontierExploration ? { frontierExploration: structuredClone(input.frontierExploration) } : {}),
@@ -77,7 +81,8 @@ export function validateFirstGlowGoalContextProjection(context: FirstGlowGoalCon
   const p = context.projection, limits = FIRST_GLOW_GOAL_CONTEXT_LIMITS;
   const invalid = () => { throw new FirstGlowGoalAdmissionError("goal-context-invalid"); };
   if (p.version !== FIRST_GLOW_GOAL_PROJECTION_VERSION || ![p.omittedTrust, p.omittedCommitments, p.omittedEvidence].every(n => Number.isSafeInteger(n) && n >= 0) || context.evidenceEventIds.length > limits.evidence || context.evidenceEventIds.some(id => !ref(id)) || context.memory.memories.length > limits.memories || (context.relationships?.trust.length ?? 0) > limits.trust || (context.relationships?.commitments.length ?? 0) > limits.commitments) invalid();
-  if (context.opportunities && (context.opportunities.length>4 || context.opportunities.some(o=>!context.candidates.includes(o.kind)||!ref(o.objectId)||!ref(o.evidenceEventId)||!Number.isInteger(o.routeCost)||o.routeCost<0||o.label.length>64))) invalid();
+  if (context.opportunities && (context.opportunities.length>(context.planning?8:4) || context.opportunities.some(o=>!context.candidates.includes(o.kind)||!ref(o.objectId)||!ref(o.evidenceEventId)||!Number.isInteger(o.routeCost)||o.routeCost<0||o.label.length>64||(o.recentCompletions!==undefined&&(!context.planning||!Number.isSafeInteger(o.recentCompletions)||o.recentCompletions<0))||(o.partnerSparkId!==undefined&&(!context.planning||o.kind!=="explore-meet-mark"||!ref(o.partnerSparkId)||o.partnerSparkId===context.sparkId))))) invalid();
+  if (context.planning && (context.planning.version!==GOAL_PLANNING_VERSION || context.planning.recentGoals.length>2 || context.planning.recentGoals.some(g=>!ref(g.objectId)||!Number.isInteger(g.completedPulse)||g.completedPulse>context.pulse||!context.evidenceEventIds.includes(g.evidenceEventId)))) invalid();
   const known = new Set(context.evidenceEventIds);
   if (context.opportunities?.some(o=>!known.has(o.evidenceEventId))) invalid();
   if (context.frontierExploration && (!known.has(context.frontierExploration.evidenceEventId) || !Number.isInteger(context.frontierExploration.routeCost) || context.frontierExploration.routeCost<0)) invalid();

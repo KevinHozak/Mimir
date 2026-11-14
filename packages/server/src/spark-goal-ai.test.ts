@@ -170,3 +170,22 @@ test("one feasible alternative selects rules without spending a request", async 
   assert.deepEqual(provider.telemetry, [{ purpose: "goal", outcome: "rejected-locally", reason: "goal-context-too-large", reservedMicrousd: 0 }]);
   await provider.close();
 });
+
+
+test("new goal wire requires a locally offered kind and destination; old receipts keep their contract", async () => {
+  const {createWorldFromBundle, observeFrontier} = await import("@mimir/engine");
+  const {readFileSync}=await import("node:fs");
+  const bundle=JSON.parse(readFileSync(new URL("../../../assets/world/generated/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/world.json",import.meta.url),"utf8"));
+  const state=createWorldFromBundle(bundle,2,"wire-fixture",6,{goalLoops:true}).firstGlowState;
+  observeFrontier(state);state.goalLoops!.planning={version:"varied-coordinated-goals-v1",activatedPulse:0};
+  const context=buildFirstGlowGoalContext(state,"spark-3")!, wire=JSON.parse(sparkGoalWire(context));
+  assert.ok(wire.generationConfig.responseSchema.required.includes("objectId"));
+  assert.equal(JSON.parse(sparkGoalWire(goalContext())).generationConfig.responseSchema.required.includes("objectId"),false);
+  const opportunity=context.opportunities![0];
+  for(const valid of [true,false]) {
+    const provider=createSparkLiveProvider(budgetPath(),async body=>{const r=reply(body);r.response.candidates[0].content.parts[0].text=JSON.stringify({kind:opportunity.kind,objectId:valid?opportunity.objectId:"hidden-destination",summary:"Choose a known destination.",evidenceEventIds:[opportunity.evidenceEventId]});return r;});
+    if(valid){const chosen=await provider.proposeGoal(context,"new-contract");assert.equal((chosen as any).objectId,opportunity.objectId);}
+    else await assert.rejects(provider.proposeGoal(context,"new-contract"));
+    await provider.close();
+  }
+});

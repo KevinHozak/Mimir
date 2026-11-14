@@ -1,3 +1,4 @@
+export * from "./first-glow-goal-planning.js";
 export * from "./first-glow-frontier.js";
 import { initializeFirstGlowGoals } from "./first-glow-goals.js";
 export * from "./first-glow-goals.js";
