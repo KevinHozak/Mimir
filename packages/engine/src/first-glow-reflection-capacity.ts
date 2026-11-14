@@ -51,7 +51,10 @@ export interface FirstGlowReflectionScheduler {
   decisions: FirstGlowReflectionDecision[];
 }
 
+export const ONLINE_REFLECTION_CADENCE_VERSION = "online-reflection-eight-pulse-v1" as const;
+export const ONLINE_GOAL_PROVIDER_ATTEMPT_LIMIT = 64;
 export interface FirstGlowReflectionCapacityState {
+  cadenceOverride?: { version: typeof ONLINE_REFLECTION_CADENCE_VERSION; activatedPulse: number };
   policy: FirstGlowReflectionCapacityPolicy;
   assignments: Record<string, FirstGlowReflectionAssignment>;
   scheduler: FirstGlowReflectionScheduler;
@@ -104,20 +107,38 @@ export function designateFirstGlowHero(state: FirstGlowReflectionCapacityState, 
   return assignment;
 }
 
+/** New epoch only; earlier records retain the original 64-pulse calendar. */
+export function firstGlowReflectionWindow(state: FirstGlowReflectionCapacityState, pulse: number) {
+  const activation = state.cadenceOverride?.activatedPulse;
+  if (activation !== undefined && pulse >= activation) {
+    const window = Math.floor((pulse - activation) / 8);
+    return { day: Math.floor(activation / state.policy.pulsesPerDay) + 1 + window, start: activation + window * 8, pulsesPerDay: 8, accelerated: true };
+  }
+  const day = dayFor(pulse, state.policy.pulsesPerDay);
+  return { day, start: day * state.policy.pulsesPerDay, pulsesPerDay: state.policy.pulsesPerDay, accelerated: false };
+}
+
+/** Called only on a new uncommitted pulse, before runtime admission. No counters/history reset. */
+export function activateFirstGlowOnlineCadence(state: FirstGlowReflectionCapacityState, pulse: number): void {
+  if (state.cadenceOverride || state.policy.pulsesPerDay !== FIRST_GLOW_REFLECTION_PULSES_PER_DAY || !Number.isSafeInteger(pulse) || pulse < 1 || state.scheduler.decisions.some(d=>d.pulse>=pulse) || state.eventAdmission?.records.some(r=>r.pulse>=pulse)) throw Error("Cadence activation requires an untouched new pulse and the original policy");
+  state.cadenceOverride = { version: ONLINE_REFLECTION_CADENCE_VERSION, activatedPulse: pulse };
+}
+
 export function requestFirstGlowReflection(state: FirstGlowReflectionCapacityState, sparkId: string, pulse: number, historicalPlayback = false): FirstGlowReflectionDecision {
   const assignment = state.assignments[sparkId];
   if (!assignment) throw new Error(`unknown Spark ${sparkId}`);
   const { policy, scheduler } = state;
-  const day = dayFor(pulse, policy.pulsesPerDay);
+  const window = firstGlowReflectionWindow(state, pulse);
+  const day = window.day;
   if (scheduler.simulatedDay !== day) { scheduler.simulatedDay = day; scheduler.sparkUsed = {}; scheduler.globalUsed = 0; }
   const used = scheduler.sparkUsed[sparkId] ?? 0;
-  const { intervalPulses, phaseOffset } = firstGlowReflectionCadence(sparkId, assignment.capacity, policy.pulsesPerDay);
-  const scheduled = day * policy.pulsesPerDay + phaseOffset + used * intervalPulses;
-  const dayEnd = (day + 1) * policy.pulsesPerDay - 1;
+  const { intervalPulses, phaseOffset } = firstGlowReflectionCadence(sparkId, window.accelerated ? 1 : assignment.capacity, window.pulsesPerDay);
+  const scheduled = window.start + phaseOffset + used * intervalPulses;
+  const dayEnd = window.start + window.pulsesPerDay - 1;
   const slotEndPulse = scheduled <= dayEnd ? Math.min(scheduled + intervalPulses - 1, dayEnd) : undefined;
   const previous = scheduler.lastCreatedPulse[sparkId];
   const nextEligiblePulse = Math.max(scheduled, previous === undefined ? 0 : previous + intervalPulses);
-  const forcedAtSlotEnd = slotEndPulse !== undefined && pulse === slotEndPulse;
+  const forcedAtSlotEnd = !window.accelerated && slotEndPulse !== undefined && pulse === slotEndPulse;
   let reason: FirstGlowReflectionDecisionReason = historicalPlayback ? "historical-playback" : "created";
   if (!historicalPlayback && pulse < nextEligiblePulse && !forcedAtSlotEnd) reason = "cadence-window-not-ready";
   if (!historicalPlayback && reason === "created" && scheduler.globalUsed >= policy.globalDailyLimit) reason = "global-cap-exhausted";
@@ -132,6 +153,8 @@ export function requestFirstGlowReflection(state: FirstGlowReflectionCapacitySta
 export function validateFirstGlowReflectionCapacity(state: FirstGlowReflectionCapacityState, sparkIds: string[]): void {
   if (state.policy.version !== FIRST_GLOW_REFLECTION_CAPACITY_VERSION || state.policy.worldAge !== "first-glow" || state.policy.baselineCapacity !== 1 || state.policy.heroMultiplier !== 1.5 || state.policy.heroPolicy.mode !== "explicit-only" || state.policy.heroPolicy.naturalGeneration !== "disabled") throw new Error("unsupported First Glow Reflection capacity policy");
   if (state.scheduler.version !== FIRST_GLOW_REFLECTION_CAPACITY_VERSION || !Number.isInteger(state.policy.pulsesPerDay) || state.policy.pulsesPerDay <= 0) throw new Error("unsupported First Glow Reflection scheduler");
+  const override = state.cadenceOverride;
+  if (override && (override.version !== ONLINE_REFLECTION_CADENCE_VERSION || !Number.isSafeInteger(override.activatedPulse) || override.activatedPulse < 1 || state.policy.pulsesPerDay !== FIRST_GLOW_REFLECTION_PULSES_PER_DAY)) throw Error("unsupported online Reflection cadence");
   const ids = new Set(sparkIds);
   for (const sparkId of sparkIds) { const assignment = state.assignments[sparkId]; if (!assignment || assignment.sparkId !== sparkId || assignment.capacity !== reflectionCapacityFor(assignment.isHero) || !["policy-default", "explicit-test"].includes(assignment.provenance)) throw new Error(`invalid Reflection assignment ${sparkId}`); }
   if (Object.keys(state.assignments).some(sparkId => !ids.has(sparkId))) throw new Error("Reflection assignment references an unknown Spark");
@@ -143,7 +166,7 @@ export function validateFirstGlowReflectionCapacity(state: FirstGlowReflectionCa
     const events = new Set<string>();
     const counts = new Map<string, number>();
     for (const record of state.eventAdmission.records) {
-      if (!ids.has(record.sparkId) || !record.eventId || !Number.isInteger(record.pulse) || record.pulse < 0 || record.simulatedDay !== Math.floor(record.pulse / state.policy.pulsesPerDay) || typeof record.created !== "boolean" || !record.reason) throw new Error("invalid event RC admission record");
+      if (!ids.has(record.sparkId) || !record.eventId || !Number.isInteger(record.pulse) || record.pulse < 0 || record.simulatedDay !== firstGlowReflectionWindow(state, record.pulse).day || typeof record.created !== "boolean" || !record.reason) throw new Error("invalid event RC admission record");
       if (record.created) {
         const key = `${record.sparkId}:${record.simulatedDay}`;
         const count = (counts.get(key) ?? 0) + 1;

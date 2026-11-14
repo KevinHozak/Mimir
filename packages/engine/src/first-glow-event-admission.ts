@@ -1,4 +1,4 @@
-import { requestFirstGlowReflection, type FirstGlowReflectionCapacityState, type FirstGlowEventAdmission } from "./first-glow-reflection-capacity.js";
+import { firstGlowReflectionWindow, requestFirstGlowReflection, type FirstGlowReflectionCapacityState, type FirstGlowEventAdmission } from "./first-glow-reflection-capacity.js";
 import { createFirstGlowAttentionBudget } from "./first-glow-attention.js";
 
 /** Opt-in provenance for new histories; never enable by normalizing an old checkpoint. */
@@ -12,7 +12,7 @@ export function admitFirstGlowEvent(rc: FirstGlowReflectionCapacityState, eventI
   if (rc.eventAdmission?.version !== "event-rc-v1") throw new Error("unsupported or missing event RC admission policy");
   const assignment = rc.assignments[sparkId];
   if (!assignment || !eventId || !Number.isInteger(pulse) || pulse < 0) throw new Error("invalid event RC candidate");
-  const day = Math.floor(pulse / rc.policy.pulsesPerDay);
+  const day = firstGlowReflectionWindow(rc, pulse).day;
   let created = false;
   let reason: string;
   if (rc.eventAdmission.records.some(record => record.eventId === eventId)) reason = "duplicate-event";

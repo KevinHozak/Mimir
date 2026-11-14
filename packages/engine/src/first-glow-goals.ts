@@ -4,7 +4,7 @@ import { canonicalize, sha256, type FirstGlowActivity } from "@mimir/world-data"
 import { canFirstGlowReach, clearFirstGlowPlan, firstGlowExploreCandidate, firstGlowRouteCandidates, initializeActivityCompletion, validateFirstGlowState, type FirstGlowSettlement, type FirstGlowSpark, type FirstGlowState } from "./structured.js";
 import { buildFirstGlowReflectionMemoryContext } from "./first-glow-reflection-memory.js";
 import { firstGlowActionScore } from "./first-glow-social.js";
-import { requestFirstGlowReflection } from "./first-glow-reflection-capacity.js";
+import { ONLINE_GOAL_PROVIDER_ATTEMPT_LIMIT, requestFirstGlowReflection } from "./first-glow-reflection-capacity.js";
 import { firstGlowSparkPersonalityProfile } from "./design.js";
 import { initializeSharingRouteContinuation } from "./first-glow-sharing-continuation.js";
 import { compactFirstGlowGoalContext, validateFirstGlowGoalContextProjection, FirstGlowGoalAdmissionError, type FirstGlowGoalProjection } from "./first-glow-goal-context.js";
@@ -122,7 +122,7 @@ export async function requestFirstGlowGoal(input: FirstGlowState, sparkId: strin
   if (!next.reflectionCapacity || !requestFirstGlowReflection(next.reflectionCapacity, sparkId, next.pulse).created) return { state: next, reason: "reflection-not-admitted" };
   let selected: ReturnType<typeof checkedProposal> = null;
   let fallbackReason = options.provider ? "provider-attempt-limit" : options.fallbackReason ?? "provider-unavailable";
-  if (options.provider && next.goalLoops!.providerAttempts < 16) {
+  if (options.provider && next.goalLoops!.providerAttempts < (next.reflectionCapacity?.cadenceOverride ? ONLINE_GOAL_PROVIDER_ATTEMPT_LIMIT : 16)) {
     next.goalLoops!.providerAttempts++;
     let timer: ReturnType<typeof setTimeout> | undefined;
     try {
@@ -235,7 +235,7 @@ export function validateFirstGlowGoals(state: FirstGlowState): void {
   const policy = state.goalLoops;
   if (policy === undefined) return;
   const fail = () => { throw new Error("Invalid or unsupported Spark goal checkpoint"); };
-  if (!policy || policy.version !== FIRST_GLOW_GOAL_VERSION || !state.activityCompletionVersion || state.patternPreparation || state.initialCachePreparation || state.postProbeContinuation || !Number.isInteger(policy.providerAttempts) || policy.providerAttempts < 0 || policy.providerAttempts > 16 || !Array.isArray(policy.goals) || policy.goals.length > 64) fail();
+  if (!policy || policy.version !== FIRST_GLOW_GOAL_VERSION || !state.activityCompletionVersion || state.patternPreparation || state.initialCachePreparation || state.postProbeContinuation || !Number.isInteger(policy.providerAttempts) || policy.providerAttempts < 0 || policy.providerAttempts > (state.reflectionCapacity?.cadenceOverride ? ONLINE_GOAL_PROVIDER_ATTEMPT_LIMIT : 16) || !Array.isArray(policy.goals) || policy.goals.length > 64) fail();
   const ids = new Set<string>(), active = new Set<string>();
   const sparks = state.settlements.flatMap(s => s.sparks);
   for (const g of policy.goals) {
