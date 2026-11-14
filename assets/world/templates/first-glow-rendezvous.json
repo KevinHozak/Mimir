@@ -1,0 +1,33 @@
+{
+  "id": "rendezvous-mark",
+  "label": "Rendezvous trace",
+  "footprint": [],
+  "slots": [
+    {
+      "id": "contact-a",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "capacity": 1
+    },
+    {
+      "id": "contact-b",
+      "offset": {
+        "x": 0,
+        "y": 0
+      },
+      "capacity": 1
+    }
+  ],
+  "capabilities": [
+    "light-mark"
+  ],
+  "capacity": 2,
+  "visualAsset": "first-glow-light-mark.svg",
+  "groundContact": {
+    "x": 12,
+    "y": 12
+  },
+  "blocksMovement": false
+}

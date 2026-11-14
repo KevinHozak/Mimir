@@ -47,6 +47,26 @@ try {
     for (const page of [desktop, mobile]) await page.evaluate(() => { (window as typeof window & { __mimirCanvas?: HTMLCanvasElement }).__mimirCanvas = document.querySelector("#village-canvas canvas") ?? undefined; });
     for (let step = 0; step < 2; step += 1) { const response = await fetch(`http://127.0.0.1:${apiPort}/api/pulse`, { method: "POST", headers: { "x-owner-token": "browser-first-glow" } }); assert.equal(response.status, 200); }
     for (const page of [desktop, mobile]) assert.equal(await page.evaluate(() => (window as typeof window & { __mimirCanvas?: HTMLCanvasElement }).__mimirCanvas === document.querySelector("#village-canvas canvas")), true, "First Glow canvas was recreated between committed pulses"); const authoritative = await (await fetch(`http://127.0.0.1:${apiPort}/api/world`)).json() as { state: { firstGlowState?: { settlements: { sparks: { id: string; position: { x: number; y: number } }[] }[]; explanations?: { pulse: number; dilemmaId: string }[] } } }; const expectedCoordinates = Object.fromEntries((authoritative.state.firstGlowState?.settlements[0].sparks ?? []).map(spark => [spark.id, { x: spark.position.x * 24 + 12, y: spark.position.y * 24 + 12 }])); const coordinatesMatch = (actual: Record<string, { x: number; y: number }>, expected: Record<string, { x: number; y: number }>) => JSON.stringify(Object.entries(actual).sort(([left], [right]) => left.localeCompare(right))) === JSON.stringify(Object.entries(expected).sort(([left], [right]) => left.localeCompare(right))); for (const page of [desktop, mobile]) { await page.waitForFunction(expected => { const rendered = document.querySelector("#village-canvas")?.getAttribute("data-rendered-spark-coordinates"); return rendered ? (Object.entries(JSON.parse(rendered) as Record<string, { x: number; y: number }>).sort(([left], [right]) => left.localeCompare(right)).join("|") === Object.entries(expected as Record<string, { x: number; y: number }>).sort(([left], [right]) => left.localeCompare(right)).join("|")) : false; }, expectedCoordinates); } for (const page of [desktop, mobile]) { const inspectorCopy = await page.getByTestId("first-glow-inspector").innerText(); assert.equal(inspectorCopy.includes("Selected item"), false); assert.equal(inspectorCopy.includes("Current Spark or light-site details."), false); assert.equal(/\d+ Sparks · \d+ sites/.test(inspectorCopy), false); assert.equal(inspectorCopy.includes("spark-"), false, "raw Spark IDs must stay hidden outside developer mode"); const rendered = JSON.parse(await page.locator("#village-canvas").getAttribute("data-rendered-spark-coordinates") ?? "{}"); assert.equal(coordinatesMatch(rendered, expectedCoordinates), true); }
+    console.log("Checking Spark context across reload and return visit");
+    const chooser = desktop.getByRole("combobox", { name: "Selected entity" });
+    await chooser.selectOption("spark:spark-4");
+    await desktop.getByTestId("first-glow-inspector").getByRole("button", { name: /^Follow / }).click();
+    await desktop.waitForFunction(() => new URL(location.href).searchParams.get("sparkId") === "spark-4");
+    await desktop.reload();
+    await desktop.getByTestId("follow-controls").waitFor();
+    assert.equal(await chooser.inputValue(), "spark:spark-4");
+    await desktop.goto(`http://127.0.0.1:${webPort}/`);
+    await desktop.getByTestId("follow-controls").waitFor();
+    assert.equal(await chooser.inputValue(), "spark:spark-4");
+    await desktop.goto(`http://127.0.0.1:${webPort}/?sparkId=spark-2&follow=0`);
+    await desktop.getByTestId("first-glow-inspector").waitFor();
+    assert.equal(await chooser.inputValue(), "spark:spark-2");
+    const objectOption = await chooser.locator("option").evaluateAll(options => options.map(option => (option as HTMLOptionElement).value).find(value => value && !value.startsWith("spark:")));
+    assert.ok(objectOption);
+    await chooser.selectOption(objectOption);
+    await desktop.waitForTimeout(200);
+    assert.equal(await chooser.inputValue(), objectOption, "return-context validation must preserve light-site inspection");
+    await chooser.selectOption("spark:spark-1");
     let explanationState: { explanations?: { pulse: number; dilemmaId: string }[] } | undefined = authoritative.state.firstGlowState;
     for (let attempt = 0; attempt < 12 && !(explanationState?.explanations?.length); attempt += 1) {
       const response = await fetch(`http://127.0.0.1:${apiPort}/api/pulse`, { method: "POST", headers: { "x-owner-token": "browser-first-glow" } }); assert.equal(response.status, 200);

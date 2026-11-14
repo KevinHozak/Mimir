@@ -1,0 +1,826 @@
+{
+  "date": "2026-11-10",
+  "policy": "pattern-resource-preparation-v1",
+  "providerCalls": 0,
+  "rawDirectory": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+  "verification": {
+    "rootTests": 139,
+    "failures": 0,
+    "legacy": [
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "2cf18b23454f7592d80ff711d36d7e384e694d786f145c24128b80d5a104503b"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "2180710f1155ba727586fd498bccea48af803a6265f4c7fd93950e7d3757a521"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "837085b571e89735ebac04ae0a0078488ce91f05e4bb9e45c22cfb5146b3202f"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a8bc0c7797ff9f31a503f1afeb0a31d3ea1b746c2d59ab4c3a2e281ec0cb056e"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "1fd883d9374b664628a68e362fb97b83d632c3d8f5168b1abaacfc95bcdf52c3"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "4d20d331711a79f6e45d54c45921394063625248cf711659f276d6b297285f89"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "need-decline.json",
+        "comparedPulses": 5,
+        "sha256": "804952bd9e943a4c68804e9a7a96ad3c6596883d0e6a8d3366937a6203b3bc51"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "no-encounter.json",
+        "comparedPulses": 5,
+        "sha256": "4bb5799eace6274bfd27830c3f2402a74b076e4d37af1bb827b669897e7b1477"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "no-pattern.json",
+        "comparedPulses": 5,
+        "sha256": "71bcd4ecaa6d2142bc682b13493b66d70ac6b5e076580e7ee26778c083a90e4a"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "use.json",
+        "comparedPulses": 5,
+        "sha256": "f2a0c8e7c2ae972d412f7268988e9fc59f6d90d23773cd72886a8f0469ffbd0f"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "db8d7839e564d9475cc8e656ef3d80072156d349daededa26d5652e854f13b11"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "5600ec3a5fe1eee169e7f8a4dff96827ffcd267feb17a2b047675e97b153aa0d"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "ed5921f0bac1540b2b896166e5e73fbe736402895c410b856a8f33e293dd888c"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a9fe3bb8976a0ab2c7cfc1e66e23f6c1db204b65227aedca99e40c40109bbf5b"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "c4892ada233259ca4b85f8c6bf25a6c9eab6f3ca2274c91ae4d1d2bd7efa8721"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "c4ab0207b04c37df00b9c9d691f0fd152e3544dadc73cfab04c0c8703ce856e3"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "1db53035d65d37548c4be97005f8c0d54c27dcc4838a593744103b1956b390c7"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "ed2d670f9b14697787061b931862ee76e7d649f41d385bef1fd7e97d0a943f3f"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "7b7e778a898d3a64f56f498f67aa3050b42777cbe6b5c80a87c58980ce85f6e7"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "f880df8b2094a4351f1aa515be82edf61320fe9644a1ab827aa5eb26e8d581d5"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "999bb1bbdf771f6381c01929a2b156b8491bce21f892a2a7a6891d0abefa85aa"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "d4b05b6ad8c30a0496d7b251e105b040e156719a46b7ecdd4c8bc7afbcf9e319"
+      }
+    ]
+  },
+  "sourceHashes": {
+    "packages/engine/src/first-glow-pattern-preparation.ts": "314d86640e67c3a768b6ed3dc7c83b6dbd5de7e35122e76edbcf147cd758a6d5",
+    "packages/engine/src/structured.ts": "555f8dcf41ac9ed9993a03ae79ffe694a29a5fceb45d1f4dbdcb7f2b6be1bad9",
+    "packages/engine/src/first-glow-actions.ts": "f6e6281e7ba1abcdcfabb22ed7ea9e417b5cde2685e1f0f148da0f3261e9c1d7",
+    "packages/engine/src/index.ts": "c5a91187c508cb821ca5126bbc60c35ceaa5d0dea058f9a1e49bc4923a693020"
+  },
+  "results": [
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 1,
+      "pulses": 360,
+      "patterns": [],
+      "uses": 0,
+      "retryAttempts": [],
+      "goals": [],
+      "preparationEvents": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "230004f057a76205f42d054743840ddb1cc409231658c1fda1f437489c3522d9",
+      "recoveryTotals": []
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 8,
+      "pulses": 360,
+      "patterns": [],
+      "uses": 0,
+      "retryAttempts": [],
+      "goals": [],
+      "preparationEvents": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "3fa2898acb444b45d218f4424c9c729fda8045d1e6399836f6c54982a23defab",
+      "recoveryTotals": []
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 12,
+      "pulses": 360,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-122",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 122,
+          "creationEventId": "event-122-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-114-spark-1-cache-survey",
+            "event-122-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-6",
+              "pulse": 178,
+              "eventId": "event-178-spark-6-route-pattern-spark-1-122-encounter",
+              "decline": {
+                "pulse": 179,
+                "eventId": "event-179-spark-6-route-pattern-spark-1-122-decline",
+                "reason": "no currently feasible charge/rest itinerary"
+              }
+            },
+            {
+              "sparkId": "spark-9",
+              "pulse": 204,
+              "eventId": "event-204-spark-9-route-pattern-spark-1-122-encounter",
+              "decline": {
+                "pulse": 205,
+                "eventId": "event-205-spark-9-route-pattern-spark-1-122-decline",
+                "reason": "no currently feasible charge/rest itinerary"
+              }
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 243,
+              "eventId": "event-243-spark-2-route-pattern-spark-1-122-encounter",
+              "decline": {
+                "pulse": 244,
+                "eventId": "event-244-spark-2-route-pattern-spark-1-122-decline",
+                "reason": "no currently feasible charge/rest itinerary"
+              }
+            }
+          ]
+        }
+      ],
+      "uses": 0,
+      "retryAttempts": [],
+      "goals": [
+        {
+          "sparkId": "spark-6",
+          "patternId": "route-pattern-spark-1-122",
+          "encounterEventId": "event-178-spark-6-route-pattern-spark-1-122-encounter",
+          "createdPulse": 178,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 5,
+          "actionEventIds": [
+            "event-207-spark-6-draw",
+            "event-212-spark-6-draw",
+            "event-213-spark-6-draw",
+            "event-214-spark-6-draw",
+            "event-273-spark-6-draw"
+          ],
+          "signature": "[{\"x\":8,\"y\":22},{\"charge\":29,\"deficit\":0,\"readiness\":0},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],760,\"rest\",5]",
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:5"
+        },
+        {
+          "sparkId": "spark-9",
+          "patternId": "route-pattern-spark-1-122",
+          "encounterEventId": "event-204-spark-9-route-pattern-spark-1-122-encounter",
+          "createdPulse": 204,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 3,
+          "actionEventIds": [
+            "event-238-spark-9-draw",
+            "event-257-spark-9-draw",
+            "event-273-spark-9-draw"
+          ],
+          "signature": "[{\"x\":4,\"y\":6},{\"charge\":48,\"deficit\":0,\"readiness\":0},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],760,\"rest\",3]",
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:3"
+        },
+        {
+          "sparkId": "spark-2",
+          "patternId": "route-pattern-spark-1-122",
+          "encounterEventId": "event-243-spark-2-route-pattern-spark-1-122-encounter",
+          "createdPulse": 243,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 1,
+          "actionEventIds": [
+            "event-282-spark-2-draw"
+          ],
+          "signature": "[{\"x\":3,\"y\":5},{\"charge\":48,\"deficit\":0,\"readiness\":0},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],760,\"rest\",1]",
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:1"
+        }
+      ],
+      "preparationEvents": [
+        {
+          "id": "event-179-spark-6-pattern-preparation",
+          "pulse": 179,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: no currently feasible charge/rest itinerary; preparation deferred, 0 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-181-spark-6-pattern-preparation",
+          "pulse": 181,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: prepare charge for the recorded cache route; preparation charge, 0 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-205-spark-9-pattern-preparation",
+          "pulse": 205,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: no currently feasible charge/rest itinerary; preparation deferred, 0 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-207-spark-6-pattern-preparation",
+          "pulse": 207,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter",
+            "event-207-spark-6-draw"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: prepare charge for the recorded cache route; preparation charge, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-208-spark-6-pattern-preparation",
+          "pulse": 208,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-212-spark-6-pattern-preparation",
+          "pulse": 212,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter",
+            "event-212-spark-6-draw"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: prepare charge for the recorded cache route; preparation charge, 2 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-212-spark-9-pattern-preparation",
+          "pulse": 212,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: prepare charge for the recorded cache route; preparation charge, 0 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-213-spark-6-pattern-preparation",
+          "pulse": 213,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter",
+            "event-213-spark-6-draw"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: prepare charge for the recorded cache route; preparation charge, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-214-spark-6-pattern-preparation",
+          "pulse": 214,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter",
+            "event-214-spark-6-draw"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: prepare charge for the recorded cache route; preparation charge, 4 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-215-spark-6-pattern-preparation",
+          "pulse": 215,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 4 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-238-spark-9-pattern-preparation",
+          "pulse": 238,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter",
+            "event-238-spark-9-draw"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: prepare charge for the recorded cache route; preparation charge, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-239-spark-9-pattern-preparation",
+          "pulse": 239,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-244-spark-2-pattern-preparation",
+          "pulse": 244,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: no currently feasible charge/rest itinerary; preparation deferred, 0 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-257-spark-6-pattern-preparation",
+          "pulse": 257,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: selected preparation or cache contact is no longer available; preparation deferred, 4 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-257-spark-9-pattern-preparation",
+          "pulse": 257,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter",
+            "event-257-spark-9-draw"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: prepare charge for the recorded cache route; preparation charge, 2 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-257-spark-2-pattern-preparation",
+          "pulse": 257,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: prepare charge for the recorded cache route; preparation charge, 0 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-258-spark-9-pattern-preparation",
+          "pulse": 258,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: selected preparation or cache contact is no longer available; preparation deferred, 2 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-259-spark-6-pattern-preparation",
+          "pulse": 259,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 4 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-259-spark-9-pattern-preparation",
+          "pulse": 259,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 2 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-273-spark-6-pattern-preparation",
+          "pulse": 273,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter",
+            "event-273-spark-6-draw"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: prepare charge for the recorded cache route; preparation charge, 5 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-273-spark-9-pattern-preparation",
+          "pulse": 273,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter",
+            "event-273-spark-9-draw"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: prepare charge for the recorded cache route; preparation charge, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-274-spark-6-pattern-preparation",
+          "pulse": 274,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 5 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-274-spark-9-pattern-preparation",
+          "pulse": 274,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-282-spark-2-pattern-preparation",
+          "pulse": 282,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter",
+            "event-282-spark-2-draw"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: prepare charge for the recorded cache route; preparation charge, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-283-spark-2-pattern-preparation",
+          "pulse": 283,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-291-spark-6-pattern-preparation",
+          "pulse": 291,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: the recorded target is unavailable or unreachable; preparation deferred, 5 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-291-spark-9-pattern-preparation",
+          "pulse": 291,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: the recorded target is unavailable or unreachable; preparation deferred, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-291-spark-2-pattern-preparation",
+          "pulse": 291,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: the recorded target is unavailable or unreachable; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-323-spark-6-pattern-preparation",
+          "pulse": 323,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-178-spark-6-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6: no currently feasible charge/rest itinerary; preparation deferred, 5 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-323-spark-9-pattern-preparation",
+          "pulse": 323,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-323-spark-2-pattern-preparation",
+          "pulse": 323,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-333-spark-9-pattern-preparation",
+          "pulse": 333,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: selected preparation or cache contact is no longer available; preparation deferred, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-333-spark-2-pattern-preparation",
+          "pulse": 333,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: selected preparation or cache contact is no longer available; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-334-spark-9-pattern-preparation",
+          "pulse": 334,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-204-spark-9-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 3 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-334-spark-2-pattern-preparation",
+          "pulse": 334,
+          "kind": "pulse",
+          "structuredKind": "pattern-preparation",
+          "evidenceEventIds": [
+            "event-243-spark-2-route-pattern-spark-1-122-encounter"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2: no feasible preparation itinerary; direct route exceeds readiness cap; preparation deferred, 1 recorded recovery action(s).",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "7fe185532eed9786f515b71497a50f023aef5925bda6580bb3ff6bb9b2e7fd37",
+      "recoveryTotals": [
+        {
+          "sparkId": "spark-6",
+          "actions": 5,
+          "chargeDrawn": 40,
+          "restActions": 0
+        },
+        {
+          "sparkId": "spark-9",
+          "actions": 3,
+          "chargeDrawn": 24,
+          "restActions": 0
+        },
+        {
+          "sparkId": "spark-2",
+          "actions": 1,
+          "chargeDrawn": 8,
+          "restActions": 0
+        }
+      ]
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 1,
+      "pulses": 360,
+      "patterns": [],
+      "uses": 0,
+      "retryAttempts": [],
+      "goals": [],
+      "preparationEvents": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "453bf86d596b981ddb08e0741184a509a6163fe7deff766f6367e582ee6d19a4",
+      "recoveryTotals": []
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 8,
+      "pulses": 360,
+      "patterns": [],
+      "uses": 0,
+      "retryAttempts": [],
+      "goals": [],
+      "preparationEvents": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "aff45974896c998afeef5839a74c2e14bf51997a6574a4bf9872ac5056d26bbe",
+      "recoveryTotals": []
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 12,
+      "pulses": 360,
+      "patterns": [],
+      "uses": 0,
+      "retryAttempts": [],
+      "goals": [],
+      "preparationEvents": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "aa22045ff14693c17babdab10582522d5be03a489345285b895826b440ce31da",
+      "recoveryTotals": []
+    }
+  ]
+}

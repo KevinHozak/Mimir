@@ -1,0 +1,9 @@
+[Unit]
+Description=Stop Mimir pilot, snapshot, close ingress and stop VM
+OnFailure=mimir-online-hard-stop.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/node/bin/node /opt/mimir-online/current/scripts/online-pilot-watchdog.mjs /etc/mimir/online-pilot.json --stop
+TimeoutStartSec=110
+UMask=0077

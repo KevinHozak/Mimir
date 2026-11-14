@@ -340,3 +340,13 @@ The owner [recorded HOLD expansion and retain limited staging](hosted-observer-r
 ### MIM-S008 harness readiness — 2026-10-24
 
 The standalone harness and independent cutoff have targeted automated coverage. [Read-only readiness](evidence/hosted-refresh-preparation-2026-10-24.md) confirms the original bridge/private VM metadata but does not establish direct process/state/backup readiness. Public JS differs from current local output. The [approval packet](hosted-token-refresh-approval-packet.md) is blocked on deployed UI observation, full integration and all-in cost admission under the unchanged USD 0.15 cumulative ceiling. No token-aging session, observer trial, deployment or access change occurred.
+
+
+## S021 preparation — 2026-11-13
+
+The persistent frontier deployment is in preparation, not activated. The owner selected an additional $2 hosting ceiling for a 24-hour pilot, then selected AI stopped and preparation only. This does not renew the exhausted S019 AI allocation or authorize activation. Retain the archived pulse-64 database and current bridge traffic revision for rollback. See [the S021 packet](spark-ai-online.md) for exact-source publication, bounded viewing/scaling, genuine auth, paired off-host recovery and deadline gates. A simulation lease does not stop infrastructure billing. Do not describe the existing daily backup timers or synthetic auth tests as qualification of the new online release.
+
+
+### S021 original-allocation continuation — 2026-11-13
+
+The owner authorized recorded-cost accounting with a reasonable buffer, continuation under the original USD 5 AI cap, and USD 2 hosting for a 24-hour owner-only pilot. The original ten receipts remain intact: USD 0.008844 token-cost estimate, USD 0.117688 guarded after a 2× multiplier and USD 0.10 reserve, and USD 4.882312 guarded headroom. Pending/uncertain or missing-cost calls keep full USD 0.50 holds. An audited ledger handoff retires the desktop writer before the target writer resumes; it does not create another allocation. The hosting watchdog and independent shutdown deadline preserve the selected window and conservative hosting cutoff. These are implementation/preparation records, not a deployed-readiness claim; see [the online packet](spark-ai-online.md). The standalone backup worker now also requires `spark-ai-accounting.js`.

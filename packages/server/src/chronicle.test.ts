@@ -42,7 +42,7 @@ try {
   const personalRevision = await (await fetch(`http://127.0.0.1:${port}/api/owner/chronicle/regenerate`, { method: "POST", headers: { "content-type": "application/json", "x-owner-token": token }, body: JSON.stringify({ pulse: 0, sparkId: "spark-1" }) })).json() as { edition: { id: string; selectedSparkId: string; chapters: Array<{ journey?: unknown[] }>; narrator: { promptVersion: string } } };
   assert.equal(personalRevision.edition.selectedSparkId, "spark-1");
   assert.ok(personalRevision.edition.chapters[1].journey?.length);
-  assert.equal(personalRevision.edition.narrator.promptVersion, "chronicle-journey-v3");
+  assert.equal(personalRevision.edition.narrator.promptVersion, "chronicle-route-pattern-v4");
   const preservedPersonal = await (await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&editionId=${selectedBody.edition.id}`)).json() as { edition: { id: string } };
   assert.equal(preservedPersonal.edition.id, selectedBody.edition.id);
   const absent = await fetch(`http://127.0.0.1:${port}/api/chronicle?pulse=0&sparkId=absent`);

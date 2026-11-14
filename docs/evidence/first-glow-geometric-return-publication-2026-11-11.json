@@ -1,0 +1,3299 @@
+{
+  "date": "2026-11-11",
+  "status": "Implemented and verified locally; uncommitted/unpublished",
+  "policy": "geometric-return-publication-v1",
+  "providerCalls": 0,
+  "rawDirectory": ".tmp/route-patterns-return-publication-ordinary-Q55iuZ",
+  "setup": "Unmodified createWorldFromBundle initial state; routePatterns opt-in; rules-only; 360 pulses; fixed seed 2; seed affects social choices but does not randomize initial spawns",
+  "sourceSha256": {
+    "packages/engine/src/first-glow-geometric-return-publication.ts": "292a9902a516542b0aa62cae91e726da1bdb572acc356191758c774040baf69e",
+    "packages/engine/src/first-glow-route-patterns.ts": "01f63debb711896781452d45a1611f4a39a3098943e77abbc0906fc7aca54f29",
+    "packages/engine/src/first-glow-sharing-admission.ts": "6e731cb205704f17e1d48605846d685fd72e45782db836d605f6ca22ecd007d1",
+    "packages/engine/src/first-glow-geometric-shard.ts": "3ac06b805da537ab5056cb42783f35f9182dd9cf2dfeee90439b1aa91e4407c6",
+    "packages/engine/src/first-glow-post-probe-continuation.ts": "491da873beacdcbbea7a47ea3835ee928900aabc3193b7e61a20730d29dfb33c",
+    "packages/engine/src/first-glow-initial-cache-preparation.ts": "2960f440ed853f1026b6eca979f136a9e7385a3918a552336b6225c278e9c648",
+    "packages/engine/src/first-glow-pattern-preparation.ts": "7be7d514d16034c05a61278832f538d31a1f97c39e5bd7735872d29438c61c07",
+    "packages/engine/src/first-glow-recovery-admission.ts": "413148aac101fe4ab3baac06ed5583e8d260d6712067230bc9aebd762b5fd6cd",
+    "packages/engine/src/first-glow-actions.ts": "38799da47ad709cd4384e4a91900260ec48a0200f4bdd250f5e5f63c63a12cb5",
+    "packages/engine/src/structured.ts": "50b3b196d85c437d5ada7d8db27e9c1be74797fbd7b093eb949cda43ddcffe75",
+    "packages/engine/src/index.ts": "a1df2c812be4710e31329cc3a48ea85850e1245cf5c54818a697f1312887f46b"
+  },
+  "verification": {
+    "rootTests": 219,
+    "rootFailures": 0,
+    "focusedChecks": 8,
+    "serverStateChecks": 13,
+    "compatibility": [
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "2cf18b23454f7592d80ff711d36d7e384e694d786f145c24128b80d5a104503b"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "2180710f1155ba727586fd498bccea48af803a6265f4c7fd93950e7d3757a521"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "837085b571e89735ebac04ae0a0078488ce91f05e4bb9e45c22cfb5146b3202f"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a8bc0c7797ff9f31a503f1afeb0a31d3ea1b746c2d59ab4c3a2e281ec0cb056e"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "1fd883d9374b664628a68e362fb97b83d632c3d8f5168b1abaacfc95bcdf52c3"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "4d20d331711a79f6e45d54c45921394063625248cf711659f276d6b297285f89"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/need-decline.json",
+        "comparedPulses": 5,
+        "sha256": "804952bd9e943a4c68804e9a7a96ad3c6596883d0e6a8d3366937a6203b3bc51"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/no-encounter.json",
+        "comparedPulses": 5,
+        "sha256": "4bb5799eace6274bfd27830c3f2402a74b076e4d37af1bb827b669897e7b1477"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/no-pattern.json",
+        "comparedPulses": 5,
+        "sha256": "71bcd4ecaa6d2142bc682b13493b66d70ac6b5e076580e7ee26778c083a90e4a"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/use.json",
+        "comparedPulses": 5,
+        "sha256": "f2a0c8e7c2ae972d412f7268988e9fc59f6d90d23773cd72886a8f0469ffbd0f"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "db8d7839e564d9475cc8e656ef3d80072156d349daededa26d5652e854f13b11"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "5600ec3a5fe1eee169e7f8a4dff96827ffcd267feb17a2b047675e97b153aa0d"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "ed5921f0bac1540b2b896166e5e73fbe736402895c410b856a8f33e293dd888c"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a9fe3bb8976a0ab2c7cfc1e66e23f6c1db204b65227aedca99e40c40109bbf5b"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "c4892ada233259ca4b85f8c6bf25a6c9eab6f3ca2274c91ae4d1d2bd7efa8721"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "c4ab0207b04c37df00b9c9d691f0fd152e3544dadc73cfab04c0c8703ce856e3"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "1db53035d65d37548c4be97005f8c0d54c27dcc4838a593744103b1956b390c7"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "ed2d670f9b14697787061b931862ee76e7d649f41d385bef1fd7e97d0a943f3f"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "7b7e778a898d3a64f56f498f67aa3050b42777cbe6b5c80a87c58980ce85f6e7"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "f880df8b2094a4351f1aa515be82edf61320fe9644a1ab827aa5eb26e8d581d5"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "999bb1bbdf771f6381c01929a2b156b8491bce21f892a2a7a6891d0abefa85aa"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "d4b05b6ad8c30a0496d7b251e105b040e156719a46b7ecdd4c8bc7afbcf9e319"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "96eead92d73d4641ab5641e33bd350827b791bce35fc6a0208978b5f967af37d"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "1f122f7862b5f1bce0ae7b65e05e38b05840ece649301920283729eee2f1d62c"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "27ea80fbb331b9cd832c12f9db59aed5ff524fc61de66cfb8f4d5d3f33d19ab0"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "311e756632d0811819047ba2d393eafd93b7428983fc0c8512efa57f9ff74e68"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "4652136e757e4391aff60fb092260e264d3f3e2c7c891f94a441b6db0390fa6d"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "67597eb7d1e887cf38fa11833d0dc583f32135e9d750eb1242748e48a087610f"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "d406d0681dec7ab1e60a72ec58ac31d7f8de9226c27d32a70e37f7eca8201136"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "0e8738f90912b5534713daaf08b54bc58ec3566ebe90737dc95c15267a6e192c"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "20abe465edf7393dee7c45f281d169a7590419ebcae06d7c3aad722e1c6ceb8b"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "8c873eba0c7ef79543c12db5e689931f3835b13a976c0d3a7679bc26799d45e7"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "63075f7dc42fdcf4b343684284857bb4881467761d2350c3a9b5994ac4ecc641"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "52dce7a8af17b77f9f89f504d4fe62d97c3dbbab9d2300cb9b70dbf9c1bdc6e7"
+      },
+      {
+        "file": ".tmp/route-patterns-admission-ordinary-gvYVwb/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "793345c88d0dd61ea29db870691d0ce6d9a6ffb598c6cf69a8626ccc55a74cac"
+      },
+      {
+        "file": ".tmp/route-patterns-admission-ordinary-gvYVwb/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "c1f0143bae45056db34af981ba2a74685fed60e2a77c0609c170c4d458686f46"
+      },
+      {
+        "file": ".tmp/route-patterns-admission-ordinary-gvYVwb/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "c019e7119a72f2b5a3e5dc4665699324b3b0c39858dafa15bdadbd1b6b5b5095"
+      },
+      {
+        "file": ".tmp/route-patterns-admission-ordinary-gvYVwb/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "9942e1d0f70620d7a68fd86bda0ea912ff6cfe3ecca069cbd24de8a71691078b"
+      },
+      {
+        "file": ".tmp/route-patterns-admission-ordinary-gvYVwb/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "5883d603ee5579630a7cb32c31be113b21af3c9b7f5809eaf2f4da36cd9429fc"
+      },
+      {
+        "file": ".tmp/route-patterns-admission-ordinary-gvYVwb/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "77282716eab374f00c651e50f4c6d12f4c0f1b82351e34d37ed5d0af0c54b403"
+      },
+      {
+        "file": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "3e2bb5b9d31ab386b1758e29cdb939aeac331fa9f060c0aacca03db8da69c1d4"
+      },
+      {
+        "file": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "8b651c6e3b68265e7575482b6566834e527a2d9723f02d193facb0444cfb2a64"
+      },
+      {
+        "file": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "6f7d8c0c968bfdf0009119f4d3018271aa7512b803e8b72e94f53d7504a68518"
+      },
+      {
+        "file": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "6e92dc54f328a21b0dc2b091e0225d1f5f564d7912d814fe72fe5bf8ad128201"
+      },
+      {
+        "file": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "eaaaa8bbeb6c635f9e4ca07a6c41ae7cef840f3d44bedb65c38d67268e371fec"
+      },
+      {
+        "file": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "b133d0e88c58554871b6e3cedee765bdd3c33b7d0daecec99a774520720a754b"
+      },
+      {
+        "file": ".tmp/route-patterns-post-probe-ordinary-G9zWI9/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "f313a79e0896525c5b37fcf7713ee2598756ebf920103fde2058eb55379830d5"
+      },
+      {
+        "file": ".tmp/route-patterns-post-probe-ordinary-G9zWI9/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "2c15bd5d20a15d799687210900bce9d618aee4ee0bbdcc7076bb6d46401040fd"
+      },
+      {
+        "file": ".tmp/route-patterns-post-probe-ordinary-G9zWI9/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "e3ba5896d789f3111901adbca4da19d863ddf719e30b70810402f618ea24596a"
+      },
+      {
+        "file": ".tmp/route-patterns-post-probe-ordinary-G9zWI9/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "da523ea59df8b6bb82b519ce9a88d04c3934a55adcc10f7578de75702a46f194"
+      },
+      {
+        "file": ".tmp/route-patterns-post-probe-ordinary-G9zWI9/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "704fe4f53c1b606f5f790dffc5e92e54d7b26c50cee863b3596edbeb911d72a3"
+      },
+      {
+        "file": ".tmp/route-patterns-post-probe-ordinary-G9zWI9/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "045f073f79b3e40bf07f29c797f2c3dd3d4eb5023114a3e520a92b305cb69e42"
+      },
+      {
+        "file": ".tmp/route-patterns-care-fallback-ordinary-ypeYrk/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "ec2137b593f8fbc51d3b0766cbefeeb3987128017eaa2a13cd0faad0d73e8878"
+      },
+      {
+        "file": ".tmp/route-patterns-care-fallback-ordinary-ypeYrk/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "456b654f6da6905a13908eab67a59026a86596b9961e6bd22a1477a4da08fedd"
+      },
+      {
+        "file": ".tmp/route-patterns-care-fallback-ordinary-ypeYrk/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "46009583905b00d99e36a324109a89ae0274b2c735851032acc1926e9fde6436"
+      },
+      {
+        "file": ".tmp/route-patterns-care-fallback-ordinary-ypeYrk/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "9098fbe8c2c302f2429dc6fe65f8bfaa8f995ea3456b2b1ec59f0ff505b8caef"
+      },
+      {
+        "file": ".tmp/route-patterns-care-fallback-ordinary-ypeYrk/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "b86cc2c651cd478759002d7aea7103926865855eafeefb01912d2d204ba5971e"
+      },
+      {
+        "file": ".tmp/route-patterns-care-fallback-ordinary-ypeYrk/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "58122153681611128678c527ca9895b2e6c9200b327e2d977be39d2334c784d3"
+      },
+      {
+        "file": ".tmp/route-patterns-geometric-shard-ordinary-bmhXnj/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "7e4754b334901d846fa67e02a34723c0b6b1aa79af4ca61345a257da5d34ab39"
+      },
+      {
+        "file": ".tmp/route-patterns-geometric-shard-ordinary-bmhXnj/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "4bd7ea2a1cc7fbd86ca8a0004f35184e8830cea7acecfe5a9660d21299126001"
+      },
+      {
+        "file": ".tmp/route-patterns-geometric-shard-ordinary-bmhXnj/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "0d235344417324adeef3d1b835d9b4976d10abbb05ed93bf89310088f286cffb"
+      },
+      {
+        "file": ".tmp/route-patterns-geometric-shard-ordinary-bmhXnj/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "7395821064d1c25df8786263fe42917a99a47c17f6b2c165074af4c6b1060436"
+      },
+      {
+        "file": ".tmp/route-patterns-geometric-shard-ordinary-bmhXnj/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "6c7486c9d631f4baca0c339f99b4b1b61153a6443cd55a06a0cccc488733b4c9"
+      },
+      {
+        "file": ".tmp/route-patterns-geometric-shard-ordinary-bmhXnj/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "231b65f74e21b35a6e9f60d285513d053096cbb89b0b2b059e85c6a67e315924"
+      },
+      {
+        "file": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "2e8ec71bf083fd228b0b8f1493878363b969db0b87068d4f30462240ff43062e"
+      },
+      {
+        "file": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "36bd6ca3c850f8d3fa0f7cac891929b0bd7800e9ba8a1f4e631547cdb21614bc"
+      },
+      {
+        "file": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "2aebdbb93802e72666788c39ff6c0225a24a0005973fa1cf88da41dc8f2a4fea"
+      },
+      {
+        "file": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "2bf3da426d92749d8f351ba8430a3bba856c8bfbc34b19188d17142e178e11d1"
+      },
+      {
+        "file": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "5a095b20c87823ec3cab76a9fa65edfcfc2a0be84fcc2cf6723c193970ec1ef6"
+      },
+      {
+        "file": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "221d6d4ee15592156804b020e6332c5690335cf6432f7683aa8bcf11b7baf788"
+      },
+      {
+        "file": ".tmp/publication-diagnosis-p6cKnJ/current-completion.json",
+        "comparedPulses": 12,
+        "sha256": "309bf9e0b61b0312e1720adf3e9ef72e96a12f880bf41c7c0174c797cad9070d"
+      },
+      {
+        "file": ".tmp/publication-diagnosis-p6cKnJ/review-completion.json",
+        "comparedPulses": 12,
+        "sha256": "5aeceb1910a5dafa514608e5fd249ee8736eda8568ade32f3b505a3a53bbec7c"
+      }
+    ],
+    "backup": {
+      "setup": "Controlled fresh-policy actual publication with an occupied cache; not ordinary-history evidence",
+      "directory": "C:\\Projects\\Mimir\\.tmp\\return-publication-backup-w01oaS",
+      "walSnapshot": true,
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "bundleFiles": 8,
+      "checks": [
+        {
+          "pulse": 118,
+          "continuedPulses": 5
+        },
+        {
+          "pulse": 119,
+          "continuedPulses": 5
+        }
+      ]
+    }
+  },
+  "ordinary": [
+    {
+      "label": "current",
+      "population": 1,
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "pulses": 360,
+      "stateSha256": "ede4e5e30db40cad040dff4c8e9bf8195eace4d78a430084e699806bd93bafec",
+      "patterns": 1,
+      "encounters": 0,
+      "uses": 0,
+      "sharingRefusals": 0,
+      "sharingEvents": 0,
+      "retries": 0,
+      "retryChoices": [],
+      "shardContactWaitEvents": 0,
+      "cacheChoices": [
+        {
+          "id": "spark-1",
+          "pulse": 46,
+          "probe": true
+        }
+      ],
+      "postGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-46-spark-1-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 46,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 9,
+          "actionEventIds": [
+            "event-67-spark-1-idle",
+            "event-81-spark-1-draw",
+            "event-82-spark-1-draw",
+            "event-83-spark-1-draw",
+            "event-84-spark-1-draw",
+            "event-97-spark-1-idle",
+            "event-98-spark-1-idle",
+            "event-99-spark-1-idle",
+            "event-100-spark-1-idle"
+          ],
+          "priorActionEventIds": [
+            "event-7-spark-1-draw",
+            "event-8-spark-1-draw",
+            "event-9-spark-1-draw",
+            "event-10-spark-1-draw",
+            "event-24-spark-1-idle",
+            "event-25-spark-1-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:9:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":68},0,[],528,\"rest\",14,\"shape-pattern\",70]",
+          "committedPulse": 101,
+          "departureEventId": "event-101-spark-1-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-119-spark-1-shape-pattern"
+        }
+      ],
+      "initialGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-6-spark-1-explore",
+          "createdPulse": 6,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-7-spark-1-draw",
+            "event-8-spark-1-draw",
+            "event-9-spark-1-draw",
+            "event-10-spark-1-draw",
+            "event-24-spark-1-idle",
+            "event-25-spark-1-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":25,\"deficit\":0,\"readiness\":89},0,[],104,\"rest\",5]",
+          "committedPulse": 26,
+          "departureEventId": "event-26-spark-1-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-46-spark-1-cache-survey"
+        }
+      ],
+      "patternGoals": [],
+      "drawEvents": 16,
+      "waitEvents": 0,
+      "queuedAtCutoff": 0,
+      "sourceCharge": 2032,
+      "strandedReservations": 0,
+      "duplicateContacts": 0,
+      "sqliteContinuationPulses": 5,
+      "patternsDetail": [
+        {
+          "id": "route-pattern-spark-1-119",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 119,
+          "creationEventId": "event-119-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-46-spark-1-cache-survey",
+            "event-119-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ]
+    },
+    {
+      "label": "current",
+      "population": 8,
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "pulses": 360,
+      "stateSha256": "fbd73208c248630bd7bc82d5967a035c764fe6fd7b7c207af24afe904412f5ff",
+      "patterns": 5,
+      "encounters": 10,
+      "uses": 0,
+      "sharingRefusals": 25,
+      "sharingEvents": 12,
+      "retries": 0,
+      "retryChoices": [],
+      "shardContactWaitEvents": 36,
+      "cacheChoices": [
+        {
+          "id": "spark-2",
+          "pulse": 59,
+          "probe": true
+        },
+        {
+          "id": "spark-1",
+          "pulse": 80,
+          "probe": true
+        },
+        {
+          "id": "spark-4",
+          "pulse": 101,
+          "probe": true
+        },
+        {
+          "id": "spark-3",
+          "pulse": 121,
+          "probe": true
+        },
+        {
+          "id": "spark-5",
+          "pulse": 143,
+          "probe": true
+        }
+      ],
+      "postGoals": [
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-59-spark-2-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 59,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 14,
+          "actionEventIds": [
+            "event-80-spark-2-idle",
+            "event-94-spark-2-draw",
+            "event-95-spark-2-draw",
+            "event-96-spark-2-draw",
+            "event-97-spark-2-draw",
+            "event-111-spark-2-idle",
+            "event-130-spark-2-draw",
+            "event-131-spark-2-draw",
+            "event-132-spark-2-draw",
+            "event-133-spark-2-draw",
+            "event-147-spark-2-idle",
+            "event-148-spark-2-idle",
+            "event-149-spark-2-idle",
+            "event-150-spark-2-idle"
+          ],
+          "priorActionEventIds": [
+            "event-15-spark-2-draw",
+            "event-18-spark-2-draw",
+            "event-19-spark-2-draw",
+            "event-23-spark-2-draw",
+            "event-38-spark-2-idle",
+            "event-39-spark-2-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:14:completed:care:event-150-spark-2-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-150-spark-2-idle",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":22,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],368,\"rest\",19,\"shape-pattern\",90]",
+          "committedPulse": 158,
+          "departureEventId": "event-158-spark-2-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-176-spark-2-shape-pattern"
+        },
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-80-spark-1-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 80,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 11,
+          "actionEventIds": [
+            "event-115-spark-1-draw",
+            "event-116-spark-1-draw",
+            "event-117-spark-1-draw",
+            "event-118-spark-1-draw",
+            "event-119-spark-1-draw",
+            "event-134-spark-1-idle",
+            "event-135-spark-1-idle",
+            "event-136-spark-1-idle",
+            "event-137-spark-1-idle",
+            "event-138-spark-1-idle",
+            "event-139-spark-1-idle"
+          ],
+          "priorActionEventIds": [
+            "event-12-spark-1-draw",
+            "event-13-spark-1-draw",
+            "event-14-spark-1-draw",
+            "event-16-spark-1-draw",
+            "event-31-spark-1-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:11:completed",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":25,\"deficit\":0,\"readiness\":86},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-106\",\"slotId\":\"probe-west\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],328,\"rest\",15,\"shape-pattern\",90]",
+          "committedPulse": 140,
+          "departureEventId": "event-140-spark-1-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-158-spark-1-shape-pattern"
+        },
+        {
+          "sparkId": "spark-4",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-101-spark-4-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 101,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 11,
+          "actionEventIds": [
+            "event-138-spark-4-draw",
+            "event-139-spark-4-draw",
+            "event-140-spark-4-draw",
+            "event-141-spark-4-draw",
+            "event-142-spark-4-draw",
+            "event-157-spark-4-idle",
+            "event-158-spark-4-idle",
+            "event-159-spark-4-idle",
+            "event-160-spark-4-idle",
+            "event-161-spark-4-idle",
+            "event-162-spark-4-idle"
+          ],
+          "priorActionEventIds": [
+            "event-18-spark-4-draw",
+            "event-22-spark-4-draw",
+            "event-23-spark-4-draw",
+            "event-26-spark-4-draw",
+            "event-40-spark-4-idle",
+            "event-60-spark-4-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:11:completed",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":25,\"deficit\":0,\"readiness\":83},0,[{\"actorId\":\"spark-5\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],392,\"rest\",16,\"shape-pattern\",90]",
+          "committedPulse": 176,
+          "departureEventId": "event-176-spark-4-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-194-spark-4-shape-pattern"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-121-spark-3-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 121,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 9,
+          "actionEventIds": [
+            "event-156-spark-3-draw",
+            "event-157-spark-3-draw",
+            "event-158-spark-3-draw",
+            "event-159-spark-3-draw",
+            "event-190-spark-3-idle",
+            "event-204-spark-3-idle",
+            "event-206-spark-3-idle",
+            "event-208-spark-3-idle",
+            "event-210-spark-3-idle"
+          ],
+          "priorActionEventIds": [
+            "event-34-spark-3-draw",
+            "event-35-spark-3-draw",
+            "event-38-spark-3-draw",
+            "event-39-spark-3-draw",
+            "event-40-spark-3-draw",
+            "event-74-spark-3-idle",
+            "event-81-spark-3-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:9:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":80},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],536,\"rest\",15,\"shape-pattern\",90]",
+          "committedPulse": 211,
+          "departureEventId": "event-211-spark-3-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-229-spark-3-shape-pattern"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-143-spark-5-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 143,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 10,
+          "actionEventIds": [
+            "event-178-spark-5-draw",
+            "event-179-spark-5-draw",
+            "event-180-spark-5-draw",
+            "event-181-spark-5-draw",
+            "event-203-spark-5-idle",
+            "event-205-spark-5-idle",
+            "event-207-spark-5-idle",
+            "event-209-spark-5-idle",
+            "event-211-spark-5-idle",
+            "event-212-spark-5-idle"
+          ],
+          "priorActionEventIds": [
+            "event-34-spark-5-draw",
+            "event-35-spark-5-draw",
+            "event-36-spark-5-draw",
+            "event-37-spark-5-draw",
+            "event-51-spark-5-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:10:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":85},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],520,\"rest\",14,\"shape-pattern\",90]",
+          "committedPulse": 229,
+          "departureEventId": "event-229-spark-5-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-247-spark-5-shape-pattern"
+        }
+      ],
+      "initialGoals": [
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-5-spark-2-explore",
+          "createdPulse": 5,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-15-spark-2-draw",
+            "event-18-spark-2-draw",
+            "event-19-spark-2-draw",
+            "event-23-spark-2-draw",
+            "event-38-spark-2-idle",
+            "event-39-spark-2-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":24,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],16,\"rest\",5]",
+          "committedPulse": 40,
+          "departureEventId": "event-40-spark-2-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-59-spark-2-cache-survey"
+        },
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-6-spark-1-explore",
+          "createdPulse": 6,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 5,
+          "actionEventIds": [
+            "event-12-spark-1-draw",
+            "event-13-spark-1-draw",
+            "event-14-spark-1-draw",
+            "event-16-spark-1-draw",
+            "event-31-spark-1-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:5",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":23,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],8,\"rest\",5]",
+          "committedPulse": 60,
+          "departureEventId": "event-60-spark-1-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-80-spark-1-cache-survey"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-5-spark-3-explore",
+          "createdPulse": 8,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 7,
+          "actionEventIds": [
+            "event-34-spark-3-draw",
+            "event-35-spark-3-draw",
+            "event-38-spark-3-draw",
+            "event-39-spark-3-draw",
+            "event-40-spark-3-draw",
+            "event-74-spark-3-idle",
+            "event-81-spark-3-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:7",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":26,\"deficit\":0,\"readiness\":90},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],160,\"rest\",6]",
+          "committedPulse": 102,
+          "departureEventId": "event-102-spark-3-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-121-spark-3-cache-survey"
+        },
+        {
+          "sparkId": "spark-4",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-11-spark-4-explore",
+          "createdPulse": 11,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-18-spark-4-draw",
+            "event-22-spark-4-draw",
+            "event-23-spark-4-draw",
+            "event-26-spark-4-draw",
+            "event-40-spark-4-idle",
+            "event-60-spark-4-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":24,\"deficit\":0,\"readiness\":94},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],72,\"rest\",5]",
+          "committedPulse": 81,
+          "departureEventId": "event-81-spark-4-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-101-spark-4-cache-survey"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-12-spark-5-explore",
+          "createdPulse": 12,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 5,
+          "actionEventIds": [
+            "event-34-spark-5-draw",
+            "event-35-spark-5-draw",
+            "event-36-spark-5-draw",
+            "event-37-spark-5-draw",
+            "event-51-spark-5-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:5",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":39,\"deficit\":0,\"readiness\":90},0,[{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],24,\"rest\",4]",
+          "committedPulse": 123,
+          "departureEventId": "event-123-spark-5-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-143-spark-5-cache-survey"
+        },
+        {
+          "sparkId": "spark-6",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-35-spark-6-explore",
+          "createdPulse": 35,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 16,
+          "actionEventIds": [
+            "event-73-spark-6-draw",
+            "event-115-spark-6-draw",
+            "event-157-spark-6-draw",
+            "event-158-spark-6-draw",
+            "event-188-spark-6-draw",
+            "event-189-spark-6-draw",
+            "event-219-spark-6-draw",
+            "event-220-spark-6-draw",
+            "event-250-spark-6-draw",
+            "event-251-spark-6-draw",
+            "event-281-spark-6-draw",
+            "event-282-spark-6-draw",
+            "event-311-spark-6-draw",
+            "event-312-spark-6-draw",
+            "event-344-spark-6-draw",
+            "event-345-spark-6-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:16",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":16,\"deficit\":0,\"readiness\":80},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],888,\"rest\",16]"
+        },
+        {
+          "sparkId": "spark-8",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-49-spark-8-explore",
+          "createdPulse": 80,
+          "navigationRevision": 0,
+          "phase": "charge",
+          "reason": "prepare charge for the first cache expedition",
+          "actions": 15,
+          "actionEventIds": [
+            "event-94-spark-8-draw",
+            "event-135-spark-8-draw",
+            "event-168-spark-8-draw",
+            "event-169-spark-8-draw",
+            "event-200-spark-8-draw",
+            "event-201-spark-8-draw",
+            "event-233-spark-8-draw",
+            "event-234-spark-8-draw",
+            "event-265-spark-8-draw",
+            "event-267-spark-8-draw",
+            "event-295-spark-8-draw",
+            "event-296-spark-8-draw",
+            "event-327-spark-8-draw",
+            "event-328-spark-8-draw",
+            "event-360-spark-8-draw"
+          ],
+          "lastRecord": "charge:prepare charge for the first cache expedition:15",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":1,\"deficit\":0,\"readiness\":99},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],888,\"charge\",14]"
+        },
+        {
+          "sparkId": "spark-7",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-72-spark-7-explore",
+          "createdPulse": 121,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 13,
+          "actionEventIds": [
+            "event-135-spark-7-draw",
+            "event-173-spark-7-draw",
+            "event-204-spark-7-draw",
+            "event-205-spark-7-draw",
+            "event-206-spark-7-draw",
+            "event-240-spark-7-draw",
+            "event-271-spark-7-draw",
+            "event-272-spark-7-draw",
+            "event-273-spark-7-draw",
+            "event-308-spark-7-draw",
+            "event-336-spark-7-draw",
+            "event-337-spark-7-draw",
+            "event-338-spark-7-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:13",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":9,\"deficit\":0,\"readiness\":83},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],960,\"rest\",13]"
+        }
+      ],
+      "patternGoals": [],
+      "drawEvents": 152,
+      "waitEvents": 204,
+      "queuedAtCutoff": 1,
+      "sourceCharge": 952,
+      "strandedReservations": 0,
+      "duplicateContacts": 0,
+      "sqliteContinuationPulses": 5,
+      "patternsDetail": [
+        {
+          "id": "route-pattern-spark-1-158",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 158,
+          "creationEventId": "event-158-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-80-spark-1-cache-survey",
+            "event-158-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-2",
+              "pulse": 176,
+              "eventId": "event-176-spark-2-route-pattern-spark-1-158-encounter",
+              "decline": {
+                "pulse": 177,
+                "eventId": "event-177-spark-2-route-pattern-spark-1-158-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-4",
+              "pulse": 194,
+              "eventId": "event-194-spark-4-route-pattern-spark-1-158-encounter",
+              "decline": {
+                "pulse": 195,
+                "eventId": "event-195-spark-4-route-pattern-spark-1-158-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 229,
+              "eventId": "event-229-spark-3-route-pattern-spark-1-158-encounter",
+              "decline": {
+                "pulse": 230,
+                "eventId": "event-230-spark-3-route-pattern-spark-1-158-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 247,
+              "eventId": "event-247-spark-5-route-pattern-spark-1-158-encounter",
+              "decline": {
+                "pulse": 248,
+                "eventId": "event-248-spark-5-route-pattern-spark-1-158-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-2-176",
+          "public": true,
+          "creatorId": "spark-2",
+          "settlementId": "first-glow-region",
+          "createdPulse": 176,
+          "creationEventId": "event-176-spark-2-route-pattern-created",
+          "sourceEventIds": [
+            "event-59-spark-2-cache-survey",
+            "event-176-spark-2-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-4",
+              "pulse": 194,
+              "eventId": "event-194-spark-4-route-pattern-spark-2-176-encounter"
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 229,
+              "eventId": "event-229-spark-3-route-pattern-spark-2-176-encounter"
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 247,
+              "eventId": "event-247-spark-5-route-pattern-spark-2-176-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-4-194",
+          "public": true,
+          "creatorId": "spark-4",
+          "settlementId": "first-glow-region",
+          "createdPulse": 194,
+          "creationEventId": "event-194-spark-4-route-pattern-created",
+          "sourceEventIds": [
+            "event-101-spark-4-cache-survey",
+            "event-194-spark-4-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-3",
+              "pulse": 229,
+              "eventId": "event-229-spark-3-route-pattern-spark-4-194-encounter"
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 247,
+              "eventId": "event-247-spark-5-route-pattern-spark-4-194-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-3-229",
+          "public": true,
+          "creatorId": "spark-3",
+          "settlementId": "first-glow-region",
+          "createdPulse": 229,
+          "creationEventId": "event-229-spark-3-route-pattern-created",
+          "sourceEventIds": [
+            "event-121-spark-3-cache-survey",
+            "event-229-spark-3-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-5",
+              "pulse": 247,
+              "eventId": "event-247-spark-5-route-pattern-spark-3-229-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-5-247",
+          "public": true,
+          "creatorId": "spark-5",
+          "settlementId": "first-glow-region",
+          "createdPulse": 247,
+          "creationEventId": "event-247-spark-5-route-pattern-created",
+          "sourceEventIds": [
+            "event-143-spark-5-cache-survey",
+            "event-247-spark-5-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ]
+    },
+    {
+      "label": "current",
+      "population": 12,
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "pulses": 360,
+      "stateSha256": "4b6ae525b3ab65d4704687575f79a30ef89cf7a492a9ed572740af914182496e",
+      "patterns": 5,
+      "encounters": 10,
+      "uses": 0,
+      "sharingRefusals": 120,
+      "sharingEvents": 4,
+      "retries": 0,
+      "retryChoices": [],
+      "shardContactWaitEvents": 81,
+      "cacheChoices": [
+        {
+          "id": "spark-1",
+          "pulse": 98,
+          "probe": true
+        },
+        {
+          "id": "spark-2",
+          "pulse": 118,
+          "probe": true
+        },
+        {
+          "id": "spark-10",
+          "pulse": 138,
+          "probe": true
+        },
+        {
+          "id": "spark-3",
+          "pulse": 159,
+          "probe": true
+        },
+        {
+          "id": "spark-9",
+          "pulse": 196,
+          "probe": true
+        }
+      ],
+      "postGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-98-spark-1-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 98,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 11,
+          "actionEventIds": [
+            "event-135-spark-1-draw",
+            "event-141-spark-1-draw",
+            "event-144-spark-1-draw",
+            "event-146-spark-1-draw",
+            "event-147-spark-1-draw",
+            "event-161-spark-1-idle",
+            "event-166-spark-1-idle",
+            "event-168-spark-1-idle",
+            "event-170-spark-1-idle",
+            "event-173-spark-1-idle",
+            "event-175-spark-1-idle"
+          ],
+          "priorActionEventIds": [
+            "event-35-spark-1-draw",
+            "event-42-spark-1-draw",
+            "event-45-spark-1-draw",
+            "event-47-spark-1-draw",
+            "event-62-spark-1-idle",
+            "event-74-spark-1-idle",
+            "event-77-spark-1-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:11:completed",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":20,\"deficit\":0,\"readiness\":82},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],336,\"rest\",17,\"shape-pattern\",90]",
+          "committedPulse": 176,
+          "departureEventId": "event-176-spark-1-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-194-spark-1-shape-pattern"
+        },
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-118-spark-2-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 118,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 11,
+          "actionEventIds": [
+            "event-155-spark-2-draw",
+            "event-156-spark-2-draw",
+            "event-157-spark-2-draw",
+            "event-201-spark-2-draw",
+            "event-216-spark-2-draw",
+            "event-231-spark-2-draw",
+            "event-246-spark-2-draw",
+            "event-267-spark-2-idle",
+            "event-269-spark-2-idle",
+            "event-283-spark-2-idle",
+            "event-284-spark-2-idle"
+          ],
+          "priorActionEventIds": [
+            "event-36-spark-2-draw",
+            "event-42-spark-2-draw",
+            "event-45-spark-2-draw",
+            "event-47-spark-2-draw",
+            "event-50-spark-2-draw",
+            "event-54-spark-2-draw",
+            "event-59-spark-2-draw",
+            "event-77-spark-2-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:11:completed:care:event-284-spark-2-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-284-spark-2-idle",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":87},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],520,\"rest\",18,\"shape-pattern\",90]",
+          "committedPulse": 293,
+          "departureEventId": "event-293-spark-2-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-311-spark-2-shape-pattern"
+        },
+        {
+          "sparkId": "spark-10",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-138-spark-10-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 138,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 12,
+          "actionEventIds": [
+            "event-173-spark-10-draw",
+            "event-174-spark-10-draw",
+            "event-176-spark-10-draw",
+            "event-215-spark-10-draw",
+            "event-225-spark-10-draw",
+            "event-245-spark-10-draw",
+            "event-246-spark-10-draw",
+            "event-247-spark-10-draw",
+            "event-268-spark-10-idle",
+            "event-270-spark-10-idle",
+            "event-272-spark-10-idle",
+            "event-273-spark-10-idle"
+          ],
+          "priorActionEventIds": [
+            "event-46-spark-10-draw",
+            "event-47-spark-10-draw",
+            "event-50-spark-10-draw",
+            "event-54-spark-10-draw",
+            "event-71-spark-10-idle",
+            "event-78-spark-10-idle",
+            "event-99-spark-10-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:12:completed:care:event-273-spark-10-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-273-spark-10-idle",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":22,\"deficit\":0,\"readiness\":82},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"}],488,\"rest\",18,\"shape-pattern\",90]",
+          "committedPulse": 274,
+          "departureEventId": "event-274-spark-10-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-293-spark-10-shape-pattern"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-159-spark-3-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 159,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 12,
+          "actionEventIds": [
+            "event-199-spark-3-draw",
+            "event-209-spark-3-draw",
+            "event-218-spark-3-draw",
+            "event-229-spark-3-draw",
+            "event-234-spark-3-draw",
+            "event-250-spark-3-idle",
+            "event-260-spark-3-idle",
+            "event-267-spark-3-idle",
+            "event-270-spark-3-idle",
+            "event-273-spark-3-idle",
+            "event-274-spark-3-idle",
+            "event-275-spark-3-idle"
+          ],
+          "priorActionEventIds": [
+            "event-37-spark-3-draw",
+            "event-42-spark-3-draw",
+            "event-46-spark-3-draw",
+            "event-54-spark-3-draw",
+            "event-59-spark-3-draw",
+            "event-77-spark-3-idle",
+            "event-99-spark-3-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:12:completed",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":20,\"deficit\":0,\"readiness\":86},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"}],512,\"rest\",18,\"shape-pattern\",90]",
+          "committedPulse": 311,
+          "departureEventId": "event-311-spark-3-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-329-spark-3-shape-pattern"
+        },
+        {
+          "sparkId": "spark-9",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-196-spark-9-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 196,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 11,
+          "actionEventIds": [
+            "event-244-spark-9-draw",
+            "event-245-spark-9-draw",
+            "event-246-spark-9-draw",
+            "event-247-spark-9-draw",
+            "event-248-spark-9-draw",
+            "event-271-spark-9-idle",
+            "event-273-spark-9-idle",
+            "event-274-spark-9-idle",
+            "event-275-spark-9-idle",
+            "event-276-spark-9-idle",
+            "event-277-spark-9-idle"
+          ],
+          "priorActionEventIds": [
+            "event-168-spark-9-idle",
+            "event-170-spark-9-idle",
+            "event-171-spark-9-idle",
+            "event-172-spark-9-idle",
+            "event-174-spark-9-idle",
+            "event-176-spark-9-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:11:completed",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":25,\"deficit\":0,\"readiness\":82},0,[{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],504,\"rest\",16,\"shape-pattern\",90]",
+          "committedPulse": 333,
+          "departureEventId": "event-333-spark-9-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-352-spark-9-shape-pattern"
+        }
+      ],
+      "initialGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-6-spark-1-explore",
+          "createdPulse": 6,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 7,
+          "actionEventIds": [
+            "event-35-spark-1-draw",
+            "event-42-spark-1-draw",
+            "event-45-spark-1-draw",
+            "event-47-spark-1-draw",
+            "event-62-spark-1-idle",
+            "event-74-spark-1-idle",
+            "event-77-spark-1-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:7",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":23,\"deficit\":0,\"readiness\":94},0,[{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"}],64,\"rest\",6]",
+          "committedPulse": 78,
+          "departureEventId": "event-78-spark-1-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-98-spark-1-cache-survey"
+        },
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-9-spark-2-explore",
+          "createdPulse": 9,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 8,
+          "actionEventIds": [
+            "event-36-spark-2-draw",
+            "event-42-spark-2-draw",
+            "event-45-spark-2-draw",
+            "event-47-spark-2-draw",
+            "event-50-spark-2-draw",
+            "event-54-spark-2-draw",
+            "event-59-spark-2-draw",
+            "event-77-spark-2-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:8",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":38,\"deficit\":0,\"readiness\":87},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"}],88,\"rest\",8]",
+          "committedPulse": 99,
+          "departureEventId": "event-99-spark-2-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-118-spark-2-cache-survey"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-14-spark-3-explore",
+          "createdPulse": 14,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 7,
+          "actionEventIds": [
+            "event-37-spark-3-draw",
+            "event-42-spark-3-draw",
+            "event-46-spark-3-draw",
+            "event-54-spark-3-draw",
+            "event-59-spark-3-draw",
+            "event-77-spark-3-idle",
+            "event-99-spark-3-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:7",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":24,\"deficit\":0,\"readiness\":94},0,[{\"actorId\":\"spark-12\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],168,\"rest\",6]",
+          "committedPulse": 139,
+          "departureEventId": "event-139-spark-3-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-159-spark-3-cache-survey"
+        },
+        {
+          "sparkId": "spark-4",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-20-spark-4-explore",
+          "createdPulse": 20,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 11,
+          "actionEventIds": [
+            "event-39-spark-4-draw",
+            "event-44-spark-4-draw",
+            "event-55-spark-4-draw",
+            "event-90-spark-4-draw",
+            "event-176-spark-4-draw",
+            "event-217-spark-4-draw",
+            "event-227-spark-4-draw",
+            "event-287-spark-4-draw",
+            "event-317-spark-4-draw",
+            "event-332-spark-4-draw",
+            "event-342-spark-4-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:11",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":9,\"deficit\":0,\"readiness\":54},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],704,\"rest\",11]"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-27-spark-5-explore",
+          "createdPulse": 27,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 12,
+          "actionEventIds": [
+            "event-40-spark-5-draw",
+            "event-44-spark-5-draw",
+            "event-58-spark-5-draw",
+            "event-59-spark-5-draw",
+            "event-112-spark-5-draw",
+            "event-187-spark-5-draw",
+            "event-232-spark-5-draw",
+            "event-235-spark-5-draw",
+            "event-279-spark-5-draw",
+            "event-283-spark-5-draw",
+            "event-320-spark-5-draw",
+            "event-336-spark-5-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:12",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":1,\"deficit\":0,\"readiness\":77},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],704,\"rest\",12]"
+        },
+        {
+          "sparkId": "spark-10",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-44-spark-10-explore",
+          "createdPulse": 44,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 7,
+          "actionEventIds": [
+            "event-46-spark-10-draw",
+            "event-47-spark-10-draw",
+            "event-50-spark-10-draw",
+            "event-54-spark-10-draw",
+            "event-71-spark-10-idle",
+            "event-78-spark-10-idle",
+            "event-99-spark-10-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:7",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":32,\"deficit\":0,\"readiness\":92},0,[{\"actorId\":\"spark-12\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"}],168,\"rest\",6]",
+          "committedPulse": 119,
+          "departureEventId": "event-119-spark-10-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-138-spark-10-cache-survey"
+        },
+        {
+          "sparkId": "spark-6",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-61-spark-6-explore",
+          "createdPulse": 61,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 9,
+          "actionEventIds": [
+            "event-76-spark-6-draw",
+            "event-113-spark-6-draw",
+            "event-210-spark-6-draw",
+            "event-245-spark-6-draw",
+            "event-246-spark-6-draw",
+            "event-294-spark-6-draw",
+            "event-295-spark-6-draw",
+            "event-335-spark-6-draw",
+            "event-343-spark-6-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:9",
+          "signature": "[{\"x\":4,\"y\":6},{\"charge\":16,\"deficit\":0,\"readiness\":82},0,[{\"actorId\":\"spark-9\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],632,\"rest\",9]"
+        },
+        {
+          "sparkId": "spark-7",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-63-spark-7-explore",
+          "createdPulse": 63,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 12,
+          "actionEventIds": [
+            "event-114-spark-7-draw",
+            "event-119-spark-7-draw",
+            "event-174-spark-7-draw",
+            "event-177-spark-7-draw",
+            "event-217-spark-7-draw",
+            "event-228-spark-7-draw",
+            "event-266-spark-7-draw",
+            "event-267-spark-7-draw",
+            "event-299-spark-7-draw",
+            "event-300-spark-7-draw",
+            "event-347-spark-7-draw",
+            "event-348-spark-7-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:12",
+          "signature": "[{\"x\":4,\"y\":5},{\"charge\":16,\"deficit\":0,\"readiness\":82},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],704,\"rest\",12]"
+        },
+        {
+          "sparkId": "spark-8",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-73-spark-8-explore",
+          "createdPulse": 73,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 9,
+          "actionEventIds": [
+            "event-88-spark-8-draw",
+            "event-173-spark-8-draw",
+            "event-175-spark-8-draw",
+            "event-215-spark-8-draw",
+            "event-226-spark-8-draw",
+            "event-276-spark-8-draw",
+            "event-282-spark-8-draw",
+            "event-315-spark-8-draw",
+            "event-330-spark-8-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:9",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":1,\"deficit\":0,\"readiness\":81},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],704,\"rest\",9]"
+        },
+        {
+          "sparkId": "spark-11",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-75-spark-11-explore",
+          "createdPulse": 75,
+          "navigationRevision": 0,
+          "phase": "charge",
+          "reason": "prepare charge for the first cache expedition",
+          "actions": 8,
+          "actionEventIds": [
+            "event-112-spark-11-draw",
+            "event-188-spark-11-draw",
+            "event-230-spark-11-draw",
+            "event-234-spark-11-draw",
+            "event-281-spark-11-draw",
+            "event-284-spark-11-draw",
+            "event-329-spark-11-draw",
+            "event-338-spark-11-draw"
+          ],
+          "lastRecord": "charge:prepare charge for the first cache expedition:8",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":0,\"deficit\":0,\"readiness\":77},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"}],680,\"charge\",8]"
+        },
+        {
+          "sparkId": "spark-12",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-81-spark-12-explore",
+          "createdPulse": 159,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 8,
+          "actionEventIds": [
+            "event-191-spark-12-draw",
+            "event-224-spark-12-draw",
+            "event-232-spark-12-draw",
+            "event-235-spark-12-draw",
+            "event-291-spark-12-draw",
+            "event-331-spark-12-draw",
+            "event-341-spark-12-draw",
+            "event-344-spark-12-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:8",
+          "signature": "[{\"x\":4,\"y\":6},{\"charge\":24,\"deficit\":0,\"readiness\":59},0,[{\"actorId\":\"spark-9\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-107\",\"slotId\":\"rest\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],656,\"rest\",8]"
+        },
+        {
+          "sparkId": "spark-9",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-91-spark-9-explore",
+          "createdPulse": 165,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-168-spark-9-idle",
+            "event-170-spark-9-idle",
+            "event-171-spark-9-idle",
+            "event-172-spark-9-idle",
+            "event-174-spark-9-idle",
+            "event-176-spark-9-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":23,\"deficit\":0,\"readiness\":88},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"}],328,\"rest\",5]",
+          "committedPulse": 177,
+          "departureEventId": "event-177-spark-9-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-196-spark-9-cache-survey"
+        }
+      ],
+      "patternGoals": [],
+      "drawEvents": 189,
+      "waitEvents": 1421,
+      "queuedAtCutoff": 5,
+      "sourceCharge": 704,
+      "strandedReservations": 0,
+      "duplicateContacts": 0,
+      "sqliteContinuationPulses": 5,
+      "patternsDetail": [
+        {
+          "id": "route-pattern-spark-1-194",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 194,
+          "creationEventId": "event-194-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-98-spark-1-cache-survey",
+            "event-194-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-10",
+              "pulse": 293,
+              "eventId": "event-293-spark-10-route-pattern-spark-1-194-encounter",
+              "decline": {
+                "pulse": 294,
+                "eventId": "event-294-spark-10-route-pattern-spark-1-194-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 311,
+              "eventId": "event-311-spark-2-route-pattern-spark-1-194-encounter",
+              "decline": {
+                "pulse": 312,
+                "eventId": "event-312-spark-2-route-pattern-spark-1-194-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 329,
+              "eventId": "event-329-spark-3-route-pattern-spark-1-194-encounter",
+              "decline": {
+                "pulse": 330,
+                "eventId": "event-330-spark-3-route-pattern-spark-1-194-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-9",
+              "pulse": 352,
+              "eventId": "event-352-spark-9-route-pattern-spark-1-194-encounter",
+              "decline": {
+                "pulse": 353,
+                "eventId": "event-353-spark-9-route-pattern-spark-1-194-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-10-293",
+          "public": true,
+          "creatorId": "spark-10",
+          "settlementId": "first-glow-region",
+          "createdPulse": 293,
+          "creationEventId": "event-293-spark-10-route-pattern-created",
+          "sourceEventIds": [
+            "event-138-spark-10-cache-survey",
+            "event-293-spark-10-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-2",
+              "pulse": 311,
+              "eventId": "event-311-spark-2-route-pattern-spark-10-293-encounter"
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 329,
+              "eventId": "event-329-spark-3-route-pattern-spark-10-293-encounter"
+            },
+            {
+              "sparkId": "spark-9",
+              "pulse": 352,
+              "eventId": "event-352-spark-9-route-pattern-spark-10-293-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-2-311",
+          "public": true,
+          "creatorId": "spark-2",
+          "settlementId": "first-glow-region",
+          "createdPulse": 311,
+          "creationEventId": "event-311-spark-2-route-pattern-created",
+          "sourceEventIds": [
+            "event-118-spark-2-cache-survey",
+            "event-311-spark-2-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-3",
+              "pulse": 329,
+              "eventId": "event-329-spark-3-route-pattern-spark-2-311-encounter"
+            },
+            {
+              "sparkId": "spark-9",
+              "pulse": 352,
+              "eventId": "event-352-spark-9-route-pattern-spark-2-311-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-3-329",
+          "public": true,
+          "creatorId": "spark-3",
+          "settlementId": "first-glow-region",
+          "createdPulse": 329,
+          "creationEventId": "event-329-spark-3-route-pattern-created",
+          "sourceEventIds": [
+            "event-159-spark-3-cache-survey",
+            "event-329-spark-3-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-9",
+              "pulse": 352,
+              "eventId": "event-352-spark-9-route-pattern-spark-3-329-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-9-352",
+          "public": true,
+          "creatorId": "spark-9",
+          "settlementId": "first-glow-region",
+          "createdPulse": 352,
+          "creationEventId": "event-352-spark-9-route-pattern-created",
+          "sourceEventIds": [
+            "event-196-spark-9-cache-survey",
+            "event-352-spark-9-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ]
+    },
+    {
+      "label": "review",
+      "population": 1,
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "pulses": 360,
+      "stateSha256": "23f9562195b943fe4b7ed1fdc31427eceafd744255966f01a2a7c8f2d252ca57",
+      "patterns": 1,
+      "encounters": 0,
+      "uses": 0,
+      "sharingRefusals": 0,
+      "sharingEvents": 0,
+      "retries": 0,
+      "retryChoices": [],
+      "shardContactWaitEvents": 0,
+      "cacheChoices": [
+        {
+          "id": "spark-1",
+          "pulse": 46,
+          "probe": true
+        }
+      ],
+      "postGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-46-spark-1-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 46,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 9,
+          "actionEventIds": [
+            "event-67-spark-1-idle",
+            "event-81-spark-1-draw",
+            "event-82-spark-1-draw",
+            "event-83-spark-1-draw",
+            "event-84-spark-1-draw",
+            "event-97-spark-1-idle",
+            "event-98-spark-1-idle",
+            "event-99-spark-1-idle",
+            "event-100-spark-1-idle"
+          ],
+          "priorActionEventIds": [
+            "event-7-spark-1-draw",
+            "event-8-spark-1-draw",
+            "event-9-spark-1-draw",
+            "event-10-spark-1-draw",
+            "event-24-spark-1-idle",
+            "event-25-spark-1-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:9:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":68},0,[],528,\"rest\",14,\"shape-pattern\",70]",
+          "committedPulse": 101,
+          "departureEventId": "event-101-spark-1-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-119-spark-1-shape-pattern"
+        }
+      ],
+      "initialGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-6-spark-1-explore",
+          "createdPulse": 6,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-7-spark-1-draw",
+            "event-8-spark-1-draw",
+            "event-9-spark-1-draw",
+            "event-10-spark-1-draw",
+            "event-24-spark-1-idle",
+            "event-25-spark-1-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":25,\"deficit\":0,\"readiness\":89},0,[],104,\"rest\",5]",
+          "committedPulse": 26,
+          "departureEventId": "event-26-spark-1-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-46-spark-1-cache-survey"
+        }
+      ],
+      "patternGoals": [],
+      "drawEvents": 16,
+      "waitEvents": 0,
+      "queuedAtCutoff": 0,
+      "sourceCharge": 2032,
+      "strandedReservations": 0,
+      "duplicateContacts": 0,
+      "sqliteContinuationPulses": 5,
+      "patternsDetail": [
+        {
+          "id": "route-pattern-spark-1-119",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 119,
+          "creationEventId": "event-119-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-46-spark-1-cache-survey",
+            "event-119-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ]
+    },
+    {
+      "label": "review",
+      "population": 8,
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "pulses": 360,
+      "stateSha256": "3542e884bf892cc0a96a996741b3521ebcd82a62432f5626fe55729411551a13",
+      "patterns": 4,
+      "encounters": 6,
+      "uses": 0,
+      "sharingRefusals": 36,
+      "sharingEvents": 4,
+      "retries": 0,
+      "retryChoices": [],
+      "shardContactWaitEvents": 17,
+      "cacheChoices": [
+        {
+          "id": "spark-2",
+          "pulse": 59,
+          "probe": true
+        },
+        {
+          "id": "spark-4",
+          "pulse": 80,
+          "probe": true
+        },
+        {
+          "id": "spark-5",
+          "pulse": 101,
+          "probe": true
+        },
+        {
+          "id": "spark-3",
+          "pulse": 121,
+          "probe": true
+        }
+      ],
+      "postGoals": [
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-59-spark-2-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 59,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 13,
+          "actionEventIds": [
+            "event-80-spark-2-idle",
+            "event-95-spark-2-draw",
+            "event-96-spark-2-draw",
+            "event-97-spark-2-draw",
+            "event-98-spark-2-draw",
+            "event-115-spark-2-idle",
+            "event-116-spark-2-idle",
+            "event-117-spark-2-idle",
+            "event-118-spark-2-idle",
+            "event-119-spark-2-idle",
+            "event-133-spark-2-draw",
+            "event-134-spark-2-draw",
+            "event-135-spark-2-draw"
+          ],
+          "priorActionEventIds": [
+            "event-15-spark-2-draw",
+            "event-18-spark-2-draw",
+            "event-19-spark-2-draw",
+            "event-23-spark-2-draw",
+            "event-38-spark-2-idle",
+            "event-39-spark-2-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:13:completed",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":21,\"deficit\":0,\"readiness\":72},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],312,\"charge\",18,\"shape-pattern\",70]",
+          "committedPulse": 136,
+          "departureEventId": "event-136-spark-2-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-161-spark-2-shape-pattern"
+        },
+        {
+          "sparkId": "spark-4",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-80-spark-4-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 80,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 10,
+          "actionEventIds": [
+            "event-116-spark-4-draw",
+            "event-117-spark-4-draw",
+            "event-118-spark-4-draw",
+            "event-119-spark-4-draw",
+            "event-141-spark-4-idle",
+            "event-162-spark-4-idle",
+            "event-176-spark-4-idle",
+            "event-179-spark-4-idle",
+            "event-194-spark-4-idle",
+            "event-196-spark-4-idle"
+          ],
+          "priorActionEventIds": [
+            "event-18-spark-4-draw",
+            "event-22-spark-4-draw",
+            "event-23-spark-4-draw",
+            "event-26-spark-4-draw",
+            "event-45-spark-4-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:10:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":82},0,[{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],488,\"rest\",14,\"shape-pattern\",90]",
+          "committedPulse": 197,
+          "departureEventId": "event-197-spark-4-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-215-spark-4-shape-pattern"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-101-spark-5-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 101,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 11,
+          "actionEventIds": [
+            "event-145-spark-5-draw",
+            "event-146-spark-5-draw",
+            "event-147-spark-5-draw",
+            "event-148-spark-5-draw",
+            "event-197-spark-5-draw",
+            "event-198-spark-5-draw",
+            "event-199-spark-5-draw",
+            "event-200-spark-5-draw",
+            "event-226-spark-5-idle",
+            "event-240-spark-5-idle",
+            "event-241-spark-5-idle"
+          ],
+          "priorActionEventIds": [
+            "event-34-spark-5-draw",
+            "event-35-spark-5-draw",
+            "event-36-spark-5-draw",
+            "event-37-spark-5-draw",
+            "event-51-spark-5-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:11:completed:care:event-241-spark-5-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-241-spark-5-idle",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":81},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-105\",\"slotId\":\"mark\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"}],624,\"rest\",15,\"shape-pattern\",90]",
+          "committedPulse": 242,
+          "departureEventId": "event-242-spark-5-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-260-spark-5-shape-pattern"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-121-spark-3-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 121,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 10,
+          "actionEventIds": [
+            "event-157-spark-3-draw",
+            "event-158-spark-3-draw",
+            "event-159-spark-3-draw",
+            "event-160-spark-3-draw",
+            "event-175-spark-3-idle",
+            "event-178-spark-3-idle",
+            "event-193-spark-3-idle",
+            "event-195-spark-3-idle",
+            "event-197-spark-3-idle",
+            "event-198-spark-3-idle"
+          ],
+          "priorActionEventIds": [
+            "event-34-spark-3-draw",
+            "event-35-spark-3-draw",
+            "event-38-spark-3-draw",
+            "event-39-spark-3-draw",
+            "event-40-spark-3-draw",
+            "event-74-spark-3-idle",
+            "event-81-spark-3-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:10:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":88},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"}],480,\"rest\",16,\"shape-pattern\",90]",
+          "committedPulse": 216,
+          "departureEventId": "event-216-spark-3-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-234-spark-3-shape-pattern"
+        }
+      ],
+      "initialGoals": [
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-5-spark-2-explore",
+          "createdPulse": 5,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-15-spark-2-draw",
+            "event-18-spark-2-draw",
+            "event-19-spark-2-draw",
+            "event-23-spark-2-draw",
+            "event-38-spark-2-idle",
+            "event-39-spark-2-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":24,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"}],16,\"rest\",5]",
+          "committedPulse": 40,
+          "departureEventId": "event-40-spark-2-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-59-spark-2-cache-survey"
+        },
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-6-spark-1-explore",
+          "createdPulse": 6,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 19,
+          "actionEventIds": [
+            "event-12-spark-1-draw",
+            "event-13-spark-1-draw",
+            "event-14-spark-1-draw",
+            "event-16-spark-1-draw",
+            "event-31-spark-1-idle",
+            "event-73-spark-1-draw",
+            "event-114-spark-1-draw",
+            "event-155-spark-1-draw",
+            "event-156-spark-1-draw",
+            "event-193-spark-1-draw",
+            "event-195-spark-1-draw",
+            "event-225-spark-1-draw",
+            "event-226-spark-1-draw",
+            "event-256-spark-1-draw",
+            "event-262-spark-1-draw",
+            "event-300-spark-1-draw",
+            "event-307-spark-1-draw",
+            "event-341-spark-1-draw",
+            "event-342-spark-1-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:19",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":2,\"deficit\":0,\"readiness\":84},0,[{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],936,\"rest\",19]"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-5-spark-3-explore",
+          "createdPulse": 8,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 7,
+          "actionEventIds": [
+            "event-34-spark-3-draw",
+            "event-35-spark-3-draw",
+            "event-38-spark-3-draw",
+            "event-39-spark-3-draw",
+            "event-40-spark-3-draw",
+            "event-74-spark-3-idle",
+            "event-81-spark-3-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:7",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":26,\"deficit\":0,\"readiness\":90},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],168,\"rest\",6]",
+          "committedPulse": 102,
+          "departureEventId": "event-102-spark-3-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-121-spark-3-cache-survey"
+        },
+        {
+          "sparkId": "spark-4",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-11-spark-4-explore",
+          "createdPulse": 11,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 5,
+          "actionEventIds": [
+            "event-18-spark-4-draw",
+            "event-22-spark-4-draw",
+            "event-23-spark-4-draw",
+            "event-26-spark-4-draw",
+            "event-45-spark-4-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:5",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":39,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],24,\"rest\",4]",
+          "committedPulse": 60,
+          "departureEventId": "event-60-spark-4-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-80-spark-4-cache-survey"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-12-spark-5-explore",
+          "createdPulse": 12,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 5,
+          "actionEventIds": [
+            "event-34-spark-5-draw",
+            "event-35-spark-5-draw",
+            "event-36-spark-5-draw",
+            "event-37-spark-5-draw",
+            "event-51-spark-5-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:5",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":39,\"deficit\":0,\"readiness\":90},0,[{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],24,\"rest\",4]",
+          "committedPulse": 81,
+          "departureEventId": "event-81-spark-5-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-101-spark-5-cache-survey"
+        },
+        {
+          "sparkId": "spark-6",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-37-spark-6-explore",
+          "createdPulse": 37,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 14,
+          "actionEventIds": [
+            "event-94-spark-6-draw",
+            "event-128-spark-6-draw",
+            "event-165-spark-6-draw",
+            "event-166-spark-6-draw",
+            "event-205-spark-6-draw",
+            "event-206-spark-6-draw",
+            "event-238-spark-6-draw",
+            "event-239-spark-6-draw",
+            "event-271-spark-6-draw",
+            "event-272-spark-6-draw",
+            "event-313-spark-6-draw",
+            "event-314-spark-6-draw",
+            "event-349-spark-6-draw",
+            "event-350-spark-6-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:14",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":16,\"deficit\":0,\"readiness\":79},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],896,\"rest\",14]"
+        },
+        {
+          "sparkId": "spark-7",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-72-spark-7-explore",
+          "createdPulse": 125,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 14,
+          "actionEventIds": [
+            "event-126-spark-7-draw",
+            "event-127-spark-7-draw",
+            "event-162-spark-7-draw",
+            "event-191-spark-7-draw",
+            "event-194-spark-7-draw",
+            "event-196-spark-7-draw",
+            "event-231-spark-7-draw",
+            "event-261-spark-7-draw",
+            "event-265-spark-7-draw",
+            "event-268-spark-7-draw",
+            "event-309-spark-7-draw",
+            "event-339-spark-7-draw",
+            "event-340-spark-7-draw",
+            "event-341-spark-7-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:14",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":8,\"deficit\":0,\"readiness\":67},0,[{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],936,\"rest\",14]"
+        },
+        {
+          "sparkId": "spark-8",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-50-spark-8-explore",
+          "createdPulse": 134,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 13,
+          "actionEventIds": [
+            "event-174-spark-8-draw",
+            "event-175-spark-8-draw",
+            "event-176-spark-8-draw",
+            "event-177-spark-8-draw",
+            "event-213-spark-8-draw",
+            "event-242-spark-8-draw",
+            "event-243-spark-8-draw",
+            "event-244-spark-8-draw",
+            "event-280-spark-8-draw",
+            "event-314-spark-8-draw",
+            "event-315-spark-8-draw",
+            "event-316-spark-8-draw",
+            "event-355-spark-8-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:13",
+          "signature": "[{\"x\":4,\"y\":5},{\"charge\":8,\"deficit\":0,\"readiness\":80},0,[{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],912,\"rest\",13]"
+        }
+      ],
+      "patternGoals": [],
+      "drawEvents": 155,
+      "waitEvents": 386,
+      "queuedAtCutoff": 3,
+      "sourceCharge": 928,
+      "strandedReservations": 0,
+      "duplicateContacts": 0,
+      "sqliteContinuationPulses": 5,
+      "patternsDetail": [
+        {
+          "id": "route-pattern-spark-2-161",
+          "public": true,
+          "creatorId": "spark-2",
+          "settlementId": "first-glow-region",
+          "createdPulse": 161,
+          "creationEventId": "event-161-spark-2-route-pattern-created",
+          "sourceEventIds": [
+            "event-59-spark-2-cache-survey",
+            "event-161-spark-2-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-4",
+              "pulse": 215,
+              "eventId": "event-215-spark-4-route-pattern-spark-2-161-encounter",
+              "decline": {
+                "pulse": 216,
+                "eventId": "event-216-spark-4-route-pattern-spark-2-161-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 234,
+              "eventId": "event-234-spark-3-route-pattern-spark-2-161-encounter",
+              "decline": {
+                "pulse": 235,
+                "eventId": "event-235-spark-3-route-pattern-spark-2-161-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 260,
+              "eventId": "event-260-spark-5-route-pattern-spark-2-161-encounter",
+              "decline": {
+                "pulse": 261,
+                "eventId": "event-261-spark-5-route-pattern-spark-2-161-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-4-215",
+          "public": true,
+          "creatorId": "spark-4",
+          "settlementId": "first-glow-region",
+          "createdPulse": 215,
+          "creationEventId": "event-215-spark-4-route-pattern-created",
+          "sourceEventIds": [
+            "event-80-spark-4-cache-survey",
+            "event-215-spark-4-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-3",
+              "pulse": 234,
+              "eventId": "event-234-spark-3-route-pattern-spark-4-215-encounter"
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 260,
+              "eventId": "event-260-spark-5-route-pattern-spark-4-215-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-3-234",
+          "public": true,
+          "creatorId": "spark-3",
+          "settlementId": "first-glow-region",
+          "createdPulse": 234,
+          "creationEventId": "event-234-spark-3-route-pattern-created",
+          "sourceEventIds": [
+            "event-121-spark-3-cache-survey",
+            "event-234-spark-3-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-5",
+              "pulse": 260,
+              "eventId": "event-260-spark-5-route-pattern-spark-3-234-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-5-260",
+          "public": true,
+          "creatorId": "spark-5",
+          "settlementId": "first-glow-region",
+          "createdPulse": 260,
+          "creationEventId": "event-260-spark-5-route-pattern-created",
+          "sourceEventIds": [
+            "event-101-spark-5-cache-survey",
+            "event-260-spark-5-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ]
+    },
+    {
+      "label": "review",
+      "population": 12,
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "pulses": 360,
+      "stateSha256": "7412830f2560632d6d99d72cb5990e835402d89667795ac25db6f1117fb716cf",
+      "patterns": 2,
+      "encounters": 1,
+      "uses": 0,
+      "sharingRefusals": 123,
+      "sharingEvents": 10,
+      "retries": 0,
+      "retryChoices": [],
+      "shardContactWaitEvents": 0,
+      "cacheChoices": [
+        {
+          "id": "spark-1",
+          "pulse": 101,
+          "probe": true
+        },
+        {
+          "id": "spark-2",
+          "pulse": 121,
+          "probe": true
+        },
+        {
+          "id": "spark-10",
+          "pulse": 143,
+          "probe": true
+        },
+        {
+          "id": "spark-5",
+          "pulse": 164,
+          "probe": true
+        },
+        {
+          "id": "spark-9",
+          "pulse": 237,
+          "probe": true
+        }
+      ],
+      "postGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-101-spark-1-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 101,
+          "phase": "committed",
+          "reason": "funded surveyed-shard departure committed",
+          "actions": 13,
+          "actionEventIds": [
+            "event-137-spark-1-draw",
+            "event-153-spark-1-draw",
+            "event-209-spark-1-draw",
+            "event-211-spark-1-draw",
+            "event-273-spark-1-draw",
+            "event-276-spark-1-draw",
+            "event-290-spark-1-draw",
+            "event-297-spark-1-draw",
+            "event-302-spark-1-draw",
+            "event-319-spark-1-idle",
+            "event-335-spark-1-idle",
+            "event-345-spark-1-idle",
+            "event-356-spark-1-idle"
+          ],
+          "priorActionEventIds": [
+            "event-35-spark-1-draw",
+            "event-42-spark-1-draw",
+            "event-45-spark-1-draw",
+            "event-47-spark-1-draw",
+            "event-50-spark-1-draw",
+            "event-54-spark-1-draw",
+            "event-71-spark-1-idle",
+            "event-81-spark-1-idle"
+          ],
+          "lastRecord": "committed:funded surveyed-shard departure committed:13:pending:care:event-356-spark-1-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-356-spark-1-idle",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":23,\"deficit\":0,\"readiness\":85},0,[{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"}],760,\"rest\",20,\"shape-pattern\",90]",
+          "committedPulse": 357,
+          "departureEventId": "event-357-spark-1-post-probe-departure"
+        },
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-121-spark-2-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 121,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 9,
+          "actionEventIds": [
+            "event-169-spark-2-draw",
+            "event-170-spark-2-draw",
+            "event-171-spark-2-draw",
+            "event-172-spark-2-draw",
+            "event-173-spark-2-draw",
+            "event-196-spark-2-idle",
+            "event-199-spark-2-idle",
+            "event-203-spark-2-idle",
+            "event-210-spark-2-idle"
+          ],
+          "priorActionEventIds": [
+            "event-36-spark-2-draw",
+            "event-42-spark-2-draw",
+            "event-45-spark-2-draw",
+            "event-47-spark-2-draw",
+            "event-54-spark-2-draw",
+            "event-58-spark-2-draw",
+            "event-62-spark-2-draw",
+            "event-66-spark-2-draw",
+            "event-67-spark-2-draw",
+            "event-87-spark-2-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:9:completed:care:event-210-spark-2-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-210-spark-2-idle",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":23,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"}],448,\"rest\",18,\"shape-pattern\",90]",
+          "committedPulse": 211,
+          "departureEventId": "event-211-spark-2-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-229-spark-2-shape-pattern"
+        },
+        {
+          "sparkId": "spark-10",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-143-spark-10-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 143,
+          "phase": "committed",
+          "reason": "validated surveyed-shard activity completed; artifact creation retains its own gates",
+          "actions": 10,
+          "actionEventIds": [
+            "event-178-spark-10-draw",
+            "event-179-spark-10-draw",
+            "event-180-spark-10-draw",
+            "event-181-spark-10-draw",
+            "event-212-spark-10-idle",
+            "event-226-spark-10-idle",
+            "event-227-spark-10-idle",
+            "event-242-spark-10-idle",
+            "event-262-spark-10-idle",
+            "event-279-spark-10-idle"
+          ],
+          "priorActionEventIds": [
+            "event-46-spark-10-draw",
+            "event-47-spark-10-draw",
+            "event-50-spark-10-draw",
+            "event-54-spark-10-draw",
+            "event-73-spark-10-idle",
+            "event-102-spark-10-idle"
+          ],
+          "lastRecord": "committed:validated surveyed-shard activity completed; artifact creation retains its own gates:10:completed",
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":19,\"deficit\":0,\"readiness\":87},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],624,\"rest\",15,\"shape-pattern\",90]",
+          "committedPulse": 280,
+          "departureEventId": "event-280-spark-10-post-probe-departure",
+          "outcome": "completed",
+          "completionEventId": "event-298-spark-10-shape-pattern"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-164-spark-5-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 164,
+          "phase": "rest",
+          "reason": "waiting for recovery contact access; future recovery access is conditional",
+          "actions": 12,
+          "actionEventIds": [
+            "event-210-spark-5-draw",
+            "event-212-spark-5-draw",
+            "event-223-spark-5-draw",
+            "event-226-spark-5-draw",
+            "event-291-spark-5-draw",
+            "event-298-spark-5-draw",
+            "event-307-spark-5-draw",
+            "event-309-spark-5-draw",
+            "event-310-spark-5-draw",
+            "event-339-spark-5-idle",
+            "event-347-spark-5-idle",
+            "event-358-spark-5-idle"
+          ],
+          "priorActionEventIds": [
+            "event-40-spark-5-draw",
+            "event-44-spark-5-draw",
+            "event-58-spark-5-draw",
+            "event-62-spark-5-draw",
+            "event-85-spark-5-idle"
+          ],
+          "lastRecord": "rest:waiting for recovery contact access; future recovery access is conditional:12:pending:care:event-358-spark-5-idle",
+          "careFallbackUsed": true,
+          "careRestEventId": "event-358-spark-5-idle",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":24,\"deficit\":0,\"readiness\":84},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],784,\"rest\",17,\"shape-pattern\",90]"
+        },
+        {
+          "sparkId": "spark-9",
+          "settlementId": "first-glow-region",
+          "surveyEventId": "event-237-spark-9-cache-survey",
+          "cacheObjectId": "tiled-106",
+          "shardObjectId": "tiled-104",
+          "navigationRevision": 0,
+          "createdPulse": 237,
+          "phase": "deferred",
+          "reason": "no currently feasible funded shard itinerary or contact",
+          "actions": 4,
+          "actionEventIds": [
+            "event-288-spark-9-draw",
+            "event-296-spark-9-draw",
+            "event-301-spark-9-draw",
+            "event-307-spark-9-draw"
+          ],
+          "priorActionEventIds": [
+            "event-190-spark-9-idle",
+            "event-198-spark-9-idle",
+            "event-202-spark-9-idle",
+            "event-209-spark-9-idle",
+            "event-212-spark-9-idle",
+            "event-214-spark-9-idle",
+            "event-216-spark-9-idle"
+          ],
+          "lastRecord": "deferred:no currently feasible funded shard itinerary or contact:4:pending",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":11,\"deficit\":0,\"readiness\":73},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"}],784,\"charge\",11,\"shape-pattern\",90,\"charge-then-rest\"]"
+        }
+      ],
+      "initialGoals": [
+        {
+          "sparkId": "spark-1",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-6-spark-1-explore",
+          "createdPulse": 6,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 8,
+          "actionEventIds": [
+            "event-35-spark-1-draw",
+            "event-42-spark-1-draw",
+            "event-45-spark-1-draw",
+            "event-47-spark-1-draw",
+            "event-50-spark-1-draw",
+            "event-54-spark-1-draw",
+            "event-71-spark-1-idle",
+            "event-81-spark-1-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:8",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":41,\"deficit\":0,\"readiness\":86},0,[{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"}],48,\"rest\",7]",
+          "committedPulse": 82,
+          "departureEventId": "event-82-spark-1-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-101-spark-1-cache-survey"
+        },
+        {
+          "sparkId": "spark-2",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-9-spark-2-explore",
+          "createdPulse": 9,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 10,
+          "actionEventIds": [
+            "event-36-spark-2-draw",
+            "event-42-spark-2-draw",
+            "event-45-spark-2-draw",
+            "event-47-spark-2-draw",
+            "event-54-spark-2-draw",
+            "event-58-spark-2-draw",
+            "event-62-spark-2-draw",
+            "event-66-spark-2-draw",
+            "event-67-spark-2-draw",
+            "event-87-spark-2-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:10",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":69,\"deficit\":0,\"readiness\":91},0,[{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],32,\"rest\",9]",
+          "committedPulse": 102,
+          "departureEventId": "event-102-spark-2-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-121-spark-2-cache-survey"
+        },
+        {
+          "sparkId": "spark-3",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-14-spark-3-explore",
+          "createdPulse": 14,
+          "navigationRevision": 0,
+          "phase": "charge",
+          "reason": "prepare charge for the first cache expedition",
+          "actions": 14,
+          "actionEventIds": [
+            "event-37-spark-3-draw",
+            "event-42-spark-3-draw",
+            "event-46-spark-3-draw",
+            "event-54-spark-3-draw",
+            "event-66-spark-3-draw",
+            "event-86-spark-3-idle",
+            "event-136-spark-3-draw",
+            "event-178-spark-3-draw",
+            "event-179-spark-3-draw",
+            "event-221-spark-3-draw",
+            "event-259-spark-3-draw",
+            "event-260-spark-3-draw",
+            "event-306-spark-3-draw",
+            "event-308-spark-3-draw"
+          ],
+          "lastRecord": "charge:prepare charge for the first cache expedition:14",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":0,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"}],736,\"charge\",14]"
+        },
+        {
+          "sparkId": "spark-4",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-20-spark-4-explore",
+          "createdPulse": 20,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 12,
+          "actionEventIds": [
+            "event-39-spark-4-draw",
+            "event-44-spark-4-draw",
+            "event-58-spark-4-draw",
+            "event-115-spark-4-draw",
+            "event-226-spark-4-draw",
+            "event-255-spark-4-draw",
+            "event-256-spark-4-draw",
+            "event-257-spark-4-draw",
+            "event-306-spark-4-draw",
+            "event-344-spark-4-draw",
+            "event-345-spark-4-draw",
+            "event-346-spark-4-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:12",
+          "signature": "[{\"x\":4,\"y\":5},{\"charge\":24,\"deficit\":0,\"readiness\":57},0,[{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],736,\"rest\",12]"
+        },
+        {
+          "sparkId": "spark-5",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-27-spark-5-explore",
+          "createdPulse": 27,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 5,
+          "actionEventIds": [
+            "event-40-spark-5-draw",
+            "event-44-spark-5-draw",
+            "event-58-spark-5-draw",
+            "event-62-spark-5-draw",
+            "event-85-spark-5-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:5",
+          "signature": "[{\"x\":4,\"y\":5},{\"charge\":39,\"deficit\":0,\"readiness\":89},0,[{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],8,\"rest\",4]",
+          "committedPulse": 144,
+          "departureEventId": "event-144-spark-5-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-164-spark-5-cache-survey"
+        },
+        {
+          "sparkId": "spark-10",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-44-spark-10-explore",
+          "createdPulse": 44,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 6,
+          "actionEventIds": [
+            "event-46-spark-10-draw",
+            "event-47-spark-10-draw",
+            "event-50-spark-10-draw",
+            "event-54-spark-10-draw",
+            "event-73-spark-10-idle",
+            "event-102-spark-10-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:6",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":29,\"deficit\":0,\"readiness\":91},0,[{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"}],152,\"rest\",5]",
+          "committedPulse": 122,
+          "departureEventId": "event-122-spark-10-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-143-spark-10-cache-survey"
+        },
+        {
+          "sparkId": "spark-11",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-73-spark-11-explore",
+          "createdPulse": 73,
+          "navigationRevision": 0,
+          "phase": "charge",
+          "reason": "prepare charge for the first cache expedition",
+          "actions": 6,
+          "actionEventIds": [
+            "event-114-spark-11-draw",
+            "event-224-spark-11-draw",
+            "event-274-spark-11-draw",
+            "event-277-spark-11-draw",
+            "event-312-spark-11-draw",
+            "event-313-spark-11-draw"
+          ],
+          "lastRecord": "charge:prepare charge for the first cache expedition:6",
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":1,\"deficit\":0,\"readiness\":98},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-5\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],784,\"charge\",6]"
+        },
+        {
+          "sparkId": "spark-6",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-106-spark-6-explore",
+          "createdPulse": 143,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 7,
+          "actionEventIds": [
+            "event-183-spark-6-draw",
+            "event-184-spark-6-draw",
+            "event-240-spark-6-draw",
+            "event-293-spark-6-draw",
+            "event-298-spark-6-draw",
+            "event-348-spark-6-draw",
+            "event-349-spark-6-draw"
+          ],
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:7",
+          "signature": "[{\"x\":5,\"y\":5},{\"charge\":16,\"deficit\":0,\"readiness\":65},0,[{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],736,\"rest\",7]"
+        },
+        {
+          "sparkId": "spark-8",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-108-spark-8-explore",
+          "createdPulse": 143,
+          "navigationRevision": 0,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 8,
+          "actionEventIds": [
+            "event-195-spark-8-draw",
+            "event-196-spark-8-draw",
+            "event-251-spark-8-draw",
+            "event-252-spark-8-draw",
+            "event-296-spark-8-draw",
+            "event-300-spark-8-draw",
+            "event-330-spark-8-draw",
+            "event-331-spark-8-draw"
+          ],
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:8",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":1,\"deficit\":0,\"readiness\":59},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"}],784,\"rest\",8]"
+        },
+        {
+          "sparkId": "spark-9",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-105-spark-9-explore",
+          "createdPulse": 164,
+          "navigationRevision": 0,
+          "phase": "committed",
+          "reason": "first cache expedition probe; no further initial attempt authorized",
+          "actions": 7,
+          "actionEventIds": [
+            "event-190-spark-9-idle",
+            "event-198-spark-9-idle",
+            "event-202-spark-9-idle",
+            "event-209-spark-9-idle",
+            "event-212-spark-9-idle",
+            "event-214-spark-9-idle",
+            "event-216-spark-9-idle"
+          ],
+          "lastRecord": "committed:first cache expedition probe; no further initial attempt authorized:7",
+          "signature": "[{\"x\":26,\"y\":6},{\"charge\":28,\"deficit\":0,\"readiness\":86},0,[{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-2\",\"objectId\":\"tiled-104\",\"slotId\":\"examine\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-1\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-7\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"}],432,\"rest\",6]",
+          "committedPulse": 217,
+          "departureEventId": "event-217-spark-9-initial-cache-departure",
+          "outcome": "probe",
+          "outcomeEventId": "event-237-spark-9-cache-survey"
+        },
+        {
+          "sparkId": "spark-12",
+          "settlementId": "first-glow-region",
+          "targetObjectId": "tiled-106",
+          "explorationEventId": "event-103-spark-12-explore",
+          "createdPulse": 175,
+          "navigationRevision": 0,
+          "phase": "charge",
+          "reason": "prepare charge for the first cache expedition",
+          "actions": 4,
+          "actionEventIds": [
+            "event-227-spark-12-draw",
+            "event-269-spark-12-draw",
+            "event-276-spark-12-draw",
+            "event-291-spark-12-draw"
+          ],
+          "lastRecord": "charge:prepare charge for the first cache expedition:4",
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":6,\"deficit\":0,\"readiness\":90},0,[{\"actorId\":\"spark-10\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-9\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-6\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-east\"}],736,\"charge\",4]"
+        }
+      ],
+      "patternGoals": [],
+      "drawEvents": 178,
+      "waitEvents": 1719,
+      "queuedAtCutoff": 3,
+      "sourceCharge": 784,
+      "strandedReservations": 0,
+      "duplicateContacts": 0,
+      "sqliteContinuationPulses": 5,
+      "patternsDetail": [
+        {
+          "id": "route-pattern-spark-2-229",
+          "public": true,
+          "creatorId": "spark-2",
+          "settlementId": "first-glow-region",
+          "createdPulse": 229,
+          "creationEventId": "event-229-spark-2-route-pattern-created",
+          "sourceEventIds": [
+            "event-121-spark-2-cache-survey",
+            "event-229-spark-2-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-10",
+              "pulse": 298,
+              "eventId": "event-298-spark-10-route-pattern-spark-2-229-encounter",
+              "decline": {
+                "pulse": 299,
+                "eventId": "event-299-spark-10-route-pattern-spark-2-229-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-10-298",
+          "public": true,
+          "creatorId": "spark-10",
+          "settlementId": "first-glow-region",
+          "createdPulse": 298,
+          "creationEventId": "event-298-spark-10-route-pattern-created",
+          "sourceEventIds": [
+            "event-143-spark-10-cache-survey",
+            "event-298-spark-10-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "priorRawDirectory": ".tmp/route-patterns-bounded-sharing-ordinary-QeChV6",
+    "allSixCutoffResourcesPositionsPlansAndReservationsUnchanged": true,
+    "surveyedBeforeEveryEncounter": true,
+    "encounters": [
+      {
+        "history": "current-8.json",
+        "reader": "spark-2",
+        "encounter": 176,
+        "survey": 59
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-4",
+        "encounter": 194,
+        "survey": 101
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-3",
+        "encounter": 229,
+        "survey": 121
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-5",
+        "encounter": 247,
+        "survey": 143
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-4",
+        "encounter": 194,
+        "survey": 101
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-3",
+        "encounter": 229,
+        "survey": 121
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-5",
+        "encounter": 247,
+        "survey": 143
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-3",
+        "encounter": 229,
+        "survey": 121
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-5",
+        "encounter": 247,
+        "survey": 143
+      },
+      {
+        "history": "current-8.json",
+        "reader": "spark-5",
+        "encounter": 247,
+        "survey": 143
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-10",
+        "encounter": 293,
+        "survey": 138
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-2",
+        "encounter": 311,
+        "survey": 118
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-3",
+        "encounter": 329,
+        "survey": 159
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-9",
+        "encounter": 352,
+        "survey": 196
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-2",
+        "encounter": 311,
+        "survey": 118
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-3",
+        "encounter": 329,
+        "survey": 159
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-9",
+        "encounter": 352,
+        "survey": 196
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-3",
+        "encounter": 329,
+        "survey": 159
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-9",
+        "encounter": 352,
+        "survey": 196
+      },
+      {
+        "history": "current-12.json",
+        "reader": "spark-9",
+        "encounter": 352,
+        "survey": 196
+      },
+      {
+        "history": "review-8.json",
+        "reader": "spark-4",
+        "encounter": 215,
+        "survey": 80
+      },
+      {
+        "history": "review-8.json",
+        "reader": "spark-3",
+        "encounter": 234,
+        "survey": 121
+      },
+      {
+        "history": "review-8.json",
+        "reader": "spark-5",
+        "encounter": 260,
+        "survey": 101
+      },
+      {
+        "history": "review-8.json",
+        "reader": "spark-3",
+        "encounter": 234,
+        "survey": 121
+      },
+      {
+        "history": "review-8.json",
+        "reader": "spark-5",
+        "encounter": 260,
+        "survey": 101
+      },
+      {
+        "history": "review-8.json",
+        "reader": "spark-5",
+        "encounter": 260,
+        "survey": 101
+      },
+      {
+        "history": "review-12.json",
+        "reader": "spark-10",
+        "encounter": 298,
+        "survey": 143
+      }
+    ],
+    "allSixSurveyGoalTimingsAndActionCountsUnchanged": true
+  }
+}

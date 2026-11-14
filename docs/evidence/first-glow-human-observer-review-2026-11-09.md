@@ -82,3 +82,65 @@ The interest assessment is now recorded, replacing the earlier pending assessmen
 This is a bounded human finding about the reviewed recordings and presentation. It does not establish a universal engagement result, identify a proven simulation root cause, or measure real-model benefit. No additional AI calls, simulation advancement or world-history changes were made. Baseline hashes remained unchanged at recording.
 
 S001's selected review activities are documented, including the previously outstanding interest judgment. Keep S001 open with the engagement gap explicit; do not continue to describe that judgment as unassessed or silently mark the experience accepted. New gameplay implementation, issue creation, publication and rollout require their own selected scope.
+
+## Fresh Wild Cache probe review after PR #330
+
+Source: merged main `08fc5304f104dd9ca2b603f455bfaa0f5a138305`, using the explicit `choice-before-probe-v1` rule. Two newly recorded, isolated 80-pulse histories use controlled pulse-zero cache contact: Spark 1 starts with five charge and either 90 readiness (probe) or 70 readiness (conserve). These are controlled mechanic examples, not evidence of outcome diversity in ordinary spawn runs. The server remains paused with AI disabled.
+
+The owner found the tradeoff clearer but wanted to see what probing leads to. The pulse-1 survey evidence established one charge and two readiness spent and a surveyed route to Pattern Shard `tiled-104`. The owner distinguished that immediate result from the later outcome. At recorded pulse 9, Spark 1 is at the surveyed shard's contact cell (22, 23), and `event-9-spark-1-shape-pattern` records “Spark 1 completed shape pattern.” Its checkpoint has zero charge, charge deficit four and readiness 80.
+
+Latest owner finding: “It confirms Spark 1 completed the pattern, but its lasting value is still unclear.”
+
+Finding: the guided review supports clearer tradeoffs and a traceable immediate survey → follow-up goal → recorded completion sequence in this controlled history. The available event does not describe the pattern or establish lasting value. This is not evidence of sustained interest, natural outcome diversity, useful persistent artifacts or real-model benefit. S001 remains open; conserving-history human review is next and has no acceptance finding yet.
+
+The fresh-history checkpoint/event/interpretation/timeline/active-metadata hashes remain unchanged while viewing. Earlier S001 recordings are preserved; no new pulses, AI calls, commit, push or deployment are included in this review. Private setup, verbatim responses and screenshots are under `.tmp/s001-cache-review-2026-11-09-yO1geI/`, including `probe-survey-human-review.json`, `probe-pattern-checkpoint-review.json` and `probe-pattern-pulse-9.png`.
+
+Conserving review follow-up: at pulse 2 the owner confirmed, “Yes, it shows Spark 1 avoided the probe cost but learned no route fact.” Following `event-1-spark-1-cache-conserved` opened pulse 1 on `controlled-conserve`, preserving Spark 1/Follow. The recorded outcome and checkpoint show no probe charge/readiness cost, no route fact, five charge and 70 readiness. Shelter arrival and recovery have not yet been reviewed. This supports guided comprehension of the immediate tradeoff, not sustained-interest acceptance. No AI calls or world-history changes.
+
+
+## Fresh Wild Cache conserving recovery finding — 2026-11-09
+
+The owner followed the conserving outcome from pulse 1 through the recorded shelter checkpoint at pulse 22 on `controlled-conserve`, with Spark 1/Follow preserved. At shelter contact (27, 5), `event-22-spark-1-idle` records ten readiness recovered. Arrival also incurs one movement-strain readiness, so the checkpoint rises from 50 readiness at pulse 21 to 59 at pulse 22. It still has zero charge and charge deficit 16. Readiness recovery is distinct from satisfying charge need.
+
+Owner finding: “It confirms shelter recovery while leaving Spark 1’s charge need unresolved.”
+
+This completes the selected guided comprehension walkthrough of both controlled paths: probing reaches recorded pattern completion with lasting value unresolved; conserving reaches recorded shelter recovery with charge need unresolved. Different initial readiness and different destinations/times do not establish that either policy is better. Sustained interest, ordinary-play diversity and lasting useful consequences remain unproven; S001 stays open.
+
+Return to the live observer restored Spark 1/Follow on the original active `main` review timeline at paused pulse 80. The archived conserving world was not made active or resumed. Baseline checkpoint/event/interpretation/timeline/active-metadata hashes remain unchanged, with AI disabled and zero additional calls. Screenshots and exact findings are retained in the private review directory, including `conserve-shelter-pulse-22.png` and `returned-live-after-conserve.png`. These documentation edits are local and unpublished.
+
+
+## Fresh Wild Cache interest finding and next improvement — 2026-11-09
+
+After reviewing both controlled fresh histories and their later checkpoints, the owner stated: “The choices are clearer, but I still need lasting consequences to keep following a Spark.”
+
+This is the latest explicit S001 interest assessment. Guided comprehension improved: the reviewer distinguished the probe cost and route discovery, later pattern completion, conservation's avoided cost and absent discovery, and shelter readiness recovery without confusing it with charge replenishment. These clearer choices and immediate outcomes still do not provide enough lasting consequence for this reviewer to want to keep following a Spark. The remaining acceptance gap is lasting consequence, not a missing interest response. S001 stays open.
+
+Code inspection at merged `08fc5304f104dd9ca2b603f455bfaa0f5a138305` finds that the `shape-pattern` completion path in `packages/engine/src/first-glow-actions.ts` records a completion event, an arrival ledger entry and learned evidence. The Wild Cache choice separately stores a surveyed route and follow-up goal. Neither inspected path creates a distinct reusable pattern artifact with a later use record. This is a concrete implementation gap relevant to the feedback, not proof of a universal cause of engagement.
+
+**Recommended next improvement (proposal only): make a completed pattern persist and matter once later.** A bounded first version could leave an identifiable route pattern with creator, location and creation evidence. A Spark must encounter it before learning its route fact; a later decision can use that fact, with evidence linking creation → encounter → actual use and its resulting activity/resource changes. Ownership or public availability must be explicit, with no automatic knowledge broadcast or inferred social benefit. Record non-use and unhelpful outcomes too; do not award free charge or claim shorter/safer travel without measured rules and evidence.
+
+Use fresh, explicitly versioned offline histories to demonstrate a useful encounter/use and a non-use comparison, deterministic checkpoint restart, private knowledge boundaries and provider-free Chronicle evidence. Existing recordings stay unchanged. A later guided human review must judge whether this makes the consequence worth following; artifact creation alone does not pass S001. This recommendation does not authorize implementation, new issues, paid calls or rollout.
+
+The observer remains at the previously verified paused live pulse 80 with Spark 1/Follow. This step records the finding and proposal only: no new simulation pulses, provider calls, recording changes, commit, push or deployment.
+
+
+## Persistent route pattern human review - 2026-11-10
+
+The owner completed a guided desktop walkthrough of the controlled positive history, with Spark 2/Follow retained: public creation at pulse 9, physical encounter and route learning at pulse 10, route-guided cache choice at pulse 11, and actual cache arrival/probe at pulse 18. The selected event links opened their exact recorded checkpoints on main. Arrival records 13 charge, zero charge deficit and 80 readiness; the review does not infer travel savings, social benefit or private motives.
+
+Owner finding: "This feels more meaningful—the pattern actually changes another Spark's journey."
+
+This supports increased perceived meaning from a traceable consequence for another Spark in this controlled example. It does not establish sustained interest, ordinary-play frequency/diversity, net benefit or model quality. S001 remains open. The decline case is next; no decline-case human finding has been recorded yet.
+
+Review used a separate copied observer database with the scheduler paused and AI disabled. No simulation advance or provider call was requested; no commit, push or deployment is included. Technical setup and scope: [route-pattern evidence](first-glow-route-patterns-2026-11-10.md).
+
+
+## Route-pattern decline human finding - 2026-11-10
+
+Owner finding: "Yes, that’s clear—the route remains known, but charge takes priority." The owner reviewed the exact pulse-11 decline event on archived need-decline with Spark 2/Follow retained. It records seek-charge while retaining the learned route fact; checkpoint resources are zero charge and 11 charge deficit. This supports comprehension of knowledge retention and need priority, not charge recovery or sustained-interest acceptance. S001 remains open. No new provider calls or publication.
+
+## Frozen packet findings and finalization transfer — recorded 2026-11-13
+
+The owner affirmed clarity at all nine guided frozen-packet evidence steps: conservation costs, public publication versus private knowledge, physical encounter/acquisition, real recovery/preparation, actual probe versus unproven benefits, prior survey, publication timing, actual access and already-surveyed refusal versus archived reuse. These are guided comprehension findings, not independent navigation or sustained-interest acceptance.
+
+The unguided task was offered on 2026-11-13, then explicitly deferred before any result was reported. Overall interest, recall and independent usability remain unassessed. The owner selected persistent online AI world development under [MIM-E003](../../issues/MIM-E003.md), with human review transferred from S001 to finalization story [MIM-S023](../../issues/MIM-S023.md). S001 closes as the technical evaluation/history record with acceptance transferred, not passed. The frozen 2026-11-12 manifest remains unchanged; no follow-up was scheduled.

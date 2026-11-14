@@ -1,0 +1,1860 @@
+{
+  "date": "2026-11-13",
+  "scope": "S020 local implementation; balanced exploration and cooperation selected by owner",
+  "bundleHash": "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e",
+  "study": {
+    "directory": "C:\\Projects\\Mimir\\.tmp\\first-glow-frontier-review-u7MmJJ",
+    "runs": [
+      {
+        "seed": 2,
+        "pulses": 240,
+        "sparks": 6,
+        "normalStartingResources": true,
+        "normalRC": true,
+        "providerCalls": 0,
+        "bundleHash": "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e",
+        "goals": [
+          {
+            "id": "goal-27-spark-2-0",
+            "sparkId": "spark-2",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 8,
+              "y": 9
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 27,
+            "completedPulse": 28,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-28-spark-2-explore",
+                "pulse": 28
+              }
+            ]
+          },
+          {
+            "id": "goal-29-spark-4-1",
+            "sparkId": "spark-4",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 32,
+              "y": 13
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 29,
+            "completedPulse": 30,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-30-spark-4-explore",
+                "pulse": 30
+              }
+            ]
+          },
+          {
+            "id": "goal-30-spark-5-2",
+            "sparkId": "spark-5",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 51,
+              "y": 26
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 30,
+            "completedPulse": 31,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-31-spark-5-explore",
+                "pulse": 31
+              }
+            ]
+          },
+          {
+            "id": "goal-33-spark-6-3",
+            "sparkId": "spark-6",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 52,
+              "y": 29
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 33,
+            "completedPulse": 34,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-34-spark-6-explore",
+                "pulse": 34
+              }
+            ]
+          },
+          {
+            "id": "goal-34-spark-3-4",
+            "sparkId": "spark-3",
+            "kind": "explore-contribute",
+            "targetObjectId": "tiled-208",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 34,
+            "completedPulse": 75,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-72-spark-3-explore",
+                "pulse": 72
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-75-spark-3-shape-pattern",
+                "pulse": 75
+              }
+            ]
+          },
+          {
+            "id": "goal-36-spark-1-5",
+            "sparkId": "spark-1",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-104",
+            "status": "interrupted",
+            "reason": "goal-expired",
+            "createdPulse": 36,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-74-spark-1-explore",
+                "pulse": 74
+              }
+            ]
+          },
+          {
+            "id": "goal-91-spark-2-6",
+            "sparkId": "spark-2",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 91,
+            "completedPulse": 101,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-96-spark-2-explore",
+                "pulse": 96
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-100-spark-2-meet-spark-4",
+                "pulse": 100
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-101-spark-2-mark-trace",
+                "pulse": 101
+              }
+            ]
+          },
+          {
+            "id": "goal-93-spark-4-7",
+            "sparkId": "spark-4",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 93,
+            "completedPulse": 101,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-98-spark-4-explore",
+                "pulse": 98
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-100-spark-2-meet-spark-4",
+                "pulse": 100
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-101-spark-4-mark-trace",
+                "pulse": 101
+              }
+            ]
+          },
+          {
+            "id": "goal-94-spark-5-8",
+            "sparkId": "spark-5",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 94,
+            "completedPulse": 112,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-99-spark-5-explore",
+                "pulse": 99
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-111-spark-5-meet-spark-6",
+                "pulse": 111
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-112-spark-5-mark-trace",
+                "pulse": 112
+              }
+            ]
+          },
+          {
+            "id": "goal-97-spark-6-9",
+            "sparkId": "spark-6",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 97,
+            "completedPulse": 112,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-102-spark-6-explore",
+                "pulse": 102
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-111-spark-5-meet-spark-6",
+                "pulse": 111
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-112-spark-6-mark-trace",
+                "pulse": 112
+              }
+            ]
+          },
+          {
+            "id": "goal-103-spark-3-10",
+            "sparkId": "spark-3",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 59,
+              "y": 26
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 103,
+            "completedPulse": 122,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-122-spark-3-explore",
+                "pulse": 122
+              }
+            ]
+          },
+          {
+            "id": "goal-157-spark-4-11",
+            "sparkId": "spark-4",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 157,
+            "completedPulse": 189,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-169-spark-4-explore",
+                "pulse": 169
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-189-spark-4-shape-pattern",
+                "pulse": 189
+              }
+            ]
+          },
+          {
+            "id": "goal-158-spark-5-12",
+            "sparkId": "spark-5",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 158,
+            "completedPulse": 165,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-164-spark-5-explore",
+                "pulse": 164
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-165-spark-5-shape-pattern",
+                "pulse": 165
+              }
+            ]
+          },
+          {
+            "id": "goal-160-spark-2-13",
+            "sparkId": "spark-2",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 160,
+            "completedPulse": 202,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-180-spark-2-explore",
+                "pulse": 180
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-202-spark-2-shape-pattern",
+                "pulse": 202
+              }
+            ]
+          },
+          {
+            "id": "goal-162-spark-6-14",
+            "sparkId": "spark-6",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 162,
+            "completedPulse": 169,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-168-spark-6-explore",
+                "pulse": 168
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-169-spark-6-shape-pattern",
+                "pulse": 169
+              }
+            ]
+          },
+          {
+            "id": "goal-164-spark-1-15",
+            "sparkId": "spark-1",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 11,
+              "y": 10
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 164,
+            "completedPulse": 165,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-165-spark-1-explore",
+                "pulse": 165
+              }
+            ]
+          },
+          {
+            "id": "goal-167-spark-3-16",
+            "sparkId": "spark-3",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "active",
+            "reason": "pursuing-goal",
+            "createdPulse": 167,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-180-spark-3-explore",
+                "pulse": 180
+              }
+            ]
+          },
+          {
+            "id": "goal-221-spark-4-17",
+            "sparkId": "spark-4",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 221,
+            "completedPulse": 227,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-226-spark-4-explore",
+                "pulse": 226
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-227-spark-4-mark-trace",
+                "pulse": 227
+              }
+            ]
+          },
+          {
+            "id": "goal-222-spark-5-18",
+            "sparkId": "spark-5",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 222,
+            "completedPulse": 238,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-237-spark-5-explore",
+                "pulse": 237
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-238-spark-5-mark-trace",
+                "pulse": 238
+              }
+            ]
+          },
+          {
+            "id": "goal-224-spark-2-19",
+            "sparkId": "spark-2",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 224,
+            "completedPulse": 230,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-229-spark-2-explore",
+                "pulse": 229
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-230-spark-2-mark-trace",
+                "pulse": 230
+              }
+            ]
+          },
+          {
+            "id": "goal-226-spark-6-20",
+            "sparkId": "spark-6",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 226,
+            "completedPulse": 234,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-233-spark-6-explore",
+                "pulse": 233
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-234-spark-6-mark-trace",
+                "pulse": 234
+              }
+            ]
+          },
+          {
+            "id": "goal-229-spark-1-21",
+            "sparkId": "spark-1",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "active",
+            "reason": "pursuing-goal",
+            "createdPulse": 229,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-233-spark-1-explore",
+                "pulse": 233
+              }
+            ]
+          }
+        ],
+        "projects": [
+          {
+            "objectId": "tiled-208",
+            "contributions": [
+              {
+                "sparkId": "spark-4",
+                "eventId": "event-14-spark-4-shape-pattern",
+                "pulse": 14
+              },
+              {
+                "sparkId": "spark-3",
+                "eventId": "event-75-spark-3-shape-pattern",
+                "pulse": 75
+              }
+            ],
+            "completedPulse": 75
+          },
+          {
+            "objectId": "tiled-308",
+            "contributions": [
+              {
+                "sparkId": "spark-6",
+                "eventId": "event-13-spark-6-shape-pattern",
+                "pulse": 13
+              },
+              {
+                "sparkId": "spark-5",
+                "eventId": "event-24-spark-5-shape-pattern",
+                "pulse": 24
+              }
+            ],
+            "completedPulse": 24
+          }
+        ],
+        "visits": [
+          {
+            "sparkId": "spark-1",
+            "regionId": "charge-reach",
+            "eventId": "event-1-spark-1-region-charge-reach",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-2",
+            "regionId": "charge-reach",
+            "eventId": "event-1-spark-2-region-charge-reach",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-3",
+            "regionId": "quiet-fold",
+            "eventId": "event-1-spark-3-region-quiet-fold",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-4",
+            "regionId": "quiet-fold",
+            "eventId": "event-1-spark-4-region-quiet-fold",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-5",
+            "regionId": "shard-verge",
+            "eventId": "event-1-spark-5-region-shard-verge",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-6",
+            "regionId": "shard-verge",
+            "eventId": "event-1-spark-6-region-shard-verge",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-3",
+            "regionId": "shard-verge",
+            "eventId": "event-24-spark-3-region-shard-verge",
+            "pulse": 24
+          },
+          {
+            "sparkId": "spark-2",
+            "regionId": "quiet-fold",
+            "eventId": "event-37-spark-2-region-quiet-fold",
+            "pulse": 37
+          },
+          {
+            "sparkId": "spark-4",
+            "regionId": "shard-verge",
+            "eventId": "event-47-spark-4-region-shard-verge",
+            "pulse": 47
+          },
+          {
+            "sparkId": "spark-1",
+            "regionId": "quiet-fold",
+            "eventId": "event-48-spark-1-region-quiet-fold",
+            "pulse": 48
+          },
+          {
+            "sparkId": "spark-2",
+            "regionId": "shard-verge",
+            "eventId": "event-70-spark-2-region-shard-verge",
+            "pulse": 70
+          },
+          {
+            "sparkId": "spark-1",
+            "regionId": "shard-verge",
+            "eventId": "event-185-spark-1-region-shard-verge",
+            "pulse": 185
+          }
+        ],
+        "discoveryCount": 70,
+        "meetingEvents": [
+          {
+            "id": "event-100-spark-2-meet-spark-4",
+            "pulse": 100,
+            "kind": "pulse",
+            "structuredKind": "meet",
+            "actorId": "spark-2",
+            "participants": [
+              "spark-2",
+              "spark-4"
+            ],
+            "message": "Spark 2 met Spark 4 at a shared contact site.",
+            "villagerIds": [],
+            "settlementIds": []
+          },
+          {
+            "id": "event-111-spark-5-meet-spark-6",
+            "pulse": 111,
+            "kind": "pulse",
+            "structuredKind": "meet",
+            "actorId": "spark-5",
+            "participants": [
+              "spark-5",
+              "spark-6"
+            ],
+            "message": "Spark 5 met Spark 6 at a shared contact site.",
+            "villagerIds": [],
+            "settlementIds": []
+          }
+        ],
+        "sharingEvents": 13,
+        "pressure": {
+          "chargeDeficitSparkPulses": 375,
+          "lowReadinessSparkPulses": 52,
+          "blockedSparkPulses": 25,
+          "maxDeficit": 35
+        },
+        "ledger": {
+          "consumption": 554,
+          "production": 1416,
+          "draw": 584
+        },
+        "finalSourceCharge": 856,
+        "maximumGoalWireBytes": 8944,
+        "noStrandedContacts": true,
+        "chargeConservation": true
+      },
+      {
+        "seed": 7,
+        "pulses": 240,
+        "sparks": 6,
+        "normalStartingResources": true,
+        "normalRC": true,
+        "providerCalls": 0,
+        "bundleHash": "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e",
+        "goals": [
+          {
+            "id": "goal-27-spark-2-0",
+            "sparkId": "spark-2",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 8,
+              "y": 10
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 27,
+            "completedPulse": 28,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-28-spark-2-explore",
+                "pulse": 28
+              }
+            ]
+          },
+          {
+            "id": "goal-29-spark-4-1",
+            "sparkId": "spark-4",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 32,
+              "y": 13
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 29,
+            "completedPulse": 30,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-30-spark-4-explore",
+                "pulse": 30
+              }
+            ]
+          },
+          {
+            "id": "goal-30-spark-5-2",
+            "sparkId": "spark-5",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 51,
+              "y": 26
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 30,
+            "completedPulse": 31,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-31-spark-5-explore",
+                "pulse": 31
+              }
+            ]
+          },
+          {
+            "id": "goal-31-spark-1-3",
+            "sparkId": "spark-1",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-104",
+            "status": "interrupted",
+            "reason": "goal-expired",
+            "createdPulse": 31,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-68-spark-1-explore",
+                "pulse": 68
+              }
+            ]
+          },
+          {
+            "id": "goal-33-spark-6-4",
+            "sparkId": "spark-6",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 52,
+              "y": 29
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 33,
+            "completedPulse": 34,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-34-spark-6-explore",
+                "pulse": 34
+              }
+            ]
+          },
+          {
+            "id": "goal-34-spark-3-5",
+            "sparkId": "spark-3",
+            "kind": "explore-contribute",
+            "targetObjectId": "tiled-208",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 34,
+            "completedPulse": 74,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-73-spark-3-explore",
+                "pulse": 73
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-74-spark-3-shape-pattern",
+                "pulse": 74
+              }
+            ]
+          },
+          {
+            "id": "goal-91-spark-2-6",
+            "sparkId": "spark-2",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 91,
+            "completedPulse": 101,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-96-spark-2-explore",
+                "pulse": 96
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-100-spark-2-meet-spark-4",
+                "pulse": 100
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-101-spark-2-mark-trace",
+                "pulse": 101
+              }
+            ]
+          },
+          {
+            "id": "goal-93-spark-4-7",
+            "sparkId": "spark-4",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 93,
+            "completedPulse": 101,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-98-spark-4-explore",
+                "pulse": 98
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-100-spark-2-meet-spark-4",
+                "pulse": 100
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-101-spark-4-mark-trace",
+                "pulse": 101
+              }
+            ]
+          },
+          {
+            "id": "goal-94-spark-5-8",
+            "sparkId": "spark-5",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 94,
+            "completedPulse": 112,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-99-spark-5-explore",
+                "pulse": 99
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-111-spark-5-meet-spark-6",
+                "pulse": 111
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-112-spark-5-mark-trace",
+                "pulse": 112
+              }
+            ]
+          },
+          {
+            "id": "goal-97-spark-6-9",
+            "sparkId": "spark-6",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 97,
+            "completedPulse": 112,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-102-spark-6-explore",
+                "pulse": 102
+              },
+              {
+                "activity": "meet",
+                "eventId": "event-111-spark-5-meet-spark-6",
+                "pulse": 111
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-112-spark-6-mark-trace",
+                "pulse": 112
+              }
+            ]
+          },
+          {
+            "id": "goal-103-spark-3-10",
+            "sparkId": "spark-3",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 59,
+              "y": 26
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 103,
+            "completedPulse": 122,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-122-spark-3-explore",
+                "pulse": 122
+              }
+            ]
+          },
+          {
+            "id": "goal-157-spark-4-11",
+            "sparkId": "spark-4",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 157,
+            "completedPulse": 188,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-169-spark-4-explore",
+                "pulse": 169
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-188-spark-4-shape-pattern",
+                "pulse": 188
+              }
+            ]
+          },
+          {
+            "id": "goal-158-spark-5-12",
+            "sparkId": "spark-5",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 158,
+            "completedPulse": 165,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-164-spark-5-explore",
+                "pulse": 164
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-165-spark-5-shape-pattern",
+                "pulse": 165
+              }
+            ]
+          },
+          {
+            "id": "goal-159-spark-1-13",
+            "sparkId": "spark-1",
+            "kind": "follow-trace",
+            "targetCell": {
+              "x": 11,
+              "y": 10
+            },
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 159,
+            "completedPulse": 160,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-160-spark-1-explore",
+                "pulse": 160
+              }
+            ]
+          },
+          {
+            "id": "goal-160-spark-2-14",
+            "sparkId": "spark-2",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 160,
+            "completedPulse": 202,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-180-spark-2-explore",
+                "pulse": 180
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-202-spark-2-shape-pattern",
+                "pulse": 202
+              }
+            ]
+          },
+          {
+            "id": "goal-162-spark-6-15",
+            "sparkId": "spark-6",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 162,
+            "completedPulse": 169,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-168-spark-6-explore",
+                "pulse": 168
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-169-spark-6-shape-pattern",
+                "pulse": 169
+              }
+            ]
+          },
+          {
+            "id": "goal-167-spark-3-16",
+            "sparkId": "spark-3",
+            "kind": "explore-meet-mark",
+            "targetObjectId": "tiled-304",
+            "status": "active",
+            "reason": "pursuing-goal",
+            "createdPulse": 167,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-172-spark-3-explore",
+                "pulse": 172
+              }
+            ]
+          },
+          {
+            "id": "goal-221-spark-4-17",
+            "sparkId": "spark-4",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 221,
+            "completedPulse": 227,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-226-spark-4-explore",
+                "pulse": 226
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-227-spark-4-mark-trace",
+                "pulse": 227
+              }
+            ]
+          },
+          {
+            "id": "goal-223-spark-1-18",
+            "sparkId": "spark-1",
+            "kind": "explore-shape",
+            "targetObjectId": "tiled-305",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 223,
+            "completedPulse": 230,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-229-spark-1-explore",
+                "pulse": 229
+              },
+              {
+                "activity": "shape-pattern",
+                "eventId": "event-230-spark-1-shape-pattern",
+                "pulse": 230
+              }
+            ]
+          },
+          {
+            "id": "goal-226-spark-2-19",
+            "sparkId": "spark-2",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 226,
+            "completedPulse": 236,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-235-spark-2-explore",
+                "pulse": 235
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-236-spark-2-mark-trace",
+                "pulse": 236
+              }
+            ]
+          },
+          {
+            "id": "goal-226-spark-6-20",
+            "sparkId": "spark-6",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 226,
+            "completedPulse": 232,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-231-spark-6-explore",
+                "pulse": 231
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-232-spark-6-mark-trace",
+                "pulse": 232
+              }
+            ]
+          },
+          {
+            "id": "goal-228-spark-5-21",
+            "sparkId": "spark-5",
+            "kind": "explore-mark",
+            "targetObjectId": "tiled-304",
+            "status": "completed",
+            "reason": "all-steps-physically-completed",
+            "createdPulse": 228,
+            "completedPulse": 238,
+            "completions": [
+              {
+                "activity": "explore",
+                "eventId": "event-237-spark-5-explore",
+                "pulse": 237
+              },
+              {
+                "activity": "mark-trace",
+                "eventId": "event-238-spark-5-mark-trace",
+                "pulse": 238
+              }
+            ]
+          }
+        ],
+        "projects": [
+          {
+            "objectId": "tiled-208",
+            "contributions": [
+              {
+                "sparkId": "spark-4",
+                "eventId": "event-14-spark-4-shape-pattern",
+                "pulse": 14
+              },
+              {
+                "sparkId": "spark-3",
+                "eventId": "event-74-spark-3-shape-pattern",
+                "pulse": 74
+              }
+            ],
+            "completedPulse": 74
+          },
+          {
+            "objectId": "tiled-308",
+            "contributions": [
+              {
+                "sparkId": "spark-6",
+                "eventId": "event-13-spark-6-shape-pattern",
+                "pulse": 13
+              },
+              {
+                "sparkId": "spark-5",
+                "eventId": "event-24-spark-5-shape-pattern",
+                "pulse": 24
+              }
+            ],
+            "completedPulse": 24
+          }
+        ],
+        "visits": [
+          {
+            "sparkId": "spark-1",
+            "regionId": "charge-reach",
+            "eventId": "event-1-spark-1-region-charge-reach",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-2",
+            "regionId": "charge-reach",
+            "eventId": "event-1-spark-2-region-charge-reach",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-3",
+            "regionId": "quiet-fold",
+            "eventId": "event-1-spark-3-region-quiet-fold",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-4",
+            "regionId": "quiet-fold",
+            "eventId": "event-1-spark-4-region-quiet-fold",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-5",
+            "regionId": "shard-verge",
+            "eventId": "event-1-spark-5-region-shard-verge",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-6",
+            "regionId": "shard-verge",
+            "eventId": "event-1-spark-6-region-shard-verge",
+            "pulse": 1
+          },
+          {
+            "sparkId": "spark-3",
+            "regionId": "shard-verge",
+            "eventId": "event-24-spark-3-region-shard-verge",
+            "pulse": 24
+          },
+          {
+            "sparkId": "spark-2",
+            "regionId": "quiet-fold",
+            "eventId": "event-36-spark-2-region-quiet-fold",
+            "pulse": 36
+          },
+          {
+            "sparkId": "spark-1",
+            "regionId": "quiet-fold",
+            "eventId": "event-43-spark-1-region-quiet-fold",
+            "pulse": 43
+          },
+          {
+            "sparkId": "spark-4",
+            "regionId": "shard-verge",
+            "eventId": "event-47-spark-4-region-shard-verge",
+            "pulse": 47
+          },
+          {
+            "sparkId": "spark-2",
+            "regionId": "shard-verge",
+            "eventId": "event-70-spark-2-region-shard-verge",
+            "pulse": 70
+          },
+          {
+            "sparkId": "spark-1",
+            "regionId": "shard-verge",
+            "eventId": "event-177-spark-1-region-shard-verge",
+            "pulse": 177
+          }
+        ],
+        "discoveryCount": 70,
+        "meetingEvents": [
+          {
+            "id": "event-100-spark-2-meet-spark-4",
+            "pulse": 100,
+            "kind": "pulse",
+            "structuredKind": "meet",
+            "actorId": "spark-2",
+            "participants": [
+              "spark-2",
+              "spark-4"
+            ],
+            "message": "Spark 2 met Spark 4 at a shared contact site.",
+            "villagerIds": [],
+            "settlementIds": []
+          },
+          {
+            "id": "event-111-spark-5-meet-spark-6",
+            "pulse": 111,
+            "kind": "pulse",
+            "structuredKind": "meet",
+            "actorId": "spark-5",
+            "participants": [
+              "spark-5",
+              "spark-6"
+            ],
+            "message": "Spark 5 met Spark 6 at a shared contact site.",
+            "villagerIds": [],
+            "settlementIds": []
+          }
+        ],
+        "sharingEvents": 13,
+        "pressure": {
+          "chargeDeficitSparkPulses": 363,
+          "lowReadinessSparkPulses": 59,
+          "blockedSparkPulses": 26,
+          "maxDeficit": 35
+        },
+        "ledger": {
+          "consumption": 551,
+          "production": 1416,
+          "draw": 568
+        },
+        "finalSourceCharge": 872,
+        "maximumGoalWireBytes": 8921,
+        "noStrandedContacts": true,
+        "chargeConservation": true
+      }
+    ],
+    "sourceSha256": {
+      "packages\\engine\\src\\chronicle.test.ts": "77e6e6e2e483aa17de60a0693edb826a8214513087328cad6a9dcb09f822edb1",
+      "packages\\engine\\src\\chronicle.ts": "d61754f2a705a055325c47e9f4bfe50e8f15277df8f6fcd1790459c9b36e689e",
+      "packages\\engine\\src\\design.ts": "cc053c1377d6099e9908ca42f9ce46d5fa72dd2ceea5d985a01a795179617e1b",
+      "packages\\engine\\src\\first-glow-actions.test.ts": "cc37da692ca24434e4e6cc225b3d8acaa32451f72080e716fe4cfe41710e8969",
+      "packages\\engine\\src\\first-glow-actions.ts": "8b317693e60f26aab8e6b32023948658f04b274ee3ec5defaad464be0aae74b5",
+      "packages\\engine\\src\\first-glow-age-model-policy.test.ts": "099a1dbe74fb953ca3f5bfe65e55dfe00489eefb6a282fcbf06558b7cbc2b9e4",
+      "packages\\engine\\src\\first-glow-age-model-policy.ts": "a605b661ce278ee7343522f4fcd2e1e85e820f630256666d3d583c793aac28a3",
+      "packages\\engine\\src\\first-glow-attention-cadence.test.ts": "e849155de495a107cfaad070fd34d8e70ffb017e154ff8d0b2ae5401cf909d2f",
+      "packages\\engine\\src\\first-glow-attention.test.ts": "e394cce3ffd9795be05160bba74fef53890d2566e3e6ced1a9fb555489a4298a",
+      "packages\\engine\\src\\first-glow-attention.ts": "04f424f9664737928139fa084cc3a8894458a3106532eb1914b4c0a60ab0f5d7",
+      "packages\\engine\\src\\first-glow-cache-choice.test.ts": "3b29af0bd852bcb8cfe94bd8fac67d8e5c775c821df7f2b0bb9e5671eb7c6a41",
+      "packages\\engine\\src\\first-glow-cache-choice.ts": "d39bf6ddfe61d3d6108638f47a5fef074eb530d59ba98e00d0ab29e35e34e2ea",
+      "packages\\engine\\src\\first-glow-care-recovery-fallback.test.ts": "6a01e8bb64af85dc415d5f6bff9ad47bc1c13d6247893cdf2438de08dc9fa505",
+      "packages\\engine\\src\\first-glow-completion.test.ts": "0cfe29371833bcebebb1c1948bdace3bc2d675db910a19a68328d598897c6042",
+      "packages\\engine\\src\\first-glow-context.test.ts": "59ba99d730602c152c4cbcdc243642f8a503a288cacf2bd381149d40940d6218",
+      "packages\\engine\\src\\first-glow-context.ts": "b23d452e98823f8c4bb16e47d9415d5512904b2732ed48aeb33f1d793c70e506",
+      "packages\\engine\\src\\first-glow-conversations.test.ts": "4f75b761389114c7f0cae60f2e7a2384c081a94a31447faea388a04f5f6d5a73",
+      "packages\\engine\\src\\first-glow-conversations.ts": "5a63c707b8f316258c4145462d4a48cedcfc6afb4bba98369193f892c4ae73b3",
+      "packages\\engine\\src\\first-glow-event-admission.test.ts": "ab9ea9e69c33e0c1182d86bb874a9e408e8d0fb612b8be5eb13eba075ce53563",
+      "packages\\engine\\src\\first-glow-event-admission.ts": "a9a314c35cd2b15aff7d1ff5a87386c3d42eeb811c0a9935907506f4cf5569d4",
+      "packages\\engine\\src\\first-glow-explanations.test.ts": "477556a073f561d78cab308a40fc6ebcc2106d76a15911814f0df8bc10c4e7cb",
+      "packages\\engine\\src\\first-glow-explanations.ts": "f1fc609a9d8fd01579418446935456794aa370da3662f3a0c7bb1d6631d3f5b8",
+      "packages\\engine\\src\\first-glow-fake-provider.test.ts": "20d06db4c58ff136fa53b036c0d99295dfd80102223aab71411fa323049f1b81",
+      "packages\\engine\\src\\first-glow-fake-provider.ts": "6fb9f9337a010cfb542cec292faa51de4448beb2353306156cdeeac8f1df1f80",
+      "packages\\engine\\src\\first-glow-frontier.test.ts": "0b08dbc4e6400605d3f7284bc10e90e2dd61e7856250b27d5b94a1f3627863ce",
+      "packages\\engine\\src\\first-glow-frontier.ts": "01225717aedc1bddfd12efa34e1b261e75e192309b40518a7ae377683ed514aa",
+      "packages\\engine\\src\\first-glow-gemini-provider.test.ts": "603202cb0c5bb07400821aa9825b9dedf41e30a199664626691c162d22caf40b",
+      "packages\\engine\\src\\first-glow-gemini-provider.ts": "45e5b4711963dd320bd1e8f3a4ac951943fa65c946eaa38a1041e5ce49c8aba5",
+      "packages\\engine\\src\\first-glow-geometric-return-publication.test.ts": "1f2eea5aee500fc556ec3005d61a4f7dcf8e08b010433ae78bc5da68b062916f",
+      "packages\\engine\\src\\first-glow-geometric-return-publication.ts": "292a9902a516542b0aa62cae91e726da1bdb572acc356191758c774040baf69e",
+      "packages\\engine\\src\\first-glow-geometric-shard.test.ts": "07f09fcdd0a845da053d9363f0714553f50d830f7b3be763478317e3b53b6179",
+      "packages\\engine\\src\\first-glow-geometric-shard.ts": "3ac06b805da537ab5056cb42783f35f9182dd9cf2dfeee90439b1aa91e4407c6",
+      "packages\\engine\\src\\first-glow-goal-context.test.ts": "e5a1fe0724ca38f5cd24448913fdbf02045ea5615feafb24dc926610a4694ee5",
+      "packages\\engine\\src\\first-glow-goal-context.ts": "a24058853d584647c774cbd516e845cc6c331ba79706d0eebd8dbca3bbdce45c",
+      "packages\\engine\\src\\first-glow-goals-fixture.ts": "7d4c3ab85e25081bcd3c5b998d4c24f2ca773f4b23dcf775474e03f06e9f5976",
+      "packages\\engine\\src\\first-glow-goals.test.ts": "cac7063f949c5e4cfd243c4b1d5095233f79d48235980b63143bff340049b454",
+      "packages\\engine\\src\\first-glow-goals.ts": "e1024def579e2c8064efec37bad84883a69f7e899b9c67c8ada85f4c338748bb",
+      "packages\\engine\\src\\first-glow-history.test.ts": "b36e7b44bdf20175be35d32a3d9e478d347044a18e11f877dfbc34a0f62f1c49",
+      "packages\\engine\\src\\first-glow-history.ts": "61b875c48d6538e1c114606c5d1bf2830f35712e0a6b9817f49ba56b13041f6d",
+      "packages\\engine\\src\\first-glow-hybrid-runtime.test.ts": "90000bc3235e63f8043ab8de2b5402bae5ee1cba074f206143ad9e8b81235489",
+      "packages\\engine\\src\\first-glow-hybrid-runtime.ts": "a52d3e14ad5364205fd1046939f6f1aa484619bdc07329502731ab6f0a5e1997",
+      "packages\\engine\\src\\first-glow-initial-cache-preparation.test.ts": "82f5b88137047587a795afe3459a5356e8fa120165fa4839d84ffabd5b01620f",
+      "packages\\engine\\src\\first-glow-initial-cache-preparation.ts": "2960f440ed853f1026b6eca979f136a9e7385a3918a552336b6225c278e9c648",
+      "packages\\engine\\src\\first-glow-intentions.test.ts": "dbc6742efebd465b7ff195e682b56f80ed33236ccc05422e253918386c7a8f6a",
+      "packages\\engine\\src\\first-glow-intentions.ts": "0910ec2134627e269f1d9872f93dbe534d9fcdffe751a9bb960ff272328efea7",
+      "packages\\engine\\src\\first-glow-interpretations.test.ts": "eb75a21954570f34e48ae27be654d2bcec02d8d81cf4c4f41b6af2f6c0dc00a3",
+      "packages\\engine\\src\\first-glow-interpretations.ts": "4cf5f371135965d7aba809bd36c41b28dba2ecedbcdce559ab42475a8650bc72",
+      "packages\\engine\\src\\first-glow-observer.test.ts": "93b1acd115222460deccec9e79dedf03d7c88b8d154898a262427debdce502c7",
+      "packages\\engine\\src\\first-glow-observer.ts": "31cefaf7857ccf660d2b1c8d44fca7befe6ea548012867d3935382f84b921619",
+      "packages\\engine\\src\\first-glow-pattern-preparation-fixture.ts": "ed8083bdd041e53aee3a675d420dca3ed8a98f0f569c8c99f470f379488cbd87",
+      "packages\\engine\\src\\first-glow-pattern-preparation.test.ts": "9c788c0dadf6610d948f6b9126199e9fec4bd2818879a40edb2262a7e99287a2",
+      "packages\\engine\\src\\first-glow-pattern-preparation.ts": "7be7d514d16034c05a61278832f538d31a1f97c39e5bd7735872d29438c61c07",
+      "packages\\engine\\src\\first-glow-pattern-retry.test.ts": "07202a72d7bfa1c546479bc3b2d946a8242bb99d0ba62b302449aa00b53d92f3",
+      "packages\\engine\\src\\first-glow-pattern-retry.ts": "f98128f0ce2b8ce87da87743b2489c9467901bfdfd9c355a2ebb12bb3ddd15fd",
+      "packages\\engine\\src\\first-glow-post-probe-continuation.test.ts": "127b265c353e83b135e06de519b569cc50a2adbdd4f3fe7123509f8145435754",
+      "packages\\engine\\src\\first-glow-post-probe-continuation.ts": "491da873beacdcbbea7a47ea3835ee928900aabc3193b7e61a20730d29dfb33c",
+      "packages\\engine\\src\\first-glow-recovery-admission.test.ts": "89f9e43e4abab4656449cc76fd9b82eff73409abdb2e8cf560687744b43ff7a1",
+      "packages\\engine\\src\\first-glow-recovery-admission.ts": "413148aac101fe4ab3baac06ed5583e8d260d6712067230bc9aebd762b5fd6cd",
+      "packages\\engine\\src\\first-glow-reflection-capacity.test.ts": "9814237ee384cd8106883d091d4d950b980867ea6c88d0ae1bd94173a5334c0a",
+      "packages\\engine\\src\\first-glow-reflection-capacity.ts": "8ea62301f2e7da0cfc98792b57015f8caaa9530d353dd8ba2a6baac1f3ad4dfa",
+      "packages\\engine\\src\\first-glow-reflection-memory.test.ts": "00298196ad0aac448f4b597d5be198f239a25e9773ac040caff2e5ef038979b0",
+      "packages\\engine\\src\\first-glow-reflection-memory.ts": "415140b1ff42aacfc3c53d32394312ea0967821f681fe0bf26e3544d1a7e0ba1",
+      "packages\\engine\\src\\first-glow-route-patterns-fixture.ts": "3f66365861ac46dc489250ebf58fc601e07d9714cdf9066fd9d17d77554c6aba",
+      "packages\\engine\\src\\first-glow-route-patterns.test.ts": "0b9a7cbd58ac290e293a00e3c2ae2f1a7173eb7a8627ca9fb551f58d73ab4e27",
+      "packages\\engine\\src\\first-glow-route-patterns.ts": "01f63debb711896781452d45a1611f4a39a3098943e77abbc0906fc7aca54f29",
+      "packages\\engine\\src\\first-glow-second-area.test.ts": "6e388ca92731621b445e057e713c627a82f267129f15060297eac92bbe7b9dae",
+      "packages\\engine\\src\\first-glow-sharing-admission.test.ts": "5cc00ee003828b4fcdb96942af89ce60263fbc3f0e105cc4ac2e069f8ac34ae2",
+      "packages\\engine\\src\\first-glow-sharing-admission.ts": "6e731cb205704f17e1d48605846d685fd72e45782db836d605f6ca22ecd007d1",
+      "packages\\engine\\src\\first-glow-sharing-continuation-fixture.ts": "fcbccf031cfb1654aa07ccd8b17897e125bf40ef9a95f9159abc3c22ade17b17",
+      "packages\\engine\\src\\first-glow-sharing-continuation.test.ts": "4b3bc0fccecdbdd5c0a19be18dbee3ad710ed891bdb7bc35cf9e97069aae3b33",
+      "packages\\engine\\src\\first-glow-sharing-continuation.ts": "dd4dd1b5c5a0915ddb4a8af25db44fe941331d3b349ed0f28eec9809b96e005c",
+      "packages\\engine\\src\\first-glow-sharing.test.ts": "edecd1b71a664d7c39ea9b0a4b745b3978bc448be4e70c84bfc83ccc66059461",
+      "packages\\engine\\src\\first-glow-social.test.ts": "2c0367b62a852e6b1b4a36177122716324d3d509d6ed5cd9d4db3cb2d114e6f1",
+      "packages\\engine\\src\\first-glow-social.ts": "27daf3a5eca08ceae3840a604a98a15ef16bc86752fd717c418421e29ef8d1ab",
+      "packages\\engine\\src\\first-glow-staging-effects.test.ts": "6bfc05195033b3e6c45e9618123a83389b4708d718b77b16f34e049ef48d5163",
+      "packages\\engine\\src\\first-glow-staging-effects.ts": "8ae349caf9806af1365d9495eea95e6e99d8692510f571d96d232781832d9bc9",
+      "packages\\engine\\src\\first-glow-vertical.test.ts": "152dc06b19646c8e5da79b6154cde7ed557a6dc16fbb24f0801466523de3669a",
+      "packages\\engine\\src\\first-glow.test.ts": "ebb073c41e9f9695eeeda38d4180f887bc640edb49f78ea46887bb83adcc3a5e",
+      "packages\\engine\\src\\index.ts": "1ac0f672ce9893d4e8a18a4f06c97705624107bf2ce1d6f2c4894c63d1ec0d6c",
+      "packages\\engine\\src\\resonance-anchor-contract.test.ts": "7c3abda755fde7b163149d799d0f83ca187ffdfb840ab10d7da087f32aebf468",
+      "packages\\engine\\src\\resonance-anchor.test.ts": "ea9eb732b8d3bc8e59e2265da23893f5bd62dd4710c9e96d3634232e447abe25",
+      "packages\\engine\\src\\resonance-anchor.ts": "592c45ac9d4cc3372b6e9d1a98fcd3fa9afd712028629f6b36f18b0cff1ee9c4",
+      "packages\\engine\\src\\resonance-crossing-rule.ts": "76413aca5608c0c943ce507cd8c7ad1d41e8db0d46acd8db90d9db5531453cf2",
+      "packages\\engine\\src\\resonance-crossing.test.ts": "b85b0e8049838f6ed5d3bac83bb8a752d280db8adbb594a7150e9f1c20254da8",
+      "packages\\engine\\src\\resonance-crossing.ts": "f13a8cba0204774365093838c9795f1ca8f13efe2db3a26b27d5ed4a6aa9c8f1",
+      "packages\\engine\\src\\resonance-loom-choice.test.ts": "bcf7d47826b231d602f1b9769640b914e897791e7f58ab4660ec545bf7299d27",
+      "packages\\engine\\src\\resonance-loom-choice.ts": "332bdb2689db4230935ac51910930f96e295cec73af104e0ae95548f9c180b36",
+      "packages\\engine\\src\\resonance-observation.test.ts": "f3a847455b97c407e20a25d02f6cbfc05fad56bc191855106951732a0e51e7cd",
+      "packages\\engine\\src\\resonance-observation.ts": "3999a195d1aa9040c41e4365d3602d627ab44efcaa0e43254fb63fc5c4af1719",
+      "packages\\engine\\src\\resonance-transition.test.ts": "784dc15af6818e432870ac28c22047867620e7e004b2662afaccdb76916b5ab2",
+      "packages\\engine\\src\\resonance-transition.ts": "96a4b390c6fdc20561dbba9979e5db6cd6406b6830a9a72b2192478a72bdfa91",
+      "packages\\engine\\src\\social-scenarios.test.ts": "ee9514a0468e99415dfa91c0f95aa9a5593ab2d317c705ed767f99bbe912abf7",
+      "packages\\engine\\src\\structured.ts": "932a4c2e16f9ebc3192cd478d9b801bbbfc453dfbd3dfd2fb2cf8c83cb0d1712",
+      "packages\\server\\src\\backup-lib.ts": "24c53014260720612d230980dc3efee66070e6a8dae4ca25436ff9cbe0308c5f",
+      "packages\\server\\src\\backup-offsite-cli.ts": "bfa146c57dffe06e6e4c6614578996b594a43f803b87b28bf7f798646c050781",
+      "packages\\server\\src\\backup-offsite.test.ts": "7a8a95cf2b36f6dda28a50492a55f8d0ea95771135757ca00c35c42fc25f929d",
+      "packages\\server\\src\\backup-offsite.ts": "dc32e9520714db024667f2980c977a8840c3902bb51c8e876936b3043eadcd2e",
+      "packages\\server\\src\\backup-replication.test.ts": "6b5fbf495f16915e11b7960727fd1227804de69ec0b1218cb77f8dc5867ef19f",
+      "packages\\server\\src\\backup-replication.ts": "74b7374827b41db0e749b4de947f94be002c7d018d4aea2134c8197b169c487e",
+      "packages\\server\\src\\backup-snapshot.test.ts": "b2fc6a4ed07f613fce62c99524882587ded8d26b1b2478f60d7c406f152bd273",
+      "packages\\server\\src\\backup.ts": "7af581a531c700def11146f3936d59b93d598dde3bf5eb9f2804960f823e479a",
+      "packages\\server\\src\\chronicle-events.test.ts": "4409717e67e9c98442ee1706377cbf0bb2fe281ee17cbb3d505ff4a53f2dcbad",
+      "packages\\server\\src\\chronicle-events.ts": "bbaaaeea586c6c2548b0f99431f277c29986cdb6bd5860d92aab4a4b68fbd10d",
+      "packages\\server\\src\\chronicle.test.ts": "0a053c78706d31600ed3ead3cdd01dc90220bb3b2a9975b0ce51fefdda8a5652",
+      "packages\\server\\src\\first-glow-ai-runtime.test.ts": "86e945239c3f9fad49dc6a7077f6847b22e813d442bf42d37802284a46a21d9e",
+      "packages\\server\\src\\first-glow-ai-runtime.ts": "f0a7f49b2c4f615203717d7936f52c8a450806cc08fdad2c2852ed00157cbac1",
+      "packages\\server\\src\\first-glow-assets.test.ts": "2e5d6f14d348e38441d73f1e74c49985594cf2ee1bf22da699ba9ed9bae443ff",
+      "packages\\server\\src\\first-glow-backup.test.ts": "388d8d55ff2ffac8780476f8ac1ed1e23361da4c8c156575ca28a92afa7aebde",
+      "packages\\server\\src\\first-glow-command-acceptance.test.ts": "b0898a50ccba3281e3ad64b11a2254fd810260bcb897234333a2a5c4c5c1a829",
+      "packages\\server\\src\\first-glow-commands.test.ts": "2da5337ed84a5e8637cf0070cfef044251397425b1c061176f66133768bb2db6",
+      "packages\\server\\src\\first-glow-goals.test.ts": "1233c97d5f29675d0f93fbfcef1254fa2d748a7c52cedea5fafa682d83dad646",
+      "packages\\server\\src\\first-glow-restart.test.ts": "2927aacb36e8322a8810babd04c43abb397fd58083b6b7abd1e92a04c77aabe1",
+      "packages\\server\\src\\index.ts": "467143b301e7e8fef8a48a46262c0545151354ede3430b0901ffa96983268b9f",
+      "packages\\server\\src\\observer-auth.ts": "3288fdf2864b386c7ceb242accddc01449858a710b24ba1b3f895da5bc632d45",
+      "packages\\server\\src\\owner-auth-acceptance.test.ts": "0eb19841b6ab494d8ec69ef012da19a70d195cbd12ca327bede604db52aaba89",
+      "packages\\server\\src\\owner-auth.test.ts": "fde7c1bfdabd764e1ec652ffb47f058d8f3ad03442ea7b6ff9e395cd4323dca9",
+      "packages\\server\\src\\owner-auth.ts": "cd16de1b88ab607ca27c2b3d839378364fc34b10a03f7592e92dc79b093cd140",
+      "packages\\server\\src\\pulse-gate.test.ts": "370db105e69216f67c75d87a9f1ebb1bcabc7f874598bdc83e066d7361d2408c",
+      "packages\\server\\src\\pulse-gate.ts": "06ff4f2f84e481eb6106c1739ff5d312df759f30e7b412b7fca2bb887f3d07ef",
+      "packages\\server\\src\\security-p4.test.ts": "dbb457a6273d3ed71a85c77446b00c6348b9380dc0e7ea930955c7f92a902c37",
+      "packages\\server\\src\\security-p5.test.ts": "d27bde23ee0db3f6b87bbfb9fe168efec91e4061aaa11c3dd0a0875896760ec5",
+      "packages\\server\\src\\spark-ai-budget.ts": "be5f0b835f85f1a12e23feb0ed07c7d830438c569245723c2b1603a2ae99a69d",
+      "packages\\server\\src\\spark-ai-live.test.ts": "9d63d8e9e214be2a98eac9fe89477cdd5c00b3c18646adf2e787a5cadb8f138f",
+      "packages\\server\\src\\spark-ai-live.ts": "af9da16d908ad60f96598bff1802b122b98bebe73c4f81734525eafbc4eb0952",
+      "packages\\server\\src\\spark-goal-ai.test.ts": "e6777d2a5184ebed0bb18676a3eceef2c1c3a3ea251622d77e4a58afe998b520",
+      "packages\\server\\src\\spark-goal-server.test.ts": "b61cc920705cc051219f98948dac509795d41de20e72a13e25606731c2470e6e",
+      "packages\\server\\src\\state.test.ts": "b70fbe80502d5ffd406e46f2a1636fd17637e0253fdf016e133035c13a8a1968",
+      "packages\\server\\src\\state.ts": "46c9a33b274908794db3f6377ce052cc190c37f6d44e0f5c19e678aa38181b2b",
+      "packages\\world-data\\src\\canonical.ts": "825ee74fec1660868f2d397aa4146d02c3042434a7ed959e82fca7d02f2c026a",
+      "packages\\world-data\\src\\first-glow.test.ts": "9f4bb062ecd9cc20e2308c6db77655d1dba057d3eb6f360d26e107b8ae171f81",
+      "packages\\world-data\\src\\index.ts": "d85615ef61c362fbd2dc4fc209401911298022178a7da4d2556d873f81fa0bdd",
+      "packages\\world-data\\src\\spatial.ts": "1bd9667df192015e7fa403c2ff795edf7ac9ef50a1c0737813537c98793e430a",
+      "packages\\world-data\\src\\types.ts": "742cbf26131cc8ba6ab3badb17d61b02926c55613aa3ff311e631a06d62ad62b",
+      "packages\\world-data\\src\\validation.test.ts": "e791d73cf1e1cd91e71f2215aadd006dec73975f337d5802410ea94ab5b9c542",
+      "packages\\world-data\\src\\validation.ts": "e62260ea37d9332bdc6f2b87f211a1055ca33b10227d00904c09631077d2266d"
+    },
+    "sourceUnchanged": true,
+    "cadence": "Explicit event-rc-v1, same policy as the bounded live runtime; provider disabled"
+  },
+  "ordinaryRuntime": {
+    "directory": "C:\\Projects\\Mimir\\.tmp\\s020-default-runtime-vWOBnF",
+    "pulses": 80,
+    "normalDefaultCadence": true,
+    "explicitEventRC": false,
+    "providerCalls": 0,
+    "existingBudgetUnchanged": true,
+    "projects": [
+      {
+        "objectId": "tiled-208",
+        "contributions": [
+          {
+            "sparkId": "spark-8",
+            "eventId": "event-18-spark-8-shape-pattern",
+            "pulse": 18
+          },
+          {
+            "sparkId": "spark-4",
+            "eventId": "event-20-spark-4-shape-pattern",
+            "pulse": 20
+          }
+        ],
+        "completedPulse": 20
+      },
+      {
+        "objectId": "tiled-308",
+        "contributions": [
+          {
+            "sparkId": "spark-6",
+            "eventId": "event-13-spark-6-shape-pattern",
+            "pulse": 13
+          },
+          {
+            "sparkId": "spark-5",
+            "eventId": "event-34-spark-5-shape-pattern",
+            "pulse": 34
+          }
+        ],
+        "completedPulse": 34
+      }
+    ],
+    "goals": [
+      {
+        "sparkId": "spark-10",
+        "kind": "explore-contribute",
+        "status": "interrupted"
+      },
+      {
+        "sparkId": "spark-11",
+        "kind": "explore-contribute",
+        "status": "interrupted"
+      },
+      {
+        "sparkId": "spark-12",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-3",
+        "kind": "explore-contribute",
+        "status": "interrupted"
+      },
+      {
+        "sparkId": "spark-5",
+        "kind": "explore-contribute",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-6",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-9",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-2",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-1",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-8",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-4",
+        "kind": "follow-trace",
+        "status": "completed"
+      },
+      {
+        "sparkId": "spark-7",
+        "kind": "follow-trace",
+        "status": "active"
+      }
+    ],
+    "events": {
+      "project": 4,
+      "discovery": 117,
+      "meet": 0,
+      "goal": 21
+    },
+    "backupRestored": true,
+    "historicalReplayExact": true,
+    "restartedPulse81": true,
+    "sparkCount": 12,
+    "cadence": "Unmodified default offline calendar cadence"
+  },
+  "recovery": {
+    "database": "C:\\Projects\\Mimir\\.tmp\\first-glow-frontier-review-u7MmJJ\\persistence.db",
+    "restored": "C:\\Projects\\Mimir\\.tmp\\first-glow-frontier-review-u7MmJJ\\restored.db",
+    "bundleFiles": 8,
+    "bundleHashes": [
+      "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e"
+    ],
+    "checkpointExact": true,
+    "frontierProgressExact": true,
+    "continuationEqualPulses": 12,
+    "oldRecordedWorldUnchanged": true,
+    "oldRecordedWorldStillLegacy": true,
+    "providerCalls": 0
+  },
+  "render": {
+    "generatedAt": "2026-11-13T22:39:09.318Z",
+    "commit": "08fc5304f104dd9ca2b603f455bfaa0f5a138305",
+    "bundleHash": "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e",
+    "simulationVersion": "mimir-sim-v3-first-glow",
+    "themeId": "living-circuit",
+    "ageId": "first-glow",
+    "sparkCount": 12,
+    "environment": {
+      "platform": "win32",
+      "node": "v24.14.0",
+      "browser": "Playwright Chromium headless",
+      "build": "Vite development server (current source)"
+    },
+    "map": {
+      "width": 64,
+      "height": 40,
+      "objectCount": 19,
+      "assetCount": 6,
+      "spawnCount": 12
+    },
+    "assetVersionCount": 2,
+    "assetVersions": {
+      "first-glow-charge-pool.svg": "first-glow-v3",
+      "first-glow-light-mark.svg": "first-glow-v3",
+      "first-glow-pattern-shard.svg": "first-glow-v3",
+      "first-glow-relay-crossing.svg": "first-glow-v3",
+      "first-glow-shelter-niche.svg": "first-glow-v3",
+      "first-glow-shelter-loom.svg": "first-glow-v4-resonance",
+      "first-glow-trace.svg": "first-glow-v3"
+    },
+    "pulseWorkload": {
+      "pulses": 4,
+      "frameSamplesPerView": 120,
+      "sparkCount": 12,
+      "normalMapActivity": true,
+      "selectedState": true,
+      "overlays": "observer default; no developer IDs"
+    },
+    "views": [
+      {
+        "name": "desktop.png",
+        "viewport": "1280x900",
+        "deviceScaleFactor": 1,
+        "reducedMotion": "no-preference",
+        "path": ".tmp/art-validation/s020-frontier-final-isolated/desktop.png",
+        "horizontalOverflow": false,
+        "focusVisible": true,
+        "assetRequests": [
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg"
+        ],
+        "canvas": {
+          "width": 768,
+          "height": 768,
+          "displayWidth": 592,
+          "displayHeight": 592,
+          "resolution": "1",
+          "zoom": "1"
+        },
+        "canvasRecreatedBetweenPulses": false,
+        "frame": {
+          "frameMedianMs": 33.400000000001455,
+          "frameP95Ms": 50.10000000000218,
+          "frameMaxMs": 66.70000000000073,
+          "longTaskCount": 7,
+          "longTaskTotalMs": 401,
+          "memoryBeforeBytes": 97400000,
+          "memoryAfterBytes": 97400000,
+          "memoryGrowthBytes": 0
+        }
+      },
+      {
+        "name": "mobile-reduced-motion.png",
+        "viewport": "390x844",
+        "deviceScaleFactor": 2,
+        "reducedMotion": "reduce",
+        "path": ".tmp/art-validation/s020-frontier-final-isolated/mobile-reduced-motion.png",
+        "horizontalOverflow": false,
+        "focusVisible": true,
+        "assetRequests": [
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/673ec4de03351556d6265c314500b311da434672a3a099aadfd535fcac9f4ccb-first-glow-relay-crossing.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/6f9c0972c61e3f9c3bf536e43004266348faab262199e5a2fc3d2263bf3ab402-first-glow-shelter-loom.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/ebc928ccdf7cc314c52257065ba7e3544ca6baef36c893a08d3c7422eebf750f-first-glow-charge-pool.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/f0f766e71d6e9cdf8b584c5fadfef83057b8c933656bb72aed265fb0b3aed259-first-glow-pattern-shard.svg",
+          "http://127.0.0.1:34423/api/world/bundles/sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e/assets/fee5bdef9c0afb98850eb03ffbeb11b7be14d4dd172f79be8bf1f3ddf5cc8e37-first-glow-shelter-niche.svg"
+        ],
+        "canvas": {
+          "width": 716,
+          "height": 716,
+          "displayWidth": 354,
+          "displayHeight": 354,
+          "resolution": "0.9322916666666666",
+          "zoom": "1"
+        },
+        "canvasRecreatedBetweenPulses": false,
+        "frame": {
+          "frameMedianMs": 33.30000000000109,
+          "frameP95Ms": 50,
+          "frameMaxMs": 50.100000000000364,
+          "longTaskCount": 0,
+          "longTaskTotalMs": 0,
+          "memoryBeforeBytes": 131000000,
+          "memoryAfterBytes": 131000000,
+          "memoryGrowthBytes": 0
+        }
+      }
+    ],
+    "budgets": {
+      "frameP95Ms": 50,
+      "longTaskTotalMs": 500,
+      "memoryGrowthBytes": 8388608,
+      "mobileHorizontalOverflow": false,
+      "canvasRecreatedBetweenPulses": false
+    },
+    "restoreChecks": {
+      "requiredAssetFailure": "covered by packages/server/src/first-glow-backup.test.ts",
+      "successfulHistoricalAssets": "covered by packages/server/src/first-glow-backup.test.ts"
+    }
+  },
+  "ui": {
+    "bundleHash": "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e",
+    "simulationVersion": "mimir-sim-v3-first-glow",
+    "themeId": "living-circuit",
+    "ageId": "first-glow",
+    "capturedAt": "2026-11-13T22:33:58.998Z",
+    "gitCommit": "08fc5304f104dd9ca2b603f455bfaa0f5a138305",
+    "browser": "156.0.8078.4",
+    "captures": [
+      {
+        "name": "desktop.png",
+        "path": ".tmp/s020-final-project-ui/desktop.png",
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "deviceScaleFactor": 1,
+        "zoomMode": "normal",
+        "zoom": "1",
+        "glowStyleApplied": false,
+        "reducedMotion": "no-preference",
+        "glow": "enabled",
+        "canvas": {
+          "width": 768,
+          "height": 768,
+          "displayWidth": 592,
+          "displayHeight": 592,
+          "zoom": "1"
+        }
+      },
+      {
+        "name": "desktop-zoomed-out.png",
+        "path": ".tmp/s020-final-project-ui/desktop-zoomed-out.png",
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "deviceScaleFactor": 1,
+        "zoomMode": "zoomed-out",
+        "zoom": "0.5",
+        "glowStyleApplied": false,
+        "reducedMotion": "no-preference",
+        "glow": "enabled",
+        "canvas": {
+          "width": 768,
+          "height": 768,
+          "displayWidth": 592,
+          "displayHeight": 592,
+          "zoom": "0.5"
+        }
+      },
+      {
+        "name": "mobile.png",
+        "path": ".tmp/s020-final-project-ui/mobile.png",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "deviceScaleFactor": 2,
+        "zoomMode": "normal",
+        "zoom": "1",
+        "glowStyleApplied": false,
+        "reducedMotion": "no-preference",
+        "glow": "enabled",
+        "canvas": {
+          "width": 716,
+          "height": 716,
+          "displayWidth": 354,
+          "displayHeight": 354,
+          "zoom": "1"
+        }
+      },
+      {
+        "name": "mobile-zoomed-out.png",
+        "path": ".tmp/s020-final-project-ui/mobile-zoomed-out.png",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "deviceScaleFactor": 2,
+        "zoomMode": "zoomed-out",
+        "zoom": "0.5",
+        "glowStyleApplied": false,
+        "reducedMotion": "no-preference",
+        "glow": "enabled",
+        "canvas": {
+          "width": 716,
+          "height": 716,
+          "displayWidth": 354,
+          "displayHeight": 354,
+          "zoom": "0.5"
+        }
+      },
+      {
+        "name": "desktop-reduced-motion-glow-disabled.png",
+        "path": ".tmp/s020-final-project-ui/desktop-reduced-motion-glow-disabled.png",
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "deviceScaleFactor": 1,
+        "zoomMode": "zoomed-out",
+        "zoom": "0.5",
+        "glowStyleApplied": true,
+        "reducedMotion": "reduce",
+        "glow": "disabled-by-review-style",
+        "canvas": {
+          "width": 768,
+          "height": 768,
+          "displayWidth": 592,
+          "displayHeight": 592,
+          "zoom": "0.5"
+        }
+      },
+      {
+        "name": "mobile-reduced-motion-glow-disabled.png",
+        "path": ".tmp/s020-final-project-ui/mobile-reduced-motion-glow-disabled.png",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "deviceScaleFactor": 2,
+        "zoomMode": "zoomed-out",
+        "zoom": "0.5",
+        "glowStyleApplied": true,
+        "reducedMotion": "reduce",
+        "glow": "disabled-by-review-style",
+        "canvas": {
+          "width": 716,
+          "height": 716,
+          "displayWidth": 354,
+          "displayHeight": 354,
+          "zoom": "0.5"
+        }
+      }
+    ]
+  },
+  "wire": {
+    "syntheticBrokerCalls": 1,
+    "remoteProviderCalls": 0,
+    "wireBytes": 6697,
+    "localDiscoveryOnly": true,
+    "fullMapExcluded": true,
+    "newGoalAccepted": true,
+    "syntheticReceiptRecorded": true
+  },
+  "verification": {
+    "fullWorkspaceBuild": true,
+    "rootChecks": 235,
+    "importAndHistoricalAssetChecks": true,
+    "sourceAudit": "Self-review complete; legacy recovery filtering, local observation and project witness boundaries repaired; no independent external review",
+    "fullPublicationVerifierRun": false
+  },
+  "additionalSourceSha256": {
+    "packages/web/src/main.tsx": "fa5bf283489466787f17a062e4ae5afc57cded2904bed63ba83398848d8b6b18",
+    "packages/web/src/styles.css": "9e31ddc7726bff21912de3549580c6bd6db48b1b273b8f0ac3fa528589033a42",
+    "packages/web/src/first-glow-settings.ts": "c37b7a1c2e11700a27c2478afc4c3fade1978cb7f900c8b8b6dbb300b116b805",
+    "scripts/import-world.mjs": "398f1a964a824c4dd8353cef9496151f5f902d986eebea2f101eea4eb34b003f",
+    "scripts/art-review.mjs": "19859fc401c3c6104178d5b268a75686ac1dd58a04b9fc38c092c0f6b8463c68",
+    "scripts/first-glow-art-validation.mjs": "ec37a46b6cedfc92889668e305697a0d3a270b974e78bf30052362eee641f180",
+    "scripts/first-glow-art-validation-schema.mjs": "0c16c7542471a5ad057e9e471cf3cfc959cf734e4f97978b806ea52e74210048",
+    "scripts/first-glow-frontier-review.mjs": "73afaabb5512fe014542c832203df7622a399fa12a3891c2caced9f7c0aa0b58",
+    "scripts/run-frontier-local.mjs": "529b1e3d0c21bf82bd0e99ba8b5e8b13f32f7f4109ba4a66008440ad9dd29102",
+    "assets/world/maps/first-glow-frontier.tiled.json": "ec31cf2ad173ff19a17588e1dfc10f112bd58adb76f2e2e7d73b990518d7ec22",
+    "assets/world/templates/first-glow-rendezvous.json": "71a55d7288faf9754bd9bb1f075ccc35c74a008bb895153bc0e66a674cfb4d53",
+    "assets/world/templates/first-glow-trace-weave.json": "a61db1a2ec62213cb97f3397049838bd6cd360b6ab56f8976a26a10bc22ee2b8"
+  },
+  "delivery": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "remoteProviderCalls": 0
+  }
+}

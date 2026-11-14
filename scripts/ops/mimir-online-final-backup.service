@@ -1,0 +1,19 @@
+[Unit]
+Description=Final stopped-writer paired snapshot
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/mimir/offsite-backup.env
+Environment=PATH=/opt/node/bin:/snap/google-cloud-cli/current/bin:/usr/bin:/bin
+Environment=CLOUDSDK_CONFIG=/var/lib/mimir/offsite/gcloud
+Environment=CLOUDSDK_CORE_DISABLE_PROMPTS=1
+ExecStart=/opt/node/bin/node --max-old-space-size=128 /opt/mimir-online/current/scripts/online-final-backup.mjs
+TimeoutStartSec=60
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/mimir

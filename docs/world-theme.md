@@ -438,3 +438,12 @@ The world should make both the fading pool and the resting companion matter.
 ### Current first social-story milestone
 
 The first authored social-story fixture is the six-card, three-dilemma First Glow set exposed by the engine design contract. It keeps objective observations separate from Spark interpretations, records local knowledge boundaries, and limits consequences to charge pools, shelter niches, exploration, traces, and light marks. These authored scenarios are deterministic fixtures for review; they do not add institutions, credits, Originators, a known purpose, or a new timeline schema.
+
+
+### Local opt-in route marks — 2026-11-10
+
+In fresh histories explicitly tagged `persistent-route-pattern-v1`, a completed surveyed Pattern Shard activity may leave a public return-route pattern. Its lasting effect is a route fact learned through physical encounter and considered in a later decision, with recorded arrival or interruption. It grants no known purpose, Originator knowledge, private memories, free charge or automatic social reward. This implementation does not make every existing pattern event a reusable artifact, alter old recordings or establish human engagement. See [offline evidence](evidence/first-glow-route-patterns-2026-11-10.md).
+
+## Authored frontier regions — S020
+
+The expanded First Glow map uses three informal places: **Charge Reach** offers several charge contacts; **Quiet Fold** clusters shelter and a cooperative weave; **Shard Verge** holds pattern discoveries, a Wild Cache and another weave. Their names describe observed places, not institutions or known Originator history. Sparks notice nearby sites gradually. Trace weaves are small paid contributions by distinct Sparks that improve a local resting site; they are not formal commons, markets or established havens.

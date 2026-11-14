@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { createServer as createHttp2Server } from "node:http2";
 import { resolve } from "node:path";
-import { Readable } from "node:stream";
+import { Readable, Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import { randomUUID } from "node:crypto";
 import { performance } from "node:perf_hooks";
@@ -10,16 +10,19 @@ import { getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { createObserverTokenVerifier } from "./observer-bridge-auth.mjs";
 
-const allowedExact = new Set(["/api/world", "/api/events", "/api/interpretations", "/api/metrics", "/api/design", "/api/region", "/api/resonance", "/api/reflection", "/api/live"]);
+const allowedExact = new Set(["/api/world", "/api/events", "/api/interpretations", "/api/metrics", "/api/design", "/api/region", "/api/resonance", "/api/reflection", "/api/goals", "/api/history", "/api/social/config", "/api/live"]);
 function allowedPath(pathname) {
   if (allowedExact.has(pathname)) return true;
   return /^\/api\/world\/bundles\/sha256-[a-f0-9]{64}(?:\/assets\/.+)?$/.test(pathname);
 }
-export function createObserverBridgeServer({ upstreamOrigin, hostedOrigin = "https://mimir-realm.web.app", streamMaxMs = 900000, verifyObserverToken, onStreamTelemetry, http2 = false }) {
+export function createObserverBridgeServer({ upstreamOrigin, hostedOrigin = "https://mimir-realm.web.app", streamMaxMs = 900000, verifyObserverToken, onStreamTelemetry, http2 = false, maxStreams = Infinity, maxRequestsPerMinute = Infinity, maxResponseBytes = Infinity, maxBytesPerMinute = Infinity }) {
 const upstream = new URL(upstreamOrigin);
 if (upstream.protocol !== "http:") throw new Error("observer upstream must use HTTP");
 if (typeof verifyObserverToken !== "function") throw new Error("observer token verifier is required");
 if (!Number.isFinite(streamMaxMs) || streamMaxMs <= 0 || streamMaxMs > 2147483647) throw new Error("invalid observer stream timeout");
+for (const limit of [maxStreams,maxRequestsPerMinute,maxResponseBytes,maxBytesPerMinute]) if (limit !== Infinity && (!Number.isSafeInteger(limit) || limit < 1)) throw Error("invalid observer pilot limit");
+let requestWindow = Math.floor(Date.now()/60000), windowRequests = 0, windowBytes = 0;
+const rollWindow=()=>{const minute=Math.floor(Date.now()/60000);if(minute!==requestWindow){requestWindow=minute;windowRequests=0;windowBytes=0;}};
 const processSession = randomUUID();
 let activeRequests = 0;
 let activeUpstreamStreams = 0;
@@ -42,8 +45,11 @@ const server = (http2 ? createHttp2Server : createServer)(async (request, respon
   if (!allowedPath(parsed.pathname)) return response.writeHead(404).end("observer route unavailable");
   if (!await verifyObserverToken(request.headers.authorization)) return response.writeHead(401, { "content-type": "application/json" }).end(JSON.stringify({ error: "approved Google account required" }));
 
+  rollWindow();
+  if (++windowRequests > maxRequestsPerMinute || windowBytes >= maxBytesPerMinute) return response.writeHead(429, {"retry-after":"60"}).end("observer request allowance reached");
   const controller = new AbortController();
   const isLive = request.method === "GET" && parsed.pathname === "/api/live";
+  if (isLive && activeRequests >= maxStreams) return response.writeHead(429, {"retry-after":"60"}).end("observer stream allowance reached");
   const started = performance.now();
   let reason = "completed";
   let upstreamStream = false;
@@ -76,7 +82,9 @@ const server = (http2 ? createHttp2Server : createServer)(async (request, respon
     } else if (isLive) reason = "upstream-rejected";
     const body = Readable.fromWeb(upstreamResponse.body);
     body.once("error", () => { if (!controller.signal.aborted) reason = "upstream-error"; });
-    await pipeline(body, response, { signal: controller.signal });
+    let bytes=0;
+    const limit = new Transform({transform(chunk,_encoding,done){rollWindow();bytes+=chunk.length;windowBytes+=chunk.length;if((!upstreamStream&&bytes>maxResponseBytes)||windowBytes>maxBytesPerMinute){abort("response-limit");done(new Error("observer response allowance reached"));}else done(null,chunk);}});
+    await pipeline(body,limit,response,{signal:controller.signal});
   } catch (error) {
     if (!controller.signal.aborted) reason = "upstream-error";
     if (!response.headersSent) response.writeHead(error?.name === "AbortError" ? 504 : 502, { "content-type": "application/json" });
@@ -113,7 +121,7 @@ if (isMain) {
   const telemetryEnabled = process.env.OBSERVER_STREAM_TELEMETRY === "1";
   const onStreamTelemetry = telemetryEnabled ? record => console.log(JSON.stringify({ kind: "observer-stream", revision: process.env.K_REVISION ?? "local", ...record })) : undefined;
   const http2 = process.env.OBSERVER_HTTP2 === "1";
-  const server = createObserverBridgeServer({ upstreamOrigin, hostedOrigin, streamMaxMs, verifyObserverToken, onStreamTelemetry, http2 });
+  const server = createObserverBridgeServer({ upstreamOrigin, hostedOrigin, streamMaxMs, verifyObserverToken, onStreamTelemetry, http2, maxStreams: Number(process.env.OBSERVER_MAX_STREAMS ?? Infinity), maxRequestsPerMinute: Number(process.env.OBSERVER_REQUESTS_PER_MINUTE ?? Infinity), maxResponseBytes: Number(process.env.OBSERVER_MAX_RESPONSE_BYTES ?? Infinity), maxBytesPerMinute: Number(process.env.OBSERVER_BYTES_PER_MINUTE ?? Infinity) });
   if (telemetryEnabled) {
     onStreamTelemetry({ ...server.observerStreamSnapshot(), event: "baseline" });
     const sampleTimer = setInterval(() => onStreamTelemetry({ ...server.observerStreamSnapshot(), event: "sample" }), 30000);

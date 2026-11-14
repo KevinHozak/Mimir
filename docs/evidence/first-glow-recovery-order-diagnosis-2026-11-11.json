@@ -1,0 +1,6183 @@
+{
+  "date": "2026-11-11",
+  "scope": "Investigation only; no engine/test/server edits, provider calls or publication",
+  "providerCalls": 0,
+  "traceDirectory": ".tmp/recovery-progress-qFUG25",
+  "sourceSha256Unchanged": {
+    "packages/engine/src/first-glow-post-probe-continuation.ts": "722bdfaad7bb1c3174785b390fba67ef58944ccf83f459e28a02d75bf3c9af90",
+    "packages/engine/src/first-glow-initial-cache-preparation.ts": "0a31f2047ee1ad227b9cb218fc1e39b3d07c58a25af83914727c6f875db1970c",
+    "packages/engine/src/first-glow-pattern-preparation.ts": "2820f31a6cbfbf92f58a797708085b5f8b29fd046d14ab278a31a856919442bb",
+    "packages/engine/src/first-glow-recovery-admission.ts": "b3a3c67b93ec4c7929f526eb5a170f55422b0678db361b582cc4648ddd788817",
+    "packages/engine/src/first-glow-actions.ts": "557efae81e071599251977fff77d7d0c56e6981255125e4b0910bf15e247b073",
+    "packages/engine/src/structured.ts": "cdf998ae3dfff112b7b61cff3310707901a8a5a7a3a5fc89138af910e3697a51",
+    "packages/engine/src/index.ts": "49e2f46cf7c7d23890d43874bf6a8fd8fbc712dc584c8d1aabf3b20ea002e1ab"
+  },
+  "verification": {
+    "perPulseCarriedChargeBalance": true,
+    "replays": [
+      {
+        "population": 12,
+        "matched": true,
+        "sha256": "ccf4a59c5d437cd98965f20273454bfd8a4da617ef069a84d906fa1967a00396"
+      },
+      {
+        "population": 8,
+        "matched": true,
+        "sha256": "fb28dc1c93d760cc3017d64b43a48df97461f8e8b7589d2ff9d9170209126562"
+      }
+    ]
+  },
+  "recovery": [
+    {
+      "population": 12,
+      "stats": {
+        "spark-2": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 37,
+            "deficit": 0,
+            "readiness": 73
+          },
+          "drawn": 64,
+          "given": 13,
+          "received": 12,
+          "consumed": 100,
+          "readinessRecovered": 140,
+          "movingPulses": 148,
+          "waitPulses": 71,
+          "draws": 8,
+          "rests": 14,
+          "shares": 13,
+          "end": {
+            "position": {
+              "x": 26,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 0,
+            "deficit": 0,
+            "readiness": 65
+          }
+        },
+        "spark-3": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 27,
+            "deficit": 0,
+            "readiness": 74
+          },
+          "drawn": 48,
+          "given": 2,
+          "received": 1,
+          "consumed": 74,
+          "readinessRecovered": 110,
+          "movingPulses": 116,
+          "waitPulses": 80,
+          "draws": 6,
+          "rests": 11,
+          "shares": 2,
+          "end": {
+            "position": {
+              "x": 20,
+              "y": 4
+            },
+            "activity": "seek-charge",
+            "status": "traveling",
+            "destination": "tiled-101",
+            "charge": 0,
+            "deficit": 6,
+            "readiness": 68
+          }
+        }
+      },
+      "postDrawDecisions": [
+        {
+          "id": "spark-2",
+          "pulse": 201,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 7,
+            "readiness": 63
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 8,
+            "deficit": 7,
+            "readiness": 63
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 392,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 205,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 62
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 400,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 234,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 2,
+            "readiness": 76
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 464,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 235,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 448,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 244,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 4,
+            "readiness": 83
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 83
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 472,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 245,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 83
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 83
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 464,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 284,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 5,
+            "readiness": 66
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 8,
+            "deficit": 5,
+            "readiness": 66
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 592,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 292,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 7,
+            "readiness": 83
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 8,
+            "deficit": 7,
+            "readiness": 83
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 624,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-south",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 293,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 65
+          },
+          "after": {
+            "position": {
+              "x": 6,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 64
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 616,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-south",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 300,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 82
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 632,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 327,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 4,
+            "readiness": 76
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 6,
+            "deficit": 4,
+            "readiness": 76
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 688,
+          "companion": "spark-5",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 330,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 672,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 341,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 6,
+            "readiness": 71
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 71
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 712,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 7,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 342,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 71
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 71
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 728,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        }
+      ],
+      "safeOrderingCases": [
+        {
+          "id": "spark-3",
+          "pulse": 235,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 448,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 245,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 83
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 83
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 464,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 300,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 82
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 632,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 330,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 672,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 10
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 342,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 71
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 71
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 728,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 11
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "id": "spark-2",
+          "pulse": 205,
+          "file": ".tmp/recovery-progress-qFUG25/review-12-spark-2-205.json"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 235,
+          "file": ".tmp/recovery-progress-qFUG25/review-12-spark-3-235.json"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 245,
+          "file": ".tmp/recovery-progress-qFUG25/review-12-spark-2-245.json"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 293,
+          "file": ".tmp/recovery-progress-qFUG25/review-12-spark-3-293.json"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 300,
+          "file": ".tmp/recovery-progress-qFUG25/review-12-spark-2-300.json"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 330,
+          "file": ".tmp/recovery-progress-qFUG25/review-12-spark-3-330.json"
+        }
+      ]
+    },
+    {
+      "population": 8,
+      "stats": {
+        "spark-1": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 2,
+            "deficit": 0,
+            "readiness": 74
+          },
+          "drawn": 112,
+          "given": 0,
+          "received": 49,
+          "consumed": 155,
+          "readinessRecovered": 190,
+          "movingPulses": 213,
+          "waitPulses": 31,
+          "draws": 14,
+          "rests": 19,
+          "shares": 0,
+          "end": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 5,
+            "readiness": 51
+          }
+        },
+        "spark-2": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 2,
+            "deficit": 0,
+            "readiness": 75
+          },
+          "drawn": 128,
+          "given": 8,
+          "received": 8,
+          "consumed": 130,
+          "readinessRecovered": 220,
+          "movingPulses": 231,
+          "waitPulses": 12,
+          "draws": 16,
+          "rests": 22,
+          "shares": 8,
+          "end": {
+            "position": {
+              "x": 10,
+              "y": 4
+            },
+            "activity": "seek-charge",
+            "status": "traveling",
+            "destination": "tiled-101",
+            "charge": 0,
+            "deficit": 16,
+            "readiness": 64
+          }
+        },
+        "spark-3": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 4,
+            "deficit": 0,
+            "readiness": 74
+          },
+          "drawn": 80,
+          "given": 5,
+          "received": 33,
+          "consumed": 112,
+          "readinessRecovered": 160,
+          "movingPulses": 158,
+          "waitPulses": 33,
+          "draws": 10,
+          "rests": 16,
+          "shares": 5,
+          "end": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "traveling",
+            "destination": "tiled-101",
+            "charge": 0,
+            "deficit": 15,
+            "readiness": 76
+          }
+        },
+        "spark-5": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 9,
+            "deficit": 0,
+            "readiness": 72
+          },
+          "drawn": 136,
+          "given": 47,
+          "received": 27,
+          "consumed": 109,
+          "readinessRecovered": 100,
+          "movingPulses": 140,
+          "waitPulses": 65,
+          "draws": 17,
+          "rests": 10,
+          "shares": 47,
+          "end": {
+            "position": {
+              "x": 15,
+              "y": 4
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 32
+          }
+        },
+        "spark-7": {
+          "start": {
+            "position": {
+              "x": 28,
+              "y": 26
+            },
+            "activity": "scavenge-cache",
+            "status": "choosing",
+            "charge": 1,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "drawn": 40,
+          "given": 0,
+          "received": 0,
+          "consumed": 33,
+          "readinessRecovered": 70,
+          "movingPulses": 67,
+          "waitPulses": 10,
+          "draws": 5,
+          "rests": 7,
+          "shares": 0,
+          "end": {
+            "position": {
+              "x": 22,
+              "y": 23
+            },
+            "activity": "shape-pattern",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 80
+          }
+        }
+      },
+      "postDrawDecisions": [
+        {
+          "id": "spark-1",
+          "pulse": 94,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 24,
+            "readiness": 49
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 16,
+            "readiness": 49
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 232,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 95,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 16,
+            "readiness": 49
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 8,
+            "readiness": 49
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 216,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 1,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 96,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 8,
+            "readiness": 49
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 49
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 208,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 1,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 97,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 49
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 31,
+            "deficit": 0,
+            "readiness": 48
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 200,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 1,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 115,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 24,
+            "readiness": 50
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 16,
+            "readiness": 50
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 312,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 0,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 116,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 16,
+            "readiness": 50
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 8,
+            "readiness": 50
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 304,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 117,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 8,
+            "readiness": 50
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "traveling",
+            "destination": "tiled-101",
+            "charge": 23,
+            "deficit": 8,
+            "readiness": 49
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 296,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 119,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 31,
+            "deficit": 0,
+            "readiness": 48
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 30,
+            "deficit": 0,
+            "readiness": 47
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 312,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 131,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 80
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 11,
+            "deficit": 0,
+            "readiness": 79
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 336,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 151,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 13,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 80
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 392,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 158,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 23,
+            "readiness": 48
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 15,
+            "readiness": 47
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 392,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 159,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 15,
+            "readiness": 47
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 7,
+            "readiness": 47
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 384,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 160,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 8,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 60
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 368,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-south",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 160,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 7,
+            "readiness": 47
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 47
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 368,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 161,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 60
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 60
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 352,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 161,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 47
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 47
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 352,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 179,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 6,
+            "readiness": 63
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 63
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 448,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 179,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 18,
+            "readiness": 46
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 10,
+            "readiness": 45
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 448,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 180,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 63
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 62
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 432,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 180,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 10,
+            "readiness": 45
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 2,
+            "readiness": 45
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 432,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 181,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 2,
+            "readiness": 45
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 45
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 424,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 182,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 0,
+            "readiness": 45
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 31,
+            "deficit": 0,
+            "readiness": 44
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 440,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 193,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 4,
+            "readiness": 51
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 51
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 464,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 194,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 51
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 50
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 480,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 200,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 11,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 10,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 472,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 211,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 3,
+            "readiness": 85
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 85
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 536,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 212,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 85
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 85
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 528,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 225,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 82
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 584,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 230,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 3,
+            "readiness": 83
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 8,
+            "deficit": 3,
+            "readiness": 83
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 600,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 7,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 238,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 11,
+            "readiness": 56
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 8,
+            "deficit": 11,
+            "readiness": 56
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 632,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 239,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 82
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 624,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 240,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 3,
+            "readiness": 56
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 0,
+            "readiness": 56
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 616,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 241,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 0,
+            "readiness": 56
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 23,
+            "deficit": 0,
+            "readiness": 55
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 600,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 242,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 2,
+            "readiness": 78
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 616,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 9,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 243,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 600,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 10,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-7",
+          "pulse": 245,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 25,
+            "readiness": 52
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 17,
+            "readiness": 52
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 584,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 1,
+            "prior": 12
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-7",
+          "pulse": 246,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 17,
+            "readiness": 52
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 9,
+            "readiness": 52
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 600,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 12
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-7",
+          "pulse": 247,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 9,
+            "readiness": 52
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 1,
+            "readiness": 52
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 592,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 3,
+            "prior": 12
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-7",
+          "pulse": 248,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 32,
+            "deficit": 1,
+            "readiness": 52
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 40,
+            "deficit": 0,
+            "readiness": 52
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 584,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 12
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-7",
+          "pulse": 249,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 40,
+            "deficit": 0,
+            "readiness": 52
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 40,
+            "deficit": 0,
+            "readiness": 52
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 576,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 12
+          },
+          "goalAfter": {
+            "phase": "rest",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 256,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 13,
+            "readiness": 62
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 5,
+            "readiness": 61
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 616,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 6,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 257,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 5,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 14,
+            "deficit": 5,
+            "readiness": 61
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 608,
+          "companion": "spark-8",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 274,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 696,
+          "companion": "spark-1",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 282,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 6,
+            "readiness": 56
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 56
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 704,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 11,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 282,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 6,
+            "readiness": 37
+          },
+          "after": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 37
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 704,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 9,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 282,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 704,
+          "companion": "spark-1",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 283,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 56
+          },
+          "after": {
+            "position": {
+              "x": 6,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 55
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 680,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 11,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 283,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 37
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 36
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 680,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 9,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "idle",
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 290,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 6,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 704,
+          "companion": "spark-1",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 297,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 696,
+          "companion": "spark-1",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 304,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 712,
+          "companion": "spark-1",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 312,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 61
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 736,
+          "companion": "spark-1",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "deferred",
+            "reason": "surveyed shard contact unavailable or unreachable",
+            "actions": 7,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 319,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 5,
+            "readiness": 72
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "waiting",
+            "charge": 8,
+            "deficit": 5,
+            "readiness": 72
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 768,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 9,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "waiting for recovery contact access; future recovery access is conditional"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 320,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 59
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 58
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 760,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 322,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 70
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 14,
+            "deficit": 0,
+            "readiness": 69
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 776,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 10,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 325,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 2,
+            "readiness": 79
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 79
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 768,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 12,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 326,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 79
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "share-charge",
+            "status": "choosing",
+            "charge": 14,
+            "deficit": 0,
+            "readiness": 79
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 784,
+          "companion": "spark-4",
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 13,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "selected continuation contact is no longer available"
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 337,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 78
+          },
+          "after": {
+            "position": {
+              "x": 6,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 800,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 14,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-south",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 351,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 11,
+            "readiness": 41
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 3,
+            "readiness": 40
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 840,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 9,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-south",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 352,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 3,
+            "readiness": 40
+          },
+          "after": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 0,
+            "readiness": 40
+          },
+          "immediate": "charge",
+          "minimum": 90,
+          "source": 832,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 10,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 353,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 24,
+            "deficit": 0,
+            "readiness": 40
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 23,
+            "deficit": 0,
+            "readiness": 39
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 824,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 11,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        }
+      ],
+      "safeOrderingCases": [
+        {
+          "id": "spark-1",
+          "pulse": 131,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 80
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 11,
+            "deficit": 0,
+            "readiness": 79
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 336,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 2,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 151,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 13,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "after": {
+            "position": {
+              "x": 7,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 12,
+            "deficit": 0,
+            "readiness": 80
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 392,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 4,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-3",
+          "pulse": 200,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 11,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 10,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 472,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 212,
+          "before": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 85
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "waiting",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 85
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 528,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-east",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-5",
+          "pulse": 225,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 82
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 584,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 5,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 239,
+          "before": {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 82
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 81
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 624,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 8,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-west",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 243,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 16,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 76
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 600,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 10,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-1",
+          "pulse": 322,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 6
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 15,
+            "deficit": 0,
+            "readiness": 70
+          },
+          "after": {
+            "position": {
+              "x": 5,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 14,
+            "deficit": 0,
+            "readiness": 69
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 776,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 10,
+            "prior": 6
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-far",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        },
+        {
+          "id": "spark-2",
+          "pulse": 337,
+          "before": {
+            "position": {
+              "x": 4,
+              "y": 5
+            },
+            "activity": "seek-charge",
+            "status": "choosing",
+            "charge": 8,
+            "deficit": 0,
+            "readiness": 78
+          },
+          "after": {
+            "position": {
+              "x": 6,
+              "y": 5
+            },
+            "activity": "seek-shelter",
+            "status": "traveling",
+            "destination": "tiled-102",
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 77
+          },
+          "immediate": "rest",
+          "minimum": 90,
+          "source": 800,
+          "previousDraw": true,
+          "previousRest": false,
+          "goalBefore": {
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "actions": 14,
+            "prior": 5
+          },
+          "goalAfter": {
+            "phase": "deferred",
+            "reason": "no currently feasible funded shard itinerary or contact"
+          },
+          "bothOrderDiagnostic": {
+            "selected": "seek-charge",
+            "phase": "charge",
+            "reason": "prepare charge for the surveyed shard",
+            "pin": {
+              "activity": "seek-charge",
+              "objectId": "tiled-101",
+              "slotId": "draw-south",
+              "navigationRevision": 0
+            },
+            "notExecutableHistory": true,
+            "minimumReadinessRetained": 90
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "id": "spark-2",
+          "pulse": 119,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-2-119.json"
+        },
+        {
+          "id": "spark-1",
+          "pulse": 131,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-1-131.json"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 151,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-2-151.json"
+        },
+        {
+          "id": "spark-1",
+          "pulse": 161,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-1-161.json"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 161,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-3-161.json"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 180,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-2-180.json"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 182,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-5-182.json"
+        },
+        {
+          "id": "spark-1",
+          "pulse": 194,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-1-194.json"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 200,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-3-200.json"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 225,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-5-225.json"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 241,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-3-241.json"
+        },
+        {
+          "id": "spark-7",
+          "pulse": 249,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-7-249.json"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 320,
+          "file": ".tmp/recovery-progress-qFUG25/review-8-spark-5-320.json"
+        }
+      ]
+    }
+  ],
+  "conditionalBudget": {
+    "diagnosticOnly": true,
+    "executedAsHistory": false,
+    "assumptions": "Current source stock only; ordinary recovery/movement accounting; readiness >=90 and zero deficit before shard departure; full shard leg without new deficit; recovery contacts conditional, shard currently available; no future gifts or stock promised",
+    "results": [
+      {
+        "id": "spark-3",
+        "decisionPulse": 235,
+        "start": {
+          "charge": 16,
+          "deficit": 0,
+          "readiness": 76
+        },
+        "source": 448,
+        "direct": {
+          "cost": 54,
+          "profile": {
+            "priorMovingPulses": 26,
+            "pulses": 27,
+            "movedOnArrival": true
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 11,
+            "readiness": 49
+          }
+        },
+        "bestConditionalFunded": {
+          "first": {
+            "phase": "charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-west",
+            "n": 3,
+            "sourceAfter": 424,
+            "readinessAfter": 76
+          },
+          "second": {
+            "phase": "rest",
+            "objectId": "tiled-102",
+            "slotId": "rest-west",
+            "n": 3,
+            "sourceAfter": 424
+          },
+          "immediateContactFree": true,
+          "shard": {
+            "objectId": "tiled-104",
+            "slotId": "examine",
+            "cost": 38,
+            "profile": {
+              "priorMovingPulses": 18,
+              "pulses": 19,
+              "movedOnArrival": true
+            }
+          },
+          "atShardDeparture": {
+            "charge": 26,
+            "deficit": 0,
+            "readiness": 92
+          },
+          "afterShape": {
+            "charge": 7,
+            "deficit": 0,
+            "readiness": 73
+          },
+          "pulses": 38,
+          "actions": 6,
+          "sourceDrawn": 24
+        },
+        "restFirstFeasible": 0,
+        "safeChargeFirstFeasible": 4239,
+        "feasiblePlanCount": 4239,
+        "sharedActionsAlreadySpent": 12
+      },
+      {
+        "id": "spark-2",
+        "decisionPulse": 245,
+        "start": {
+          "charge": 16,
+          "deficit": 0,
+          "readiness": 83
+        },
+        "source": 464,
+        "direct": {
+          "cost": 52,
+          "profile": {
+            "priorMovingPulses": 25,
+            "pulses": 26,
+            "movedOnArrival": true
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 10,
+            "readiness": 57
+          }
+        },
+        "bestConditionalFunded": {
+          "first": {
+            "phase": "charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-east",
+            "n": 2,
+            "sourceAfter": 448,
+            "readinessAfter": 83
+          },
+          "second": {
+            "phase": "rest",
+            "objectId": "tiled-102",
+            "slotId": "rest-west",
+            "n": 2,
+            "sourceAfter": 448
+          },
+          "immediateContactFree": true,
+          "shard": {
+            "objectId": "tiled-104",
+            "slotId": "examine",
+            "cost": 38,
+            "profile": {
+              "priorMovingPulses": 18,
+              "pulses": 19,
+              "movedOnArrival": true
+            }
+          },
+          "atShardDeparture": {
+            "charge": 19,
+            "deficit": 0,
+            "readiness": 90
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 0,
+            "readiness": 71
+          },
+          "pulses": 35,
+          "actions": 4,
+          "sourceDrawn": 16
+        },
+        "restFirstFeasible": 0,
+        "safeChargeFirstFeasible": 4360,
+        "feasiblePlanCount": 4360,
+        "sharedActionsAlreadySpent": 15
+      },
+      {
+        "id": "spark-1",
+        "decisionPulse": 131,
+        "start": {
+          "charge": 12,
+          "deficit": 0,
+          "readiness": 80
+        },
+        "source": 336,
+        "direct": {
+          "cost": 52,
+          "profile": {
+            "priorMovingPulses": 25,
+            "pulses": 26,
+            "movedOnArrival": true
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 14,
+            "readiness": 54
+          }
+        },
+        "bestConditionalFunded": {
+          "first": {
+            "phase": "charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-east",
+            "n": 3,
+            "sourceAfter": 312,
+            "readinessAfter": 80
+          },
+          "second": {
+            "phase": "rest",
+            "objectId": "tiled-102",
+            "slotId": "rest-west",
+            "n": 3,
+            "sourceAfter": 312
+          },
+          "immediateContactFree": true,
+          "shard": {
+            "objectId": "tiled-104",
+            "slotId": "examine",
+            "cost": 38,
+            "profile": {
+              "priorMovingPulses": 18,
+              "pulses": 19,
+              "movedOnArrival": true
+            }
+          },
+          "atShardDeparture": {
+            "charge": 23,
+            "deficit": 0,
+            "readiness": 97
+          },
+          "afterShape": {
+            "charge": 4,
+            "deficit": 0,
+            "readiness": 78
+          },
+          "pulses": 37,
+          "actions": 6,
+          "sourceDrawn": 24
+        },
+        "restFirstFeasible": 0,
+        "safeChargeFirstFeasible": 4320,
+        "feasiblePlanCount": 4320,
+        "sharedActionsAlreadySpent": 8
+      }
+    ]
+  },
+  "comparison": [
+    {
+      "label": "sevenPolicies",
+      "bundle": "current",
+      "population": 1,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-54",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 54,
+          "creationEventId": "event-54-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-46-spark-1-cache-survey",
+            "event-54-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 46,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "sevenPolicies",
+      "bundle": "current",
+      "population": 8,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-202",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 202,
+          "creationEventId": "event-202-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-58-spark-1-cache-survey",
+            "event-202-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-4",
+              "pulse": 222,
+              "eventId": "event-222-spark-4-route-pattern-spark-1-202-encounter",
+              "decline": {
+                "pulse": 223,
+                "eventId": "event-223-spark-4-route-pattern-spark-1-202-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 241,
+              "eventId": "event-241-spark-5-route-pattern-spark-1-202-encounter",
+              "decline": {
+                "pulse": 242,
+                "eventId": "event-242-spark-5-route-pattern-spark-1-202-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-8",
+              "pulse": 261,
+              "eventId": "event-261-spark-8-route-pattern-spark-1-202-encounter",
+              "decline": {
+                "pulse": 262,
+                "eventId": "event-262-spark-8-route-pattern-spark-1-202-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 281,
+              "eventId": "event-281-spark-3-route-pattern-spark-1-202-encounter",
+              "decline": {
+                "pulse": 282,
+                "eventId": "event-282-spark-3-route-pattern-spark-1-202-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 303,
+              "eventId": "event-303-spark-2-route-pattern-spark-1-202-encounter",
+              "decline": {
+                "pulse": 304,
+                "eventId": "event-304-spark-2-route-pattern-spark-1-202-decline",
+                "reason": "no currently feasible charge/rest itinerary"
+              }
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-4-222",
+          "public": true,
+          "creatorId": "spark-4",
+          "settlementId": "first-glow-region",
+          "createdPulse": 222,
+          "creationEventId": "event-222-spark-4-route-pattern-created",
+          "sourceEventIds": [
+            "event-133-spark-4-cache-survey",
+            "event-222-spark-4-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-5",
+              "pulse": 241,
+              "eventId": "event-241-spark-5-route-pattern-spark-4-222-encounter"
+            },
+            {
+              "sparkId": "spark-8",
+              "pulse": 261,
+              "eventId": "event-261-spark-8-route-pattern-spark-4-222-encounter"
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 281,
+              "eventId": "event-281-spark-3-route-pattern-spark-4-222-encounter"
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 303,
+              "eventId": "event-303-spark-2-route-pattern-spark-4-222-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-5-241",
+          "public": true,
+          "creatorId": "spark-5",
+          "settlementId": "first-glow-region",
+          "createdPulse": 241,
+          "creationEventId": "event-241-spark-5-route-pattern-created",
+          "sourceEventIds": [
+            "event-154-spark-5-cache-survey",
+            "event-241-spark-5-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-8",
+              "pulse": 261,
+              "eventId": "event-261-spark-8-route-pattern-spark-5-241-encounter"
+            },
+            {
+              "sparkId": "spark-3",
+              "pulse": 281,
+              "eventId": "event-281-spark-3-route-pattern-spark-5-241-encounter"
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 303,
+              "eventId": "event-303-spark-2-route-pattern-spark-5-241-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-8-261",
+          "public": true,
+          "creatorId": "spark-8",
+          "settlementId": "first-glow-region",
+          "createdPulse": 261,
+          "creationEventId": "event-261-spark-8-route-pattern-created",
+          "sourceEventIds": [
+            "event-174-spark-8-cache-survey",
+            "event-261-spark-8-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-3",
+              "pulse": 281,
+              "eventId": "event-281-spark-3-route-pattern-spark-8-261-encounter"
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 303,
+              "eventId": "event-303-spark-2-route-pattern-spark-8-261-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-3-281",
+          "public": true,
+          "creatorId": "spark-3",
+          "settlementId": "first-glow-region",
+          "createdPulse": 281,
+          "creationEventId": "event-281-spark-3-route-pattern-created",
+          "sourceEventIds": [
+            "event-112-spark-3-cache-survey",
+            "event-281-spark-3-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-2",
+              "pulse": 303,
+              "eventId": "event-303-spark-2-route-pattern-spark-3-281-encounter"
+            }
+          ]
+        }
+      ],
+      "patternGoals": [
+        {
+          "sparkId": "spark-2",
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 0
+        }
+      ],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 58,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 79,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 112,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-4",
+          "pulse": 133,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 154,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-8",
+          "pulse": 174,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "sevenPolicies",
+      "bundle": "current",
+      "population": 12,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-2-300",
+          "public": true,
+          "creatorId": "spark-2",
+          "settlementId": "first-glow-region",
+          "createdPulse": 300,
+          "creationEventId": "event-300-spark-2-route-pattern-created",
+          "sourceEventIds": [
+            "event-119-spark-2-cache-survey",
+            "event-300-spark-2-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 95,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 119,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 140,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-4",
+          "pulse": 164,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "sevenPolicies",
+      "bundle": "review",
+      "population": 1,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-54",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 54,
+          "creationEventId": "event-54-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-46-spark-1-cache-survey",
+            "event-54-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 46,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "sevenPolicies",
+      "bundle": "review",
+      "population": 8,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-2-154",
+          "public": true,
+          "creatorId": "spark-2",
+          "settlementId": "first-glow-region",
+          "createdPulse": 154,
+          "creationEventId": "event-154-spark-2-route-pattern-created",
+          "sourceEventIds": [
+            "event-79-spark-2-cache-survey",
+            "event-154-spark-2-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-3",
+              "pulse": 198,
+              "eventId": "event-198-spark-3-route-pattern-spark-2-154-encounter",
+              "decline": {
+                "pulse": 199,
+                "eventId": "event-199-spark-3-route-pattern-spark-2-154-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-1",
+              "pulse": 218,
+              "eventId": "event-218-spark-1-route-pattern-spark-2-154-encounter",
+              "decline": {
+                "pulse": 219,
+                "eventId": "event-219-spark-1-route-pattern-spark-2-154-decline",
+                "reason": "already surveyed the Wild Cache"
+              }
+            },
+            {
+              "sparkId": "spark-4",
+              "pulse": 243,
+              "eventId": "event-243-spark-4-route-pattern-spark-2-154-encounter",
+              "decline": {
+                "pulse": 345,
+                "eventId": "event-345-spark-4-route-pattern-spark-2-154-decline",
+                "reason": "pattern-guided retry already committed for this cache"
+              }
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 275,
+              "eventId": "event-275-spark-5-route-pattern-spark-2-154-encounter"
+            },
+            {
+              "sparkId": "spark-7",
+              "pulse": 294,
+              "eventId": "event-294-spark-7-route-pattern-spark-2-154-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-3-198",
+          "public": true,
+          "creatorId": "spark-3",
+          "settlementId": "first-glow-region",
+          "createdPulse": 198,
+          "creationEventId": "event-198-spark-3-route-pattern-created",
+          "sourceEventIds": [
+            "event-121-spark-3-cache-survey",
+            "event-198-spark-3-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-1",
+              "pulse": 218,
+              "eventId": "event-218-spark-1-route-pattern-spark-3-198-encounter"
+            },
+            {
+              "sparkId": "spark-4",
+              "pulse": 243,
+              "eventId": "event-243-spark-4-route-pattern-spark-3-198-encounter"
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 275,
+              "eventId": "event-275-spark-5-route-pattern-spark-3-198-encounter"
+            },
+            {
+              "sparkId": "spark-7",
+              "pulse": 294,
+              "eventId": "event-294-spark-7-route-pattern-spark-3-198-encounter"
+            }
+          ]
+        },
+        {
+          "id": "route-pattern-spark-1-218",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 218,
+          "creationEventId": "event-218-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-58-spark-1-cache-survey",
+            "event-218-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-4",
+              "pulse": 243,
+              "eventId": "event-243-spark-4-route-pattern-spark-1-218-encounter",
+              "decline": {
+                "pulse": 244,
+                "eventId": "event-244-spark-4-route-pattern-spark-1-218-decline",
+                "reason": "prepare charge for the recorded cache route"
+              },
+              "use": {
+                "pulse": 324,
+                "eventId": "event-324-spark-4-route-pattern-spark-1-218-use",
+                "retry": true,
+                "outcomeEventId": "event-344-spark-4-route-pattern-spark-1-218-outcome"
+              }
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 275,
+              "eventId": "event-275-spark-5-route-pattern-spark-1-218-encounter",
+              "decline": {
+                "pulse": 276,
+                "eventId": "event-276-spark-5-route-pattern-spark-1-218-decline",
+                "reason": "prepare charge for the recorded cache route"
+              }
+            },
+            {
+              "sparkId": "spark-7",
+              "pulse": 294,
+              "eventId": "event-294-spark-7-route-pattern-spark-1-218-encounter",
+              "decline": {
+                "pulse": 295,
+                "eventId": "event-295-spark-7-route-pattern-spark-1-218-decline",
+                "reason": "prepare charge for the recorded cache route"
+              },
+              "use": {
+                "pulse": 348,
+                "eventId": "event-348-spark-7-route-pattern-spark-1-218-use",
+                "retry": true
+              }
+            }
+          ]
+        }
+      ],
+      "patternGoals": [
+        {
+          "sparkId": "spark-4",
+          "phase": "committed",
+          "reason": "funded pattern-guided departure committed",
+          "actions": 11
+        },
+        {
+          "sparkId": "spark-5",
+          "phase": "deferred",
+          "reason": "the recorded target is unavailable or unreachable",
+          "actions": 7
+        },
+        {
+          "sparkId": "spark-7",
+          "phase": "committed",
+          "reason": "funded pattern-guided departure committed",
+          "actions": 5
+        }
+      ],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 58,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 79,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 121,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-4",
+          "pulse": 344,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 142,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-7",
+          "pulse": 193,
+          "alternative": "conserve"
+        }
+      ]
+    },
+    {
+      "label": "sevenPolicies",
+      "bundle": "review",
+      "population": 12,
+      "patterns": [],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 111,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 135,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 156,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "eightPolicies",
+      "bundle": "current",
+      "population": 1,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-119",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 119,
+          "creationEventId": "event-119-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-46-spark-1-cache-survey",
+            "event-119-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 46,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "eightPolicies",
+      "bundle": "current",
+      "population": 8,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-138",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 138,
+          "creationEventId": "event-138-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-58-spark-1-cache-survey",
+            "event-138-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-4",
+              "pulse": 291,
+              "eventId": "event-291-spark-4-route-pattern-spark-1-138-encounter",
+              "decline": {
+                "pulse": 292,
+                "eventId": "event-292-spark-4-route-pattern-spark-1-138-decline",
+                "reason": "prepare charge for the recorded cache route"
+              }
+            }
+          ]
+        }
+      ],
+      "patternGoals": [
+        {
+          "sparkId": "spark-4",
+          "phase": "deferred",
+          "reason": "selected preparation or cache contact is no longer available",
+          "actions": 4
+        }
+      ],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 58,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 79,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 112,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-4",
+          "pulse": 133,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 159,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-8",
+          "pulse": 180,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "eightPolicies",
+      "bundle": "current",
+      "population": 12,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-3-183",
+          "public": true,
+          "creatorId": "spark-3",
+          "settlementId": "first-glow-region",
+          "createdPulse": 183,
+          "creationEventId": "event-183-spark-3-route-pattern-created",
+          "sourceEventIds": [
+            "event-140-spark-3-cache-survey",
+            "event-183-spark-3-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-1",
+              "pulse": 359,
+              "eventId": "event-359-spark-1-route-pattern-spark-3-183-encounter",
+              "decline": {
+                "pulse": 360,
+                "eventId": "event-360-spark-1-route-pattern-spark-3-183-decline",
+                "reason": "prepare charge for the recorded cache route"
+              }
+            }
+          ]
+        }
+      ],
+      "patternGoals": [
+        {
+          "sparkId": "spark-1",
+          "phase": "charge",
+          "reason": "prepare charge for the recorded cache route",
+          "actions": 0
+        }
+      ],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 95,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 119,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 140,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "eightPolicies",
+      "bundle": "review",
+      "population": 1,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-119",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 119,
+          "creationEventId": "event-119-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-46-spark-1-cache-survey",
+            "event-119-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 46,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "eightPolicies",
+      "bundle": "review",
+      "population": 8,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-7-311",
+          "public": true,
+          "creatorId": "spark-7",
+          "settlementId": "first-glow-region",
+          "createdPulse": 311,
+          "creationEventId": "event-311-spark-7-route-pattern-created",
+          "sourceEventIds": [
+            "event-206-spark-7-cache-survey",
+            "event-311-spark-7-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": []
+        }
+      ],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 58,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 79,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 121,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-4",
+          "pulse": 101,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-5",
+          "pulse": 142,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-7",
+          "pulse": 206,
+          "alternative": "probe"
+        }
+      ]
+    },
+    {
+      "label": "eightPolicies",
+      "bundle": "review",
+      "population": 12,
+      "patterns": [],
+      "patternGoals": [],
+      "choices": [
+        {
+          "id": "spark-1",
+          "pulse": 111,
+          "alternative": "conserve"
+        },
+        {
+          "id": "spark-2",
+          "pulse": 135,
+          "alternative": "probe"
+        },
+        {
+          "id": "spark-3",
+          "pulse": 156,
+          "alternative": "probe"
+        }
+      ]
+    }
+  ]
+}

@@ -26,3 +26,15 @@ export function observerHref(view: "live" | "history", context: ObserverContext,
   }
   return `/?${params}${history?.eventId ? `#${encodeURIComponent(history.eventId)}` : ""}`;
 }
+
+const RETURN_CONTEXT_KEY = "mimir:first-glow-return:v1";
+export function loadObserverReturn(storage: Pick<Storage, "getItem"> | undefined): ObserverContext | undefined {
+  try {
+    const context = JSON.parse(storage?.getItem(RETURN_CONTEXT_KEY) ?? "null");
+    if (!context || typeof context.sparkId !== "string" || !/^spark-[a-zA-Z0-9-]{1,64}$/.test(context.sparkId) || typeof context.follow !== "boolean" || !["immersive", "explanatory"].includes(context.presentation)) return;
+    return { sparkId: context.sparkId, follow: context.follow, presentation: context.presentation };
+  } catch { return; }
+}
+export function saveObserverReturn(context: ObserverContext, storage: Pick<Storage, "setItem"> | undefined): void {
+  try { storage?.setItem(RETURN_CONTEXT_KEY, JSON.stringify(context)); } catch { /* Private browsing may deny storage. */ }
+}

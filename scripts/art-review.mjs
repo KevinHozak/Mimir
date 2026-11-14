@@ -24,7 +24,7 @@ const node = process.execPath;
 const children = [];
 const nodeModules = existsSync(join(root, "node_modules")) ? join(root, "node_modules") : join(root, "..", "..", "node_modules");
 const waitFor = async url => { for (let attempt = 0; attempt < 100; attempt += 1) { try { if ((await fetch(url)).ok) return; } catch { /* starting */ } await new Promise(resolveWait => setTimeout(resolveWait, 100)); } throw new Error("review service did not start: " + url); };
-const env = { ...process.env, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: ownerToken, WORLD_BUNDLE_ROOT: join(root, "assets/world/generated"), VITE_API_URL: "http://127.0.0.1:" + apiPort };
+const env = { ...process.env, OBSERVER_ORIGIN: `http://127.0.0.1:${webPort}`, PORT: String(apiPort), AUTO_PULSE: "false", PULSE_INTERVAL_MS: "0", DATABASE_PATH: database, OWNER_TOKEN: ownerToken, WORLD_BUNDLE_ROOT: join(root, "assets/world/generated"), VITE_API_URL: "http://127.0.0.1:" + apiPort };
 const start = (command, args, options = {}) => { const child = spawn(command, args, { cwd: options.cwd ?? root, env: { ...env, ...(options.env ?? {}) }, stdio: "ignore" }); children.push(child); return child; };
 try {
   if (!existsSync(join(root, "packages/server/dist/index.js")) || !existsSync(join(root, "packages/web/dist/index.html"))) { const build = spawnSync(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build"], { cwd: root, stdio: "inherit" }); if (build.status !== 0) throw new Error("npm run build failed before art review"); }
@@ -42,10 +42,11 @@ try {
     await page.locator("#village-canvas canvas").waitFor();
     await page.getByTestId("first-glow-inspector").waitFor();
     await page.waitForTimeout(400);
+    if (settings.glow === "disabled-by-review-style") await page.addStyleTag({ content: noGlow });
     const canvas = await page.locator("#village-canvas canvas").evaluate(element => ({ width: element.width, height: element.height, displayWidth: element.getBoundingClientRect().width, displayHeight: element.getBoundingClientRect().height, zoom: element.dataset.cameraZoom }));
     const path = join(outputRoot, name);
     await page.screenshot({ path, fullPage: true });
-    context.captures.push({ name, path: ".tmp/art-review/" + name, viewport: page.viewportSize(), deviceScaleFactor: settings.deviceScaleFactor, zoomMode: settings.zoomMode ?? "normal", zoom: canvas.zoom, reducedMotion: settings.reducedMotion, glow: settings.glow, canvas });
+    context.captures.push({ name, path: ".tmp/art-review/" + name, viewport: page.viewportSize(), deviceScaleFactor: settings.deviceScaleFactor, zoomMode: settings.zoomMode ?? "normal", zoom: canvas.zoom, glowStyleApplied: settings.glow === "disabled-by-review-style", reducedMotion: settings.reducedMotion, glow: settings.glow, canvas });
   };
   const desktop = await browser.newPage({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: 1 });
   await capture(desktop, "desktop.png", { deviceScaleFactor: 1, reducedMotion: "no-preference", glow: "enabled", zoomMode: "normal" });

@@ -12,7 +12,7 @@ export const DEFAULT_FIRST_GLOW_VIEWER_SETTINGS: FirstGlowViewerSettings = {
 
 const clampZoom = (value: unknown): number => {
   const number = typeof value === "number" && Number.isFinite(value) ? value : DEFAULT_FIRST_GLOW_VIEWER_SETTINGS.zoom;
-  return Number(Math.min(4, Math.max(1, number)).toFixed(2));
+  return Number(Math.min(4, Math.max(0.5, number)).toFixed(2));
 };
 
 const playbackRate = (value: unknown): FirstGlowViewerSettings["playbackRate"] => value === 0.5 || value === 2 ? value : 1;

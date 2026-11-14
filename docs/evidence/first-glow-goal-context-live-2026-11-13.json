@@ -1,0 +1,1040 @@
+{
+  "date": "2026-11-13",
+  "scope": "Owner-authorized live local S019 qualification",
+  "run": {
+    "directory": "C:\\Projects\\Mimir\\.tmp\\s019-context-live-qualification-cMh5eY",
+    "database": "C:\\Projects\\Mimir\\data\\local\\mimir-ai-goals-compact.db",
+    "backup": "C:\\Projects\\Mimir\\.tmp\\s019-context-live-qualification-cMh5eY\\final-backup.db",
+    "finalPulse": 360,
+    "newAttempts": 5,
+    "newReservedMicrousd": 2500000,
+    "remainingMicrousd": 0,
+    "stopped": true,
+    "elapsedSeconds": 1089.937
+  },
+  "worldId": "main",
+  "seed": 2,
+  "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+  "checkpointCount": 361,
+  "aiGoals": [
+    {
+      "id": "goal-55-spark-6-5",
+      "sparkId": "spark-6",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "ai",
+      "providerId": "google-gemini/gemini-3.5-flash-lite",
+      "modelRationale": "Sel chooses to leave a light mark on the route, building on its previous trace marking and satisfying its practical need for a useful task with a visible result while keeping its next route open.",
+      "createdPulse": 55,
+      "endPulse": 127,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-99-spark-6-explore",
+          "pulse": 99
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-127-spark-6-mark-trace",
+          "pulse": 127
+        }
+      ],
+      "receipt": {
+        "requestId": 6,
+        "status": "completed",
+        "reservationMicrousd": 500000,
+        "usage": {
+          "countedInputTokens": 1939,
+          "inputTokens": 2063,
+          "outputTokens": 110,
+          "reasoningTokens": 0,
+          "totalTokens": 2173,
+          "estimatedTokenCostMicrousd": 984
+        }
+      },
+      "observedCosts": {
+        "consumedCharge": 41,
+        "chargeDrawn": 48,
+        "readinessRecovered": 78,
+        "movingPulses": 59
+      }
+    },
+    {
+      "id": "goal-127-spark-6-7",
+      "sparkId": "spark-6",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "ai",
+      "providerId": "google-gemini/gemini-3.5-flash-lite",
+      "modelRationale": "Sel decides to leave another light mark following previous trace completions, balancing practical help and independence.",
+      "createdPulse": 127,
+      "endPulse": 129,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-128-spark-6-explore",
+          "pulse": 128
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-129-spark-6-mark-trace",
+          "pulse": 129
+        }
+      ],
+      "receipt": {
+        "requestId": 8,
+        "status": "completed",
+        "reservationMicrousd": 500000,
+        "usage": {
+          "countedInputTokens": 2028,
+          "inputTokens": 2152,
+          "outputTokens": 104,
+          "reasoningTokens": 0,
+          "totalTokens": 2256,
+          "estimatedTokenCostMicrousd": 997
+        }
+      },
+      "observedCosts": {
+        "consumedCharge": 2,
+        "chargeDrawn": 0,
+        "readinessRecovered": 0,
+        "movingPulses": 0
+      }
+    },
+    {
+      "id": "goal-189-spark-2-11",
+      "sparkId": "spark-2",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "ai",
+      "providerId": "google-gemini/gemini-3.5-flash-lite",
+      "modelRationale": "Rill chooses to leave a light mark while maintaining caution regarding return paths and readiness.",
+      "createdPulse": 189,
+      "endPulse": 258,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-230-spark-2-explore",
+          "pulse": 230
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-258-spark-2-mark-trace",
+          "pulse": 258
+        }
+      ],
+      "receipt": {
+        "requestId": 9,
+        "status": "completed",
+        "reservationMicrousd": 500000,
+        "usage": {
+          "countedInputTokens": 2019,
+          "inputTokens": 2143,
+          "outputTokens": 94,
+          "reasoningTokens": 0,
+          "totalTokens": 2237,
+          "estimatedTokenCostMicrousd": 966
+        }
+      },
+      "observedCosts": {
+        "consumedCharge": 41,
+        "chargeDrawn": 56,
+        "readinessRecovered": 87,
+        "movingPulses": 54
+      }
+    },
+    {
+      "id": "goal-316-spark-3-18",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "ai",
+      "providerId": "google-gemini/gemini-3.5-flash-lite",
+      "modelRationale": "Ora focuses on examining a pattern shard, taking time to compare route changes and follow unfamiliar traces while keeping questions open.",
+      "createdPulse": 316,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [],
+      "receipt": {
+        "requestId": 10,
+        "status": "completed",
+        "reservationMicrousd": 500000,
+        "usage": {
+          "countedInputTokens": 2029,
+          "inputTokens": 2153,
+          "outputTokens": 86,
+          "reasoningTokens": 0,
+          "totalTokens": 2239,
+          "estimatedTokenCostMicrousd": 947
+        }
+      },
+      "observedCosts": {
+        "consumedCharge": 16,
+        "chargeDrawn": 16,
+        "readinessRecovered": 50,
+        "movingPulses": 41
+      }
+    }
+  ],
+  "rulesGoals": [
+    {
+      "id": "goal-26-spark-1-0",
+      "sparkId": "spark-1",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 26,
+      "endPulse": 154,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-68-spark-1-explore",
+          "pulse": 68
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 75,
+        "chargeDrawn": 88,
+        "readinessRecovered": 70,
+        "movingPulses": 116
+      }
+    },
+    {
+      "id": "goal-34-spark-3-1",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 34,
+      "endPulse": 108,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-86-spark-3-explore",
+          "pulse": 86
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-108-spark-3-shape-pattern",
+          "pulse": 108
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 36,
+        "chargeDrawn": 56,
+        "readinessRecovered": 70,
+        "movingPulses": 62
+      }
+    },
+    {
+      "id": "goal-35-spark-5-2",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 35,
+      "endPulse": 163,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-38-spark-5-explore",
+          "pulse": 38
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 72,
+        "chargeDrawn": 80,
+        "readinessRecovered": 100,
+        "movingPulses": 120
+      }
+    },
+    {
+      "id": "goal-38-spark-2-3",
+      "sparkId": "spark-2",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 38,
+      "endPulse": 166,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-97-spark-2-explore",
+          "pulse": 97
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 64,
+        "chargeDrawn": 64,
+        "readinessRecovered": 110,
+        "movingPulses": 111
+      }
+    },
+    {
+      "id": "goal-38-spark-4-4",
+      "sparkId": "spark-4",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 38,
+      "endPulse": 156,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-56-spark-4-explore",
+          "pulse": 56
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-156-spark-4-shape-pattern",
+          "pulse": 156
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 58,
+        "chargeDrawn": 64,
+        "readinessRecovered": 110,
+        "movingPulses": 101
+      }
+    },
+    {
+      "id": "goal-108-spark-3-6",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 108,
+      "endPulse": 236,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-159-spark-3-explore",
+          "pulse": 159
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 52,
+        "chargeDrawn": 32,
+        "readinessRecovered": 80,
+        "movingPulses": 120
+      }
+    },
+    {
+      "id": "goal-157-spark-1-8",
+      "sparkId": "spark-1",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 157,
+      "endPulse": 285,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-162-spark-1-explore",
+          "pulse": 162
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 64,
+        "chargeDrawn": 64,
+        "readinessRecovered": 130,
+        "movingPulses": 115
+      }
+    },
+    {
+      "id": "goal-163-spark-5-9",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 163,
+      "endPulse": 291,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-180-spark-5-explore",
+          "pulse": 180
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 68,
+        "chargeDrawn": 64,
+        "readinessRecovered": 120,
+        "movingPulses": 116
+      }
+    },
+    {
+      "id": "goal-164-spark-4-10",
+      "sparkId": "spark-4",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 164,
+      "endPulse": 292,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-220-spark-4-explore",
+          "pulse": 220
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 65,
+        "chargeDrawn": 64,
+        "readinessRecovered": 130,
+        "movingPulses": 112
+      }
+    },
+    {
+      "id": "goal-236-spark-3-12",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 236,
+      "endPulse": 296,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-275-spark-3-explore",
+          "pulse": 275
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-296-spark-3-shape-pattern",
+          "pulse": 296
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 38,
+        "chargeDrawn": 56,
+        "readinessRecovered": 90,
+        "movingPulses": 49
+      }
+    },
+    {
+      "id": "goal-239-spark-6-13",
+      "sparkId": "spark-6",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 239,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-273-spark-6-explore",
+          "pulse": 273
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 63,
+        "chargeDrawn": 64,
+        "readinessRecovered": 110,
+        "movingPulses": 110
+      }
+    },
+    {
+      "id": "goal-283-spark-2-14",
+      "sparkId": "spark-2",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 283,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-319-spark-2-explore",
+          "pulse": 319
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 32,
+        "chargeDrawn": 32,
+        "readinessRecovered": 60,
+        "movingPulses": 71
+      }
+    },
+    {
+      "id": "goal-285-spark-1-15",
+      "sparkId": "spark-1",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 285,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-290-spark-1-explore",
+          "pulse": 290
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 42,
+        "chargeDrawn": 32,
+        "readinessRecovered": 70,
+        "movingPulses": 69
+      }
+    },
+    {
+      "id": "goal-291-spark-5-16",
+      "sparkId": "spark-5",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 291,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-303-spark-5-explore",
+          "pulse": 303
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 40,
+        "chargeDrawn": 32,
+        "readinessRecovered": 50,
+        "movingPulses": 65
+      }
+    },
+    {
+      "id": "goal-292-spark-4-17",
+      "sparkId": "spark-4",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 292,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-314-spark-4-explore",
+          "pulse": 314
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 36,
+        "chargeDrawn": 32,
+        "readinessRecovered": 40,
+        "movingPulses": 64
+      }
+    }
+  ],
+  "goalCounts": {
+    "total": 19,
+    "bySource": {
+      "rules": 15,
+      "ai": 4
+    },
+    "byStatus": {
+      "interrupted": 7,
+      "completed": 6,
+      "active": 6
+    }
+  },
+  "aiInterpretations": [
+    {
+      "id": "interpretation-118-event-118-spark-2-wild-cache-c188fcf93e69",
+      "pulse": 118,
+      "sparkId": "spark-2",
+      "eventId": "event-118-spark-2-wild-cache",
+      "alternative": "stay-on-trace",
+      "summary": "Rill prefers to protect readiness and maintain a predictable return path, choosing to stay on the familiar trace rather than risking the uncertain return route from the Wild Cache.",
+      "plausibleChoiceChanged": false,
+      "evidenceEventIds": [
+        "event-118-spark-2-wild-cache"
+      ],
+      "triggerEvent": {
+        "id": "event-118-spark-2-wild-cache",
+        "pulse": 118,
+        "kind": "world-object",
+        "structuredKind": "wild-cache",
+        "actorId": "spark-2",
+        "message": "Spark 2 probed the Wild Cache: an uncertain signal, with a less familiar return route.",
+        "villagerIds": [],
+        "settlementIds": []
+      }
+    }
+  ],
+  "newAttempts": [
+    {
+      "id": 6,
+      "contextHash": "sha256-c2ba2e46eb6417f685e3a93d75168c8918597763ad261f0ca190aaf75fe281bb",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "kind": "explore-mark",
+        "summary": "Sel chooses to leave a light mark on the route, building on its previous trace marking and satisfying its practical need for a useful task with a visible result while keeping its next route open.",
+        "evidenceEventIds": [
+          "event-4-spark-6-explore",
+          "event-55-spark-6-mark-trace",
+          "event-55-spark-6-movement"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 1939,
+        "inputTokens": 2063,
+        "outputTokens": 110,
+        "reasoningTokens": 0,
+        "totalTokens": 2173,
+        "estimatedTokenCostMicrousd": 984
+      },
+      "errorCode": null
+    },
+    {
+      "id": 7,
+      "contextHash": "sha256-2e4f94c4a07ecbcb9d046fb36fa7895b8d542359530c9eff9654c188fcf93e69",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "alternativeId": "stay-on-trace",
+        "claim": "plausible-choice",
+        "summary": "Rill prefers to protect readiness and maintain a predictable return path, choosing to stay on the familiar trace rather than risking the uncertain return route from the Wild Cache.",
+        "evidenceEventIds": [
+          "event-118-spark-2-wild-cache"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 1475,
+        "inputTokens": 1609,
+        "outputTokens": 93,
+        "reasoningTokens": 0,
+        "totalTokens": 1702,
+        "estimatedTokenCostMicrousd": 787
+      },
+      "errorCode": null
+    },
+    {
+      "id": 8,
+      "contextHash": "sha256-85bd8936afe3d6b7fe238729173ee29fd3acc0cade4ce16b88af080a435580bc",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "kind": "explore-mark",
+        "summary": "Sel decides to leave another light mark following previous trace completions, balancing practical help and independence.",
+        "evidenceEventIds": [
+          "event-127-goal-55-spark-6-5-step-2",
+          "event-127-spark-6-mark-trace",
+          "event-127-spark-6-movement"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 2028,
+        "inputTokens": 2152,
+        "outputTokens": 104,
+        "reasoningTokens": 0,
+        "totalTokens": 2256,
+        "estimatedTokenCostMicrousd": 997
+      },
+      "errorCode": null
+    },
+    {
+      "id": 9,
+      "contextHash": "sha256-5797374c5711af6d6224601bc27f9e9d498bfd2b6c1a4fe9d17a2d000c26b276",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "kind": "explore-mark",
+        "summary": "Rill chooses to leave a light mark while maintaining caution regarding return paths and readiness.",
+        "evidenceEventIds": [
+          "event-189-spark-2-movement",
+          "event-189-spark-2-idle",
+          "event-118-spark-2-wild-cache"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 2019,
+        "inputTokens": 2143,
+        "outputTokens": 94,
+        "reasoningTokens": 0,
+        "totalTokens": 2237,
+        "estimatedTokenCostMicrousd": 966
+      },
+      "errorCode": null
+    },
+    {
+      "id": 10,
+      "contextHash": "sha256-fb6af6ca4ca701c27d9b76787d46bb859e991b026a7dc1243a773390a56e6001",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "kind": "explore-shape",
+        "summary": "Ora focuses on examining a pattern shard, taking time to compare route changes and follow unfamiliar traces while keeping questions open.",
+        "evidenceEventIds": [
+          "event-34-spark-3-shape-pattern",
+          "event-296-spark-3-shape-pattern"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 2029,
+        "inputTokens": 2153,
+        "outputTokens": 86,
+        "reasoningTokens": 0,
+        "totalTokens": 2239,
+        "estimatedTokenCostMicrousd": 947
+      },
+      "errorCode": null
+    }
+  ],
+  "usage": {
+    "inputTokens": 10120,
+    "outputTokens": 487,
+    "reasoningTokens": 0,
+    "estimatedTokenCostMicrousd": 4681
+  },
+  "eventsByKind": {
+    "movement": 1947,
+    "wait": 6,
+    "draw": 133,
+    "explore": 24,
+    "share": 3,
+    "sharing-continuation": 3,
+    "idle": 171,
+    "goal": 50,
+    "mark-trace": 5,
+    "shape-pattern": 5,
+    "wild-cache": 6
+  },
+  "finalSparks": [
+    {
+      "id": "spark-1",
+      "name": "Spark 1",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 14,
+      "readiness": 49,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-2",
+      "name": "Spark 2",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 19,
+      "readiness": 48,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-3",
+      "name": "Spark 3",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 9,
+      "readiness": 73,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-4",
+      "name": "Spark 4",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 8,
+      "readiness": 62,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-5",
+      "name": "Spark 5",
+      "activity": "seek-shelter",
+      "status": "traveling",
+      "charge": 4,
+      "deficit": 0,
+      "readiness": 43,
+      "destination": "tiled-102"
+    },
+    {
+      "id": "spark-6",
+      "name": "Spark 6",
+      "activity": "seek-shelter",
+      "status": "traveling",
+      "charge": 1,
+      "deficit": 0,
+      "readiness": 50,
+      "destination": "tiled-102"
+    }
+  ],
+  "sourceUnchanged": true,
+  "finalCheckpointSha256": "510c94eb8971df03862fe95152b89e69205bcc4296bd0f81877bacd6dc910b06",
+  "noCounterfactualBenefitClaim": true,
+  "repair": "bounded-local-goal-v1",
+  "offline": {
+    "savedContextsUnchanged": true,
+    "rows": [
+      {
+        "pulse": 127,
+        "sparkId": "spark-6",
+        "beforeBytes": 17304,
+        "wireBytes": 7432,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 35,
+          "omittedEvidence": 0
+        }
+      },
+      {
+        "pulse": 175,
+        "sparkId": "spark-4",
+        "beforeBytes": 20872,
+        "wireBytes": 7583,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 46,
+          "omittedEvidence": 0
+        }
+      },
+      {
+        "pulse": 189,
+        "sparkId": "spark-2",
+        "beforeBytes": 20025,
+        "wireBytes": 7410,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 44,
+          "omittedEvidence": 0
+        }
+      },
+      {
+        "pulse": 241,
+        "sparkId": "spark-5",
+        "beforeBytes": 28914,
+        "wireBytes": 7460,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 72,
+          "omittedEvidence": 0
+        }
+      },
+      {
+        "pulse": 285,
+        "sparkId": "spark-4",
+        "beforeBytes": 33000,
+        "wireBytes": 7667,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 84,
+          "omittedEvidence": 0
+        }
+      },
+      {
+        "pulse": 292,
+        "sparkId": "spark-1",
+        "beforeBytes": 29073,
+        "wireBytes": 7521,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 72,
+          "omittedEvidence": 0
+        }
+      },
+      {
+        "pulse": 317,
+        "sparkId": "spark-2",
+        "beforeBytes": 33391,
+        "wireBytes": 7545,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "projection": {
+          "version": "bounded-local-goal-v1",
+          "omittedTrust": 0,
+          "omittedCommitments": 86,
+          "omittedEvidence": 0
+        }
+      }
+    ]
+  },
+  "restore": {
+    "restored": "C:\\Projects\\Mimir\\.tmp\\s019-context-live-qualification-cMh5eY\\restored.db",
+    "checkpointsExact": 361,
+    "interpretationsExact": 350,
+    "liveAISocialResponsesPreserved": 1,
+    "liveAIGoalsPreserved": 4,
+    "completedAIGoalsPreserved": 3,
+    "worldReceiptScopePreserved": true,
+    "normalizedContinuationEqual": true,
+    "readServerRestart": true,
+    "historicalReplayProviderFree": true,
+    "allocationRowsUnchanged": true
+  },
+  "preservation": {
+    "priorWorldHashesUnchanged": true,
+    "priorFiveReceiptsUnchanged": true,
+    "audit": {
+      "id": 2,
+      "authorized_remaining": 2500000,
+      "reserved_before": 2500000,
+      "attempt_count": 5,
+      "authorization": "Owner authorized repaired S019 rerun with remaining USD 2.50 on 2026-11-13; same previously approved fictional payload and Google destination"
+    },
+    "strandedCheckpoints": 0,
+    "projectedGoalContexts": 19,
+    "maxGoalWireBytes": 7717
+  },
+  "runtime": {
+    "mode": "ai-bounded",
+    "requested": true,
+    "enabled": true,
+    "runtimeMode": "bounded-internal-pilot",
+    "rollout": "internal",
+    "provider": "google-gemini/gemini-3.5-flash-lite",
+    "model": "gemini-3.5-flash-lite",
+    "hardCapCents": 500,
+    "reason": "owner-authorized-live-usd5",
+    "killSwitch": "stopped",
+    "calls": 10,
+    "fallbackCount": 0,
+    "localRejectionCount": 0,
+    "cumulativeCostCents": 0.8844,
+    "budget": {
+      "capMicrousd": 5000000,
+      "reservedMicrousd": 5000000,
+      "remainingMicrousd": 0,
+      "reservationPerRequestMicrousd": 500000,
+      "attempts": 10,
+      "completed": 10,
+      "uncertain": 0,
+      "consecutiveFailures": 0,
+      "stopped": true,
+      "estimatedTokenCostMicrousd": 8844,
+      "reservationsAreNotFinalBills": true
+    },
+    "historicalPlaybackUsesAI": false,
+    "goalSelection": true,
+    "goalProviderAvailable": true,
+    "aiEnabled": true,
+    "budgetCents": 500
+  },
+  "verification": {
+    "fullBuild": true,
+    "rootChecks": 230,
+    "focusedChecks": 20,
+    "httpRestartChecks": 1,
+    "publicationVerifierRun": false
+  }
+}

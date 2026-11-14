@@ -48,15 +48,19 @@ def unpack(archive, destination):
                     or member.name in names):
                 raise ValueError("unsafe backup archive member")
             names.add(member.name)
-        databases = [m.name for m in members if m.isfile() and "/" not in m.name and m.name.endswith(".db")]
+        databases = [m.name for m in members if m.isfile() and "/" not in m.name and m.name.endswith(".db") and not m.name.endswith(".ai-budget.db")]
         if len(databases) != 1:
             raise ValueError("archive must contain exactly one database")
         database = databases[0]
-        allowed = {database, database + ".manifest.json", database + ".bundles"}
+        allowed = {database, database + ".manifest.json", database + ".bundles", database + ".ai-budget.db"}
         if any(m.name.rstrip("/") not in allowed and not m.name.startswith(database + ".bundles/") for m in members):
             raise ValueError("unexpected backup archive content")
         if database + ".manifest.json" not in names:
             raise ValueError("missing backup manifest")
+        with source.extractfile(database + ".manifest.json") as manifest_file:
+            manifest = json.load(manifest_file)
+        if bool(manifest.get("aiBudget")) != (database + ".ai-budget.db" in names):
+            raise ValueError("allocation sidecar does not match backup manifest")
         # All paths, member types and duplicate names checked before extraction.
         for member in members:
             target = destination / member.name

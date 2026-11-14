@@ -1,3 +1,4 @@
+import { isRoutePatternCreationSource } from "./first-glow-route-patterns.js";
 import { canonicalize, sha256 } from "@mimir/world-data";
 import type { SocialInterpretation } from "./index.js";
 import { firstGlowSparkPersonalityProfile, FIRST_GLOW_PERSONALITY_PROFILE_VERSION, type FirstGlowSparkPersonalityProfile } from "./design.js";
@@ -102,6 +103,7 @@ function fallbackAlternative(context: FirstGlowInterpretationContext): FirstGlow
 }
 
 export function buildFirstGlowInterpretationContext(state: FirstGlowState, event: StructuredEvent): FirstGlowInterpretationContext | null {
+  if (isRoutePatternCreationSource(state, event)) return null;
   const dilemmaId = mapping[event.kind];
   if (!dilemmaId) return null;
   const sparks = state.settlements.flatMap(settlement => settlement.sparks).slice().sort((a, b) => compare(a.id, b.id));

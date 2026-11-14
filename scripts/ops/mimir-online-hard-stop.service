@@ -1,0 +1,6 @@
+[Unit]
+Description=Independent Mimir pilot hard deadline
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/shutdown -h now

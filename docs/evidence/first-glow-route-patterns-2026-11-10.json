@@ -1,0 +1,108 @@
+{
+  "ruleVersion": "persistent-route-pattern-v1",
+  "mode": "offline controlled initial-condition histories",
+  "providerCalls": 0,
+  "aiEnabled": false,
+  "pulsesPerCase": 24,
+  "decisionCounterfactualAtPulse11": {
+    "withPattern": "scavenge-cache",
+    "withoutPattern": "explore"
+  },
+  "histories": [
+    {
+      "name": "use",
+      "timelineId": "main",
+      "charge": 32,
+      "enabled": true,
+      "encounter": true,
+      "pulses": 24,
+      "sha256": "62ef74af786db7b3917de249781f00f33fa0b15adc097d6375ba7a810468db44",
+      "sqliteRestartEquivalent": true,
+      "lifecycle": [
+        {
+          "id": "event-9-spark-1-route-pattern-created",
+          "pulse": 9,
+          "actorId": "spark-1",
+          "message": "Spark 1 left public route pattern route-pattern-spark-1-9 at (22, 23), recording a return connection to Wild Cache tiled-106. It persists for later encounters; it creates no charge or automatic shared knowledge."
+        },
+        {
+          "id": "event-10-spark-2-route-pattern-spark-1-9-encounter",
+          "pulse": 10,
+          "actorId": "spark-2",
+          "message": "Spark 2 encountered public route pattern route-pattern-spark-1-9 at (22, 23) and learned its recorded return connection to Wild Cache tiled-106 at navigation revision 0. No private creator memories were shared."
+        },
+        {
+          "id": "event-11-spark-2-route-pattern-spark-1-9-use",
+          "pulse": 11,
+          "actorId": "spark-2",
+          "message": "Spark 2 used public route pattern route-pattern-spark-1-9, encountered at pulse 10, to choose the Wild Cache tiled-106. This records route-guided activity, not arrival or a benefit."
+        },
+        {
+          "id": "event-18-spark-2-route-pattern-spark-1-9-outcome",
+          "pulse": 18,
+          "actorId": "spark-2",
+          "message": "Spark 2's use of route pattern route-pattern-spark-1-9 reached Wild Cache tiled-106; cache choice: probe. Recorded resources: 13 charge, 0 charge deficit, 80 readiness. No travel savings or social benefit are inferred."
+        }
+      ]
+    },
+    {
+      "name": "need-decline",
+      "timelineId": "need-decline",
+      "charge": 0,
+      "enabled": true,
+      "encounter": true,
+      "pulses": 24,
+      "sha256": "5982717b5323c1492fc38b7ee0469b61db7b45f24721052ab7820ed790449e39",
+      "sqliteRestartEquivalent": true,
+      "lifecycle": [
+        {
+          "id": "event-9-spark-1-route-pattern-created",
+          "pulse": 9,
+          "actorId": "spark-1",
+          "message": "Spark 1 left public route pattern route-pattern-spark-1-9 at (22, 23), recording a return connection to Wild Cache tiled-106. It persists for later encounters; it creates no charge or automatic shared knowledge."
+        },
+        {
+          "id": "event-10-spark-2-route-pattern-spark-1-9-encounter",
+          "pulse": 10,
+          "actorId": "spark-2",
+          "message": "Spark 2 encountered public route pattern route-pattern-spark-1-9 at (22, 23) and learned its recorded return connection to Wild Cache tiled-106 at navigation revision 0. No private creator memories were shared."
+        },
+        {
+          "id": "event-11-spark-2-route-pattern-spark-1-9-decline",
+          "pulse": 11,
+          "actorId": "spark-2",
+          "message": "Spark 2 did not use public route pattern route-pattern-spark-1-9: selected seek-charge under current needs and reachability. The learned route fact remains available."
+        }
+      ]
+    },
+    {
+      "name": "no-encounter",
+      "timelineId": "no-encounter",
+      "charge": 32,
+      "enabled": true,
+      "encounter": false,
+      "pulses": 24,
+      "sha256": "a0bbe8f3e0c1b5762367f3ac01d27c82e59d4c24ebcb3077b4dbf1a87dd2715d",
+      "sqliteRestartEquivalent": true,
+      "lifecycle": [
+        {
+          "id": "event-9-spark-1-route-pattern-created",
+          "pulse": 9,
+          "actorId": "spark-1",
+          "message": "Spark 1 left public route pattern route-pattern-spark-1-9 at (22, 23), recording a return connection to Wild Cache tiled-106. It persists for later encounters; it creates no charge or automatic shared knowledge."
+        }
+      ]
+    },
+    {
+      "name": "no-pattern",
+      "timelineId": "no-pattern",
+      "charge": 32,
+      "enabled": false,
+      "encounter": true,
+      "pulses": 24,
+      "sha256": "136654ec273c41ba8e5f8b0ee2af8cde821ec9413e5193dd32b740a0baba6b21",
+      "sqliteRestartEquivalent": true,
+      "lifecycle": []
+    }
+  ]
+}

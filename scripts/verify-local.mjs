@@ -73,7 +73,7 @@ export function identityChanged(before, after) {
 export const checks = [
   [".", "test"],
   [".", "test:model-study"],
-  ...["state", "first-glow-commands", "first-glow-command-acceptance", "first-glow-restart", "backup-restore", "backup-replication", "ai-runtime", "pulse-gate", "owner-auth", "security-p4", "security-p5", "chronicle"].map(name => ["packages/server", `test:${name}`]),
+  ...["state", "online-run", "goals", "first-glow-commands", "first-glow-command-acceptance", "first-glow-restart", "backup-restore", "backup-replication", "ai-runtime", "pulse-gate", "owner-auth", "security-p4", "security-p5", "chronicle"].map(name => ["packages/server", `test:${name}`]),
   ["packages/web", "test:hosted-auth-boundary"],
   ...["public-archive", "observer-bridge-auth", "observer-bridge-sse", "observer-bridge-lifecycle", "observer-bridge-http2", "observer-rehearsal", "deploy-hosting-config"].map(name => [".", `test:${name}`]),
   ...["first-glow", "observer-zoom", "first-glow-header", "first-glow-live-panel", "first-glow-issue-42", "first-glow-audio-p5"].map(name => ["packages/web", `test:${name}`]),
@@ -93,7 +93,7 @@ export function expandScript(directory, name) {
       return expandScript(workspace, parts[2]);
     }
     if (!["node", "tsx"].includes(parts[0])) throw new Error(`Unsupported verification command: ${command}`);
-    return [{ label: `${directory}:${name} — ${command}`, cwd: join(root, directory), args: parts[0] === "tsx" ? [join(root, "node_modules/tsx/dist/cli.mjs"), ...parts.slice(1)] : parts.slice(1) }];
+    return [{ label: `${directory}:${name} â€” ${command}`, cwd: join(root, directory), args: parts[0] === "tsx" ? [join(root, "node_modules/tsx/dist/cli.mjs"), ...parts.slice(1)] : parts.slice(1) }];
   });
 }
 
@@ -133,6 +133,7 @@ async function main() {
     const npmCli = localNpmCli();
     const env = { ...process.env, HOST: "127.0.0.1", AUTO_PULSE: "false", AI_ENABLED: "false", MIMIR_HOSTED: "false", PUBLIC_OBSERVER_AUTH_REQUIRED: "false", VITE_API_URL: process.env.VERIFY_PREVIEW_API_URL ?? process.env.VITE_API_URL ?? "http://127.0.0.1:8888" };
     delete env.VITE_LIVE_API_URL;
+    for (const key of Object.keys(env)) if (key === "AI_RUNTIME_MODE" || key.startsWith("MIMIR_ONLINE_") || key.startsWith("MIMIR_SPARK_AI_")) delete env[key];
     const steps = [
       { label: "Verification runner regression checks", cwd: root, args: ["--test", "scripts/verify-local.test.mjs"] },
       { label: "CI policy regression checks", cwd: root, args: ["--test", "scripts/ci-policy.test.mjs"] },
@@ -141,7 +142,7 @@ async function main() {
     ];
     const snapshot = join(runDir, "built-web");
     exitCode = await runSequential(steps, step => new Promise(resolveExit => {
-      console.log(`\n▶ ${step.label}`);
+      console.log(`\nâ–¶ ${step.label}`);
       const startedAt = new Date().toISOString();
       const log = join(runDir, `${String(summary.steps.length + 1).padStart(2, "0")}.log`);
       writeFileSync(log, "");

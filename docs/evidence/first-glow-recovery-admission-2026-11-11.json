@@ -1,0 +1,574 @@
+{
+  "date": "2026-11-11",
+  "status": "Implemented and verified locally; no publication",
+  "policy": "recovery-admission-v1",
+  "providerCalls": 0,
+  "rawDirectory": ".tmp/route-patterns-admission-ordinary-gvYVwb",
+  "verification": {
+    "rootTests": 161,
+    "rootFailures": 0,
+    "focusedChecks": 14,
+    "serverStateChecks": 7,
+    "compatibility": [
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "2cf18b23454f7592d80ff711d36d7e384e694d786f145c24128b80d5a104503b"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "2180710f1155ba727586fd498bccea48af803a6265f4c7fd93950e7d3757a521"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "837085b571e89735ebac04ae0a0078488ce91f05e4bb9e45c22cfb5146b3202f"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a8bc0c7797ff9f31a503f1afeb0a31d3ea1b746c2d59ab4c3a2e281ec0cb056e"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "1fd883d9374b664628a68e362fb97b83d632c3d8f5168b1abaacfc95bcdf52c3"
+      },
+      {
+        "file": ".tmp/route-patterns-ordinary-EXB1z8/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "4d20d331711a79f6e45d54c45921394063625248cf711659f276d6b297285f89"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/need-decline.json",
+        "comparedPulses": 5,
+        "sha256": "804952bd9e943a4c68804e9a7a96ad3c6596883d0e6a8d3366937a6203b3bc51"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/no-encounter.json",
+        "comparedPulses": 5,
+        "sha256": "4bb5799eace6274bfd27830c3f2402a74b076e4d37af1bb827b669897e7b1477"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/no-pattern.json",
+        "comparedPulses": 5,
+        "sha256": "71bcd4ecaa6d2142bc682b13493b66d70ac6b5e076580e7ee26778c083a90e4a"
+      },
+      {
+        "file": ".tmp/route-patterns-review-yRoPCk/use.json",
+        "comparedPulses": 5,
+        "sha256": "f2a0c8e7c2ae972d412f7268988e9fc59f6d90d23773cd72886a8f0469ffbd0f"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "db8d7839e564d9475cc8e656ef3d80072156d349daededa26d5652e854f13b11"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "5600ec3a5fe1eee169e7f8a4dff96827ffcd267feb17a2b047675e97b153aa0d"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "ed5921f0bac1540b2b896166e5e73fbe736402895c410b856a8f33e293dd888c"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a9fe3bb8976a0ab2c7cfc1e66e23f6c1db204b65227aedca99e40c40109bbf5b"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "c4892ada233259ca4b85f8c6bf25a6c9eab6f3ca2274c91ae4d1d2bd7efa8721"
+      },
+      {
+        "file": ".tmp/route-patterns-completion-ordinary-dg5deH/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "c4ab0207b04c37df00b9c9d691f0fd152e3544dadc73cfab04c0c8703ce856e3"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "1db53035d65d37548c4be97005f8c0d54c27dcc4838a593744103b1956b390c7"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "ed2d670f9b14697787061b931862ee76e7d649f41d385bef1fd7e97d0a943f3f"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "7b7e778a898d3a64f56f498f67aa3050b42777cbe6b5c80a87c58980ce85f6e7"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "f880df8b2094a4351f1aa515be82edf61320fe9644a1ab827aa5eb26e8d581d5"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "999bb1bbdf771f6381c01929a2b156b8491bce21f892a2a7a6891d0abefa85aa"
+      },
+      {
+        "file": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "d4b05b6ad8c30a0496d7b251e105b040e156719a46b7ecdd4c8bc7afbcf9e319"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "96eead92d73d4641ab5641e33bd350827b791bce35fc6a0208978b5f967af37d"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "1f122f7862b5f1bce0ae7b65e05e38b05840ece649301920283729eee2f1d62c"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "27ea80fbb331b9cd832c12f9db59aed5ff524fc61de66cfb8f4d5d3f33d19ab0"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "311e756632d0811819047ba2d393eafd93b7428983fc0c8512efa57f9ff74e68"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "4652136e757e4391aff60fb092260e264d3f3e2c7c891f94a441b6db0390fa6d"
+      },
+      {
+        "file": ".tmp/route-patterns-preparation-ordinary-CNZKa0/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "67597eb7d1e887cf38fa11833d0dc583f32135e9d750eb1242748e48a087610f"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/current-1.json",
+        "comparedPulses": 5,
+        "sha256": "d406d0681dec7ab1e60a72ec58ac31d7f8de9226c27d32a70e37f7eca8201136"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/current-12.json",
+        "comparedPulses": 5,
+        "sha256": "0e8738f90912b5534713daaf08b54bc58ec3566ebe90737dc95c15267a6e192c"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/current-8.json",
+        "comparedPulses": 5,
+        "sha256": "20abe465edf7393dee7c45f281d169a7590419ebcae06d7c3aad722e1c6ceb8b"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/review-1.json",
+        "comparedPulses": 5,
+        "sha256": "8c873eba0c7ef79543c12db5e689931f3835b13a976c0d3a7679bc26799d45e7"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/review-12.json",
+        "comparedPulses": 5,
+        "sha256": "63075f7dc42fdcf4b343684284857bb4881467761d2350c3a9b5994ac4ecc641"
+      },
+      {
+        "file": ".tmp/route-patterns-sharing-ordinary-h84pJh/review-8.json",
+        "comparedPulses": 5,
+        "sha256": "52dce7a8af17b77f9f89f504d4fe62d97c3dbbab9d2300cb9b70dbf9c1bdc6e7"
+      }
+    ],
+    "httpRestart": "passed; sandbox EACCES reproduced, isolated check passed outside sandbox",
+    "backupRestore": "passed: WAL snapshot, bundle-inclusive restore/corruption guard, hash-qualified asset serving",
+    "logs": {
+      "build": ".tmp/recovery-admission/build.log",
+      "root": ".tmp/recovery-admission/tests.log",
+      "focused": ".tmp/recovery-admission/targeted.log",
+      "serverState": ".tmp/recovery-admission/state.log",
+      "restart": ".tmp/recovery-admission/restart-unrestricted.log",
+      "backup": ".tmp/recovery-admission/backup-unrestricted.log",
+      "assets": ".tmp/recovery-admission/assets-unrestricted.log",
+      "continuations": ".tmp/recovery-admission/post-check.log"
+    }
+  },
+  "ordinary": {
+    "setup": "Unmodified createWorldFromBundle initial state; routePatterns opt-in; rules-only; 360 pulses; fixed seed 2; seed affects social choices but does not randomize initial spawns",
+    "results": [
+      {
+        "label": "current",
+        "sparkCount": 1,
+        "pulses": 360,
+        "patterns": 0,
+        "encounters": 0,
+        "uses": 0,
+        "retries": 0,
+        "preparationGoals": [],
+        "queuedAtCutoff": [],
+        "sourceCharge": 2040,
+        "drawEvents": 15,
+        "waitEvents": 0,
+        "cacheChoices": [
+          {
+            "sparkId": "spark-1",
+            "pulse": 39,
+            "conserved": true
+          }
+        ],
+        "strandedReservations": 0,
+        "duplicateContacts": 0,
+        "sqliteContinuationPulses": 5,
+        "preliminaryRunHashMatched": true
+      },
+      {
+        "label": "current",
+        "sparkCount": 8,
+        "pulses": 360,
+        "patterns": 0,
+        "encounters": 0,
+        "uses": 0,
+        "retries": 0,
+        "preparationGoals": [],
+        "queuedAtCutoff": [
+          {
+            "sparkId": "spark-1",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 360
+          },
+          {
+            "sparkId": "spark-6",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 360
+          },
+          {
+            "sparkId": "spark-8",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 360
+          }
+        ],
+        "sourceCharge": 992,
+        "drawEvents": 146,
+        "waitEvents": 273,
+        "cacheChoices": [
+          {
+            "sparkId": "spark-2",
+            "pulse": 38,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-4",
+            "pulse": 82,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-7",
+            "pulse": 103,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-6",
+            "pulse": 124,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-1",
+            "pulse": 156,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-8",
+            "pulse": 179,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-3",
+            "pulse": 201,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-5",
+            "pulse": 260,
+            "conserved": true
+          }
+        ],
+        "strandedReservations": 0,
+        "duplicateContacts": 0,
+        "sqliteContinuationPulses": 5,
+        "preliminaryRunHashMatched": true
+      },
+      {
+        "label": "current",
+        "sparkCount": 12,
+        "pulses": 360,
+        "patterns": 0,
+        "encounters": 0,
+        "uses": 0,
+        "retries": 0,
+        "preparationGoals": [],
+        "queuedAtCutoff": [
+          {
+            "sparkId": "spark-12",
+            "settlementId": "first-glow-region",
+            "activity": "seek-charge",
+            "sincePulse": 351
+          },
+          {
+            "sparkId": "spark-7",
+            "settlementId": "first-glow-region",
+            "activity": "seek-charge",
+            "sincePulse": 353
+          },
+          {
+            "sparkId": "spark-1",
+            "settlementId": "first-glow-region",
+            "activity": "seek-charge",
+            "sincePulse": 356
+          },
+          {
+            "sparkId": "spark-9",
+            "settlementId": "first-glow-region",
+            "activity": "seek-charge",
+            "sincePulse": 360
+          }
+        ],
+        "sourceCharge": 776,
+        "drawEvents": 173,
+        "waitEvents": 1586,
+        "cacheChoices": [
+          {
+            "sparkId": "spark-1",
+            "pulse": 39,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-11",
+            "pulse": 81,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-9",
+            "pulse": 107,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-2",
+            "pulse": 127,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-12",
+            "pulse": 220,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-8",
+            "pulse": 323,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-6",
+            "pulse": 344,
+            "conserved": true
+          }
+        ],
+        "strandedReservations": 0,
+        "duplicateContacts": 0,
+        "sqliteContinuationPulses": 5,
+        "preliminaryRunHashMatched": true
+      },
+      {
+        "label": "review",
+        "sparkCount": 1,
+        "pulses": 360,
+        "patterns": 0,
+        "encounters": 0,
+        "uses": 0,
+        "retries": 0,
+        "preparationGoals": [],
+        "queuedAtCutoff": [],
+        "sourceCharge": 2040,
+        "drawEvents": 15,
+        "waitEvents": 0,
+        "cacheChoices": [
+          {
+            "sparkId": "spark-1",
+            "pulse": 39,
+            "conserved": true
+          }
+        ],
+        "strandedReservations": 0,
+        "duplicateContacts": 0,
+        "sqliteContinuationPulses": 5,
+        "preliminaryRunHashMatched": true
+      },
+      {
+        "label": "review",
+        "sparkCount": 8,
+        "pulses": 360,
+        "patterns": 0,
+        "encounters": 0,
+        "uses": 0,
+        "retries": 0,
+        "preparationGoals": [],
+        "queuedAtCutoff": [
+          {
+            "sparkId": "spark-8",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 359
+          },
+          {
+            "sparkId": "spark-1",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 360
+          },
+          {
+            "sparkId": "spark-6",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 360
+          },
+          {
+            "sparkId": "spark-7",
+            "settlementId": "first-glow-region",
+            "activity": "seek-shelter",
+            "sincePulse": 360
+          }
+        ],
+        "sourceCharge": 1048,
+        "drawEvents": 139,
+        "waitEvents": 378,
+        "cacheChoices": [
+          {
+            "sparkId": "spark-2",
+            "pulse": 38,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-4",
+            "pulse": 82,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-8",
+            "pulse": 103,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-6",
+            "pulse": 124,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-5",
+            "pulse": 160,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-1",
+            "pulse": 180,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-3",
+            "pulse": 203,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-7",
+            "pulse": 224,
+            "conserved": true
+          }
+        ],
+        "strandedReservations": 0,
+        "duplicateContacts": 0,
+        "sqliteContinuationPulses": 5,
+        "preliminaryRunHashMatched": true
+      },
+      {
+        "label": "review",
+        "sparkCount": 12,
+        "pulses": 360,
+        "patterns": 0,
+        "encounters": 0,
+        "uses": 0,
+        "retries": 0,
+        "preparationGoals": [],
+        "queuedAtCutoff": [
+          {
+            "sparkId": "spark-2",
+            "settlementId": "first-glow-region",
+            "activity": "seek-charge",
+            "sincePulse": 360
+          }
+        ],
+        "sourceCharge": 800,
+        "drawEvents": 170,
+        "waitEvents": 1428,
+        "cacheChoices": [
+          {
+            "sparkId": "spark-1",
+            "pulse": 39,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-11",
+            "pulse": 81,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-9",
+            "pulse": 120,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-12",
+            "pulse": 142,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-10",
+            "pulse": 164,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-2",
+            "pulse": 186,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-5",
+            "pulse": 268,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-7",
+            "pulse": 330,
+            "conserved": true
+          },
+          {
+            "sparkId": "spark-3",
+            "pulse": 352,
+            "conserved": true
+          }
+        ],
+        "strandedReservations": 0,
+        "duplicateContacts": 0,
+        "sqliteContinuationPulses": 5,
+        "preliminaryRunHashMatched": true
+      }
+    ]
+  },
+  "limitations": [
+    "All six fresh ordinary runs create no patterns by pulse 360, so natural preparation/use is not exercised",
+    "Controlled fixtures verify waiting, real recovery, arrival budgeting and one retry; they are not ordinary-history evidence",
+    "Preparation ordering is unchanged; the previously diagnosed latent rest-first restriction remains",
+    "Admission cannot guarantee future contact access, resource stock, or a feasible bounded itinerary"
+  ]
+}

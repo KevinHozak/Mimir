@@ -1,13 +1,15 @@
+import { activePatternRetry } from "./first-glow-pattern-retry.js";
 import type { FirstGlowSpark, FirstGlowState, StructuredEvent } from "./structured.js";
 
 export const WILD_CACHE_CHOICE_VERSION = "choice-before-probe-v1" as const;
 export interface WildCacheChoice {
+  cacheObjectId?: string;
   pulse: number;
   alternative: "probe" | "conserve";
   decisionEventId: string;
   outcomeEventId: string;
   nextActivity: "shape-pattern" | "seek-charge" | "seek-shelter" | "idle";
-  routeFact?: { objectId: string; cost: number; navigationRevision: number };
+  routeFact?: { originObjectId?: string; objectId: string; cost: number; navigationRevision: number };
 }
 
 /** Explicit fresh-history opt-in. Untagged checkpoints retain their original rules. */
@@ -18,7 +20,11 @@ export function initializeWildCacheChoice(state: FirstGlowState): void {
 
 export function resolveWildCacheChoice(state: FirstGlowState, spark: FirstGlowSpark, routeFact: WildCacheChoice["routeFact"], recovery: WildCacheChoice["nextActivity"]): void {
   if (state.wildCacheChoiceVersion !== WILD_CACHE_CHOICE_VERSION) throw new Error("Wild Cache choice rule is not enabled");
-  const probe = !spark.wildCacheChoice && spark.carriedCharge >= 3 && spark.chargeDeficit === 0 && spark.readiness >= 75 && Boolean(routeFact);
+  const cacheObjectId = routeFact?.originObjectId ?? spark.destinationObjectId;
+  const committedRetry = state.patternGuidedRetry?.attempts.find(item => item.sparkId === spark.id && item.cacheObjectId === cacheObjectId && item.useEventId === spark.routePatternUse?.eventId && !item.choice && !item.outcomeEventId);
+  if (state.patternGuidedRetry && spark.wildCacheChoice && !committedRetry) throw new Error("Repeated cache choice requires a committed pattern-guided retry");
+  const retry = activePatternRetry(state, spark, cacheObjectId);
+  const probe = (!spark.wildCacheChoice || Boolean(retry)) && spark.carriedCharge >= 3 && spark.chargeDeficit === 0 && spark.readiness >= 75 && Boolean(routeFact);
   const decisionEventId = `event-${state.pulse}-${spark.id}-cache-choice`;
   const outcomeEventId = `event-${state.pulse}-${spark.id}-cache-${probe ? "survey" : "conserved"}`;
   const nextActivity = probe ? "shape-pattern" : recovery;
@@ -34,6 +40,7 @@ export function resolveWildCacheChoice(state: FirstGlowState, spark: FirstGlowSp
     : `${spark.name} left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: ${nextActivity.replaceAll("-", " ")}; earlier travel costs remain spent.` };
   state.events.push(outcome);
   spark.wildCacheChoice = { pulse: state.pulse, alternative: probe ? "probe" : "conserve", decisionEventId, outcomeEventId, nextActivity, ...(probe ? { routeFact } : {}) };
+  if (committedRetry) { spark.wildCacheChoice.cacheObjectId = committedRetry.cacheObjectId; committedRetry.choice = structuredClone(spark.wildCacheChoice); }
   spark.knownEvidenceEventIds.push(decisionEventId, outcomeEventId);
   const evidence = [decision, outcome].map(event => ({ id: event.id, pulse: state.pulse, message: event.message }));
   state.explanations.push({ id: `explanation-${decisionEventId}`, pulse: state.pulse, dilemmaId: "wild-cache-risk", actorSparkId: spark.id, actorName: spark.name, alternativeId: probe ? "enter-wild-cache" : "stay-on-trace", alternativeLabel: probe ? "Probe the Wild Cache" : "Conserve strength", summary: decision.message, score: { need: 0, values: 0, localKnowledge: 0, trust: 0, commitments: 0, cost: 0, risk: 0, total: 0 }, evidenceEventIds: [decisionEventId, outcomeEventId], objectiveEvents: [evidence[0]], consequenceEvents: [evidence[1]], knownFacts: probe ? [evidence[1]] : [], uncertainInferences: ["The surveyed route is a local navigation fact, not a promise of discovery or future success. Other Sparks do not automatically learn it."] });

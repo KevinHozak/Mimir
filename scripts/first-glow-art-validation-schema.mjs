@@ -2,13 +2,14 @@ import assert from "node:assert/strict";
 
 const bundleHash = "sha256-8e3425f460b2a53518e114b01a77a4937712cbd5028ab93427da34f6c3755601";
 
-export function validateEvidence(evidence) {
-  assert.equal(evidence.bundleHash, bundleHash);
+export function validateEvidence(evidence, expectedBundleHash = bundleHash) {
+  assert.match(expectedBundleHash, /^sha256-[a-f0-9]{64}$/);
+  assert.equal(evidence.bundleHash, expectedBundleHash);
   assert.equal(evidence.simulationVersion, "mimir-sim-v3-first-glow");
   assert.equal(evidence.themeId, "living-circuit");
   assert.equal(evidence.ageId, "first-glow");
   assert.equal(evidence.sparkCount, 12);
-  assert.equal(evidence.pulseWorkload.pulses, 120);
+  assert.equal(evidence.pulseWorkload.pulses, 4);
   assert.ok(evidence.assetVersionCount >= 1);
   assert.ok(evidence.views.some(view => view.viewport === "1280x900" && view.deviceScaleFactor === 1));
   assert.ok(evidence.views.some(view => view.viewport === "390x844" && view.deviceScaleFactor === 2));

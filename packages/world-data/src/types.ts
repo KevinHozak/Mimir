@@ -50,7 +50,13 @@ export type FirstGlowActivity = "seek-charge" | "draw-charge" | "share-charge" |
 export type FirstGlowCapability = "charge-pool" | "shelter-niche" | "trace" | "relay-crossing" | "pattern-shard" | "light-mark" | "wild-cache";
 export interface FirstGlowTerrainDefinition extends TerrainDefinition { label?: string; }
 export interface FirstGlowObjectDefinition extends ObjectDefinition { capabilities: FirstGlowCapability[]; label: string; }
+export interface FirstGlowFrontier {
+  version: "local-frontier-v1";
+  regions: { id: string; label: string; x: number; y: number; width: number; height: number }[];
+  projects: { objectId: string; requiredContributors: number; restBonus: number }[];
+}
 export interface FirstGlowWorldBundle {
+  frontier?: FirstGlowFrontier;
   schemaVersion: 3;
   spatialModel: typeof STRUCTURED_SPATIAL_MODEL;
   simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION;

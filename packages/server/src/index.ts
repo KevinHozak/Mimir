@@ -1,3 +1,5 @@
+import { acquireWriterLock } from "./writer-lock.js";
+import { onlineRunSpec, bindOnlineRun } from "./online-run.js";
 import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import cors from "@fastify/cors";
 import { DatabaseSync } from "node:sqlite";
@@ -5,13 +7,14 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildChronicleEdition, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, validateChronicleEdition, type ChronicleEdition, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type StructuredEvent, type WorldEvent, type WorldState } from "@mimir/engine";
+import { advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildChronicleEdition, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, validateChronicleEdition, type ChronicleEdition, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type StructuredEvent, type WorldEvent, type WorldState, summarizeFirstGlowGoals } from "@mimir/engine";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { initializeFirstGlowEventAdmission } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
 import { recordedChronicleEvents } from "./chronicle-events.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
+import { loadOffsiteStatus, offsiteHealth } from "./backup-offsite.js";
 import { replicateBackup, type BackupReplicationStatus } from "./backup-replication.js";
 import { observerAuthRequired, verifyObserverToken } from "./observer-auth.js";
 import { PulseGate, PulseInFlightError } from "./pulse-gate.js";
@@ -22,14 +25,22 @@ const host = process.env.HOST ?? "127.0.0.1";
 const DEFAULT_PULSE_INTERVAL_MS = 4000;
 let pulseIntervalMs = Number(process.env.PULSE_INTERVAL_MS ?? DEFAULT_PULSE_INTERVAL_MS);
 const autoPulse = process.env.AUTO_PULSE !== "false";
+const onlineCadenceMinimum = process.env.AI_RUNTIME_MODE === "spark-online" ? 240000 : 250;
+if (process.env.AI_RUNTIME_MODE === "spark-online" && pulseIntervalMs < onlineCadenceMinimum) throw Error("Online pilot cadence must be at least four minutes");
 const seasonPulseLimit = Number(process.env.SEASON_PULSE_LIMIT ?? 360);
 const socialBudgetCents = Number(process.env.SOCIAL_BUDGET_CENTS ?? 0);
+const databasePath = process.env.DATABASE_PATH ?? join(process.cwd(), "data", "local", "mimir.db");
+const leaseSpec = onlineRunSpec(process.env);
+const releaseDatabaseWriter = acquireWriterLock(databasePath);
+process.once("exit", releaseDatabaseWriter);
 const aiRuntimeConfig = createFirstGlowServerAIConfig();
-const aiRuntime = new FirstGlowServerAIRuntime(aiRuntimeConfig, aiRuntimeConfig.liveSpark ? { rcAdmission: "event-rc-v1", interpretationTimeoutMs: 10000 } : {});
+const sparkGoalsRequested = process.env.MIMIR_SPARK_GOALS === "true";
+if (sparkGoalsRequested && aiRuntimeConfig.enabled && !aiRuntimeConfig.liveSpark) throw new Error("Spark goals require the durable Spark AI runtime or rules-only mode");
+const aiRuntime = new FirstGlowServerAIRuntime(aiRuntimeConfig, { ...(aiRuntimeConfig.liveSpark ? { rcAdmission: "event-rc-v1" as const, interpretationTimeoutMs: 10000 } : {}), goals: sparkGoalsRequested });
 const aiEnabled = aiRuntimeConfig.enabled;
 const socialMode = aiEnabled ? "ai-bounded" : "rules-only";
 const ownerToken = process.env.OWNER_TOKEN;
-const databasePath = process.env.DATABASE_PATH ?? join(process.cwd(), "data", "local", "mimir.db");
+
 const backupIntervalMs = Number(process.env.BACKUP_INTERVAL_MS ?? 0);
 const backupDirectory = resolve(process.env.BACKUP_DIR ?? join(process.cwd(), "data", "backups"));
 const backupReplicationUri = process.env.BACKUP_GCS_URI?.trim();
@@ -38,24 +49,33 @@ const serveWeb = process.env.SERVE_WEB === "true";
 const hostedStart = process.env.MIMIR_HOSTED === "true";
 const webDistDirectory = resolve(process.env.WEB_DIST_DIR ?? join(process.cwd(), "packages/web/dist"));
 const worldBundleRoot = resolve(process.env.WORLD_BUNDLE_ROOT ?? join(process.cwd(), "assets/world/generated"));
-const defaultFirstGlowBundleHash = "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e";
+const defaultFirstGlowBundleHash = "sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e";
 assertOwnerAuthConfiguration(host, serveWeb, hostedStart, ownerToken);
 mkdirSync(dirname(databasePath), { recursive: true });
 const database = new DatabaseSync(databasePath);
 database.exec("PRAGMA journal_mode = WAL;");
+const onlineRun = bindOnlineRun(database, leaseSpec);
 database.exec(`CREATE TABLE IF NOT EXISTS checkpoints (pulse INTEGER PRIMARY KEY, state_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, pulse INTEGER NOT NULL, event_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS interpretations (id TEXT PRIMARY KEY, pulse INTEGER NOT NULL, interpretation_json TEXT NOT NULL); CREATE TABLE IF NOT EXISTS timelines (id TEXT PRIMARY KEY, parent_id TEXT, created_at TEXT NOT NULL, status TEXT NOT NULL, archived_at TEXT); CREATE TABLE IF NOT EXISTS timeline_checkpoints (timeline_id TEXT NOT NULL, pulse INTEGER NOT NULL, state_json TEXT NOT NULL, PRIMARY KEY (timeline_id, pulse)); CREATE TABLE IF NOT EXISTS timeline_events (timeline_id TEXT NOT NULL, id TEXT NOT NULL, pulse INTEGER NOT NULL, event_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS timeline_interpretations (timeline_id TEXT NOT NULL, id TEXT NOT NULL, pulse INTEGER NOT NULL, interpretation_json TEXT NOT NULL, PRIMARY KEY (timeline_id, id)); CREATE TABLE IF NOT EXISTS chronicle_editions (timeline_id TEXT NOT NULL, cutoff_pulse INTEGER NOT NULL, revision INTEGER NOT NULL, edition_json TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY (timeline_id, cutoff_pulse, revision)); CREATE TABLE IF NOT EXISTS pending_commands (id TEXT PRIMARY KEY, timeline_id TEXT NOT NULL, ordering INTEGER NOT NULL, target_pulse INTEGER NOT NULL, settlement_id TEXT NOT NULL, object_id TEXT NOT NULL, blocked INTEGER NOT NULL, idempotency_key TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT, created_at TEXT NOT NULL, UNIQUE(timeline_id, idempotency_key)); CREATE TABLE IF NOT EXISTS runtime_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);`);
-if (!database.prepare("SELECT id FROM timelines WHERE id = ?").get("main")) database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, NULL, ?, 'active')").run("main", new Date().toISOString());
+const openingTimelineId = leaseSpec?.id ?? "main";
+if (!database.prepare("SELECT id FROM timelines WHERE id = ?").get(openingTimelineId)) database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, NULL, ?, 'active')").run(openingTimelineId, new Date().toISOString());
+if (openingTimelineId === "main") {
 const migrated = database.prepare("SELECT COUNT(*) AS count FROM timeline_checkpoints WHERE timeline_id = ?").get("main") as { count: number };
 if (migrated.count === 0) {
   database.exec("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) SELECT 'main', pulse, state_json FROM checkpoints;");
   database.exec("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) SELECT 'main', id, pulse, event_json FROM events;");
   database.exec("INSERT INTO timeline_interpretations (timeline_id, id, pulse, interpretation_json) SELECT 'main', id, pulse, interpretation_json FROM interpretations;");
 }
+
+}
 const savedTimeline = database.prepare("SELECT value FROM runtime_metadata WHERE key = 'active_timeline'").get() as { value: string } | undefined;
-let activeTimelineId = savedTimeline?.value ?? "main";
-let schedulerPaused = !autoPulse;
+let activeTimelineId = savedTimeline?.value ?? openingTimelineId;
+const savedPause = database.prepare("SELECT value FROM runtime_metadata WHERE key = 'scheduler_paused'").get() as { value: string } | undefined;
+if (savedPause && !["true", "false"].includes(savedPause.value)) throw Error("Invalid persisted scheduler pause");
+let schedulerPaused = !autoPulse || savedPause?.value === "true";
+function persistSchedulerPause() { database.prepare("INSERT INTO runtime_metadata(key,value) VALUES('scheduler_paused',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(schedulerPaused)); }
 let scheduler: NodeJS.Timeout | undefined;
 let shuttingDown = false;
+let lastPulseCommittedAt = Date.now();
 const pulseGate = new PulseGate();
 const backupReplicationStatus: BackupReplicationStatus = { enabled: Boolean(backupReplicationUri), destination: backupReplicationUri, freshnessMaxAgeMs: backupFreshnessMaxAgeMs, consecutiveFailures: 0 };
 let backupReplicationInFlight = false;
@@ -67,7 +87,7 @@ async function createScheduledBackup(reason: string) {
   const destination = join(backupDirectory, `mimir-${new Date().toISOString().replaceAll(":", "-")}-${reason}.db`);
   if (!existsSync(databasePath)) return;
   try {
-    const manifest = await pulseGate.runExclusive(async () => createBundleInclusiveBackup(databasePath, destination, worldBundleRoot));
+    const manifest = await pulseGate.runExclusive(async () => createBundleInclusiveBackup(databasePath, destination, worldBundleRoot, process.env.AI_RUNTIME_MODE === "spark-online" ? process.env.MIMIR_SPARK_AI_BUDGET_PATH : undefined));
     app.log.info({ destination, bundleHashes: manifest.bundleHashes }, "scheduled bundle-inclusive backup created");
     if (backupReplicationUri) {
       if (backupReplicationInFlight) { app.log.warn("skipping scheduled backup replication because the previous upload is still running"); return; }
@@ -104,12 +124,12 @@ function loadState(timelineId: string): WorldState {
       throw new Error(`unsupported persisted timeline ${timelineId}: ${reason}`);
     }
   }
-  if (timelineId === "main") {
+  if (timelineId === openingTimelineId) {
     const bundlePath = resolve(worldBundleRoot, defaultFirstGlowBundleHash, "world.json");
     if (!existsSync(bundlePath)) throw new Error(`default First Glow bundle not found: ${defaultFirstGlowBundleHash}`);
     const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8")));
     if (bundle.schemaVersion !== 3) throw new Error("default First Glow bundle must use schema 3");
-    const opening = createWorldFromBundle(bundle, aiRuntimeConfig.liveSpark ? 2 : 20260906, timelineId, aiRuntimeConfig.liveSpark ? 6 : 12);
+    const opening = createWorldFromBundle(bundle, aiRuntimeConfig.liveSpark ? 2 : 20260906, timelineId, aiRuntimeConfig.liveSpark ? 6 : 12, { goalLoops: sparkGoalsRequested });
     if (aiRuntimeConfig.liveSpark) opening.firstGlowState.reflectionCapacity = initializeFirstGlowEventAdmission(opening.firstGlowState.reflectionCapacity!, 0);
     return normalizeState(opening);
   }
@@ -128,6 +148,7 @@ function validateBundleAssetsAtStartup(bundle: DecodedWorldBundle): void {
 let state: WorldState;
 try {
   state = loadState(activeTimelineId);
+  if (sparkGoalsRequested && !state.firstGlowState.goalLoops) throw new Error("Spark goals require a fresh goal-enabled database; recorded histories cannot be upgraded");
   for (const settlement of state.firstGlowState.settlements) validateBundleAssetsAtStartup(settlement.bundle);
 } catch (error) {
   console.error(`Mimir startup refused: ${error instanceof Error ? error.message : String(error)}`);
@@ -135,7 +156,15 @@ try {
   process.exit(1);
 }
 if (!database.prepare("SELECT 1 FROM timeline_checkpoints WHERE timeline_id = ? LIMIT 1").get(activeTimelineId)) database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, ?, ?)").run(activeTimelineId, state.pulse, JSON.stringify(state));
+aiRuntimeConfig.markWorldBound?.();
 database.prepare("INSERT INTO runtime_metadata (key, value) VALUES ('active_timeline', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(activeTimelineId);
+// Receipt scope survives restart/restore, but distinguishes separate databases whose
+// active timeline may both be named "main". It never enters a provider prompt.
+let goalReceiptScope = "";
+if (sparkGoalsRequested) {
+  database.prepare("INSERT OR IGNORE INTO runtime_metadata (key,value) VALUES ('spark_goal_world_id',?)").run(randomUUID());
+  goalReceiptScope = (database.prepare("SELECT value FROM runtime_metadata WHERE key='spark_goal_world_id'").get() as { value: string }).value;
+}
 const liveClients = new Set<ServerResponse>();
 const app = Fastify({ logger: true });
 await app.register(cors, { origin: process.env.OBSERVER_ORIGIN?.trim() || false });
@@ -228,10 +257,16 @@ app.get("/health", async (request) => {
   const isOwner = isOwnerAuthorized(host, serveWeb, hostedStart, ownerToken, request.headers["x-owner-token"]);
   const replication = currentBackupReplicationStatus();
   const sanitizedReplication = isOwner ? replication : { enabled: replication.enabled, stale: replication.stale };
+  const stalled = currentTimeline().status === "active" && !schedulerPaused && !onlineRun.expired() && state.pulse < seasonPulseLimit && Date.now() - lastPulseCommittedAt > Math.max(60000, pulseIntervalMs * 3);
+  const offsite = process.env.BACKUP_STATUS_PATH ? offsiteHealth(loadOffsiteStatus(process.env.BACKUP_STATUS_PATH, backupReplicationUri ?? "", backupFreshnessMaxAgeMs)) : undefined;
   return {
-    ok: true,
+    ok: !stalled && (!offsite || offsite.healthy),
+    stalled,
+    lastPulseCommittedAt: new Date(lastPulseCommittedAt).toISOString(),
+    offsiteBackup: offsite ? { healthy: offsite.healthy, stale: offsite.stale, incomplete: offsite.incomplete, consecutiveFailures: offsite.consecutiveFailures } : undefined,
     pulse: state.pulse,
     schedulerPaused,
+    onlineRun: onlineRun.status(),
     ...(isOwner ? { databasePath } : {}),
     timeline: currentTimeline(),
     socialMode,
@@ -245,10 +280,11 @@ const backupStatusHandler = async (request: FastifyRequest, reply: FastifyReply)
 };
 app.get("/api/backup/status", backupStatusHandler);
 app.get("/api/owner/backup/status", backupStatusHandler);
-app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: aiRuntimeConfig.liveSpark ? 500 : socialBudgetCents }));
-app.post("/api/owner/ai/stop", async (request, reply) => { if (!requireOwner(request, reply)) return; aiRuntimeConfig.stop?.(); schedulerPaused = true; return { ...aiRuntime.status(), schedulerPaused }; });
+app.get("/api/social/config", async () => ({ mode: socialMode, ...aiRuntime.status(), aiEnabled, budgetCents: aiRuntimeConfig.liveSpark ? aiRuntimeConfig.hardCapCents : socialBudgetCents }));
+app.post("/api/owner/ai/stop", async (request, reply) => { if (!requireOwner(request, reply)) return; aiRuntimeConfig.stop?.(); schedulerPaused = true; persistSchedulerPause(); return { ...aiRuntime.status(), schedulerPaused }; });
 app.addHook("onClose", async () => { await aiRuntimeConfig.close?.(); });
 app.get("/api/design", async () => ({ themeId: "living-circuit", ageId: "first-glow", characterCards: [], dilemmas: [], sharedStore: undefined, firstGlow: FIRST_GLOW_DESIGN }));
+app.get("/api/goals", async () => ({ timelineId: activeTimelineId, pulse: state.pulse, goals: summarizeFirstGlowGoals(state.firstGlowState), runtime: aiRuntime.status() }));
 app.get("/api/reflection", async () => ({ projection: projectFirstGlowObserver(state.firstGlowState), runtime: aiRuntime.status(), timelineId: activeTimelineId }));
 app.get("/api/resonance", async () => {
   const fixturePath = resolve(process.cwd(), "docs", "resonance-anchor-fixtures.json");
@@ -320,10 +356,10 @@ app.get("/api/world", async (request, reply) => { const query = request.query as
 app.get("/api/events", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? ORDER BY pulse DESC LIMIT ?").all(activeTimelineId, limit) as { event_json: string }[]; return { events: rows.reverse().map((row) => JSON.parse(row.event_json) as WorldEvent[]).flat(), timelineId: activeTimelineId }; });
 app.get("/api/interpretations", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? ORDER BY pulse DESC, id DESC LIMIT ?").all(activeTimelineId, limit) as { interpretation_json: string }[]; return { interpretations: rows.reverse().map((row) => JSON.parse(row.interpretation_json) as SocialInterpretation), timelineId: activeTimelineId }; });
 app.get("/api/metrics", async () => {
-  const rows = database.prepare("SELECT pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY pulse ASC").all(activeTimelineId) as { pulse: number; state_json: string }[];
+  const rows = database.prepare("SELECT pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY pulse ASC").iterate(activeTimelineId) as Iterable<{ pulse: number; state_json: string }>;
   return {
     timelineId: activeTimelineId,
-    metrics: rows.map((row) => {
+    metrics: Array.from(rows, (row) => {
       const snapshot = normalizeState(JSON.parse(row.state_json) as WorldState);
        const sparks = snapshot.firstGlowState.settlements.flatMap((settlement) => settlement.sparks);
        return {
@@ -343,7 +379,7 @@ app.get("/api/metrics", async () => {
 });
 function reportSummary() { const sparks = state.firstGlowState.settlements.flatMap(settlement => settlement.sparks); return { season: 0, scenarioName: "The First Glow", finalFood: 0, averageTrust: 0, villagers: 0, dilemmasResolved: 0, latestDilemma: null, firstGlow: { sourceCharge: state.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0), communalCharge: state.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0), carriedCharge: sparks.reduce((total, spark) => total + spark.carriedCharge, 0), chargeDeficit: sparks.reduce((total, spark) => total + spark.chargeDeficit, 0), sparks: sparks.length } }; }
 app.get("/api/report", async () => { const timeline = currentTimeline(); const counts = database.prepare("SELECT (SELECT COUNT(*) FROM timeline_checkpoints WHERE timeline_id = ?) AS checkpoints, (SELECT COUNT(*) FROM timeline_events WHERE timeline_id = ?) AS events, (SELECT COUNT(*) FROM timeline_interpretations WHERE timeline_id = ?) AS interpretations").get(activeTimelineId, activeTimelineId, activeTimelineId) as { checkpoints: number; events: number; interpretations: number }; return { timeline, pulse: state.pulse, schedulerPaused, pulseIntervalMs, databaseBytes: existsSync(databasePath) ? statSync(databasePath).size : 0, socialMode, socialBudgetCents, fallbackCount: counts.interpretations, summary: reportSummary(), ...counts }; });
-app.post("/api/scheduler", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { paused?: unknown; intervalMs?: unknown } | undefined; if (body?.paused !== undefined && typeof body.paused !== "boolean") return reply.code(400).send({ error: "paused must be a boolean" }); if (body?.intervalMs !== undefined && (!Number.isInteger(body.intervalMs) || Number(body.intervalMs) < 250 || Number(body.intervalMs) > 300000)) return reply.code(400).send({ error: "intervalMs must be an integer between 250 and 300000" }); if (typeof body?.intervalMs === "number") pulseIntervalMs = body.intervalMs; if (typeof body?.paused === "boolean") schedulerPaused = body.paused; restartScheduler(); return { schedulerPaused, pulseIntervalMs }; });
+app.post("/api/scheduler", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { paused?: unknown; intervalMs?: unknown } | undefined; if (body?.paused === false && onlineRun.expired()) return reply.code(409).send({ error: "online run lease expired" }); if (body?.paused !== undefined && typeof body.paused !== "boolean") return reply.code(400).send({ error: "paused must be a boolean" }); if (body?.intervalMs !== undefined && (!Number.isInteger(body.intervalMs) || Number(body.intervalMs) < onlineCadenceMinimum || Number(body.intervalMs) > 300000)) return reply.code(400).send({ error: "intervalMs must be within the selected cadence bounds (maximum 300000)" }); if (typeof body?.intervalMs === "number") pulseIntervalMs = body.intervalMs; if (typeof body?.paused === "boolean") schedulerPaused = body.paused; persistSchedulerPause(); restartScheduler(); return { schedulerPaused, pulseIntervalMs }; });
 app.post("/api/owner/world/object", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { settlementId?: unknown; objectId?: unknown; blocked?: unknown; idempotencyKey?: unknown } | undefined; if (typeof body?.objectId !== "string" || typeof body.blocked !== "boolean" || typeof body.idempotencyKey !== "string" || body.idempotencyKey.length === 0) return reply.code(400).send({ error: "settlementId, objectId, blocked, and idempotencyKey are required" }); const settlementId = typeof body.settlementId === "string" ? body.settlementId : HOME_SETTLEMENT.id; const existing = database.prepare("SELECT id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json FROM pending_commands WHERE timeline_id = ? AND idempotency_key = ?").get(activeTimelineId, body.idempotencyKey) as PendingBlockCommand | undefined; if (existing) return reply.code(existing.status === "rejected" ? 409 : 202).send(existing.result_json ? JSON.parse(existing.result_json) : { commandId: existing.id, effectivePulse: existing.target_pulse, status: existing.status }); try { const objectExists = state.firstGlowState.settlements.some(settlement => settlement.bundle.objects.some(object => object.id === body.objectId)); if (!objectExists) return reply.code(400).send({ error: `unknown world object: ${body.objectId}` }); if (!state.firstGlowState.settlements.some(settlement => settlement.id === settlementId)) return reply.code(400).send({ error: `unknown settlement: ${settlementId}` }); const occupied = body.blocked ? occupiedActorIds(body.objectId) : []; if (occupied.length) return reply.code(409).send({ error: "blocking would cover occupied cells", actorIds: occupied }); const id = `command-${randomUUID()}`; const ordering = Number((database.prepare("SELECT COALESCE(MAX(ordering), 0) AS ordering FROM pending_commands WHERE timeline_id = ?").get(activeTimelineId) as { ordering: number }).ordering) + 1; const targetPulse = state.pulse + 1; const result = { commandId: id, effectivePulse: targetPulse, status: "pending", objectId: body.objectId, blocked: body.blocked, idempotencyKey: body.idempotencyKey }; database.prepare("INSERT INTO pending_commands (id, timeline_id, ordering, target_pulse, settlement_id, object_id, blocked, idempotency_key, status, result_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)").run(id, activeTimelineId, ordering, targetPulse, settlementId, body.objectId, body.blocked ? 1 : 0, body.idempotencyKey, JSON.stringify(result), new Date().toISOString()); return reply.code(202).send(result); } catch (error) { return reply.code(400).send({ error: error instanceof Error ? error.message : "invalid world object command" }); } });
 app.post("/api/owner/resonance-choice", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
@@ -423,7 +459,7 @@ app.post("/api/owner/resonance-anchor", async (request, reply) => {
 });
 
 async function commitPulseExclusive(): Promise<{ state: WorldState; events: WorldEvent[]; interpretations: SocialInterpretation[] } | null> {
-  if (state.pulse >= seasonPulseLimit || currentTimeline().status !== "active") return null;
+  if (onlineRun.expired() || state.pulse >= seasonPulseLimit || currentTimeline().status !== "active") return null;
   const pending = applyFirstGlowPendingCommands(state, state.pulse + 1);
   const policy = pending.state.firstGlowState.reflectionCapacity?.eventAdmission?.version;
   const advanced = advanceWorld(pending.state, aiRuntimeConfig.liveSpark && policy ? { eventAdmissionPolicy: policy } : {});
@@ -433,7 +469,9 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     if (advanced.state.firstGlowState) {
       const previousIds = new Set(pending.state.firstGlowState.events.map((event) => event.id));
       const committedStructuredEvents = advanced.state.firstGlowState.events.filter(event => !previousIds.has(event.id));
-      const evaluated = await aiRuntime.evaluate(advanced.state.firstGlowState, committedStructuredEvents);
+      const goals = await aiRuntime.evaluateGoals(advanced.state.firstGlowState, `${goalReceiptScope}/${activeTimelineId}`);
+      const evaluated = await aiRuntime.evaluate(goals.state, committedStructuredEvents);
+      result = { ...result, state: { ...result.state, firstGlowState: evaluated.state }, events: [...result.events, ...goals.events.map(event => ({ ...event, pulse: advanced.state.pulse, kind: "pulse" as const, structuredKind: event.kind, villagerIds: [], settlementIds: [] }))] };
       if (evaluated.interpretations.length) {
         const replacedEventIds = new Set(evaluated.interpretations.map(interpretation => interpretation.eventId));
         result = {
@@ -451,6 +489,7 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     const insertInterpretation = database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, pulse, interpretation_json) VALUES (?, ?, ?, ?)");
     for (const interpretation of result.interpretations) insertInterpretation.run(activeTimelineId, interpretation.id, interpretation.pulse, JSON.stringify(interpretation));
     database.exec("COMMIT");
+    lastPulseCommittedAt = Date.now();
   } catch (error) { database.exec("ROLLBACK"); throw error; }
   state = result.state;
   const message = `data: ${JSON.stringify({ state, events: result.events, interpretations: result.interpretations, timelineId: activeTimelineId, schedulerPaused })}\n\n`;
@@ -459,10 +498,10 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
 }
 async function commitPulse() { return pulseGate.runExclusive(() => commitPulseExclusive()); }
 app.post("/api/pulse", async (request, reply) => { if (!requireOwner(request, reply)) return; try { const result = await commitPulse(); if (!result) return reply.code(409).send({ error: "timeline is archived or season boundary reached", state }); return result; } catch (error) { if (error instanceof PulseInFlightError) return reply.code(409).send({ error: error.message, state }); throw error; } });
-app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), activeTimelineId); schedulerPaused = true; return { timeline: currentTimeline(), schedulerPaused }; });
+app.post("/api/owner/archive", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), activeTimelineId); schedulerPaused = true; persistSchedulerPause(); return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/continue", async (request, reply) => { if (!requireOwner(request, reply)) return; database.prepare("UPDATE timelines SET status = 'active', archived_at = NULL WHERE id = ?").run(activeTimelineId); return { timeline: currentTimeline(), schedulerPaused }; });
 app.post("/api/owner/branch", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { pulse?: unknown } | undefined; const branchPulse = body?.pulse === undefined ? state.pulse : Number(body.pulse); if (!Number.isInteger(branchPulse) || branchPulse < 0) return reply.code(400).send({ error: "pulse must be a non-negative integer" }); const source = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse = ?").get(activeTimelineId, branchPulse) as { state_json: string } | undefined; if (!source) return reply.code(404).send({ error: "branch source checkpoint not found" }); const newId = `timeline-${randomUUID()}`; database.exec("BEGIN IMMEDIATE"); try { database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(newId, activeTimelineId, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) SELECT ?, pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) SELECT ?, id, pulse, event_json FROM timeline_events WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.prepare("INSERT INTO timeline_interpretations (timeline_id, id, pulse, interpretation_json) SELECT ?, id, pulse, interpretation_json FROM timeline_interpretations WHERE timeline_id = ? AND pulse <= ?").run(newId, activeTimelineId, branchPulse); database.exec("COMMIT"); } catch (error) { database.exec("ROLLBACK"); throw error; } activeTimelineId = newId; state = { ...normalizeState(JSON.parse(source.state_json) as WorldState), worldId: newId }; saveActiveTimeline(); return { timeline: currentTimeline(), state }; });
-app.post("/api/owner/reset-v3", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { bundleHash?: unknown; seed?: unknown; sparkCount?: unknown } | undefined; if (typeof body?.bundleHash !== "string" || !/^sha256-[a-f0-9]{64}$/.test(body.bundleHash)) return reply.code(400).send({ error: "bundleHash is required" }); const bundlePath = resolve(worldBundleRoot, body.bundleHash, "world.json"); const relativeBundlePath = relative(worldBundleRoot, bundlePath); if (relativeBundlePath.startsWith("..") || isAbsolute(relativeBundlePath) || !existsSync(bundlePath)) return reply.code(404).send({ error: "bundle not found" }); try { const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8"))); if (bundle.schemaVersion !== 3) return reply.code(409).send({ error: "reset-v3 requires a schema-3 First Glow bundle" }); if (bundleHash(bundle) !== body.bundleHash) return reply.code(409).send({ error: "bundle content hash mismatch" }); const seed = body.seed === undefined ? 20260906 : Number(body.seed); const sparkCount = body.sparkCount === undefined ? 1 : Number(body.sparkCount); if (!Number.isInteger(seed)) return reply.code(400).send({ error: "seed must be an integer" }); if (!Number.isInteger(sparkCount) || sparkCount < 1 || sparkCount > 64) return reply.code(400).send({ error: "sparkCount must be an integer between 1 and 64" }); const parent = activeTimelineId; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), parent); activeTimelineId = `timeline-${randomUUID()}`; state = createWorldFromBundle(bundle, seed, activeTimelineId, sparkCount); if (aiRuntimeConfig.liveSpark) state.firstGlowState.reflectionCapacity = initializeFirstGlowEventAdmission(state.firstGlowState.reflectionCapacity!, 0); database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(activeTimelineId, parent, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, 0, ?)").run(activeTimelineId, JSON.stringify(state)); schedulerPaused = true; saveActiveTimeline(); return { timeline: currentTimeline(), state, schedulerPaused, bundleHash: body.bundleHash, sparkCount }; } catch (error) { return reply.code(409).send({ error: error instanceof Error ? error.message : "invalid bundle" }); } });
+app.post("/api/owner/reset-v3", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { bundleHash?: unknown; seed?: unknown; sparkCount?: unknown } | undefined; if (typeof body?.bundleHash !== "string" || !/^sha256-[a-f0-9]{64}$/.test(body.bundleHash)) return reply.code(400).send({ error: "bundleHash is required" }); const bundlePath = resolve(worldBundleRoot, body.bundleHash, "world.json"); const relativeBundlePath = relative(worldBundleRoot, bundlePath); if (relativeBundlePath.startsWith("..") || isAbsolute(relativeBundlePath) || !existsSync(bundlePath)) return reply.code(404).send({ error: "bundle not found" }); try { const bundle = decodeWorldBundle(JSON.parse(readFileSync(bundlePath, "utf8"))); if (bundle.schemaVersion !== 3) return reply.code(409).send({ error: "reset-v3 requires a schema-3 First Glow bundle" }); if (bundleHash(bundle) !== body.bundleHash) return reply.code(409).send({ error: "bundle content hash mismatch" }); const seed = body.seed === undefined ? 20260906 : Number(body.seed); const sparkCount = body.sparkCount === undefined ? 1 : Number(body.sparkCount); if (!Number.isInteger(seed)) return reply.code(400).send({ error: "seed must be an integer" }); if (!Number.isInteger(sparkCount) || sparkCount < 1 || sparkCount > 64) return reply.code(400).send({ error: "sparkCount must be an integer between 1 and 64" }); const parent = activeTimelineId; database.prepare("UPDATE timelines SET status = 'archived', archived_at = ? WHERE id = ?").run(new Date().toISOString(), parent); activeTimelineId = `timeline-${randomUUID()}`; state = createWorldFromBundle(bundle, seed, activeTimelineId, sparkCount, { goalLoops: sparkGoalsRequested }); if (aiRuntimeConfig.liveSpark) state.firstGlowState.reflectionCapacity = initializeFirstGlowEventAdmission(state.firstGlowState.reflectionCapacity!, 0); database.prepare("INSERT INTO timelines (id, parent_id, created_at, status) VALUES (?, ?, ?, 'active')").run(activeTimelineId, parent, new Date().toISOString()); database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, 0, ?)").run(activeTimelineId, JSON.stringify(state)); schedulerPaused = true; persistSchedulerPause(); saveActiveTimeline(); return { timeline: currentTimeline(), state, schedulerPaused, bundleHash: body.bundleHash, sparkCount }; } catch (error) { return reply.code(409).send({ error: error instanceof Error ? error.message : "invalid bundle" }); } });
 
 if (serveWeb) {
   app.get("/*", async (request, reply) => {
@@ -481,7 +520,7 @@ if (serveWeb) {
 }
 
 await app.listen({ port, host });
-function restartScheduler() { if (scheduler) clearInterval(scheduler); if (pulseIntervalMs > 0) { scheduler = setInterval(async () => { if (shuttingDown || schedulerPaused || state.pulse >= seasonPulseLimit) return; try { await commitPulse(); } catch (error) { app.log.error({ error }, "scheduled pulse failed"); } }, pulseIntervalMs); scheduler.unref(); } }
+function restartScheduler() { if (scheduler) clearInterval(scheduler); if (pulseIntervalMs > 0) { scheduler = setInterval(async () => { if (shuttingDown || schedulerPaused || onlineRun.expired() || state.pulse >= seasonPulseLimit) return; try { await commitPulse(); } catch (error) { app.log.error({ error }, "scheduled pulse failed"); } }, pulseIntervalMs); scheduler.unref(); } }
 restartScheduler();
 app.log.info({ pulseIntervalMs, seasonPulseLimit, schedulerPaused }, "automatic pulse scheduler configured");
 let backupScheduler: NodeJS.Timeout | undefined;

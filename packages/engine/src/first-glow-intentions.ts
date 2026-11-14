@@ -86,6 +86,7 @@ function budgetAvailable(budget: FirstGlowIntentionBudget): boolean { return Num
 export async function evaluateFirstGlowIntention(state: FirstGlowState, sparkId: string, options: FirstGlowIntentionEvaluationOptions = {}): Promise<{ context: FirstGlowIntentionContext | null; record?: FirstGlowIntentionRecord; proposal?: FirstGlowIntentionProposal; }> {
   const context = buildFirstGlowIntentionContext(state, sparkId, options.triggerEvent);
   if (!context || !state.reflectionCapacity) return { context };
+  if (state.goalLoops?.goals.some(g => g.sparkId === sparkId && g.status === "active")) return { context, record: { id: deterministicId(context), pulse: state.pulse, sparkId, contextHash: context.contextHash, source: "rules", status: "interrupted", reason: "goal-continues" } };
   const reflection = requestFirstGlowReflection(state.reflectionCapacity, sparkId, state.pulse, options.historicalPlayback === true);
   const existing = findSpark(state, sparkId)?.intention;
   if (existing?.status === "active" && !reflection.forcedAtSlotEnd) { if (state.history) appendFirstGlowIntention(state.history, { id: existing.id, sparkId, createdPulse: existing.createdPulse, activity: existing.activity, source: existing.source, contextHash: existing.contextHash, evidenceEventIds: existing.evidenceEventIds, status: existing.status, causalEventIds: existing.causalEventIds, reason: "intention-continues" }); return { context, record: { id: existing.id, pulse: state.pulse, sparkId, contextHash: existing.contextHash, source: existing.source, status: "active", reason: "intention-continues" } }; }
@@ -107,6 +108,7 @@ export async function evaluateFirstGlowIntention(state: FirstGlowState, sparkId:
 }
 
 export function commitFirstGlowIntention(state: FirstGlowState, context: FirstGlowIntentionContext, proposal: FirstGlowIntentionProposal, source: FirstGlowIntentionSource = "rules"): FirstGlowIntention {
+  if (state.goalLoops?.goals.some(g => g.sparkId === context.sparkId && g.status === "active")) throw new Error("Spark goal already owns activity selection");
   const spark = findSpark(state, context.sparkId);
   const settlement = findSettlement(state, context.sparkId);
   if (!spark || !settlement || !context.candidateActivities.includes(proposal.activity as FirstGlowActivity)) throw new Error("infeasible First Glow intention");

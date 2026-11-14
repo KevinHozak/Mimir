@@ -44,3 +44,7 @@ For a new active asset, record provenance and license first, add metadata, wire 
 - Run `npm run art:validate`, then copy its measured values into a dated evidence note. Treat budgets as review thresholds, not proof of success: record misses and either fix them or explicitly accept them with scope and device limitations.
 
 Ask for design input before changing palette, Spark signatures, world object semantics, interaction geometry, or the provenance/license of an active asset. Mechanical checks and review artifacts do not require new lore or speculative future-world art.
+
+### Selecting the expanded validation bundle
+
+`ART_VALIDATION_BUNDLE_HASH` selects an explicit retained bundle for `scripts/first-glow-art-validation.mjs`; unset it to retain the older fixed fixture default. The validator checks evidence against that selected hash. The current harness samples 120 animation frames per viewport and checks canvas continuity across four actual pulse updates in total. It runs the Vite development observer; it is not a 120-pulse simulation or a production-host performance qualification. Longer fresh-history measurements are separate evidence. Historical reports retain their original labels; use current workload metadata when comparing them.

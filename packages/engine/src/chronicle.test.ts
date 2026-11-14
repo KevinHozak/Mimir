@@ -62,7 +62,7 @@ test("personal and season chapters retain distinct outcomes before repetitive tr
     assert.deepEqual(chapter.illustration.sourceEventIds, chapter.evidence.map(ref => ref.id));
     assert.equal(chapter.paragraphs.length, 3);
   }
-  assert.equal(edition.narrator.promptVersion, "chronicle-journey-v3");
+  assert.equal(edition.narrator.promptVersion, "chronicle-route-pattern-v4");
   assert.deepEqual(buildChronicleEdition(source), edition);
   assert.equal(JSON.stringify(source), before, "selection must not rewrite recorded inputs");
 });

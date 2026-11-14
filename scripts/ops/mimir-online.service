@@ -1,0 +1,25 @@
+[Unit]
+Description=Mimir bounded online First Glow writer
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=/etc/mimir/online.env
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/mimir-online/current
+EnvironmentFile=/etc/mimir/mimir.env
+EnvironmentFile=/etc/mimir/online.env
+Environment=PATH=/opt/node/bin:/usr/bin:/bin
+ExecStart=/opt/node/bin/node --max-old-space-size=192 packages/server/dist/index.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/mimir/online
+
+[Install]
+WantedBy=multi-user.target

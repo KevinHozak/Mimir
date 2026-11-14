@@ -1,0 +1,1465 @@
+{
+  "date": "2026-11-10",
+  "scope": "Investigation only; no gameplay changes",
+  "history": {
+    "seed": 2,
+    "population": 12,
+    "pulses": 360,
+    "bundle": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+    "source": "first-glow-sharing-continuation-2026-11-10.json"
+  },
+  "snapshot": [
+    {
+      "spark": "spark-9",
+      "mode": "current-order",
+      "position": {
+        "x": 26,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 2,
+      "deficit": 84,
+      "readiness": 9,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 0,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 20,
+            "pulses": 21,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 102,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 23,
+            "minimumReadiness": 95,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 102,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-9",
+      "mode": "both-orders",
+      "position": {
+        "x": 26,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 2,
+      "deficit": 84,
+      "readiness": 9,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 0,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 20,
+            "pulses": 21,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 102,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 23,
+            "minimumReadiness": 95,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 102,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-9",
+      "mode": "both-orders-free-contacts",
+      "position": {
+        "x": 26,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 2,
+      "deficit": 84,
+      "readiness": 9,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 0,
+      "availableCharge": 4,
+      "availableRest": 5,
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      },
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 20,
+            "pulses": 21,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 102,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 23,
+            "minimumReadiness": 95,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 102,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-2",
+      "mode": "current-order",
+      "position": {
+        "x": 27,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 17,
+      "deficit": 0,
+      "readiness": 49,
+      "sourceCharge": 776,
+      "immediate": "rest",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 4,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 20,
+            "pulses": 21,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 3,
+              "readiness": 29
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 23,
+            "minimumReadiness": 95,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 3,
+              "readiness": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-2",
+      "mode": "both-orders",
+      "position": {
+        "x": 27,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 17,
+      "deficit": 0,
+      "readiness": 49,
+      "sourceCharge": 776,
+      "immediate": "rest",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 4,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 20,
+            "pulses": 21,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 3,
+              "readiness": 29
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 23,
+            "minimumReadiness": 95,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 3,
+              "readiness": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-2",
+      "mode": "both-orders-free-contacts",
+      "position": {
+        "x": 27,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 17,
+      "deficit": 0,
+      "readiness": 49,
+      "sourceCharge": 776,
+      "immediate": "rest",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 4,
+      "availableCharge": 4,
+      "availableRest": 5,
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      },
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 20,
+            "pulses": 21,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 3,
+              "readiness": 29
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 23,
+            "minimumReadiness": 95,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 3,
+              "readiness": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-5",
+      "mode": "current-order",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 18,
+      "deficit": 73,
+      "readiness": 9,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 3,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 21,
+            "pulses": 22,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 76,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 24,
+            "minimumReadiness": 96,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 76,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-5",
+      "mode": "both-orders",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 18,
+      "deficit": 73,
+      "readiness": 9,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 3,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 21,
+            "pulses": 22,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 76,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 24,
+            "minimumReadiness": 96,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 76,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-5",
+      "mode": "both-orders-free-contacts",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 18,
+      "deficit": 73,
+      "readiness": 9,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no currently feasible charge/rest itinerary",
+      "actions": 3,
+      "availableCharge": 4,
+      "availableRest": 5,
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      },
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 21,
+            "pulses": 22,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 76,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 24,
+            "minimumReadiness": 96,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 76,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-6",
+      "mode": "current-order",
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "status": "waiting",
+      "charge": 15,
+      "deficit": 56,
+      "readiness": 52,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "actions": 1,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 32,
+            "pulses": 33,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 73,
+              "readiness": 20
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 35,
+            "minimumReadiness": 107,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 73,
+              "readiness": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-6",
+      "mode": "both-orders",
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "status": "waiting",
+      "charge": 15,
+      "deficit": 56,
+      "readiness": 52,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "actions": 1,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 32,
+            "pulses": 33,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 73,
+              "readiness": 20
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 35,
+            "minimumReadiness": 107,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 73,
+              "readiness": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-6",
+      "mode": "both-orders-free-contacts",
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "status": "waiting",
+      "charge": 15,
+      "deficit": 56,
+      "readiness": 52,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "actions": 1,
+      "availableCharge": 4,
+      "availableRest": 5,
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      },
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 32,
+            "pulses": 33,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 73,
+              "readiness": 20
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 35,
+            "minimumReadiness": 107,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 73,
+              "readiness": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-7",
+      "mode": "current-order",
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 8,
+      "deficit": 135,
+      "readiness": 0,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "actions": 1,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 32,
+            "pulses": 33,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 159,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 35,
+            "minimumReadiness": 107,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 159,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-7",
+      "mode": "both-orders",
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 8,
+      "deficit": 135,
+      "readiness": 0,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "actions": 1,
+      "availableCharge": 0,
+      "availableRest": 2,
+      "action": "idle",
+      "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 32,
+            "pulses": 33,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 159,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 35,
+            "minimumReadiness": 107,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 159,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "spark": "spark-7",
+      "mode": "both-orders-free-contacts",
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "status": "waiting",
+      "charge": 8,
+      "deficit": 135,
+      "readiness": 0,
+      "sourceCharge": 776,
+      "immediate": "charge",
+      "currentPhase": "deferred",
+      "currentReason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+      "actions": 1,
+      "availableCharge": 4,
+      "availableRest": 5,
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      },
+      "directCache": [
+        {
+          "slot": "probe-west",
+          "forecast": {
+            "priorMovingPulses": 32,
+            "pulses": 33,
+            "movedOnArrival": true,
+            "before": {
+              "charge": 0,
+              "deficit": 159,
+              "readiness": 0
+            },
+            "eligible": false,
+            "shardReachable": true,
+            "minimumCharge": 35,
+            "minimumReadiness": 107,
+            "afterProbe": {
+              "charge": -2,
+              "deficit": 159,
+              "readiness": 0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "freeContactsCurrentOrder": [
+    {
+      "spark": "spark-9",
+      "mode": "current-order-free-contacts",
+      "immediate": "charge",
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      }
+    },
+    {
+      "spark": "spark-2",
+      "mode": "current-order-free-contacts",
+      "immediate": "rest",
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary"
+    },
+    {
+      "spark": "spark-5",
+      "mode": "current-order-free-contacts",
+      "immediate": "charge",
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      }
+    },
+    {
+      "spark": "spark-6",
+      "mode": "current-order-free-contacts",
+      "immediate": "charge",
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      }
+    },
+    {
+      "spark": "spark-7",
+      "mode": "current-order-free-contacts",
+      "immediate": "charge",
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-159",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      }
+    }
+  ],
+  "exactReplayMatched": true,
+  "sampleSelection": "First and last three recorded deferred preparation events per final deferred reader; actual eligible decision frames only",
+  "availability": {
+    "spark-9": {
+      "eligibleDecisionPulses": 98,
+      "chargeAvailable": 27,
+      "restAvailable": 80,
+      "bothAvailable": 26,
+      "chargeUnavailableButDrawOccurred": 13
+    },
+    "spark-2": {
+      "eligibleDecisionPulses": 55,
+      "chargeAvailable": 19,
+      "restAvailable": 55,
+      "bothAvailable": 19,
+      "chargeUnavailableButDrawOccurred": 9
+    },
+    "spark-5": {
+      "eligibleDecisionPulses": 60,
+      "chargeAvailable": 18,
+      "restAvailable": 57,
+      "bothAvailable": 18,
+      "chargeUnavailableButDrawOccurred": 10
+    },
+    "spark-6": {
+      "eligibleDecisionPulses": 51,
+      "chargeAvailable": 15,
+      "restAvailable": 45,
+      "bothAvailable": 15,
+      "chargeUnavailableButDrawOccurred": 9
+    },
+    "spark-7": {
+      "eligibleDecisionPulses": 19,
+      "chargeAvailable": 7,
+      "restAvailable": 19,
+      "bothAvailable": 7,
+      "chargeUnavailableButDrawOccurred": 3
+    }
+  },
+  "comparisons": [
+    {
+      "pulse": 227,
+      "spark": "spark-9",
+      "charge": 0,
+      "deficit": 84,
+      "readiness": 9,
+      "position": {
+        "x": 27,
+        "y": 5
+      },
+      "chargeContacts": 1,
+      "restContacts": 2,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 264,
+      "spark": "spark-2",
+      "charge": 0,
+      "deficit": 2,
+      "readiness": 9,
+      "position": {
+        "x": 22,
+        "y": 23
+      },
+      "chargeContacts": 0,
+      "restContacts": 1,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 269,
+      "spark": "spark-5",
+      "charge": 0,
+      "deficit": 90,
+      "readiness": 15,
+      "position": {
+        "x": 27,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 283,
+      "spark": "spark-6",
+      "charge": 0,
+      "deficit": 46,
+      "readiness": 81,
+      "position": {
+        "x": 22,
+        "y": 23
+      },
+      "chargeContacts": 1,
+      "restContacts": 2,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-east",
+            "navigationRevision": 0
+          }
+        },
+        {
+          "mode": "both-orders",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-east",
+            "navigationRevision": 0
+          }
+        }
+      ]
+    },
+    {
+      "pulse": 317,
+      "spark": "spark-7",
+      "charge": 0,
+      "deficit": 118,
+      "readiness": 8,
+      "position": {
+        "x": 22,
+        "y": 23
+      },
+      "chargeContacts": 0,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 331,
+      "spark": "spark-2",
+      "charge": 32,
+      "deficit": 0,
+      "readiness": 0,
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "chargeContacts": 1,
+      "restContacts": 2,
+      "immediate": "rest",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "cache contact unavailable or unreachable"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "cache contact unavailable or unreachable"
+        }
+      ]
+    },
+    {
+      "pulse": 340,
+      "spark": "spark-9",
+      "charge": 16,
+      "deficit": 84,
+      "readiness": 11,
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 0,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "cache contact unavailable or unreachable"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "cache contact unavailable or unreachable"
+        }
+      ]
+    },
+    {
+      "pulse": 350,
+      "spark": "spark-2",
+      "charge": 17,
+      "deficit": 0,
+      "readiness": 49,
+      "position": {
+        "x": 27,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 2,
+      "immediate": "rest",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 350,
+      "spark": "spark-6",
+      "charge": 15,
+      "deficit": 56,
+      "readiness": 52,
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "chargeContacts": 0,
+      "restContacts": 2,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        }
+      ]
+    },
+    {
+      "pulse": 351,
+      "spark": "spark-5",
+      "charge": 18,
+      "deficit": 73,
+      "readiness": 9,
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 1,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 352,
+      "spark": "spark-7",
+      "charge": 8,
+      "deficit": 135,
+      "readiness": 0,
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "chargeContacts": 2,
+      "restContacts": 1,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        }
+      ]
+    },
+    {
+      "pulse": 355,
+      "spark": "spark-9",
+      "charge": 2,
+      "deficit": 84,
+      "readiness": 9,
+      "position": {
+        "x": 26,
+        "y": 5
+      },
+      "chargeContacts": 1,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        },
+        {
+          "mode": "both-orders",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        }
+      ]
+    },
+    {
+      "pulse": 355,
+      "spark": "spark-5",
+      "charge": 18,
+      "deficit": 73,
+      "readiness": 9,
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "chargeContacts": 1,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        },
+        {
+          "mode": "both-orders",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        }
+      ]
+    },
+    {
+      "pulse": 355,
+      "spark": "spark-6",
+      "charge": 15,
+      "deficit": 56,
+      "readiness": 52,
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "chargeContacts": 1,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        },
+        {
+          "mode": "both-orders",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        }
+      ]
+    },
+    {
+      "pulse": 355,
+      "spark": "spark-7",
+      "charge": 8,
+      "deficit": 135,
+      "readiness": 0,
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "chargeContacts": 1,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        },
+        {
+          "mode": "both-orders",
+          "action": "seek-charge",
+          "reason": "prepare charge for the recorded cache route",
+          "pin": {
+            "patternId": "route-pattern-spark-1-159",
+            "activity": "seek-charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-south",
+            "navigationRevision": 0
+          }
+        }
+      ]
+    },
+    {
+      "pulse": 356,
+      "spark": "spark-9",
+      "charge": 2,
+      "deficit": 84,
+      "readiness": 9,
+      "position": {
+        "x": 26,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 356,
+      "spark": "spark-5",
+      "charge": 18,
+      "deficit": 73,
+      "readiness": 9,
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no currently feasible charge/rest itinerary"
+        }
+      ]
+    },
+    {
+      "pulse": 356,
+      "spark": "spark-6",
+      "charge": 15,
+      "deficit": 56,
+      "readiness": 52,
+      "position": {
+        "x": 4,
+        "y": 6
+      },
+      "chargeContacts": 0,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        }
+      ]
+    },
+    {
+      "pulse": 356,
+      "spark": "spark-7",
+      "charge": 8,
+      "deficit": 135,
+      "readiness": 0,
+      "position": {
+        "x": 4,
+        "y": 5
+      },
+      "chargeContacts": 0,
+      "restContacts": 3,
+      "immediate": "charge",
+      "alternatives": [
+        {
+          "mode": "current-order",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        },
+        {
+          "mode": "both-orders",
+          "action": "idle",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap"
+        }
+      ]
+    }
+  ],
+  "pulse355Events": [
+    {
+      "id": "event-355-spark-9-pattern-preparation",
+      "pulse": 355,
+      "kind": "pulse",
+      "structuredKind": "pattern-preparation",
+      "evidenceEventIds": [
+        "event-182-spark-9-route-pattern-spark-1-159-encounter"
+      ],
+      "actorId": "spark-9",
+      "message": "Spark 9: selected preparation or cache contact is no longer available; preparation deferred, 0 recorded recovery action(s).",
+      "villagerIds": [],
+      "settlementIds": []
+    },
+    {
+      "id": "event-355-spark-5-pattern-preparation",
+      "pulse": 355,
+      "kind": "pulse",
+      "structuredKind": "pattern-preparation",
+      "evidenceEventIds": [
+        "event-234-spark-5-route-pattern-spark-1-159-encounter"
+      ],
+      "actorId": "spark-5",
+      "message": "Spark 5: selected preparation or cache contact is no longer available; preparation deferred, 3 recorded recovery action(s).",
+      "villagerIds": [],
+      "settlementIds": []
+    },
+    {
+      "id": "event-355-spark-6-pattern-preparation",
+      "pulse": 355,
+      "kind": "pulse",
+      "structuredKind": "pattern-preparation",
+      "evidenceEventIds": [
+        "event-282-spark-6-route-pattern-spark-1-159-encounter"
+      ],
+      "actorId": "spark-6",
+      "message": "Spark 6: selected preparation or cache contact is no longer available; preparation deferred, 1 recorded recovery action(s).",
+      "villagerIds": [],
+      "settlementIds": []
+    },
+    {
+      "id": "event-355-spark-7-pattern-preparation",
+      "pulse": 355,
+      "kind": "pulse",
+      "structuredKind": "pattern-preparation",
+      "evidenceEventIds": [
+        "event-316-spark-7-route-pattern-spark-1-159-encounter"
+      ],
+      "actorId": "spark-7",
+      "message": "Spark 7: selected preparation or cache contact is no longer available; preparation deferred, 1 recorded recovery action(s).",
+      "villagerIds": [],
+      "settlementIds": []
+    },
+    {
+      "id": "event-355-spark-10-pattern-preparation",
+      "pulse": 355,
+      "kind": "pulse",
+      "structuredKind": "pattern-preparation",
+      "evidenceEventIds": [
+        "event-354-spark-10-route-pattern-spark-1-159-encounter"
+      ],
+      "actorId": "spark-10",
+      "message": "Spark 10: prepare charge for the recorded cache route; preparation charge, 0 recorded recovery action(s).",
+      "villagerIds": [],
+      "settlementIds": []
+    }
+  ],
+  "limits": [
+    "19 sampled eligible decision frames, not exhaustive ordering comparisons",
+    "Free-contact copies are optimistic diagnostics, not executable histories or permission to remove reservations",
+    "No proposed admission policy has been implemented or rerun"
+  ]
+}

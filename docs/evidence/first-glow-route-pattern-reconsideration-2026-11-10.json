@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-10",
+  "source": ".tmp/route-patterns-completion-ordinary-dg5deH/current-12.json",
+  "patternId": "route-pattern-spark-1-122",
+  "readers": [
+    {
+      "sparkId": "spark-6",
+      "priorChoice": {
+        "pulse": 72,
+        "alternative": "conserve",
+        "decisionEventId": "event-72-spark-6-cache-choice",
+        "outcomeEventId": "event-72-spark-6-cache-conserved",
+        "nextActivity": "seek-charge",
+        "cacheObjectId": "tiled-106"
+      },
+      "encounter": {
+        "sparkId": "spark-6",
+        "pulse": 178,
+        "eventId": "event-178-spark-6-route-pattern-spark-1-122-encounter",
+        "decline": {
+          "pulse": 179,
+          "eventId": "event-179-spark-6-route-pattern-spark-1-122-decline",
+          "reason": "already considered the Wild Cache"
+        }
+      }
+    },
+    {
+      "sparkId": "spark-2",
+      "priorChoice": {
+        "pulse": 38,
+        "alternative": "conserve",
+        "decisionEventId": "event-38-spark-2-cache-choice",
+        "outcomeEventId": "event-38-spark-2-cache-conserved",
+        "nextActivity": "seek-charge",
+        "cacheObjectId": "tiled-106"
+      },
+      "encounter": {
+        "sparkId": "spark-2",
+        "pulse": 254,
+        "eventId": "event-254-spark-2-route-pattern-spark-1-122-encounter",
+        "decline": {
+          "pulse": 255,
+          "eventId": "event-255-spark-2-route-pattern-spark-1-122-decline",
+          "reason": "already considered the Wild Cache"
+        }
+      }
+    },
+    {
+      "sparkId": "spark-9",
+      "priorChoice": {
+        "pulse": 207,
+        "alternative": "conserve",
+        "decisionEventId": "event-207-spark-9-cache-choice",
+        "outcomeEventId": "event-207-spark-9-cache-conserved",
+        "nextActivity": "seek-charge",
+        "cacheObjectId": "tiled-106"
+      },
+      "encounter": {
+        "sparkId": "spark-9",
+        "pulse": 301,
+        "eventId": "event-301-spark-9-route-pattern-spark-1-122-encounter",
+        "decline": {
+          "pulse": 302,
+          "eventId": "event-302-spark-9-route-pattern-spark-1-122-decline",
+          "reason": "already considered the Wild Cache"
+        }
+      }
+    }
+  ],
+  "providerCalls": 0,
+  "implementationChanged": false
+}
