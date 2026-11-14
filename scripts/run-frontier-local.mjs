@@ -1,0 +1,10 @@
+import { resolve } from "node:path";
+process.env.DATABASE_PATH ??= resolve("data/local/mimir-frontier.db");
+process.env.PORT ??= "8890";
+process.env.WEB_PORT ??= "4178";
+process.env.AUTO_PULSE = "false";
+process.env.MIMIR_SPARK_GOALS = "true";
+process.env.AI_ENABLED = "false";
+process.env.MIMIR_SPARK_AI_KILL_SWITCH = "disabled";
+console.log("Opening the paused First Glow frontier with rules-based goals; AI spending is disabled.");
+await import("./run-local.mjs");

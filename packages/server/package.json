@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test:goals": "npm run build && node --test dist/first-glow-goals.test.js dist/spark-goal-ai.test.js dist/spark-goal-server.test.js",
     "test:state": "npm run build && node dist/state.test.js",
     "build": "tsc -p tsconfig.json",
     "test:first-glow-restart": "npm run build && node dist/first-glow-restart.test.js",
     "test:first-glow-commands": "npm run build && node dist/first-glow-commands.test.js",
     "test:first-glow-command-acceptance": "npm run build && node dist/first-glow-command-acceptance.test.js",
-    "test:backup-replication": "npm run build && node dist/backup-replication.test.js && node dist/backup-offsite.test.js && node ../../scripts/verify-offsite-recovery.test.mjs",
+    "test:backup-replication": "npm run build && node dist/backup-replication.test.js && node dist/backup-offsite.test.js && node ../../scripts/verify-offsite-recovery.test.mjs && node ../../scripts/backup-worker-packaging.test.mjs && node --test dist/backup-bounded.test.js",
     "dev": "tsx watch src/index.ts",
     "backup": "tsx src/backup.ts",
     "test:backup-restore": "npm run build && node dist/backup-snapshot.test.js && node dist/first-glow-backup.test.js && node dist/first-glow-assets.test.js",
@@ -18,7 +19,8 @@
     "test:owner-auth": "npm run build && node dist/owner-auth.test.js && node dist/owner-auth-acceptance.test.js",
     "test:security-p4": "npm run build && node dist/security-p4.test.js",
     "test:security-p5": "npm run build && node dist/security-p5.test.js",
-    "test:chronicle": "npm run build && node dist/chronicle-events.test.js && node dist/chronicle.test.js"
+    "test:chronicle": "npm run build && node dist/chronicle-events.test.js && node dist/chronicle.test.js",
+    "test:online-run": "npm run build && node --test dist/online-run.test.js dist/spark-ai-accounting.test.js && node ../../scripts/spark-ai-cloud-broker.test.mjs && node ../../scripts/online-run-runtime.test.mjs && node ../../scripts/online-pilot-watchdog.test.mjs"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
@@ -28,4 +30,3 @@
     "firebase-admin": "^14.5.0"
   }
 }
-

@@ -1,5 +1,19 @@
 # Mimir: A Light of Our Own
 
+## Expanded frontier (local)
+
+Run `npm run start:frontier` for the separate paused 12-Spark world at `http://127.0.0.1:4178/`. It uses `data/local/mimir-frontier.db`, enables goal loops and disables paid AI. Three regions offer exploration, real rendezvous contacts and cooperative trace weaves that improve rest. Existing saved worlds remain intact. Use **Fit map** for the whole frontier. See [S020 evidence](docs/evidence/first-glow-frontier-2026-11-13.md).
+
+## Bounded AI goal world
+
+The prepared `npm run start:ai:goals` launcher uses a separate paused goal world at `http://127.0.0.1:4176/`, sharing the original pilot allocation. S019 is locally qualified: the bounded-context live run selected 4 AI goals (3 completed), with no local wire rejections and verified restored replay. Its saved world is `data/local/mimir-ai-goals-compact.db`; both earlier worlds remain intact. Spending is stopped. See the [final live findings](docs/evidence/first-glow-goal-context-live-2026-11-13.md) and [local pilot guide](docs/spark-ai-local.md).
+
+## Persistent online world development
+
+The active [roadmap](docs/roadmap.md) targets a persistent online AI world under [MIM-E003](issues/MIM-E003.md). Human review is deferred to finalization.
+
+Run `npm run review:goal-loop` for the first offline goal-loop fixture. It builds, runs a fake-provider explore/meet/mark scenario, and writes evidence under `.tmp/goal-loop-review-*`. It does not launch a hosted world or spend the AI allocation. Contacts, starting resources and reflection cadence are controlled test conditions; expanded authored regions and live goal qualification remain unfinished.
+
 ## Real Spark AI locally
 
 Run `npm run start:ai` to open a separate, paused AI world at `http://127.0.0.1:4175/`. It uses the owner's existing Google Cloud credentials and a persistent **USD 5 pilot allocation**. Select **Resume clock** to continue; **Stop AI spending** persistently stops new requests. Read the [launch and budget guide](docs/spark-ai-local.md) before changing its data or configuration.

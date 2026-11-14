@@ -1,0 +1,339 @@
+{
+  "date": "2026-11-10",
+  "mode": "offline investigation; no rule changes",
+  "providerCalls": 0,
+  "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+  "seed": 2,
+  "sourceRecording": ".tmp/route-patterns-retry-ordinary-Xg5Wkb/current-12.json",
+  "traceDirectory": ".tmp/resource-preparation",
+  "recordedLifecycleMatched": true,
+  "sourceHashes": {
+    "packages/engine/src/first-glow-actions.ts": "3766b41a69c4d35e2b3758ee18c3cca64b6f2fd66653d6be6a84ebf67a1600b7",
+    "packages/engine/src/structured.ts": "52884c3ed7fa8285d902f76b3f6930b0cd55cf77255470387afa7da7cc1b9d35",
+    "packages/engine/src/first-glow-cache-choice.ts": "d39bf6ddfe61d3d6108638f47a5fef074eb530d59ba98e00d0ab29e35e34e2ea"
+  },
+  "journeys": [
+    {
+      "spark": "spark-9",
+      "encounter": 204,
+      "use": 205,
+      "arrival": 212,
+      "departure": {
+        "charge": 0,
+        "deficit": 20,
+        "readiness": 20,
+        "position": {
+          "x": 22,
+          "y": 23
+        },
+        "activity": "shape-pattern",
+        "status": "choosing"
+      },
+      "arrivalBeforeChoice": {
+        "charge": 0,
+        "deficit": 27,
+        "readiness": 13,
+        "position": {
+          "x": 28,
+          "y": 25
+        },
+        "activity": "scavenge-cache",
+        "status": "traveling"
+      },
+      "arrivalAfterPulse": {
+        "charge": 0,
+        "deficit": 28,
+        "readiness": 12,
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "activity": "scavenge-cache",
+        "status": "choosing"
+      },
+      "departureCanSeekCharge": false,
+      "departureCanSeekShelter": false,
+      "departureSourceCharge": 280,
+      "preparationLedger": {},
+      "priorArrivalTravelLedger": {
+        "movement-strain": 7,
+        "charge-deficit": 7
+      },
+      "allTravelLedger": {
+        "movement-strain": 8,
+        "charge-deficit": 8
+      },
+      "travelPulses": 8,
+      "preparationEvents": [],
+      "minimumDepartureForObservedRoute": {
+        "charge": 10,
+        "deficit": 0,
+        "readiness": 82
+      },
+      "readinessPossibleOnObservedRoute": true
+    },
+    {
+      "spark": "spark-6",
+      "encounter": 178,
+      "use": 230,
+      "arrival": 244,
+      "departure": {
+        "charge": 29,
+        "deficit": 0,
+        "readiness": 0,
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "activity": "mark-trace",
+        "status": "choosing"
+      },
+      "arrivalBeforeChoice": {
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 0,
+        "position": {
+          "x": 28,
+          "y": 25
+        },
+        "activity": "scavenge-cache",
+        "status": "traveling"
+      },
+      "arrivalAfterPulse": {
+        "charge": 14,
+        "deficit": 0,
+        "readiness": 0,
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "activity": "scavenge-cache",
+        "status": "choosing"
+      },
+      "departureCanSeekCharge": false,
+      "departureCanSeekShelter": false,
+      "departureSourceCharge": 352,
+      "preparationLedger": {
+        "movement-strain": 46,
+        "charge-deficit": 26,
+        "arrived-at-charge-pool": 48,
+        "activity-sustenance": 19,
+        "mark-trace-arrived": 0
+      },
+      "priorArrivalTravelLedger": {
+        "movement-strain": 14,
+        "activity-sustenance": 14
+      },
+      "allTravelLedger": {
+        "movement-strain": 15,
+        "activity-sustenance": 15
+      },
+      "travelPulses": 15,
+      "preparationEvents": [
+        {
+          "pulse": 205,
+          "message": "Spark 6 drew 8 charge."
+        },
+        {
+          "pulse": 206,
+          "message": "Spark 6 drew 8 charge."
+        },
+        {
+          "pulse": 207,
+          "message": "Spark 6 drew 8 charge."
+        },
+        {
+          "pulse": 208,
+          "message": "Spark 6 drew 8 charge."
+        },
+        {
+          "pulse": 209,
+          "message": "Spark 6 drew 8 charge."
+        },
+        {
+          "pulse": 210,
+          "message": "Spark 6 drew 8 charge."
+        }
+      ],
+      "minimumDepartureForObservedRoute": {
+        "charge": 17,
+        "deficit": 0,
+        "readiness": 89
+      },
+      "readinessPossibleOnObservedRoute": true
+    },
+    {
+      "spark": "spark-2",
+      "encounter": 243,
+      "use": 327,
+      "arrival": 359,
+      "departure": {
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 0,
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "activity": "seek-charge",
+        "status": "choosing"
+      },
+      "arrivalBeforeChoice": {
+        "charge": 0,
+        "deficit": 16,
+        "readiness": 0,
+        "position": {
+          "x": 28,
+          "y": 24
+        },
+        "activity": "scavenge-cache",
+        "status": "traveling"
+      },
+      "arrivalAfterPulse": {
+        "charge": 0,
+        "deficit": 17,
+        "readiness": 0,
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "activity": "scavenge-cache",
+        "status": "choosing"
+      },
+      "departureCanSeekCharge": true,
+      "departureCanSeekShelter": false,
+      "departureSourceCharge": 640,
+      "preparationLedger": {
+        "movement-strain": 55,
+        "charge-deficit": 38,
+        "arrived-at-charge-pool": 64,
+        "activity-sustenance": 31,
+        "arrived-at-shelter-niche": 10,
+        "co-present-spark": 17
+      },
+      "priorArrivalTravelLedger": {
+        "movement-strain": 32,
+        "activity-sustenance": 16,
+        "charge-deficit": 16
+      },
+      "allTravelLedger": {
+        "movement-strain": 33,
+        "activity-sustenance": 16,
+        "charge-deficit": 17
+      },
+      "travelPulses": 33,
+      "preparationEvents": [
+        {
+          "pulse": 269,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 270,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 271,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 272,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 273,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 274,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 294,
+          "message": "Spark 2 idled and recovered 10 readiness."
+        },
+        {
+          "pulse": 295,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 296,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 297,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 298,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 299,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 300,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 301,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 302,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 303,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 304,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 305,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 306,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 307,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 308,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 309,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 310,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 311,
+          "message": "Spark 2 shared 1 charge with Spark 10."
+        },
+        {
+          "pulse": 325,
+          "message": "Spark 2 drew 8 charge."
+        },
+        {
+          "pulse": 326,
+          "message": "Spark 2 drew 8 charge."
+        }
+      ],
+      "minimumDepartureForObservedRoute": {
+        "charge": 35,
+        "deficit": 0,
+        "readiness": 107
+      },
+      "readinessPossibleOnObservedRoute": false
+    }
+  ]
+}

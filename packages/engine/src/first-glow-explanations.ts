@@ -1,3 +1,4 @@
+import { isRoutePatternCreationSource } from "./first-glow-route-patterns.js";
 import { FIRST_GLOW_DESIGN, type FirstGlowValueTendency } from "./design.js";
 import type { FirstGlowState, StructuredEvent } from "./structured.js";
 
@@ -79,6 +80,7 @@ function scoreAlternative(state: FirstGlowState, event: StructuredEvent, dilemma
 }
 
 function explanationForEvent(state: FirstGlowState, event: StructuredEvent): FirstGlowExplanation | null {
+  if (isRoutePatternCreationSource(state, event)) return null;
   const mapping = event.kind === "draw" ? { dilemmaId: "weakening-pool-report", alternatives: ["reveal-pool", "withhold-pool"] } : event.kind === "idle" || event.kind === "wait" ? { dilemmaId: "shelter-or-trace", alternatives: ["help-shelter", "continue-exploration"] } : ["explore", "mark-trace", "shape-pattern", "meet"].includes(event.kind) ? { dilemmaId: "public-or-private-mark", alternatives: ["make-mark-public", "keep-mark-private"] } : event.kind === "wild-cache" ? { dilemmaId: "wild-cache-risk", alternatives: ["enter-wild-cache", "stay-on-trace"] } : null;
   if (!mapping) return null;
   const actor = state.settlements.flatMap(settlement => settlement.sparks).find(spark => spark.id === event.actorId);

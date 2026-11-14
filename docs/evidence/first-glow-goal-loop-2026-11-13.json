@@ -1,0 +1,172 @@
+{
+  "date": "2026-11-13",
+  "scenario": "Controlled two-contact rendezvous fixture",
+  "worldId": "goal-loop-controlled",
+  "seed": 2,
+  "bundleHash": "sha256-3d3e5cce3732762cb7bcb90e4eeb62ff3544bfd24b40646d8a532bce085a600c",
+  "firstPulse": 1,
+  "finalPulse": 6,
+  "provider": "deterministic-goal-fixture",
+  "simulatedProviderAttempts": 2,
+  "realProviderCalls": 0,
+  "hosted": false,
+  "defaultWorldChanged": false,
+  "goals": [
+    {
+      "id": "goal-1-spark-1-0",
+      "sparkId": "spark-1",
+      "kind": "explore-meet-mark",
+      "source": "ai",
+      "providerId": "deterministic-goal-fixture",
+      "status": "completed",
+      "step": 3,
+      "totalSteps": 3,
+      "createdPulse": 1,
+      "completedPulse": 6,
+      "reason": "all-steps-physically-completed",
+      "evidence": [
+        {
+          "activity": "explore",
+          "eventId": "event-2-spark-1-explore",
+          "pulse": 2
+        },
+        {
+          "activity": "meet",
+          "eventId": "event-5-spark-1-meet-spark-2",
+          "pulse": 5
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-6-spark-1-mark-trace",
+          "pulse": 6
+        }
+      ]
+    },
+    {
+      "id": "goal-1-spark-2-1",
+      "sparkId": "spark-2",
+      "kind": "explore-meet-mark",
+      "source": "ai",
+      "providerId": "deterministic-goal-fixture",
+      "status": "completed",
+      "step": 3,
+      "totalSteps": 3,
+      "createdPulse": 1,
+      "completedPulse": 6,
+      "reason": "all-steps-physically-completed",
+      "evidence": [
+        {
+          "activity": "explore",
+          "eventId": "event-2-spark-2-explore",
+          "pulse": 2
+        },
+        {
+          "activity": "meet",
+          "eventId": "event-5-spark-1-meet-spark-2",
+          "pulse": 5
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-6-spark-2-mark-trace",
+          "pulse": 6
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "id": "event-5-spark-1-meet-spark-2",
+      "pulse": 5,
+      "kind": "pulse",
+      "structuredKind": "meet",
+      "actorId": "spark-1",
+      "participants": [
+        "spark-1",
+        "spark-2"
+      ],
+      "message": "Spark 1 met Spark 2 at a shared contact site.",
+      "villagerIds": [],
+      "settlementIds": []
+    }
+  ],
+  "conversations": [
+    {
+      "schemaVersion": 1,
+      "id": "conversation-event-5-spark-1-meet-spark-2",
+      "pulse": 5,
+      "encounterEventId": "event-5-spark-1-meet-spark-2",
+      "speakerSparkIds": [
+        "spark-1",
+        "spark-2"
+      ],
+      "turns": [
+        {
+          "id": "utterance-event-5-spark-1-meet-spark-2-1",
+          "speakerSparkId": "spark-1",
+          "recipientSparkId": "spark-2",
+          "quote": "I found a shared contact site here; we can meet again at this light.",
+          "evidenceEventIds": [
+            "event-5-spark-1-meet-spark-2"
+          ],
+          "accepted": true
+        },
+        {
+          "id": "utterance-event-5-spark-1-meet-spark-2-2",
+          "speakerSparkId": "spark-2",
+          "recipientSparkId": "spark-1",
+          "quote": "I heard you. I will remember this place.",
+          "evidenceEventIds": [
+            "event-5-spark-1-meet-spark-2"
+          ],
+          "accepted": true
+        }
+      ],
+      "status": "completed",
+      "effects": [
+        {
+          "kind": "communicated-claim",
+          "recipientSparkId": "spark-2",
+          "eventId": "event-5-spark-1-meet-spark-2",
+          "claim": "I found a shared contact site here; we can meet again at this light."
+        }
+      ],
+      "promptVersion": "first-glow-conversation-v1",
+      "contextVersion": "spark-local-context-v1"
+    }
+  ],
+  "finalStateSha256": "319087a8058d2d9c81886bdbd8ca3447636df46d2ef0307ac13d76e11e905066",
+  "limits": [
+    "Controlled high-resource opening and one-pulse reflection cadence; not ordinary-world emergence.",
+    "Synthetic bundle supplies a second same-cell contact. Existing active maps have one light-mark contact.",
+    "Provider source ai identifies the fake adapter; no real-model benefit or cost finding.",
+    "Online server admission, expanded authored regions and human acceptance remain unfinished."
+  ],
+  "sourceSha256": {
+    "packages/engine/src/first-glow-goals.ts": "0920e6f5e8f7a3144fe2dbb8ad043c5079da58025faea120c7ad681d37ced433",
+    "packages/engine/src/first-glow-goals-fixture.ts": "6b6cf9f4c17b38632c5ce3a5aaf9baf982bae16db76fca4860b57d43d51c2f11",
+    "packages/engine/src/first-glow-goals.test.ts": "0e3b79cdfa97ba9747177b129f8f8c2df41bbbfe77217d4c1b658d4ad6e57546",
+    "packages/engine/src/first-glow-actions.ts": "970262838fb4190c2971f759504f795e1564855b6c7f1b4bdaf0e319a887bd8a",
+    "packages/engine/src/structured.ts": "b5e6bfa5051b4f23e1994cce45bee8ed9ffaa321326fb413dac410e0ecef0de8",
+    "packages/engine/src/first-glow-intentions.ts": "0910ec2134627e269f1d9872f93dbe534d9fcdffe751a9bb960ff272328efea7",
+    "packages/engine/src/index.ts": "3037be86d5dddaa4cab84b4b83d5eb3b473ac14e1458db9d7df96a285569efad",
+    "packages/server/src/first-glow-goals.test.ts": "1233c97d5f29675d0f93fbfcef1254fa2d748a7c52cedea5fafa682d83dad646",
+    "scripts/first-glow-goal-loop-review.mjs": "4b1c17910aa2fb381c987fa1069d37204a38c31d3c86f2d14dce4a278472b616",
+    "scripts/verify-local.mjs": "eec95233c7d20bc4260d6ea0c9ef122571dcc12c1d3ada2473833201726119a8"
+  },
+  "checks": {
+    "build": "passed",
+    "rootTests": 227,
+    "focusedGoalTests": 9,
+    "serverStateAIRuntimeTests": 16,
+    "isolatedServerRestart": "passed",
+    "fullPublicationVerifier": "not run",
+    "browserAcceptance": "not run"
+  },
+  "delivery": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "paidProviderCalls": 0,
+    "s001HumanReview": "transferred to MIM-S023 without acceptance"
+  }
+}

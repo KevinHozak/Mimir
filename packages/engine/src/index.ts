@@ -1,14 +1,38 @@
+export * from "./first-glow-frontier.js";
+import { initializeFirstGlowGoals } from "./first-glow-goals.js";
+export * from "./first-glow-goals.js";
+export * from "./first-glow-goal-context.js";
+import { initializeGeometricReturnPublication } from "./first-glow-geometric-return-publication.js";
+export * from "./first-glow-geometric-return-publication.js";
+import { initializeBoundedSharingAdmission } from "./first-glow-sharing-admission.js";
+export * from "./first-glow-sharing-admission.js";
+import { initializeGeometricShardRoutes } from "./first-glow-geometric-shard.js";
+export * from "./first-glow-geometric-shard.js";
+import { initializeCareRecoveryFallback, initializePostProbeContinuation } from "./first-glow-post-probe-continuation.js";
+export * from "./first-glow-post-probe-continuation.js";
+import { initializeInitialCachePreparation } from "./first-glow-initial-cache-preparation.js";
+export * from "./first-glow-initial-cache-preparation.js";
+import { initializeRecoveryAdmission } from "./first-glow-recovery-admission.js";
+export * from "./first-glow-recovery-admission.js";
+import { initializeSharingRouteContinuation } from "./first-glow-sharing-continuation.js";
+export * from "./first-glow-sharing-continuation.js";
+import { initializePatternPreparation } from "./first-glow-pattern-preparation.js";
+export * from "./first-glow-pattern-preparation.js";
+import { initializePatternGuidedRetry } from "./first-glow-pattern-retry.js";
+export * from "./first-glow-pattern-retry.js";
+import { initializeRoutePatterns } from "./first-glow-route-patterns.js";
 import { initializeWildCacheChoice } from "./first-glow-cache-choice.js";
 import { advanceFirstGlow } from "./first-glow-actions.js";
 import { buildFirstGlowInterpretationContext, createRulesOnlyFirstGlowInterpretation } from "./first-glow-interpretations.js";
 import { appendFirstGlowDecision, createFirstGlowHistory } from "./first-glow-history.js";
 import { classifyFirstGlowAttentionTrigger } from "./first-glow-attention.js";
-import { createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState, type StructuredEvent } from "./structured.js";
+import { initializeActivityCompletion, createFirstGlowState, FIRST_GLOW_SIMULATION_VERSION, validateFirstGlowState, type FirstGlowState, type StructuredEvent } from "./structured.js";
 import { decodeWorldBundle, type FirstGlowWorldBundle } from "@mimir/world-data";
 export { queryCell } from "@mimir/world-data";
 export type { Cell } from "@mimir/world-data";
 export * from "./structured.js";
 export * from "./first-glow-cache-choice.js";
+export * from "./first-glow-route-patterns.js";
 export * from "./design.js";
 export * from "./first-glow-social.js";
 export * from "./first-glow-explanations.js";
@@ -36,7 +60,7 @@ export * from "./resonance-crossing-rule.js";
 export * from "./resonance-transition.js";
 export { advanceFirstGlow } from "./first-glow-actions.js";
 
-export interface WorldEvent { id: string; pulse: number; kind: "pulse" | "sharing" | "collection" | "world-object"; structuredKind?: StructuredEvent["kind"]; actorId?: string; participants?: string[]; message: string; villagerIds: string[]; settlementIds?: string[]; }
+export interface WorldEvent { evidenceEventIds?: string[]; id: string; pulse: number; kind: "pulse" | "sharing" | "collection" | "world-object"; structuredKind?: StructuredEvent["kind"]; actorId?: string; participants?: string[]; message: string; villagerIds: string[]; settlementIds?: string[]; }
 export interface SocialInterpretation { id: string; pulse: number; eventId: string; sparkId?: string; villagerId?: string; source: "rules" | "ai"; summary: string; evidenceEventIds: string[]; [key: string]: unknown; }
 export interface WorldState {
   worldId: string; seed: number; pulse: number; simulationVersion: typeof FIRST_GLOW_SIMULATION_VERSION; spatialModel: "structured-v2"; firstGlowState: FirstGlowState;
@@ -54,21 +78,34 @@ export function createWorldV2(..._args: unknown[]): never { throw new Error("str
 export function setObjectBlocked<T extends { blockedObjectIds?: string[] }>(world: unknown, runtime: T, objectId: string, blocked: boolean): T { const ids = runtime.blockedObjectIds ?? []; return { ...runtime, blockedObjectIds: blocked ? [...new Set([...ids, objectId])] : ids.filter(id => id !== objectId) }; }
 export function parseWorldDefinition<T>(value: T): T { return value; }
 
-export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1, options: { wildCacheChoice?: boolean } = {}): WorldState {
+export function createWorldV3(bundle: FirstGlowWorldBundle, seed = 1, worldId = "first-glow-v3", sparkCount = 1, options: { goalLoops?: boolean; wildCacheChoice?: boolean; routePatterns?: boolean; activityCompletion?: boolean; patternGuidedRetry?: boolean; patternPreparation?: boolean; sharingRouteContinuation?: boolean; recoveryAdmission?: boolean; initialCachePreparation?: boolean; postProbeContinuation?: boolean; careRecoveryFallback?: boolean; geometricShardRoutes?: boolean; boundedSharingAdmission?: boolean; geometricReturnPublication?: boolean } = {}): WorldState {
   const firstGlowState = createFirstGlowState(bundle, "first-glow-region", "Opening region", sparkCount);
+  if (options.activityCompletion && !firstGlowState.activityCompletionVersion) initializeActivityCompletion(firstGlowState);
   if (options.wildCacheChoice) initializeWildCacheChoice(firstGlowState);
+  if (options.routePatterns) initializeRoutePatterns(firstGlowState);
+  if (options.patternGuidedRetry) initializePatternGuidedRetry(firstGlowState);
+  if (options.patternPreparation) initializePatternPreparation(firstGlowState);
+  if (options.sharingRouteContinuation) initializeSharingRouteContinuation(firstGlowState);
+  if (options.recoveryAdmission) initializeRecoveryAdmission(firstGlowState);
+  if (options.initialCachePreparation) initializeInitialCachePreparation(firstGlowState);
+  if (options.postProbeContinuation) initializePostProbeContinuation(firstGlowState);
+  if (options.careRecoveryFallback) initializeCareRecoveryFallback(firstGlowState);
+  if (options.geometricShardRoutes) initializeGeometricShardRoutes(firstGlowState);
+  if (options.boundedSharingAdmission) initializeBoundedSharingAdmission(firstGlowState);
+  if (options.geometricReturnPublication) initializeGeometricReturnPublication(firstGlowState);
+  if (options.goalLoops) initializeFirstGlowGoals(firstGlowState);
   const settlements = firstGlowState.settlements.map(settlement => ({ id: settlement.id, name: settlement.name, villagerIds: [], foodReserve: 0, worldRuntime: settlement.runtime }));
   return { worldId, seed, pulse: 0, season: 0, simulationVersion: FIRST_GLOW_SIMULATION_VERSION, spatialModel: "structured-v2", firstGlowState, settlements, villagers: [], events: [], interpretations: [], foodReserve: 0, scenario: { name: "The First Glow", seasonPulseLimit: 360 }, weather: { kind: "clear", forecast: "clear", severity: 0 }, hazards: [], tradeHistory: [], dilemmaHistory: [], sharedStore: undefined, worldRuntime: firstGlowState.settlements[0].runtime };
 }
 
-export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-glow-v3", sparkCount = 1, options: { wildCacheChoice?: boolean } = {}): WorldState {
+export function createWorldFromBundle(raw: unknown, seed = 1, worldId = "first-glow-v3", sparkCount = 1, options: { goalLoops?: boolean; wildCacheChoice?: boolean; routePatterns?: boolean; activityCompletion?: boolean; patternGuidedRetry?: boolean; patternPreparation?: boolean; sharingRouteContinuation?: boolean; recoveryAdmission?: boolean; initialCachePreparation?: boolean; postProbeContinuation?: boolean; careRecoveryFallback?: boolean; geometricShardRoutes?: boolean; boundedSharingAdmission?: boolean; geometricReturnPublication?: boolean } = {}): WorldState {
   const bundle = decodeWorldBundle(raw);
   if (bundle.schemaVersion !== 3) throw new Error("First Glow requires a schema-3 world bundle");
   return createWorldV3(bundle, seed, worldId, sparkCount, options);
 }
 
 function toWorldEvents(state: FirstGlowState, priorIds = new Set<string>()): WorldEvent[] {
-  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, pulse: state.pulse, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "pulse", structuredKind: event.kind, actorId: event.actorId, participants: event.participants ? [...event.participants] : undefined, message: event.message, villagerIds: [], settlementIds: [] }));
+  return state.events.filter(event => !priorIds.has(event.id)).map(event => ({ id: event.id, pulse: state.pulse, kind: event.kind === "share" ? "sharing" : event.kind === "draw" ? "collection" : event.kind === "movement" || event.kind === "wild-cache" || event.kind === "shelter-loom-choice" || event.kind === "crossing-voices-choice" ? "world-object" : "pulse", structuredKind: event.kind, ...((event.kind === "goal" || event.kind === "route-pattern" || event.kind === "post-probe-continuation" || event.kind === "initial-cache-preparation" || event.kind === "pattern-preparation" || event.kind === "sharing-continuation") && event.evidenceEventIds ? { evidenceEventIds: [...event.evidenceEventIds] } : {}), actorId: event.actorId, participants: event.participants ? [...event.participants] : undefined, message: event.message, villagerIds: [], settlementIds: [] }));
 }
 
 function openingChargeIntake(world: WorldState): number {

@@ -1,0 +1,4392 @@
+{
+  "date": "2026-11-11",
+  "status": "Investigation and recommendation only; no runtime edits or publication",
+  "providerCalls": 0,
+  "rawHistory": ".tmp/route-patterns-initial-preparation-ordinary-s8wAMU/review-12.json",
+  "traceDirectory": ".tmp/shard-follow-up-N4h6h0",
+  "verification": {
+    "replay360Matched": true,
+    "replay360Sha256": "5c6df989bdaacf19bd71a21f541f88ac8bd30ba2325895e55be4ebc68f4c241b",
+    "sourceUnchanged": {
+      "packages/engine/src/first-glow-initial-cache-preparation.ts": {
+        "before": "0a31f2047ee1ad227b9cb218fc1e39b3d07c58a25af83914727c6f875db1970c",
+        "current": "0a31f2047ee1ad227b9cb218fc1e39b3d07c58a25af83914727c6f875db1970c"
+      },
+      "packages/engine/src/first-glow-pattern-preparation.ts": {
+        "before": "2cc3ca3bc91bed375644a857543b4da921eadc0f7ea72d1014b0b6506f402cbc",
+        "current": "2cc3ca3bc91bed375644a857543b4da921eadc0f7ea72d1014b0b6506f402cbc"
+      },
+      "packages/engine/src/first-glow-recovery-admission.ts": {
+        "before": "f1b126153f277cfdf8f6baeaa1036381de6698c90f2097a1eb44e5873c727dfd",
+        "current": "f1b126153f277cfdf8f6baeaa1036381de6698c90f2097a1eb44e5873c727dfd"
+      },
+      "packages/engine/src/first-glow-actions.ts": {
+        "before": "5837ffd59bd8d5520a25a008a800f184a99409e4ea193dea6068729e2f919edc",
+        "current": "5837ffd59bd8d5520a25a008a800f184a99409e4ea193dea6068729e2f919edc"
+      },
+      "packages/engine/src/structured.ts": {
+        "before": "22ca3d7da1f76749b3b7ff81b06e9ca7e586432160dc1926e41031e33a9e1e73",
+        "current": "22ca3d7da1f76749b3b7ff81b06e9ca7e586432160dc1926e41031e33a9e1e73"
+      },
+      "packages/engine/src/index.ts": {
+        "before": "5de74abc1adf6786d05994ad7d24b0eae837a5ac2f443ab7fb401ede92c0596e",
+        "current": "5de74abc1adf6786d05994ad7d24b0eae837a5ac2f443ab7fb401ede92c0596e"
+      }
+    }
+  },
+  "firstFollowUps": [
+    {
+      "id": "spark-2",
+      "pulse": 136,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "choosing",
+        "activity": "scavenge-cache",
+        "charge": 37,
+        "deficit": 0,
+        "readiness": 73
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 37,
+        "deficit": 0,
+        "readiness": 73,
+        "wait": "recovery-access-wait"
+      },
+      "needsCharge": false,
+      "careScore": 7,
+      "shelterPreferred": true,
+      "cacheFollowUpActive": true,
+      "knownMark": false,
+      "knownShape": false,
+      "shardCandidates": [
+        {
+          "objectId": "tiled-104",
+          "slotId": "examine",
+          "cost": 16
+        }
+      ],
+      "source": 248,
+      "shardReservations": []
+    },
+    {
+      "id": "spark-3",
+      "pulse": 157,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "choosing",
+        "activity": "scavenge-cache",
+        "charge": 27,
+        "deficit": 0,
+        "readiness": 74
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 27,
+        "deficit": 0,
+        "readiness": 74,
+        "wait": "recovery-access-wait"
+      },
+      "needsCharge": false,
+      "careScore": 7,
+      "shelterPreferred": true,
+      "cacheFollowUpActive": true,
+      "knownMark": false,
+      "knownShape": false,
+      "shardCandidates": [
+        {
+          "objectId": "tiled-104",
+          "slotId": "examine",
+          "cost": 16
+        }
+      ],
+      "source": 256,
+      "shardReservations": []
+    }
+  ],
+  "firstDiscretionaryChoices": [
+    {
+      "id": "spark-3",
+      "pulse": 209,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 4,
+        "deficit": 0,
+        "readiness": 91
+      },
+      "after": {
+        "position": {
+          "x": 24,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "charge": 3,
+        "deficit": 0,
+        "readiness": 90
+      },
+      "needsCharge": false,
+      "careScore": 7,
+      "shelterPreferred": false,
+      "cacheFollowUpActive": false,
+      "knownMark": false,
+      "knownShape": false,
+      "shardCandidates": [
+        {
+          "objectId": "tiled-104",
+          "slotId": "examine",
+          "cost": 39
+        }
+      ],
+      "source": 416,
+      "shardReservations": []
+    },
+    {
+      "id": "spark-2",
+      "pulse": 269,
+      "before": {
+        "position": {
+          "x": 27,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 1,
+        "deficit": 0,
+        "readiness": 95
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "charge": 0,
+        "deficit": 0,
+        "readiness": 94
+      },
+      "needsCharge": false,
+      "careScore": 7,
+      "shelterPreferred": false,
+      "cacheFollowUpActive": false,
+      "knownMark": false,
+      "knownShape": false,
+      "shardCandidates": [
+        {
+          "objectId": "tiled-104",
+          "slotId": "examine",
+          "cost": 40
+        }
+      ],
+      "source": 544,
+      "shardReservations": []
+    }
+  ],
+  "proberTransitions": [
+    {
+      "id": "spark-2",
+      "pulse": 135,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 24
+        },
+        "status": "traveling",
+        "activity": "scavenge-cache",
+        "destination": "tiled-106",
+        "charge": 39,
+        "deficit": 0,
+        "readiness": 76
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "choosing",
+        "activity": "scavenge-cache",
+        "charge": 37,
+        "deficit": 0,
+        "readiness": 73
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 136,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "choosing",
+        "activity": "scavenge-cache",
+        "charge": 37,
+        "deficit": 0,
+        "readiness": 73
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 37,
+        "deficit": 0,
+        "readiness": 73,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 140,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 37,
+        "deficit": 0,
+        "readiness": 73,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 25
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 36,
+        "deficit": 0,
+        "readiness": 72
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 156,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 24
+        },
+        "status": "traveling",
+        "activity": "scavenge-cache",
+        "destination": "tiled-106",
+        "charge": 29,
+        "deficit": 0,
+        "readiness": 77
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "choosing",
+        "activity": "scavenge-cache",
+        "charge": 27,
+        "deficit": 0,
+        "readiness": 74
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 157,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "choosing",
+        "activity": "scavenge-cache",
+        "charge": 27,
+        "deficit": 0,
+        "readiness": 74
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 27,
+        "deficit": 0,
+        "readiness": 74,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 161,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 6
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 52
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 61
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 162,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 61
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 61,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 162,
+      "before": {
+        "position": {
+          "x": 28,
+          "y": 26
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 27,
+        "deficit": 0,
+        "readiness": 74,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 28,
+          "y": 25
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 26,
+        "deficit": 0,
+        "readiness": 73
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 170,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 61,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 14,
+        "deficit": 0,
+        "readiness": 70
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 171,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 14,
+        "deficit": 0,
+        "readiness": 70
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 14,
+        "deficit": 0,
+        "readiness": 70,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 172,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 14,
+        "deficit": 0,
+        "readiness": 70,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 13,
+        "deficit": 0,
+        "readiness": 79
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 173,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 13,
+        "deficit": 0,
+        "readiness": 79
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 12,
+        "deficit": 0,
+        "readiness": 79,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 183,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 6
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 6,
+        "deficit": 0,
+        "readiness": 53
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 184,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 185,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 0,
+        "deficit": 0,
+        "readiness": 79,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 78
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 185,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "share-charge",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 199,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "share-charge",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 200,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 15,
+        "readiness": 64
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 7,
+        "readiness": 63
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 200,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "share-charge",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 201,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 7,
+        "readiness": 63
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 7,
+        "readiness": 63,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 204,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 7,
+        "readiness": 63,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 62
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 205,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 62
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 61
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 206,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "share-charge",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 62,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 4,
+        "deficit": 0,
+        "readiness": 71
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 209,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 4,
+        "deficit": 0,
+        "readiness": 91
+      },
+      "after": {
+        "position": {
+          "x": 24,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "charge": 3,
+        "deficit": 0,
+        "readiness": 90
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 218,
+      "before": {
+        "position": {
+          "x": 24,
+          "y": 4
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 3,
+        "deficit": 0,
+        "readiness": 49
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 2,
+        "deficit": 0,
+        "readiness": 58
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 221,
+      "before": {
+        "position": {
+          "x": 27,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 1,
+        "deficit": 0,
+        "readiness": 77
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 0,
+        "deficit": 0,
+        "readiness": 76
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 222,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 0,
+        "deficit": 0,
+        "readiness": 76
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 85
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 223,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 85
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 85,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 225,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 85,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 2,
+        "readiness": 84
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 233,
+      "before": {
+        "position": {
+          "x": 9,
+          "y": 22
+        },
+        "status": "traveling",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "charge": 0,
+        "deficit": 20,
+        "readiness": 67
+      },
+      "after": {
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "status": "choosing",
+        "activity": "mark-trace",
+        "charge": 0,
+        "deficit": 21,
+        "readiness": 66
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 234,
+      "before": {
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "status": "choosing",
+        "activity": "mark-trace",
+        "charge": 0,
+        "deficit": 21,
+        "readiness": 66
+      },
+      "after": {
+        "position": {
+          "x": 7,
+          "y": 21
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 22,
+        "readiness": 65
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 239,
+      "before": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 15,
+        "readiness": 71
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 7,
+        "readiness": 70
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 241,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 70
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 70,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 251,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 70,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 15,
+        "deficit": 0,
+        "readiness": 69
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 251,
+      "before": {
+        "position": {
+          "x": 6,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 38,
+        "readiness": 49
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 30,
+        "readiness": 48
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 253,
+      "before": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 22,
+        "readiness": 48
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 14,
+        "deficit": 22,
+        "readiness": 48,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 261,
+      "before": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 0,
+        "deficit": 22,
+        "readiness": 48,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 22,
+        "readiness": 48,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 262,
+      "before": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 22,
+        "readiness": 48,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 14,
+        "readiness": 47
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 263,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 14,
+        "readiness": 47
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 14,
+        "readiness": 47,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 264,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 14,
+        "readiness": 47,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 6,
+        "readiness": 47
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 265,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 2,
+        "deficit": 0,
+        "readiness": 56
+      },
+      "after": {
+        "position": {
+          "x": 27,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 1,
+        "deficit": 0,
+        "readiness": 65
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 265,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 6,
+        "readiness": 47
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 6,
+        "readiness": 47,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 269,
+      "before": {
+        "position": {
+          "x": 27,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 1,
+        "deficit": 0,
+        "readiness": 95
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "charge": 0,
+        "deficit": 0,
+        "readiness": 94
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 274,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 6,
+        "readiness": 47,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 15,
+        "deficit": 6,
+        "readiness": 46
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 275,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 15,
+        "deficit": 6,
+        "readiness": 46
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 23,
+        "deficit": 0,
+        "readiness": 45
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 276,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 23,
+        "deficit": 0,
+        "readiness": 45
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 22,
+        "deficit": 0,
+        "readiness": 44
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 290,
+      "before": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 9,
+        "deficit": 0,
+        "readiness": 31
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 40
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 291,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 40
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 40,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 293,
+      "before": {
+        "position": {
+          "x": 10,
+          "y": 22
+        },
+        "status": "traveling",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "charge": 0,
+        "deficit": 23,
+        "readiness": 71
+      },
+      "after": {
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "status": "choosing",
+        "activity": "mark-trace",
+        "charge": 0,
+        "deficit": 24,
+        "readiness": 70
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 294,
+      "before": {
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "status": "choosing",
+        "activity": "mark-trace",
+        "charge": 0,
+        "deficit": 24,
+        "readiness": 70
+      },
+      "after": {
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 24,
+        "readiness": 70,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 295,
+      "before": {
+        "position": {
+          "x": 8,
+          "y": 22
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 24,
+        "readiness": 70,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 7,
+          "y": 21
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 25,
+        "readiness": 69
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 299,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 40,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 7,
+        "deficit": 0,
+        "readiness": 49
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 300,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "charge": 7,
+        "deficit": 0,
+        "readiness": 49
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 5,
+        "deficit": 0,
+        "readiness": 49,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 304,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 49,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 49,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 312,
+      "before": {
+        "position": {
+          "x": 26,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 49,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 2,
+        "readiness": 48
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 313,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 42,
+        "readiness": 52
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 34,
+        "readiness": 51
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 314,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 34,
+        "readiness": 51
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 34,
+        "readiness": 51,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 326,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 34,
+        "readiness": 51,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 26,
+        "readiness": 50
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 327,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 26,
+        "readiness": 50
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 14,
+        "deficit": 26,
+        "readiness": 50,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 327,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "charge": 0,
+        "deficit": 16,
+        "readiness": 34
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 8,
+        "readiness": 33
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 328,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 8,
+        "readiness": 33
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 8,
+        "readiness": 33,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 335,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 0,
+        "deficit": 26,
+        "readiness": 50,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 26,
+        "readiness": 50,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 342,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 8,
+        "readiness": 33,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 32
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 343,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 26,
+        "readiness": 50,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 26,
+        "readiness": 50,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 343,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 16,
+        "deficit": 0,
+        "readiness": 32
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 14,
+        "deficit": 0,
+        "readiness": 32,
+        "wait": "no-route"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 355,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "share-charge",
+        "charge": 0,
+        "deficit": 1,
+        "readiness": 32,
+        "wait": "no-route"
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 31
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 356,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 31
+      },
+      "after": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 31,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-2",
+      "pulse": 359,
+      "before": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "charge": 32,
+        "deficit": 0,
+        "readiness": 49
+      },
+      "after": {
+        "position": {
+          "x": 3,
+          "y": 5
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 32,
+        "deficit": 0,
+        "readiness": 49,
+        "wait": "recovery-access-wait"
+      }
+    },
+    {
+      "id": "spark-3",
+      "pulse": 360,
+      "before": {
+        "position": {
+          "x": 4,
+          "y": 6
+        },
+        "status": "waiting",
+        "activity": "seek-shelter",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 31,
+        "wait": "recovery-access-wait"
+      },
+      "after": {
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "destination": "tiled-102",
+        "charge": 7,
+        "deficit": 0,
+        "readiness": 30
+      }
+    }
+  ],
+  "proberEvents": [
+    {
+      "id": "event-135-spark-2-cache-choice",
+      "kind": "wild-cache-choice",
+      "actorId": "spark-2",
+      "source": "rules",
+      "message": "Spark 2 chose to probe rather than conserve: at least 3 charge, no charge deficit, and at least 75 readiness.",
+      "pulse": 135
+    },
+    {
+      "id": "event-135-spark-2-cache-survey",
+      "kind": "wild-cache-choice",
+      "actorId": "spark-2",
+      "source": "rules",
+      "evidenceEventIds": [
+        "event-135-spark-2-cache-choice"
+      ],
+      "message": "Spark 2 spent 1 charge and 2 readiness surveying the Wild Cache exit: a route to Pattern Shard tiled-104 costs 16 navigation units at revision 0. Next: shape pattern, subject to renewed need and route checks.",
+      "pulse": 135
+    },
+    {
+      "id": "event-135-spark-2-initial-cache-preparation",
+      "pulse": 135,
+      "kind": "initial-cache-preparation",
+      "actorId": "spark-2",
+      "source": "rules",
+      "evidenceEventIds": [
+        "event-9-spark-2-explore",
+        "event-115-spark-2-initial-cache-departure",
+        "event-135-spark-2-cache-survey"
+      ],
+      "message": "Spark 2: first cache expedition probe; no further initial attempt authorized; preparation committed, 11 recorded recovery action(s)."
+    },
+    {
+      "id": "event-136-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 136
+    },
+    {
+      "id": "event-136-spark-2-cache-follow-up",
+      "pulse": 136,
+      "kind": "wild-cache-choice",
+      "actorId": "spark-2",
+      "evidenceEventIds": [
+        "event-135-spark-2-cache-choice",
+        "event-135-spark-2-cache-survey"
+      ],
+      "source": "rules",
+      "message": "Spark 2 rechecked needs and instead selected seek shelter; status: waiting. This records the goal, not successful arrival."
+    },
+    {
+      "id": "event-137-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 137
+    },
+    {
+      "id": "event-138-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 138
+    },
+    {
+      "id": "event-139-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 139
+    },
+    {
+      "id": "event-156-spark-3-cache-choice",
+      "kind": "wild-cache-choice",
+      "actorId": "spark-3",
+      "source": "rules",
+      "message": "Spark 3 chose to probe rather than conserve: at least 3 charge, no charge deficit, and at least 75 readiness.",
+      "pulse": 156
+    },
+    {
+      "id": "event-156-spark-3-cache-survey",
+      "kind": "wild-cache-choice",
+      "actorId": "spark-3",
+      "source": "rules",
+      "evidenceEventIds": [
+        "event-156-spark-3-cache-choice"
+      ],
+      "message": "Spark 3 spent 1 charge and 2 readiness surveying the Wild Cache exit: a route to Pattern Shard tiled-104 costs 16 navigation units at revision 0. Next: shape pattern, subject to renewed need and route checks.",
+      "pulse": 156
+    },
+    {
+      "id": "event-156-spark-3-initial-cache-preparation",
+      "pulse": 156,
+      "kind": "initial-cache-preparation",
+      "actorId": "spark-3",
+      "source": "rules",
+      "evidenceEventIds": [
+        "event-14-spark-3-explore",
+        "event-136-spark-3-initial-cache-departure",
+        "event-156-spark-3-cache-survey"
+      ],
+      "message": "Spark 3: first cache expedition probe; no further initial attempt authorized; preparation committed, 10 recorded recovery action(s)."
+    },
+    {
+      "id": "event-157-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 157
+    },
+    {
+      "id": "event-157-spark-3-cache-follow-up",
+      "pulse": 157,
+      "kind": "wild-cache-choice",
+      "actorId": "spark-3",
+      "evidenceEventIds": [
+        "event-156-spark-3-cache-choice",
+        "event-156-spark-3-cache-survey"
+      ],
+      "source": "rules",
+      "message": "Spark 3 rechecked needs and instead selected seek shelter; status: waiting. This records the goal, not successful arrival."
+    },
+    {
+      "id": "event-158-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 158
+    },
+    {
+      "id": "event-159-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 159
+    },
+    {
+      "id": "event-160-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 160
+    },
+    {
+      "id": "event-161-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 161
+    },
+    {
+      "id": "event-161-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 161
+    },
+    {
+      "id": "event-162-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 162
+    },
+    {
+      "id": "event-163-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 163
+    },
+    {
+      "id": "event-164-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 164
+    },
+    {
+      "id": "event-165-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 165
+    },
+    {
+      "id": "event-166-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 166
+    },
+    {
+      "id": "event-167-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 167
+    },
+    {
+      "id": "event-168-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 168
+    },
+    {
+      "id": "event-169-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 169
+    },
+    {
+      "id": "event-170-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 170
+    },
+    {
+      "id": "event-171-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 171
+    },
+    {
+      "id": "event-172-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 172
+    },
+    {
+      "id": "event-173-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 173
+    },
+    {
+      "id": "event-173-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 173
+    },
+    {
+      "id": "event-174-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 174
+    },
+    {
+      "id": "event-174-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 174
+    },
+    {
+      "id": "event-175-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 175
+    },
+    {
+      "id": "event-175-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 175
+    },
+    {
+      "id": "event-176-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 176
+    },
+    {
+      "id": "event-176-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 176
+    },
+    {
+      "id": "event-177-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 177
+    },
+    {
+      "id": "event-177-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 177
+    },
+    {
+      "id": "event-178-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 178
+    },
+    {
+      "id": "event-178-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 178
+    },
+    {
+      "id": "event-179-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 179
+    },
+    {
+      "id": "event-179-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 179
+    },
+    {
+      "id": "event-180-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 180
+    },
+    {
+      "id": "event-180-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 180
+    },
+    {
+      "id": "event-181-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 181
+    },
+    {
+      "id": "event-181-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 181
+    },
+    {
+      "id": "event-182-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 182
+    },
+    {
+      "id": "event-182-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 182
+    },
+    {
+      "id": "event-183-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 183
+    },
+    {
+      "id": "event-183-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 183
+    },
+    {
+      "id": "event-183-spark-3-idle",
+      "kind": "idle",
+      "actorId": "spark-3",
+      "message": "Spark 3 idled and recovered 10 readiness.",
+      "pulse": 183
+    },
+    {
+      "id": "event-184-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 184
+    },
+    {
+      "id": "event-184-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 184
+    },
+    {
+      "id": "event-184-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 184
+    },
+    {
+      "id": "event-185-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 185
+    },
+    {
+      "id": "event-186-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 186
+    },
+    {
+      "id": "event-187-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 187
+    },
+    {
+      "id": "event-188-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 188
+    },
+    {
+      "id": "event-189-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 189
+    },
+    {
+      "id": "event-190-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 190
+    },
+    {
+      "id": "event-191-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 191
+    },
+    {
+      "id": "event-192-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 192
+    },
+    {
+      "id": "event-193-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 193
+    },
+    {
+      "id": "event-194-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 194
+    },
+    {
+      "id": "event-195-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 195
+    },
+    {
+      "id": "event-196-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 196
+    },
+    {
+      "id": "event-197-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 197
+    },
+    {
+      "id": "event-198-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 198
+    },
+    {
+      "id": "event-199-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 199
+    },
+    {
+      "id": "event-200-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 200
+    },
+    {
+      "id": "event-200-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 200
+    },
+    {
+      "id": "event-201-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 201
+    },
+    {
+      "id": "event-201-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 201
+    },
+    {
+      "id": "event-202-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 202
+    },
+    {
+      "id": "event-202-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 202
+    },
+    {
+      "id": "event-203-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 203
+    },
+    {
+      "id": "event-203-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 203
+    },
+    {
+      "id": "event-204-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 204
+    },
+    {
+      "id": "event-204-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 204
+    },
+    {
+      "id": "event-205-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 205
+    },
+    {
+      "id": "event-206-spark-3-idle",
+      "kind": "idle",
+      "actorId": "spark-3",
+      "message": "Spark 3 idled and recovered 10 readiness.",
+      "pulse": 206
+    },
+    {
+      "id": "event-207-spark-3-idle",
+      "kind": "idle",
+      "actorId": "spark-3",
+      "message": "Spark 3 idled and recovered 10 readiness.",
+      "pulse": 207
+    },
+    {
+      "id": "event-208-spark-3-idle",
+      "kind": "idle",
+      "actorId": "spark-3",
+      "message": "Spark 3 idled and recovered 10 readiness.",
+      "pulse": 208
+    },
+    {
+      "id": "event-218-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 218
+    },
+    {
+      "id": "event-219-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 219
+    },
+    {
+      "id": "event-220-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 220
+    },
+    {
+      "id": "event-222-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 222
+    },
+    {
+      "id": "event-223-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 223
+    },
+    {
+      "id": "event-224-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 224
+    },
+    {
+      "id": "event-233-spark-3-mark-trace",
+      "kind": "mark-trace",
+      "actorId": "spark-3",
+      "message": "Spark 3 completed mark trace.",
+      "pulse": 233
+    },
+    {
+      "id": "event-239-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 239
+    },
+    {
+      "id": "event-240-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 240
+    },
+    {
+      "id": "event-241-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 241
+    },
+    {
+      "id": "event-242-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 242
+    },
+    {
+      "id": "event-243-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 243
+    },
+    {
+      "id": "event-244-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 244
+    },
+    {
+      "id": "event-245-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 245
+    },
+    {
+      "id": "event-246-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 246
+    },
+    {
+      "id": "event-247-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 247
+    },
+    {
+      "id": "event-248-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 248
+    },
+    {
+      "id": "event-249-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 249
+    },
+    {
+      "id": "event-250-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 250
+    },
+    {
+      "id": "event-251-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 251
+    },
+    {
+      "id": "event-252-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 252
+    },
+    {
+      "id": "event-253-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 253
+    },
+    {
+      "id": "event-253-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-12"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 12.",
+      "pulse": 253
+    },
+    {
+      "id": "event-254-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 254
+    },
+    {
+      "id": "event-254-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-12"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 12.",
+      "pulse": 254
+    },
+    {
+      "id": "event-255-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 255
+    },
+    {
+      "id": "event-255-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-12"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 12.",
+      "pulse": 255
+    },
+    {
+      "id": "event-256-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 256
+    },
+    {
+      "id": "event-256-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-12"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 12.",
+      "pulse": 256
+    },
+    {
+      "id": "event-257-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 257
+    },
+    {
+      "id": "event-257-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 257
+    },
+    {
+      "id": "event-258-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 258
+    },
+    {
+      "id": "event-258-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 258
+    },
+    {
+      "id": "event-259-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 259
+    },
+    {
+      "id": "event-259-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 259
+    },
+    {
+      "id": "event-260-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 260
+    },
+    {
+      "id": "event-260-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 260
+    },
+    {
+      "id": "event-261-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 261
+    },
+    {
+      "id": "event-262-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 262
+    },
+    {
+      "id": "event-263-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 263
+    },
+    {
+      "id": "event-264-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 264
+    },
+    {
+      "id": "event-265-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 265
+    },
+    {
+      "id": "event-265-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 265
+    },
+    {
+      "id": "event-266-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 266
+    },
+    {
+      "id": "event-266-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 266
+    },
+    {
+      "id": "event-267-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 267
+    },
+    {
+      "id": "event-267-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 267
+    },
+    {
+      "id": "event-268-spark-2-idle",
+      "kind": "idle",
+      "actorId": "spark-2",
+      "message": "Spark 2 idled and recovered 10 readiness.",
+      "pulse": 268
+    },
+    {
+      "id": "event-268-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 268
+    },
+    {
+      "id": "event-269-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 269
+    },
+    {
+      "id": "event-270-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 270
+    },
+    {
+      "id": "event-271-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 271
+    },
+    {
+      "id": "event-272-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 272
+    },
+    {
+      "id": "event-273-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 273
+    },
+    {
+      "id": "event-275-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 275
+    },
+    {
+      "id": "event-290-spark-3-idle",
+      "kind": "idle",
+      "actorId": "spark-3",
+      "message": "Spark 3 idled and recovered 10 readiness.",
+      "pulse": 290
+    },
+    {
+      "id": "event-291-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 291
+    },
+    {
+      "id": "event-292-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 292
+    },
+    {
+      "id": "event-293-spark-2-mark-trace",
+      "kind": "mark-trace",
+      "actorId": "spark-2",
+      "message": "Spark 2 completed mark trace.",
+      "pulse": 293
+    },
+    {
+      "id": "event-293-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 293
+    },
+    {
+      "id": "event-294-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 294
+    },
+    {
+      "id": "event-294-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 294
+    },
+    {
+      "id": "event-295-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 295
+    },
+    {
+      "id": "event-296-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 296
+    },
+    {
+      "id": "event-297-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 297
+    },
+    {
+      "id": "event-298-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 298
+    },
+    {
+      "id": "event-299-spark-3-idle",
+      "kind": "idle",
+      "actorId": "spark-3",
+      "message": "Spark 3 idled and recovered 10 readiness.",
+      "pulse": 299
+    },
+    {
+      "id": "event-300-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 300
+    },
+    {
+      "id": "event-300-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-7"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 7.",
+      "pulse": 300
+    },
+    {
+      "id": "event-301-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 301
+    },
+    {
+      "id": "event-301-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-7"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 7.",
+      "pulse": 301
+    },
+    {
+      "id": "event-302-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 302
+    },
+    {
+      "id": "event-302-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-1"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 1.",
+      "pulse": 302
+    },
+    {
+      "id": "event-303-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 303
+    },
+    {
+      "id": "event-303-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-1"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 1.",
+      "pulse": 303
+    },
+    {
+      "id": "event-304-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 304
+    },
+    {
+      "id": "event-305-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 305
+    },
+    {
+      "id": "event-306-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 306
+    },
+    {
+      "id": "event-307-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 307
+    },
+    {
+      "id": "event-308-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 308
+    },
+    {
+      "id": "event-309-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 309
+    },
+    {
+      "id": "event-310-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 310
+    },
+    {
+      "id": "event-311-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 311
+    },
+    {
+      "id": "event-313-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 313
+    },
+    {
+      "id": "event-314-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 314
+    },
+    {
+      "id": "event-315-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 315
+    },
+    {
+      "id": "event-316-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 316
+    },
+    {
+      "id": "event-317-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 317
+    },
+    {
+      "id": "event-318-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 318
+    },
+    {
+      "id": "event-319-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 319
+    },
+    {
+      "id": "event-320-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 320
+    },
+    {
+      "id": "event-321-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 321
+    },
+    {
+      "id": "event-322-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 322
+    },
+    {
+      "id": "event-323-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 323
+    },
+    {
+      "id": "event-324-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 324
+    },
+    {
+      "id": "event-325-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 325
+    },
+    {
+      "id": "event-326-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 326
+    },
+    {
+      "id": "event-327-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 327
+    },
+    {
+      "id": "event-327-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 327
+    },
+    {
+      "id": "event-327-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 327
+    },
+    {
+      "id": "event-328-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 328
+    },
+    {
+      "id": "event-328-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 328
+    },
+    {
+      "id": "event-328-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 328
+    },
+    {
+      "id": "event-329-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 329
+    },
+    {
+      "id": "event-329-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 329
+    },
+    {
+      "id": "event-329-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 329
+    },
+    {
+      "id": "event-330-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 330
+    },
+    {
+      "id": "event-330-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 330
+    },
+    {
+      "id": "event-330-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 330
+    },
+    {
+      "id": "event-331-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 331
+    },
+    {
+      "id": "event-331-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 331
+    },
+    {
+      "id": "event-331-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 331
+    },
+    {
+      "id": "event-332-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 332
+    },
+    {
+      "id": "event-332-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 332
+    },
+    {
+      "id": "event-332-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 332
+    },
+    {
+      "id": "event-333-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 333
+    },
+    {
+      "id": "event-333-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 333
+    },
+    {
+      "id": "event-333-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 333
+    },
+    {
+      "id": "event-334-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 334
+    },
+    {
+      "id": "event-334-spark-2-share",
+      "kind": "share",
+      "actorId": "spark-2",
+      "participants": [
+        "spark-2",
+        "spark-1"
+      ],
+      "message": "Spark 2 shared 1 charge with Spark 1.",
+      "pulse": 334
+    },
+    {
+      "id": "event-334-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 334
+    },
+    {
+      "id": "event-335-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 335
+    },
+    {
+      "id": "event-335-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 335
+    },
+    {
+      "id": "event-336-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 336
+    },
+    {
+      "id": "event-336-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 336
+    },
+    {
+      "id": "event-337-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 337
+    },
+    {
+      "id": "event-337-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 337
+    },
+    {
+      "id": "event-338-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 338
+    },
+    {
+      "id": "event-338-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 338
+    },
+    {
+      "id": "event-339-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 339
+    },
+    {
+      "id": "event-339-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 339
+    },
+    {
+      "id": "event-340-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 340
+    },
+    {
+      "id": "event-340-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 340
+    },
+    {
+      "id": "event-341-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 341
+    },
+    {
+      "id": "event-341-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 341
+    },
+    {
+      "id": "event-342-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 342
+    },
+    {
+      "id": "event-342-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 342
+    },
+    {
+      "id": "event-343-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 343
+    },
+    {
+      "id": "event-343-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 343
+    },
+    {
+      "id": "event-343-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-1"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 1.",
+      "pulse": 343
+    },
+    {
+      "id": "event-344-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 344
+    },
+    {
+      "id": "event-344-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 344
+    },
+    {
+      "id": "event-344-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-10"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 10.",
+      "pulse": 344
+    },
+    {
+      "id": "event-345-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 345
+    },
+    {
+      "id": "event-345-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 345
+    },
+    {
+      "id": "event-345-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-10"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 10.",
+      "pulse": 345
+    },
+    {
+      "id": "event-346-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 346
+    },
+    {
+      "id": "event-346-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 346
+    },
+    {
+      "id": "event-346-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 346
+    },
+    {
+      "id": "event-347-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 347
+    },
+    {
+      "id": "event-347-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 347
+    },
+    {
+      "id": "event-347-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 347
+    },
+    {
+      "id": "event-348-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 348
+    },
+    {
+      "id": "event-348-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 348
+    },
+    {
+      "id": "event-348-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 348
+    },
+    {
+      "id": "event-349-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 349
+    },
+    {
+      "id": "event-349-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 349
+    },
+    {
+      "id": "event-349-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 349
+    },
+    {
+      "id": "event-350-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 350
+    },
+    {
+      "id": "event-350-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 350
+    },
+    {
+      "id": "event-350-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 350
+    },
+    {
+      "id": "event-351-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 351
+    },
+    {
+      "id": "event-351-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 351
+    },
+    {
+      "id": "event-351-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 351
+    },
+    {
+      "id": "event-352-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 352
+    },
+    {
+      "id": "event-352-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 352
+    },
+    {
+      "id": "event-352-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 352
+    },
+    {
+      "id": "event-353-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 353
+    },
+    {
+      "id": "event-353-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 353
+    },
+    {
+      "id": "event-353-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 353
+    },
+    {
+      "id": "event-354-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting: no reachable share-charge site.",
+      "pulse": 354
+    },
+    {
+      "id": "event-354-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting: no reachable share-charge site.",
+      "pulse": 354
+    },
+    {
+      "id": "event-354-spark-3-share",
+      "kind": "share",
+      "actorId": "spark-3",
+      "participants": [
+        "spark-3",
+        "spark-11"
+      ],
+      "message": "Spark 3 shared 1 charge with Spark 11.",
+      "pulse": 354
+    },
+    {
+      "id": "event-355-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 355
+    },
+    {
+      "id": "event-355-spark-3-draw",
+      "kind": "draw",
+      "actorId": "spark-3",
+      "message": "Spark 3 drew 8 charge.",
+      "pulse": 355
+    },
+    {
+      "id": "event-356-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 356
+    },
+    {
+      "id": "event-356-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 356
+    },
+    {
+      "id": "event-357-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 357
+    },
+    {
+      "id": "event-357-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 357
+    },
+    {
+      "id": "event-358-spark-2-draw",
+      "kind": "draw",
+      "actorId": "spark-2",
+      "message": "Spark 2 drew 8 charge.",
+      "pulse": 358
+    },
+    {
+      "id": "event-358-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 358
+    },
+    {
+      "id": "event-359-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 359
+    },
+    {
+      "id": "event-359-spark-3-wait",
+      "kind": "wait",
+      "actorId": "spark-3",
+      "message": "Spark 3 is waiting for recovery contact admission.",
+      "pulse": 359
+    },
+    {
+      "id": "event-360-spark-2-wait",
+      "kind": "wait",
+      "actorId": "spark-2",
+      "message": "Spark 2 is waiting for recovery contact admission.",
+      "pulse": 360
+    }
+  ],
+  "finalProbers": [
+    {
+      "position": {
+        "x": 3,
+        "y": 5
+      },
+      "status": "waiting",
+      "activity": "seek-shelter",
+      "charge": 32,
+      "deficit": 0,
+      "readiness": 49,
+      "wait": "recovery-access-wait"
+    },
+    {
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "status": "traveling",
+      "activity": "seek-shelter",
+      "destination": "tiled-102",
+      "charge": 7,
+      "deficit": 0,
+      "readiness": 30
+    }
+  ],
+  "conditionalBudget": {
+    "diagnosticOnly": true,
+    "executedAsHistory": false,
+    "assumptions": "Current source stock only; ordinary recovery/movement accounting; readiness >=90 and zero deficit before shard departure; full shard leg without new deficit; recovery contacts conditional, shard currently available; no future gifts or stock promised",
+    "results": [
+      {
+        "id": "spark-3",
+        "decisionPulse": 209,
+        "start": {
+          "charge": 4,
+          "deficit": 0,
+          "readiness": 91
+        },
+        "source": 416,
+        "direct": {
+          "cost": 39,
+          "profile": {
+            "priorMovingPulses": 19,
+            "pulses": 20,
+            "movedOnArrival": true
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 16,
+            "readiness": 71
+          }
+        },
+        "bestConditionalFunded": {
+          "first": {
+            "phase": "charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-east",
+            "n": 4,
+            "sourceAfter": 384
+          },
+          "second": {
+            "phase": "rest",
+            "objectId": "tiled-102",
+            "slotId": "rest-west",
+            "n": 3,
+            "sourceAfter": 384
+          },
+          "shard": {
+            "objectId": "tiled-104",
+            "slotId": "examine",
+            "cost": 38,
+            "profile": {
+              "priorMovingPulses": 18,
+              "pulses": 19,
+              "movedOnArrival": true
+            }
+          },
+          "atShardDeparture": {
+            "charge": 19,
+            "deficit": 0,
+            "readiness": 94
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 0,
+            "readiness": 75
+          },
+          "pulses": 51,
+          "actions": 7,
+          "sourceDrawn": 32
+        },
+        "feasiblePlanCount": 4041,
+        "initialActionsAlreadySpent": 10
+      },
+      {
+        "id": "spark-2",
+        "decisionPulse": 269,
+        "start": {
+          "charge": 1,
+          "deficit": 0,
+          "readiness": 95
+        },
+        "source": 544,
+        "direct": {
+          "cost": 40,
+          "profile": {
+            "priorMovingPulses": 19,
+            "pulses": 20,
+            "movedOnArrival": true
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 19,
+            "readiness": 75
+          }
+        },
+        "bestConditionalFunded": {
+          "first": {
+            "phase": "charge",
+            "objectId": "tiled-101",
+            "slotId": "draw-east",
+            "n": 4,
+            "sourceAfter": 512
+          },
+          "second": {
+            "phase": "rest",
+            "objectId": "tiled-102",
+            "slotId": "rest-west",
+            "n": 3,
+            "sourceAfter": 512
+          },
+          "shard": {
+            "objectId": "tiled-104",
+            "slotId": "examine",
+            "cost": 38,
+            "profile": {
+              "priorMovingPulses": 18,
+              "pulses": 19,
+              "movedOnArrival": true
+            }
+          },
+          "atShardDeparture": {
+            "charge": 19,
+            "deficit": 0,
+            "readiness": 98
+          },
+          "afterShape": {
+            "charge": 0,
+            "deficit": 0,
+            "readiness": 79
+          },
+          "pulses": 51,
+          "actions": 7,
+          "sourceDrawn": 32
+        },
+        "feasiblePlanCount": 4041,
+        "initialActionsAlreadySpent": 11
+      }
+    ]
+  },
+  "unchangedContinuation": {
+    "setup": "Unmodified continuation from recorded 360 checkpoint; not part of original 360-pulse evidence",
+    "stoppedAtPulse": 440,
+    "firstPatterns": [
+      {
+        "id": "route-pattern-spark-3-440",
+        "public": true,
+        "creatorId": "spark-3",
+        "settlementId": "first-glow-region",
+        "createdPulse": 440,
+        "creationEventId": "event-440-spark-3-route-pattern-created",
+        "sourceEventIds": [
+          "event-156-spark-3-cache-survey",
+          "event-440-spark-3-shape-pattern"
+        ],
+        "at": {
+          "x": 22,
+          "y": 23
+        },
+        "targetObjectId": "tiled-106",
+        "navigationRevision": 0,
+        "encounters": []
+      }
+    ],
+    "shapeEvents": [
+      {
+        "id": "event-440-spark-3-shape-pattern",
+        "pulse": 440,
+        "kind": "pulse",
+        "structuredKind": "shape-pattern",
+        "actorId": "spark-3",
+        "message": "Spark 3 completed shape pattern.",
+        "villagerIds": [],
+        "settlementIds": []
+      }
+    ],
+    "finalProberResources": [
+      {
+        "id": "spark-2",
+        "charge": 2,
+        "deficit": 0,
+        "readiness": 34,
+        "activity": "seek-shelter",
+        "status": "waiting"
+      },
+      {
+        "id": "spark-3",
+        "charge": 0,
+        "deficit": 11,
+        "readiness": 78,
+        "activity": "shape-pattern",
+        "status": "choosing"
+      }
+    ]
+  }
+}

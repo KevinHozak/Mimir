@@ -1,0 +1,1345 @@
+{
+  "date": "2026-11-10",
+  "providerCalls": 0,
+  "setup": "Unmodified createWorldFromBundle initial state; routePatterns opt-in; rules-only; 360 pulses; fixed seed 2 (social-choice seed, not randomized initial spawns)",
+  "results": [
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 1,
+      "pulses": 360,
+      "patterns": [],
+      "activitySparkPulses": {
+        "seek-charge": 5,
+        "explore": 355
+      },
+      "eventKinds": {
+        "movement": 5,
+        "draw": 1
+      },
+      "cacheEvents": [],
+      "finalSparks": [
+        {
+          "id": "spark-1",
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        }
+      ],
+      "stateSha256": "1141a8bd50b9086ae45b0c4dffd69c30e8f2f98832fe9133341b3e279ae11b5b",
+      "cacheChoices": 0,
+      "probes": 0
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 8,
+      "pulses": 360,
+      "patterns": [],
+      "activitySparkPulses": {
+        "seek-charge": 1017,
+        "explore": 1047,
+        "share-charge": 106,
+        "scavenge-cache": 98,
+        "mark-trace": 67,
+        "shape-pattern": 67,
+        "seek-shelter": 478
+      },
+      "eventKinds": {
+        "movement": 890,
+        "wait": 118,
+        "draw": 76,
+        "explore": 4,
+        "share": 102,
+        "wild-cache-choice": 12,
+        "mark-trace": 3,
+        "shape-pattern": 3,
+        "idle": 157
+      },
+      "cacheEvents": [
+        {
+          "id": "event-27-spark-8-cache-choice",
+          "pulse": 27,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-27-spark-8-cache-conserved",
+          "pulse": 27,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-28-spark-8-cache-follow-up",
+          "pulse": 28,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-66-spark-5-cache-choice",
+          "pulse": 66,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-66-spark-5-cache-conserved",
+          "pulse": 66,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-67-spark-5-cache-follow-up",
+          "pulse": 67,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-94-spark-6-cache-choice",
+          "pulse": 94,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-94-spark-6-cache-conserved",
+          "pulse": 94,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-95-spark-6-cache-follow-up",
+          "pulse": 95,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-116-spark-7-cache-choice",
+          "pulse": 116,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-116-spark-7-cache-conserved",
+          "pulse": 116,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-117-spark-7-cache-follow-up",
+          "pulse": 117,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "finalSparks": [
+        {
+          "id": "spark-1",
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        },
+        {
+          "id": "spark-2",
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 5,
+          "deficit": 0,
+          "readiness": 96
+        },
+        {
+          "id": "spark-3",
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        },
+        {
+          "id": "spark-4",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 5,
+          "readiness": 95
+        },
+        {
+          "id": "spark-5",
+          "position": {
+            "x": 6,
+            "y": 4
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 12,
+          "readiness": 0
+        },
+        {
+          "id": "spark-6",
+          "position": {
+            "x": 25,
+            "y": 5
+          },
+          "activity": "seek-shelter",
+          "charge": 2,
+          "deficit": 0,
+          "readiness": 5
+        },
+        {
+          "id": "spark-7",
+          "position": {
+            "x": 25,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 18,
+          "readiness": 43
+        },
+        {
+          "id": "spark-8",
+          "position": {
+            "x": 27,
+            "y": 5
+          },
+          "activity": "seek-shelter",
+          "charge": 33,
+          "deficit": 0,
+          "readiness": 100
+        }
+      ],
+      "stateSha256": "cc4a11ed20f01489d08bf8ba266121f7973e36cf1b6f0e8421645f3d09c5789f",
+      "cacheChoices": 4,
+      "probes": 0
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 12,
+      "pulses": 360,
+      "patterns": [],
+      "activitySparkPulses": {
+        "seek-charge": 1513,
+        "explore": 425,
+        "scavenge-cache": 202,
+        "mark-trace": 191,
+        "shape-pattern": 165,
+        "seek-shelter": 1700,
+        "share-charge": 124
+      },
+      "eventKinds": {
+        "movement": 2191,
+        "wait": 241,
+        "explore": 8,
+        "draw": 56,
+        "idle": 794,
+        "mark-trace": 8,
+        "shape-pattern": 8,
+        "wild-cache-choice": 24,
+        "share": 123
+      },
+      "cacheEvents": [
+        {
+          "id": "event-38-spark-2-cache-choice",
+          "pulse": 38,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-2",
+          "message": "Spark 2 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-38-spark-2-cache-conserved",
+          "pulse": 38,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-2",
+          "message": "Spark 2 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-39-spark-2-cache-follow-up",
+          "pulse": 39,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-2",
+          "message": "Spark 2 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-63-spark-6-cache-choice",
+          "pulse": 63,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-63-spark-6-cache-conserved",
+          "pulse": 63,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-64-spark-6-cache-follow-up",
+          "pulse": 64,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 rechecked needs and instead selected seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-85-spark-4-cache-choice",
+          "pulse": 85,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-4",
+          "message": "Spark 4 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-85-spark-4-cache-conserved",
+          "pulse": 85,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-4",
+          "message": "Spark 4 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-86-spark-4-cache-follow-up",
+          "pulse": 86,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-4",
+          "message": "Spark 4 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-130-spark-8-cache-choice",
+          "pulse": 130,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-130-spark-8-cache-conserved",
+          "pulse": 130,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-131-spark-8-cache-follow-up",
+          "pulse": 131,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-164-spark-5-cache-choice",
+          "pulse": 164,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-164-spark-5-cache-conserved",
+          "pulse": 164,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-165-spark-5-cache-follow-up",
+          "pulse": 165,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-185-spark-9-cache-choice",
+          "pulse": 185,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-9",
+          "message": "Spark 9 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-185-spark-9-cache-conserved",
+          "pulse": 185,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-9",
+          "message": "Spark 9 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-186-spark-9-cache-follow-up",
+          "pulse": 186,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-9",
+          "message": "Spark 9 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-233-spark-3-cache-choice",
+          "pulse": 233,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-3",
+          "message": "Spark 3 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-233-spark-3-cache-conserved",
+          "pulse": 233,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-3",
+          "message": "Spark 3 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-234-spark-3-cache-follow-up",
+          "pulse": 234,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-3",
+          "message": "Spark 3 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-274-spark-7-cache-choice",
+          "pulse": 274,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-274-spark-7-cache-conserved",
+          "pulse": 274,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-275-spark-7-cache-follow-up",
+          "pulse": 275,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "finalSparks": [
+        {
+          "id": "spark-1",
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        },
+        {
+          "id": "spark-2",
+          "position": {
+            "x": 24,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 240,
+          "readiness": 99
+        },
+        {
+          "id": "spark-3",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "share-charge",
+          "charge": 6,
+          "deficit": 197,
+          "readiness": 86
+        },
+        {
+          "id": "spark-4",
+          "position": {
+            "x": 22,
+            "y": 4
+          },
+          "activity": "seek-shelter",
+          "charge": 0,
+          "deficit": 150,
+          "readiness": 75
+        },
+        {
+          "id": "spark-5",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 185,
+          "readiness": 100
+        },
+        {
+          "id": "spark-6",
+          "position": {
+            "x": 27,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 178,
+          "readiness": 100
+        },
+        {
+          "id": "spark-7",
+          "position": {
+            "x": 26,
+            "y": 6
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 202,
+          "readiness": 100
+        },
+        {
+          "id": "spark-8",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 177,
+          "readiness": 100
+        },
+        {
+          "id": "spark-9",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 123,
+          "readiness": 100
+        },
+        {
+          "id": "spark-10",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 40,
+          "readiness": 80
+        },
+        {
+          "id": "spark-11",
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 34,
+          "readiness": 79
+        },
+        {
+          "id": "spark-12",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 15,
+          "readiness": 44
+        }
+      ],
+      "stateSha256": "728ad9f1652b0a25cc2ddc0d40b95c7c3ba8a538fab2656fa9b07b5829dc4fd4",
+      "cacheChoices": 8,
+      "probes": 0
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 1,
+      "pulses": 360,
+      "patterns": [],
+      "activitySparkPulses": {
+        "seek-charge": 5,
+        "explore": 355
+      },
+      "eventKinds": {
+        "movement": 5,
+        "draw": 1
+      },
+      "cacheEvents": [],
+      "finalSparks": [
+        {
+          "id": "spark-1",
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        }
+      ],
+      "stateSha256": "0b0359887884952cef181a29dfaf41ddf22c29a759549b676439c430b740f336",
+      "cacheChoices": 0,
+      "probes": 0
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 8,
+      "pulses": 360,
+      "patterns": [],
+      "activitySparkPulses": {
+        "seek-charge": 1017,
+        "explore": 1047,
+        "share-charge": 106,
+        "scavenge-cache": 98,
+        "mark-trace": 67,
+        "shape-pattern": 67,
+        "seek-shelter": 478
+      },
+      "eventKinds": {
+        "movement": 890,
+        "wait": 118,
+        "draw": 76,
+        "explore": 4,
+        "share": 102,
+        "wild-cache-choice": 12,
+        "mark-trace": 3,
+        "shape-pattern": 3,
+        "idle": 157
+      },
+      "cacheEvents": [
+        {
+          "id": "event-27-spark-8-cache-choice",
+          "pulse": 27,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-27-spark-8-cache-conserved",
+          "pulse": 27,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-28-spark-8-cache-follow-up",
+          "pulse": 28,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-66-spark-5-cache-choice",
+          "pulse": 66,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-66-spark-5-cache-conserved",
+          "pulse": 66,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-67-spark-5-cache-follow-up",
+          "pulse": 67,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-94-spark-6-cache-choice",
+          "pulse": 94,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-94-spark-6-cache-conserved",
+          "pulse": 94,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-95-spark-6-cache-follow-up",
+          "pulse": 95,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-116-spark-7-cache-choice",
+          "pulse": 116,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-116-spark-7-cache-conserved",
+          "pulse": 116,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-117-spark-7-cache-follow-up",
+          "pulse": 117,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-7",
+          "message": "Spark 7 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "finalSparks": [
+        {
+          "id": "spark-1",
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        },
+        {
+          "id": "spark-2",
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 5,
+          "deficit": 0,
+          "readiness": 96
+        },
+        {
+          "id": "spark-3",
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        },
+        {
+          "id": "spark-4",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 5,
+          "readiness": 95
+        },
+        {
+          "id": "spark-5",
+          "position": {
+            "x": 6,
+            "y": 4
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 12,
+          "readiness": 0
+        },
+        {
+          "id": "spark-6",
+          "position": {
+            "x": 25,
+            "y": 5
+          },
+          "activity": "seek-shelter",
+          "charge": 2,
+          "deficit": 0,
+          "readiness": 5
+        },
+        {
+          "id": "spark-7",
+          "position": {
+            "x": 25,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 18,
+          "readiness": 43
+        },
+        {
+          "id": "spark-8",
+          "position": {
+            "x": 27,
+            "y": 5
+          },
+          "activity": "seek-shelter",
+          "charge": 33,
+          "deficit": 0,
+          "readiness": 100
+        }
+      ],
+      "stateSha256": "33c8e03ad3b42faefad4ad46a300c684e6cda7acf8dab97811df539108875fd2",
+      "cacheChoices": 4,
+      "probes": 0
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 12,
+      "pulses": 360,
+      "patterns": [],
+      "activitySparkPulses": {
+        "seek-charge": 1520,
+        "explore": 468,
+        "scavenge-cache": 178,
+        "mark-trace": 173,
+        "shape-pattern": 150,
+        "seek-shelter": 1631,
+        "share-charge": 200
+      },
+      "eventKinds": {
+        "movement": 2039,
+        "wait": 344,
+        "explore": 8,
+        "draw": 62,
+        "idle": 788,
+        "mark-trace": 7,
+        "shape-pattern": 7,
+        "wild-cache-choice": 21,
+        "share": 186
+      },
+      "cacheEvents": [
+        {
+          "id": "event-38-spark-2-cache-choice",
+          "pulse": 38,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-2",
+          "message": "Spark 2 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-38-spark-2-cache-conserved",
+          "pulse": 38,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-2",
+          "message": "Spark 2 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-39-spark-2-cache-follow-up",
+          "pulse": 39,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-2",
+          "message": "Spark 2 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-64-spark-6-cache-choice",
+          "pulse": 64,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-64-spark-6-cache-conserved",
+          "pulse": 64,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-65-spark-6-cache-follow-up",
+          "pulse": 65,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-6",
+          "message": "Spark 6 followed the Wild Cache choice with seek charge; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-86-spark-9-cache-choice",
+          "pulse": 86,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-9",
+          "message": "Spark 9 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-86-spark-9-cache-conserved",
+          "pulse": 86,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-9",
+          "message": "Spark 9 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-87-spark-9-cache-follow-up",
+          "pulse": 87,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-9",
+          "message": "Spark 9 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-114-spark-3-cache-choice",
+          "pulse": 114,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-3",
+          "message": "Spark 3 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-114-spark-3-cache-conserved",
+          "pulse": 114,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-3",
+          "message": "Spark 3 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-115-spark-3-cache-follow-up",
+          "pulse": 115,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-3",
+          "message": "Spark 3 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-137-spark-8-cache-choice",
+          "pulse": 137,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-137-spark-8-cache-conserved",
+          "pulse": 137,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek charge; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-138-spark-8-cache-follow-up",
+          "pulse": 138,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-8",
+          "message": "Spark 8 followed the Wild Cache choice with seek charge; status: waiting. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-204-spark-4-cache-choice",
+          "pulse": 204,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-4",
+          "message": "Spark 4 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-204-spark-4-cache-conserved",
+          "pulse": 204,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-4",
+          "message": "Spark 4 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-205-spark-4-cache-follow-up",
+          "pulse": 205,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-4",
+          "message": "Spark 4 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-239-spark-5-cache-choice",
+          "pulse": 239,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 chose to conserve rather than probe: protect remaining charge and readiness.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-239-spark-5-cache-conserved",
+          "pulse": 239,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 left the Wild Cache unprobed, paying no probe charge or readiness and learning no route fact. Next: seek shelter; earlier travel costs remain spent.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-240-spark-5-cache-follow-up",
+          "pulse": 240,
+          "kind": "pulse",
+          "structuredKind": "wild-cache-choice",
+          "actorId": "spark-5",
+          "message": "Spark 5 followed the Wild Cache choice with seek shelter; status: traveling. This records the goal, not successful arrival.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "finalSparks": [
+        {
+          "id": "spark-1",
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "activity": "explore",
+          "charge": 8,
+          "deficit": 0,
+          "readiness": 95
+        },
+        {
+          "id": "spark-2",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "share-charge",
+          "charge": 6,
+          "deficit": 227,
+          "readiness": 86
+        },
+        {
+          "id": "spark-3",
+          "position": {
+            "x": 22,
+            "y": 4
+          },
+          "activity": "seek-shelter",
+          "charge": 0,
+          "deficit": 192,
+          "readiness": 75
+        },
+        {
+          "id": "spark-4",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 77,
+          "readiness": 100
+        },
+        {
+          "id": "spark-5",
+          "position": {
+            "x": 26,
+            "y": 6
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 197,
+          "readiness": 100
+        },
+        {
+          "id": "spark-6",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 181,
+          "readiness": 100
+        },
+        {
+          "id": "spark-7",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 21,
+          "readiness": 67
+        },
+        {
+          "id": "spark-8",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 166,
+          "readiness": 100
+        },
+        {
+          "id": "spark-9",
+          "position": {
+            "x": 26,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 114,
+          "readiness": 100
+        },
+        {
+          "id": "spark-10",
+          "position": {
+            "x": 24,
+            "y": 4
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 103,
+          "readiness": 94
+        },
+        {
+          "id": "spark-11",
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 34,
+          "readiness": 69
+        },
+        {
+          "id": "spark-12",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activity": "seek-charge",
+          "charge": 0,
+          "deficit": 81,
+          "readiness": 61
+        }
+      ],
+      "stateSha256": "39cc77a790c9902b28d06714d66780538d5727d86b7a6ff8c6d9a8a8b671eff2",
+      "cacheChoices": 7,
+      "probes": 0
+    }
+  ],
+  "sourceHashes": {
+    "packages/engine/src/index.ts": "63ceeff9e4bc5b66a6e1c8a14d91e99bd63daaa50e9ecd3950ca1571b55e890f",
+    "packages/engine/src/first-glow-actions.ts": "69c3d0fcfb6ddbaef410c4801842aba0710fc41dc285384c38a803e068fd4460",
+    "packages/engine/src/structured.ts": "e841d994fe51d65364b4ff6dd377a998e29074f23bd3d82e2c190f3ccaa40eeb",
+    "packages/engine/src/first-glow-route-patterns.ts": "a063ea008f6f00747d0fb3ca9364fcde56b717da5afc996a496dbe2fe02827d9",
+    "packages/engine/src/first-glow-cache-choice.ts": "a46eb12bed494f1ff8c6733134865946f83fc94d43ace45d76f007f3cf90f283"
+  },
+  "rawArtifactDirectory": ".tmp/route-patterns-ordinary-EXB1z8"
+}

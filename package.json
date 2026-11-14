@@ -6,6 +6,10 @@
     "packages/*"
   ],
   "scripts": {
+    "review:frontier": "npm run build && node scripts/first-glow-frontier-review.mjs",
+    "start:frontier": "node scripts/run-frontier-local.mjs",
+    "review:goal-loop": "npm run build && node scripts/first-glow-goal-loop-review.mjs",
+    "start:ai:goals": "node scripts/run-ai-local.mjs --goals",
     "start:ai": "node scripts/run-ai-local.mjs",
     "test:model-study": "node scripts/model-study-protocol.mjs --fixtures-only && node --test scripts/model-study-v4.test.mjs scripts/model-study-guard.test.mjs scripts/model-study-supervisor.test.mjs scripts/model-study-eligibility.test.mjs packages/engine/dist/first-glow-event-admission.test.js scripts/model-study-runner.test.mjs",
     "build": "npm run build --workspace @mimir/world-data && npm run build --workspace @mimir/engine && npm run build --workspace @mimir/server && npm run build --workspace @mimir/web",
@@ -18,7 +22,7 @@
     "publish:archive": "node scripts/publish-public-archive.mjs",
     "deploy:hosting": "node scripts/deploy-hosting.mjs",
     "test:public-archive": "node scripts/public-archive.test.mjs",
-    "test:observer-bridge-auth": "node scripts/observer-bridge-auth.test.mjs && node scripts/hosted-auth-check.test.mjs",
+    "test:observer-bridge-auth": "node scripts/observer-bridge-auth.test.mjs && node scripts/hosted-auth-check.test.mjs && node scripts/observer-bridge-goals.test.mjs && node scripts/observer-bridge-limits.test.mjs",
     "check:hosted-auth": "node scripts/hosted-auth-check.mjs",
     "test:observer-bridge-sse": "node scripts/observer-bridge-sse.test.mjs",
     "test:observer-bridge-lifecycle": "node scripts/observer-bridge-lifecycle.test.mjs",
@@ -80,7 +84,3 @@
     "typescript": "^5.7.2"
   }
 }
-
-
-
-

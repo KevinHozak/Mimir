@@ -1,3 +1,4 @@
+import { ORIGINAL_SPARK_ALLOCATION_ID, RECORDED_COST_POLICY } from "./spark-ai-accounting.js";
 import {
   FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY,
   FIRST_GLOW_ATTENTION_PER_SPARK_PER_DAY,
@@ -16,7 +17,10 @@ import {
   type FirstGlowDecisionRecord,
   type StructuredEvent
 } from "@mimir/engine";
-import { resolve } from "node:path";
+import { buildFirstGlowGoalContext, requestFirstGlowGoal, type FirstGlowGoalProvider, type FirstGlowGoalContext, type FirstGlowGoal } from "@mimir/engine";
+import { resolve, isAbsolute } from "node:path";
+import { existsSync } from "node:fs";
+import { onlineRunSpec } from "./online-run.js";
 import { createSparkLiveProvider, SPARK_LIVE_MODEL } from "./spark-ai-live.js";
 
 export interface FirstGlowServerAIConfig {
@@ -29,7 +33,10 @@ export interface FirstGlowServerAIConfig {
   hardCapCents: number;
   reason: string;
   provider?: FirstGlowInterpretationProvider;
+  goalProvider?: (timelineId: string) => FirstGlowGoalProvider;
+  goalReceipt?: (context: FirstGlowGoalContext, timelineId: string) => FirstGlowGoal["providerReceipt"];
   liveSpark?: boolean;
+  markWorldBound?: () => void;
   budgetStatus?: () => Record<string, unknown>;
   stop?: () => void;
   close?: () => Promise<void>;
@@ -48,11 +55,23 @@ const disabled = (requested: boolean, reason: string): FirstGlowServerAIConfig =
 
 export function createFirstGlowServerAIConfig(env: NodeJS.ProcessEnv = process.env): FirstGlowServerAIConfig {
   const requested = env.AI_ENABLED === "true";
-  if (!requested) return disabled(false, "operator-disabled");
+  if (!requested && env.AI_RUNTIME_MODE !== "spark-online") return disabled(false, "operator-disabled");
+  if (env.AI_RUNTIME_MODE === "spark-online") {
+    const lease = onlineRunSpec(env)!;
+    const cap = Number(env.MIMIR_SPARK_AI_BUDGET_USD) * 1_000_000;
+    const path = env.MIMIR_SPARK_AI_BUDGET_PATH;
+    if (!path || !isAbsolute(path) || ![5_000_000, 10_000_000].includes(cap) || env.MIMIR_SPARK_AI_KILL_SWITCH !== "enabled") throw Error("Explicit durable online allocation required");
+    if (!env.DATABASE_PATH || !isAbsolute(env.DATABASE_PATH) || resolve(path) === resolve(env.DATABASE_PATH)) throw Error("Distinct absolute world and allocation paths required");
+    if (existsSync(env.DATABASE_PATH) !== existsSync(path) && !(lease.allocationId === ORIGINAL_SPARK_ALLOCATION_ID && existsSync(path))) throw Error("Online world and allocation ledger must exist together; restore both");
+    const provider = createSparkLiveProvider(path, undefined, { allocation: { allocationId: lease.allocationId, capMicrousd: cap }, deadlineMs: lease.deadlineMs });
+    if (lease.allocationId === ORIGINAL_SPARK_ALLOCATION_ID && (provider.budgetStatus().accountingPolicy !== RECORDED_COST_POLICY || provider.budgetStatus().targetRunId !== lease.id || cap !== 5000000)) { void provider.close(); throw Error("Original allocation requires audited accounting and matching writer handoff"); }
+    if (lease.allocationId === ORIGINAL_SPARK_ALLOCATION_ID && !existsSync(env.DATABASE_PATH) && provider.budgetStatus().targetWorldBound) { void provider.close(); throw Error("Restore missing online world; original allocation is already bound"); }
+    return { requested, enabled: requested, runtimeMode: requested ? "bounded-internal-pilot" : "rules-only", rollout: requested ? "internal" : "off", providerId: provider.providerId, model: SPARK_LIVE_MODEL, hardCapCents: cap / 10000, reason: requested ? "explicit-bounded-online-allocation" : "operator-disabled-online", markWorldBound: provider.markWorldBound, provider, goalProvider: timelineId => ({ providerId: provider.providerId, propose: context => provider.proposeGoal(context, timelineId) }), goalReceipt: provider.goalReceipt, liveSpark: true, budgetStatus: provider.budgetStatus, stop: provider.stop, close: provider.close };
+  }
   if (env.AI_RUNTIME_MODE === "spark-live") {
     if (env.MIMIR_SPARK_AI_BUDGET_USD !== "5" || env.MIMIR_SPARK_AI_KILL_SWITCH !== "enabled") return disabled(true, "live-budget-or-kill-switch-not-selected");
     const provider = createSparkLiveProvider(resolve("data/local/spark-ai-budget.db"));
-    return { requested: true, enabled: true, runtimeMode: "bounded-internal-pilot", rollout: "internal", providerId: provider.providerId, model: SPARK_LIVE_MODEL, hardCapCents: 500, reason: "owner-authorized-live-usd5", provider, liveSpark: true, budgetStatus: provider.budgetStatus, stop: provider.stop, close: provider.close };
+    return { requested: true, enabled: true, runtimeMode: "bounded-internal-pilot", rollout: "internal", providerId: provider.providerId, model: SPARK_LIVE_MODEL, hardCapCents: 500, reason: "owner-authorized-live-usd5", provider, goalProvider: timelineId => ({ providerId: provider.providerId, propose: context => provider.proposeGoal(context, timelineId) }), goalReceipt: provider.goalReceipt, liveSpark: true, budgetStatus: provider.budgetStatus, stop: provider.stop, close: provider.close };
   }
   if (env.AI_RUNTIME_MODE !== "bounded-internal-pilot") return disabled(true, "pilot-mode-not-selected");
   if (env.AI_ROLLOUT !== "internal") return disabled(true, "internal-rollout-not-selected");
@@ -98,9 +117,35 @@ export class FirstGlowServerAIRuntime {
   private interpretationBudget = { limit: FIRST_GLOW_ATTENTION_GLOBAL_PER_DAY, reserved: 0, used: 0, telemetry: [] as FirstGlowInterpretationUsage[] };
   private simulatedDay = this.attentionBudget.simulatedDay;
 
-  constructor(private readonly config: FirstGlowServerAIConfig, private readonly options: { interpretationTimeoutMs?: number; rcAdmission?: "event-rc-v1" } = {}) {
+  constructor(private readonly config: FirstGlowServerAIConfig, private readonly options: { interpretationTimeoutMs?: number; rcAdmission?: "event-rc-v1"; goals?: boolean } = {}) {
     const timeout = options.interpretationTimeoutMs;
     if (timeout !== undefined && (!Number.isInteger(timeout) || timeout < 1 || timeout > 10_000)) throw new Error("invalid interpretation timeout");
+    if (options.goals && config.enabled && options.rcAdmission !== "event-rc-v1") throw new Error("AI goal selection requires shared event RC admission");
+  }
+
+  async evaluateGoals(state: FirstGlowState, timelineId: string, historicalPlayback = false): Promise<{ state: FirstGlowState; events: StructuredEvent[] }> {
+    if (!this.options.goals || !state.goalLoops || historicalPlayback) return { state, events: [] };
+    let next = state;
+    const events: StructuredEvent[] = [];
+    for (const sparkId of state.settlements.flatMap(s => s.sparks.map(a => a.id)).sort()) {
+      const actor = next.settlements.flatMap(s=>s.sparks).find(a=>a.id===sparkId)!;
+      if (next.goalLoops!.goals.some(g=>g.sparkId===sparkId&&g.status==="active") || actor.intention?.status==="active" || actor.destinationObjectId || actor.destinationCell || !["choosing","waiting","idle"].includes(actor.status)) continue;
+      const context = buildFirstGlowGoalContext(next, sparkId)!;
+      const budget = this.config.budgetStatus?.();
+      const stopped = budget?.stopped === true;
+      const exhausted = typeof budget?.remainingMicrousd === "number" && typeof budget.reservationPerRequestMicrousd === "number" && budget.remainingMicrousd < budget.reservationPerRequestMicrousd;
+      const provider = this.config.enabled && !stopped && !exhausted && context.candidates.length >= 2 ? this.config.goalProvider?.(timelineId) : undefined;
+      const evaluated = await requestFirstGlowGoal(next, sparkId, { provider, timeoutMs: 10000, fallbackReason: stopped ? "provider-stopped" : exhausted ? "provider-budget-exhausted" : context.candidates.length < 2 ? "no-consequential-alternative" : "provider-unavailable" });
+      next = evaluated.state;
+      if (!evaluated.goal) continue;
+      const goal = evaluated.goal;
+      if (provider) goal.providerReceipt = this.config.goalReceipt?.(context, timelineId);
+      const event: StructuredEvent = { id: `event-${next.pulse}-${goal.id}-selected`, pulse: next.pulse, kind: "goal", actorId: sparkId, source: "rules", evidenceEventIds: goal.evidenceEventIds, message: `${sparkId} selected ${goal.kind} using ${goal.source}; intent is recorded, not a completed outcome.` };
+      next.events.push(event); events.push(event);
+      next.history ??= createFirstGlowHistory();
+      appendFirstGlowDecision(next.history, { id: `decision-${event.id}`, pulse: next.pulse, sparkId, eventId: event.id, trigger: "goal-selection", candidates: goal.context.candidates, selectedAlternative: goal.kind, source: goal.source, providerId: goal.providerId, profileVersion: 1, evidenceEventIds: goal.evidenceEventIds, contextHash: goal.contextHash, validation: "valid", fallbackReason: goal.fallbackReason, latencyMs: 0, resultingEventId: event.id, usage: { requestId: goal.providerReceipt ? `spark-ai-${goal.providerReceipt.requestId}` : goal.id, outcome: goal.source === "ai" ? "recorded" : provider ? "fallback" : "rules-only", reservedUnits: goal.providerReceipt ? 1 : 0, usedUnits: goal.providerReceipt?.status === "completed" ? 1 : 0, inputTokens: goal.providerReceipt?.usage?.inputTokens ?? 0, outputTokens: goal.providerReceipt?.usage?.outputTokens ?? 0, latencyMs: 0 } });
+    }
+    return { state: next, events };
   }
 
   private resetInterpretationBudgetIfNeeded(pulse: number): void {
@@ -157,9 +202,11 @@ export class FirstGlowServerAIRuntime {
       killSwitch: budget?.stopped ? "stopped" : "enabled",
       calls: budget?.attempts ?? telemetry.length,
       fallbackCount: telemetry.filter(item => item.outcome === "fallback").length,
+      localRejectionCount: telemetry.filter(item => item.outcome === "rejected-locally").length,
       cumulativeCostCents: typeof budget?.estimatedTokenCostMicrousd === "number" ? budget.estimatedTokenCostMicrousd / 10000 : telemetry.at(-1)?.cumulativeCostCents ?? 0,
       budget,
-      historicalPlaybackUsesAI: false
+      historicalPlaybackUsesAI: false,
+      goalSelection: this.options.goals === true, goalProviderAvailable: Boolean(this.config.goalProvider)
     };
   }
 }

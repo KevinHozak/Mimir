@@ -12,3 +12,7 @@ These minimal SVG assets are authored for Mimir and distributed with the reposit
 The [First Glow art bible](../../docs/first-glow-art-bible.md) defines the required metadata, license, attribution, naming, export, and source-to-bundle retention fields. The production pipeline must retain this record for every asset and never replace an asset referenced by a historical checkpoint.
 
 The editable source inventory at `assets/world/art-production/assets.json` is part of the provenance record. Each active asset records a stable ID, source path, format, dimensions, role, version, license, attribution, source type, and this provenance path. Each active asset must remain traceable through the Tiled importer into every retained content-addressed bundle; `npm run art:check` validates that chain and retained bundle hashes. Review artifacts under `.tmp/` are disposable and are not source or license evidence.
+
+## Frontier reuse — 2026-11-13
+
+The First Glow frontier source and its rendezvous/trace-weave templates reuse these same repository-authored SVG bytes and MIT provenance. Rendezvous uses the light-mark visual; trace weave uses the shelter-loom visual as a resting site with a cooperative improvement. It does not create a Resonance Anchor or inherit Shelter Loom institutional semantics. No new external or generated imagery was added.

@@ -1,0 +1,2979 @@
+{
+  "date": "2026-11-10",
+  "policy": "sharing-route-continuation-v1",
+  "providerCalls": 0,
+  "rawDirectory": ".tmp/route-patterns-sharing-ordinary-h84pJh",
+  "preparationPlannerUnchanged": true,
+  "verification": {
+    "rootTests": 147,
+    "failures": 0,
+    "legacy": [
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "2cf18b23454f7592d80ff711d36d7e384e694d786f145c24128b80d5a104503b"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "2180710f1155ba727586fd498bccea48af803a6265f4c7fd93950e7d3757a521"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "837085b571e89735ebac04ae0a0078488ce91f05e4bb9e45c22cfb5146b3202f"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a8bc0c7797ff9f31a503f1afeb0a31d3ea1b746c2d59ab4c3a2e281ec0cb056e"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "1fd883d9374b664628a68e362fb97b83d632c3d8f5168b1abaacfc95bcdf52c3"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "4d20d331711a79f6e45d54c45921394063625248cf711659f276d6b297285f89"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "need-decline.json",
+        "comparedPulses": 5,
+        "sha256": "804952bd9e943a4c68804e9a7a96ad3c6596883d0e6a8d3366937a6203b3bc51"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "no-encounter.json",
+        "comparedPulses": 5,
+        "sha256": "4bb5799eace6274bfd27830c3f2402a74b076e4d37af1bb827b669897e7b1477"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "no-pattern.json",
+        "comparedPulses": 5,
+        "sha256": "71bcd4ecaa6d2142bc682b13493b66d70ac6b5e076580e7ee26778c083a90e4a"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "use.json",
+        "comparedPulses": 5,
+        "sha256": "f2a0c8e7c2ae972d412f7268988e9fc59f6d90d23773cd72886a8f0469ffbd0f"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "db8d7839e564d9475cc8e656ef3d80072156d349daededa26d5652e854f13b11"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "5600ec3a5fe1eee169e7f8a4dff96827ffcd267feb17a2b047675e97b153aa0d"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "ed5921f0bac1540b2b896166e5e73fbe736402895c410b856a8f33e293dd888c"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a9fe3bb8976a0ab2c7cfc1e66e23f6c1db204b65227aedca99e40c40109bbf5b"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "c4892ada233259ca4b85f8c6bf25a6c9eab6f3ca2274c91ae4d1d2bd7efa8721"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "c4ab0207b04c37df00b9c9d691f0fd152e3544dadc73cfab04c0c8703ce856e3"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "1db53035d65d37548c4be97005f8c0d54c27dcc4838a593744103b1956b390c7"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "ed2d670f9b14697787061b931862ee76e7d649f41d385bef1fd7e97d0a943f3f"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "7b7e778a898d3a64f56f498f67aa3050b42777cbe6b5c80a87c58980ce85f6e7"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "f880df8b2094a4351f1aa515be82edf61320fe9644a1ab827aa5eb26e8d581d5"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "999bb1bbdf771f6381c01929a2b156b8491bce21f892a2a7a6891d0abefa85aa"
+      },
+      {
+        "dir": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "d4b05b6ad8c30a0496d7b251e105b040e156719a46b7ecdd4c8bc7afbcf9e319"
+      },
+      {
+        "dir": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "96eead92d73d4641ab5641e33bd350827b791bce35fc6a0208978b5f967af37d"
+      },
+      {
+        "dir": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "1f122f7862b5f1bce0ae7b65e05e38b05840ece649301920283729eee2f1d62c"
+      },
+      {
+        "dir": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "27ea80fbb331b9cd832c12f9db59aed5ff524fc61de66cfb8f4d5d3f33d19ab0"
+      },
+      {
+        "dir": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "311e756632d0811819047ba2d393eafd93b7428983fc0c8512efa57f9ff74e68"
+      },
+      {
+        "dir": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "4652136e757e4391aff60fb092260e264d3f3e2c7c891f94a441b6db0390fa6d"
+      },
+      {
+        "dir": ".tmp/route-patterns-preparation-ordinary-CNZKa0",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "67597eb7d1e887cf38fa11833d0dc583f32135e9d750eb1242748e48a087610f"
+      }
+    ]
+  },
+  "sourceHashes": {
+    "packages/engine/src/first-glow-sharing-continuation.ts": "dd4dd1b5c5a0915ddb4a8af25db44fe941331d3b349ed0f28eec9809b96e005c",
+    "packages/engine/src/structured.ts": "2b6a4aaa57d9f911bd9c190a6c15b57c3d9c2d25a238aa11c0bce4447a4f6b4c",
+    "packages/engine/src/first-glow-actions.ts": "a0bbb4d4fce43b40c498d99a5207bf190c78c409787f0ef521cca5d47dd1296b",
+    "packages/engine/src/index.ts": "6a5a7320a08a47c3b03934b31abb7d7b316ff16dffc32930df4da0d513a09dd7",
+    "packages/engine/src/first-glow-pattern-preparation.ts": "314d86640e67c3a768b6ed3dc7c83b6dbd5de7e35122e76edbcf147cd758a6d5"
+  },
+  "results": [
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 1,
+      "pulses": 360,
+      "patterns": [],
+      "goals": [],
+      "retryAttempts": [],
+      "uses": 0,
+      "probes": 0,
+      "continuationEvents": [],
+      "strandedReservationCount": 0,
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "dc1b1416cbc66c1ea0350b34408c9d6575b13ac20c036e05ce4bdd40420a13b1"
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 8,
+      "pulses": 360,
+      "patterns": [],
+      "goals": [],
+      "retryAttempts": [],
+      "uses": 0,
+      "probes": 0,
+      "continuationEvents": [
+        {
+          "id": "event-6-spark-4-sharing-continuation",
+          "pulse": 6,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-6-spark-3-share"
+          ],
+          "actorId": "spark-4",
+          "message": "Spark 4 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-7-spark-4-sharing-continuation",
+          "pulse": 7,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-7-spark-3-share"
+          ],
+          "actorId": "spark-4",
+          "message": "Spark 4 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-8-spark-1-sharing-continuation",
+          "pulse": 8,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-8-spark-3-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-144-spark-6-sharing-continuation",
+          "pulse": 144,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-144-spark-2-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-145-spark-6-sharing-continuation",
+          "pulse": 145,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-145-spark-2-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-146-spark-6-sharing-continuation",
+          "pulse": 146,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-146-spark-2-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-147-spark-1-sharing-continuation",
+          "pulse": 147,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-147-spark-2-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-178-spark-5-sharing-continuation",
+          "pulse": 178,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-178-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-179-spark-5-sharing-continuation",
+          "pulse": 179,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-179-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-180-spark-5-sharing-continuation",
+          "pulse": 180,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-180-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-181-spark-5-sharing-continuation",
+          "pulse": 181,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-181-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-182-spark-5-sharing-continuation",
+          "pulse": 182,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-182-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-183-spark-5-sharing-continuation",
+          "pulse": 183,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-183-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-184-spark-5-sharing-continuation",
+          "pulse": 184,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-184-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-185-spark-3-sharing-continuation",
+          "pulse": 185,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-185-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-187-spark-3-sharing-continuation",
+          "pulse": 187,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-187-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-188-spark-3-sharing-continuation",
+          "pulse": 188,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-188-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-189-spark-3-sharing-continuation",
+          "pulse": 189,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-189-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-190-spark-3-sharing-continuation",
+          "pulse": 190,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-190-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-191-spark-3-sharing-continuation",
+          "pulse": 191,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-191-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-192-spark-3-sharing-continuation",
+          "pulse": 192,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-192-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-193-spark-3-sharing-continuation",
+          "pulse": 193,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-193-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-194-spark-1-sharing-continuation",
+          "pulse": 194,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-194-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-194-spark-3-sharing-continuation",
+          "pulse": 194,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-194-spark-4-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-195-spark-1-sharing-continuation",
+          "pulse": 195,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-195-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-196-spark-1-sharing-continuation",
+          "pulse": 196,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-196-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-197-spark-1-sharing-continuation",
+          "pulse": 197,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-197-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-198-spark-1-sharing-continuation",
+          "pulse": 198,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-198-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-199-spark-1-sharing-continuation",
+          "pulse": 199,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-199-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-200-spark-1-sharing-continuation",
+          "pulse": 200,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-200-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-201-spark-1-sharing-continuation",
+          "pulse": 201,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-201-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-202-spark-1-sharing-continuation",
+          "pulse": 202,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-202-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-261-spark-3-sharing-continuation",
+          "pulse": 261,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-261-spark-5-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-262-spark-3-sharing-continuation",
+          "pulse": 262,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-262-spark-5-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-263-spark-3-sharing-continuation",
+          "pulse": 263,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-263-spark-5-share"
+          ],
+          "actorId": "spark-3",
+          "message": "Spark 3 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-264-spark-2-sharing-continuation",
+          "pulse": 264,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-264-spark-5-share"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "strandedReservationCount": 0,
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "1b25b2ed3f5a1cf1b535cff4e0ffe98eef1088e5e290992bbf3f1388cf0ca1e3"
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 12,
+      "pulses": 360,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-159",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 159,
+          "creationEventId": "event-159-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-114-spark-1-cache-survey",
+            "event-159-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-9",
+              "pulse": 182,
+              "eventId": "event-182-spark-9-route-pattern-spark-1-159-encounter",
+              "decline": {
+                "pulse": 183,
+                "eventId": "event-183-spark-9-route-pattern-spark-1-159-decline",
+                "reason": "the recorded target is unavailable or unreachable"
+              }
+            },
+            {
+              "sparkId": "spark-5",
+              "pulse": 234,
+              "eventId": "event-234-spark-5-route-pattern-spark-1-159-encounter",
+              "decline": {
+                "pulse": 235,
+                "eventId": "event-235-spark-5-route-pattern-spark-1-159-decline",
+                "reason": "the recorded target is unavailable or unreachable"
+              }
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 263,
+              "eventId": "event-263-spark-2-route-pattern-spark-1-159-encounter",
+              "decline": {
+                "pulse": 264,
+                "eventId": "event-264-spark-2-route-pattern-spark-1-159-decline",
+                "reason": "no currently feasible charge/rest itinerary"
+              }
+            },
+            {
+              "sparkId": "spark-6",
+              "pulse": 282,
+              "eventId": "event-282-spark-6-route-pattern-spark-1-159-encounter",
+              "decline": {
+                "pulse": 283,
+                "eventId": "event-283-spark-6-route-pattern-spark-1-159-decline",
+                "reason": "prepare charge for the recorded cache route"
+              }
+            },
+            {
+              "sparkId": "spark-7",
+              "pulse": 316,
+              "eventId": "event-316-spark-7-route-pattern-spark-1-159-encounter",
+              "decline": {
+                "pulse": 317,
+                "eventId": "event-317-spark-7-route-pattern-spark-1-159-decline",
+                "reason": "no currently feasible charge/rest itinerary"
+              }
+            },
+            {
+              "sparkId": "spark-10",
+              "pulse": 354,
+              "eventId": "event-354-spark-10-route-pattern-spark-1-159-encounter",
+              "decline": {
+                "pulse": 355,
+                "eventId": "event-355-spark-10-route-pattern-spark-1-159-decline",
+                "reason": "prepare charge for the recorded cache route"
+              }
+            }
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "sparkId": "spark-9",
+          "patternId": "route-pattern-spark-1-159",
+          "encounterEventId": "event-182-spark-9-route-pattern-spark-1-159-encounter",
+          "createdPulse": 226,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 0,
+          "actionEventIds": [],
+          "signature": "[{\"x\":26,\"y\":5},{\"charge\":2,\"deficit\":84,\"readiness\":9},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],776,\"charge\",0]",
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:0"
+        },
+        {
+          "sparkId": "spark-2",
+          "patternId": "route-pattern-spark-1-159",
+          "encounterEventId": "event-263-spark-2-route-pattern-spark-1-159-encounter",
+          "createdPulse": 263,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 4,
+          "actionEventIds": [
+            "event-310-spark-2-draw",
+            "event-320-spark-2-draw",
+            "event-323-spark-2-draw",
+            "event-326-spark-2-draw"
+          ],
+          "signature": "[{\"x\":27,\"y\":5},{\"charge\":17,\"deficit\":0,\"readiness\":49},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],776,\"rest\",4]",
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:4"
+        },
+        {
+          "sparkId": "spark-5",
+          "patternId": "route-pattern-spark-1-159",
+          "encounterEventId": "event-234-spark-5-route-pattern-spark-1-159-encounter",
+          "createdPulse": 268,
+          "phase": "deferred",
+          "reason": "no currently feasible charge/rest itinerary",
+          "actions": 3,
+          "actionEventIds": [
+            "event-314-spark-5-draw",
+            "event-320-spark-5-draw",
+            "event-326-spark-5-draw"
+          ],
+          "signature": "[{\"x\":25,\"y\":5},{\"charge\":18,\"deficit\":73,\"readiness\":9},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],776,\"charge\",3]",
+          "lastRecord": "deferred:no currently feasible charge/rest itinerary:3"
+        },
+        {
+          "sparkId": "spark-6",
+          "patternId": "route-pattern-spark-1-159",
+          "encounterEventId": "event-282-spark-6-route-pattern-spark-1-159-encounter",
+          "createdPulse": 282,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 1,
+          "actionEventIds": [
+            "event-346-spark-6-draw"
+          ],
+          "signature": "[{\"x\":4,\"y\":6},{\"charge\":15,\"deficit\":56,\"readiness\":52},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],776,\"charge\",1]",
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:1"
+        },
+        {
+          "sparkId": "spark-7",
+          "patternId": "route-pattern-spark-1-159",
+          "encounterEventId": "event-316-spark-7-route-pattern-spark-1-159-encounter",
+          "createdPulse": 316,
+          "phase": "deferred",
+          "reason": "no feasible preparation itinerary; direct route exceeds readiness cap",
+          "actions": 1,
+          "actionEventIds": [
+            "event-351-spark-7-draw"
+          ],
+          "signature": "[{\"x\":4,\"y\":5},{\"charge\":8,\"deficit\":135,\"readiness\":0},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"},{\"actorId\":\"spark-10\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-south\"},{\"actorId\":\"spark-11\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-south\"}],776,\"charge\",1]",
+          "lastRecord": "deferred:no feasible preparation itinerary; direct route exceeds readiness cap:1"
+        },
+        {
+          "sparkId": "spark-10",
+          "patternId": "route-pattern-spark-1-159",
+          "encounterEventId": "event-354-spark-10-route-pattern-spark-1-159-encounter",
+          "createdPulse": 354,
+          "phase": "charge",
+          "reason": "prepare charge for the recorded cache route",
+          "actions": 0,
+          "actionEventIds": [],
+          "signature": "[{\"x\":22,\"y\":23},{\"charge\":0,\"deficit\":88,\"readiness\":16},0,[{\"actorId\":\"spark-1\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-west\"},{\"actorId\":\"spark-8\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-west\"},{\"actorId\":\"spark-12\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-far\"},{\"actorId\":\"spark-4\",\"objectId\":\"tiled-102\",\"slotId\":\"rest-far\"},{\"actorId\":\"spark-3\",\"objectId\":\"tiled-101\",\"slotId\":\"draw-east\"}],752,\"charge\",0]",
+          "lastRecord": "charge:prepare charge for the recorded cache route:0"
+        }
+      ],
+      "retryAttempts": [],
+      "uses": 0,
+      "probes": 1,
+      "continuationEvents": [
+        {
+          "id": "event-107-spark-7-sharing-continuation",
+          "pulse": 107,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-107-spark-5-share"
+          ],
+          "actorId": "spark-7",
+          "message": "Spark 7 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-163-spark-9-sharing-continuation",
+          "pulse": 163,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-163-spark-11-share"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-164-spark-4-sharing-continuation",
+          "pulse": 164,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-164-spark-11-share"
+          ],
+          "actorId": "spark-4",
+          "message": "Spark 4 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-164-spark-8-sharing-continuation",
+          "pulse": 164,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-164-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-165-spark-8-sharing-continuation",
+          "pulse": 165,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-165-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-166-spark-8-sharing-continuation",
+          "pulse": 166,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-166-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-167-spark-8-sharing-continuation",
+          "pulse": 167,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-167-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-168-spark-8-sharing-continuation",
+          "pulse": 168,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-168-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-169-spark-8-sharing-continuation",
+          "pulse": 169,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-169-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-170-spark-8-sharing-continuation",
+          "pulse": 170,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-170-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-171-spark-8-sharing-continuation",
+          "pulse": 171,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-171-spark-3-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-254-spark-9-sharing-continuation",
+          "pulse": 254,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-254-spark-8-share"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-267-spark-5-sharing-continuation",
+          "pulse": 267,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-267-spark-10-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-282-spark-11-sharing-continuation",
+          "pulse": 282,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-282-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-283-spark-11-sharing-continuation",
+          "pulse": 283,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-283-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-284-spark-11-sharing-continuation",
+          "pulse": 284,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-284-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-285-spark-11-sharing-continuation",
+          "pulse": 285,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-285-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-286-spark-11-sharing-continuation",
+          "pulse": 286,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-286-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-286-spark-8-sharing-continuation",
+          "pulse": 286,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-286-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-287-spark-11-sharing-continuation",
+          "pulse": 287,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-287-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-287-spark-8-sharing-continuation",
+          "pulse": 287,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-287-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-288-spark-11-sharing-continuation",
+          "pulse": 288,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-288-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-288-spark-8-sharing-continuation",
+          "pulse": 288,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-288-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-289-spark-11-sharing-continuation",
+          "pulse": 289,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-289-spark-10-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-289-spark-8-sharing-continuation",
+          "pulse": 289,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-289-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-290-spark-8-sharing-continuation",
+          "pulse": 290,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-290-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-291-spark-8-sharing-continuation",
+          "pulse": 291,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-291-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-292-spark-8-sharing-continuation",
+          "pulse": 292,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-292-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-293-spark-8-sharing-continuation",
+          "pulse": 293,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-293-spark-12-share"
+          ],
+          "actorId": "spark-8",
+          "message": "Spark 8 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-308-spark-12-sharing-continuation",
+          "pulse": 308,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-308-spark-11-share"
+          ],
+          "actorId": "spark-12",
+          "message": "Spark 12 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-309-spark-5-sharing-continuation",
+          "pulse": 309,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-309-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-310-spark-5-sharing-continuation",
+          "pulse": 310,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-310-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-311-spark-5-sharing-continuation",
+          "pulse": 311,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-311-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-312-spark-5-sharing-continuation",
+          "pulse": 312,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-312-spark-4-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "strandedReservationCount": 0,
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "0cdc9098e192cb92b5693fcabcfda38ccbb66b090e1401369daac45a0441a0c9"
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 1,
+      "pulses": 360,
+      "patterns": [],
+      "goals": [],
+      "retryAttempts": [],
+      "uses": 0,
+      "probes": 0,
+      "continuationEvents": [],
+      "strandedReservationCount": 0,
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "044ac7fd3d552493a52c2bdcce951e8287247c26b9a57bce39ef07d89add1e35"
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 8,
+      "pulses": 360,
+      "patterns": [],
+      "goals": [],
+      "retryAttempts": [],
+      "uses": 0,
+      "probes": 0,
+      "continuationEvents": [
+        {
+          "id": "event-6-spark-4-sharing-continuation",
+          "pulse": 6,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-6-spark-3-share"
+          ],
+          "actorId": "spark-4",
+          "message": "Spark 4 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-7-spark-4-sharing-continuation",
+          "pulse": 7,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-7-spark-3-share"
+          ],
+          "actorId": "spark-4",
+          "message": "Spark 4 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-8-spark-1-sharing-continuation",
+          "pulse": 8,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-8-spark-3-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-217-spark-6-sharing-continuation",
+          "pulse": 217,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-217-spark-3-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-218-spark-6-sharing-continuation",
+          "pulse": 218,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-218-spark-3-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-219-spark-1-sharing-continuation",
+          "pulse": 219,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-219-spark-3-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "strandedReservationCount": 0,
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "f18ee61b6519271fbef825025389ac6fd0155f425fa73649d71a6f00ce97937b"
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 12,
+      "pulses": 360,
+      "patterns": [],
+      "goals": [],
+      "retryAttempts": [],
+      "uses": 0,
+      "probes": 0,
+      "continuationEvents": [
+        {
+          "id": "event-37-spark-6-sharing-continuation",
+          "pulse": 37,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-37-spark-12-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-38-spark-6-sharing-continuation",
+          "pulse": 38,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-38-spark-12-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-39-spark-6-sharing-continuation",
+          "pulse": 39,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-39-spark-12-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-40-spark-6-sharing-continuation",
+          "pulse": 40,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-40-spark-12-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-90-spark-9-sharing-continuation",
+          "pulse": 90,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-90-spark-7-share"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-91-spark-9-sharing-continuation",
+          "pulse": 91,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-91-spark-7-share"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-92-spark-9-sharing-continuation",
+          "pulse": 92,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-92-spark-7-share"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-93-spark-9-sharing-continuation",
+          "pulse": 93,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-93-spark-7-share"
+          ],
+          "actorId": "spark-9",
+          "message": "Spark 9 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-104-spark-10-sharing-continuation",
+          "pulse": 104,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-104-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-105-spark-10-sharing-continuation",
+          "pulse": 105,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-105-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-106-spark-10-sharing-continuation",
+          "pulse": 106,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-106-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-107-spark-10-sharing-continuation",
+          "pulse": 107,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-107-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-108-spark-10-sharing-continuation",
+          "pulse": 108,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-108-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-109-spark-10-sharing-continuation",
+          "pulse": 109,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-109-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-110-spark-10-sharing-continuation",
+          "pulse": 110,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-110-spark-2-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-126-spark-11-sharing-continuation",
+          "pulse": 126,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-126-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-127-spark-11-sharing-continuation",
+          "pulse": 127,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-127-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-128-spark-11-sharing-continuation",
+          "pulse": 128,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-128-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-129-spark-11-sharing-continuation",
+          "pulse": 129,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-129-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-130-spark-11-sharing-continuation",
+          "pulse": 130,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-130-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-131-spark-11-sharing-continuation",
+          "pulse": 131,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-131-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-132-spark-11-sharing-continuation",
+          "pulse": 132,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-132-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-133-spark-11-sharing-continuation",
+          "pulse": 133,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-133-spark-8-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-148-spark-12-sharing-continuation",
+          "pulse": 148,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-148-spark-11-share"
+          ],
+          "actorId": "spark-12",
+          "message": "Spark 12 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-149-spark-12-sharing-continuation",
+          "pulse": 149,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-149-spark-11-share"
+          ],
+          "actorId": "spark-12",
+          "message": "Spark 12 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-150-spark-12-sharing-continuation",
+          "pulse": 150,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-150-spark-11-share"
+          ],
+          "actorId": "spark-12",
+          "message": "Spark 12 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-151-spark-12-sharing-continuation",
+          "pulse": 151,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-151-spark-11-share"
+          ],
+          "actorId": "spark-12",
+          "message": "Spark 12 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-191-spark-5-sharing-continuation",
+          "pulse": 191,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-191-spark-8-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-192-spark-5-sharing-continuation",
+          "pulse": 192,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-192-spark-8-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-193-spark-12-sharing-continuation",
+          "pulse": 193,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-193-spark-8-share"
+          ],
+          "actorId": "spark-12",
+          "message": "Spark 12 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-225-spark-5-sharing-continuation",
+          "pulse": 225,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-225-spark-12-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-226-spark-5-sharing-continuation",
+          "pulse": 226,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-226-spark-12-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-227-spark-5-sharing-continuation",
+          "pulse": 227,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-227-spark-12-share"
+          ],
+          "actorId": "spark-5",
+          "message": "Spark 5 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-228-spark-2-sharing-continuation",
+          "pulse": 228,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-228-spark-12-share"
+          ],
+          "actorId": "spark-2",
+          "message": "Spark 2 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-251-spark-11-sharing-continuation",
+          "pulse": 251,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-251-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-252-spark-11-sharing-continuation",
+          "pulse": 252,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-252-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-253-spark-11-sharing-continuation",
+          "pulse": 253,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-253-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-254-spark-11-sharing-continuation",
+          "pulse": 254,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-254-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-255-spark-11-sharing-continuation",
+          "pulse": 255,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-255-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-256-spark-11-sharing-continuation",
+          "pulse": 256,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-256-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-257-spark-11-sharing-continuation",
+          "pulse": 257,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-257-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-258-spark-11-sharing-continuation",
+          "pulse": 258,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-258-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-259-spark-11-sharing-continuation",
+          "pulse": 259,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-259-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-260-spark-11-sharing-continuation",
+          "pulse": 260,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-260-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-261-spark-11-sharing-continuation",
+          "pulse": 261,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-261-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-262-spark-11-sharing-continuation",
+          "pulse": 262,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-262-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-263-spark-11-sharing-continuation",
+          "pulse": 263,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-263-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-264-spark-11-sharing-continuation",
+          "pulse": 264,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-264-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-265-spark-11-sharing-continuation",
+          "pulse": 265,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-265-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-266-spark-11-sharing-continuation",
+          "pulse": 266,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-266-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-267-spark-11-sharing-continuation",
+          "pulse": 267,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-267-spark-9-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-268-spark-11-sharing-continuation",
+          "pulse": 268,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-268-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-269-spark-11-sharing-continuation",
+          "pulse": 269,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-269-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-270-spark-11-sharing-continuation",
+          "pulse": 270,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-270-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-271-spark-11-sharing-continuation",
+          "pulse": 271,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-271-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-272-spark-11-sharing-continuation",
+          "pulse": 272,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-272-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-273-spark-11-sharing-continuation",
+          "pulse": 273,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-273-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-274-spark-11-sharing-continuation",
+          "pulse": 274,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-274-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-275-spark-11-sharing-continuation",
+          "pulse": 275,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-275-spark-3-share"
+          ],
+          "actorId": "spark-11",
+          "message": "Spark 11 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-280-spark-10-sharing-continuation",
+          "pulse": 280,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-280-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-281-spark-10-sharing-continuation",
+          "pulse": 281,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-281-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-282-spark-10-sharing-continuation",
+          "pulse": 282,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-282-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-283-spark-10-sharing-continuation",
+          "pulse": 283,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-283-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-284-spark-10-sharing-continuation",
+          "pulse": 284,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-284-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-285-spark-10-sharing-continuation",
+          "pulse": 285,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-285-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-286-spark-10-sharing-continuation",
+          "pulse": 286,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-286-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-287-spark-10-sharing-continuation",
+          "pulse": 287,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-287-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-287-spark-6-sharing-continuation",
+          "pulse": 287,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-287-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-288-spark-10-sharing-continuation",
+          "pulse": 288,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-288-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-288-spark-6-sharing-continuation",
+          "pulse": 288,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-288-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-289-spark-10-sharing-continuation",
+          "pulse": 289,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-289-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-289-spark-6-sharing-continuation",
+          "pulse": 289,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-289-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-290-spark-10-sharing-continuation",
+          "pulse": 290,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-290-spark-7-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-290-spark-6-sharing-continuation",
+          "pulse": 290,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-290-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-291-spark-1-sharing-continuation",
+          "pulse": 291,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-291-spark-7-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-291-spark-6-sharing-continuation",
+          "pulse": 291,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-291-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-292-spark-6-sharing-continuation",
+          "pulse": 292,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-292-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-293-spark-6-sharing-continuation",
+          "pulse": 293,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-293-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-294-spark-6-sharing-continuation",
+          "pulse": 294,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-294-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-295-spark-6-sharing-continuation",
+          "pulse": 295,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-295-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-296-spark-6-sharing-continuation",
+          "pulse": 296,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-296-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-297-spark-6-sharing-continuation",
+          "pulse": 297,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-297-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-298-spark-6-sharing-continuation",
+          "pulse": 298,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-298-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-299-spark-6-sharing-continuation",
+          "pulse": 299,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-299-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-300-spark-6-sharing-continuation",
+          "pulse": 300,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-300-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-301-spark-6-sharing-continuation",
+          "pulse": 301,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-301-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-302-spark-6-sharing-continuation",
+          "pulse": 302,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-302-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-303-spark-6-sharing-continuation",
+          "pulse": 303,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-303-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-304-spark-6-sharing-continuation",
+          "pulse": 304,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-304-spark-9-share"
+          ],
+          "actorId": "spark-6",
+          "message": "Spark 6 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-305-spark-10-sharing-continuation",
+          "pulse": 305,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-305-spark-9-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-306-spark-10-sharing-continuation",
+          "pulse": 306,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-306-spark-9-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-307-spark-10-sharing-continuation",
+          "pulse": 307,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-307-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-308-spark-10-sharing-continuation",
+          "pulse": 308,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-308-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-309-spark-10-sharing-continuation",
+          "pulse": 309,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-309-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-310-spark-10-sharing-continuation",
+          "pulse": 310,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-310-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-311-spark-10-sharing-continuation",
+          "pulse": 311,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-311-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-312-spark-10-sharing-continuation",
+          "pulse": 312,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-312-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-313-spark-10-sharing-continuation",
+          "pulse": 313,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-313-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-314-spark-10-sharing-continuation",
+          "pulse": 314,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-314-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-315-spark-10-sharing-continuation",
+          "pulse": 315,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-315-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-316-spark-10-sharing-continuation",
+          "pulse": 316,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-316-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-317-spark-10-sharing-continuation",
+          "pulse": 317,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-317-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-318-spark-10-sharing-continuation",
+          "pulse": 318,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-318-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-319-spark-10-sharing-continuation",
+          "pulse": 319,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-319-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-320-spark-10-sharing-continuation",
+          "pulse": 320,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-320-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-321-spark-10-sharing-continuation",
+          "pulse": 321,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-321-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-322-spark-10-sharing-continuation",
+          "pulse": 322,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-322-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-323-spark-10-sharing-continuation",
+          "pulse": 323,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-323-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-324-spark-10-sharing-continuation",
+          "pulse": 324,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-324-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-325-spark-10-sharing-continuation",
+          "pulse": 325,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-325-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-326-spark-10-sharing-continuation",
+          "pulse": 326,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-326-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-327-spark-10-sharing-continuation",
+          "pulse": 327,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-327-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-328-spark-10-sharing-continuation",
+          "pulse": 328,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-328-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-329-spark-10-sharing-continuation",
+          "pulse": 329,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-329-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-330-spark-10-sharing-continuation",
+          "pulse": 330,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-330-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-331-spark-10-sharing-continuation",
+          "pulse": 331,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-331-spark-1-share"
+          ],
+          "actorId": "spark-10",
+          "message": "Spark 10 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-359-spark-1-sharing-continuation",
+          "pulse": 359,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-359-spark-3-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        },
+        {
+          "id": "event-360-spark-1-sharing-continuation",
+          "pulse": 360,
+          "kind": "pulse",
+          "structuredKind": "sharing-continuation",
+          "evidenceEventIds": [
+            "event-360-spark-3-share"
+          ],
+          "actorId": "spark-1",
+          "message": "Spark 1 restored its recorded travel plan after a sharing pause; arrival effects remain pending.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "strandedReservationCount": 0,
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "96ac0dad1fb90196aa72488126913c8d50b543f1e9686738c49d426341aa5a92"
+    }
+  ]
+}

@@ -285,3 +285,10 @@ dt { margin-top: 12px; color: #806b52; } dd { margin: 2px 0; font-size: 1.4rem; 
 /* Separate wrapped journey citations so each has an unambiguous click target. */
 .chronicle-journey-evidence > span { display: block; }
 .chronicle-journey-evidence a { overflow-wrap: anywhere; }
+
+.frontier-overview { margin: 1rem 0; padding: 1rem; border: 1px solid #273e54; border-radius: 12px; background: #0a1421; }
+.frontier-overview h2 { margin: 0 0 .7rem; font-size: 1rem; }
+.frontier-regions, .frontier-projects { display: flex; flex-wrap: wrap; gap: .8rem; }
+.frontier-regions { color: #a9cada; margin-bottom: .8rem; }
+.frontier-projects article { display: grid; gap: .3rem; flex: 1 1 230px; padding: .7rem; background: #101e2c; border-radius: 8px; }
+.frontier-projects span { font-size: .85rem; color: #acbed1; }

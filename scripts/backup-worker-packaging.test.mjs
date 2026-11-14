@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {mkdtempSync,mkdirSync,copyFileSync,writeFileSync} from 'node:fs';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {join} from 'node:path';
+const root=fileURLToPath(new URL('..',import.meta.url));
+const base=join(root,'.tmp/backup-worker-packaging');mkdirSync(base,{recursive:true});
+const directory=mkdtempSync(join(base,'case-'));
+for(const file of ['backup-file-hash.js','spark-ai-accounting.js','backup-lib.js','backup-replication.js','backup-offsite.js','backup-offsite-cli.js']) copyFileSync(join(root,'packages/server/dist',file),join(directory,file));
+writeFileSync(join(directory,'package.json'),'{"type":"module"}');
+writeFileSync(join(directory,'loader.mjs'),`export async function resolve(specifier,context,next){if(!specifier.startsWith('node:')&&!specifier.startsWith('.')&&!specifier.startsWith('file:'))throw Error('Standalone backup worker cannot import a workspace package');return next(specifier,context);}`);
+const output=execFileSync(process.execPath,['--no-warnings','--experimental-loader',pathToFileURL(join(directory,'loader.mjs')).href,'--input-type=module','-e',"const worker=await import('./backup-offsite.js');console.log(typeof worker.runOffsiteBackup)"],{cwd:directory,encoding:'utf8'});
+assert.equal(output.trim(),'function');
+console.log('Standalone backup worker loads without workspace dependencies');

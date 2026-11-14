@@ -4,6 +4,7 @@ import { mkdtempSync, mkdirSync } from "node:fs";
 import { resolve, join } from "node:path";
 import type { FirstGlowInterpretationContext } from "@mimir/engine";
 import { SparkAIBudget } from "./spark-ai-budget.js";
+import { DatabaseSync } from "node:sqlite";
 import { createSparkLiveProvider, sparkWire, SPARK_LIVE_MODEL } from "./spark-ai-live.js";
 
 const root = resolve("../../.tmp/spark-ai-tests"); mkdirSync(root, { recursive: true });
@@ -66,4 +67,49 @@ test("bad model, excess thinking, hidden evidence and truncated output fail to r
     await assert.rejects(provider.interpret(context()));
     assert.equal(provider.budgetStatus().uncertain, 1); assert.equal(provider.budgetStatus().reservedMicrousd, 500000); await provider.close();
   }
+});
+
+test("explicit continuation preserves the cap and receipts, checks exact headroom and leaves an audit record", () => {
+  const file = path(); let budget = new SparkAIBudget(file);
+  for (let i = 1; i <= 2; i++) { const id = budget.reserve(hash(i)); budget.complete(id, proposal, { estimatedTokenCostMicrousd: 300 }); }
+  budget.stop();
+  assert.throws(() => budget.resume(3500000, "owner authorization"), /exact remaining/);
+  assert.equal(budget.snapshot().stopped, true);
+  budget.resume(4000000, "Owner authorized continuation with remaining USD 4.00");
+  assert.equal(budget.snapshot().reservedMicrousd, 1000000);
+  assert.equal(budget.snapshot().capMicrousd, 5000000);
+  assert.equal(budget.snapshot().attempts, 2);
+  assert.deepEqual(budget.cached(hash(1)), proposal);
+  assert.throws(() => budget.resume(4000000, "duplicate authorization"), /stopped spending/);
+  budget.close(); budget = new SparkAIBudget(file);
+  assert.equal(budget.snapshot().stopped, false);
+  const audit = new DatabaseSync(file, { readOnly: true });
+  assert.deepEqual({ ...audit.prepare("SELECT authorized_remaining,reserved_before,attempt_count FROM budget_resumptions").get() }, { authorized_remaining: 4000000, reserved_before: 1000000, attempt_count: 2 });
+  audit.close();
+  for (let i = 3; i <= 10; i++) { const id = budget.reserve(hash(i)); budget.complete(id, proposal, { estimatedTokenCostMicrousd: 300 }); }
+  budget.stop();
+  assert.throws(() => budget.resume(0, "no money remaining"), /invalid/);
+  assert.throws(() => budget.reserve(hash(11)), /stopped or exhausted/);
+  budget.close();
+});
+
+test("continuation cannot release unresolved or uncertain attempts", () => {
+  const budget = new SparkAIBudget(path());
+  const id = budget.reserve(hash(1)); budget.stop();
+  assert.throws(() => budget.resume(4500000, "owner authorization"), /no unresolved/);
+  budget.uncertain(id, "unknown completion");
+  assert.throws(() => budget.resume(4500000, "owner authorization"), /no unresolved/);
+  assert.equal(budget.snapshot().stopped, true);
+  assert.equal(budget.snapshot().reservedMicrousd, 500000);
+  budget.close();
+});
+
+test("a rejected completion with verified usage settles buffered cost without reusing the proposal", async () => {
+  const file=path(),budget=new SparkAIBudget(file);budget.stop();budget.adoptRecordedCosts("Owner approved recorded-cost accounting");budget.resume(4900000,"Owner approved qualification");budget.close();
+  let calls=0;
+  const provider=createSparkLiveProvider(file,async()=>{calls++;const result=response();result.response.candidates[0].finishReason="MAX_TOKENS";return result;});
+  await assert.rejects(provider.interpret(context()));
+  assert.equal(provider.budgetStatus().rejected,1);assert.equal(provider.budgetStatus().uncertain,0);
+  assert.equal(provider.budgetStatus().estimatedTokenCostMicrousd,281);assert.equal(provider.budgetStatus().accountedMicrousd,100562);
+  await assert.rejects(provider.interpret(context()),/prior/);assert.equal(calls,1);await provider.close();
 });

@@ -1,16 +1,17 @@
+import { fileURLToPath } from "node:url";
 import { DatabaseSync } from "node:sqlite";
 import { copyFileSync, existsSync, mkdirSync, statSync, readFileSync, cpSync, rmSync, readdirSync } from "node:fs";
-import { createHash } from "node:crypto";
+import { fileDigest } from "./backup-file-hash.js";
 import { dirname, isAbsolute, resolve, join, relative } from "node:path";
 import { bundleHash, validateWorldBundle, type WorldBundle } from "@mimir/world-data";
-import { createBundleInclusiveBackup } from "./backup-lib.js";
+import { createBundleInclusiveBackup, validateBackupAllocation, type BackupManifest } from "./backup-lib.js";
 
 const mode = process.argv[2];
-const projectRoot = resolve(process.cwd(), "..", "..");
+const projectRoot = fileURLToPath(new URL("../../../", import.meta.url));
 const resolveProjectPath = (value: string) => isAbsolute(value) ? value : resolve(projectRoot, value);
 const source = resolveProjectPath(process.env.DATABASE_PATH ?? "data/local/mimir.db");
 const bundleRoot = resolveProjectPath(process.env.WORLD_BUNDLE_ROOT ?? "assets/world/generated");
-const hashFile = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
+const hashFile = fileDigest;
 const listFiles = (root: string, current = root): string[] => readdirSync(current, { withFileTypes: true }).flatMap(entry => { const path = join(current, entry.name); return entry.isDirectory() ? listFiles(root, path) : entry.isFile() ? [path] : []; }).sort();
 const destinationArg = process.argv[3];
 if (!destinationArg || !["backup", "restore"].includes(mode)) {
@@ -19,19 +20,32 @@ if (!destinationArg || !["backup", "restore"].includes(mode)) {
 }
 if (mode === "backup") {
   const destination = resolveProjectPath(destinationArg);
-  const manifest = createBundleInclusiveBackup(source, destination, bundleRoot);
+  const manifest = createBundleInclusiveBackup(source, destination, bundleRoot, process.env.MIMIR_SPARK_AI_BUDGET_PATH);
   console.log(JSON.stringify({ mode, source, destination, manifest: `${destination}.manifest.json`, ...manifest }));
 } else {
   const backup = resolveProjectPath(destinationArg);
   const destination = resolveProjectPath(process.argv[4] ?? `${source}.restored`);
   if (!existsSync(backup)) throw new Error(`Backup does not exist: ${backup}`);
-  if (existsSync(destination)) throw new Error(`Refusing to overwrite restore target: ${destination}`);
+  if ([destination, `${destination}.bundles`, `${destination}.ai-budget.db`, `${destination}-wal`, `${destination}-shm`].some(existsSync)) throw new Error(`Refusing to overwrite restore target: ${destination}`);
   mkdirSync(dirname(destination), { recursive: true });
   try {
     copyFileSync(backup, destination);
     const manifestPath = `${backup}.manifest.json`;
+    if (!existsSync(manifestPath)) {
+      const world = new DatabaseSync(destination, { readOnly: true });
+      try { if (world.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='online_run_contract'").get() && world.prepare("SELECT 1 FROM online_run_contract WHERE allocation_id != 'rules-only'").get()) throw Error("Online restore requires a paired backup manifest"); } finally { world.close(); }
+    }
     if (existsSync(manifestPath)) {
-      const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as { databaseSha256?: string; bundleFiles?: { hash: string; path: string; sha256: string }[] };
+      const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as BackupManifest;
+      if (manifest.aiBudget) {
+        const sidecar = `${backup}.ai-budget.db`;
+        if (!existsSync(sidecar) || hashFile(sidecar) !== manifest.aiBudget.sha256 || statSync(sidecar).size !== manifest.aiBudget.bytes) throw Error("Allocation backup checksum mismatch");
+        validateBackupAllocation(destination, sidecar);
+        copyFileSync(sidecar, `${destination}.ai-budget.db`);
+      } else {
+        const world = new DatabaseSync(destination, { readOnly: true });
+        try { if (world.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='online_run_contract'").get() && world.prepare("SELECT 1 FROM online_run_contract WHERE allocation_id != 'rules-only'").get()) throw Error("Online restore requires allocation ledger"); } finally { world.close(); }
+      }
       const actual = hashFile(destination);
       if (manifest.databaseSha256 !== actual) throw new Error(`backup checksum mismatch for ${backup}`);
       const filesByBundle = new Map<string, { path: string; sha256: string }[]>();
@@ -65,7 +79,7 @@ if (mode === "backup") {
     database.close();
     console.log(JSON.stringify({ mode, backup, destination, checkpoints: row.count, bytes: statSync(destination).size }));
   } catch (error) {
-    for (const path of [destination, `${destination}-wal`, `${destination}-shm`, `${destination}.bundles`]) if (existsSync(path)) rmSync(path, { recursive: true, force: true });
+    for (const path of [destination, `${destination}-wal`, `${destination}-shm`, `${destination}.bundles`, `${destination}.ai-budget.db`]) if (existsSync(path)) rmSync(path, { recursive: true, force: true });
     throw error;
   }
 }

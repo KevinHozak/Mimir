@@ -1,0 +1,617 @@
+{
+  "date": "2026-11-13",
+  "scope": "Owner-authorized live local S019 qualification",
+  "run": {
+    "directory": "C:\\Projects\\Mimir\\.tmp\\s019-live-qualification-cDbu8d",
+    "database": "C:\\Projects\\Mimir\\data\\local\\mimir-ai-goals.db",
+    "backup": "C:\\Projects\\Mimir\\.tmp\\s019-live-qualification-cDbu8d\\final-backup.db",
+    "finalPulse": 360,
+    "newAttempts": 1,
+    "newReservedMicrousd": 500000,
+    "remainingMicrousd": 4000000,
+    "stopped": true,
+    "elapsedSeconds": 876.611
+  },
+  "worldId": "main",
+  "seed": 2,
+  "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+  "checkpointCount": 361,
+  "aiGoals": [],
+  "rulesGoals": [
+    {
+      "id": "goal-42-spark-3-0",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 42,
+      "endPulse": 170,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-43-spark-3-explore",
+          "pulse": 43
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 88,
+        "chargeDrawn": 80,
+        "readinessRecovered": 80,
+        "movingPulses": 117
+      }
+    },
+    {
+      "id": "goal-42-spark-5-1",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 42,
+      "endPulse": 160,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-44-spark-5-explore",
+          "pulse": 44
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-160-spark-5-shape-pattern",
+          "pulse": 160
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 66,
+        "chargeDrawn": 72,
+        "readinessRecovered": 90,
+        "movingPulses": 105
+      }
+    },
+    {
+      "id": "goal-42-spark-6-2",
+      "sparkId": "spark-6",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 42,
+      "endPulse": 114,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-92-spark-6-explore",
+          "pulse": 92
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-114-spark-6-shape-pattern",
+          "pulse": 114
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 36,
+        "chargeDrawn": 40,
+        "readinessRecovered": 80,
+        "movingPulses": 61
+      }
+    },
+    {
+      "id": "goal-114-spark-6-3",
+      "sparkId": "spark-6",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 114,
+      "endPulse": 242,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-116-spark-6-explore",
+          "pulse": 116
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 71,
+        "chargeDrawn": 80,
+        "readinessRecovered": 100,
+        "movingPulses": 115
+      }
+    },
+    {
+      "id": "goal-160-spark-5-4",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 160,
+      "endPulse": 288,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-214-spark-5-explore",
+          "pulse": 214
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 63,
+        "chargeDrawn": 72,
+        "readinessRecovered": 100,
+        "movingPulses": 119
+      }
+    },
+    {
+      "id": "goal-165-spark-2-5",
+      "sparkId": "spark-2",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 165,
+      "endPulse": 293,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-189-spark-2-explore",
+          "pulse": 189
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 72,
+        "chargeDrawn": 64,
+        "readinessRecovered": 140,
+        "movingPulses": 112
+      }
+    },
+    {
+      "id": "goal-170-spark-3-6",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 170,
+      "endPulse": 245,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-223-spark-3-explore",
+          "pulse": 223
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-245-spark-3-shape-pattern",
+          "pulse": 245
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 35,
+        "chargeDrawn": 48,
+        "readinessRecovered": 80,
+        "movingPulses": 62
+      }
+    },
+    {
+      "id": "goal-245-spark-3-7",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 245,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-247-spark-3-explore",
+          "pulse": 247
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 59,
+        "chargeDrawn": 56,
+        "readinessRecovered": 80,
+        "movingPulses": 109
+      }
+    },
+    {
+      "id": "goal-253-spark-6-8",
+      "sparkId": "spark-6",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 253,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-255-spark-6-explore",
+          "pulse": 255
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 58,
+        "chargeDrawn": 56,
+        "readinessRecovered": 100,
+        "movingPulses": 97
+      }
+    },
+    {
+      "id": "goal-288-spark-5-9",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 288,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-303-spark-5-explore",
+          "pulse": 303
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 41,
+        "chargeDrawn": 32,
+        "readinessRecovered": 60,
+        "movingPulses": 66
+      }
+    },
+    {
+      "id": "goal-293-spark-2-10",
+      "sparkId": "spark-2",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 293,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-316-spark-2-explore",
+          "pulse": 316
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 33,
+        "chargeDrawn": 56,
+        "readinessRecovered": 50,
+        "movingPulses": 59
+      }
+    }
+  ],
+  "goalCounts": {
+    "total": 11,
+    "bySource": {
+      "rules": 11
+    },
+    "byStatus": {
+      "interrupted": 4,
+      "completed": 3,
+      "active": 4
+    }
+  },
+  "aiInterpretations": [
+    {
+      "id": "interpretation-38-event-38-spark-2-wild-cache-1ee786dbbde5",
+      "pulse": 38,
+      "sparkId": "spark-2",
+      "eventId": "event-38-spark-2-wild-cache",
+      "alternative": "stay-on-trace",
+      "summary": "Rill prefers to protect readiness and maintain a predictable return path, choosing to stay on the trace rather than risk an unfamiliar return route from the Wild Cache.",
+      "plausibleChoiceChanged": false,
+      "evidenceEventIds": [
+        "event-38-spark-2-wild-cache"
+      ],
+      "triggerEvent": {
+        "id": "event-38-spark-2-wild-cache",
+        "pulse": 38,
+        "kind": "world-object",
+        "structuredKind": "wild-cache",
+        "actorId": "spark-2",
+        "message": "Spark 2 probed the Wild Cache: an uncertain signal, with a less familiar return route.",
+        "villagerIds": [],
+        "settlementIds": []
+      }
+    }
+  ],
+  "newAttempts": [
+    {
+      "id": 2,
+      "contextHash": "sha256-e73605d1a14a46ca7f3d58300a93e5452d142d37f6c57746e3b51ee786dbbde5",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "alternativeId": "stay-on-trace",
+        "claim": "plausible-choice",
+        "summary": "Rill prefers to protect readiness and maintain a predictable return path, choosing to stay on the trace rather than risk an unfamiliar return route from the Wild Cache.",
+        "evidenceEventIds": [
+          "event-38-spark-2-wild-cache"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 1428,
+        "inputTokens": 1562,
+        "outputTokens": 91,
+        "reasoningTokens": 0,
+        "totalTokens": 1653,
+        "estimatedTokenCostMicrousd": 766
+      },
+      "errorCode": null
+    }
+  ],
+  "usage": {
+    "inputTokens": 1562,
+    "outputTokens": 91,
+    "reasoningTokens": 0,
+    "estimatedTokenCostMicrousd": 766
+  },
+  "eventsByKind": {
+    "movement": 1237,
+    "wait": 74,
+    "draw": 108,
+    "explore": 16,
+    "share": 72,
+    "wild-cache": 3,
+    "goal": 29,
+    "shape-pattern": 4,
+    "idle": 104
+  },
+  "finalSparks": [
+    {
+      "id": "spark-1",
+      "name": "Spark 1",
+      "activity": "mark-trace",
+      "status": "choosing",
+      "charge": 6,
+      "deficit": 0,
+      "readiness": 93,
+      "destination": "tiled-105"
+    },
+    {
+      "id": "spark-2",
+      "name": "Spark 2",
+      "activity": "seek-shelter",
+      "status": "traveling",
+      "charge": 23,
+      "deficit": 0,
+      "readiness": 41,
+      "destination": "tiled-102"
+    },
+    {
+      "id": "spark-3",
+      "name": "Spark 3",
+      "activity": "seek-shelter",
+      "status": "choosing",
+      "charge": 10,
+      "deficit": 0,
+      "readiness": 44
+    },
+    {
+      "id": "spark-4",
+      "name": "Spark 4",
+      "activity": "seek-charge",
+      "status": "choosing",
+      "charge": 0,
+      "deficit": 5,
+      "readiness": 95,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-5",
+      "name": "Spark 5",
+      "activity": "seek-shelter",
+      "status": "traveling",
+      "charge": 6,
+      "deficit": 0,
+      "readiness": 48,
+      "destination": "tiled-102"
+    },
+    {
+      "id": "spark-6",
+      "name": "Spark 6",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 12,
+      "readiness": 64,
+      "destination": "tiled-101"
+    }
+  ],
+  "sourceUnchanged": true,
+  "finalCheckpointSha256": "d9088d943ab10dbf2fd4776d8ec1a6c70dee34d7920c432f93e4a151c51f5b83",
+  "noCounterfactualBenefitClaim": true,
+  "authorization": {
+    "date": "2026-11-13",
+    "ownerDecision": "Approve this payload and run",
+    "destination": "Google Vertex AI, mimir-realm, gemini-3.5-flash-lite",
+    "approvedPayload": [
+      "fictional Spark values",
+      "needs",
+      "local memories",
+      "relationships",
+      "evidence IDs"
+    ],
+    "excluded": [
+      "credentials",
+      "personal files"
+    ],
+    "newAllocation": false,
+    "maximumAdditionalReservedMicrousd": 4500000
+  },
+  "restoreVerification": {
+    "restored": "C:\\Projects\\Mimir\\.tmp\\s019-live-qualification-cDbu8d\\restored.db",
+    "checkpointsExact": 361,
+    "interpretationsExact": 309,
+    "liveAIResponsesPreserved": 1,
+    "worldReceiptScopePreserved": true,
+    "normalizedContinuationEqual": true,
+    "readServerRestart": true,
+    "historicalReplayProviderFree": true,
+    "allocationRowsUnchanged": true
+  },
+  "contactDiagnosis": {
+    "finalPulse": 360,
+    "stationaryChoosingPlans": [
+      {
+        "id": "spark-1",
+        "unchangedSincePulse": 8,
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "mark-trace",
+        "destination": "tiled-105",
+        "remainingRouteCells": 20,
+        "remainingCost": 0,
+        "ownedReservations": [
+          {
+            "actorId": "spark-1",
+            "objectId": "tiled-105",
+            "slotId": "mark"
+          }
+        ],
+        "boundaryEvents": [
+          {
+            "id": "event-8-spark-3-share",
+            "pulse": 8,
+            "kind": "sharing",
+            "structuredKind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-1"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 1.",
+            "villagerIds": [],
+            "settlementIds": []
+          }
+        ]
+      },
+      {
+        "id": "spark-4",
+        "unchangedSincePulse": 6,
+        "position": {
+          "x": 5,
+          "y": 5
+        },
+        "status": "choosing",
+        "activity": "seek-charge",
+        "destination": "tiled-101",
+        "remainingRouteCells": 2,
+        "remainingCost": 0,
+        "ownedReservations": [
+          {
+            "actorId": "spark-4",
+            "objectId": "tiled-101",
+            "slotId": "draw-far"
+          }
+        ],
+        "boundaryEvents": [
+          {
+            "id": "event-6-spark-3-share",
+            "pulse": 6,
+            "kind": "sharing",
+            "structuredKind": "share",
+            "actorId": "spark-3",
+            "participants": [
+              "spark-3",
+              "spark-4"
+            ],
+            "message": "Spark 3 shared 1 charge with Spark 4.",
+            "villagerIds": [],
+            "settlementIds": []
+          }
+        ]
+      }
+    ],
+    "sharingContinuationPolicy": null,
+    "continuousOwnershipChecks": [
+      {
+        "sparkId": "spark-1",
+        "fromPulse": 8,
+        "throughPulse": 360,
+        "checkpointsWithOwnedContact": 353
+      },
+      {
+        "sparkId": "spark-4",
+        "fromPulse": 6,
+        "throughPulse": 360,
+        "checkpointsWithOwnedContact": 355
+      }
+    ]
+  },
+  "sourceSha256": {
+    "packages/engine/src/first-glow-goals.ts": "5267b23018e541b0c1e4ed6b2165771199b91fb13b09014cb1d533f3a9f6529e",
+    "packages/engine/src/first-glow-goals-fixture.ts": "7d4c3ab85e25081bcd3c5b998d4c24f2ca773f4b23dcf775474e03f06e9f5976",
+    "packages/engine/src/first-glow-history.ts": "61b875c48d6538e1c114606c5d1bf2830f35712e0a6b9817f49ba56b13041f6d",
+    "packages/server/src/first-glow-ai-runtime.ts": "f9ac492f6213212a8e01163dc9da7addd811a2837489b8aad3f33dbba78be964",
+    "packages/server/src/spark-ai-live.ts": "cd2038aa0adf2f82ca3674ecdeb0c4bab7147eca2939823be12a1a1443dca577",
+    "packages/server/src/spark-ai-budget.ts": "d2e309b0613a91b81f1cd15275e6d7c5e8b5207d45cced0ba4769ddcc6dce4e2",
+    "packages/server/src/index.ts": "b7108a42a4ea373fe1f35c404a29fe2f4f8d8b0e1b9e7925ab61a99a1f77a656",
+    "packages/server/src/spark-goal-ai.test.ts": "8c871e2434edb6ed1a13e1e5c8c0608cc7d1bdac7b93fccb1545992f315f0c2d",
+    "packages/server/src/spark-goal-server.test.ts": "a9a22f5820fb8cbaf60c25a9faf60694696121a2aabd6fa3c544e443d50ee545",
+    "scripts/run-ai-local.mjs": "19ed7a7198d702f1ce2f1149334c602cfc1fc8b95db7ff4350b3b0c35869f2de"
+  },
+  "qualification": {
+    "socialProviderAccepted": true,
+    "liveGoalProviderDispatched": false,
+    "liveGoalSelectionQualified": false,
+    "allAdmittedGoalContextsSingleOption": true,
+    "remainingIssue": "Contact/route continuity and natural multi-option goal admission"
+  },
+  "delivery": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "humanReview": "deferred"
+  }
+}

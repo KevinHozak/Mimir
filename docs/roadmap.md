@@ -4,7 +4,7 @@
 
 ## Delivery direction
 
-Prioritize a coherent observer experience across World, Follow, and Chronicle before expanding provider use, hosted access, or world ages. Prefer repeatable automated browser checks for technical acceptance; distinguish those results from subjective engagement and model-benefit evidence.
+Deliver a persistent online First Glow world where Sparks choose consequential goals, act within a larger world, encounter one another, and leave outcomes that survive return visits. This owner-selected direction (2026-11-13) replaces observer-first sequencing. Evaluate progress through compact evidence-linked summaries and automated checks; retain subjective human review as finalization, separately from technical acceptance and model-benefit evidence.
 
 ## Work tracking
 
@@ -14,8 +14,9 @@ Completed functional delivery belongs in the [Changelog](changelog.md). Historic
 
 ## Current selection order
 
-- [MIM-S001](../issues/MIM-S001.md): independent human review of World, Follow, and Chronicle remains the observer gate. The connected journey and launcher/example-label repairs are merged; do not repeat them as unfinished implementation.
-- [MIM-E001](../issues/MIM-E001.md): approve a frozen study packet ([S002](../issues/MIM-S002.md)) before the bounded comparison ([S004](../issues/MIM-S004.md)), then evidence and decision (S005). The comparison also depends on S001 and the [S003 protocol](../issues/MIM-S003.md). [S004 v4](model-study-s004-protocol-v4.md) now has an implemented isolated adapter, revised budget guard and [fresh offline verification](evidence/model-study-v4-verification-2026-11-08.md). The matched comparison remains deferred. The owner separately authorized a USD 5 local Spark AI pilot, now implemented and live-verified; see the [pilot guide](spark-ai-local.md). Its operational use does not establish study or human-review acceptance.
+- [MIM-E003](../issues/MIM-E003.md): active persistent online AI world epic. [S018](../issues/MIM-S018.md), [S019](../issues/MIM-S019.md) and [S020](../issues/MIM-S020.md) are complete locally. The expanded frontier supports discovered destinations, real meetings and paid cooperative improvements; two 240-pulse rules histories completed 39/44 goals. The actual 12-Spark offline runtime passed project-event persistence and restoration. See [S020 evidence](evidence/first-glow-frontier-2026-11-13.md), including resource pressure and the borderline desktop frame-budget measurement. [S021](../issues/MIM-S021.md) is in progress with [local online preparation](spark-ai-online.md), retaining S008, explicit operating decisions, auth/reconnect, budget and off-host durability. [S022](../issues/MIM-S022.md) retains evaluation summaries. Changes remain uncommitted and undeployed; no new real-model benefit or human acceptance is claimed.
+- [MIM-S023](../issues/MIM-S023.md): final human review transferred from [S001](../issues/MIM-S001.md). S001 is closed as the technical evaluation/history record with remaining acceptance transferred, not passed. Guided packet comprehension is recorded; unguided review and overall interest were deferred without a result. S023 does not block starting E003 implementation.
+- [MIM-E001](../issues/MIM-E001.md): separate matched model-benefit study remains deferred. Its frozen-packet, account/budget and execution gates remain in [S002](../issues/MIM-S002.md), [S003](../issues/MIM-S003.md), and [S004](../issues/MIM-S004.md); S004 now depends on S023 for the transferred human-review gate. The existing [USD 5 local pilot](spark-ai-local.md) is not a renewed allocation, online rollout or demonstration of comparative model benefit.
 - [MIM-E002](../issues/MIM-E002.md): genuine hosted expiry/refresh remains in [S008](../issues/MIM-S008.md), alongside unresolved financial attribution and a separate decision before wider access. Other child stories are closed; closure does not establish broad readiness.
 - Deferred design remains in [S011](../issues/MIM-S011.md), [S012](../issues/MIM-S012.md), [S013](../issues/MIM-S013.md), and [S014](../issues/MIM-S014.md): natural Hero rarity, capacity progression/presentation, and the next-age gate. These do not change First Glow defaults.
 
@@ -23,7 +24,7 @@ Completed functional delivery belongs in the [Changelog](changelog.md). Historic
 
 - First Glow remains the sole runtime until a separately selected and verified age transition is approved. Use [World Theme](world-theme.md) for intended setting and terminology.
 - Provider studies require explicit scope, account, privacy/retention controls, budget, telemetry, and a kill switch. Issue creation does not authorize provider calls or spending.
-- Hosted access remains limited staging: at most two concurrent observer sessions for at most three minutes. Wider access requires fresh verification and a separate decision under the [hosted runbook](hosted-observer-runbook.md).
+- Existing hosted access remains limited staging: at most two concurrent observer sessions for at most three minutes. S021 must qualify and obtain a concrete operational decision for persistent running, audience, cost and deployment under the [hosted runbook](hosted-observer-runbook.md). The new roadmap does not itself deploy or expand those limits.
 - Preserve server-authoritative outcomes, deterministic history, private Spark knowledge, immutable world bundles, provider-free replay, and the single SQLite writer. See [Architecture](architecture.md) for current implementation boundaries.
 
 Add new roadmap possibilities only while they are untriaged. Once selected and recorded as local issues, track their delivery there rather than maintaining a second task list.

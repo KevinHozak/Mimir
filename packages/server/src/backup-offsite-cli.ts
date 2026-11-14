@@ -22,5 +22,5 @@ if (mode === "status") {
   if (!status.healthy) process.exitCode = 1;
 } else if (mode === "backup") {
   if (!process.env.DATABASE_PATH || !process.env.WORLD_BUNDLE_ROOT) throw new Error("explicit DATABASE_PATH and WORLD_BUNDLE_ROOT are required");
-  console.log(JSON.stringify(await runOffsiteBackup({ source: resolve(process.env.DATABASE_PATH), directory, bundleRoot: resolve(process.env.WORLD_BUNDLE_ROOT), destination, statusPath, freshnessMaxAgeMs, impersonateServiceAccount: process.env.BACKUP_IMPERSONATE_SERVICE_ACCOUNT, minimumCheckpoint })));
+  console.log(JSON.stringify(await runOffsiteBackup({ source: resolve(process.env.DATABASE_PATH), retainLocalSnapshots: process.env.BACKUP_RETAIN_LOCAL_SNAPSHOTS !== "false", aiBudgetPath: process.env.MIMIR_SPARK_AI_BUDGET_PATH, directory, bundleRoot: resolve(process.env.WORLD_BUNDLE_ROOT), destination, statusPath, freshnessMaxAgeMs, impersonateServiceAccount: process.env.BACKUP_IMPERSONATE_SERVICE_ACCOUNT, minimumCheckpoint })));
 } else throw new Error("Usage: backup-offsite-cli.js backup|status");

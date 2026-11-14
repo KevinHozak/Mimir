@@ -5,7 +5,7 @@ import type { FirstGlowExplanation } from "./first-glow-explanations.js";
 import type { StructuredEvent } from "./structured.js";
 
 export const CHRONICLE_SCHEMA_VERSION = 1 as const;
-export const CHRONICLE_NARRATOR_VERSION = "chronicle-journey-v3" as const;
+export const CHRONICLE_NARRATOR_VERSION = "chronicle-route-pattern-v4" as const;
 export type ChronicleChapterKind = "moment" | "personal" | "season";
 export type ChronicleEvidenceKind = "event" | "utterance" | "interpretation" | "checkpoint";
 
@@ -85,6 +85,21 @@ function personalJourney(input: ChronicleInput, sparkId: string, events: Structu
     const outcomes = unique(choice.consequenceEvents.map(item => item.id)).map(id => byId.get(id)).filter((event): event is StructuredEvent => Boolean(event && (event.pulse ?? 0) >= choice.pulse));
     items.push({ label: "Recorded outcome", text: outcomes.length ? outcomes.map(event => `Pulse ${event.pulse ?? 0}: ${event.message}`).join(" ") + " The record does not establish that this choice caused the current need or destination." : "No linked consequence is established in the available record.", evidence: outcomes.length ? outcomes.map(event => evidence(input, "event", event.id, event.pulse ?? 0)) : refs });
   } else items.push({ label: "Choice and consequence", text: "No evidence-linked choice explanation is available for this Spark at this cutoff; a meaningful choice or its consequences cannot be inferred from travel alone.", evidence: [checkpoint] });
+  const latestPatternEvent = events.filter(event => event.kind === "route-pattern").at(-1);
+  if (latestPatternEvent) {
+    // Follow only the public artifact lifecycle, stopping before its creator's
+    // probe/source events. Neither later events nor private memories are added.
+    const publicEvents = new Map(input.events.filter(event => event.kind === "route-pattern" && (event.pulse ?? 0) <= input.cutoffPulse).map(event => [event.id, event]));
+    const chain = new Map<string, StructuredEvent>();
+    const pending = [latestPatternEvent.id];
+    while (pending.length && chain.size < 64) {
+      const event = publicEvents.get(pending.shift()!);
+      if (!event || chain.has(event.id)) continue;
+      chain.set(event.id, event);
+      pending.push(...(event.evidenceEventIds ?? []));
+    }
+    items.push({ label: "Lasting route pattern", text: `Pulse ${latestPatternEvent.pulse ?? 0}: ${latestPatternEvent.message}`, evidence: [...chain.values()].sort((a, b) => (a.pulse ?? 0) - (b.pulse ?? 0) || compare(a.id, b.id)).map(event => evidence(input, "event", event.id, event.pulse ?? 0)) });
+  }
   const moves = events.filter(event => event.kind === "movement");
   if (moves.length) items.push({ label: "Travel in context", text: `${moves.length} recorded movement event(s) through pulse ${input.cutoffPulse}; repeated travel is condensed here. Movement alone does not establish what mattered to the Spark.`, evidence: [moves[0], moves.at(-1)!].filter((event, index, all) => all.findIndex(other => other.id === event.id) === index).map(event => evidence(input, "event", event.id, event.pulse ?? 0)) });
   return items;

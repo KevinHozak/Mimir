@@ -1,0 +1,613 @@
+{
+  "date": "2026-11-10",
+  "providerCalls": 0,
+  "gameplayChanged": false,
+  "sourceRecording": ".tmp/route-patterns-preparation-ordinary-CNZKa0/current-12.json",
+  "rawDirectory": ".tmp/recovery-itinerary-investigation",
+  "sourceHashes": {
+    "packages/engine/src/first-glow-actions.ts": "f6e6281e7ba1abcdcfabb22ed7ea9e417b5cde2685e1f0f148da0f3261e9c1d7",
+    "packages/engine/src/structured.ts": "555f8dcf41ac9ed9993a03ae79ffe694a29a5fceb45d1f4dbdcb7f2b6be1bad9",
+    "packages/engine/src/first-glow-pattern-preparation.ts": "314d86640e67c3a768b6ed3dc7c83b6dbd5de7e35122e76edbcf147cd758a6d5"
+  },
+  "reservations": [
+    {
+      "actorId": "spark-7",
+      "objectId": "tiled-102",
+      "slotId": "rest-south",
+      "status": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-102",
+      "destinationSlotId": "rest-south",
+      "remainingCells": 1,
+      "readiness": 29,
+      "lastMovement": 106,
+      "lastIdle": 76
+    },
+    {
+      "actorId": "spark-5",
+      "objectId": "tiled-102",
+      "slotId": "rest-far",
+      "status": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-102",
+      "destinationSlotId": "rest-far",
+      "remainingCells": 2,
+      "readiness": 31,
+      "lastMovement": 134,
+      "lastIdle": 106,
+      "lastShare": 107
+    },
+    {
+      "actorId": "spark-10",
+      "objectId": "tiled-102",
+      "slotId": "rest-east",
+      "status": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-102",
+      "destinationSlotId": "rest-east",
+      "remainingCells": 2,
+      "readiness": 29,
+      "lastMovement": 147,
+      "lastIdle": 71
+    },
+    {
+      "actorId": "spark-12",
+      "objectId": "tiled-101",
+      "slotId": "draw-east",
+      "status": "choosing",
+      "activity": "seek-charge",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-101",
+      "destinationSlotId": "draw-east",
+      "remainingCells": 22,
+      "readiness": 29,
+      "lastMovement": 142,
+      "lastIdle": 103
+    },
+    {
+      "actorId": "spark-11",
+      "objectId": "tiled-107",
+      "slotId": "rest",
+      "status": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 25,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-107",
+      "destinationSlotId": "rest",
+      "remainingCells": 2,
+      "readiness": 1,
+      "lastMovement": 177,
+      "lastIdle": 108,
+      "lastShare": 141
+    },
+    {
+      "actorId": "spark-1",
+      "objectId": "tiled-101",
+      "slotId": "draw-south",
+      "status": "traveling",
+      "activity": "seek-charge",
+      "position": {
+        "x": 5,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-101",
+      "destinationSlotId": "draw-south",
+      "remainingCells": 1,
+      "readiness": 0,
+      "lastMovement": 360,
+      "lastIdle": 346,
+      "lastShare": 347
+    },
+    {
+      "actorId": "spark-4",
+      "objectId": "tiled-102",
+      "slotId": "rest-west",
+      "status": "traveling",
+      "activity": "idle",
+      "position": {
+        "x": 7,
+        "y": 5
+      },
+      "destinationObjectId": "tiled-102",
+      "destinationSlotId": "rest-west",
+      "remainingCells": 20,
+      "readiness": 0,
+      "lastMovement": 360,
+      "lastIdle": 332,
+      "lastShare": 241
+    }
+  ],
+  "freezeTransitions": [
+    {
+      "pulse": 107,
+      "sparkId": "spark-7",
+      "before": {
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-102",
+        "remaining": 1
+      },
+      "after": {
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-102",
+        "remaining": 1
+      },
+      "shareEvents": [
+        {
+          "id": "event-107-spark-5-share",
+          "pulse": 107,
+          "kind": "sharing",
+          "structuredKind": "share",
+          "actorId": "spark-5",
+          "participants": [
+            "spark-5",
+            "spark-7"
+          ],
+          "message": "Spark 5 shared 1 charge with Spark 7.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "reservation": {
+        "actorId": "spark-7",
+        "objectId": "tiled-102",
+        "slotId": "rest-south"
+      }
+    },
+    {
+      "pulse": 135,
+      "sparkId": "spark-5",
+      "before": {
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-102",
+        "remaining": 2
+      },
+      "after": {
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-102",
+        "remaining": 2
+      },
+      "shareEvents": [
+        {
+          "id": "event-135-spark-2-share",
+          "pulse": 135,
+          "kind": "sharing",
+          "structuredKind": "share",
+          "actorId": "spark-2",
+          "participants": [
+            "spark-2",
+            "spark-5"
+          ],
+          "message": "Spark 2 shared 1 charge with Spark 5.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "reservation": {
+        "actorId": "spark-5",
+        "objectId": "tiled-102",
+        "slotId": "rest-far"
+      }
+    },
+    {
+      "pulse": 143,
+      "sparkId": "spark-12",
+      "before": {
+        "status": "traveling",
+        "activity": "seek-charge",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-101",
+        "remaining": 22
+      },
+      "after": {
+        "status": "choosing",
+        "activity": "seek-charge",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-101",
+        "remaining": 22
+      },
+      "shareEvents": [
+        {
+          "id": "event-143-spark-4-share",
+          "pulse": 143,
+          "kind": "sharing",
+          "structuredKind": "share",
+          "actorId": "spark-4",
+          "participants": [
+            "spark-4",
+            "spark-12"
+          ],
+          "message": "Spark 4 shared 1 charge with Spark 12.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "reservation": {
+        "actorId": "spark-12",
+        "objectId": "tiled-101",
+        "slotId": "draw-east"
+      }
+    },
+    {
+      "pulse": 148,
+      "sparkId": "spark-10",
+      "before": {
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-102",
+        "remaining": 2
+      },
+      "after": {
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-102",
+        "remaining": 2
+      },
+      "shareEvents": [
+        {
+          "id": "event-148-spark-4-share",
+          "pulse": 148,
+          "kind": "sharing",
+          "structuredKind": "share",
+          "actorId": "spark-4",
+          "participants": [
+            "spark-4",
+            "spark-10"
+          ],
+          "message": "Spark 4 shared 1 charge with Spark 10.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "reservation": {
+        "actorId": "spark-10",
+        "objectId": "tiled-102",
+        "slotId": "rest-east"
+      }
+    },
+    {
+      "pulse": 178,
+      "sparkId": "spark-11",
+      "before": {
+        "status": "traveling",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-107",
+        "remaining": 2
+      },
+      "after": {
+        "status": "choosing",
+        "activity": "seek-shelter",
+        "position": {
+          "x": 25,
+          "y": 5
+        },
+        "destination": "tiled-107",
+        "remaining": 2
+      },
+      "shareEvents": [
+        {
+          "id": "event-178-spark-9-share",
+          "pulse": 178,
+          "kind": "sharing",
+          "structuredKind": "share",
+          "actorId": "spark-9",
+          "participants": [
+            "spark-9",
+            "spark-11"
+          ],
+          "message": "Spark 9 shared 1 charge with Spark 11.",
+          "villagerIds": [],
+          "settlementIds": []
+        }
+      ],
+      "reservation": {
+        "actorId": "spark-11",
+        "objectId": "tiled-107",
+        "slotId": "rest"
+      }
+    }
+  ],
+  "controlledSharingReproduction": [
+    {
+      "pulse": 4,
+      "beforeStatus": "traveling",
+      "afterStatus": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "remaining": [
+        {
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "destination": "niche-a",
+      "reservations": [
+        {
+          "actorId": "spark-2",
+          "objectId": "niche-a",
+          "slotId": "rest"
+        }
+      ],
+      "events": [
+        {
+          "id": "event-4-spark-1-share",
+          "kind": "share",
+          "actorId": "spark-1",
+          "participants": [
+            "spark-1",
+            "spark-2"
+          ],
+          "message": "Spark 1 shared 1 charge with Spark 2."
+        }
+      ]
+    },
+    {
+      "pulse": 5,
+      "beforeStatus": "choosing",
+      "afterStatus": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "remaining": [
+        {
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "destination": "niche-a",
+      "reservations": [
+        {
+          "actorId": "spark-2",
+          "objectId": "niche-a",
+          "slotId": "rest"
+        }
+      ],
+      "events": []
+    },
+    {
+      "pulse": 6,
+      "beforeStatus": "choosing",
+      "afterStatus": "choosing",
+      "activity": "seek-shelter",
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "remaining": [
+        {
+          "x": 3,
+          "y": 2
+        }
+      ],
+      "destination": "niche-a",
+      "reservations": [
+        {
+          "actorId": "spark-2",
+          "objectId": "niche-a",
+          "slotId": "rest"
+        }
+      ],
+      "events": []
+    }
+  ],
+  "stalledReservationCounterfactual": [
+    {
+      "spark": "spark-6",
+      "removedOnlyStalledOwners": [
+        "spark-5",
+        "spark-7",
+        "spark-10",
+        "spark-11",
+        "spark-12"
+      ],
+      "retainedReservations": [
+        {
+          "actorId": "spark-1",
+          "objectId": "tiled-101",
+          "slotId": "draw-south"
+        },
+        {
+          "actorId": "spark-4",
+          "objectId": "tiled-102",
+          "slotId": "rest-west"
+        }
+      ],
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary"
+    },
+    {
+      "spark": "spark-9",
+      "removedOnlyStalledOwners": [
+        "spark-5",
+        "spark-7",
+        "spark-10",
+        "spark-11",
+        "spark-12"
+      ],
+      "retainedReservations": [
+        {
+          "actorId": "spark-1",
+          "objectId": "tiled-101",
+          "slotId": "draw-south"
+        },
+        {
+          "actorId": "spark-4",
+          "objectId": "tiled-102",
+          "slotId": "rest-west"
+        }
+      ],
+      "action": "seek-shelter",
+      "reason": "prepare rest for the recorded cache route"
+    },
+    {
+      "spark": "spark-2",
+      "removedOnlyStalledOwners": [
+        "spark-5",
+        "spark-7",
+        "spark-10",
+        "spark-11",
+        "spark-12"
+      ],
+      "retainedReservations": [
+        {
+          "actorId": "spark-1",
+          "objectId": "tiled-101",
+          "slotId": "draw-south"
+        },
+        {
+          "actorId": "spark-4",
+          "objectId": "tiled-102",
+          "slotId": "rest-west"
+        }
+      ],
+      "action": "seek-shelter",
+      "reason": "prepare rest for the recorded cache route"
+    }
+  ],
+  "orderingCounterfactual": [
+    {
+      "allowChargeFirst": false,
+      "removedStalledOwners": [
+        "spark-5",
+        "spark-7",
+        "spark-10",
+        "spark-11",
+        "spark-12"
+      ],
+      "action": "idle",
+      "reason": "no currently feasible charge/rest itinerary"
+    },
+    {
+      "allowChargeFirst": true,
+      "removedStalledOwners": [
+        "spark-5",
+        "spark-7",
+        "spark-10",
+        "spark-11",
+        "spark-12"
+      ],
+      "action": "seek-charge",
+      "reason": "prepare charge for the recorded cache route",
+      "pin": {
+        "patternId": "route-pattern-spark-1-122",
+        "activity": "seek-charge",
+        "objectId": "tiled-101",
+        "slotId": "draw-east",
+        "navigationRevision": 0
+      }
+    }
+  ],
+  "spark6RestFirstBudget": [
+    {
+      "restObject": "tiled-102",
+      "restSlot": "rest-south",
+      "movingPulsesToRest": 25,
+      "chargeAfterRestArrival": 4,
+      "deficitAfterRestArrival": 0,
+      "cacheRequirements": [
+        {
+          "charge": 23,
+          "readiness": 95
+        }
+      ]
+    },
+    {
+      "restObject": "tiled-102",
+      "restSlot": "rest-east",
+      "movingPulsesToRest": 25,
+      "chargeAfterRestArrival": 4,
+      "deficitAfterRestArrival": 0,
+      "cacheRequirements": [
+        {
+          "charge": 23,
+          "readiness": 95
+        }
+      ]
+    },
+    {
+      "restObject": "tiled-107",
+      "restSlot": "rest",
+      "movingPulsesToRest": 25,
+      "chargeAfterRestArrival": 4,
+      "deficitAfterRestArrival": 0,
+      "cacheRequirements": [
+        {
+          "charge": 23,
+          "readiness": 95
+        }
+      ]
+    },
+    {
+      "restObject": "tiled-102",
+      "restSlot": "rest-far",
+      "movingPulsesToRest": 26,
+      "chargeAfterRestArrival": 3,
+      "deficitAfterRestArrival": 0,
+      "cacheRequirements": [
+        {
+          "charge": 22,
+          "readiness": 94
+        }
+      ]
+    }
+  ]
+}

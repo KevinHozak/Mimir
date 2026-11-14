@@ -1,0 +1,1230 @@
+{
+  "date": "2026-11-13",
+  "scope": "Owner-authorized live local S019 qualification",
+  "run": {
+    "directory": "C:\\Projects\\Mimir\\.tmp\\s019-sharing-live-qualification-aEzTAt",
+    "database": "C:\\Projects\\Mimir\\data\\local\\mimir-ai-goals-sharing.db",
+    "backup": "C:\\Projects\\Mimir\\.tmp\\s019-sharing-live-qualification-aEzTAt\\final-backup.db",
+    "finalPulse": 360,
+    "newAttempts": 3,
+    "newReservedMicrousd": 1500000,
+    "remainingMicrousd": 2500000,
+    "stopped": true,
+    "elapsedSeconds": 760.43
+  },
+  "worldId": "main",
+  "seed": 2,
+  "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+  "checkpointCount": 361,
+  "aiGoals": [
+    {
+      "id": "goal-55-spark-6-5",
+      "sparkId": "spark-6",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "ai",
+      "providerId": "google-gemini/gemini-3.5-flash-lite",
+      "modelRationale": "Sel will continue to explore and leave a light mark on the route, balancing practical help with keeping its options open.",
+      "createdPulse": 55,
+      "endPulse": 127,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-100-spark-6-explore",
+          "pulse": 100
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-127-spark-6-mark-trace",
+          "pulse": 127
+        }
+      ],
+      "receipt": {
+        "requestId": 3,
+        "status": "completed",
+        "reservationMicrousd": 500000,
+        "usage": {
+          "countedInputTokens": 2419,
+          "inputTokens": 2543,
+          "outputTokens": 97,
+          "reasoningTokens": 0,
+          "totalTokens": 2640,
+          "estimatedTokenCostMicrousd": 1106
+        }
+      },
+      "observedCosts": {
+        "consumedCharge": 41,
+        "chargeDrawn": 48,
+        "readinessRecovered": 78,
+        "movingPulses": 59
+      }
+    }
+  ],
+  "rulesGoals": [
+    {
+      "id": "goal-26-spark-1-0",
+      "sparkId": "spark-1",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 26,
+      "endPulse": 154,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-66-spark-1-explore",
+          "pulse": 66
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 72,
+        "chargeDrawn": 72,
+        "readinessRecovered": 90,
+        "movingPulses": 116
+      }
+    },
+    {
+      "id": "goal-34-spark-3-1",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 34,
+      "endPulse": 109,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-88-spark-3-explore",
+          "pulse": 88
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-109-spark-3-shape-pattern",
+          "pulse": 109
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 35,
+        "chargeDrawn": 56,
+        "readinessRecovered": 70,
+        "movingPulses": 62
+      }
+    },
+    {
+      "id": "goal-35-spark-5-2",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 35,
+      "endPulse": 163,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-38-spark-5-explore",
+          "pulse": 38
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 72,
+        "chargeDrawn": 64,
+        "readinessRecovered": 100,
+        "movingPulses": 118
+      }
+    },
+    {
+      "id": "goal-38-spark-2-3",
+      "sparkId": "spark-2",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 38,
+      "endPulse": 166,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-97-spark-2-explore",
+          "pulse": 97
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 64,
+        "chargeDrawn": 64,
+        "readinessRecovered": 130,
+        "movingPulses": 109
+      }
+    },
+    {
+      "id": "goal-38-spark-4-4",
+      "sparkId": "spark-4",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 38,
+      "endPulse": 156,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-57-spark-4-explore",
+          "pulse": 57
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-156-spark-4-shape-pattern",
+          "pulse": 156
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 58,
+        "chargeDrawn": 64,
+        "readinessRecovered": 110,
+        "movingPulses": 101
+      }
+    },
+    {
+      "id": "goal-109-spark-3-6",
+      "sparkId": "spark-3",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 109,
+      "endPulse": 237,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-161-spark-3-explore",
+          "pulse": 161
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 69,
+        "chargeDrawn": 48,
+        "readinessRecovered": 100,
+        "movingPulses": 118
+      }
+    },
+    {
+      "id": "goal-127-spark-6-7",
+      "sparkId": "spark-6",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 127,
+      "endPulse": 129,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-128-spark-6-explore",
+          "pulse": 128
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-129-spark-6-mark-trace",
+          "pulse": 129
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 2,
+        "chargeDrawn": 0,
+        "readinessRecovered": 0,
+        "movingPulses": 0
+      }
+    },
+    {
+      "id": "goal-163-spark-5-8",
+      "sparkId": "spark-5",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 163,
+      "endPulse": 241,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-219-spark-5-explore",
+          "pulse": 219
+        },
+        {
+          "activity": "shape-pattern",
+          "eventId": "event-241-spark-5-shape-pattern",
+          "pulse": 241
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 36,
+        "chargeDrawn": 48,
+        "readinessRecovered": 80,
+        "movingPulses": 66
+      }
+    },
+    {
+      "id": "goal-164-spark-1-9",
+      "sparkId": "spark-1",
+      "kind": "explore-shape",
+      "candidates": [
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 164,
+      "endPulse": 292,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-216-spark-1-explore",
+          "pulse": 216
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 64,
+        "chargeDrawn": 56,
+        "readinessRecovered": 140,
+        "movingPulses": 115
+      }
+    },
+    {
+      "id": "goal-175-spark-4-10",
+      "sparkId": "spark-4",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 175,
+      "endPulse": 285,
+      "status": "completed",
+      "reason": "all-steps-physically-completed",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-258-spark-4-explore",
+          "pulse": 258
+        },
+        {
+          "activity": "mark-trace",
+          "eventId": "event-285-spark-4-mark-trace",
+          "pulse": 285
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 40,
+        "chargeDrawn": 64,
+        "readinessRecovered": 100,
+        "movingPulses": 93
+      }
+    },
+    {
+      "id": "goal-189-spark-2-11",
+      "sparkId": "spark-2",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 189,
+      "endPulse": 317,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-210-spark-2-explore",
+          "pulse": 210
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 80,
+        "chargeDrawn": 80,
+        "readinessRecovered": 120,
+        "movingPulses": 114
+      }
+    },
+    {
+      "id": "goal-223-spark-6-12",
+      "sparkId": "spark-6",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 223,
+      "endPulse": 351,
+      "status": "interrupted",
+      "reason": "goal-expired",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-282-spark-6-explore",
+          "pulse": 282
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 45,
+        "chargeDrawn": 72,
+        "readinessRecovered": 80,
+        "movingPulses": 115
+      }
+    },
+    {
+      "id": "goal-237-spark-3-13",
+      "sparkId": "spark-3",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark"
+      ],
+      "source": "rules",
+      "fallbackReason": "no-consequential-alternative",
+      "createdPulse": 237,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-288-spark-3-explore",
+          "pulse": 288
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 64,
+        "chargeDrawn": 64,
+        "readinessRecovered": 130,
+        "movingPulses": 110
+      }
+    },
+    {
+      "id": "goal-241-spark-5-14",
+      "sparkId": "spark-5",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 241,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-295-spark-5-explore",
+          "pulse": 295
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 78,
+        "chargeDrawn": 72,
+        "readinessRecovered": 120,
+        "movingPulses": 104
+      }
+    },
+    {
+      "id": "goal-285-spark-4-15",
+      "sparkId": "spark-4",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 285,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [
+        {
+          "activity": "explore",
+          "eventId": "event-286-spark-4-explore",
+          "pulse": 286
+        }
+      ],
+      "observedCosts": {
+        "consumedCharge": 43,
+        "chargeDrawn": 32,
+        "readinessRecovered": 50,
+        "movingPulses": 71
+      }
+    },
+    {
+      "id": "goal-292-spark-1-16",
+      "sparkId": "spark-1",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 292,
+      "status": "active",
+      "reason": "recovering-seek-charge",
+      "steps": [],
+      "observedCosts": {
+        "consumedCharge": 32,
+        "chargeDrawn": 32,
+        "readinessRecovered": 60,
+        "movingPulses": 64
+      }
+    },
+    {
+      "id": "goal-317-spark-2-17",
+      "sparkId": "spark-2",
+      "kind": "explore-mark",
+      "candidates": [
+        "explore-mark",
+        "explore-shape"
+      ],
+      "source": "rules",
+      "fallbackReason": "provider-failed-or-timeout",
+      "createdPulse": 317,
+      "status": "active",
+      "reason": "recovering-seek-shelter",
+      "steps": [],
+      "observedCosts": {
+        "consumedCharge": 19,
+        "chargeDrawn": 24,
+        "readinessRecovered": 10,
+        "movingPulses": 41
+      }
+    }
+  ],
+  "goalCounts": {
+    "total": 18,
+    "bySource": {
+      "rules": 17,
+      "ai": 1
+    },
+    "byStatus": {
+      "interrupted": 7,
+      "completed": 6,
+      "active": 5
+    }
+  },
+  "aiInterpretations": [
+    {
+      "id": "interpretation-118-event-118-spark-2-wild-cache-d26ca29d3188",
+      "pulse": 118,
+      "sparkId": "spark-2",
+      "eventId": "event-118-spark-2-wild-cache",
+      "alternative": "stay-on-trace",
+      "summary": "Rill prioritizes readiness and a predictable return path, opting to stay on the familiar trace rather than risk an uncertain route from the Wild Cache.",
+      "plausibleChoiceChanged": true,
+      "evidenceEventIds": [
+        "event-118-spark-2-wild-cache"
+      ],
+      "triggerEvent": {
+        "id": "event-118-spark-2-wild-cache",
+        "pulse": 118,
+        "kind": "world-object",
+        "structuredKind": "wild-cache",
+        "actorId": "spark-2",
+        "message": "Spark 2 probed the Wild Cache: an uncertain signal, with a less familiar return route.",
+        "villagerIds": [],
+        "settlementIds": []
+      }
+    },
+    {
+      "id": "interpretation-303-event-303-spark-6-wild-cache-5490f21cc4dd",
+      "pulse": 303,
+      "sparkId": "spark-6",
+      "eventId": "event-303-spark-6-wild-cache",
+      "alternative": "enter-wild-cache",
+      "summary": "Sel decides to enter the Wild Cache, valuing independence and exploring the uncertain signal despite the less familiar return route.",
+      "plausibleChoiceChanged": true,
+      "evidenceEventIds": [
+        "event-303-spark-6-wild-cache"
+      ],
+      "triggerEvent": {
+        "id": "event-303-spark-6-wild-cache",
+        "pulse": 303,
+        "kind": "world-object",
+        "structuredKind": "wild-cache",
+        "actorId": "spark-6",
+        "message": "Spark 6 probed the Wild Cache: an uncertain signal, with a less familiar return route.",
+        "villagerIds": [],
+        "settlementIds": []
+      }
+    }
+  ],
+  "newAttempts": [
+    {
+      "id": 3,
+      "contextHash": "sha256-0e156c2abed81dcccca1b86bf79b33a4a41e7b738a84ac78a25c264f3c28ada8",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "kind": "explore-mark",
+        "summary": "Sel will continue to explore and leave a light mark on the route, balancing practical help with keeping its options open.",
+        "evidenceEventIds": [
+          "event-4-spark-6-explore",
+          "event-55-spark-6-mark-trace",
+          "event-55-spark-6-movement"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 2419,
+        "inputTokens": 2543,
+        "outputTokens": 97,
+        "reasoningTokens": 0,
+        "totalTokens": 2640,
+        "estimatedTokenCostMicrousd": 1106
+      },
+      "errorCode": null
+    },
+    {
+      "id": 4,
+      "contextHash": "sha256-755df06ffbef06b45f1c63b47e7d337e4f82e021c715c9b2c804d26ca29d3188",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "alternativeId": "stay-on-trace",
+        "claim": "plausible-choice",
+        "summary": "Rill prioritizes readiness and a predictable return path, opting to stay on the familiar trace rather than risk an uncertain route from the Wild Cache.",
+        "evidenceEventIds": [
+          "event-118-spark-2-wild-cache"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 1475,
+        "inputTokens": 1609,
+        "outputTokens": 90,
+        "reasoningTokens": 0,
+        "totalTokens": 1699,
+        "estimatedTokenCostMicrousd": 779
+      },
+      "errorCode": null
+    },
+    {
+      "id": 5,
+      "contextHash": "sha256-87a52dcb5b75a3b39ef0e3580193d7e9e4e4ca1dcef00ccc7c5e5490f21cc4dd",
+      "reservationMicrousd": 500000,
+      "status": "completed",
+      "proposal": {
+        "alternativeId": "enter-wild-cache",
+        "claim": "plausible-choice",
+        "summary": "Sel decides to enter the Wild Cache, valuing independence and exploring the uncertain signal despite the less familiar return route.",
+        "evidenceEventIds": [
+          "event-303-spark-6-wild-cache"
+        ]
+      },
+      "usage": {
+        "countedInputTokens": 1488,
+        "inputTokens": 1622,
+        "outputTokens": 83,
+        "reasoningTokens": 0,
+        "totalTokens": 1705,
+        "estimatedTokenCostMicrousd": 764
+      },
+      "errorCode": null
+    }
+  ],
+  "usage": {
+    "inputTokens": 5774,
+    "outputTokens": 270,
+    "reasoningTokens": 0,
+    "estimatedTokenCostMicrousd": 2649
+  },
+  "eventsByKind": {
+    "movement": 1929,
+    "wait": 7,
+    "draw": 137,
+    "explore": 22,
+    "share": 3,
+    "sharing-continuation": 3,
+    "idle": 174,
+    "goal": 47,
+    "mark-trace": 5,
+    "shape-pattern": 4,
+    "wild-cache": 7
+  },
+  "finalSparks": [
+    {
+      "id": "spark-1",
+      "name": "Spark 1",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 12,
+      "readiness": 58,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-2",
+      "name": "Spark 2",
+      "activity": "seek-shelter",
+      "status": "traveling",
+      "charge": 13,
+      "deficit": 0,
+      "readiness": 29,
+      "destination": "tiled-102"
+    },
+    {
+      "id": "spark-3",
+      "name": "Spark 3",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 0,
+      "deficit": 7,
+      "readiness": 76,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-4",
+      "name": "Spark 4",
+      "activity": "seek-shelter",
+      "status": "traveling",
+      "charge": 13,
+      "deficit": 0,
+      "readiness": 53,
+      "destination": "tiled-102"
+    },
+    {
+      "id": "spark-5",
+      "name": "Spark 5",
+      "activity": "seek-charge",
+      "status": "traveling",
+      "charge": 6,
+      "deficit": 0,
+      "readiness": 86,
+      "destination": "tiled-101"
+    },
+    {
+      "id": "spark-6",
+      "name": "Spark 6",
+      "activity": "scavenge-cache",
+      "status": "traveling",
+      "charge": 33,
+      "deficit": 0,
+      "readiness": 73,
+      "destination": "tiled-106"
+    }
+  ],
+  "sourceUnchanged": true,
+  "finalCheckpointSha256": "924ccb3908e9f5b148702650aea49fcb5025cf6324dfe30f3bb99d1828d3cb8f",
+  "noCounterfactualBenefitClaim": true,
+  "repair": {
+    "freshGoalSharingPolicy": "sharing-route-continuation-v1",
+    "legacyHistoriesUnchanged": true,
+    "nonGoalDefaultsUnchanged": true
+  },
+  "offlineVerification": {
+    "date": "2026-11-13",
+    "purpose": "Offline prerequisite to owner-authorized USD 4.00 live rerun",
+    "seed": 2,
+    "sparks": 6,
+    "pulses": 80,
+    "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+    "sharingPolicy": "sharing-route-continuation-v1",
+    "normalInitialResources": true,
+    "normalRC": true,
+    "realProviderCalls": 0,
+    "multiOptionChoices": [
+      {
+        "sparkId": "spark-3",
+        "pulse": 34,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "contextHash": "sha256-d28b862b0108486984461124d8e3ea87cc354e1e46dddaae00033b257da92276",
+        "evidence": [
+          "event-30-spark-3-movement",
+          "event-31-spark-3-movement",
+          "event-32-spark-3-movement",
+          "event-33-spark-3-movement",
+          "event-34-spark-3-movement",
+          "event-34-spark-3-shape-pattern",
+          "event-5-spark-3-explore"
+        ]
+      },
+      {
+        "sparkId": "spark-5",
+        "pulse": 35,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "contextHash": "sha256-e2eb37e3e3090fd04ec05ba53e8dad7e7047caa3067d507ee9f02f1fa004336f",
+        "evidence": [
+          "event-32-spark-5-movement",
+          "event-33-spark-5-movement",
+          "event-34-spark-3-shape-pattern",
+          "event-34-spark-5-movement",
+          "event-35-spark-5-draw",
+          "event-35-spark-5-movement",
+          "event-4-spark-5-explore"
+        ]
+      },
+      {
+        "sparkId": "spark-2",
+        "pulse": 38,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "contextHash": "sha256-5b8470724fd881b56764c8f98dc135b994d0ea190d4dd8f7ab8dd944467a692d",
+        "evidence": [
+          "event-36-spark-2-movement",
+          "event-36-spark-5-draw",
+          "event-37-spark-2-movement",
+          "event-38-spark-2-movement",
+          "event-38-spark-2-wild-cache",
+          "event-5-spark-2-explore"
+        ]
+      },
+      {
+        "sparkId": "spark-4",
+        "pulse": 38,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ],
+        "contextHash": "sha256-9d372b913c78f457c968236c41b9c9e57c547c67807d6f04817efac6e8a9248d",
+        "evidence": [
+          "event-10-spark-4-explore",
+          "event-34-spark-4-movement",
+          "event-35-spark-4-movement",
+          "event-36-spark-4-movement",
+          "event-37-spark-4-movement",
+          "event-38-spark-4-draw",
+          "event-38-spark-4-movement",
+          "event-6-spark-4-sharing-continuation",
+          "event-7-spark-4-sharing-continuation"
+        ]
+      }
+    ],
+    "distinctSparks": 4,
+    "sharingContinuationEvents": 3,
+    "markCompletions": 1,
+    "goals": [
+      {
+        "sparkId": "spark-1",
+        "kind": "explore-mark",
+        "status": "active",
+        "source": "rules"
+      },
+      {
+        "sparkId": "spark-6",
+        "kind": "explore-mark",
+        "status": "active",
+        "source": "rules"
+      },
+      {
+        "sparkId": "spark-3",
+        "kind": "explore-mark",
+        "status": "active",
+        "source": "ai"
+      },
+      {
+        "sparkId": "spark-5",
+        "kind": "explore-mark",
+        "status": "active",
+        "source": "ai"
+      },
+      {
+        "sparkId": "spark-2",
+        "kind": "explore-mark",
+        "status": "active",
+        "source": "ai"
+      },
+      {
+        "sparkId": "spark-4",
+        "kind": "explore-mark",
+        "status": "active",
+        "source": "ai"
+      }
+    ],
+    "noStrandedChoosingRoutes": true
+  },
+  "restoreVerification": {
+    "restored": "C:\\Projects\\Mimir\\.tmp\\s019-sharing-live-qualification-aEzTAt\\restored.db",
+    "checkpointsExact": 361,
+    "interpretationsExact": 356,
+    "liveAISocialResponsesPreserved": 2,
+    "liveAIGoalsPreserved": 1,
+    "completedAIGoalsPreserved": 1,
+    "worldReceiptScopePreserved": true,
+    "normalizedContinuationEqual": true,
+    "readServerRestart": true,
+    "historicalReplayProviderFree": true,
+    "allocationRowsUnchanged": true
+  },
+  "continuityVerification": {
+    "checkpointsInspected": 361,
+    "sharingPolicies": [
+      "sharing-route-continuation-v1"
+    ],
+    "strandedChoosingRoutes": [],
+    "normalInitialConditions": true
+  },
+  "wireDiagnosis": {
+    "wireCapBytes": 16384,
+    "localPreReservationRejections": 7,
+    "additionalProviderCalls": 0,
+    "cases": [
+      {
+        "sparkId": "spark-6",
+        "pulse": 127,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 17304,
+        "relationshipBytes": 12773,
+        "memoryBytes": 3211,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      },
+      {
+        "sparkId": "spark-4",
+        "pulse": 175,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 20872,
+        "relationshipBytes": 16280,
+        "memoryBytes": 3235,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      },
+      {
+        "sparkId": "spark-2",
+        "pulse": 189,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 20025,
+        "relationshipBytes": 15525,
+        "memoryBytes": 3236,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      },
+      {
+        "sparkId": "spark-5",
+        "pulse": 241,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 28914,
+        "relationshipBytes": 24348,
+        "memoryBytes": 3246,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      },
+      {
+        "sparkId": "spark-4",
+        "pulse": 285,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 33000,
+        "relationshipBytes": 28255,
+        "memoryBytes": 3331,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      },
+      {
+        "sparkId": "spark-1",
+        "pulse": 292,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 29073,
+        "relationshipBytes": 24435,
+        "memoryBytes": 3258,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      },
+      {
+        "sparkId": "spark-2",
+        "pulse": 317,
+        "reason": "Spark goal context exceeds wire limit",
+        "receiptPresent": false,
+        "rawContextBytes": 33391,
+        "relationshipBytes": 28769,
+        "memoryBytes": 3311,
+        "candidates": [
+          "explore-mark",
+          "explore-shape"
+        ]
+      }
+    ]
+  },
+  "preservation": {
+    "priorWorldFileUnchanged": true,
+    "priorReceiptRowsUnchanged": true,
+    "originalCapMicrousd": 5000000,
+    "continuationAudit": {
+      "authorizedRemainingMicrousd": 4000000,
+      "reservedBeforeMicrousd": 1000000,
+      "priorAttemptCount": 2,
+      "authorization": "Owner authorized repaired S019 rerun with remaining USD 4.00 on 2026-11-13; same previously approved fictional payload and Google destination"
+    },
+    "stoppedAfterRun": true
+  },
+  "sourceSha256": {
+    "package-lock.json": "44d2feda8b7338a5eb601a8007f2c86f9ce5f4c1ab737b8b90c0c2ae1433df96",
+    "package.json": "fa90c30a57a6d776e46b25e719cf9c2d5f08e6eb9fec2140b56cde8adb41d577",
+    "packages/engine/src/chronicle.test.ts": "77e6e6e2e483aa17de60a0693edb826a8214513087328cad6a9dcb09f822edb1",
+    "packages/engine/src/chronicle.ts": "d61754f2a705a055325c47e9f4bfe50e8f15277df8f6fcd1790459c9b36e689e",
+    "packages/engine/src/design.ts": "cc053c1377d6099e9908ca42f9ce46d5fa72dd2ceea5d985a01a795179617e1b",
+    "packages/engine/src/first-glow-actions.test.ts": "cc37da692ca24434e4e6cc225b3d8acaa32451f72080e716fe4cfe41710e8969",
+    "packages/engine/src/first-glow-actions.ts": "970262838fb4190c2971f759504f795e1564855b6c7f1b4bdaf0e319a887bd8a",
+    "packages/engine/src/first-glow-age-model-policy.test.ts": "099a1dbe74fb953ca3f5bfe65e55dfe00489eefb6a282fcbf06558b7cbc2b9e4",
+    "packages/engine/src/first-glow-age-model-policy.ts": "a605b661ce278ee7343522f4fcd2e1e85e820f630256666d3d583c793aac28a3",
+    "packages/engine/src/first-glow-attention-cadence.test.ts": "e849155de495a107cfaad070fd34d8e70ffb017e154ff8d0b2ae5401cf909d2f",
+    "packages/engine/src/first-glow-attention.test.ts": "e394cce3ffd9795be05160bba74fef53890d2566e3e6ced1a9fb555489a4298a",
+    "packages/engine/src/first-glow-attention.ts": "04f424f9664737928139fa084cc3a8894458a3106532eb1914b4c0a60ab0f5d7",
+    "packages/engine/src/first-glow-cache-choice.test.ts": "3b29af0bd852bcb8cfe94bd8fac67d8e5c775c821df7f2b0bb9e5671eb7c6a41",
+    "packages/engine/src/first-glow-cache-choice.ts": "d39bf6ddfe61d3d6108638f47a5fef074eb530d59ba98e00d0ab29e35e34e2ea",
+    "packages/engine/src/first-glow-care-recovery-fallback.test.ts": "6a01e8bb64af85dc415d5f6bff9ad47bc1c13d6247893cdf2438de08dc9fa505",
+    "packages/engine/src/first-glow-completion.test.ts": "0cfe29371833bcebebb1c1948bdace3bc2d675db910a19a68328d598897c6042",
+    "packages/engine/src/first-glow-context.test.ts": "59ba99d730602c152c4cbcdc243642f8a503a288cacf2bd381149d40940d6218",
+    "packages/engine/src/first-glow-context.ts": "b23d452e98823f8c4bb16e47d9415d5512904b2732ed48aeb33f1d793c70e506",
+    "packages/engine/src/first-glow-conversations.test.ts": "4f75b761389114c7f0cae60f2e7a2384c081a94a31447faea388a04f5f6d5a73",
+    "packages/engine/src/first-glow-conversations.ts": "5a63c707b8f316258c4145462d4a48cedcfc6afb4bba98369193f892c4ae73b3",
+    "packages/engine/src/first-glow-event-admission.test.ts": "ab9ea9e69c33e0c1182d86bb874a9e408e8d0fb612b8be5eb13eba075ce53563",
+    "packages/engine/src/first-glow-event-admission.ts": "a9a314c35cd2b15aff7d1ff5a87386c3d42eeb811c0a9935907506f4cf5569d4",
+    "packages/engine/src/first-glow-explanations.test.ts": "477556a073f561d78cab308a40fc6ebcc2106d76a15911814f0df8bc10c4e7cb",
+    "packages/engine/src/first-glow-explanations.ts": "f1fc609a9d8fd01579418446935456794aa370da3662f3a0c7bb1d6631d3f5b8",
+    "packages/engine/src/first-glow-fake-provider.test.ts": "20d06db4c58ff136fa53b036c0d99295dfd80102223aab71411fa323049f1b81",
+    "packages/engine/src/first-glow-fake-provider.ts": "6fb9f9337a010cfb542cec292faa51de4448beb2353306156cdeeac8f1df1f80",
+    "packages/engine/src/first-glow-gemini-provider.test.ts": "603202cb0c5bb07400821aa9825b9dedf41e30a199664626691c162d22caf40b",
+    "packages/engine/src/first-glow-gemini-provider.ts": "45e5b4711963dd320bd1e8f3a4ac951943fa65c946eaa38a1041e5ce49c8aba5",
+    "packages/engine/src/first-glow-geometric-return-publication.test.ts": "1f2eea5aee500fc556ec3005d61a4f7dcf8e08b010433ae78bc5da68b062916f",
+    "packages/engine/src/first-glow-geometric-return-publication.ts": "292a9902a516542b0aa62cae91e726da1bdb572acc356191758c774040baf69e",
+    "packages/engine/src/first-glow-geometric-shard.test.ts": "07f09fcdd0a845da053d9363f0714553f50d830f7b3be763478317e3b53b6179",
+    "packages/engine/src/first-glow-geometric-shard.ts": "3ac06b805da537ab5056cb42783f35f9182dd9cf2dfeee90439b1aa91e4407c6",
+    "packages/engine/src/first-glow-goals-fixture.ts": "7d4c3ab85e25081bcd3c5b998d4c24f2ca773f4b23dcf775474e03f06e9f5976",
+    "packages/engine/src/first-glow-goals.test.ts": "cac7063f949c5e4cfd243c4b1d5095233f79d48235980b63143bff340049b454",
+    "packages/engine/src/first-glow-goals.ts": "91b1d01f9c395386741b0a60fe124d0b1fb4b75594e5bc54cc79d5f804e7077c",
+    "packages/engine/src/first-glow-history.test.ts": "b36e7b44bdf20175be35d32a3d9e478d347044a18e11f877dfbc34a0f62f1c49",
+    "packages/engine/src/first-glow-history.ts": "61b875c48d6538e1c114606c5d1bf2830f35712e0a6b9817f49ba56b13041f6d",
+    "packages/engine/src/first-glow-hybrid-runtime.test.ts": "90000bc3235e63f8043ab8de2b5402bae5ee1cba074f206143ad9e8b81235489",
+    "packages/engine/src/first-glow-hybrid-runtime.ts": "a52d3e14ad5364205fd1046939f6f1aa484619bdc07329502731ab6f0a5e1997",
+    "packages/engine/src/first-glow-initial-cache-preparation.test.ts": "82f5b88137047587a795afe3459a5356e8fa120165fa4839d84ffabd5b01620f",
+    "packages/engine/src/first-glow-initial-cache-preparation.ts": "2960f440ed853f1026b6eca979f136a9e7385a3918a552336b6225c278e9c648",
+    "packages/engine/src/first-glow-intentions.test.ts": "dbc6742efebd465b7ff195e682b56f80ed33236ccc05422e253918386c7a8f6a",
+    "packages/engine/src/first-glow-intentions.ts": "0910ec2134627e269f1d9872f93dbe534d9fcdffe751a9bb960ff272328efea7",
+    "packages/engine/src/first-glow-interpretations.test.ts": "eb75a21954570f34e48ae27be654d2bcec02d8d81cf4c4f41b6af2f6c0dc00a3",
+    "packages/engine/src/first-glow-interpretations.ts": "4cf5f371135965d7aba809bd36c41b28dba2ecedbcdce559ab42475a8650bc72",
+    "packages/engine/src/first-glow-observer.test.ts": "93b1acd115222460deccec9e79dedf03d7c88b8d154898a262427debdce502c7",
+    "packages/engine/src/first-glow-observer.ts": "31cefaf7857ccf660d2b1c8d44fca7befe6ea548012867d3935382f84b921619",
+    "packages/engine/src/first-glow-pattern-preparation-fixture.ts": "ed8083bdd041e53aee3a675d420dca3ed8a98f0f569c8c99f470f379488cbd87",
+    "packages/engine/src/first-glow-pattern-preparation.test.ts": "9c788c0dadf6610d948f6b9126199e9fec4bd2818879a40edb2262a7e99287a2",
+    "packages/engine/src/first-glow-pattern-preparation.ts": "7be7d514d16034c05a61278832f538d31a1f97c39e5bd7735872d29438c61c07",
+    "packages/engine/src/first-glow-pattern-retry.test.ts": "07202a72d7bfa1c546479bc3b2d946a8242bb99d0ba62b302449aa00b53d92f3",
+    "packages/engine/src/first-glow-pattern-retry.ts": "f98128f0ce2b8ce87da87743b2489c9467901bfdfd9c355a2ebb12bb3ddd15fd",
+    "packages/engine/src/first-glow-post-probe-continuation.test.ts": "127b265c353e83b135e06de519b569cc50a2adbdd4f3fe7123509f8145435754",
+    "packages/engine/src/first-glow-post-probe-continuation.ts": "491da873beacdcbbea7a47ea3835ee928900aabc3193b7e61a20730d29dfb33c",
+    "packages/engine/src/first-glow-recovery-admission.test.ts": "89f9e43e4abab4656449cc76fd9b82eff73409abdb2e8cf560687744b43ff7a1",
+    "packages/engine/src/first-glow-recovery-admission.ts": "413148aac101fe4ab3baac06ed5583e8d260d6712067230bc9aebd762b5fd6cd",
+    "packages/engine/src/first-glow-reflection-capacity.test.ts": "9814237ee384cd8106883d091d4d950b980867ea6c88d0ae1bd94173a5334c0a",
+    "packages/engine/src/first-glow-reflection-capacity.ts": "8ea62301f2e7da0cfc98792b57015f8caaa9530d353dd8ba2a6baac1f3ad4dfa",
+    "packages/engine/src/first-glow-reflection-memory.test.ts": "00298196ad0aac448f4b597d5be198f239a25e9773ac040caff2e5ef038979b0",
+    "packages/engine/src/first-glow-reflection-memory.ts": "415140b1ff42aacfc3c53d32394312ea0967821f681fe0bf26e3544d1a7e0ba1",
+    "packages/engine/src/first-glow-route-patterns-fixture.ts": "3f66365861ac46dc489250ebf58fc601e07d9714cdf9066fd9d17d77554c6aba",
+    "packages/engine/src/first-glow-route-patterns.test.ts": "0b9a7cbd58ac290e293a00e3c2ae2f1a7173eb7a8627ca9fb551f58d73ab4e27",
+    "packages/engine/src/first-glow-route-patterns.ts": "01f63debb711896781452d45a1611f4a39a3098943e77abbc0906fc7aca54f29",
+    "packages/engine/src/first-glow-second-area.test.ts": "6e388ca92731621b445e057e713c627a82f267129f15060297eac92bbe7b9dae",
+    "packages/engine/src/first-glow-sharing-admission.test.ts": "5cc00ee003828b4fcdb96942af89ce60263fbc3f0e105cc4ac2e069f8ac34ae2",
+    "packages/engine/src/first-glow-sharing-admission.ts": "6e731cb205704f17e1d48605846d685fd72e45782db836d605f6ca22ecd007d1",
+    "packages/engine/src/first-glow-sharing-continuation-fixture.ts": "fcbccf031cfb1654aa07ccd8b17897e125bf40ef9a95f9159abc3c22ade17b17",
+    "packages/engine/src/first-glow-sharing-continuation.test.ts": "4b3bc0fccecdbdd5c0a19be18dbee3ad710ed891bdb7bc35cf9e97069aae3b33",
+    "packages/engine/src/first-glow-sharing-continuation.ts": "dd4dd1b5c5a0915ddb4a8af25db44fe941331d3b349ed0f28eec9809b96e005c",
+    "packages/engine/src/first-glow-sharing.test.ts": "edecd1b71a664d7c39ea9b0a4b745b3978bc448be4e70c84bfc83ccc66059461",
+    "packages/engine/src/first-glow-social.test.ts": "2c0367b62a852e6b1b4a36177122716324d3d509d6ed5cd9d4db3cb2d114e6f1",
+    "packages/engine/src/first-glow-social.ts": "27daf3a5eca08ceae3840a604a98a15ef16bc86752fd717c418421e29ef8d1ab",
+    "packages/engine/src/first-glow-staging-effects.test.ts": "6bfc05195033b3e6c45e9618123a83389b4708d718b77b16f34e049ef48d5163",
+    "packages/engine/src/first-glow-staging-effects.ts": "8ae349caf9806af1365d9495eea95e6e99d8692510f571d96d232781832d9bc9",
+    "packages/engine/src/first-glow-vertical.test.ts": "152dc06b19646c8e5da79b6154cde7ed557a6dc16fbb24f0801466523de3669a",
+    "packages/engine/src/first-glow.test.ts": "ebb073c41e9f9695eeeda38d4180f887bc640edb49f78ea46887bb83adcc3a5e",
+    "packages/engine/src/index.ts": "3037be86d5dddaa4cab84b4b83d5eb3b473ac14e1458db9d7df96a285569efad",
+    "packages/engine/src/resonance-anchor-contract.test.ts": "7c3abda755fde7b163149d799d0f83ca187ffdfb840ab10d7da087f32aebf468",
+    "packages/engine/src/resonance-anchor.test.ts": "ea9eb732b8d3bc8e59e2265da23893f5bd62dd4710c9e96d3634232e447abe25",
+    "packages/engine/src/resonance-anchor.ts": "592c45ac9d4cc3372b6e9d1a98fcd3fa9afd712028629f6b36f18b0cff1ee9c4",
+    "packages/engine/src/resonance-crossing-rule.ts": "76413aca5608c0c943ce507cd8c7ad1d41e8db0d46acd8db90d9db5531453cf2",
+    "packages/engine/src/resonance-crossing.test.ts": "b85b0e8049838f6ed5d3bac83bb8a752d280db8adbb594a7150e9f1c20254da8",
+    "packages/engine/src/resonance-crossing.ts": "f13a8cba0204774365093838c9795f1ca8f13efe2db3a26b27d5ed4a6aa9c8f1",
+    "packages/engine/src/resonance-loom-choice.test.ts": "bcf7d47826b231d602f1b9769640b914e897791e7f58ab4660ec545bf7299d27",
+    "packages/engine/src/resonance-loom-choice.ts": "332bdb2689db4230935ac51910930f96e295cec73af104e0ae95548f9c180b36",
+    "packages/engine/src/resonance-observation.test.ts": "f3a847455b97c407e20a25d02f6cbfc05fad56bc191855106951732a0e51e7cd",
+    "packages/engine/src/resonance-observation.ts": "3999a195d1aa9040c41e4365d3602d627ab44efcaa0e43254fb63fc5c4af1719",
+    "packages/engine/src/resonance-transition.test.ts": "784dc15af6818e432870ac28c22047867620e7e004b2662afaccdb76916b5ab2",
+    "packages/engine/src/resonance-transition.ts": "96a4b390c6fdc20561dbba9979e5db6cd6406b6830a9a72b2192478a72bdfa91",
+    "packages/engine/src/social-scenarios.test.ts": "ee9514a0468e99415dfa91c0f95aa9a5593ab2d317c705ed767f99bbe912abf7",
+    "packages/engine/src/structured.ts": "b5e6bfa5051b4f23e1994cce45bee8ed9ffaa321326fb413dac410e0ecef0de8",
+    "packages/server/src/backup-lib.ts": "24c53014260720612d230980dc3efee66070e6a8dae4ca25436ff9cbe0308c5f",
+    "packages/server/src/backup-offsite-cli.ts": "bfa146c57dffe06e6e4c6614578996b594a43f803b87b28bf7f798646c050781",
+    "packages/server/src/backup-offsite.test.ts": "7a8a95cf2b36f6dda28a50492a55f8d0ea95771135757ca00c35c42fc25f929d",
+    "packages/server/src/backup-offsite.ts": "dc32e9520714db024667f2980c977a8840c3902bb51c8e876936b3043eadcd2e",
+    "packages/server/src/backup-replication.test.ts": "6b5fbf495f16915e11b7960727fd1227804de69ec0b1218cb77f8dc5867ef19f",
+    "packages/server/src/backup-replication.ts": "74b7374827b41db0e749b4de947f94be002c7d018d4aea2134c8197b169c487e",
+    "packages/server/src/backup-snapshot.test.ts": "b2fc6a4ed07f613fce62c99524882587ded8d26b1b2478f60d7c406f152bd273",
+    "packages/server/src/backup.ts": "7af581a531c700def11146f3936d59b93d598dde3bf5eb9f2804960f823e479a",
+    "packages/server/src/chronicle-events.test.ts": "4409717e67e9c98442ee1706377cbf0bb2fe281ee17cbb3d505ff4a53f2dcbad",
+    "packages/server/src/chronicle-events.ts": "bbaaaeea586c6c2548b0f99431f277c29986cdb6bd5860d92aab4a4b68fbd10d",
+    "packages/server/src/chronicle.test.ts": "0a053c78706d31600ed3ead3cdd01dc90220bb3b2a9975b0ce51fefdda8a5652",
+    "packages/server/src/first-glow-ai-runtime.test.ts": "86e945239c3f9fad49dc6a7077f6847b22e813d442bf42d37802284a46a21d9e",
+    "packages/server/src/first-glow-ai-runtime.ts": "f9ac492f6213212a8e01163dc9da7addd811a2837489b8aad3f33dbba78be964",
+    "packages/server/src/first-glow-assets.test.ts": "2e5d6f14d348e38441d73f1e74c49985594cf2ee1bf22da699ba9ed9bae443ff",
+    "packages/server/src/first-glow-backup.test.ts": "388d8d55ff2ffac8780476f8ac1ed1e23361da4c8c156575ca28a92afa7aebde",
+    "packages/server/src/first-glow-command-acceptance.test.ts": "b0898a50ccba3281e3ad64b11a2254fd810260bcb897234333a2a5c4c5c1a829",
+    "packages/server/src/first-glow-commands.test.ts": "2da5337ed84a5e8637cf0070cfef044251397425b1c061176f66133768bb2db6",
+    "packages/server/src/first-glow-goals.test.ts": "1233c97d5f29675d0f93fbfcef1254fa2d748a7c52cedea5fafa682d83dad646",
+    "packages/server/src/first-glow-restart.test.ts": "2927aacb36e8322a8810babd04c43abb397fd58083b6b7abd1e92a04c77aabe1",
+    "packages/server/src/index.ts": "b7108a42a4ea373fe1f35c404a29fe2f4f8d8b0e1b9e7925ab61a99a1f77a656",
+    "packages/server/src/observer-auth.ts": "3288fdf2864b386c7ceb242accddc01449858a710b24ba1b3f895da5bc632d45",
+    "packages/server/src/owner-auth-acceptance.test.ts": "0eb19841b6ab494d8ec69ef012da19a70d195cbd12ca327bede604db52aaba89",
+    "packages/server/src/owner-auth.test.ts": "fde7c1bfdabd764e1ec652ffb47f058d8f3ad03442ea7b6ff9e395cd4323dca9",
+    "packages/server/src/owner-auth.ts": "cd16de1b88ab607ca27c2b3d839378364fc34b10a03f7592e92dc79b093cd140",
+    "packages/server/src/pulse-gate.test.ts": "370db105e69216f67c75d87a9f1ebb1bcabc7f874598bdc83e066d7361d2408c",
+    "packages/server/src/pulse-gate.ts": "06ff4f2f84e481eb6106c1739ff5d312df759f30e7b412b7fca2bb887f3d07ef",
+    "packages/server/src/security-p4.test.ts": "dbb457a6273d3ed71a85c77446b00c6348b9380dc0e7ea930955c7f92a902c37",
+    "packages/server/src/security-p5.test.ts": "d27bde23ee0db3f6b87bbfb9fe168efec91e4061aaa11c3dd0a0875896760ec5",
+    "packages/server/src/spark-ai-budget.ts": "be5f0b835f85f1a12e23feb0ed07c7d830438c569245723c2b1603a2ae99a69d",
+    "packages/server/src/spark-ai-live.test.ts": "9d63d8e9e214be2a98eac9fe89477cdd5c00b3c18646adf2e787a5cadb8f138f",
+    "packages/server/src/spark-ai-live.ts": "cd2038aa0adf2f82ca3674ecdeb0c4bab7147eca2939823be12a1a1443dca577",
+    "packages/server/src/spark-goal-ai.test.ts": "8c871e2434edb6ed1a13e1e5c8c0608cc7d1bdac7b93fccb1545992f315f0c2d",
+    "packages/server/src/spark-goal-server.test.ts": "b61cc920705cc051219f98948dac509795d41de20e72a13e25606731c2470e6e",
+    "packages/server/src/state.test.ts": "b70fbe80502d5ffd406e46f2a1636fd17637e0253fdf016e133035c13a8a1968",
+    "packages/server/src/state.ts": "46c9a33b274908794db3f6377ce052cc190c37f6d44e0f5c19e678aa38181b2b",
+    "packages/web/src/connected-observer-e2e.test.ts": "734c4a9d6ca6070fcf3c9288289db1322dfcd64ce56dc7dab0cff77607cc20ab",
+    "packages/web/src/firebase-auth.ts": "1e3874fc95147e6045de6e53af22081a48a335d1b826516796017b7f05b1007e",
+    "packages/web/src/first-glow-assets.ts": "b78cff06a97addde3dc3047f0bc402dbae1fb3b535da032aabd21623c6133998",
+    "packages/web/src/first-glow-atmosphere.test.ts": "64b579877ff32306897302c1ac5f2aede47efbfa19027e3790b537139f15e56f",
+    "packages/web/src/first-glow-atmosphere.ts": "9218c021cce3db4f20d0adf5d26b4780eee97c681162886c8bccc42a7482f00b",
+    "packages/web/src/first-glow-audio-ambience.ts": "72ee76fec8ed6926e2d62abbfd4921a8b5b8165c35d1c7174aebcf50bb9fbe05",
+    "packages/web/src/first-glow-audio-p5.test.ts": "5a21ad6a80c58a24851171000c29de6d17e2bad25919a84b2529a36ae20bc60c",
+    "packages/web/src/first-glow-audio-runtime.ts": "8ecfc2806bb85059210f8aa922cdd02686b3f5baba3917a93796e299080cd9e6",
+    "packages/web/src/first-glow-audio.test.ts": "2ff1097b2dc109e290c3c260c235adb75b8dcd34521928f48e53d7877e2b05e6",
+    "packages/web/src/first-glow-audio.ts": "c3ca5f4badef2df46fb3e90ca17ba8fd66e0f44e3d28c993e6b75bb41d10b9e2",
+    "packages/web/src/first-glow-e2e.test.ts": "2f9ef101b3aadab61dbdd7f2ba9fcb0ada33d56e8a21acf299d996f6e36d7eb6",
+    "packages/web/src/first-glow-header.test.ts": "6dcac5c576d3c9a3f84d595f4d18bda4a4aa084e4077d32c018953926c7f6d80",
+    "packages/web/src/first-glow-identity-e2e.test.ts": "b7e2fa86dc8e2071c3aa20fa9d0b86c4c0f2f64864a631a2f275a34fe8b828cc",
+    "packages/web/src/first-glow-identity.test.ts": "a17d3e7926649c384c3ebe78ff6a45d45907940b2376c439ec17fb40ed0b3da0",
+    "packages/web/src/first-glow-issue-42-e2e.test.ts": "37bf12f45c125d54630600b2223d08f0e15494c4c71ace7a9b494b2c19437f7a",
+    "packages/web/src/first-glow-lifecycle.ts": "e51861539f12b6fddb9ad379b7fd834aefcf8bb9e6ce0e4ef1dae1d07262df20",
+    "packages/web/src/first-glow-live-panel.test.ts": "e3ec6433d733a2fbc22e014c67040ce88129386011fe91229e90d8e67adc03cb",
+    "packages/web/src/first-glow-overlay.ts": "14d9ad3ed4e637074474c9b30ed5272507335ccc4ef83d3472e003399f1016d6",
+    "packages/web/src/first-glow-playback.ts": "0c415918a15be81436dcf1e24e38b1211646a1d4ec3dd6b6f47f5284aae01e16",
+    "packages/web/src/first-glow-rendering.test.ts": "80807173c21787a598a547842f1dc398cbb265f59ea04dc660322e5b6b506a86",
+    "packages/web/src/first-glow-rendering.ts": "242bc52b1aacd156ad6fcd5314a0a63dc695298352ea2e674774fe9696869685",
+    "packages/web/src/first-glow-scene.ts": "c899b580e922f022684ac1021b94bbb09d97f7259f150014cded0d7c3bdcc595",
+    "packages/web/src/first-glow-settings.test.ts": "5934608d617c733cdce0213752f43f3729a0a5c593196c61bf3c9c0ab415a876",
+    "packages/web/src/first-glow-settings.ts": "a8e11f147c1f6cc5b60239c5e1df9c9bda3d951467d043778f8351f22ede2871",
+    "packages/web/src/first-glow.tsx": "058c038092b1ec1fbb7df840e8de6478cdf6a15db635a4c91cefafb2db974560",
+    "packages/web/src/fixtureDecoder.ts": "01ce7f712ee4cd0ccc1f663f5c26ef568b3c9539bb8ffa73613f57fae9160a62",
+    "packages/web/src/follow-mode.test.ts": "68d316d9d86d3a9fdf58e55ad1b92ef8ef6ba14a1aa1a3e05bb606f3411425af",
+    "packages/web/src/follow-mode.ts": "42b2c250a1fbf3c2848f569f351419b4728c3ffa22999dbb49474eb829e55bce",
+    "packages/web/src/history-sequencing.test.ts": "caab599fe814b5f10264bb5b162aad9e778d4a40e661971d92358ff6413dda5a",
+    "packages/web/src/history-sequencing.ts": "fa50c3554347c5c5c531d5fcbb587b4782404867a727efffcb62cfd750f302a5",
+    "packages/web/src/history-viewer-e2e.test.ts": "8e5a88114af940e15b17717dfc68eb18de461f58718cf9d65c2642f75aac85f4",
+    "packages/web/src/hosted-auth-boundary.test.ts": "11fe1b614cc3815311a036fa934a17f94f55514255d78e9075f8853fd432d530",
+    "packages/web/src/hosted-auth-boundary.ts": "91d9455300d23059d9d314a8916e974aa3517b6397cdb668a041fa19f2d18ee1",
+    "packages/web/src/hosted-refresh-firebase.ts": "7e067c8cd05cb83181e096176f505fa6ad03589f67ac68b6bfdf125e33301e5c",
+    "packages/web/src/hosted-refresh-harness.test.ts": "86b2eab76753dfc3a22690c2ab0e82d09bba8399039b16b0f34e5325d4d15554",
+    "packages/web/src/hosted-refresh-harness.ts": "64994f1a7a20363a0572515223aca0d6e8385bc7aac1111bd1cdcda7e9647799",
+    "packages/web/src/main.tsx": "e7a7db76a61d682ee394892059e7f832ce15871dbc0f269ff5f4d97be2de188c",
+    "packages/web/src/observer-navigation.ts": "b7e4e55932eae2d6cc18bc6491faa8c653d1ce32cabb083ed673711ef55463e1",
+    "packages/web/src/observer-outage.test.ts": "f52f5b1119bf23ea983da967304b80814bb4b0e59f9a0d4f209dbf9058750022",
+    "packages/web/src/observer-session.test.ts": "f1bfadaff712816e82471f98dcfd3f40dc5d3830e03c71455c9cada1a34bc7cf",
+    "packages/web/src/observer-session.ts": "0204a233d97a515a864e4a025f03b8f97445c7acba82cda9514627636abaec7b",
+    "packages/web/src/observer-zoom.test.ts": "d5021d41ed045d010724a4b61cb1e36b5a96a09481e212ead360f37d781d0055",
+    "packages/web/src/styles.css": "212b439ebacf949fe8cf7cb214062f628d1a5290332f208a6a0f2c5f141073a5",
+    "packages/world-data/src/canonical.ts": "825ee74fec1660868f2d397aa4146d02c3042434a7ed959e82fca7d02f2c026a",
+    "packages/world-data/src/first-glow.test.ts": "9f4bb062ecd9cc20e2308c6db77655d1dba057d3eb6f360d26e107b8ae171f81",
+    "packages/world-data/src/index.ts": "d85615ef61c362fbd2dc4fc209401911298022178a7da4d2556d873f81fa0bdd",
+    "packages/world-data/src/spatial.ts": "1bd9667df192015e7fa403c2ff795edf7ac9ef50a1c0737813537c98793e430a",
+    "packages/world-data/src/types.ts": "1bde334575a494e3749de3a5fd10454ad38c619066a4c0f08b3ffe93775cf157",
+    "packages/world-data/src/validation.test.ts": "e791d73cf1e1cd91e71f2215aadd006dec73975f337d5802410ea94ab5b9c542",
+    "packages/world-data/src/validation.ts": "bec4fc2dc2a4c821ad1a4cb3e011a73f37d121ff0d3b53299f635c57bd8b96f4",
+    "scripts/run-ai-local.mjs": "19ed7a7198d702f1ce2f1149334c602cfc1fc8b95db7ff4350b3b0c35869f2de",
+    "scripts/spark-ai-broker.py": "9d866802d229cfef65586f8d34bb33f73fc1b266239853362e451fffb5fb4690"
+  },
+  "checks": {
+    "build": "passed",
+    "rootTests": 229,
+    "providerRuntimePersistenceTests": 18,
+    "httpRestart": "passed",
+    "publicationVerifier": "not run",
+    "browserVisualAcceptance": "not run"
+  },
+  "qualification": {
+    "sharingContinuityPassed": true,
+    "ordinaryMultiOptionFeasibilityPassed": true,
+    "liveAIGoalSelectionAndCompletionPassed": true,
+    "sustainedBoundedGoalContextPassed": false,
+    "s019Status": "in_progress",
+    "remainingGap": "Bound relationship evidence and distinguish local wire rejection from provider failure"
+  },
+  "authorization": {
+    "ownerRequest": "Fix contact continuity after sharing, verify multiple feasible goal choices, then rerun S019 using the remaining USD 4.00",
+    "previousPayloadAndDestinationApprovalRetained": true,
+    "noAllocationIncrease": true
+  },
+  "delivery": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "humanReview": "deferred"
+  }
+}

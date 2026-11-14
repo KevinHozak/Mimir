@@ -31,8 +31,17 @@ export function startObserverStream(options: {
   let controller: AbortController | undefined;
   let timer: ReturnType<typeof setTimeout> | undefined;
   let rotate = false;
-  const connect = async () => {
+  let connecting = false;
+  const scheduleReconnect = (drain = false) => {
+    clearTimeout(timer);
     if (stopped) return;
+    // Abort/cancel resolves before the peer necessarily observes socket closure.
+    // Rotation uses the same drain interval as reconnect instead of a zero-delay race.
+    timer = setTimeout(() => { timer = undefined; void connect(); }, Math.max(drain ? 100 : 0, options.retryMs ?? 3000));
+  };
+  const connect = async () => {
+    if (stopped || connecting) return;
+    connecting = true;
     const current = new AbortController();
     controller = current;
     let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
@@ -66,11 +75,12 @@ export function startObserverStream(options: {
       await reader?.cancel().catch(() => undefined);
       reader?.releaseLock();
       controller = undefined;
+      connecting = false;
       if (!stopped) {
         if (!rotate) options.onDisconnected?.();
-        const delay = rotate ? 0 : (options.retryMs ?? 3000);
+        const drain = Boolean(reader) || rotate;
         rotate = false;
-        timer = setTimeout(() => { timer = undefined; void connect(); }, delay);
+        scheduleReconnect(drain);
       }
     }
   };
@@ -81,7 +91,7 @@ export function startObserverStream(options: {
     refresh() {
       if (stopped) return;
       if (controller) { rotate = true; controller.abort(); }
-      else { clearTimeout(timer); timer = undefined; void connect(); }
+      else scheduleReconnect(true);
     },
   };
 }

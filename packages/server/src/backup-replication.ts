@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { createHash } from "node:crypto";
+import { fileDigest } from "./backup-file-hash.js";
 import { existsSync, readFileSync, rmSync, statSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 
@@ -26,8 +26,8 @@ const defaultCommandRunner: CommandRunner = async (command, args) => {
   return { stdout: result.stdout, stderr: result.stderr };
 };
 
-const sha256File = (path: string) => createHash("sha256").update(readFileSync(path)).digest("hex");
-const md5Base64File = (path: string) => createHash("md5").update(readFileSync(path)).digest("base64");
+const sha256File = fileDigest;
+const md5Base64File = (path: string) => fileDigest(path,"md5","base64");
 
 function parseJsonObject(output: string): Record<string, unknown> {
   const start = output.indexOf("{");
@@ -63,11 +63,13 @@ export async function replicateBackup(
   const bundlePath = `${backupPath}.bundles`;
   if (!existsSync(backupPath) || !existsSync(manifestPath) || !existsSync(bundlePath)) throw new Error("bundle-inclusive backup unit is incomplete");
 
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  if (manifest.aiBudget && (!existsSync(`${backupPath}.ai-budget.db`) || sha256File(`${backupPath}.ai-budget.db`) !== manifest.aiBudget.sha256)) throw Error("Allocation backup missing or changed");
   const archiveName = `${basename(backupPath)}.${now.toISOString().replaceAll(":", "-")}.tar.gz`;
   const archivePath = join(dirname(backupPath), archiveName);
   const backupName = basename(backupPath);
   try {
-    await commandRunner("tar", ["-czf", archivePath, "-C", dirname(backupPath), backupName, `${backupName}.manifest.json`, `${backupName}.bundles`]);
+    await commandRunner("tar", ["-czf", archivePath, "-C", dirname(backupPath), backupName, `${backupName}.manifest.json`, `${backupName}.bundles`, ...(manifest.aiBudget ? [`${backupName}.ai-budget.db`] : [])]);
     if (!existsSync(archivePath)) throw new Error("tar did not create the backup archive");
     const archiveSha256 = sha256File(archivePath);
     const archiveBytes = statSync(archivePath).size;

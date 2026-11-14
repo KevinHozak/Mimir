@@ -1,5 +1,5 @@
 ﻿---
-depends_on: ["MIM-S003","MIM-S001"]
+depends_on: ["MIM-S003","MIM-S023"]
 id: "MIM-S004"
 parent: ["MIM-E001"]
 priority: "medium"
@@ -8,6 +8,10 @@ status: "in_progress"
 title: "Run the approved bounded model-benefit comparison"
 type: "enhancement"
 ---
+## Dependency transfer — 2026-11-13
+
+S001's pending human-review gate moved to [MIM-S023](MIM-S023.md); S001 technical closure does not release this matched study for execution. The operational online-world epic is separate from this study. Earlier S001 references below retain their historical wording.
+
 ## Owner-selected live Spark pilot — 2026-11-08
 
 The owner selected real Spark AI with a **USD 5 total pilot allocation**, replacing privacy-paperwork admission for this local pilot. [The live pilot guide](spark-ai-local.md) and [verification](evidence/spark-ai-live-2026-11-08.md) describe the implemented path. One real response was validated and committed; the observer is paused. This is operational pilot evidence, not completion of the matched S004 study or independent S001 human review. Earlier study requirements and no-call statements below describe their dated study scope; the frozen v4 manifest is retained unchanged and is not the current live application's source fingerprint.

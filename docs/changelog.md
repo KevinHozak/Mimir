@@ -1,5 +1,53 @@
 # Mimir Changelog
 
+## 2026-11-13 — Expanded frontier and cooperative goals (S020, local)
+
+- Author a 64×40, three-region frontier with distributed resource access, discoveries, three genuine rendezvous sites and two trace weaves; retain old immutable bundles and histories.
+- Bind new goals to local discoveries and actual destinations. Distinct paid contributions improve site-specific rest; obsolete goals end after local observation, and project credit does not invent remote witnesses.
+- Add whole-map zoom, project/region views, static terrain batching and viewport-sized mobile rendering. Correct review-harness origin, selected-bundle, workload and accessibility capture boundaries.
+- Verify 39/44 completed goals across two 240-pulse rules histories, real inter-region travel/meetings, both shared projects in each history, default 12-Spark HTTP persistence, restoration and 235 root checks. Resource pressure and a 0.1 ms desktop frame-p95 review-threshold miss remain recorded. [Evidence](evidence/first-glow-frontier-2026-11-13.md).
+
+## 2026-11-13 — Bounded goal context and final S019 local qualification
+
+- Project new goal context into bounded Spark-local memory, current trust and recent commitment outcomes with citation/record omission counts and stable hashes; preserve historical contexts and receipts.
+- Report local oversized/invalid requests explicitly before reservation, separately from provider failures. Keep the 16 KiB cap and all allocation controls.
+- Qualify all seven saved failures offline, then record 4 genuine AI goals (3 completed) in a fresh 360-pulse live run with zero local wire rejections. Verify unchanged prior worlds/receipts, backup restoration and provider-free replay. [Final evidence](evidence/first-glow-goal-context-live-2026-11-13.md).
+
+## 2026-11-13 — Sharing-safe goal worlds and corrected live run (local)
+
+- Enable the existing versioned sharing-continuation prerequisite for fresh goal worlds; preserve recorded histories and normal non-goal defaults.
+- Add exact-balance, completed-receipt-only, audited continuation of a stopped allocation without refunds, cap changes or receipt resets.
+- Verify ordinary multi-option eligibility and complete a real AI-selected explore/mark goal at pulse 127. The 360-pulse rerun retains six completed, seven expired and five active goals.
+- Preserve the prior world/receipts and verify restored AI goal/receipt replay. Seven later contexts exceeded the unchanged wire cap before spending, so S019 remains open for bounded relationship context. See [corrected live findings](evidence/first-glow-goal-sharing-live-2026-11-13.md).
+
+## 2026-11-13 — Bounded live goal qualification findings (local)
+
+- Run the fresh six-Spark goal world through pulse 360 after explicit payload/destination and allocation approval; retain one real social interpretation matching the rules alternative.
+- Observe eleven single-option rules goals: three completed, four expired, four active at cutoff. No paid AI goal selection occurred, so S019 remains open for goal qualification.
+- Trace retained mark/charge contacts after sharing, preserve all 361 checkpoints and the genuine response through backup/restore, and verify provider-free replay.
+- Retain one new USD 0.50 reservation, leave USD 4.00 unused, and stop spending/shut down the server. No gameplay changes or deployment; see [live evidence](evidence/first-glow-goal-ai-live-2026-11-13.md).
+
+## 2026-11-13 — Bounded AI goal connection (local, uncommitted)
+
+- Admit goal choices on authoritative pulses through the existing Spark AI provider, durable allocation, receipt cache and stop controls; share Reflection capacity with social interpretations.
+- Add exploration/shard examination as a consequential alternative, with Spark-local personality, trust and commitment context. Skip model calls for a single feasible option.
+- Persist selected alternatives, rationale, receipts and selection events; reuse receipts after rollback/restart and keep historical reads provider-free.
+- Preserve timeout reservations, reject late responses and retain the consecutive-failure stop across restarts. Add a separate paused goal-world launcher without increasing the allocation or upgrading old worlds.
+- Verify with synthetic transport and isolated HTTP/restart checks. Real-model goal qualification and deployment have not occurred; see [S019 evidence](evidence/first-glow-goal-ai-2026-11-13.md).
+
+## 2026-11-13 — Persistent Spark goal foundation (local, opt-in)
+
+- Add durable goal selection and ordered explore/meet/mark execution, with physical evidence, actual costs, recovery priority, bounded expiry and explicit blocked outcomes.
+- Retain local proposal context/source, deterministic fallback and provider-free continuation; preserve absent-policy histories and normal startup.
+- Add an offline controlled review and SQLite/bundle-inclusive restore regression. The positive fixture uses two independently owned contacts and a fake provider; it does not establish ordinary-world emergence or live AI benefit.
+- Reprioritize delivery under [E003](../issues/MIM-E003.md); transfer S001's deferred human acceptance to [S023](../issues/MIM-S023.md). Implementation is uncommitted and unpublished; see [foundation evidence](evidence/first-glow-goal-loop-2026-11-13.md).
+
+## 2026-11-10 — Persistent route patterns (local, opt-in)
+
+- A surveyed Pattern Shard completion can leave an identifiable public return-route pattern, physically encountered by another Spark before a later use or decline
+- Record actual arrival or interruption, with linked Chronicle creation, encounter, decision and outcome evidence; no free charge, inferred savings or automatic trust reward
+- Preserve existing histories through an explicit fresh-history policy; see [offline evidence](evidence/first-glow-route-patterns-2026-11-10.md). Human interest acceptance remains open
+
 ## 2026-11-09 — Wild Cache choice before probing (local, opt-in)
 
 - Record a deterministic probe-or-conserve decision before effects at valid Wild Cache contact
@@ -323,3 +371,61 @@ This is a functional record of meaningful delivered changes. It groups related w
 
 - Added a standalone memory-only Firebase/production-transport verification harness, fail-closed admission and independent browser cutoff with automated synthetic privacy, refresh, cancellation, navigation and driver-loss tests. No hosted diagnostic endpoint or deployment is included.
 - Prepared the [MIM-S008 approval packet](hosted-token-refresh-approval-packet.md), retaining the USD 0.15 cumulative ceiling and blocked live readiness; local implementation is not proof of genuine hosted SDK refresh.
+
+
+### Validated activity completion - local, 2026-11-10
+
+Added explicit fresh-history `validated-activity-completion-v1` opt-in. Same-cell and traveled exploration/mark/pattern completion now originate at validated arrivals, with recorded knowledge and single per-pulse activity costs; missing-policy histories preserve previous outcomes and unknown versions fail. Regression coverage includes invalid arrivals, resource accounting, SQLite normalization/restart and pre-fix history equivalence. Ordinary fresh-history findings are recorded separately from controlled demonstrations and human acceptance.
+
+
+### Pattern-guided reconsideration - local, 2026-11-10
+
+Added explicit fresh-history pattern-guided-retry-v1 opt-in for one cache retry after conservation followed by a later pattern encounter. Selection and arrival share recorded authorization; needs, arrival checks and per-cache limits remain enforced. Original conservation and subsequent choice/outcome persist across restart. Missing-policy histories keep previous behavior; default/live startup is unchanged. Ordinary emergence results and verification are recorded separately.
+
+
+### Pattern-trip resource preparation - local, 2026-11-10
+
+Added fresh-only pattern-resource-preparation-v1 goals with real charging/resting, exact route budgeting, bounded preparation, explicit deferral, and unspent retry preservation until validated funded dispatch. Actual contact conflicts and changed resources cannot consume a planned retry; arrival checks remain in force. Goal/action evidence and progress persist across normalization/restart. Older policies remain unchanged; ordinary-run findings and human acceptance are recorded separately.
+
+
+### Sharing-safe continuation - local, 2026-11-10
+
+Added fresh-only sharing-route-continuation-v1 opt-in. Sharing recipients retain valid travel/contact execution, avoiding stranded destination reservations; invalid plans clean up their own route/reservation coherently. Partial movement progress and existing transfer/sustenance accounting are preserved. Added arrival-gating, cleanup, aborted/zero sharing, SQLite persistence and compatibility coverage; ordinary-history outcomes are recorded separately.
+
+### Recovery contact admission - local, 2026-11-11
+
+Added fresh-only recovery-admission-v1 waiting and atomic immediate-contact admission, shared by ordinary recovery consumers and pattern readers. Stable waiting age prevents returning consumers from retaining priority; valid traveler reservations remain intact. Preparation distinguishes conditional resource feasibility from actual recovery access, rechecks available first contacts, and preserves goals/action limits/retries while waiting. Existing charge accounting, arrival gates and preparation ordering remain in force. Queue restart/validation, contention, cancellation, alternate-contact and accounting checks are covered. Default and absent-policy histories remain unchanged; [ordinary-history evidence](evidence/first-glow-recovery-admission-2026-11-11.md) is separate from controlled verification and human acceptance.
+
+### First cache expedition preparation - local, 2026-11-11
+
+Added fresh-only `initial-cache-preparation-v1` goals after exploration, independent of public-pattern knowledge. Real bounded recovery funds the selected cache route through shared atomic admission; actual departure and arrival retain the resource/contact gates. Initial commitments, interruptions, recovery progress and evidence persist without granting another initial attempt or weakening pattern-retry authorization. Default and absent-policy histories remain unchanged. [Verification and ordinary histories](evidence/first-glow-initial-cache-preparation-2026-11-11.md) are local and unpublished; S001 still requires natural useful reuse and human review.
+
+### Funded post-probe continuation - local, 2026-11-11
+
+Added fresh-only `post-probe-continuation-v1` goals that retain a real surveyed shard through care/recovery and resume ahead of unrelated marking. Actual recovery shares the originating preparation budget and common contact queue; the full final shard leg is rechecked at dispatch and arrival. Survey provenance, preceding actions, commitment and completion/interruption survive persistence without granting another cache retry or upgrading older histories. [Local evidence](evidence/first-glow-post-probe-continuation-2026-11-11.md) records 184 root checks, nine state/SQLite checks, compatibility/restore checks, and mixed ordinary results: five patterns, two encounters, no guided uses, and review/12 still unfinished at 360. No commit or publication; S001 remains open.
+
+### Bounded care recovery fallback - local, 2026-11-11
+
+Added fresh-only `care-recovery-fallback-v1`: resource-infeasible nonurgent care-first survey goals may prepare charge then execute required rest, retaining the 90-readiness departure gate, urgent rest below 70, fair admission and existing resource/action bounds. Actual rest evidence persists; older/default histories retain their rules. [Local verification and ordinary evidence](evidence/first-glow-care-recovery-fallback-2026-11-11.md) records 194 root tests, ten state checks, 52 older-checkpoint comparisons and restore checks. Six fresh histories yield 12 patterns, 19 encounters and one guided use ending in conservation; review/12 creates a pattern at 311. S001 remains open; no commit or publication.
+
+### Geometric shard-route policy - local, 2026-11-11
+
+Added fresh-only `geometric-shard-routes-v1` to distinguish conditional route knowledge/feasibility from actual shard admission. Surveys and preparation may recognize a busy shard's geometric route; funded goals wait without displacing owners or spending departure commitments. Care, sharing, resource/action limits and actual dispatch/arrival gates remain authoritative. [Verification and ordinary results](evidence/first-glow-geometric-shard-routes-2026-11-11.md): 202 root tests, 11 state checks, 58 older-checkpoint comparisons and restore checks pass. Six fresh histories yield 14 patterns, 20 encounters and zero uses; review/12 regresses to no patterns by 360. Defaults and older histories remain unchanged; S001 stays open. No commit or publication.
+
+### Bounded sharing admission - local, 2026-11-11
+
+Added fresh-only `bounded-sharing-admission-v1`. Discretionary gifts must leave the selected active recovery itinerary funded after transfer and donor upkeep, without extra planned draws/actions; urgent/current needs and care remain protected. Refused proposals resume normal selection, while admitted transfers retain actual costs. Scratch forecasts alter no source, queue or contact ownership; older/default histories retain their rules. [Local verification and six histories](evidence/first-glow-bounded-sharing-admission-2026-11-11.md): 211 root tests, 12 state checks, 64 older-checkpoint comparisons and restore checks pass. Fresh runs yield 16 patterns, 22 encounters and zero guided uses; review/12 creates a pattern at 298. Eighteen survey goals complete and three remain unfinished. S001 remains open; no commit or publication.
+
+### Geometric return-route publication - local, 2026-11-11
+
+Added fresh-only `geometric-return-publication-v1`: a real surveyed-shard completion may publish its traversable return connection while the cache contact is reserved. Only publication ignores that temporary reservation; actual admission, source/completion evidence, blockers, caps, care, resource bounds and retry rules remain authoritative. Defaults and older histories retain their outcomes. [Local verification and six histories](evidence/first-glow-geometric-return-publication-2026-11-11.md): 219 root tests, 13 state checks, 72 older-checkpoint comparisons and restore checks pass. All 18 completed survey goals now yield public patterns, with 27 encounters and zero guided uses. The lost current/12 and review/12 artifacts publish at 194/229; physical outcomes and three unfinished goals remain unchanged. S001 remains open; no commit or publication.
+
+
+## S021 local online safeguards (not deployed)
+
+Added a portable metadata-authenticated bounded Spark broker, separately identified durable AI allocations, a fixed run lease, process-lifetime single-writer exclusion and persistent scheduler/AI-stop pause. Paired recovery includes the world, immutable bundles and spending ledger, with receipt/identity validation. Health exposes stalled progress and external backup failures; authenticated observer routes include goals/history/status, and live return visits retain Spark context. Full exact-source qualification and hosted activation remain open in [S021](../issues/MIM-S021.md).
+
+
+### S021 original-allocation continuation — 2026-11-13
+
+The owner authorized recorded-cost accounting with a reasonable buffer, continuation under the original USD 5 AI cap, and USD 2 hosting for a 24-hour owner-only pilot. The original ten receipts remain intact: USD 0.008844 token-cost estimate, USD 0.117688 guarded after a 2× multiplier and USD 0.10 reserve, and USD 4.882312 guarded headroom. Pending/uncertain or missing-cost calls keep full USD 0.50 holds. An audited ledger handoff retires the desktop writer before the target writer resumes; it does not create another allocation. The hosting watchdog and independent shutdown deadline preserve the selected window and conservative hosting cutoff. These are implementation/preparation records, not a deployed-readiness claim; see [the online packet](spark-ai-online.md). The standalone backup worker now also requires `spark-ai-accounting.js`.

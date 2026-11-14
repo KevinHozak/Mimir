@@ -1,0 +1,362 @@
+{
+  "date": "2026-11-10",
+  "policy": "pattern-guided-retry-v1",
+  "providerCalls": 0,
+  "rawDirectory": ".tmp/route-patterns-retry-ordinary-Xg5Wkb",
+  "verification": {
+    "rootTests": 128,
+    "failures": 0,
+    "legacy": [
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "2cf18b23454f7592d80ff711d36d7e384e694d786f145c24128b80d5a104503b"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "2180710f1155ba727586fd498bccea48af803a6265f4c7fd93950e7d3757a521"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "837085b571e89735ebac04ae0a0078488ce91f05e4bb9e45c22cfb5146b3202f"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a8bc0c7797ff9f31a503f1afeb0a31d3ea1b746c2d59ab4c3a2e281ec0cb056e"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "1fd883d9374b664628a68e362fb97b83d632c3d8f5168b1abaacfc95bcdf52c3"
+      },
+      {
+        "dir": ".tmp/route-patterns-ordinary-EXB1z8",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "4d20d331711a79f6e45d54c45921394063625248cf711659f276d6b297285f89"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "need-decline.json",
+        "comparedPulses": 5,
+        "sha256": "804952bd9e943a4c68804e9a7a96ad3c6596883d0e6a8d3366937a6203b3bc51"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "no-encounter.json",
+        "comparedPulses": 5,
+        "sha256": "4bb5799eace6274bfd27830c3f2402a74b076e4d37af1bb827b669897e7b1477"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "no-pattern.json",
+        "comparedPulses": 5,
+        "sha256": "71bcd4ecaa6d2142bc682b13493b66d70ac6b5e076580e7ee26778c083a90e4a"
+      },
+      {
+        "dir": ".tmp/route-patterns-review-yRoPCk",
+        "file": "use.json",
+        "comparedPulses": 5,
+        "sha256": "f2a0c8e7c2ae972d412f7268988e9fc59f6d90d23773cd72886a8f0469ffbd0f"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-1.json",
+        "comparedPulses": 5,
+        "sha256": "db8d7839e564d9475cc8e656ef3d80072156d349daededa26d5652e854f13b11"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-12.json",
+        "comparedPulses": 5,
+        "sha256": "5600ec3a5fe1eee169e7f8a4dff96827ffcd267feb17a2b047675e97b153aa0d"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "current-8.json",
+        "comparedPulses": 5,
+        "sha256": "ed5921f0bac1540b2b896166e5e73fbe736402895c410b856a8f33e293dd888c"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-1.json",
+        "comparedPulses": 5,
+        "sha256": "a9fe3bb8976a0ab2c7cfc1e66e23f6c1db204b65227aedca99e40c40109bbf5b"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-12.json",
+        "comparedPulses": 5,
+        "sha256": "c4892ada233259ca4b85f8c6bf25a6c9eab6f3ca2274c91ae4d1d2bd7efa8721"
+      },
+      {
+        "dir": ".tmp/route-patterns-completion-ordinary-dg5deH",
+        "file": "review-8.json",
+        "comparedPulses": 5,
+        "sha256": "c4ab0207b04c37df00b9c9d691f0fd152e3544dadc73cfab04c0c8703ce856e3"
+      }
+    ]
+  },
+  "sourceHashes": {
+    "packages/engine/src/first-glow-pattern-retry.ts": "f98128f0ce2b8ce87da87743b2489c9467901bfdfd9c355a2ebb12bb3ddd15fd",
+    "packages/engine/src/first-glow-route-patterns.ts": "e5bb90dee93536d907339729777bc8968c5738f26b321723b16bd4244bbd6b45",
+    "packages/engine/src/first-glow-cache-choice.ts": "d39bf6ddfe61d3d6108638f47a5fef074eb530d59ba98e00d0ab29e35e34e2ea",
+    "packages/engine/src/structured.ts": "52884c3ed7fa8285d902f76b3f6930b0cd55cf77255470387afa7da7cc1b9d35",
+    "packages/engine/src/first-glow-actions.ts": "3766b41a69c4d35e2b3758ee18c3cca64b6f2fd66653d6be6a84ebf67a1600b7",
+    "packages/engine/src/index.ts": "cf2ea15dd588eaf783bc60111030e5b02fbdbd45ba7aba1dd96cb0fd54f5504b"
+  },
+  "results": [
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 1,
+      "pulses": 360,
+      "explorationCompletions": 1,
+      "probes": 0,
+      "patterns": [],
+      "uses": [],
+      "retries": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "8987f7503d84835764fb57dc82f4efa648e98cd5ba88279fe084828957e130fe"
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 8,
+      "pulses": 360,
+      "explorationCompletions": 7,
+      "probes": 1,
+      "patterns": [],
+      "uses": [],
+      "retries": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "2e92d0cc02438c8c82bc995056c8fd6cac28ae537d4d4500d3b867199826b11b"
+    },
+    {
+      "label": "current",
+      "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+      "sparkCount": 12,
+      "pulses": 360,
+      "explorationCompletions": 12,
+      "probes": 1,
+      "patterns": [
+        {
+          "id": "route-pattern-spark-1-122",
+          "public": true,
+          "creatorId": "spark-1",
+          "settlementId": "first-glow-region",
+          "createdPulse": 122,
+          "creationEventId": "event-122-spark-1-route-pattern-created",
+          "sourceEventIds": [
+            "event-114-spark-1-cache-survey",
+            "event-122-spark-1-shape-pattern"
+          ],
+          "at": {
+            "x": 22,
+            "y": 23
+          },
+          "targetObjectId": "tiled-106",
+          "navigationRevision": 0,
+          "encounters": [
+            {
+              "sparkId": "spark-6",
+              "pulse": 178,
+              "eventId": "event-178-spark-6-route-pattern-spark-1-122-encounter",
+              "decline": {
+                "pulse": 179,
+                "eventId": "event-179-spark-6-route-pattern-spark-1-122-decline",
+                "reason": "selected seek-charge under current needs and reachability"
+              },
+              "use": {
+                "pulse": 230,
+                "eventId": "event-230-spark-6-route-pattern-spark-1-122-use",
+                "retry": true,
+                "outcomeEventId": "event-244-spark-6-route-pattern-spark-1-122-outcome"
+              }
+            },
+            {
+              "sparkId": "spark-9",
+              "pulse": 204,
+              "eventId": "event-204-spark-9-route-pattern-spark-1-122-encounter",
+              "use": {
+                "pulse": 205,
+                "eventId": "event-205-spark-9-route-pattern-spark-1-122-use",
+                "outcomeEventId": "event-212-spark-9-route-pattern-spark-1-122-outcome"
+              }
+            },
+            {
+              "sparkId": "spark-2",
+              "pulse": 243,
+              "eventId": "event-243-spark-2-route-pattern-spark-1-122-encounter",
+              "decline": {
+                "pulse": 244,
+                "eventId": "event-244-spark-2-route-pattern-spark-1-122-decline",
+                "reason": "the recorded target is unavailable or unreachable"
+              },
+              "use": {
+                "pulse": 327,
+                "eventId": "event-327-spark-2-route-pattern-spark-1-122-use",
+                "retry": true,
+                "outcomeEventId": "event-359-spark-2-route-pattern-spark-1-122-outcome"
+              }
+            }
+          ]
+        }
+      ],
+      "uses": [
+        {
+          "patternId": "route-pattern-spark-1-122",
+          "sparkId": "spark-6",
+          "encounterPulse": 178,
+          "decline": {
+            "pulse": 179,
+            "eventId": "event-179-spark-6-route-pattern-spark-1-122-decline",
+            "reason": "selected seek-charge under current needs and reachability"
+          },
+          "use": {
+            "pulse": 230,
+            "eventId": "event-230-spark-6-route-pattern-spark-1-122-use",
+            "retry": true,
+            "outcomeEventId": "event-244-spark-6-route-pattern-spark-1-122-outcome"
+          },
+          "outcome": "Spark 6's use of route pattern route-pattern-spark-1-122 reached Wild Cache tiled-106; cache choice: conserve. Recorded resources: 14 charge, 0 charge deficit, 0 readiness. No travel savings or social benefit are inferred."
+        },
+        {
+          "patternId": "route-pattern-spark-1-122",
+          "sparkId": "spark-9",
+          "encounterPulse": 204,
+          "use": {
+            "pulse": 205,
+            "eventId": "event-205-spark-9-route-pattern-spark-1-122-use",
+            "outcomeEventId": "event-212-spark-9-route-pattern-spark-1-122-outcome"
+          },
+          "outcome": "Spark 9's use of route pattern route-pattern-spark-1-122 reached Wild Cache tiled-106; cache choice: conserve. Recorded resources: 0 charge, 28 charge deficit, 12 readiness. No travel savings or social benefit are inferred."
+        },
+        {
+          "patternId": "route-pattern-spark-1-122",
+          "sparkId": "spark-2",
+          "encounterPulse": 243,
+          "decline": {
+            "pulse": 244,
+            "eventId": "event-244-spark-2-route-pattern-spark-1-122-decline",
+            "reason": "the recorded target is unavailable or unreachable"
+          },
+          "use": {
+            "pulse": 327,
+            "eventId": "event-327-spark-2-route-pattern-spark-1-122-use",
+            "retry": true,
+            "outcomeEventId": "event-359-spark-2-route-pattern-spark-1-122-outcome"
+          },
+          "outcome": "Spark 2's use of route pattern route-pattern-spark-1-122 reached Wild Cache tiled-106; cache choice: conserve. Recorded resources: 0 charge, 17 charge deficit, 0 readiness. No travel savings or social benefit are inferred."
+        }
+      ],
+      "retries": [
+        {
+          "sparkId": "spark-6",
+          "cacheObjectId": "tiled-106",
+          "patternId": "route-pattern-spark-1-122",
+          "encounterEventId": "event-178-spark-6-route-pattern-spark-1-122-encounter",
+          "useEventId": "event-230-spark-6-route-pattern-spark-1-122-use",
+          "committedPulse": 230,
+          "priorChoice": {
+            "pulse": 72,
+            "alternative": "conserve",
+            "decisionEventId": "event-72-spark-6-cache-choice",
+            "outcomeEventId": "event-72-spark-6-cache-conserved",
+            "nextActivity": "seek-charge",
+            "cacheObjectId": "tiled-106"
+          },
+          "choice": {
+            "pulse": 244,
+            "alternative": "conserve",
+            "decisionEventId": "event-244-spark-6-cache-choice",
+            "outcomeEventId": "event-244-spark-6-cache-conserved",
+            "nextActivity": "idle",
+            "cacheObjectId": "tiled-106"
+          },
+          "outcomeEventId": "event-244-spark-6-route-pattern-spark-1-122-outcome"
+        },
+        {
+          "sparkId": "spark-2",
+          "cacheObjectId": "tiled-106",
+          "patternId": "route-pattern-spark-1-122",
+          "encounterEventId": "event-243-spark-2-route-pattern-spark-1-122-encounter",
+          "useEventId": "event-327-spark-2-route-pattern-spark-1-122-use",
+          "committedPulse": 327,
+          "priorChoice": {
+            "pulse": 38,
+            "alternative": "conserve",
+            "decisionEventId": "event-38-spark-2-cache-choice",
+            "outcomeEventId": "event-38-spark-2-cache-conserved",
+            "nextActivity": "seek-charge",
+            "cacheObjectId": "tiled-106"
+          },
+          "choice": {
+            "pulse": 359,
+            "alternative": "conserve",
+            "decisionEventId": "event-359-spark-2-cache-choice",
+            "outcomeEventId": "event-359-spark-2-cache-conserved",
+            "nextActivity": "seek-charge",
+            "cacheObjectId": "tiled-106"
+          },
+          "outcomeEventId": "event-359-spark-2-route-pattern-spark-1-122-outcome"
+        }
+      ],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "c1ba17a5662338a12c4182b84e2aad502c211623d24009a0f2e82820b96ae7eb"
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 1,
+      "pulses": 360,
+      "explorationCompletions": 1,
+      "probes": 0,
+      "patterns": [],
+      "uses": [],
+      "retries": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "ff27d05801d5d981daa710ec1d2f0872f15b1bcce2e3f0b10a3d3a245a4b3a9b"
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 8,
+      "pulses": 360,
+      "explorationCompletions": 7,
+      "probes": 1,
+      "patterns": [],
+      "uses": [],
+      "retries": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "f96c578e9684d0310d5f09a0f15efb74074ab60f364690a1ca2766a4a59bcd4a"
+    },
+    {
+      "label": "review",
+      "bundleHash": "sha256-591d53ab30c749f531d0b322609bbfe88096abc8f18b08977ca4d50296d873ca",
+      "sparkCount": 12,
+      "pulses": 360,
+      "explorationCompletions": 12,
+      "probes": 0,
+      "patterns": [],
+      "uses": [],
+      "retries": [],
+      "sqliteRestartEquivalent": true,
+      "comparedPulses": 5,
+      "rawSha256": "115bbacb8dc54c3964bf94b3956953fe109e436be6d725825d6bbc8c7fc9bef3"
+    }
+  ]
+}

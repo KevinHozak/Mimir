@@ -1,0 +1,1337 @@
+{
+  "bundleHash": "sha256-5922379b678514580bbe050a66efdef48677e090e871e6342177bbdaec6a781e",
+  "seed": 2,
+  "providerCalls": 0,
+  "results": [
+    {
+      "count": 1,
+      "limit": 8,
+      "decisions": [],
+      "opening": [
+        {
+          "pulse": 1,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 1
+            },
+            "status": "choosing",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 1
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 0,
+            "readiness": 100,
+            "knownEvidenceEventIds": []
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 2
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 1,
+                "y": 3
+              },
+              {
+                "x": 1,
+                "y": 4
+              },
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 1,
+            "readiness": 99,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "events": [
+            {
+              "id": "event-1-spark-1-movement",
+              "pulse": 1,
+              "kind": "world-object",
+              "structuredKind": "movement",
+              "actorId": "spark-1",
+              "message": "Spark 1 moved 1 cell(s).",
+              "villagerIds": [],
+              "settlementIds": []
+            }
+          ],
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 2,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 2
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 1,
+                "y": 3
+              },
+              {
+                "x": 1,
+                "y": 4
+              },
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 1
+              },
+              {
+                "x": 1,
+                "y": 2
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 1,
+            "readiness": 99,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 3
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 1,
+                "y": 4
+              },
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 1,
+                "y": 3
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 2,
+            "readiness": 98,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "events": [
+            {
+              "id": "event-2-spark-1-movement",
+              "pulse": 2,
+              "kind": "world-object",
+              "structuredKind": "movement",
+              "actorId": "spark-1",
+              "message": "Spark 1 moved 1 cell(s).",
+              "villagerIds": [],
+              "settlementIds": []
+            }
+          ],
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 3,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 3
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 1,
+                "y": 4
+              },
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 2
+              },
+              {
+                "x": 1,
+                "y": 3
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 2,
+            "readiness": 98,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 4
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 3
+              },
+              {
+                "x": 1,
+                "y": 4
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 3,
+            "readiness": 97,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "events": [
+            {
+              "id": "event-3-spark-1-movement",
+              "pulse": 3,
+              "kind": "world-object",
+              "structuredKind": "movement",
+              "actorId": "spark-1",
+              "message": "Spark 1 moved 1 cell(s).",
+              "villagerIds": [],
+              "settlementIds": []
+            }
+          ],
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 4,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 1,
+              "y": 4
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 3
+              },
+              {
+                "x": 1,
+                "y": 4
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 3,
+            "readiness": 97,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 4
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 4
+              },
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 4,
+            "readiness": 96,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "events": [
+            {
+              "id": "event-4-spark-1-movement",
+              "pulse": 4,
+              "kind": "world-object",
+              "structuredKind": "movement",
+              "actorId": "spark-1",
+              "message": "Spark 1 moved 2 cell(s).",
+              "villagerIds": [],
+              "settlementIds": []
+            }
+          ],
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 5,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 4
+            },
+            "status": "traveling",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 1,
+                "y": 4
+              },
+              {
+                "x": 2,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 4
+              }
+            ],
+            "carriedCharge": 0,
+            "chargeDeficit": 4,
+            "readiness": 96,
+            "knownEvidenceEventIds": [],
+            "destinationObjectId": "tiled-101",
+            "destinationSlotId": "draw-west"
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "events": [
+            {
+              "id": "event-5-spark-1-movement",
+              "pulse": 5,
+              "kind": "world-object",
+              "structuredKind": "movement",
+              "actorId": "spark-1",
+              "message": "Spark 1 moved 1 cell(s).",
+              "villagerIds": [],
+              "settlementIds": []
+            },
+            {
+              "id": "event-5-spark-1-draw",
+              "pulse": 5,
+              "kind": "collection",
+              "structuredKind": "draw",
+              "actorId": "spark-1",
+              "message": "Spark 1 drew 8 charge.",
+              "villagerIds": [],
+              "settlementIds": []
+            }
+          ],
+          "ledger": [
+            {
+              "kind": "draw",
+              "actorId": "spark-1",
+              "amount": 8,
+              "reason": "arrived-at-charge-pool"
+            },
+            {
+              "kind": "production",
+              "amount": 24,
+              "reason": "external-source-intake"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-1",
+              "amount": 1,
+              "reason": "movement-strain"
+            }
+          ]
+        },
+        {
+          "pulse": 6,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "seek-charge",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 4
+              },
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "explore",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "events": [],
+          "ledger": []
+        },
+        {
+          "pulse": 7,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "explore",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "explore",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "events": [],
+          "ledger": []
+        },
+        {
+          "pulse": 8,
+          "before": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "explore",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "after": {
+            "id": "spark-1",
+            "name": "Spark 1",
+            "spawnedPulse": 0,
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "status": "choosing",
+            "intendedActivity": "explore",
+            "remainingRoute": [],
+            "remainingCost": 0,
+            "plannedNavigationRevision": 0,
+            "committedCells": [
+              {
+                "x": 3,
+                "y": 5
+              }
+            ],
+            "carriedCharge": 8,
+            "chargeDeficit": 0,
+            "readiness": 95,
+            "knownEvidenceEventIds": []
+          },
+          "events": [],
+          "ledger": []
+        }
+      ]
+    },
+    {
+      "count": 8,
+      "limit": 120,
+      "decisions": [
+        {
+          "pulse": 27,
+          "spark": "spark-8",
+          "prior": {
+            "charge": 0,
+            "deficit": 24,
+            "readiness": 76,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 25,
+            "readiness": 75
+          },
+          "choice": {
+            "pulse": 27,
+            "alternative": "conserve",
+            "decisionEventId": "event-27-spark-8-cache-choice",
+            "outcomeEventId": "event-27-spark-8-cache-conserved",
+            "nextActivity": "seek-charge",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-8",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-8",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 66,
+          "spark": "spark-5",
+          "prior": {
+            "charge": 0,
+            "deficit": 24,
+            "readiness": 60,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 25
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 25,
+            "readiness": 59
+          },
+          "choice": {
+            "pulse": 66,
+            "alternative": "conserve",
+            "decisionEventId": "event-66-spark-5-cache-choice",
+            "outcomeEventId": "event-66-spark-5-cache-conserved",
+            "nextActivity": "seek-charge",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-5",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-5",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 94,
+          "spark": "spark-6",
+          "prior": {
+            "charge": 0,
+            "deficit": 11,
+            "readiness": 76,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 25
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 12,
+            "readiness": 75
+          },
+          "choice": {
+            "pulse": 94,
+            "alternative": "conserve",
+            "decisionEventId": "event-94-spark-6-cache-choice",
+            "outcomeEventId": "event-94-spark-6-cache-conserved",
+            "nextActivity": "seek-charge",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-6",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-6",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 116,
+          "spark": "spark-7",
+          "prior": {
+            "charge": 5,
+            "deficit": 0,
+            "readiness": 56,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 4,
+            "deficit": 0,
+            "readiness": 55
+          },
+          "choice": {
+            "pulse": 116,
+            "alternative": "conserve",
+            "decisionEventId": "event-116-spark-7-cache-choice",
+            "outcomeEventId": "event-116-spark-7-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-7",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "consumption",
+              "actorId": "spark-7",
+              "amount": 1,
+              "reason": "activity-sustenance"
+            }
+          ]
+        }
+      ],
+      "opening": []
+    },
+    {
+      "count": 12,
+      "limit": 280,
+      "decisions": [
+        {
+          "pulse": 38,
+          "spark": "spark-2",
+          "prior": {
+            "charge": 0,
+            "deficit": 36,
+            "readiness": 64,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 25
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 37,
+            "readiness": 63
+          },
+          "choice": {
+            "pulse": 38,
+            "alternative": "conserve",
+            "decisionEventId": "event-38-spark-2-cache-choice",
+            "outcomeEventId": "event-38-spark-2-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-2",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-2",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 63,
+          "spark": "spark-6",
+          "prior": {
+            "charge": 0,
+            "deficit": 39,
+            "readiness": 70,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 40,
+            "readiness": 69
+          },
+          "choice": {
+            "pulse": 63,
+            "alternative": "conserve",
+            "decisionEventId": "event-63-spark-6-cache-choice",
+            "outcomeEventId": "event-63-spark-6-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-6",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-6",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 85,
+          "spark": "spark-4",
+          "prior": {
+            "charge": 5,
+            "deficit": 0,
+            "readiness": 55,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 4,
+            "deficit": 0,
+            "readiness": 54
+          },
+          "choice": {
+            "pulse": 85,
+            "alternative": "conserve",
+            "decisionEventId": "event-85-spark-4-cache-choice",
+            "outcomeEventId": "event-85-spark-4-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-4",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "consumption",
+              "actorId": "spark-4",
+              "amount": 1,
+              "reason": "activity-sustenance"
+            }
+          ]
+        },
+        {
+          "pulse": 130,
+          "spark": "spark-8",
+          "prior": {
+            "charge": 0,
+            "deficit": 93,
+            "readiness": 13,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 25
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 94,
+            "readiness": 12
+          },
+          "choice": {
+            "pulse": 130,
+            "alternative": "conserve",
+            "decisionEventId": "event-130-spark-8-cache-choice",
+            "outcomeEventId": "event-130-spark-8-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-8",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-8",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 164,
+          "spark": "spark-5",
+          "prior": {
+            "charge": 0,
+            "deficit": 105,
+            "readiness": 43,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 25
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 106,
+            "readiness": 42
+          },
+          "choice": {
+            "pulse": 164,
+            "alternative": "conserve",
+            "decisionEventId": "event-164-spark-5-cache-choice",
+            "outcomeEventId": "event-164-spark-5-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-5",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-5",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 185,
+          "spark": "spark-9",
+          "prior": {
+            "charge": 0,
+            "deficit": 99,
+            "readiness": 80,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 100,
+            "readiness": 79
+          },
+          "choice": {
+            "pulse": 185,
+            "alternative": "conserve",
+            "decisionEventId": "event-185-spark-9-cache-choice",
+            "outcomeEventId": "event-185-spark-9-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-9",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-9",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 233,
+          "spark": "spark-3",
+          "prior": {
+            "charge": 0,
+            "deficit": 132,
+            "readiness": 78,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 133,
+            "readiness": 77
+          },
+          "choice": {
+            "pulse": 233,
+            "alternative": "conserve",
+            "decisionEventId": "event-233-spark-3-cache-choice",
+            "outcomeEventId": "event-233-spark-3-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-3",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-3",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        },
+        {
+          "pulse": 274,
+          "spark": "spark-7",
+          "prior": {
+            "charge": 0,
+            "deficit": 141,
+            "readiness": 72,
+            "status": "traveling",
+            "activity": "scavenge-cache",
+            "position": {
+              "x": 28,
+              "y": 24
+            }
+          },
+          "after": {
+            "charge": 0,
+            "deficit": 142,
+            "readiness": 71
+          },
+          "choice": {
+            "pulse": 274,
+            "alternative": "conserve",
+            "decisionEventId": "event-274-spark-7-cache-choice",
+            "outcomeEventId": "event-274-spark-7-cache-conserved",
+            "nextActivity": "seek-shelter",
+            "cacheObjectId": "tiled-106"
+          },
+          "ledger": [
+            {
+              "kind": "adjustment",
+              "actorId": "spark-7",
+              "amount": 1,
+              "reason": "movement-strain"
+            },
+            {
+              "kind": "adjustment",
+              "actorId": "spark-7",
+              "amount": 1,
+              "reason": "charge-deficit"
+            }
+          ]
+        }
+      ],
+      "opening": []
+    }
+  ],
+  "departures": [
+    {
+      "pulse": 6,
+      "spark": "spark-8",
+      "prior": {
+        "activity": "seek-charge",
+        "charge": 0,
+        "deficit": 3,
+        "readiness": 97
+      },
+      "after": {
+        "charge": 0,
+        "deficit": 4,
+        "readiness": 96,
+        "remainingCells": 24
+      },
+      "sourceChargeBefore": 24
+    },
+    {
+      "pulse": 34,
+      "spark": "spark-5",
+      "prior": {
+        "activity": "seek-charge",
+        "charge": 8,
+        "deficit": 0,
+        "readiness": 92
+      },
+      "after": {
+        "charge": 7,
+        "deficit": 0,
+        "readiness": 91,
+        "remainingCells": 49
+      },
+      "sourceChargeBefore": 88
+    },
+    {
+      "pulse": 73,
+      "spark": "spark-6",
+      "prior": {
+        "activity": "seek-shelter",
+        "charge": 10,
+        "deficit": 0,
+        "readiness": 97
+      },
+      "after": {
+        "charge": 9,
+        "deficit": 0,
+        "readiness": 96,
+        "remainingCells": 23
+      },
+      "sourceChargeBefore": 224
+    },
+    {
+      "pulse": 96,
+      "spark": "spark-7",
+      "prior": {
+        "activity": "seek-shelter",
+        "charge": 25,
+        "deficit": 0,
+        "readiness": 76
+      },
+      "after": {
+        "charge": 24,
+        "deficit": 0,
+        "readiness": 75,
+        "remainingCells": 22
+      },
+      "sourceChargeBefore": 328
+    }
+  ]
+}

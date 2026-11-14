@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-13",
+  "issue": "MIM-S019",
+  "scope": "Local implementation and offline qualification; live goal execution pending",
+  "checks": {
+    "build": "passed",
+    "root": {
+      "tests": 227,
+      "failures": 0
+    },
+    "server": {
+      "tests": 29,
+      "failures": 0
+    },
+    "http": {
+      "tests": 1,
+      "failures": 0
+    },
+    "publicationVerifier": "not run",
+    "browserPresentationAcceptance": "not run"
+  },
+  "allocationObservation": {
+    "observedDate": "2026-11-13",
+    "source": "data/local/spark-ai-budget.db",
+    "readOnly": true,
+    "capMicrousd": 5000000,
+    "reservedMicrousd": 500000,
+    "remainingMicrousd": 4500000,
+    "attempts": 1,
+    "completed": 1,
+    "uncertain": 0,
+    "stopped": false,
+    "liveCallsMadeForS019": 0,
+    "accountAuthenticationRechecked": false
+  },
+  "configuredModel": "gemini-3.5-flash-lite",
+  "configuredProject": "mimir-realm",
+  "accountAuthenticationRechecked": false,
+  "paidProviderCalls": 0,
+  "deployed": false,
+  "committed": false,
+  "sourceSha256": {
+    "packages/engine/src/first-glow-goals.ts": "5267b23018e541b0c1e4ed6b2165771199b91fb13b09014cb1d533f3a9f6529e",
+    "packages/engine/src/first-glow-goals-fixture.ts": "7d4c3ab85e25081bcd3c5b998d4c24f2ca773f4b23dcf775474e03f06e9f5976",
+    "packages/engine/src/first-glow-history.ts": "61b875c48d6538e1c114606c5d1bf2830f35712e0a6b9817f49ba56b13041f6d",
+    "packages/server/src/first-glow-ai-runtime.ts": "f9ac492f6213212a8e01163dc9da7addd811a2837489b8aad3f33dbba78be964",
+    "packages/server/src/spark-ai-live.ts": "cd2038aa0adf2f82ca3674ecdeb0c4bab7147eca2939823be12a1a1443dca577",
+    "packages/server/src/spark-ai-budget.ts": "d2e309b0613a91b81f1cd15275e6d7c5e8b5207d45cced0ba4769ddcc6dce4e2",
+    "packages/server/src/index.ts": "b7108a42a4ea373fe1f35c404a29fe2f4f8d8b0e1b9e7925ab61a99a1f77a656",
+    "packages/server/src/spark-goal-ai.test.ts": "8c871e2434edb6ed1a13e1e5c8c0608cc7d1bdac7b93fccb1545992f315f0c2d",
+    "packages/server/src/spark-goal-server.test.ts": "a9a22f5820fb8cbaf60c25a9faf60694696121a2aabd6fa3c544e443d50ee545",
+    "scripts/run-ai-local.mjs": "19ed7a7198d702f1ce2f1149334c602cfc1fc8b95db7ff4350b3b0c35869f2de"
+  }
+}

@@ -1,5 +1,31 @@
 # Mimir Game Simulation
 
+## Expanded First Glow frontier — S020, local 2026-11-13
+
+Fresh server worlds now select `first-glow-frontier-v1` (`sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e`): a 64×40 authored map with Charge Reach, Quiet Fold and Shard Verge, 19 sites, limited crossings, four charge-pool locations, four conventional shelter niches, three two-contact rendezvous traces, five discovery/cache sites and two trace weaves. Charge pools still draw from the existing shared regional source ledger; their access differs by geography/contact availability, not separate invented stocks. Assets reuse the recorded repository-authored SVGs.
+
+The optional bundle/checkpoint policy `local-frontier-v1` is initialized only for fresh authored-frontier worlds. It records per-Spark nearby object discovery (five-cell Manhattan radius), actual region visits and bounded project contributions. Fresh frontier worlds select validated activity completion; old bundles/checkpoints remain untouched. New goal contexts expose only noticed sites and one locally visible unfamiliar trace target, with actual route costs and discovery evidence. They never include the full region geometry or another Spark's private discoveries. Goals bind their destination through travel/recovery and require matching arrival evidence. A contributor whose site has already been completed ends the obsolete goal once that completion is locally observable. `follow-trace` explores a local trace; `explore-contribute` pays one charge at an owned weave contact after a real shape arrival. Normal activity sustenance remains an additional accounted cost.
+
+Each weave needs two distinct Sparks, each contributing once. Completion improves rest at that exact site by six readiness, capped at 100; the base recovery is ten. Contributions and completion survive replay/restoration and are objective events, not AI claims. Earlier contributors retain credit but do not become remote witnesses of later work. Repeating a contribution cannot farm progress. Real rendezvous requires two independently arriving Sparks with separate authored contacts at the same cell; no companion is fabricated. Existing goal timeout and resource/recovery rules continue to apply.
+
+`npm run start:frontier` opens a separate paused goal world at `http://127.0.0.1:4178/`, database `data/local/mimir-frontier.db`, with AI spending disabled. Existing databases keep their bundle/history. Whole-map zoom reaches 0.5×; the observer displays region names and weave progress. Goal admission skips Sparks with continuing work before constructing routes, and goal checkpoints retain immutable bundle identity to preserve navigation caches.
+
+## Sharing continuity for fresh goal worlds — 2026-11-13
+
+New goal-enabled worlds record the existing sharing-continuation policy at creation. A charge transfer may pause a participant for that pulse, then restore its valid travel/contact plan; it cannot turn a traveling Spark into a permanently choosing contact owner. Invalid plans release only their own reservations. Physical arrival and actual action costs still occur through the authoritative executor. Old histories without the marker are not upgraded.
+
+## Current First Glow goal admission — S019, 2026-11-13
+
+An explicitly enabled server can now ask the bounded AI runtime to choose a goal before social interpretation at an available Reflection slot. Explore/mark leaves a sign; explore/shape examines a shard; explore/meet/mark additionally requires an actual companion. The model sees the Spark's own values, local memories, outgoing trust and own commitments. One feasible option uses rules without a model request.
+
+Recorded goal intent never grants success. The same physical executor, recovery priorities, finite lifetime, reservations and actual costs determine progress. Goals and social choices share one RC allowance and one paid allocation. Historical reads and continuation of an existing goal make no goal-provider calls. New-world opt-in does not relabel old saves or enable a later age.
+
+## Current First Glow exception: persistent goals (local foundation, 2026-11-13)
+
+Fresh histories may explicitly enable `spark-goal-loop-v1`. A Spark can retain an explore/meet/mark goal across pulses, with an explore/mark alternative. Intent alone never advances a step: encounters require independently owned, co-present contacts. A missing partner yields waiting and eventual interruption, not a fictional conversation.
+
+Actual charge need takes priority, followed by urgent rest below 70 and care-related rest below 90 before discretionary trip funding. Movement and recovery retain actual costs. Lifetime/dispatch bounds prevent endless retry, and expiry releases only the owner's plan. This executor is separate from earlier cache-preparation opt-ins; it does not upgrade old histories or default startup. The local fixture uses a fake provider; live AI and an expanded authored world remain [planned work](../issues/MIM-E003.md).
+
 Date: 2026-09-07
 Status: Historical simulation guide. The active runtime is the schema-3 First Glow implementation described in `docs/architecture.md`; village-era mechanics below are retained as design history, not current support.
 
@@ -307,3 +333,72 @@ If a mechanic only produces flavor text and cannot affect decisions, resources, 
 - `packages/server/src/index.ts` — authoritative commit path, scheduler, persistence, timelines, and API.
 - `packages/web/src/main.tsx` — observer UI, live/history state, controls, and presentation.
 - `scenarios/first-winter.json` — checked-in scenario configuration used for planning/tests; verify runtime wiring before treating it as the server default.
+
+
+## Opt-in persistent route patterns — First Glow
+
+Fresh histories tagged `persistent-route-pattern-v1` can turn a successful Wild Cache survey followed by actual Pattern Shard completion into a persistent public return-route mark at the shard contact. Creation requires a reachable original cache. Another Spark must physically reach that cell on a later pulse to learn the route fact; private creator memories are not shared.
+
+On a still later choice, a sufficiently supplied Spark can use the encountered pattern to select that cache. Charge and shelter needs take priority; stale, unavailable or already considered destinations are declined. Travel still pays ordinary costs and obeys reservations/navigation. The record distinguishes choosing a route from reaching it, and records arrival or interruption with actual resources. Neither faster travel nor lasting social value is presumed. Untagged histories retain their earlier rules. [Offline evidence](evidence/first-glow-route-patterns-2026-11-10.md) uses controlled fresh initial conditions; ordinary-play frequency and human interest remain unverified.
+
+
+### Versioned activity completion - 2026-11-10
+
+For explicitly opted-in fresh histories (`activityCompletion: true`, persisted as `validated-activity-completion-v1`), completing exploration, trace marking or pattern shaping at a validated destination records completion even when the destination is the current cell. Completion teaches the recorded evidence and incurs activity sustenance/strain once under the per-pulse rules; movement and activity do not double-charge that pulse. Invalid arrivals grant no completion. Histories lacking the policy keep their original behavior, including the older same-cell completion gap; they are not retrofitted.
+
+
+### One later-information cache retry - local, 2026-11-10
+
+An explicitly opted-in fresh history (`patternGuidedRetry: true`) can reconsider a conserved cache once after physically learning a pattern later than the original decision. Charge and shelter priorities still apply; knowledge and the unused allowance survive deferral. Starting the pattern-guided journey consumes the one retry for that Spark/cache across all artifacts, including if interrupted. Arrival can still conserve if resources or navigation no longer qualify. The original conservation and the later attempt are retained separately. Previously surveyed caches do not qualify automatically. Existing histories keep their original rules.
+
+
+### Pattern-trip preparation - local, 2026-11-10
+
+Explicitly opted-in fresh histories (`patternPreparation: true`, persisted as `pattern-resource-preparation-v1`) fund pattern-guided travel before recording use. A goal can draw real source charge repeatedly and recover readiness through real shelter actions. The engine projects the actual selected route under the existing two-unit movement budget, readiness strain, deficit and sustenance rules, including arrival/probe costs.
+
+No pattern use or retry is consumed while preparing, waiting for recovery access, or deferring an itinerary that cannot satisfy the existing arrival gates. The planner considers bounded charge/rest sequences and rechecks after real actions or changed conditions; it does not assume future gifts, free source replenishment or readiness above 100. Preparation is bounded to 64 recorded recovery actions per Spark/pattern; funded departure can still be admitted if resources later qualify. No cache contact is held during preparation. Existing history policies retain their original rules.
+
+
+### Routes paused for sharing - local, 2026-11-10
+
+Fresh histories explicitly tagged sharing-route-continuation-v1 can pause for a real transfer without losing the execution state of a retained route. After the pause a valid route is traveling again, or interacting if already at validated contact; arrival effects still wait for the authoritative action transition. Partial edge progress survives unchanged navigation. Invalid/canceled plans release only their own reservation and clear all associated route fields. Sharing and normal sustenance still cost exactly what their existing rules record. Untagged histories retain their original behavior.
+
+### Waiting for recovery access - local, 2026-11-11
+
+Fresh histories explicitly opted into recovery-admission-v1 queue recovery consumers by waiting age, then Spark ID. Ordinary consumers and pattern readers use the same admission rule. Only a currently reachable, free immediate contact can be reserved; existing travelers retain their contacts. Finishing a recovery visit ends that request, so repeated visits do not keep the original queue age. Contacts released later in a pulse can be admitted next pulse.
+
+Pattern preparation can conditionally forecast a later charge/rest stop even while it is occupied, then wait for real access. This forecasts resource feasibility, not future availability or a release schedule. Every admitted leg is revalidated, actual recovery still requires arrival, and funded cache departure still requires the full existing arrival budget. Waiting consumes no preparation action, pattern use or retry. The 64-action bound and charge/rest ordering preference remain unchanged. Histories without this opt-in retain their recorded rules.
+
+### Preparing the first cache expedition - local, 2026-11-11
+
+Fresh histories explicitly opted into `initial-cache-preparation-v1` can retain a first cache target after exploration, before knowing any public pattern. They prepare through actual charge draws and shelter rests using the same route/resource forecast and recovery admission as pattern readers. Search considers at most 32 draws or 11 rests per stop and at most the remaining allowance of 64 real preparation actions. No cache or future recovery contact is reserved while preparing. A blocked cache/shard contact, stale navigation or infeasible budget defers the goal; independent immediate recovery remains possible.
+
+Departure commits one initial expedition only after the selected contact and projected arrival still meet the unchanged charge, deficit, readiness and shard-route gates. Actual arrival checks still apply, so changed resources or shard occupancy can cause conservation. An interrupted expedition does not authorize another initial departure. A later conservation retry still needs the separately enabled, later-encounter pattern authorization. This opt-in grants no route fact, encounter or public pattern in advance. Older histories and default server startup/reset retain their existing rules. [Local evidence and ordinary histories](evidence/first-glow-initial-cache-preparation-2026-11-11.md) distinguish initial discovery from natural useful reuse and human acceptance.
+
+### Continuing a successful survey - local, 2026-11-11
+
+Fresh histories can explicitly opt into `post-probe-continuation-v1`. An actual successful survey creates one goal for its recorded shard, retaining the survey evidence and navigation revision through recovery and sharing. The goal resumes ahead of unrelated marking, while current charge needs, care preferences and sharing retain priority. It funds the complete final shard leg through real recovery and shared contact admission. Departure readiness respects the existing 70 threshold, or 90 under the social care preference. The projected leg must finish without charge deficit and with positive readiness; dispatch and actual arrival recheck resources and contact validity.
+
+The 64-action allowance is shared with the preparation that funded that survey (initial preparation or the actual pattern-guided use), rather than resetting at the probe. Future recovery access remains conditional. Ordinary recovery travel can still incur its existing deficit/strain; those effects are recorded and must be cleared before funded shard departure. No charge, rest, survey or artifact is granted by the goal. Completion records the actual shard activity; public pattern creation retains its separate gates. Interruption spends the committed shard attempt, and stale navigation invalidates it. No extra cache retry is authorized. Default and absent-policy histories retain their rules. [Local checks and six-run results](evidence/first-glow-post-probe-continuation-2026-11-11.md) include remaining unfinished goals and reduced natural reuse in this window.
+
+### Bounded charge then rest - local, 2026-11-11
+
+Fresh histories may select `care-recovery-fallback-v1`. When the care-first post-probe search is resource-infeasible, a Spark with positive charge, zero deficit and readiness from 70 through 89 may prepare charge before required rest. A feasible rest plan waits for admission rather than switching because its contact is busy. The fallback retains real rest and 90-readiness requirements before shard departure, even if social preferences change; urgent rest below 70 remains prior to fallback charging. Real recovery uses the shared 64-action allowance, source stock and fair contact queue, with actual dispatch/arrival gates intact. It grants no new cache retry or automatic public knowledge. [Six ordinary histories](evidence/first-glow-care-recovery-fallback-2026-11-11.md) now yield 12 patterns, 19 encounters and one guided use ending in conservation; review/12 creates a pattern at 311 but still has an unfinished survey goal.
+
+### Knowing a shard route while its contact is busy - local, 2026-11-11
+
+Fresh histories may opt into `geometric-shard-routes-v1`. A temporary shard reservation no longer hides a geometrically reachable route from a Wild Cache survey or conditional recovery forecast. The probe still requires actual cache contact, valid authorization, sufficient charge, no deficit and enough readiness; a successful survey pays its real costs. Survey knowledge grants no shard ownership.
+
+A retained survey goal may prepare while the shard is busy, and a funded goal waits for actual contact admission before departure. Sharing and care priorities, urgent rest below 70, required care rest and 90-readiness departure, source/action bounds, navigation invalidation and actual arrival/completion gates remain authoritative. Conditional route availability never promises future access. [Local evidence](evidence/first-glow-geometric-shard-routes-2026-11-11.md) separates controlled checks from ordinary outcomes; defaults and older histories are unchanged.
+
+### Sharing without spending a protected recovery budget - local, 2026-11-11
+
+Fresh histories may opt into `bounded-sharing-admission-v1`. A proposed donor with an active initial expedition, pattern preparation or surveyed-shard goal checks the selected bounded itinerary after paying both the gift and donor upkeep. Sharing proceeds only if that same itinerary remains feasible; extra future draws or a longer recovery plan cannot justify it. The forecast preserves current source limits, the existing action allowance and required care rest/readiness. Future contact access remains conditional, and actual fair admission is unchanged.
+
+Current deficit, urgent rest below 70 and insufficient carried charge also prevent discretionary sharing. Ordinary care rest retains its priority outside active expedition budgets. A refused proposal transfers nothing and adds no sharing upkeep, while any actual recovery/movement still pays its own costs. An admitted one-unit gift retains both participants' original sustenance charges, so it need not accumulate charge for the recipient. No benefit or future progress is inferred. Defaults and older histories are unchanged; [controlled checks and six ordinary results](evidence/first-glow-bounded-sharing-admission-2026-11-11.md) remain separate evidence.
+
+### Publishing a return route while the cache is busy - local, 2026-11-11
+
+Fresh histories may select `geometric-return-publication-v1`. When a Spark actually completes its surveyed shard, a temporarily reserved return-cache contact no longer hides the traversable route from public-pattern creation. This is a knowledge/publication check, not permission to travel or interact. The current owner keeps its reservation; actual cache trips still require live admission, valid authorization, care and resource budgets. Blocked topology and missing survey/completion evidence still prevent publication.
+
+Publication remains tied to the actual completion pulse, limited to one artifact per creator and 64 per world. Later physical encounter is required to learn the public fact, and already-surveyed Sparks retain their existing refusal to use it for another probe. No charge, action allowance, retry, trust reward or shared private memory is granted. Older histories keep their original publication outcomes. [Local evidence](evidence/first-glow-geometric-return-publication-2026-11-11.md) separates controlled checks, compatibility and six fresh ordinary histories.
