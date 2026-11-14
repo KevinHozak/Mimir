@@ -1,5 +1,18 @@
 # S021 bounded online pilot
 
+## Private US API repair and audited recovery — 2026-11-14
+
+The pulse-132 check found two uncertain provider attempts, no accepted new AI decisions and a safely stopped spender. The simulation continued with rules. A generation-blocked diagnostic isolated the fault: metadata credentials returned 200, but the US multi-regional `countTokens` connection exhausted its 8.5-second deadline. The private VM's Private Google Access excludes `*.rep.googleapis.com`; [Google documents that limitation](https://docs.cloud.google.com/vpc/docs/private-google-access).
+
+A pilot-owned regional Private Service Connect endpoint in `us-central1` now reaches the exact same `aiplatform.us.rep.googleapis.com` hostname. Only that VM's hostname mapping changes; project, US location, model, payload bounds and owner-only access stay fixed. The count-only probe returned 200 in 114 ms with generation explicitly blocked. This source snapshot does not claim a successful paid response or resumed pilot; those require separate live receipts.
+
+Reserve USD 0.25 for the private endpoint from the existing USD 2 hosting ceiling: USD 0.90 bridge cutoff + USD 0.25 VM/disk + USD 0.25 deployment + USD 0.10 storage/backup + USD 0.25 private networking + USD 0.25 delayed/other costs. [Current list pricing](https://cloud.google.com/vpc/network-pricing) is USD 0.01 per endpoint-hour plus consumer processing. The private resource is labeled with the run ID. A timer starts writer stop and endpoint cleanup at 2026-11-15 05:19 UTC (five minutes before the unchanged hard deadline); an independent guest-shutdown hook also removes it on early hosting cutoff. Verify actual deletion using the VM identity, then re-arm before recreating the endpoint. Cleanup refuses changed ownership and waits for verified absence; retries preserve a failed/unverified status.
+
+`SparkAIBudget.resumeAfterRecovery` is an explicit operator-only path for this repaired bound run. It requires a stopped, non-retired, world-bound recorded-cost ledger, exact headroom, every uncertain attempt ID, authorization and a recovery-evidence SHA-256. It retains both USD 0.50 unknown-cost holds and all receipts, and starts a new persisted failure window without permitting retries of uncertain contexts. Normal `resume` still refuses unresolved attempts; pending requests cannot use recovery. Later failures retain the same stop and reservation rules. Pause/stop the writer, verify the original world lease and fresh hosting/backup controls, take a paired backup, and record the audited resume before restarting the same world. Never reset the cap or use the retired desktop spender.
+
+Provider failures now retain only allowlisted stage/status/category codes, without credentials or response bodies. [Repair evidence](evidence/spark-online-ai-recovery-2026-11-14.md) distinguishes local implementation, count-only connectivity and subsequent live qualification.
+
+
 ## Online pilot activated — 2026-11-14
 
 The owner-only pilot is running at [Mimir](https://mimir-realm.web.app/), from merged source `655078d58dfd3cb92539e825e7969f89cabeff25` ([PR #332](https://github.com/KevinHozak/Mimir/pull/332)). Hosting version `66507d23a4b7ce8d` passed live index and both hashed-asset comparisons. The single private VM writer uses Node 22.23.5, the frontier bundle and a separate six-Spark world; the archived pulse-64 world is preserved. The original allocation was handed off once; the desktop spending copy is permanently retired.

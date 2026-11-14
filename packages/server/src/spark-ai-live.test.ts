@@ -14,6 +14,18 @@ const context = (n = 1) => ({ schemaVersion: 2, personalityProfileVersion: "test
 const proposal = { alternativeId: "stay-on-trace", claim: "plausible-choice", summary: "The Spark prefers the known route.", evidenceEventIds: ["event-1"] };
 const response = () => ({ ok: true, countedInputTokens: 100, response: { modelVersion: SPARK_LIVE_MODEL, usageMetadata: { promptTokenCount: 100, candidatesTokenCount: 60, thoughtsTokenCount: 30, totalTokenCount: 190 }, candidates: [{ finishReason: "STOP", content: { parts: [{ text: JSON.stringify(proposal) }] } }] } });
 
+test("provider failure diagnostics retain only bounded stage/status codes and unknown holds",async()=>{
+ for(const [receipt,code] of [
+  [{ok:false,stage:"countTokens",httpStatus:403,error:"private token and provider response"},"provider-countTokens-http-403"],
+  [{ok:false,stage:"countTokens",failureKind:"request-deadline"},"provider-countTokens-request-deadline"],
+  [{ok:false,stage:"private secret",failureKind:"private secret"},"provider-request-failed"]
+ ] as const) {
+  const file=path(),provider=createSparkLiveProvider(file,async()=>receipt);
+  await assert.rejects(provider.interpret(context()));assert.equal(provider.budgetStatus().uncertain,1);assert.equal(provider.budgetStatus().unsettledMicrousd,500000);await provider.close();
+  const db=new DatabaseSync(file,{readOnly:true});assert.equal((db.prepare("SELECT error_code FROM ai_attempts").get() as any).error_code,code);db.close();
+ }
+});
+
 test("USD 5 cumulative reservations survive reopen, duplicate contexts and exhaustion", () => {
   const file = path(); let budget = new SparkAIBudget(file);
   for (let i = 1; i <= 10; i++) { const id = budget.reserve(hash(i)); budget.complete(id, proposal, { estimatedTokenCostMicrousd: 300 }); }

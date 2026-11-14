@@ -1,5 +1,13 @@
 # Mimir Changelog
 
+## 2026-11-14 — Online AI network diagnosis and guarded recovery
+
+- Isolate private-VM failure before generation: metadata credentials work, but Private Google Access cannot reach the pinned multi-regional US API; verify token counting over a run-owned private endpoint
+- Add ownership-checked private-endpoint cleanup for the fixed cutoff and guest shutdown, retaining the original USD 2 hosting ceiling
+- Add explicitly audited recovery of the stopped online spender while preserving unknown-cost holds, receipts, the original USD 5 cap and uncertain-context retry exclusions
+- Record allowlisted failure stage/status codes instead of losing the provider phase; retain live paid-response and sustained qualification as separate gates. [Evidence](evidence/spark-online-ai-recovery-2026-11-14.md)
+
+
 ## 2026-11-14 — Bounded online Spark pilot (S021 in progress)
 
 - Deploy merged persistent-world controls, the expanded frontier observer and metadata-authenticated Gemini runtime behind owner-only access; verify the exact Hosting assets and bridge revision

@@ -9,6 +9,32 @@ import { ORIGINAL_SPARK_ALLOCATION_ID } from "./spark-ai-accounting.js";
 const root=fileURLToPath(new URL("../../../.tmp/recorded-cost-tests",import.meta.url));mkdirSync(root,{recursive:true});
 const dir=()=>mkdtempSync(join(root,"case-"));
 const hash=(n:number)=>"sha256-"+n.toString(16).padStart(64,"0");
+
+test("audited repaired-run resume retains unknown costs, receipts and replay exclusions across restart",()=>{
+ const directory=dir(),copy=join(directory,"target.db"),runId="recovery-pilot-test";
+ const source=new SparkAIBudget(join(directory,"source.db"));source.stop();source.adoptRecordedCosts("Owner approved recorded costs");source.exportForHandoff(copy,runId,"Owner approved handoff");source.close();
+ let budget=new SparkAIBudget(copy,{allocationId:ORIGINAL_SPARK_ALLOCATION_ID,capMicrousd:5000000});budget.resume(4900000,"Owner approved online pilot");budget.markWorldBound();
+ for(let n=1;n<=2;n++){const id=budget.reserve(hash(n));budget.uncertain(id,"provider-countTokens-request-deadline");}budget.stop();
+ const recovery={runId,uncertainAttemptIds:[1,2],evidenceSha256:"a".repeat(64)};
+ assert.throws(()=>budget.resumeAfterRecovery(3900000,"Owner approved repaired continuation",{...recovery,uncertainAttemptIds:[1]}),/all retained/);
+ assert.throws(()=>budget.resumeAfterRecovery(3900000,"Owner approved repaired continuation",{...recovery,runId:"another-run"}),/bound writer/);
+ assert.throws(()=>budget.resumeAfterRecovery(4000000,"Owner approved repaired continuation",recovery),/exact headroom/);
+ budget.resumeAfterRecovery(3900000,"Owner approved repaired continuation",recovery);
+ assert.equal(budget.snapshot().unsettledMicrousd,1000000);assert.equal(budget.snapshot().remainingMicrousd,3900000);assert.equal(budget.snapshot().consecutiveFailures,0);
+ assert.throws(()=>budget.cached(hash(1)),/uncertain/);assert.throws(()=>budget.resumeAfterRecovery(3900000,"duplicate",recovery),/stopped/);budget.close();
+ budget=new SparkAIBudget(copy,{allocationId:ORIGINAL_SPARK_ALLOCATION_ID,capMicrousd:5000000});assert.equal(budget.snapshot().consecutiveFailures,0);
+ const third=budget.reserve(hash(3));budget.uncertain(third,"provider-countTokens-http-403");assert.equal(budget.snapshot().consecutiveFailures,1);
+ const fourth=budget.reserve(hash(4));budget.uncertain(fourth,"provider-countTokens-http-403");assert.equal(budget.snapshot().consecutiveFailures,2);assert.equal(budget.snapshot().unsettledMicrousd,2000000);budget.close();
+});
+
+test("recovery never admits a pending call or an unbound/retired writer",()=>{
+ const directory=dir(),copy=join(directory,"target.db"),runId="recovery-pilot-test";
+ const source=new SparkAIBudget(join(directory,"source.db"));source.stop();source.adoptRecordedCosts("Owner approved costs");source.exportForHandoff(copy,runId,"Owner approved handoff");
+ const recovery={runId,uncertainAttemptIds:[1],evidenceSha256:"b".repeat(64)};
+ assert.throws(()=>source.resumeAfterRecovery(4900000,"Owner approved repaired continuation",recovery),/bound writer/);source.close();
+ const target=new SparkAIBudget(copy,{allocationId:ORIGINAL_SPARK_ALLOCATION_ID,capMicrousd:5000000});target.resume(4900000,"Owner approved run");target.markWorldBound();target.reserve(hash(1));target.stop();
+ assert.throws(()=>target.resumeAfterRecovery(4400000,"Owner approved repaired continuation",recovery),/all retained/);assert.equal(target.snapshot().stopped,true);target.close();
+});
 test("authorized accounting preserves all ten receipts and USD 5 cap while buffering known cost",()=>{
  const path=join(dir(),"budget.db");let budget=new SparkAIBudget(path);
  for(let n=1;n<=10;n++){const id=budget.reserve(hash(n));budget.complete(id,{n},{estimatedTokenCostMicrousd:300});}

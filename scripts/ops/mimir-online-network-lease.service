@@ -1,0 +1,16 @@
+[Unit]
+Description=Remove pilot private AI endpoint during any guest shutdown
+After=network-online.target
+Before=shutdown.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/true
+ExecStop=/opt/node/bin/node --preserve-symlinks-main /opt/mimir-online/current/scripts/online-private-ai-endpoint.mjs /etc/mimir/online-private-ai.json
+TimeoutStopSec=45
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

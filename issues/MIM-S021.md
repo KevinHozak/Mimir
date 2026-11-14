@@ -48,3 +48,8 @@ The recorded-cost policy is applied to the stopped original ledger without new p
 ## Active bounded pilot — 2026-11-14
 
 PR #332 merged; exact Hosting assets and bridge revision verified. The single private writer is running a fresh six-Spark frontier world on Node 22.23.5 at four-minute cadence, with the original USD 5 ledger handed off once and the desktop spender permanently retired. Fixed expiry is 2026-11-15 05:24 UTC; USD 2 hosting controls, actual watchdog ticks, ingress cutoff and independent paired offsite backup/initial restore are verified. At 07:02 UTC pulse 7 was healthy with no new provider attempts yet. Genuine SDK refresh, latest AI-goal restoration, sustained outcomes and final billing remain open. S021 stays in progress. See [current operating record](../docs/spark-ai-online.md) and [sanitized evidence](../docs/evidence/spark-online-2026-11-14.md).
+
+
+## AI recovery repair — 2026-11-14
+
+The online check reached pulse 132 with a healthy world but two uncertain provider failures and no accepted new AI decisions. Diagnosis isolated token-count connectivity: metadata works, while Private Google Access excludes the pinned multi-regional endpoint. A run-owned private endpoint restored countTokens (200, 114 ms) with generation blocked. Early/deadline cleanup controls are armed inside the same USD 2 ceiling. Local audited recovery retains both unknown holds, receipts and the original USD 5 cap; uncertain contexts cannot retry. Safe phase/status diagnostics and focused tests are implemented. Full verification, source delivery and real AI resumption/receipts remain separate gates. [Repair evidence](../docs/evidence/spark-online-ai-recovery-2026-11-14.md).

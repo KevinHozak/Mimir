@@ -28,7 +28,7 @@ export async function requestSpark(raw, transport = fetch) {
     const counted = (await post('countTokens')).totalTokens;
     if (!Number.isSafeInteger(counted) || counted < 0 || counted > 16384) throw Error();
     return { ok: true, countedInputTokens: counted, response: await post('generateContent') };
-  } catch (error) { return { ok: false, stage, ...(Number.isInteger(error.status) ? { httpStatus: error.status } : {}), error: 'bounded-provider-request-failed' }; }
+  } catch (error) { return { ok: false, stage, ...(Number.isInteger(error.status) ? { httpStatus: error.status } : {failureKind:signal.aborted?'request-deadline':error instanceof SyntaxError?'invalid-response':'transport'}), error: 'bounded-provider-request-failed' }; }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   let raw = '', bytes = 0;

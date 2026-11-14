@@ -1,0 +1,12 @@
+[Unit]
+Description=Stop pilot writer and remove its private AI endpoint
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/systemctl stop mimir-online.service
+ExecStart=/opt/node/bin/node --preserve-symlinks-main /opt/mimir-online/current/scripts/online-private-ai-endpoint.mjs /etc/mimir/online-private-ai.json
+TimeoutStartSec=45
+Restart=on-failure
+RestartSec=10
+UMask=0077

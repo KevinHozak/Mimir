@@ -57,17 +57,25 @@ export function createSparkLiveProvider(path: string, broker = sparkBroker, opti
       let timer: ReturnType<typeof setTimeout> | undefined;
       let timedOut = false;
       let knownUsage: any;
+      let failureCode = "provider-or-validation-failure";
       try {
         // The real broker kills its worker at nine seconds. This outer bound also
         // fails closed for a broken/injected broker; a late result cannot settle a receipt.
         task = Promise.race([Promise.resolve().then(() => broker(body)), new Promise<never>((_, reject) => { timer = setTimeout(() => { timedOut = true; reject(new Error("provider timeout")); }, timeoutMs); })]); pending.add(task);
         const receipt = await task;
-        if (!receipt.ok) throw new Error(`Spark provider ${receipt.stage ?? "request"} failed (${receipt.httpStatus ?? "local"})`);
+        if (!receipt.ok) {
+          const stage = ["local", "credentials", "countTokens", "generateContent"].includes(receipt.stage) ? receipt.stage : "request";
+          const detail = Number.isInteger(receipt.httpStatus) && receipt.httpStatus >= 100 && receipt.httpStatus <= 599 ? `http-${receipt.httpStatus}` : ["request-deadline", "transport", "invalid-response"].includes(receipt.failureKind) ? receipt.failureKind : "failed";
+          failureCode = `provider-${stage}-${detail}`;
+          throw new Error("Spark provider request failed");
+        }
+        failureCode = "provider-usage-invalid";
         const result = receipt.response, usage = result?.usageMetadata;
         const input = usage?.promptTokenCount, output = usage?.candidatesTokenCount, thoughts = usage?.thoughtsTokenCount ?? 0;
         if (!Number.isSafeInteger(receipt.countedInputTokens) || receipt.countedInputTokens > 16384 || receipt.countedInputTokens < 0 || !Number.isSafeInteger(input) || input < 0 || input > 16384 || !Number.isSafeInteger(output) || output < 0 || output > 2048 || !Number.isSafeInteger(thoughts) || thoughts < 0 || thoughts > 65536 || !Number.isSafeInteger(usage.totalTokenCount) || usage.totalTokenCount !== input + output + thoughts || result.modelVersion !== SPARK_LIVE_MODEL) throw new Error("Spark AI usage rejected");
         const estimatedTokenCostMicrousd = Math.ceil((input * 330000 + (output + thoughts) * 2750000) / 1000000);
         knownUsage = { countedInputTokens: receipt.countedInputTokens, inputTokens: input, outputTokens: output, reasoningTokens: thoughts, totalTokens: usage.totalTokenCount, estimatedTokenCostMicrousd };
+        failureCode = "proposal-validation-failure";
         if (result.candidates?.length !== 1 || result.candidates[0].finishReason !== "STOP") throw new Error("Spark AI completion rejected");
         const parts = result.candidates[0].content?.parts;
         const text = parts?.filter((p: any) => typeof p.text === "string" && p.thought !== true).map((p: any) => p.text).join("");
@@ -78,8 +86,8 @@ export function createSparkLiveProvider(path: string, broker = sparkBroker, opti
         return proposal;
       } catch (e) {
         if (knownUsage && !timedOut) budget.rejected(id, knownUsage, "proposal-validation-failure");
-        else budget.uncertain(id, timedOut ? "provider-timeout" : "provider-or-validation-failure"); if (timedOut || budget.snapshot().consecutiveFailures >= 2) budget.stop();
-        telemetry.push({ purpose, outcome: "fallback", requestId: id, latencyMs: Date.now() - started, error: "provider-or-validation-failure" });
+        else budget.uncertain(id, timedOut ? "provider-timeout" : failureCode); if (timedOut || budget.snapshot().consecutiveFailures >= 2) budget.stop();
+        telemetry.push({ purpose, outcome: "fallback", requestId: id, latencyMs: Date.now() - started, error: timedOut ? "provider-timeout" : failureCode });
         throw new Error("Spark AI failed; spending accounted; rules fallback");
       } finally { clearTimeout(timer); if (task) pending.delete(task); busy = false; }
   };

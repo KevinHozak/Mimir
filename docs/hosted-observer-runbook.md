@@ -1,5 +1,14 @@
 # Hosted observer runbook
 
+## Private multi-regional Vertex connectivity — S021 repair
+
+Private Google Access does not reach `*.rep.googleapis.com`. Use a pilot-owned regional Private Service Connect endpoint for the pinned US Vertex hostname, not public VM egress or a different model/region. [The operating packet](spark-ai-online.md) records the count-only proof, revised reserves inside the existing USD 2 ceiling, immutable cleanup controller and original deadline.
+
+Install and arm `mimir-online-network-lease.service` and the fixed early `mimir-online-network-cleanup.timer` before creating the billed endpoint. The lease stays active and invokes verified deletion during guest shutdown, including the existing watchdog's early shutdown. The early cleanup service stops the writer before removing the endpoint; its timer must be scheduled five minutes before the original hard cutoff, with retries on failure. Pin a physical controller path and the selected Node binary. Rehearse deletion using the actual VM identity, confirm absence, then re-arm before recreating. Do not treat a successful delete submission or zero CLI exit as proof of absence. Preserve an owned `/etc/hosts` backup and modify only the run-marked hostname entry.
+
+For recovery, use the new audited budget method only while the world writer is stopped and the unchanged lease is still valid. Keep unknown holds, exact attempt IDs, evidence hash and all historical receipts. Recheck current budget status and backup freshness before resuming the four-minute clock. Keep subsequent live receipts and recovery results in the private pilot evidence directory.
+
+
 ## Active S021 pilot — 2026-11-14
 
 [The operating packet](spark-ai-online.md) records the current owner-only deployment, fixed deadline and funding; earlier staging limits below describe their historical scope. The archived world is preserved. No automatic extension, allocation reset or wider access is authorized.

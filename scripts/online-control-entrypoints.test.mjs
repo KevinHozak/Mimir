@@ -20,6 +20,7 @@ test('online unit flags execute real CLI admission guards through a release syml
   try {
     for(const [unit,script,args,message] of [
       ['mimir-online-watchdog.service','online-pilot-watchdog.mjs',[invalid],/Pilot watchdog failed/],
+      ['mimir-online-network-cleanup.service','online-private-ai-endpoint.mjs',[invalid],/Private AI endpoint cleanup failed/],
       ['mimir-online-final-backup.service','online-final-backup.mjs',[],/Explicit final backup configuration required/]
     ]) {
       const line=readFileSync(join(root,'scripts','ops',unit),'utf8').split(/\r?\n/).find(value=>value.startsWith('ExecStart='));
