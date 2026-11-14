@@ -1,6 +1,16 @@
-# S021 online pilot preparation — 2026-11-13
+# S021 bounded online pilot
 
-Status: **NOT ACTIVATED**. The owner authorized S021 continuation under the original USD 5 AI allocation and an additional USD 2 hosting ceiling for a 24-hour owner-only pilot. Local implementation and qualification are in progress; activation still requires the gates below. Historical S008 attribution remains separate.
+## Online pilot activated — 2026-11-14
+
+The owner-only pilot is running at [Mimir](https://mimir-realm.web.app/), from merged source `655078d58dfd3cb92539e825e7969f89cabeff25` ([PR #332](https://github.com/KevinHozak/Mimir/pull/332)). Hosting version `66507d23a4b7ce8d` passed live index and both hashed-asset comparisons. The single private VM writer uses Node 22.23.5, the frontier bundle and a separate six-Spark world; the archived pulse-64 world is preserved. The original allocation was handed off once; the desktop spending copy is permanently retired.
+
+The four-minute clock started at 2026-11-14 06:38 UTC. The fixed end remains **2026-11-15 05:24 UTC** (November 14, 11:24 pm America/Chicago), with cutoff work two minutes earlier; activation delays do not extend it. A conservative hosting cutoff may stop it earlier. The approved limits remain USD 5 total AI and USD 2 additional hosting. Recorded-cost admission uses 2x token estimates plus USD 0.10 reserve, retaining USD 0.50 holds for pending or unknown costs. Reservations and estimates are not invoices.
+
+At 07:02 UTC, pulse 7 was committed, the scheduler and independent offsite backup were healthy, and there were no new provider attempts or goal records yet. The ten historical receipts retain USD 0.008844 estimated token cost, USD 0.117688 guarded allocation usage and USD 4.882312 guarded headroom. The hosting watchdog observed USD 0.229535 of conservatively valued bridge usage, with no observation failures. These are dated observations, not final costs or proof of future outcomes.
+
+Restart identity, owner-authenticated return selection, anonymous denial, owner-write denial at the bridge, actual scheduled watchdog execution, ingress restriction/restoration and initial paired independent offsite restoration passed. Genuine natural Firebase SDK refresh, latest model-goal restoration, sustained outcomes and final cost reconciliation remain open. **S021 remains in progress.** See [deployment evidence](evidence/spark-online-2026-11-14.md). Earlier sections below retain preparation-time observations.
+
+Preparation snapshot (2026-11-13; superseded by the activation record above): **NOT ACTIVATED at that time**. The owner authorized S021 continuation under the original USD 5 AI allocation and an additional USD 2 hosting ceiling for a 24-hour owner-only pilot. Local implementation and qualification are in progress; activation still requires the gates below. Historical S008 attribution remains separate.
 
 ## Proposed deployment
 

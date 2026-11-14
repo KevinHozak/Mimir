@@ -1,5 +1,9 @@
 # Mimir AI Plan
 
+## Current online operation — 2026-11-14
+
+The owner-authorized bounded S021 pilot is active under the original USD 5 AI allocation and USD 2 hosting ceiling. The deployed writer uses Node 22.23.5, a fixed deadline, one spending ledger and an independent paired offsite backup worker. Older local-only/preparation sections retain their dated scope. [Current operating record](spark-ai-online.md) and [deployment evidence](evidence/spark-online-2026-11-14.md) distinguish activation from remaining qualification.
+
 ## Frontier goal payload — S020 (local)
 
 Fresh frontier goal contexts add at most four noticed site opportunities (kind, site/region label, stable ID, actual route cost and own discovery evidence) and one locally visible trace target. New `follow-trace` and `explore-contribute` choices use the same bounded selection validator, 16 KiB cap and authoritative arrival/resource executor. The entire map, global discovery list and hidden memories are excluded. Old recorded contexts/receipts are unchanged. The new local launcher and S020 verification use AI disabled; no renewed allocation or provider calls are authorized by the implementation. S021 retains online/live qualification.

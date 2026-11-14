@@ -1,5 +1,9 @@
 # Mimir: A Light of Our Own â€” Current Architecture
 
+## Current online operation — 2026-11-14
+
+The owner-authorized bounded S021 pilot is active under the original USD 5 AI allocation and USD 2 hosting ceiling. The deployed writer uses Node 22.23.5, a fixed deadline, one spending ledger and an independent paired offsite backup worker. Older local-only/preparation sections retain their dated scope. [Current operating record](spark-ai-online.md) and [deployment evidence](evidence/spark-online-2026-11-14.md) distinguish activation from remaining qualification.
+
 ## Expanded First Glow frontier — S020, local 2026-11-13
 
 Fresh server worlds now select `first-glow-frontier-v1` (`sha256-1ee5c0af5f365d8dee6aaef585dcc986d4286074c84f24a88ec4e77fcb0a079e`): a 64×40 authored map with Charge Reach, Quiet Fold and Shard Verge, 19 sites, limited crossings, four charge-pool locations, four conventional shelter niches, three two-contact rendezvous traces, five discovery/cache sites and two trace weaves. Charge pools still draw from the existing shared regional source ledger; their access differs by geography/contact availability, not separate invented stocks. Assets reuse the recorded repository-authored SVGs.

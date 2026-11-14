@@ -1,5 +1,15 @@
 # Hosted observer runbook
 
+## Active S021 pilot — 2026-11-14
+
+[The operating packet](spark-ai-online.md) records the current owner-only deployment, fixed deadline and funding; earlier staging limits below describe their historical scope. The archived world is preserved. No automatic extension, allocation reset or wider access is authorized.
+
+Use a pinned Node 22.23.5 binary for the pilot writer and backup workers. On the previous Node 22.14.0 runtime, bounded SQLite iteration failed under garbage collection; the pinned replacement passed a forced-GC regression and 16 focused accounting/backup/runtime tests. Do not infer runtime compatibility from compilation alone.
+
+The deployed systemd overrides pin physical release paths. Generic watchdog, cutoff and final-backup templates use `--preserve-symlinks-main` because their CLI entry guards compare the module URL with the launch path. A symlinked launch without that flag can exit successfully without executing the guard. Check two fresh watchdog observation timestamps across actual timer ticks and a real final-backup receipt; exit code zero alone is insufficient. `scripts/online-control-entrypoints.test.mjs` exercises CLI rejection through a release symlink without provider or infrastructure calls.
+
+The selected independent backup worker runs every 15 minutes. Its `offsiteBackup.healthy` status is authoritative for this deployment; the disabled in-process backup scheduler's stale flag does not describe that worker. Restore into a fresh destination with the independent reader identity, checking world tables, immutable bundles and the allocation sidecar. Initial pulse-0 restoration passed; restoration after live AI decisions remains a separate gate.
+
 The supported hosted experience is limited Google-authenticated observation at [mimir-realm.web.app](https://mimir-realm.web.app/), through Firebase Hosting and the Cloud Run bridge to one private Compute Engine VM and SQLite writer. `render.yaml` remains an alternative single-instance configuration, not evidence of a live Render deployment.
 
 ## Current operation â€” 2026-10-23
