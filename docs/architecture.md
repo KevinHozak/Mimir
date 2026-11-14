@@ -1,5 +1,10 @@
 # Mimir: A Light of Our Own â€” Current Architecture
 
+## Incremental checkpoint chart projection — 2026-11-14
+
+`checkpoint-metrics.ts` validates the First Glow chart projection rather than replaying spatial/history validation for every chart sample. `/api/metrics` retains its response fields. A single-active-timeline cache refreshes the mutable head and appends committed checkpoints; changing active timeline discards that cache. Only compact immutable numeric samples are retained. Unsupported versions and malformed measured values fail; full `normalizeState` validation is unchanged for load and historical playback. The original unbounded repeated validation could block the server at a 151-checkpoint online history. [Operating evidence](spark-ai-online.md).
+
+
 ## S021 repaired-run admission — 2026-11-14
 
 The private US Vertex route uses a run-owned Private Service Connect endpoint with early-deadline and guest-shutdown cleanup. The endpoint/model/location and original AI/hosting caps remain pinned. Audited `resumeAfterRecovery` retains uncertain holds and creates a `budget_recoveries` record carrying the run, attempt boundary, all uncertain IDs, guarded totals, authorization and evidence hash. Only the new failure window resets; original uncertain contexts remain non-retriable. Backups carry the complete ledger including this additive audit table. Normal unresolved-attempt resume stays closed, and pending attempts cannot recover. Provider diagnostics persist only bounded stage/status codes. [Operating and verification boundaries](spark-ai-online.md).
