@@ -22,7 +22,7 @@
     "publish:archive": "node scripts/publish-public-archive.mjs",
     "deploy:hosting": "node scripts/deploy-hosting.mjs",
     "test:public-archive": "node scripts/public-archive.test.mjs",
-    "test:observer-bridge-auth": "node scripts/observer-bridge-auth.test.mjs && node scripts/hosted-auth-check.test.mjs && node scripts/observer-bridge-goals.test.mjs && node scripts/observer-bridge-limits.test.mjs",
+    "test:observer-bridge-auth": "node scripts/observer-bridge-auth.test.mjs && node scripts/hosted-auth-check.test.mjs && node scripts/observer-bridge-goals.test.mjs && node scripts/observer-bridge-limits.test.mjs && node scripts/observer-bridge-polling.test.mjs && node scripts/online-polling-watchdog.test.mjs",
     "check:hosted-auth": "node scripts/hosted-auth-check.mjs",
     "test:observer-bridge-sse": "node scripts/observer-bridge-sse.test.mjs",
     "test:observer-bridge-lifecycle": "node scripts/observer-bridge-lifecycle.test.mjs",

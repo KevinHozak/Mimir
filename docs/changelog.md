@@ -1,5 +1,9 @@
 # Mimir Changelog
 
+## Occasional observer polling — 2026-11-14 (implementation)
+
+Hosted read-only observation refreshes every four minutes in visible tabs instead of maintaining SSE and reloading every 15 seconds. The bridge can deny streaming, compress bounded reads and enforce the pilot deadline. A cumulative two-revision hosting guard can return the observer to private-only mode without stopping the simulation, preserving original usage and cost ceilings. [Local verification](evidence/observer-polling-local-2026-11-14.md) is separate from the authorized rollout's live asset/cost checks.
+
 ## 2026-11-14 — Keep retained-history chart reads responsive
 
 - Replace full replay/spatial validation on every metrics read with a validated chart projection and incremental active-timeline cache, preserving existing response values and current-head updates

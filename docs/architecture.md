@@ -1,5 +1,13 @@
 # Mimir: A Light of Our Own â€” Current Architecture
 
+## Cost-bounded observer polling — 2026-11-14
+
+Hosted read-only sessions use `observer-polling.ts` instead of the SSE/15-second refresh pair. A refresh completes before the next four-minute delay begins; hidden tabs pause, visibility changes cannot bypass the interval, and page disposal aborts requests. Failed reads retain committed data and retry at the same cadence. Existing authenticated fetch/401 refresh behavior and selection/history sequencing remain. `VITE_OBSERVER_ENDS_AT` optionally stops frontend requests at the selected deadline; Hosting builds explicitly select polling.
+
+The bridge supports `OBSERVER_POLLING_ONLY=1` (authenticated `/api/live` returns 405 without an upstream stream), `OBSERVER_GZIP=1`, a separate `OBSERVER_MAX_WIRE_RESPONSE_BYTES`, `OBSERVER_READ_TIMEOUT_MS` and `OBSERVER_ENDS_AT`. Raw decoded size and transmitted compressed size have separate caps. Minute accounting counts actual wire bytes. Token validation, read-only routes and upstream authority remain unchanged; no compression is applied to SSE in legacy mode.
+
+`online-polling-watchdog.mjs` aggregates the original and polling revisions with nondecreasing counters and an explicit legacy floor. For the existing pilot it retains the USD 2 cap, USD 0.95 other reserves and USD 1.05 hard bridge ceiling. At USD 1.00 conservative bridge valuation it closes observer ingress and keeps the private simulation running; the remaining USD 0.05 bridge margin covers cutoff/ingestion tail. It validates the exact polling image, serving revision, ingress, scaling and deployed response/time bounds. This source delivery does not itself prove live deployment or final billing.
+
 ## Incremental checkpoint chart projection — 2026-11-14
 
 `checkpoint-metrics.ts` validates the First Glow chart projection rather than replaying spatial/history validation for every chart sample. `/api/metrics` retains its response fields. A single-active-timeline cache refreshes the mutable head and appends committed checkpoints; changing active timeline discards that cache. Only compact immutable numeric samples are retained. Unsupported versions and malformed measured values fail; full `normalizeState` validation is unchanged for load and historical playback. The original unbounded repeated validation could block the server at a 151-checkpoint online history. [Operating evidence](spark-ai-online.md).

@@ -1,3 +1,4 @@
+import { createGzip } from "node:zlib";
 import { createServer } from "node:http";
 import { createServer as createHttp2Server } from "node:http2";
 import { resolve } from "node:path";
@@ -15,12 +16,13 @@ function allowedPath(pathname) {
   if (allowedExact.has(pathname)) return true;
   return /^\/api\/world\/bundles\/sha256-[a-f0-9]{64}(?:\/assets\/.+)?$/.test(pathname);
 }
-export function createObserverBridgeServer({ upstreamOrigin, hostedOrigin = "https://mimir-realm.web.app", streamMaxMs = 900000, verifyObserverToken, onStreamTelemetry, http2 = false, maxStreams = Infinity, maxRequestsPerMinute = Infinity, maxResponseBytes = Infinity, maxBytesPerMinute = Infinity }) {
+export function createObserverBridgeServer({ upstreamOrigin, hostedOrigin = "https://mimir-realm.web.app", streamMaxMs = 900000, verifyObserverToken, onStreamTelemetry, http2 = false, maxStreams = Infinity, maxRequestsPerMinute = Infinity, maxResponseBytes = Infinity, maxBytesPerMinute = Infinity, maxWireResponseBytes = Infinity, pollingOnly = false, gzipResponses = false, readTimeoutMs = 30000, endsAt }) {
 const upstream = new URL(upstreamOrigin);
 if (upstream.protocol !== "http:") throw new Error("observer upstream must use HTTP");
 if (typeof verifyObserverToken !== "function") throw new Error("observer token verifier is required");
 if (!Number.isFinite(streamMaxMs) || streamMaxMs <= 0 || streamMaxMs > 2147483647) throw new Error("invalid observer stream timeout");
-for (const limit of [maxStreams,maxRequestsPerMinute,maxResponseBytes,maxBytesPerMinute]) if (limit !== Infinity && (!Number.isSafeInteger(limit) || limit < 1)) throw Error("invalid observer pilot limit");
+for (const limit of [maxStreams,maxRequestsPerMinute,maxResponseBytes,maxBytesPerMinute,maxWireResponseBytes]) if (limit !== Infinity && (!Number.isSafeInteger(limit) || limit < 1)) throw Error("invalid observer pilot limit");
+if (!Number.isSafeInteger(readTimeoutMs) || readTimeoutMs < 1 || readTimeoutMs > 30000 || (endsAt !== undefined && !Number.isFinite(Date.parse(endsAt)))) throw Error("invalid observer read deadline");
 let requestWindow = Math.floor(Date.now()/60000), windowRequests = 0, windowBytes = 0;
 const rollWindow=()=>{const minute=Math.floor(Date.now()/60000);if(minute!==requestWindow){requestWindow=minute;windowRequests=0;windowBytes=0;}};
 const processSession = randomUUID();
@@ -45,6 +47,8 @@ const server = (http2 ? createHttp2Server : createServer)(async (request, respon
   if (!allowedPath(parsed.pathname)) return response.writeHead(404).end("observer route unavailable");
   if (!await verifyObserverToken(request.headers.authorization)) return response.writeHead(401, { "content-type": "application/json" }).end(JSON.stringify({ error: "approved Google account required" }));
 
+  if (endsAt !== undefined && Date.now() >= Date.parse(endsAt)) return response.writeHead(410).end("observer pilot ended");
+  if (pollingOnly && parsed.pathname === "/api/live") return response.writeHead(405).end("continuous streaming is disabled");
   rollWindow();
   if (++windowRequests > maxRequestsPerMinute || windowBytes >= maxBytesPerMinute) return response.writeHead(429, {"retry-after":"60"}).end("observer request allowance reached");
   const controller = new AbortController();
@@ -64,7 +68,7 @@ const server = (http2 ? createHttp2Server : createServer)(async (request, respon
   request.on("aborted", onAborted);
   response.on("close", onClose);
   if (isLive) { activeRequests += 1; emit("request-open"); }
-  const timer = setTimeout(() => abort("timeout"), isLive ? streamMaxMs : 30000);
+  const timer = setTimeout(() => abort("timeout"), isLive ? streamMaxMs : readTimeoutMs);
   timer.unref();
   try {
     if (request.aborted || response.destroyed) abort("client-close");
@@ -75,6 +79,9 @@ const server = (http2 ? createHttp2Server : createServer)(async (request, respon
       const value = upstreamResponse.headers.get(name);
       if (value) headers[name] = value;
     }
+    const compress = gzipResponses && !isLive && /(?:^|,)\s*gzip(?:\s*;\s*q=(?!0(?:\.0*)?(?:\s|,|$))[0-9.]+)?(?:\s|,|$)/i.test(request.headers["accept-encoding"] ?? "") && /(?:json|text|svg)/i.test(headers["content-type"] ?? "");
+    if (compress) { headers["content-encoding"] = "gzip"; response.setHeader("vary", [response.getHeader("vary"), "Accept-Encoding"].filter(Boolean).join(", ")); }
+    if (pollingOnly && allowedExact.has(parsed.pathname)) headers["cache-control"] = "private, no-store";
     response.writeHead(upstreamResponse.status, headers);
     if (request.method === "HEAD" || !upstreamResponse.body) return response.end();
     if (isLive && upstreamResponse.ok && /^text\/event-stream(?:;|$)/i.test(upstreamResponse.headers.get("content-type") ?? "")) {
@@ -82,9 +89,11 @@ const server = (http2 ? createHttp2Server : createServer)(async (request, respon
     } else if (isLive) reason = "upstream-rejected";
     const body = Readable.fromWeb(upstreamResponse.body);
     body.once("error", () => { if (!controller.signal.aborted) reason = "upstream-error"; });
-    let bytes=0;
-    const limit = new Transform({transform(chunk,_encoding,done){rollWindow();bytes+=chunk.length;windowBytes+=chunk.length;if((!upstreamStream&&bytes>maxResponseBytes)||windowBytes>maxBytesPerMinute){abort("response-limit");done(new Error("observer response allowance reached"));}else done(null,chunk);}});
-    await pipeline(body,limit,response,{signal:controller.signal});
+    let bytes=0, wireBytes=0;
+    const rawLimit = new Transform({transform(chunk,_encoding,done){bytes+=chunk.length;if(!upstreamStream&&bytes>maxResponseBytes){abort("response-limit");done(new Error("observer response allowance reached"));}else done(null,chunk);}});
+    const wireLimit = new Transform({transform(chunk,_encoding,done){rollWindow();wireBytes+=chunk.length;windowBytes+=chunk.length;if(wireBytes>maxWireResponseBytes||windowBytes>maxBytesPerMinute){abort("response-limit");done(new Error("observer wire allowance reached"));}else done(null,chunk);}});
+    if(compress) await pipeline(body,rawLimit,createGzip(),wireLimit,response,{signal:controller.signal});
+    else await pipeline(body,rawLimit,wireLimit,response,{signal:controller.signal});
   } catch (error) {
     if (!controller.signal.aborted) reason = "upstream-error";
     if (!response.headersSent) response.writeHead(error?.name === "AbortError" ? 504 : 502, { "content-type": "application/json" });
@@ -121,7 +130,7 @@ if (isMain) {
   const telemetryEnabled = process.env.OBSERVER_STREAM_TELEMETRY === "1";
   const onStreamTelemetry = telemetryEnabled ? record => console.log(JSON.stringify({ kind: "observer-stream", revision: process.env.K_REVISION ?? "local", ...record })) : undefined;
   const http2 = process.env.OBSERVER_HTTP2 === "1";
-  const server = createObserverBridgeServer({ upstreamOrigin, hostedOrigin, streamMaxMs, verifyObserverToken, onStreamTelemetry, http2, maxStreams: Number(process.env.OBSERVER_MAX_STREAMS ?? Infinity), maxRequestsPerMinute: Number(process.env.OBSERVER_REQUESTS_PER_MINUTE ?? Infinity), maxResponseBytes: Number(process.env.OBSERVER_MAX_RESPONSE_BYTES ?? Infinity), maxBytesPerMinute: Number(process.env.OBSERVER_BYTES_PER_MINUTE ?? Infinity) });
+  const server = createObserverBridgeServer({ upstreamOrigin, hostedOrigin, streamMaxMs, verifyObserverToken, onStreamTelemetry, http2, maxStreams: Number(process.env.OBSERVER_MAX_STREAMS ?? Infinity), maxRequestsPerMinute: Number(process.env.OBSERVER_REQUESTS_PER_MINUTE ?? Infinity), maxResponseBytes: Number(process.env.OBSERVER_MAX_RESPONSE_BYTES ?? Infinity), maxBytesPerMinute: Number(process.env.OBSERVER_BYTES_PER_MINUTE ?? Infinity), maxWireResponseBytes: Number(process.env.OBSERVER_MAX_WIRE_RESPONSE_BYTES ?? Infinity), pollingOnly: process.env.OBSERVER_POLLING_ONLY === "1", gzipResponses: process.env.OBSERVER_GZIP === "1", readTimeoutMs: Number(process.env.OBSERVER_READ_TIMEOUT_MS ?? 30000), endsAt: process.env.OBSERVER_ENDS_AT });
   if (telemetryEnabled) {
     onStreamTelemetry({ ...server.observerStreamSnapshot(), event: "baseline" });
     const sampleTimer = setInterval(() => onStreamTelemetry({ ...server.observerStreamSnapshot(), event: "sample" }), 30000);

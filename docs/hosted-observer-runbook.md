@@ -1,5 +1,13 @@
 # Hosted observer runbook
 
+## Polling-only pilot observer — 2026-11-14
+
+For the original bounded pilot, use the existing approved Google owner identity, max-one/min-zero service and revision scaling, and pinned polling image. Set `OBSERVER_POLLING_ONLY=1`, `OBSERVER_GZIP=1`, `OBSERVER_MAX_WIRE_RESPONSE_BYTES=524288`, `OBSERVER_BYTES_PER_MINUTE=524288`, `OBSERVER_REQUESTS_PER_MINUTE=24`, `OBSERVER_READ_TIMEOUT_MS=5000` and `OBSERVER_ENDS_AT=2026-11-15T05:24:00Z`; retain the raw 8 MiB response cap. Old cached clients cannot reopen SSE. Build Hosting with the same `VITE_OBSERVER_ENDS_AT`, through the existing deployment command from merged main, and verify exact assets.
+
+Before changing the Cloud Run revision, qualify the cumulative polling guard while ingress is still internal-only and the original revision still serves. Preserve the old guard/usage receipts; never reset them or open ingress before the new image, traffic, token-denial, compressed size and guard checks pass. The guard admits only the two pinned revisions, verifies the candidate bounds and counts both revisions. It closes observation at USD 1.00 bridge valuation, retains the USD 1.05 bridge hard ceiling plus USD 0.95 reserves, and leaves the AI writer private when viewing closes. Update the existing cutoff's owned revision to the polling candidate, retaining all deadlines. Original 05:19 UTC cleanup and 05:24 UTC hard stop remain; no budget renewal or wider audience is implied.
+
+Verify a signed-in visible tab with its preserved selection, a later naturally committed pulse, no `/api/live`, no 15-second refresh and zero active streams. Test anonymous and write denial separately. Do not treat local synthetic auth, a successful image build or a Firebase command alone as hosted qualification. Record actual admission, hashes and live usage privately after deployment. See [local evidence](evidence/observer-polling-local-2026-11-14.md).
+
 ## Paused-writer recovery and chart load — 2026-11-14
 
 Do not resume a pilot whose health listener or backup checks are unresponsive. The S021 chart repair separates measurement projection from expensive replay validation and caches appended samples. Qualify both cold chart reads and a concurrent health read on a real retained history before resuming. If the old listener cannot answer, stop the already-paused writer, verify the persisted run/pause/checkpoint and stopped allocation directly, and use a proper stopped-writer paired backup; these are alternate authoritative facts, not permission to skip lease or budget checks.
