@@ -12,6 +12,7 @@ import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first
 import { initializeFirstGlowEventAdmission } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
 import { normalizeState } from "./state.js";
+import { CheckpointMetrics } from "./checkpoint-metrics.js";
 import { recordedChronicleEvents } from "./chronicle-events.js";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { loadOffsiteStatus, offsiteHealth } from "./backup-offsite.js";
@@ -355,28 +356,8 @@ app.get("/api/live", async (request, reply) => { if (!(await requireObserver(req
 app.get("/api/world", async (request, reply) => { const query = request.query as { pulse?: string }; if (query.pulse === undefined) return { state, timelineId: activeTimelineId, schedulerPaused }; const pulse = Number(query.pulse); if (!Number.isInteger(pulse) || pulse < 0) return reply.code(400).send({ error: "pulse must be a non-negative integer" }); const row = database.prepare("SELECT state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse = ?").get(activeTimelineId, pulse) as { state_json: string } | undefined; if (!row) return reply.code(404).send({ error: `No checkpoint exists for pulse ${pulse}` }); return { state: normalizeState(JSON.parse(row.state_json) as WorldState), timelineId: activeTimelineId, schedulerPaused }; });
 app.get("/api/events", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT event_json FROM timeline_events WHERE timeline_id = ? ORDER BY pulse DESC LIMIT ?").all(activeTimelineId, limit) as { event_json: string }[]; return { events: rows.reverse().map((row) => JSON.parse(row.event_json) as WorldEvent[]).flat(), timelineId: activeTimelineId }; });
 app.get("/api/interpretations", async (request) => { const query = request.query as { limit?: string }; const limit = Math.min(200, Math.max(1, Number(query.limit ?? 50))); const rows = database.prepare("SELECT interpretation_json FROM timeline_interpretations WHERE timeline_id = ? ORDER BY pulse DESC, id DESC LIMIT ?").all(activeTimelineId, limit) as { interpretation_json: string }[]; return { interpretations: rows.reverse().map((row) => JSON.parse(row.interpretation_json) as SocialInterpretation), timelineId: activeTimelineId }; });
-app.get("/api/metrics", async () => {
-  const rows = database.prepare("SELECT pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? ORDER BY pulse ASC").iterate(activeTimelineId) as Iterable<{ pulse: number; state_json: string }>;
-  return {
-    timelineId: activeTimelineId,
-    metrics: Array.from(rows, (row) => {
-      const snapshot = normalizeState(JSON.parse(row.state_json) as WorldState);
-       const sparks = snapshot.firstGlowState.settlements.flatMap((settlement) => settlement.sparks);
-       return {
-         pulse: row.pulse,
-         foodReserve: 0,
-         averageTrust: 0,
-         hungryVillagers: sparks.filter((spark) => spark.chargeDeficit > 0).length,
-         travelingVillagers: sparks.filter((spark) => spark.status === "traveling").length,
-         collectingVillagers: sparks.filter((spark) => spark.intendedActivity === "draw-charge").length,
-         sourceCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0),
-         communalCharge: snapshot.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0),
-         averageReadiness: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.readiness, 0) / sparks.length) : 0,
-         averageChargeDeficit: sparks.length ? Math.round(sparks.reduce((total, spark) => total + spark.chargeDeficit, 0) / sparks.length) : 0
-       };
-    })
-  };
-});
+const checkpointMetrics=new CheckpointMetrics((timelineId,fromPulse)=>database.prepare("SELECT pulse, state_json FROM timeline_checkpoints WHERE timeline_id = ? AND pulse >= ? ORDER BY pulse ASC").iterate(timelineId,fromPulse) as Iterable<{pulse:number;state_json:string}>);
+app.get("/api/metrics", async () => ({timelineId:activeTimelineId,metrics:checkpointMetrics.read(activeTimelineId)}));
 function reportSummary() { const sparks = state.firstGlowState.settlements.flatMap(settlement => settlement.sparks); return { season: 0, scenarioName: "The First Glow", finalFood: 0, averageTrust: 0, villagers: 0, dilemmasResolved: 0, latestDilemma: null, firstGlow: { sourceCharge: state.firstGlowState.settlements.reduce((total, settlement) => total + settlement.sourceCharge, 0), communalCharge: state.firstGlowState.settlements.reduce((total, settlement) => total + settlement.communalCharge, 0), carriedCharge: sparks.reduce((total, spark) => total + spark.carriedCharge, 0), chargeDeficit: sparks.reduce((total, spark) => total + spark.chargeDeficit, 0), sparks: sparks.length } }; }
 app.get("/api/report", async () => { const timeline = currentTimeline(); const counts = database.prepare("SELECT (SELECT COUNT(*) FROM timeline_checkpoints WHERE timeline_id = ?) AS checkpoints, (SELECT COUNT(*) FROM timeline_events WHERE timeline_id = ?) AS events, (SELECT COUNT(*) FROM timeline_interpretations WHERE timeline_id = ?) AS interpretations").get(activeTimelineId, activeTimelineId, activeTimelineId) as { checkpoints: number; events: number; interpretations: number }; return { timeline, pulse: state.pulse, schedulerPaused, pulseIntervalMs, databaseBytes: existsSync(databasePath) ? statSync(databasePath).size : 0, socialMode, socialBudgetCents, fallbackCount: counts.interpretations, summary: reportSummary(), ...counts }; });
 app.post("/api/scheduler", async (request, reply) => { if (!requireOwner(request, reply)) return; const body = request.body as { paused?: unknown; intervalMs?: unknown } | undefined; if (body?.paused === false && onlineRun.expired()) return reply.code(409).send({ error: "online run lease expired" }); if (body?.paused !== undefined && typeof body.paused !== "boolean") return reply.code(400).send({ error: "paused must be a boolean" }); if (body?.intervalMs !== undefined && (!Number.isInteger(body.intervalMs) || Number(body.intervalMs) < onlineCadenceMinimum || Number(body.intervalMs) > 300000)) return reply.code(400).send({ error: "intervalMs must be within the selected cadence bounds (maximum 300000)" }); if (typeof body?.intervalMs === "number") pulseIntervalMs = body.intervalMs; if (typeof body?.paused === "boolean") schedulerPaused = body.paused; persistSchedulerPause(); restartScheduler(); return { schedulerPaused, pulseIntervalMs }; });

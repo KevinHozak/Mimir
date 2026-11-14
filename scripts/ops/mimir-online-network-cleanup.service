@@ -6,6 +6,7 @@ StartLimitIntervalSec=0
 Type=oneshot
 ExecStartPre=/usr/bin/systemctl stop mimir-online.service
 ExecStart=/opt/node/bin/node --preserve-symlinks-main /opt/mimir-online/current/scripts/online-private-ai-endpoint.mjs /etc/mimir/online-private-ai.json
+ExecStartPost=/usr/bin/systemctl --no-block start mimir-online-final-backup.service
 TimeoutStartSec=45
 Restart=on-failure
 RestartSec=10

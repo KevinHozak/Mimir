@@ -53,3 +53,8 @@ PR #332 merged; exact Hosting assets and bridge revision verified. The single pr
 ## AI recovery repair — 2026-11-14
 
 The online check reached pulse 132 with a healthy world but two uncertain provider failures and no accepted new AI decisions. Diagnosis isolated token-count connectivity: metadata works, while Private Google Access excludes the pinned multi-regional endpoint. A run-owned private endpoint restored countTokens (200, 114 ms) with generation blocked. Early/deadline cleanup controls are armed inside the same USD 2 ceiling. Local audited recovery retains both unknown holds, receipts and the original USD 5 cap; uncertain contexts cannot retry. Safe phase/status diagnostics and focused tests are implemented. Full verification, source delivery and real AI resumption/receipts remain separate gates. [Repair evidence](../docs/evidence/spark-online-ai-recovery-2026-11-14.md).
+
+
+## Pulse-150 chart/read recovery — 2026-11-14
+
+AI recovery PR #334 is merged but was not activated: the old paused server blocked on chart/history reads and stopped answering health requests. The already-paused writer was stopped and its run/pause/checkpoint were independently verified. A proper stopped-writer paired backup succeeded in 22 seconds. The narrow metrics projection/cache passes focused tests and a real read-only Node22 probe of 151 checkpoints (3.44 s cold, 36 ms warm). Full source verification, repaired HTTP responsiveness, same-world audited resume, independent restoration and real AI decisions remain required. The original budget and hard cutoff remain fixed.

@@ -1,5 +1,13 @@
 # Mimir Changelog
 
+## 2026-11-14 — Keep retained-history chart reads responsive
+
+- Replace full replay/spatial validation on every metrics read with a validated chart projection and incremental active-timeline cache, preserving existing response values and current-head updates
+- Verify measurement equivalence, geometry/history isolation, append behavior, timeline switching and malformed input rejection; probe the actual 151-checkpoint pilot history at 3.44 seconds cold / 36 ms warm on Node 22
+- Allow grown-history final backups three minutes and start one after the five-minute-early network cleanup, preserving the original hard cutoff. A stopped-writer pulse-150 paired backup completed in 22 seconds
+- Retain same-world restart, repaired HTTP responsiveness and successful AI decisions as separate activation checks. [Operating record](spark-ai-online.md)
+
+
 ## 2026-11-14 — Online AI network diagnosis and guarded recovery
 
 - Isolate private-VM failure before generation: metadata credentials work, but Private Google Access cannot reach the pinned multi-regional US API; verify token counting over a run-owned private endpoint

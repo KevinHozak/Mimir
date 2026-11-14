@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test:goals": "npm run build && node --test dist/first-glow-goals.test.js dist/spark-goal-ai.test.js dist/spark-goal-server.test.js",
-    "test:state": "npm run build && node dist/state.test.js",
+    "test:state": "npm run build && node dist/state.test.js && node --test dist/checkpoint-metrics.test.js",
     "build": "tsc -p tsconfig.json",
     "test:first-glow-restart": "npm run build && node dist/first-glow-restart.test.js",
     "test:first-glow-commands": "npm run build && node dist/first-glow-commands.test.js",

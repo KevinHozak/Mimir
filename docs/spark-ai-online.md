@@ -1,5 +1,14 @@
 # S021 bounded online pilot
 
+## Blocking chart read repair — 2026-11-14
+
+Before activation of the merged AI recovery, the paused pulse-150 server stopped answering health requests and filled its TCP accept queue. `/api/metrics` synchronously normalized and fully validated every historical world, including spatial/replay material. The already-paused writer was stopped; its checkpoint and pause were independently read from SQLite, and a proper stopped-writer paired offsite backup succeeded in 22 seconds. AI remains stopped in this source snapshot.
+
+The chart now projects only compatible measured fields, with numeric validation, and caches the one active timeline. Subsequent reads refresh its mutable head and append new samples. Full state normalization remains at checkpoint load and replay boundaries. No world, goal, charge, ledger or reflection state is changed by metrics reads. On the actual Node 22 VM, the read-only pulse-150 history returned 151 samples in 3.44 seconds cold and 36 ms warm, rereading one head row on the warm request. This is a dated isolated probe; repaired HTTP health and subsequent live AI receipts remain separate deployment checks.
+
+Final backup units now allow 180 seconds. The five-minute-early network cleanup stops the writer and queues its final backup after endpoint removal, leaving the original independent hard cutoff unchanged. The existing watchdog still has its bounded final-backup wait and may retain a prior verified snapshot if an emergency backup fails. Never extend the run to finish a backup.
+
+
 ## Private US API repair and audited recovery — 2026-11-14
 
 The pulse-132 check found two uncertain provider attempts, no accepted new AI decisions and a safely stopped spender. The simulation continued with rules. A generation-blocked diagnostic isolated the fault: metadata credentials returned 200, but the US multi-regional `countTokens` connection exhausted its 8.5-second deadline. The private VM's Private Google Access excludes `*.rep.googleapis.com`; [Google documents that limitation](https://docs.cloud.google.com/vpc/docs/private-google-access).

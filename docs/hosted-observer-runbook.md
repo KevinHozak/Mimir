@@ -1,5 +1,12 @@
 # Hosted observer runbook
 
+## Paused-writer recovery and chart load — 2026-11-14
+
+Do not resume a pilot whose health listener or backup checks are unresponsive. The S021 chart repair separates measurement projection from expensive replay validation and caches appended samples. Qualify both cold chart reads and a concurrent health read on a real retained history before resuming. If the old listener cannot answer, stop the already-paused writer, verify the persisted run/pause/checkpoint and stopped allocation directly, and use a proper stopped-writer paired backup; these are alternate authoritative facts, not permission to skip lease or budget checks.
+
+The final-backup service allows 180 seconds for grown histories. Five minutes before the unchanged hard deadline, network cleanup stops the writer, removes its owned endpoint and queues the final backup. The original cutoff timer and independent hard shutdown still win. Regular backup health and independent restoration remain required. Preserve incomplete artifacts from timed-out attempts and distinguish infrastructure delay from application assertions.
+
+
 ## Private multi-regional Vertex connectivity — S021 repair
 
 Private Google Access does not reach `*.rep.googleapis.com`. Use a pilot-owned regional Private Service Connect endpoint for the pinned US Vertex hostname, not public VM egress or a different model/region. [The operating packet](spark-ai-online.md) records the count-only proof, revised reserves inside the existing USD 2 ceiling, immutable cleanup controller and original deadline.
