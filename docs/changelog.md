@@ -1,5 +1,12 @@
 # Mimir Changelog
 
+## 2026-11-14 — Bounded online Spark pilot (S021 in progress)
+
+- Deploy merged persistent-world controls, the expanded frontier observer and metadata-authenticated Gemini runtime behind owner-only access; verify the exact Hosting assets and bridge revision
+- Preserve the original USD 5 allocation and ten receipts while replacing completed-request reservation accounting with buffered recorded costs; retire the desktop spender during the single-writer handoff
+- Start the four-minute online clock with a fixed expiry, conservative USD 2 hosting controls and independent world/bundles/allocation backups; verify restart and initial cold restoration
+- Retain genuine Firebase refresh, live model outcomes, latest-goal restoration and sustained pilot qualification as open gates. [Dated evidence](evidence/spark-online-2026-11-14.md)
+
 ## 2026-11-13 — Expanded frontier and cooperative goals (S020, local)
 
 - Author a 64×40, three-region frontier with distributed resource access, discoveries, three genuine rendezvous sites and two trace weaves; retain old immutable bundles and histories.

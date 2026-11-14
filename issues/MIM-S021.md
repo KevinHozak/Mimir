@@ -43,3 +43,8 @@ The owner superseded preparation-only mode and authorized recorded costs plus a 
 ## Bounded-memory and rollback verification
 
 The recorded-cost policy is applied to the stopped original ledger without new provider calls. The independently restored pulse-64 off-host backup remains intact; new streamed recovery hashes match all previous table hashes exactly. The 78 MB / 81-checkpoint frontier database was also hashed under a 96 MiB Node heap limit (26 MiB observed JavaScript heap). Selected stream, read-rate and response-size limits passed local transport checks. Existing VM and backup timers were inspected without mutation; no new release, inference, traffic change or clock activation has occurred. The final full verifier remains the publication gate.
+
+
+## Active bounded pilot — 2026-11-14
+
+PR #332 merged; exact Hosting assets and bridge revision verified. The single private writer is running a fresh six-Spark frontier world on Node 22.23.5 at four-minute cadence, with the original USD 5 ledger handed off once and the desktop spender permanently retired. Fixed expiry is 2026-11-15 05:24 UTC; USD 2 hosting controls, actual watchdog ticks, ingress cutoff and independent paired offsite backup/initial restore are verified. At 07:02 UTC pulse 7 was healthy with no new provider attempts yet. Genuine SDK refresh, latest AI-goal restoration, sustained outcomes and final billing remain open. S021 stays in progress. See [current operating record](../docs/spark-ai-online.md) and [sanitized evidence](../docs/evidence/spark-online-2026-11-14.md).
