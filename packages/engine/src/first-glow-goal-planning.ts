@@ -1,3 +1,4 @@
+import { leaveProductiveContact, publiclyFinishingGoal, type GoalCommunity } from './first-glow-community.js';
 import { recoveryForecastSettlement } from './first-glow-recovery-admission.js';
 import type { FirstGlowGoal } from './first-glow-goals.js';
 import { interruptFirstGlowGoal } from './first-glow-goals.js';
@@ -6,8 +7,8 @@ export const GOAL_PLANNING_VERSION = 'varied-coordinated-goals-v1' as const;
 export const GOAL_REFINEMENT_VERSION = 'local-cooperation-variety-v2' as const;
 export const RENDEZVOUS_PREPARATION_PULSES = 16;
 export const MEETING_WINDOW_PULSES = 8;
-export interface GoalRendezvous { partnerId: string; offeredPulse: number; expiresPulse: number; offerEventId: string; status: 'preparing' | 'accepted' | 'ended'; }
-export interface GoalPlanning { version: typeof GOAL_PLANNING_VERSION; activatedPulse: number; refinement?: {version: typeof GOAL_REFINEMENT_VERSION; activatedPulse: number}; }
+export interface GoalRendezvous { partnerId: string; offeredPulse: number; expiresPulse: number; offerEventId: string; status: 'preparing' | 'accepted' | 'ended'; afterGoalId?: string; }
+export interface GoalPlanning { version: typeof GOAL_PLANNING_VERSION; activatedPulse: number; community?: GoalCommunity; refinement?: {version: typeof GOAL_REFINEMENT_VERSION; activatedPulse: number}; }
 export interface GoalMeeting { startedPulse: number; deadlinePulse: number; partnerId?: string; invitationEventId?: string; acceptedPulse?: number; ownerSlotId?: string; partnerSlotId?: string; }
 const ready=(s:FirstGlowSpark)=>s.carriedCharge>=2&&s.chargeDeficit===0&&s.readiness>=90&&s.intention?.status!=='active';
 export function coordinatedGoalFor(state:FirstGlowState,sparkId:string):FirstGlowGoal|undefined {
@@ -37,8 +38,8 @@ export function preparableMeetingPartner(state:FirstGlowState,settlement:FirstGl
  const canPrepare=(a:FirstGlowSpark)=>a.readiness>=70 && a.intention?.status!=='active' && ['seek-charge','seek-shelter'].every(activity=>firstGlowRouteCandidates(recoveryForecastSettlement(settlement),{...a,frontierTargetObjectId:undefined},activity as 'seek-charge'|'seek-shelter').some(r=>r.cost<=12)) && settlement.sourceCharge>0;
  if(!canPrepare(actor))return;
  for(const peer of settlement.sparks.slice().sort((a,b)=>a.id<b.id?-1:1)){
-  if(peer.id===actor.id || !canPrepare(peer) || Math.abs(peer.position.x-actor.position.x)+Math.abs(peer.position.y-actor.position.y)>5 || coordinatedGoalFor(state,peer.id) || preparingRendezvousFor(state,peer.id) || state.goalLoops.goals.some(g=>g.sparkId===peer.id&&g.status==='active') || !state.frontier?.discoveries.some(d=>d.sparkId===peer.id&&d.objectId===objectId))continue;
-  if((peer.destinationObjectId||peer.destinationCell||!['choosing','waiting','idle'].includes(peer.status))&&!recoveryActivity(peer))continue;
+  if(peer.id===actor.id || !canPrepare(peer) || Math.abs(peer.position.x-actor.position.x)+Math.abs(peer.position.y-actor.position.y)>5 || coordinatedGoalFor(state,peer.id) || preparingRendezvousFor(state,peer.id) || (state.goalLoops.goals.some(g=>g.sparkId===peer.id&&g.status==='active')&&!publiclyFinishingGoal(state,actor.id,peer.id)) || !state.frontier?.discoveries.some(d=>d.sparkId===peer.id&&d.objectId===objectId))continue;
+  if((peer.destinationObjectId||peer.destinationCell||!['choosing','waiting','idle'].includes(peer.status))&&!recoveryActivity(peer)&&!publiclyFinishingGoal(state,actor.id,peer.id))continue;
   for(const a of routes(actor))for(const b of routes(peer))if(a.slotId!==b.slotId&&a.target.x===b.target.x&&a.target.y===b.target.y&&a.cost<=12&&b.cost<=12)return{peer,ownerRoute:a,partnerRoute:b};
  }
 }
@@ -48,14 +49,16 @@ export function offerGoalRendezvous(state:FirstGlowState,g:FirstGlowGoal):void {
  const partner=preparableMeetingPartner(state,s,actor,g.targetObjectId!);
  if(!partner || partner.peer.id!==g.preferredPartnerId)throw Error('Selected rendezvous is no longer feasible');
  const id=`event-${state.pulse}-${g.id}-rendezvous-offer`;
- g.rendezvous={partnerId:partner.peer.id,offeredPulse:state.pulse,expiresPulse:state.pulse+RENDEZVOUS_PREPARATION_PULSES,offerEventId:id,status:'preparing'};
+ g.rendezvous={...(publiclyFinishingGoal(state,actor.id,partner.peer.id)?{afterGoalId:publiclyFinishingGoal(state,actor.id,partner.peer.id)!.id}:{}),partnerId:partner.peer.id,offeredPulse:state.pulse,expiresPulse:state.pulse+RENDEZVOUS_PREPARATION_PULSES,offerEventId:id,status:'preparing'};
  for(const a of [actor,partner.peer])a.knownEvidenceEventIds.push(id);
  state.events.push({id,pulse:state.pulse,kind:'goal',actorId:actor.id,objectId:g.targetObjectId,participants:[actor.id,partner.peer.id],source:'rules',evidenceEventIds:[id],message:`${actor.name} offered ${partner.peer.name} a local rendezvous; rules accepted up to sixteen pulses of ordinary recovery preparation before physical meeting admission.`});
 }
 /** Returns true while preserving committed recovery; a prepared partner waits without free resource production. */
 export function selectRendezvousPreparation(state:FirstGlowState,s:FirstGlowSettlement,a:FirstGlowSpark):boolean {
  const g=preparingRendezvousFor(state,a.id);if(!g)return false;
+ if(g.rendezvous?.afterGoalId&&a.id===g.rendezvous.partnerId&&state.goalLoops!.goals.some(other=>other.id===g.rendezvous!.afterGoalId&&other.status==='active'))return false;
  if(a.destinationObjectId||a.destinationCell||a.status==='traveling'||a.status==='interacting')return true;
+ if(g.rendezvous?.afterGoalId&&a.id===g.sparkId&&state.goalLoops!.goals.some(other=>other.id===g.rendezvous!.afterGoalId&&other.status==='active')&&leaveProductiveContact(s,a))return true;
  const route=firstGlowRouteCandidates(s,{...a,frontierTargetObjectId:undefined},'meet',g.targetObjectId!)[0];
  const needed=Math.ceil((route?.cost??12)/2)+2;
  a.intendedActivity=a.carriedCharge<needed||a.chargeDeficit>0?'seek-charge':a.readiness<98?'seek-shelter':'idle';
@@ -107,7 +110,8 @@ export function validateGoalPlanning(state:FirstGlowState):void {
  for(const g of state.goalLoops?.goals??[]){const r=g.rendezvous;if(!r)continue;
   const s=state.settlements.find(s=>s.sparks.some(a=>a.id===g.sparkId))!,peer=s.sparks.find(a=>a.id===r.partnerId),actor=s.sparks.find(a=>a.id===g.sparkId)!;
   if(!g.context.planning?.refinement||g.kind!=='explore-meet-mark'||r.partnerId!==g.preferredPartnerId||!peer||peer.id===g.sparkId||r.offeredPulse!==g.createdPulse||r.expiresPulse!==r.offeredPulse+RENDEZVOUS_PREPARATION_PULSES||!['preparing','accepted','ended'].includes(r.status)||!actor.knownEvidenceEventIds.includes(r.offerEventId)||!peer.knownEvidenceEventIds.includes(r.offerEventId)||!state.frontier?.discoveries.some(d=>d.sparkId===peer.id&&d.objectId===g.targetObjectId&&d.pulse<=r.offeredPulse))fail();
-  if(r.status==='preparing'&&(g.meeting||g.status!=='active'||g.step>1||state.pulse>=r.expiresPulse||state.goalLoops!.goals.some(other=>other.sparkId===r.partnerId&&other.status==='active')))fail();
+  if(r.status==='preparing'&&(g.meeting||g.status!=='active'||g.step>1||state.pulse>=r.expiresPulse||state.goalLoops!.goals.some(other=>other.sparkId===r.partnerId&&other.status==='active'&&other.id!==r.afterGoalId)))fail();
+  if(r.afterGoalId&&(!g.context.planning?.community||!state.goalLoops!.goals.some(other=>other.id===r.afterGoalId&&other.sparkId===r.partnerId&&other.createdPulse<=r.offeredPulse)||!g.context.planning.localIntentions?.some(n=>n.goalId===r.afterGoalId&&n.sparkId===r.partnerId)))fail();
   if(r.status==='accepted'&&(!g.meeting||g.meeting.partnerId!==r.partnerId||g.meeting.acceptedPulse!>=r.expiresPulse))fail();
   if(g.status==='active'&&g.step<=1&&r.status!=='ended')for(const id of[g.sparkId,r.partnerId]){if(leases.has(id))fail();leases.add(id);}
  }

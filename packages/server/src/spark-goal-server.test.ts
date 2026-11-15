@@ -105,6 +105,17 @@ test("real server commits opted-in goal selection even with no social interpreta
     await stopTestProcesses([child]);child=undefined;await start();
     const reopenedRefinement=await post('/api/pulse') as any;assert.deepEqual(reopenedRefinement.state.firstGlowState.goalLoops.planning.refinement,refined.state.firstGlowState.goalLoops.planning.refinement);
     await stopTestProcesses([child]);child=undefined;
+    await start();
+    const community={version:'local-intentions-arrivals-v1',addCount:6,expectedTimelineId:frontier.timeline.id,expectedPulse:6};
+    const communityUnauth=await fetch(origin+'/api/owner/goals/community',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(community)});assert.equal(communityUnauth.status,401);
+    const badPopulation=await fetch(origin+'/api/owner/goals/community',{method:'POST',headers:{'content-type':'application/json','x-owner-token':owner},body:JSON.stringify({...community,addCount:3})});assert.equal(badPopulation.status,409);
+    const beforeCommunity=new DatabaseSync(database,{readOnly:true});const oldCommunityCheckpoint=beforeCommunity.prepare('SELECT state_json FROM timeline_checkpoints WHERE timeline_id=? AND pulse=6').get(frontier.timeline.id);beforeCommunity.close();
+    assert.equal((await post('/api/owner/goals/community',community) as any).status,'pending');
+    await stopTestProcesses([child]);child=undefined;await start();
+    const grown=await post('/api/pulse') as any;assert.equal(grown.state.firstGlowState.settlements[0].sparks.length,12);assert.equal(grown.state.firstGlowState.goalLoops.planning.community.activatedPulse,7);assert.equal(grown.state.firstGlowState.social.trust.length,132);assert.ok(grown.events.some((e:any)=>e.id==='event-7-community-activation'));assert.equal(grown.events.filter((e:any)=>/-spark-(7|8|9|10|11|12)-arrival$/.test(e.id)).length,6);
+    const grownDb=new DatabaseSync(database,{readOnly:true});assert.deepEqual(grownDb.prepare('SELECT state_json FROM timeline_checkpoints WHERE timeline_id=? AND pulse=6').get(frontier.timeline.id),oldCommunityCheckpoint);assert.equal(grownDb.prepare("SELECT value FROM runtime_metadata WHERE key='goal_community_activation'").get(),undefined);grownDb.close();
+    await stopTestProcesses([child]);child=undefined;await start();
+    const grownReopened=await post('/api/pulse') as any;assert.equal(grownReopened.state.firstGlowState.settlements[0].sparks.length,12);assert.equal(grownReopened.state.firstGlowState.goalLoops.planning.community.arrivalIds.length,6);await stopTestProcesses([child]);child=undefined;
     database = join(folder, "legacy.db");
     await start(false);
     await stopTestProcesses([child]); child = undefined;

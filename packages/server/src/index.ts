@@ -7,7 +7,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { GOAL_REFINEMENT_VERSION, activateFirstGlowOnlineCadence, ONLINE_REFLECTION_CADENCE_VERSION, GOAL_PLANNING_VERSION, advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildChronicleEdition, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, validateChronicleEdition, type ChronicleEdition, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type StructuredEvent, type WorldEvent, type WorldState, summarizeFirstGlowGoals } from "@mimir/engine";
+import { COMMUNITY_VERSION, activateGoalCommunity, validateFirstGlowState, GOAL_REFINEMENT_VERSION, activateFirstGlowOnlineCadence, ONLINE_REFLECTION_CADENCE_VERSION, GOAL_PLANNING_VERSION, advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildChronicleEdition, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, validateChronicleEdition, type ChronicleEdition, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type StructuredEvent, type WorldEvent, type WorldState, summarizeFirstGlowGoals } from "@mimir/engine";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { initializeFirstGlowEventAdmission } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
@@ -463,6 +463,18 @@ app.post("/api/owner/goals/refinement", async (request, reply) => {
   return { status: "pending", ...activation };
 });
 
+app.post("/api/owner/goals/community", async (request, reply) => {
+  if (!requireOwner(request, reply)) return;
+  const body = request.body as { version?: unknown; expectedTimelineId?: unknown; expectedPulse?: unknown; addCount?:unknown } | undefined;
+  if (body?.version !== COMMUNITY_VERSION || body.addCount!==6 || body.expectedTimelineId !== activeTimelineId || body.expectedPulse !== state.pulse || !state.firstGlowState.goalLoops || !state.firstGlowState.frontier || !state.firstGlowState.goalLoops.planning?.refinement || state.firstGlowState.settlements[0].sparks.length!==6 || onlineRun.expired() || state.pulse >= seasonPulseLimit || currentTimeline().status !== "active") return reply.code(409).send({ error: "planning activation requires the current eligible timeline, pulse and supported version" });
+  if (state.firstGlowState.goalLoops.planning?.community) return { status: "active", version:state.firstGlowState.goalLoops.planning.community.version,activatedPulse:state.firstGlowState.goalLoops.planning.community.activatedPulse };
+  const activation = { version: COMMUNITY_VERSION, addCount:6, timelineId: activeTimelineId, targetPulse: state.pulse + 1 };
+  const existing = database.prepare("SELECT value FROM runtime_metadata WHERE key='goal_community_activation'").get() as { value: string } | undefined;
+  if (existing && existing.value !== JSON.stringify(activation)) return reply.code(409).send({ error: "another planning activation is pending" });
+  database.prepare("INSERT OR IGNORE INTO runtime_metadata(key,value) VALUES('goal_community_activation',?)").run(JSON.stringify(activation));
+  return { status: "pending", ...activation };
+});
+
 app.post("/api/owner/ai/cadence", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
   const body = request.body as { version?: unknown; expectedTimelineId?: unknown; expectedPulse?: unknown } | undefined;
@@ -496,6 +508,14 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     planning.refinement={version:GOAL_REFINEMENT_VERSION,activatedPulse:advanced.state.pulse};
     result.events.push({id:`event-${advanced.state.pulse}-goal-refinement-activation`,pulse:advanced.state.pulse,kind:'pulse',villagerIds:[],settlementIds:[],message:`Owner activated ${GOAL_REFINEMENT_VERSION}; own recent solo repeats are excluded and local rendezvous can prepare through ordinary recovery.`});
   }
+  const queuedCommunity=database.prepare("SELECT value FROM runtime_metadata WHERE key='goal_community_activation'").get() as {value:string}|undefined;
+  if(queuedCommunity){
+    const activation=JSON.parse(queuedCommunity.value),glow=advanced.state.firstGlowState;
+    if(activation.version!==COMMUNITY_VERSION||activation.addCount!==6||activation.timelineId!==activeTimelineId||activation.targetPulse!==advanced.state.pulse)throw Error('Pending community activation does not match transition');
+    const oldEvents=new Set(glow.events.map(e=>e.id));activateGoalCommunity(glow,6);validateFirstGlowState(glow);
+    result.events.push(...glow.events.filter(e=>!oldEvents.has(e.id)).map(e=>({...e,pulse:glow.pulse,kind:'pulse' as const,structuredKind:e.kind,villagerIds:[],settlementIds:[]})));
+    result.events.push({id:`event-${glow.pulse}-community-activation`,pulse:glow.pulse,kind:'pulse',villagerIds:[],settlementIds:[],message:`Owner activated ${COMMUNITY_VERSION} and six zero-charge regional arrivals; original budget, cadence and lease remain.`});
+  }
   const queuedCadence = database.prepare("SELECT value FROM runtime_metadata WHERE key='reflection_cadence_activation'").get() as { value: string } | undefined;
   if (queuedCadence) {
     const activation = JSON.parse(queuedCadence.value);
@@ -524,6 +544,7 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, ?, ?)").run(activeTimelineId, result.state.pulse, JSON.stringify(result.state));
     if (queuedPlanning) database.prepare("DELETE FROM runtime_metadata WHERE key='goal_planning_activation'").run();
     if (queuedRefinement) database.prepare("DELETE FROM runtime_metadata WHERE key='goal_refinement_activation'").run();
+    if(queuedCommunity)database.prepare("DELETE FROM runtime_metadata WHERE key='goal_community_activation'").run();
     if (queuedCadence) database.prepare("DELETE FROM runtime_metadata WHERE key='reflection_cadence_activation'").run();
     const insertEvent = database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)");
     for (const event of result.events) insertEvent.run(activeTimelineId, event.id, event.pulse, JSON.stringify(event));

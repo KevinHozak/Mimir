@@ -1,3 +1,4 @@
+import { communityPersonalityProfile, knowsCommunityPeer } from './first-glow-community.js';
 import { isRoutePatternCreationSource } from "./first-glow-route-patterns.js";
 import { canonicalize, sha256 } from "@mimir/world-data";
 import type { SocialInterpretation } from "./index.js";
@@ -109,14 +110,14 @@ export function buildFirstGlowInterpretationContext(state: FirstGlowState, event
   const sparks = state.settlements.flatMap(settlement => settlement.sparks).slice().sort((a, b) => compare(a.id, b.id));
   const actor = sparks.find(spark => spark.id === event.actorId);
   if (!actor) return null;
-  const targetSparkId = event.participants?.slice().sort(compare).find(id => id !== actor.id) ?? sparks.find(spark => spark.id !== actor.id)?.id;
+  const targetSparkId = event.participants?.slice().sort(compare).find(id => id !== actor.id) ?? sparks.find(spark => spark.id !== actor.id&&knowsCommunityPeer(state,actor.id,spark.id))?.id;
   const knowledge = state.social.knowledge.find(item => item.sparkId === actor.id);
   if (!knowledge) return null;
   const evidenceEventIds = sortedUnique([event.id, ...(event.evidenceEventIds ?? [])]);
   const witnessedEvidenceEventIds = evidenceEventIds.filter(id => knowledge.witnessedFacts.some(fact => fact.eventId === id));
   const communicatedEvidenceEventIds = knowledge.communicatedClaims.flatMap(claim => claim.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
   const uncertainInferenceEvidenceEventIds = knowledge.uncertainInferences.flatMap(inference => inference.evidenceEventIds).filter(id => evidenceEventIds.includes(id));
-  const personalityProfile = firstGlowSparkPersonalityProfile(actor.id);
+  const personalityProfile = communityPersonalityProfile(state,actor.id);
   const reflectionMemory = buildFirstGlowReflectionMemoryContext(state, actor.id);
   const contextPacket = buildFirstGlowContextPacket(state, actor.id, evidenceEventIds);
   const contextWithoutHash = { schemaVersion: FIRST_GLOW_INTERPRETATION_SCHEMA_VERSION, personalityProfileVersion: FIRST_GLOW_PERSONALITY_PROFILE_VERSION, encounterId: `encounter-${state.pulse}-${event.id}`, pulse: state.pulse, event: { id: event.id, kind: event.kind, actorId: event.actorId, participants: event.participants?.slice().sort(compare), message: event.message, evidenceEventIds }, dilemmaId, supportedAlternatives: alternatives[dilemmaId], actorSparkId: actor.id, targetSparkId, personalityProfile, witnessedEvidenceEventIds: sortedUnique(witnessedEvidenceEventIds), communicatedEvidenceEventIds: sortedUnique(communicatedEvidenceEventIds), uncertainInferenceEvidenceEventIds: sortedUnique(uncertainInferenceEvidenceEventIds), reflectionMemory, contextPacket };

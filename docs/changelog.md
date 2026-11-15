@@ -1,5 +1,9 @@
 # Mimir Changelog
 
+## Local task notices and additive Spark arrivals - 2026-11-14
+
+An opt-in community policy adds six zero-charge, locally informed Sparks across three regions while preserving the existing history and budgets. Locally communicated task notices suppress redundant solo work, announced finishing tasks can precede a reserved rendezvous, and bounded waiting keeps free Sparks available for decision windows. Existing goals and actual recovery/meeting costs retain authority. Live coordination remains a separate outcome check.
+
 ## Recoverable local rendezvous and recent-work variety — 2026-11-14
 
 An explicit goal-planning refinement removes redundant recent solo tasks from new menus and admits bounded preparation for a locally agreed rendezvous. Same-batch partner ownership, real recovery costs, physical arrival, honest expiry and unchanged historical contexts preserve the distinction between intentions and outcomes. Existing AI/hosting caps, eight-pulse AI cadence and pilot cutoff remain unchanged. Live emergence is a separate qualification step.
