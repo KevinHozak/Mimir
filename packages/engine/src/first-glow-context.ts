@@ -1,7 +1,7 @@
 import { canonicalize, sha256 } from "@mimir/world-data";
 import type { FirstGlowState } from "./structured.js";
 import type { FirstGlowSparkPersonalityProfile } from "./design.js";
-import { firstGlowSparkPersonalityProfile } from "./design.js";
+import { communityPersonalityProfile } from "./first-glow-community.js";
 import { buildFirstGlowReflectionMemoryContext, type FirstGlowReflectionMemoryContext } from "./first-glow-reflection-memory.js";
 
 export const FIRST_GLOW_WORLD_CODEX_VERSION = "world-codex-v1" as const;
@@ -56,7 +56,7 @@ export function buildFirstGlowContextPacket(state: FirstGlowState, actorSparkId:
   const events = state.events.filter(event => (event.pulse ?? state.pulse) <= state.pulse).sort((a, b) => (a.pulse ?? state.pulse) - (b.pulse ?? state.pulse) || compare(a.id, b.id));
   const selectedIds = new Set([...currentEventIds, ...knowledge.witnessedFacts.map(item => item.eventId)]);
   const recentEvents = events.filter(event => selectedIds.has(event.id)).slice(-FIRST_GLOW_CONTEXT_MAX_EVENTS).map(event => ({ id: event.id, pulse: event.pulse ?? state.pulse, kind: event.kind, message: event.message, evidenceEventIds: sorted(event.evidenceEventIds ?? [event.id]) }));
-  const body = { version: FIRST_GLOW_CONTEXT_PACKET_VERSION, codex: buildFirstGlowWorldCodex(), actorSparkId, personalityProfile: firstGlowSparkPersonalityProfile(actorSparkId), reflectionMemory: buildFirstGlowReflectionMemoryContext(state, actorSparkId, { maxMemories: FIRST_GLOW_CONTEXT_MAX_MEMORIES }), recentEvents, privateKnowledgeBoundary: { witnessedEventIds: sorted(knowledge.witnessedFacts.map(item => item.eventId)), communicatedClaimIds: sorted(knowledge.communicatedClaims.map(item => item.id)), uncertainInferenceIds: sorted(knowledge.uncertainInferences.map(item => item.id)) } };
+  const body = { version: FIRST_GLOW_CONTEXT_PACKET_VERSION, codex: buildFirstGlowWorldCodex(), actorSparkId, personalityProfile: communityPersonalityProfile(state,actorSparkId), reflectionMemory: buildFirstGlowReflectionMemoryContext(state, actorSparkId, { maxMemories: FIRST_GLOW_CONTEXT_MAX_MEMORIES }), recentEvents, privateKnowledgeBoundary: { witnessedEventIds: sorted(knowledge.witnessedFacts.map(item => item.eventId)), communicatedClaimIds: sorted(knowledge.communicatedClaims.map(item => item.id)), uncertainInferenceIds: sorted(knowledge.uncertainInferences.map(item => item.id)) } };
   return { ...body, packetHash: `sha256-${sha256(stable(body))}` };
 }
 

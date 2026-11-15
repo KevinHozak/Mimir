@@ -1,3 +1,4 @@
+import { locallyClaimedTask } from './first-glow-community.js';
 import { preparableMeetingPartner, willingMeetingPartner } from "./first-glow-goal-planning.js";
 import type { FirstGlowState, FirstGlowSettlement, FirstGlowSpark } from "./structured.js";
 import { firstGlowRouteCandidates } from "./structured.js";
@@ -54,6 +55,7 @@ export function frontierOpportunities(state: FirstGlowState, settlement: FirstGl
       const partner = kind === "explore-meet-mark" && state.goalLoops?.planning ? (state.goalLoops.planning.refinement ? preparableMeetingPartner(state,settlement,spark,object.id) : willingMeetingPartner(state,settlement,spark,object.id)) : undefined;
       if (kind === "explore-meet-mark" && state.goalLoops?.planning && !partner) return [];
       if(state.goalLoops?.planning?.refinement && (kind==='explore-mark'||kind==='explore-shape') && state.goalLoops.goals.filter(g=>g.sparkId===spark.id&&g.status==='completed').slice(-2).some(g=>g.targetObjectId===object.id&&g.completions.some(c=>c.activity===activity)))return [];
+      if((kind==='explore-mark'||kind==='explore-shape')&&locallyClaimedTask(state,spark.id,kind,object.id))return [];
       const recentCompletions = state.goalLoops?.goals.filter(g=>g.sparkId===spark.id&&g.status==="completed").slice(-2).filter(g=>g.targetObjectId===object.id).length ?? 0;
       return [{ ...(state.goalLoops?.planning ? {recentCompletions,...(partner ? {partnerSparkId:partner.peer.id} : {})} : {}), kind, objectId: object.id, label: definition.label, regionId: region.id, routeCost: route.cost, evidenceEventId: d.eventId }];
     }).sort((a,b)=>(a.recentCompletions??0)-(b.recentCompletions??0)||a.routeCost-b.routeCost || (a.objectId<b.objectId?-1:1));
