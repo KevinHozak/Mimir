@@ -1,5 +1,11 @@
 # S021 bounded online pilot
 
+## Posted-charge reconciliation — 2026-11-15
+
+The [read-only billing review](evidence/spark-pilot-cost-reconciliation-2026-11-15.md) matched the original ledger's known 90,548 input and 3,927 output tokens exactly with the posted Gemini 3.5 Flash Lite SKUs for November 8–15. The shorter pilot-date filter omitted earlier allocation usage; expanding it resolved the apparent discrepancy. Recorded cost remains USD 0.040698 and conservative AI accounting USD 1.181396 / USD 5, including both uncertain holds.
+
+Posted November 13–15 hosting service usage rows total approximately USD 0.50 at cent precision, with free-tier/savings adjustments and baseline activity included. This is not an exact pilot invoice. Retain USD 1.963414 conservative hosting/recovery accounting within USD 2. No November statement or exact CSV was available; all five displayed billing-export types remain disabled. S021's final currency/hosting attribution gate stays open. Fresh inventory confirms the VM remains terminated with its retained 30GB disk; no temporary recovery resources remain. No paid request, resource creation, query job, export enablement, deployment or restart was performed. Retained storage is not assumed free or authorized for deletion by this review.
+
 ## Final recovery and stopped-pilot boundary — 2026-11-15
 
 The expired pilot is stopped. The writer shut down cleanly at 05:19:00.923 UTC, before the unchanged 05:24 UTC hard deadline, at pulse 293 with 12 Sparks. The final offsite backup was interrupted by mismatched caller/service timeouts; a read-only clone recovery obtained the complete world and AI ledger without restarting the original VM. Both temporary recovery resources were deleted. [Final recovery evidence](evidence/spark-pilot-final-recovery-2026-11-15.md) records the confirmed Spark 9/10 meeting, still-preparing Spark 11/4 rendezvous, 294 checkpoints and 41 provider attempts.

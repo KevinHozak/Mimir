@@ -1,0 +1,59 @@
+{
+  "observedDate": "2026-11-15",
+  "scope": ["mimir-realm", "mimir-realm-backups"],
+  "aiChargeDates": ["2026-11-08", "2026-11-15"],
+  "hostingChargeDates": ["2026-11-13", "2026-11-15"],
+  "knownAITokenQuantitiesReconciled": true,
+  "ledger": {
+    "attempts": 41,
+    "completed": 39,
+    "uncertainRequestIds": [11, 12],
+    "inputTokens": 90548,
+    "outputTokens": 3927,
+    "reasoningTokens": 0,
+    "recordedTokenEstimateMicrousd": 40698,
+    "uncertainHoldsMicrousd": 1000000,
+    "guardedMicrousd": 1181396,
+    "capMicrousd": 5000000
+  },
+  "postedAI": {
+    "inputSku": "A078-09CB-E461",
+    "outputSku": "A841-F27B-EE62",
+    "inputTokens": 90548,
+    "outputTokens": 3927,
+    "displayedInputUsageUsd": 0.03,
+    "displayedOutputUsageUsd": 0.01,
+    "currencyPrecision": "rounded UI cents, not exact invoice"
+  },
+  "hosting": {
+    "displayedServices": [
+      {"service": "Networking", "usageUsd": 0.26, "subtotalUsd": 0.05},
+      {"service": "Cloud Run", "usageUsd": 0.22, "subtotalUsd": 0.00},
+      {"service": "Artifact Registry", "usageUsd": 0.01, "subtotalUsd": 0.01},
+      {"service": "Cloud Storage", "usageUsd": 0.01, "subtotalUsd": 0.00},
+      {"service": "Compute Engine", "usageUsd": 0.00, "subtotalUsd": -0.08}
+    ],
+    "displayedNonAIUsageRowSumUsd": 0.50,
+    "displayedProjectSubtotalIncludingAIUsd": -0.01,
+    "priorConservativeMicrousd": 1923414,
+    "recoveryReserveMicrousd": 40000,
+    "combinedConservativeMicrousd": 1963414,
+    "capMicrousd": 2000000,
+    "headroomMicrousd": 36586,
+    "exactRunAttribution": false,
+    "retainedDiskGB": 30
+  },
+  "finalInvoiceReconciled": false,
+  "latestStatementDate": "2026-10-31",
+  "displayedBigQueryExportTypesDisabled": 5,
+  "csvObtained": false,
+  "reservesReleased": false,
+  "originalVMState": "TERMINATED",
+  "temporaryRecoveryResourcesPresent": false,
+  "newResources": 0,
+  "paidQueryJobs": 0,
+  "providerRequests": 0,
+  "deployments": 0,
+  "pilotRestarted": false,
+  "storyStatus": "in_progress"
+}
