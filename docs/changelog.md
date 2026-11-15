@@ -1,5 +1,9 @@
 # Mimir Changelog
 
+## Synthetic polling auth qualification — 2026-11-15 (local implementation)
+
+A separate polling refresh harness reuses production authenticated reads and the four-minute polling controller with injected synthetic credentials and requests. It covers scheduled credential use, one forced retry after denial, hidden-tab behavior, stalled requests/credentials, denial privacy, cutoff and cleanup without opening a stream. The historical stream harness remains separate. [Local evidence](evidence/polling-refresh-harness-local-2026-11-15.md); genuine Firebase, deployed UI and hosted process cleanup remain unqualified. The pilot stays stopped.
+
 ## Coordinated final backup shutdown — 2026-11-15 (local implementation)
 
 One cutoff service now quiesces regular backups, stops the writer and waits for the full final-backup allowance before poweroff. Early endpoint cleanup queues it before deletion retries, and normal watchdog cutoffs join the same service. The original hard deadline still bounds waiting and wins independently. Failed or truncated snapshots remain marked incomplete. An explicit local recovered-data rehearsal exercises paired archive/receipt/restore with fake storage and service commands. [Local qualification](evidence/final-backup-shutdown-local-2026-11-15.md); the stopped pilot was not restarted or redeployed.

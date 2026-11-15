@@ -17,7 +17,7 @@ test("verification stops at the actual failing exit code and records completed s
 test("all former CI package checks resolve to runnable tests without duplicate builds", () => {
   const steps = checks.flatMap(([directory, name]) => expandScript(directory, name));
   assert.ok(steps.length > checks.length, "compound scripts retain each test");
-  for (const expected of ["first-glow-gemini-provider.test.js", "first-glow-assets.test.js", "owner-auth-acceptance.test.js", "chronicle-events.test.js", "connected-observer-e2e.test.ts", "history-viewer-e2e.test.ts", "local-observer.test.mjs"]) {
+  for (const expected of ["first-glow-gemini-provider.test.js", "first-glow-assets.test.js", "owner-auth-acceptance.test.js", "chronicle-events.test.js", "connected-observer-e2e.test.ts", "history-viewer-e2e.test.ts", "local-observer.test.mjs", "hosted-polling-refresh-harness.test.ts"]) {
     assert.ok(steps.some(step => step.args.some(arg => arg.endsWith(expected))), `missing ${expected}`);
   }
   assert.ok(steps.every(step => !step.args.includes("build")));
