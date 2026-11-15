@@ -23,7 +23,7 @@ docs/hosted-observer-runbook.md
 - [x] Document unsupported cases or implement and verify a selected remedy.
 
 - [ ] Verify naturally expired genuine credentials and a real Firebase forced-refresh retry under an approved bounded plan.
-- [ ] Verify automatic genuine SDK token change and deployed UI stream rotation with retained selection and process-aware cleanup.
+- [ ] Verify automatic genuine SDK token change and use of the current credential on the next scheduled deployed polling batch, with retained selection and process-aware request/timer cleanup; zero observer streams in the selected hosted mode.
 
 ## Local implementation and verification
 
@@ -42,3 +42,10 @@ Original local implementation merged in PR 316; the current exact-source full su
 Implemented production-transport harness with memory-only isolated SDK adapter, fixed approval/origin/cumulative-cost admission, bounded preparation, actual-expiry forced-refresh case, automatic-notification stream rotation and fixed-schema redacted reports. Independent IPC watchdog closes only the task browser on driver loss or absolute lease expiry. Eight synthetic harness tests and two supervisor tests plus TypeScript pass; new checks are wired into the full local verifier. Full-suite result is reported separately after execution.
 
 [Fresh static/control-plane readiness](../docs/evidence/hosted-refresh-preparation-2026-10-24.md) found original bridge/private VM metadata but different deployed JS, no fresh direct-process/recovery attestation and no verified cost admission. The [live approval packet](../docs/hosted-token-refresh-approval-packet.md) is NOT READY. Supported deployed-UI observation and exact integration-driver bindings remain prerequisites. No real SDK sign-in, token aging, live observer, deployment, access change or provider call occurred. Both genuine hosted acceptance boxes stay unchecked. USD 0.15 remains cumulative; USD 0.0030336419 headroom is not released or new approval.
+
+
+## Polling qualification reconciliation — 2026-11-15
+
+The selected hosted observer uses four-minute polling. Historical stream coverage remains local evidence for that transport, but stream rotation is superseded as the selected hosted acceptance target. The [revised qualification plan](../docs/hosted-token-refresh-verification-plan.md) separates real expired-token forced retry from automatic SDK refresh used on a scheduled poll, and distinguishes same-tab continuity from reload persistence. Its longer polling observation window is a proposal requiring separate authorization, not an extension of any previous lease or allocation. The old stream harness needs adaptation before it can qualify polling.
+
+See the [S021/S008 closeout matrix](../docs/s021-s008-closeout-matrix-2026-11-15.md) for evidence and remaining gates. Status and both genuine-hosted acceptance boxes remain open. This update is local documentation only: no runtime tests, genuine sign-in, hosted reads, deployment, restart or spending. The pilot stays stopped; historical cost holds remain unchanged.

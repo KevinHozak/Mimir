@@ -1,56 +1,65 @@
-# Bounded hosted token-expiry and refresh verification plan
+# Bounded hosted authentication qualification plan — polling
 
-Prepared 2026-10-24 for [MIM-S008](../issues/MIM-S008.md). **Plan only; execution is not approved or performed.** The [recorded readiness decision](hosted-observer-readiness-decision.md) retains limited staging and holds expansion.
+Updated 2026-11-15 for [MIM-S008](../issues/MIM-S008.md) and [MIM-S021](../issues/MIM-S021.md). **Plan only. No live execution is authorized.** The pilot is stopped; its deadline and budgets are not renewed. See the [closeout matrix](s021-s008-closeout-matrix-2026-11-15.md).
 
-## Purpose and evidence boundary
+## Selected transport and evidence boundary
 
-Prove genuine Firebase-issued token refresh against the existing hosted bridge, observer continuity, and cleanup. Existing synthetic transport/Chromium coverage proves local behavior, not real Firebase clock-driven refresh. S007 proves genuine expired-token denial separately; S009 proves hosted recovery and final-zero cleanup separately. Do not relabel those as this missing integrated journey.
+The selected hosted read-only path in `packages/web/src/main.tsx` uses `startObserverPolling` with a 240,000 ms interval. `observer-polling.ts` serializes refresh batches, schedules the next interval after completion, pauses hidden tabs and aborts owned work on stop. One `loadLive` batch contains eight parallel GETs; serial batches do not mean a single HTTP request. The polling branch does not subscribe to token-change stream rotation. `createObserverFetch` in `observer-session.ts` obtains an SDK credential for each request and retries a GET/HEAD once after 401 using forced refresh; concurrent outstanding refreshes share a promise, not necessarily one refresh for an entire batch.
 
-Firebase ID tokens normally last one hour ([Firebase session documentation](https://firebase.google.com/docs/auth/admin/manage-sessions)). A fresh token cannot naturally expire during a three-minute observer session. Preparation must age a real token without keeping an observer stream open. SDK proactive refresh can occur before expiry; forced refresh and automatic refresh are different cases and must be reported separately.
+Therefore automatic-refresh acceptance means a genuine SDK credential change followed by its use on the next eligible scheduled poll, with retained UI context. It does not require stream rotation or an immediate extra read. `/api/live` requests must remain zero. Historical stream tests remain evidence for the retained non-polling path, not polling-hosted acceptance.
 
-## Fixed scope and admission gates
+Existing [local polling evidence](evidence/observer-polling-local-2026-11-14.md) establishes synthetic cadence, visibility, abort, failure and selection behavior. It does not prove real Firebase refresh. Source inspection for this plan is not a new test run or deployed parity check.
 
-- Existing approved Google/Firebase Mimir identity and unchanged allowlist, IAM and hosted endpoints only. No new account, temporary signer, test project, public endpoint, bridge revision, deployment or VM disruption.
-- One observer client per trial, never more than two total concurrent observers including any existing user session. At most 120 seconds of active observation and **180 seconds overall per admitted trial**, including cleanup. Use an independent monotonic hard cutoff that survives navigation. No automatic retry or second trial after a failed gate.
-- The **USD 0.15 cumulative ceiling includes all earlier S010 work**. Carry USD 0.1469663581 conservative allocation and only USD 0.0030336419 unreleased headroom. Do not transfer this experiment into a new budget to evade that cap. No live execution until fresh attributable billing or a defensible all-in upper bound proves preparation, both proposed cases, telemetry, networking, requests, idle resources and cleanup fit the remaining allowance. Unknown quantities remain reserved. Do not assume credits or free tier. Current cost admission is **NOT VERIFIED**.
-- Verify exact deployed frontend/bridge revisions and that production observer refresh/rotation code is actually present before running. Merged main is not proof of deployment. If absent, stop and prepare a separately authorized deployment; do not silently update it.
-- Verify read-only operator telemetry, clock uncertainty, direct per-process stream/request counts and existing baseline sessions. If deployed counters cannot establish closure without a temporary revision or extra access, stop and report the instrumentation prerequisite.
-- Establish unchanged paused pulse-64 history/checkpoint hashes, one writer, integrity and independent-backup health. Limit any baseline/cleanup reads and price them. No pulses, provider calls, archive publication or history writes.
+## Admission before any future live trial
 
-## Credential preparation without an observer session
+- Obtain explicit authorization for an exact bounded run, deployed versions, existing identity, audience, endpoint, preparation time, active time, cleanup and all-in costs. No approval is requested by this document. No pilot restart or ingress reopening is implied.
+- Resolve exact frontend/bridge parity and a supported non-secret deployed-SDK observation method. Do not inject an auth backdoor, export credentials from the user's tab or silently deploy missing instrumentation.
+- Keep original allocations, unknown holds and expired leases intact. S008 historically retains USD 0.1469663581 against its USD 0.15 cumulative ceiling, leaving USD 0.0030336419 unreleased headroom. S021 accounting is separate and does not fund this trial automatically. Neither allowance is renewed. Fresh attributable costs and a defensible all-in bound are required; stop if the proposed trial cannot fit.
+- Price preparation refresh traffic, complete eight-read batches and retry bounds, telemetry, idle resources, network bytes, baseline reads and cleanup. Do not assume credits/free tier. Do not enable billing exports/APIs or paid queries.
+- Establish direct process-aware request/stream counts, task ownership, recovery hashes, unchanged world identity and baseline service configuration. Require the writer stopped/paused and AI disabled with no simulation advances. Retain independent backup evidence. If this needs infrastructure changes, that is a separate authorization gate.
+- One task-owned observer, at most two observers including existing sessions. No automatic retry or second trial after a failed gate. Preserve unrelated sessions.
 
-Use a dedicated isolated local browser context with the existing approved user, normal sign-in, and memory-only Firebase persistence. This context is distinct from the user's signed-in tab; never sign that tab out. Do not copy existing browser tokens, export cookies, persist token fixtures, print JWTs/claims/headers, or record auth request/response bodies, HAR, video or traces containing credentials. Evidence records only relative expiry timing, token-changed boolean, status codes, counts and non-secret revision identifiers.
+## Credential preparation
 
-Harness preparation must use the real SDK through supported APIs, with no forged signature, changed clock, patched expiry, intercepted auth response or token revocation. A captured genuine token may age only in harness memory while observer data/SSE requests are disabled. Set a finite proposed preparation cap of 75 minutes and destroy the isolated context on timeout. Include any SDK background refresh requests in cost accounting and the final approval; this plan authorizes none of them now. Verify in local dry runs that the hour-long preparation cannot accidentally open a hosted observer stream or reset a trial cutoff.
+Use an isolated browser context, existing approved identity and memory-only SDK persistence. Supported SDK operations only: no forged token, altered expiry/clock, intercepted auth response or revocation. Any genuine token retained to age stays only in memory. No observer data requests during preparation. Proposed preparation maximum remains 75 minutes, with an independent absolute watchdog and no aging loops; actual timing and costs require approval.
 
-## Two separately reported cases
+Do not record JWTs, claims, authorization headers, cookies, auth bodies, HARs or credential-bearing traces/video. Record only relative expiry timing, token-changed/credential-used booleans, status/count fields and non-secret source identifiers. A supported driver must correlate token use in memory without serializing token values.
 
-1. **Naturally expired credential, real forced refresh.** Retain one genuine originally valid token in harness memory until its actual expiry plus verified verifier clock allowance. In a reviewed harness using the production read-only transport and genuine Firebase SDK, send that original token for one protected read; expect 401 with no private body, followed by exactly one forced SDK refresh and a successful retry. Never inject a synthetic 401. This deliberately supplies a stale initial credential and proves the real forced-refresh path, not automatic SDK refresh. Open one stream with the real refreshed credential, verify baseline identity and close it. Report this harness result separately from deployed UI acceptance.
-2. **Real SDK refresh and deployed UI continuity.** With the unchanged deployed observer, admit a short observation window only when a genuine SDK refresh boundary can be observed within that window. Use supported SDK observation in an isolated browser harness; do not assume a fixed refresh lead time or reset the clock/cutoff. Capture a real token-change/refresh event and replacement authenticated stream while preserving Spark selection, Follow, presentation, zoom, timeline/pulse and event identity. If the SDK already refreshed during preparation or the boundary cannot be admitted safely, return blocked/inconclusive rather than extending the session. A manual `getIdToken(true)` is optional separately labeled diagnostic evidence and cannot pass automatic-refresh acceptance.
+## Separately reported cases
 
-Implementation must resolve the supported deployed-SDK observation hook and trigger timing locally before approval. Standalone SDK/transport harness and independent browser supervisor are now implemented and locally tested; the deployed-UI observation and live integration bindings remain unverified. Never create an authenticated automation backdoor in the hosted app.
+### A. Genuine expired credential and forced retry
 
-## Proposed trial timeline and assertions
+Age a genuine initially valid credential beyond its actual expiry and verified clock allowance. Through the production read-only fetch transport and real SDK adapter, send it for one protected read. Require actual 401 with no private response, exactly one forced-refresh retry for that request and successful authorized response. Never synthesize the 401. Record this as isolated transport/SDK proof, not deployed automatic UI acceptance. No SSE connection is needed.
 
-T+0 begins before the first protected observer request. Establish protected baseline by T+30; complete the intended refresh/reconnect by T+90; close all owned observer clients by T+120; establish direct zero counts for every observed process and independent recovery/baseline readback by T+160; finish context/worker disposition by T+180. Automatic close must occur even on driver death or navigation. Failure of a deadline, private-data boundary, auth check, duplication check, cost bound or resource invariant stops the trial; cleanup still runs and an incomplete proof remains failed.
+### B. Genuine automatic refresh and scheduled polling continuity
 
-Require no UI errors, no duplicated committed event identities, no unauthorized private response on denial, no mutations, bounded transient overlap (never above the two-observer ceiling), and zero owned streams/retry timers after closure. Do not assume an already-open SSE stream is revalidated at JWT expiry: measure the behavior and distinguish request-time auth from token-change-driven rotation. No security-policy change is part of this plan.
+Observe a genuine automatic SDK token change through a supported isolated deployed-UI observation method. On the next eligible scheduled poll, verify use of the current credential and successful reads. Preserve Spark selection, Follow, presentation, zoom, selected timeline/history pulse and committed event identity; live pulse may advance only if the separately approved world configuration permits it. Do not force a pulse, reload to accelerate refresh, bypass the interval or call `getIdToken(true)` to pass automatic acceptance. A request-triggered ordinary SDK refresh must be labeled separately from an observed automatic token-change case.
 
-## Recovery, cleanup and approval packet
+Require one initial batch and one later eligible batch, no overlapping batches, no legacy 15-second refresh and zero `/api/live` calls. Count parallel requests and all refresh/retry attempts. A refresh event alone, or success without supported credential-use correlation, is inconclusive.
 
-No cloud configuration is intended to change, so rollback means closing owned clients and workers, discarding the isolated credential context, verifying observed process counters return to their baseline (zero owned streams; do not cancel unrelated sessions), and confirming exact service/traffic/revision, paused world, history, one writer and backups remain unchanged. Any unexpected mutation fails the run and needs a scoped recovery decision; never delete or reset a live database.
+### C. Return, visibility and cleanup
 
-Before requesting execution approval, provide: reviewed automated harness and local failure/deadline tests; exact deployed versions and observation method; verified real-token aging/refresh timing; bounded all-in cost calculation under the existing cumulative cap; operator/account boundary; process-aware baseline/cleanup proof; and exact trial/preparation schedule. The owner then approves a specific run, not an indefinite monitoring session. Today only this plan and issue updates are recorded.
+Verify selected Spark/Follow/presentation deep-link return to the same world, with history/live state distinguished. Only claim zoom or other state across full reload if implementation actually persists it; same-tab continuity and reload persistence are separate results. Hide/show must not bypass cadence or create overlapping batches. Network/auth failure must retain committed data, show failure and avoid retry storms. Close owned clients and prove active task requests drain, zero owned streams and stopped timers/subscriptions. A local repeat can cover these synthetic cases; real deployed auth/return remains separate.
 
-## Completion criteria
+## Timing proposal — supersedes the historical stream window
 
-- [ ] Real expired-token 401 followed by genuine Firebase forced refresh and successful protected retry.
-- [ ] Automatic real SDK token-change/stream rotation on the deployed UI, with retained observer state.
-- [ ] Direct cleanup and unchanged recovery invariants within each 180-second window.
-- [ ] Cumulative conservative cost remains within USD 0.15; final attribution and uncertainty recorded honestly.
-- [ ] Redacted evidence distinguishes forced, automatic, local, deployed and blocked cases.
+The October plan's 120-second observation / 180-second overall trial cannot contain a four-minute scheduled polling interval. Do not speed up production polling to fit that window. For case A, the old 180-second overall limit may be retained if independently admitted. For combined polling cases B/C, propose a separately approved maximum **480 seconds overall**, including at most **360 seconds active observation** and **120 seconds cleanup**. Start the absolute lease before the first protected request; baseline by T+30, later poll/required refresh evidence by T+330, close clients by T+360 and finish direct cleanup evidence by T+480. Preparation is separately capped and costed. These are proposed bounds, not granted extensions.
 
+Real response duration and SDK timing must fit the window. If a genuine boundary is unavailable or a batch cannot finish in time, stop as blocked/inconclusive; do not extend, rearm, manufacture refresh or start another aging loop. Independent supervisor death/navigation handling must not reset the absolute cutoff.
 
-## Implementation and readiness update — 2026-10-24
+## Local tooling work still required
 
-See [local harness/read-only readiness evidence](evidence/hosted-refresh-preparation-2026-10-24.md) and the [blocked approval packet](hosted-token-refresh-approval-packet.md). No real-token/live run occurred, and the completion criteria above remain unchecked. The SDK adapter uses supported [Firebase Auth APIs](https://firebase.google.com/docs/reference/js/auth), including in-memory persistence and token-change observation. Local clock simulation is confined to synthetic tests; live clocks/tokens are never patched.
+The historical `hosted-refresh-harness.ts` automatic case explicitly opens and refreshes a stream. It cannot pass polling acceptance unchanged. The existing supervisor and isolated SDK adapter are reusable building blocks, not an executable approval packet for this plan. A future polling driver needs reviewed production-fetch bindings, supported deployed-UI observation, batch/credential correlation, request accounting and direct process cleanup readers. Locally demonstrate missed boundaries, denial, stalled requests, driver death, hidden tabs, cutoff and redaction with synthetic tokens and network access forbidden before proposing live execution. No such adaptation is claimed by this documentation update.
+
+## Completion and recovery
+
+- [ ] Genuine expiry/401, real forced refresh and successful protected retry, separately labeled.
+- [ ] Genuine automatic SDK change and current credential used by the next scheduled deployed polling batch.
+- [ ] Retained same-world selection/return context, with precise persistence boundaries.
+- [ ] Zero SSE, bounded batches/requests, no cadence bypass or retry storm; direct cleanup within the admitted lease.
+- [ ] Unchanged world/history/ledger, no provider calls, mutations or simulation advances; recovery and service configuration preserved.
+- [ ] Final conservative attributable cost and uncertainty recorded within explicitly authorized cumulative bounds.
+
+Rollback closes only owned clients/workers and discards isolated credentials; it never deletes/reset databases or unrelated sessions. Missing direct cleanup proof is a failure, not inferred from browser closure. Unexpected state/configuration change stops the trial and needs a scoped recovery decision.
+
+The [October approval packet](hosted-token-refresh-approval-packet.md) and [October readiness evidence](evidence/hosted-refresh-preparation-2026-10-24.md) are historical. Their stream bindings, pulse-64 baseline, running-VM assumptions and timings are not current admission. Both genuine acceptance boxes remain open until new redacted evidence satisfies this plan under a separately authorized configuration.

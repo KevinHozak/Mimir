@@ -1,5 +1,7 @@
 # MIM-S008 live-run approval packet — 2026-10-24
 
+> **Superseded for selected hosted polling — 2026-11-15.** Historical packet only; not executable approval. The pilot is stopped. Stream rotation, pulse-64/running-VM assumptions and the 180-second polling-incompatible window must not be reused. See the [current polling plan](hosted-token-refresh-verification-plan.md) and [S021/S008 closeout matrix](s021-s008-closeout-matrix-2026-11-15.md). No budget or lease is renewed.
+
 **Disposition: NOT READY FOR EXECUTION. No live run is requested or submitted.** The owner authorized local implementation, read-only readiness and this packet only. Access remains limited staging. See [prepared plan](hosted-token-refresh-verification-plan.md), [readiness evidence](evidence/hosted-refresh-preparation-2026-10-24.md) and [recorded decision](hosted-observer-readiness-decision.md).
 
 ## Proposed scope, once gates pass
