@@ -1,5 +1,11 @@
 # Mimir Changelog
 
+## Coordinated final backup shutdown — 2026-11-15 (local implementation)
+
+One cutoff service now quiesces regular backups, stops the writer and waits for the full final-backup allowance before poweroff. Early endpoint cleanup queues it before deletion retries, and normal watchdog cutoffs join the same service. The original hard deadline still bounds waiting and wins independently. Failed or truncated snapshots remain marked incomplete. An explicit local recovered-data rehearsal exercises paired archive/receipt/restore with fake storage and service commands. [Local qualification](evidence/final-backup-shutdown-local-2026-11-15.md); the stopped pilot was not restarted or redeployed.
+
+The [final stopped-disk recovery](evidence/spark-pilot-final-recovery-2026-11-15.md) closed the pulse-290-to-shutdown evidence gap: final pulse 293, 12 Sparks, 294 checkpoints and all 41 provider attempt rows were recovered intact. The confirmed Spark 9/10 meeting and unfinished Spark 11/4 rendezvous remain distinct. S021 stays open for genuine hosted auth/return behavior, final billing and future operating qualification; neither publication nor recovery renews the expired pilot.
+
 ## Local task notices and additive Spark arrivals - 2026-11-14
 
 An opt-in community policy adds six zero-charge, locally informed Sparks across three regions while preserving the existing history and budgets. Locally communicated task notices suppress redundant solo work, announced finishing tasks can precede a reserved rendezvous, and bounded waiting keeps free Sparks available for decision windows. Existing goals and actual recovery/meeting costs retain authority. Live coordination remains a separate outcome check.

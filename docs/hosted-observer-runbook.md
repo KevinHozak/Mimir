@@ -1,5 +1,21 @@
 # Hosted observer runbook
 
+## Coordinated final backup shutdown — 2026-11-15 (local implementation)
+
+The completed pilot is stopped. The dated running-pilot sections below are historical operating records, not authorization to restart it. The recovered disk established a clean writer stop at pulse 293 before the hard deadline; shutdown interrupted its final backup because a caller waited 70 seconds while the backup service allowed 180 seconds.
+
+`mimir-online-cutoff.service` now owns final shutdown. Normal watchdog cutoffs queue that one service. Early network cleanup queues it **before** endpoint deletion can fail or retry. The coordinator stops the regular offsite-backup and health timers and their active services, then verifies writer stop before starting the final stopped-writer snapshot. It waits up to 185 seconds for the 180-second backup service to finish and acknowledges success only after that service returns successfully. The cutoff unit allows 300 seconds overall. Incomplete/failed backups remain explicitly unsuccessful; observer ingress closure and shutdown still proceed.
+
+The backup wait is shortened when necessary to retain 45 seconds before the **existing** hard deadline for ingress closure and shutdown. An already-expired deadline skips backup admission. The independent hard-stop timer is unchanged and always wins; a longer service timeout does not extend the pilot lease. Keep physical controller paths and the required symlink CLI flags aligned when preparing a future deployment, including the new `online-shutdown.mjs` dependency. These changes are local only; no stopped-pilot deployment was performed.
+
+Run the ordinary regressions with `node --test scripts/online-shutdown.test.mjs scripts/online-pilot-watchdog.test.mjs scripts/online-control-entrypoints.test.mjs scripts/online-private-ai-endpoint.test.mjs`. After building, qualify an explicit stopped pair with:
+
+```text
+node scripts/online-shutdown-recovery.mjs --source-directory <recovered-directory> --bundle-root assets/world/generated --output-directory .tmp/<new-qualification-directory>
+```
+
+The source directory must contain checkpointed `world.db` and `ai-budget.db`; nonempty WAL sidecars are rejected. Output must be new and outside the source. This rehearsal copies the pair, runs the real paired backup/archive/checksum/receipt/restore path using filesystem-backed fake object storage, and injects virtual service commands and a 101-second completion. It never calls gcloud, starts a server, advances a pulse, contacts a provider or runs a real shutdown. Check `result.json` for complete restored history/ledger, unchanged source hashes, original cap and uncertain request IDs. Local evidence does not establish systemd or cloud deployment behavior. See [qualification evidence](evidence/final-backup-shutdown-local-2026-11-15.md).
+
 ## Polling-only pilot observer — 2026-11-14
 
 For the original bounded pilot, use the existing approved Google owner identity, max-one/min-zero service and revision scaling, and pinned polling image. Set `OBSERVER_POLLING_ONLY=1`, `OBSERVER_GZIP=1`, `OBSERVER_MAX_WIRE_RESPONSE_BYTES=524288`, `OBSERVER_BYTES_PER_MINUTE=524288`, `OBSERVER_REQUESTS_PER_MINUTE=24`, `OBSERVER_READ_TIMEOUT_MS=5000` and `OBSERVER_ENDS_AT=2026-11-15T05:24:00Z`; retain the raw 8 MiB response cap. Old cached clients cannot reopen SSE. Build Hosting with the same `VITE_OBSERVER_ENDS_AT`, through the existing deployment command from merged main, and verify exact assets.
@@ -12,7 +28,7 @@ Verify a signed-in visible tab with its preserved selection, a later naturally c
 
 Do not resume a pilot whose health listener or backup checks are unresponsive. The S021 chart repair separates measurement projection from expensive replay validation and caches appended samples. Qualify both cold chart reads and a concurrent health read on a real retained history before resuming. If the old listener cannot answer, stop the already-paused writer, verify the persisted run/pause/checkpoint and stopped allocation directly, and use a proper stopped-writer paired backup; these are alternate authoritative facts, not permission to skip lease or budget checks.
 
-The final-backup service allows 180 seconds for grown histories. Five minutes before the unchanged hard deadline, network cleanup stops the writer, removes its owned endpoint and queues the final backup. The original cutoff timer and independent hard shutdown still win. Regular backup health and independent restoration remain required. Preserve incomplete artifacts from timed-out attempts and distinguish infrastructure delay from application assertions.
+The final-backup service allows 180 seconds for grown histories. Five minutes before the unchanged hard deadline, network cleanup queues the shutdown coordinator before removing its owned endpoint; the coordinator quiesces regular backups and stops the writer before the final snapshot. The original cutoff timer and independent hard shutdown still win. Regular backup health during operation and independent restoration remain required. Preserve incomplete artifacts from timed-out attempts and distinguish infrastructure delay from application assertions.
 
 
 ## Private multi-regional Vertex connectivity — S021 repair

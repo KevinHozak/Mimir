@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-15",
+  "scope": "local source implementation and recovered-data qualification",
+  "baseCommit": "6ceaf2f4ef722022c9e37cb60f0241ae66f983bf",
+  "deployed": false,
+  "serverBuildPassed": true,
+  "focusedTests": { "passed": 11, "failed": 0 },
+  "integratedOnlineRunSuitePassed": true,
+  "recoveredDataQualification": {
+    "passed": true,
+    "sourcePulse": 293,
+    "restoredPulse": 293,
+    "sparks": 12,
+    "checkpoints": 294,
+    "bundleFiles": 8,
+    "attempts": 41,
+    "uncertainRequestIds": [11, 12],
+    "capMicrousd": 5000000,
+    "sourceUnchanged": true,
+    "fullHistoryAndLedgerRestored": true,
+    "restoredFromGeneratedArchive": true,
+    "writerLockRejected": true,
+    "backupWaitMs": 185000,
+    "virtualBackupDurationMs": 101000,
+    "localQualificationElapsedMs": 84835,
+    "archiveBytes": 45555293,
+    "archiveSha256": "731db5f3f9718ab6762d3257ffe021329bfa3e6bdb52ebf0ff85be89e3da12f9"
+  },
+  "cloudCalls": 0,
+  "providerCalls": 0,
+  "simulationAdvances": 0,
+  "realShutdownCommands": 0,
+  "pilotRestarted": false,
+  "hostingLimitChanged": false,
+  "originalCutoffChanged": false,
+  "limitations": [
+    "Service control and clock were injected; no live systemd shutdown rehearsal",
+    "Object storage was filesystem-backed; no cloud upload qualification",
+    "Desktop timings do not establish micro-VM performance",
+    "Qualification preceded source publication and did not deploy the repair"
+  ]
+}
