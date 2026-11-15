@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-15",
+  "scope": "stopped-disk final recovery; sanitized historical evidence",
+  "finalPulse": 293,
+  "sparks": 12,
+  "checkpoints": 294,
+  "events": 2390,
+  "goals": { "total": 44, "completed": 35, "active": 6, "interrupted": 3 },
+  "writerStoppedAt": "2026-11-15T05:19:00.923Z",
+  "originalHardCutoff": "2026-11-15T05:24:00.000Z",
+  "spark11And4Met": false,
+  "spark9And10MeetingPulse": 287,
+  "ai": {
+    "attempts": 41,
+    "completed": 39,
+    "uncertainRequestIds": [11, 12],
+    "recordedTokenEstimateMicrousd": 40698,
+    "guardedMicrousd": 1181396,
+    "capMicrousd": 5000000
+  },
+  "hosting": {
+    "guardedBeforeRecoveryMicrousd": 1923414,
+    "recoveryReserveMicrousd": 40000,
+    "combinedConservativeMicrousd": 1963414,
+    "capMicrousd": 2000000,
+    "settledInvoice": false
+  },
+  "recovery": {
+    "archiveBytes": 42705018,
+    "archiveSha256": "3ede315ea7b6d65ad656eaca23d364a4c76b548fbcf313053f45fcd0565f047d",
+    "databaseIntegrity": "ok",
+    "ledgerIntegrity": "ok",
+    "normalizedStateValidated": true,
+    "previousCheckpointsUnchanged": 291,
+    "originalVMRestarted": false,
+    "temporaryReaderDeleted": true,
+    "temporaryCloneDeleted": true
+  },
+  "finalOffsiteBackupSucceeded": false,
+  "shutdownRepairDeployed": false,
+  "storyStatus": "in_progress"
+}

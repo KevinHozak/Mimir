@@ -1,5 +1,11 @@
 # Mimir: A Light of Our Own â€” Current Architecture
 
+## Coordinated stopped-writer shutdown — 2026-11-15 (local implementation)
+
+`online-shutdown.mjs` gives `mimir-online-cutoff.service` ownership of final backup and poweroff. Watchdog cutoffs and early network cleanup queue the same unit; endpoint cleanup retries cannot gate snapshot admission. The coordinator quiesces regular offsite and backup-health timers/services, stops the writer, waits for the 180-second final-backup service with five seconds of acknowledgement allowance, then closes ingress and requests shutdown. Its service timeout is 300 seconds; the original hard deadline remains independent. Short remaining leases truncate or skip backup waiting and preserve explicit failure state rather than extending the lease.
+
+`online-shutdown.test.mjs` covers orchestration failures and deadline bounds. The explicit `online-shutdown-recovery.mjs` rehearsal copies a stopped world/ledger pair and uses real backup, archive, checksum receipt and restore code with filesystem-backed object storage and virtual service/clock effects. It checks full history, original allocation and source hashes without starting a server or making paid/network calls. This is local source delivery, not a new deployment or live systemd qualification. [Evidence](evidence/final-backup-shutdown-local-2026-11-15.md).
+
 ## Cost-bounded observer polling — 2026-11-14
 
 Hosted read-only sessions use `observer-polling.ts` instead of the SSE/15-second refresh pair. A refresh completes before the next four-minute delay begins; hidden tabs pause, visibility changes cannot bypass the interval, and page disposal aborts requests. Failed reads retain committed data and retry at the same cadence. Existing authenticated fetch/401 refresh behavior and selection/history sequencing remain. `VITE_OBSERVER_ENDS_AT` optionally stops frontend requests at the selected deadline; Hosting builds explicitly select polling.
@@ -20,7 +26,7 @@ The private US Vertex route uses a run-owned Private Service Connect endpoint wi
 
 ## Current online operation — 2026-11-14
 
-The owner-authorized bounded S021 pilot is active under the original USD 5 AI allocation and USD 2 hosting ceiling. The deployed writer uses Node 22.23.5, a fixed deadline, one spending ledger and an independent paired offsite backup worker. Older local-only/preparation sections retain their dated scope. [Current operating record](spark-ai-online.md) and [deployment evidence](evidence/spark-online-2026-11-14.md) distinguish activation from remaining qualification.
+The owner-authorized bounded S021 pilot ran under the original USD 5 AI allocation and USD 2 hosting ceiling. It is now stopped; [final disk recovery](evidence/spark-pilot-final-recovery-2026-11-15.md) verified pulse 293 and the complete original AI ledger after the final offsite backup was interrupted. The shutdown repair above remains locally qualified and undeployed. The deployed writer used Node 22.23.5, a fixed deadline, one spending ledger and an independent paired offsite backup worker. Older local-only/preparation sections retain their dated scope. [Operating record](spark-ai-online.md) and [deployment evidence](evidence/spark-online-2026-11-14.md) distinguish historical activation from remaining qualification.
 
 ## Expanded First Glow frontier — S020, local 2026-11-13
 

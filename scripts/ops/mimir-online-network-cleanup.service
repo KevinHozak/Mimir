@@ -4,9 +4,10 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=oneshot
+# Queue the sole shutdown coordinator before endpoint deletion can fail or retry.
+ExecStartPre=/usr/bin/systemctl --no-block start mimir-online-cutoff.service
 ExecStartPre=/usr/bin/systemctl stop mimir-online.service
 ExecStart=/opt/node/bin/node --preserve-symlinks-main /opt/mimir-online/current/scripts/online-private-ai-endpoint.mjs /etc/mimir/online-private-ai.json
-ExecStartPost=/usr/bin/systemctl --no-block start mimir-online-final-backup.service
 TimeoutStartSec=45
 Restart=on-failure
 RestartSec=10

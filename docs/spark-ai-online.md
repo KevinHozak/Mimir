@@ -1,5 +1,11 @@
 # S021 bounded online pilot
 
+## Final recovery and stopped-pilot boundary — 2026-11-15
+
+The expired pilot is stopped. The writer shut down cleanly at 05:19:00.923 UTC, before the unchanged 05:24 UTC hard deadline, at pulse 293 with 12 Sparks. The final offsite backup was interrupted by mismatched caller/service timeouts; a read-only clone recovery obtained the complete world and AI ledger without restarting the original VM. Both temporary recovery resources were deleted. [Final recovery evidence](evidence/spark-pilot-final-recovery-2026-11-15.md) records the confirmed Spark 9/10 meeting, still-preparing Spark 11/4 rendezvous, 294 checkpoints and 41 provider attempts.
+
+Final recorded AI estimates are USD 0.040698 token cost and USD 1.181396 conservative accounting within the original USD 5 cap, retaining both uncertain holds. Hosting plus the conservative USD 0.04 recovery reserve totals USD 1.963414 within USD 2; this is not settled invoice attribution. The [shutdown coordination repair](evidence/final-backup-shutdown-local-2026-11-15.md) is locally qualified against a copied final database/ledger and has not been deployed. Publication does not resume the pilot or authorize further spending. Genuine hosted auth/return behavior, final billing and future operating qualification remain open in S021; earlier running-pilot sections retain their dated scope.
+
 ## Occasional polling implementation — 2026-11-14
 
 The owner authorized restoring the live view through occasional polling under the same original USD 2 hosting allowance, USD 5 AI allocation and cutoff. Hosted clients now support serialized, visible-tab four-minute polling with no SSE or 15-second background reload. Polling preserves current Spark/Follow/history context; old committed data stays visible on failures. The bridge's polling-only and gzip modes retain owner token verification and read-only routes, with separate raw/wire caps and fixed end time.
@@ -12,7 +18,7 @@ Before activation of the merged AI recovery, the paused pulse-150 server stopped
 
 The chart now projects only compatible measured fields, with numeric validation, and caches the one active timeline. Subsequent reads refresh its mutable head and append new samples. Full state normalization remains at checkpoint load and replay boundaries. No world, goal, charge, ledger or reflection state is changed by metrics reads. On the actual Node 22 VM, the read-only pulse-150 history returned 151 samples in 3.44 seconds cold and 36 ms warm, rereading one head row on the warm request. This is a dated isolated probe; repaired HTTP health and subsequent live AI receipts remain separate deployment checks.
 
-Final backup units now allow 180 seconds. The five-minute-early network cleanup stops the writer and queues its final backup after endpoint removal, leaving the original independent hard cutoff unchanged. The existing watchdog still has its bounded final-backup wait and may retain a prior verified snapshot if an emergency backup fails. Never extend the run to finish a backup.
+This earlier repair allowed 180 seconds in the final-backup unit but left a shorter watchdog wait and queued backup after endpoint removal. The recovered shutdown journal established the resulting final-backup failure. The 2026-11-15 source repair queues one cutoff coordinator before endpoint deletion, quiesces regular backups and aligns its wait with the final-backup allowance. It remains local qualification, not a stopped-pilot deployment. Never extend the run to finish a backup.
 
 
 ## Private US API repair and audited recovery — 2026-11-14

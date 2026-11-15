@@ -1,8 +1,8 @@
 /** Operator-only VM watchdog. No credentials or response bodies enter diagnostics. */
 import {readFileSync,writeFileSync,renameSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
+import {queuePilotShutdown,shutdownPilot} from './online-shutdown.mjs';
 export const BRIDGE_CUTOFF_MICROUSD=900000;
 export function bridgeCostMicrousd(seconds,bytes){
  if(!Number.isFinite(seconds)||seconds<0||!Number.isSafeInteger(bytes)||bytes<0)throw Error('invalid usage');
@@ -65,10 +65,8 @@ async function main(){
  catch{state={...previous,failures:(previous.failures??0)+1,reason:'usage-unavailable'};state.stop=Boolean(previous.stop)||state.failures>=3||Date.now()>=Date.parse(config.endsAt);}
  const save=()=>{const temp=config.statusPath+'.tmp';writeFileSync(temp,JSON.stringify(state,null,2),{mode:0o600});renameSync(temp,config.statusPath);};save();
  if(state.stop){
-  execFileSync('/usr/bin/systemctl',['stop','mimir-online.service'],{stdio:'ignore',timeout:30000});
-  try{execFileSync('/usr/bin/systemctl',['start','mimir-online-final-backup.service'],{stdio:'ignore',timeout:70000});state.finalBackup=true;}catch{state.finalBackup=false;}save();
-  try{await closeOwnedBridge(config,workloadRequest);state.ingressClosed=true;}catch{state.ingressClosed=false;state.reason='cutoff-with-ingress-unverified';}save();
-  execFileSync('/usr/sbin/shutdown',['-h','now'],{stdio:'ignore',timeout:10000});
+  if(process.argv[3]==='--stop')await shutdownPilot(config,state,{save,closeIngress:()=>closeOwnedBridge(config,workloadRequest)});
+  else queuePilotShutdown();
  }
  console.log(JSON.stringify({runId:config.runId,stop:state.stop,reason:state.reason,costMicrousd:state.costMicrousd,failures:state.failures}));
 }

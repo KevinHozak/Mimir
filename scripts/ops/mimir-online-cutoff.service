@@ -5,5 +5,7 @@ OnFailure=mimir-online-hard-stop.service
 [Service]
 Type=oneshot
 ExecStart=/opt/node/bin/node --preserve-symlinks-main /opt/mimir-online/current/scripts/online-pilot-watchdog.mjs /etc/mimir/online-pilot.json --stop
-TimeoutStartSec=110
+# Covers quiescing (40s), the full final-backup service (180s + 5s acknowledgement),
+# ingress closure and shutdown. The independently armed hard-stop timer still wins.
+TimeoutStartSec=300
 UMask=0077
