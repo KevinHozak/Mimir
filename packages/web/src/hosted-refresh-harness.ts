@@ -15,18 +15,18 @@ export function assertRefreshAdmission(a: RefreshAdmission, now = Date.now()) {
       a.retainedAllocationUsd + a.additionalUpperUsd > 0.15) throw new Error("Refresh admission blocked");
 }
 
-type Adapter = {
+export type RefreshAdapter = {
   capture(): Promise<{ token: string; expiresAt: number }>;
   getToken(force?: boolean): Promise<string>;
   observe(callback: () => void): () => void;
   dispose(): Promise<void>;
 };
-type Clock = { wall(): number; mono(): number; later(fn: () => void, ms: number): ReturnType<typeof setTimeout>; cancel(id: ReturnType<typeof setTimeout>): void };
-const clock: Clock = { wall: () => Date.now(), mono: () => performance.now(), later: (fn, ms) => setTimeout(fn, ms), cancel: id => clearTimeout(id) };
+export type RefreshClock = { wall(): number; mono(): number; later(fn: () => void, ms: number): ReturnType<typeof setTimeout>; cancel(id: ReturnType<typeof setTimeout>): void };
+const clock: RefreshClock = { wall: () => Date.now(), mono: () => performance.now(), later: (fn, ms) => setTimeout(fn, ms), cancel: id => clearTimeout(id) };
 
 /** No credentials, claims, private payloads or arbitrary exception messages enter evidence. */
-export function createRefreshHarness(adapter: Adapter, options: {
-  request?: typeof fetch; clock?: Clock; preparationMs?: number; verifierSkewMs?: number;
+export function createRefreshHarness(adapter: RefreshAdapter, options: {
+  request?: typeof fetch; clock?: RefreshClock; preparationMs?: number; verifierSkewMs?: number;
 } = {}) {
   const c = options.clock ?? clock, preparationMs = options.preparationMs ?? 4500000;
   const skew = options.verifierSkewMs ?? 300000;

@@ -30,4 +30,4 @@ Retained original disk, backups and artifacts need an explicit retention/disposa
 - Marked the old stream approval packet as historical and unsuitable for execution.
 - Linked both authoritative local issues without changing their status or relationships.
 
-Further local implementation, such as adapting the old stream harness into a polling integration driver, remains separate work. This documentation update does not claim that driver exists or that any new browser/runtime checks passed.
+Subsequent local implementation on 2026-11-15 added a [synthetic polling transport harness](evidence/polling-refresh-harness-local-2026-11-15.md). It does not supply a deployed-UI integration driver, genuine Firebase qualification or direct process-cleanup proof. The acceptance gates above remain open.
