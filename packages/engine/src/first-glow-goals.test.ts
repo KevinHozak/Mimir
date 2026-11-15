@@ -272,3 +272,60 @@ test("meeting invitations decline busy peers and release both routes when needs 
  assert.equal(current.firstGlowState.goalLoops!.goals[0].reason,"meeting-participant-needs-recovery");
  assert.ok(current.firstGlowState.settlements[0].sparks.every(a=>!a.coordinatedMeetingSlotId));
 });
+async function refinementFixture() {
+ const {GOAL_REFINEMENT_VERSION}=await import('./index.js');const world=await frontierPlanningFixture();
+ world.firstGlowState.goalLoops!.planning!.refinement={version:GOAL_REFINEMENT_VERSION,activatedPulse:0};
+ for(const a of world.firstGlowState.settlements[0].sparks.slice(2))a.position={x:58,y:28};
+ return world;
+}
+async function selectRefinementMeeting(state:ReturnType<typeof createWorldV3>['firstGlowState']){
+ return requestFirstGlowGoal(state,'spark-1',{provider:{providerId:'refinement-fixture',propose:async c=>{const o=c.opportunities!.find(o=>o.kind==='explore-meet-mark');assert.ok(o,'recoverable local pair should be offered');return{kind:o.kind,objectId:o.objectId,summary:'Prepare for a local encounter.',evidenceEventIds:[o.evidenceEventId]};}}});
+}
+test('refinement prepares a recovering pair, reserves its next decision and completes only through physical evidence',async()=>{
+ let world=await refinementFixture();const s=world.firstGlowState.settlements[0];s.sparks[0].readiness=78;s.sparks[1].carriedCharge=1;
+ const original=JSON.stringify(world.firstGlowState);const selected=await selectRefinementMeeting(world.firstGlowState);assert.equal(JSON.stringify(world.firstGlowState),original);
+ assert.equal(selected.goal!.source,'ai');assert.equal(selected.goal!.rendezvous!.status,'preparing');assert.equal(selected.goal!.meeting,undefined);
+ const blocked=await requestFirstGlowGoal(selected.state,'spark-2',{provider:{providerId:'must-not-run',propose:async()=>{throw Error('must not run');}}});assert.equal(blocked.reason,'existing-activity-continues');assert.equal(blocked.goal,undefined);
+ world.firstGlowState=selected.state;const events=[];
+ for(let i=0;i<32&&world.firstGlowState.goalLoops!.goals[0].status==='active';i++){
+  const reopened=JSON.parse(JSON.stringify(world));validateFirstGlowState(reopened.firstGlowState);
+  const a=advanceWorld(world),b=advanceWorld(reopened);assert.deepEqual(JSON.parse(JSON.stringify(a)),JSON.parse(JSON.stringify(b)));world=a.state;events.push(...a.events);
+ }
+ const goal=world.firstGlowState.goalLoops!.goals[0];assert.equal(goal.status,'completed',JSON.stringify(goal));
+ assert.ok(events.some(e=>e.structuredKind==='meet'&&e.participants?.includes('spark-2')));assert.notEqual(goal.meeting!.ownerSlotId,goal.meeting!.partnerSlotId);
+ assert.equal(goal.rendezvous!.status,'ended');assert.ok(world.firstGlowState.ledger.every(e=>e.reason!=='rendezvous-grant'));
+});
+test('refinement preparation preserves a committed recovery route and expires without a fictitious meeting',async()=>{
+ let world=await refinementFixture();const s=world.firstGlowState.settlements[0],peer=s.sparks[1];peer.carriedCharge=0;peer.chargeDeficit=2;peer.readiness=80;peer.intendedActivity='seek-charge';
+ const {firstGlowRouteCandidates,selectRendezvousPreparation}=await import('./index.js');const r=firstGlowRouteCandidates(s,peer,'seek-charge')[0];assert.ok(r);
+ peer.destinationObjectId=r.objectId;peer.destinationSlotId=r.slotId;peer.status='traveling';peer.remainingRoute=r.path.slice(1);
+ const chosen=await selectRefinementMeeting(world.firstGlowState);world.firstGlowState=chosen.state;
+ const p=world.firstGlowState.settlements[0].sparks[1],before=JSON.stringify(p);assert.equal(selectRendezvousPreparation(world.firstGlowState,world.firstGlowState.settlements[0],p),true);assert.equal(JSON.stringify(p),before);
+ // Removing source availability after the honest offer prevents preparation success.
+ world.firstGlowState.settlements[0].sourceCharge=0;const events=[];
+ for(let i=0;i<18&&world.firstGlowState.goalLoops!.goals[0].status==='active';i++){const n=advanceWorld(world);world=n.state;events.push(...n.events);}
+ assert.equal(world.firstGlowState.goalLoops!.goals[0].reason,'rendezvous-preparation-expired');assert.equal(events.some(e=>e.structuredKind==='meet'),false);
+ const {preparingRendezvousFor}=await import('./index.js');assert.equal(preparingRendezvousFor(world.firstGlowState,'spark-2'),undefined);
+});
+test('refinement excludes recent redundant solo work while preserving legacy menus and cooperative revisits',async()=>{
+ let world=await frontierPlanningFixture();const c=buildFirstGlowGoalContext(world.firstGlowState,'spark-1')!,o=c.opportunities!.find(o=>o.kind==='explore-mark')!;
+ const selected=await requestFirstGlowGoal(world.firstGlowState,'spark-1',{provider:{providerId:'solo',propose:async()=>({kind:o.kind,objectId:o.objectId,summary:'Mark the known trace.',evidenceEventIds:[o.evidenceEventId]})}});world.firstGlowState=selected.state;
+ for(let i=0;i<20&&world.firstGlowState.goalLoops!.goals[0].status==='active';i++)world=advanceWorld(world).state;
+ assert.equal(world.firstGlowState.goalLoops!.goals[0].status,'completed');const saved=JSON.stringify(world.firstGlowState.goalLoops!.goals[0].context);
+ for(const a of world.firstGlowState.settlements[0].sparks){a.carriedCharge=100;a.readiness=100;a.status='choosing';delete a.destinationObjectId;delete a.destinationCell;a.position={x:12,y:10};}world.firstGlowState.settlements[0].runtime.reservations=[];
+ assert.ok(buildFirstGlowGoalContext(world.firstGlowState,'spark-1')!.opportunities!.some(x=>x.kind==='explore-mark'&&x.objectId===o.objectId));
+ world.firstGlowState.goalLoops!.planning!.refinement={version:'local-cooperation-variety-v2',activatedPulse:world.pulse};
+ const next=buildFirstGlowGoalContext(world.firstGlowState,'spark-1')!;
+ assert.equal(next.opportunities!.some(x=>x.kind==='explore-mark'&&x.objectId===o.objectId),false);assert.ok(next.opportunities!.some(x=>x.kind==='explore-meet-mark'&&x.objectId===o.objectId));
+ assert.equal(JSON.stringify(world.firstGlowState.goalLoops!.goals[0].context),saved);validateFirstGlowState(world.firstGlowState);
+ const invalid=structuredClone(world.firstGlowState);invalid.goalLoops!.planning!.refinement!.activatedPulse=world.pulse+1;assert.throws(()=>validateFirstGlowState(invalid),/planning policy/);
+ const remote=structuredClone(world.firstGlowState);for(const a of remote.settlements[0].sparks.slice(1))a.position={x:58,y:28};assert.equal(buildFirstGlowGoalContext(remote,'spark-1')!.candidates.includes('explore-meet-mark'),false);
+});
+
+test('refinement never offers a remote, privately uninformed or discretionary-busy peer',async()=>{
+ const {preparableMeetingPartner}=await import('./index.js');const world=await refinementFixture(),state=world.firstGlowState,s=state.settlements[0],actor=s.sparks[0],peer=s.sparks[1];
+ assert.ok(preparableMeetingPartner(state,s,actor,'tiled-104'));
+ peer.destinationObjectId='tiled-104';peer.status='traveling';peer.intendedActivity='mark-trace';assert.equal(preparableMeetingPartner(state,s,actor,'tiled-104'),undefined);
+ delete peer.destinationObjectId;peer.status='choosing';peer.intendedActivity='idle';peer.position={x:58,y:28};assert.equal(preparableMeetingPartner(state,s,actor,'tiled-104'),undefined);
+ peer.position={x:12,y:10};state.frontier!.discoveries=state.frontier!.discoveries.filter(d=>d.sparkId!==peer.id);assert.equal(preparableMeetingPartner(state,s,actor,'tiled-104'),undefined);
+});

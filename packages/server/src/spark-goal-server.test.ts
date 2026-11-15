@@ -90,6 +90,21 @@ test("real server commits opted-in goal selection even with no social interpreta
     await stopTestProcesses([child]);child=undefined;await start();
     const fasterRestored=await post("/api/pulse") as any;assert.deepEqual(fasterRestored.state.firstGlowState.reflectionCapacity.cadenceOverride,faster.state.firstGlowState.reflectionCapacity.cadenceOverride);
     await stopTestProcesses([child]);child=undefined;
+    await start();
+    const refinement={version:'local-cooperation-variety-v2',expectedTimelineId:frontier.timeline.id,expectedPulse:4};
+    for(const [headers,body,status] of [[{'content-type':'application/json'},refinement,401],[{'content-type':'application/json','x-owner-token':owner},{...refinement,version:'unknown'},409]] as const){const response=await fetch(origin+'/api/owner/goals/refinement',{method:'POST',headers,body:JSON.stringify(body)});assert.equal(response.status,status);}
+    assert.equal((await post('/api/owner/goals/refinement',refinement) as any).status,'pending');
+    await stopTestProcesses([child]);child=undefined;await start();
+    const refined=await post('/api/pulse') as any;
+    assert.deepEqual(refined.state.firstGlowState.goalLoops.planning.refinement,{version:refinement.version,activatedPulse:5});
+    assert.ok(refined.events.some((e:any)=>e.id==='event-5-goal-refinement-activation'));
+    const refinementDb=new DatabaseSync(database,{readOnly:true});
+    assert.equal(refinementDb.prepare("SELECT value FROM runtime_metadata WHERE key='goal_refinement_activation'").get(),undefined);
+    const prior=JSON.parse((refinementDb.prepare('SELECT state_json FROM timeline_checkpoints WHERE timeline_id=? AND pulse=4').get(frontier.timeline.id) as any).state_json);
+    assert.deepEqual(prior.firstGlowState.goalLoops.planning,fasterRestored.state.firstGlowState.goalLoops.planning);refinementDb.close();
+    await stopTestProcesses([child]);child=undefined;await start();
+    const reopenedRefinement=await post('/api/pulse') as any;assert.deepEqual(reopenedRefinement.state.firstGlowState.goalLoops.planning.refinement,refined.state.firstGlowState.goalLoops.planning.refinement);
+    await stopTestProcesses([child]);child=undefined;
     database = join(folder, "legacy.db");
     await start(false);
     await stopTestProcesses([child]); child = undefined;

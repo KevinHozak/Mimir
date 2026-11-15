@@ -7,7 +7,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import type { ServerResponse } from "node:http";
-import { activateFirstGlowOnlineCadence, ONLINE_REFLECTION_CADENCE_VERSION, GOAL_PLANNING_VERSION, advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildChronicleEdition, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, validateChronicleEdition, type ChronicleEdition, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type StructuredEvent, type WorldEvent, type WorldState, summarizeFirstGlowGoals } from "@mimir/engine";
+import { GOAL_REFINEMENT_VERSION, activateFirstGlowOnlineCadence, ONLINE_REFLECTION_CADENCE_VERSION, GOAL_PLANNING_VERSION, advanceWorld, applyCrossingVoicesChoice, applyShelterLoomChoice, buildChronicleEdition, createCrossingVoicesAnchor, createShelterLoomAnchor, createWorldFromBundle, FIRST_GLOW_DESIGN, HOME_SETTLEMENT, observeResonance, projectFirstGlowObserver, validateChronicleEdition, type ChronicleEdition, type ResonanceCandidateRecord, type ResonanceObservationEvent, type ResonanceObservationRule, type ResonanceState, type ShelterLoomChoice, type SocialInterpretation, type StructuredEvent, type WorldEvent, type WorldState, summarizeFirstGlowGoals } from "@mimir/engine";
 import { createFirstGlowServerAIConfig, FirstGlowServerAIRuntime } from "./first-glow-ai-runtime.js";
 import { initializeFirstGlowEventAdmission } from "@mimir/engine";
 import { bundleHash, decodeWorldBundle, type DecodedWorldBundle } from "@mimir/world-data";
@@ -451,6 +451,18 @@ app.post("/api/owner/goals/planning", async (request, reply) => {
   return { status: "pending", ...activation };
 });
 
+app.post("/api/owner/goals/refinement", async (request, reply) => {
+  if (!requireOwner(request, reply)) return;
+  const body = request.body as { version?: unknown; expectedTimelineId?: unknown; expectedPulse?: unknown } | undefined;
+  if (body?.version !== GOAL_REFINEMENT_VERSION || body.expectedTimelineId !== activeTimelineId || body.expectedPulse !== state.pulse || !state.firstGlowState.goalLoops || !state.firstGlowState.frontier || !state.firstGlowState.goalLoops.planning || onlineRun.expired() || state.pulse >= seasonPulseLimit || currentTimeline().status !== "active") return reply.code(409).send({ error: "planning activation requires the current eligible timeline, pulse and supported version" });
+  if (state.firstGlowState.goalLoops.planning?.refinement) return { status: "active", ...state.firstGlowState.goalLoops.planning.refinement };
+  const activation = { version: GOAL_REFINEMENT_VERSION, timelineId: activeTimelineId, targetPulse: state.pulse + 1 };
+  const existing = database.prepare("SELECT value FROM runtime_metadata WHERE key='goal_refinement_activation'").get() as { value: string } | undefined;
+  if (existing && existing.value !== JSON.stringify(activation)) return reply.code(409).send({ error: "another planning activation is pending" });
+  database.prepare("INSERT OR IGNORE INTO runtime_metadata(key,value) VALUES('goal_refinement_activation',?)").run(JSON.stringify(activation));
+  return { status: "pending", ...activation };
+});
+
 app.post("/api/owner/ai/cadence", async (request, reply) => {
   if (!requireOwner(request, reply)) return;
   const body = request.body as { version?: unknown; expectedTimelineId?: unknown; expectedPulse?: unknown } | undefined;
@@ -476,6 +488,13 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     if (activation.version !== GOAL_PLANNING_VERSION || activation.timelineId !== activeTimelineId || activation.targetPulse !== advanced.state.pulse || !advanced.state.firstGlowState.goalLoops || !advanced.state.firstGlowState.frontier || advanced.state.firstGlowState.goalLoops.planning) throw Error("Pending goal planning activation does not match this transition");
     advanced.state.firstGlowState.goalLoops.planning = { version: GOAL_PLANNING_VERSION, activatedPulse: advanced.state.pulse };
     result.events.push({ id: `event-${advanced.state.pulse}-goal-planning-activation`, pulse: advanced.state.pulse, kind: "pulse", villagerIds: [], settlementIds: [], message: `Owner activated ${GOAL_PLANNING_VERSION}; earlier checkpoints and decision contexts remain unchanged.` });
+  }
+  const queuedRefinement = database.prepare("SELECT value FROM runtime_metadata WHERE key='goal_refinement_activation'").get() as {value:string}|undefined;
+  if(queuedRefinement){
+    const activation=JSON.parse(queuedRefinement.value),planning=advanced.state.firstGlowState.goalLoops?.planning;
+    if(activation.version!==GOAL_REFINEMENT_VERSION||activation.timelineId!==activeTimelineId||activation.targetPulse!==advanced.state.pulse||!planning||planning.refinement)throw Error('Pending refinement does not match this transition');
+    planning.refinement={version:GOAL_REFINEMENT_VERSION,activatedPulse:advanced.state.pulse};
+    result.events.push({id:`event-${advanced.state.pulse}-goal-refinement-activation`,pulse:advanced.state.pulse,kind:'pulse',villagerIds:[],settlementIds:[],message:`Owner activated ${GOAL_REFINEMENT_VERSION}; own recent solo repeats are excluded and local rendezvous can prepare through ordinary recovery.`});
   }
   const queuedCadence = database.prepare("SELECT value FROM runtime_metadata WHERE key='reflection_cadence_activation'").get() as { value: string } | undefined;
   if (queuedCadence) {
@@ -504,6 +523,7 @@ async function commitPulseExclusive(): Promise<{ state: WorldState; events: Worl
     }
     database.prepare("INSERT INTO timeline_checkpoints (timeline_id, pulse, state_json) VALUES (?, ?, ?)").run(activeTimelineId, result.state.pulse, JSON.stringify(result.state));
     if (queuedPlanning) database.prepare("DELETE FROM runtime_metadata WHERE key='goal_planning_activation'").run();
+    if (queuedRefinement) database.prepare("DELETE FROM runtime_metadata WHERE key='goal_refinement_activation'").run();
     if (queuedCadence) database.prepare("DELETE FROM runtime_metadata WHERE key='reflection_cadence_activation'").run();
     const insertEvent = database.prepare("INSERT INTO timeline_events (timeline_id, id, pulse, event_json) VALUES (?, ?, ?, ?)");
     for (const event of result.events) insertEvent.run(activeTimelineId, event.id, event.pulse, JSON.stringify(event));
