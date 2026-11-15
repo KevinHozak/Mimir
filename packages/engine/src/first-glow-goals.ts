@@ -1,4 +1,4 @@
-import { GOAL_PLANNING_VERSION, validateGoalPlanning, finishCoordinatedMeetings, coordinatedGoalFor, type GoalPlanning, type GoalMeeting } from "./first-glow-goal-planning.js";
+import { GOAL_REFINEMENT_VERSION, preparingRendezvousFor, selectRendezvousPreparation, offerGoalRendezvous, type GoalRendezvous, GOAL_PLANNING_VERSION, validateGoalPlanning, finishCoordinatedMeetings, coordinatedGoalFor, type GoalPlanning, type GoalMeeting } from "./first-glow-goal-planning.js";
 import { frontierOpportunities, type FrontierOpportunity } from "./first-glow-frontier.js";
 import { canonicalize, sha256, type FirstGlowActivity } from "@mimir/world-data";
 import { canFirstGlowReach, clearFirstGlowPlan, firstGlowExploreCandidate, firstGlowRouteCandidates, initializeActivityCompletion, validateFirstGlowState, type FirstGlowSettlement, type FirstGlowSpark, type FirstGlowState } from "./structured.js";
@@ -18,6 +18,7 @@ export interface FirstGlowGoal {
   targetObjectId?: string;
   preferredPartnerId?: string;
   meeting?: GoalMeeting;
+  rendezvous?: GoalRendezvous;
   targetCell?: { x: number; y: number };
   kind: FirstGlowGoalKind;
   source: "rules" | "ai";
@@ -39,7 +40,7 @@ export interface FirstGlowGoal {
 }
 export interface FirstGlowGoals { version: typeof FIRST_GLOW_GOAL_VERSION; providerAttempts: number; planning?: GoalPlanning; goals: FirstGlowGoal[]; }
 export interface FirstGlowGoalContext {
-  planning?: { version: typeof GOAL_PLANNING_VERSION; recentGoals: Array<{ kind: FirstGlowGoalKind; objectId: string; completedPulse: number; evidenceEventId: string }> };
+  planning?: { refinement?: typeof GOAL_REFINEMENT_VERSION; version: typeof GOAL_PLANNING_VERSION; recentGoals: Array<{ kind: FirstGlowGoalKind; objectId: string; completedPulse: number; evidenceEventId: string }> };
   version: typeof FIRST_GLOW_GOAL_VERSION;
   sparkId: string;
   pulse: number;
@@ -89,7 +90,7 @@ export function buildFirstGlowGoalContext(state: FirstGlowState, sparkId: string
   const frontierExploration = nextTrace && regionEvidence ? { target: nextTrace.target, routeCost: nextTrace.cost, evidenceEventId: regionEvidence } : undefined;
   const candidates: FirstGlowGoalKind[] = opportunities ? [...new Set(opportunities.map(o=>o.kind)), ...(frontierExploration ? ["follow-trace" as const] : [])] : (Object.keys(plans) as FirstGlowGoalKind[]).filter(kind => (kind !== "follow-trace" && kind !== "explore-contribute" && (kind !== "explore-meet-mark" || meetingSite)) && plans[kind].every(a => canFirstGlowReach(settlement, spark, a)));
   const relationships = { trust: structuredClone(state.social.trust.filter(t => t.sourceSparkId === sparkId)), commitments: structuredClone(state.social.commitments.filter(c => c.promisorSparkId === sparkId)) };
-  const planning = state.goalLoops.planning ? { version: GOAL_PLANNING_VERSION, recentGoals: state.goalLoops.goals.filter(g=>g.sparkId===sparkId&&g.status==="completed"&&g.targetObjectId).slice(-2).map(g=>({kind:g.kind,objectId:g.targetObjectId!,completedPulse:g.completedPulse!,evidenceEventId:g.completions.at(-1)!.eventId})) } : undefined;
+  const planning = state.goalLoops.planning ? { ...(state.goalLoops.planning.refinement ? {refinement:GOAL_REFINEMENT_VERSION} : {}), version: GOAL_PLANNING_VERSION, recentGoals: state.goalLoops.goals.filter(g=>g.sparkId===sparkId&&g.status==="completed"&&g.targetObjectId).slice(-2).map(g=>({kind:g.kind,objectId:g.targetObjectId!,completedPulse:g.completedPulse!,evidenceEventId:g.completions.at(-1)!.eventId})) } : undefined;
   const context = { ...(planning ? { planning } : {}), ...(frontierExploration ? { frontierExploration } : {}), ...(opportunities ? { opportunities } : {}), version: FIRST_GLOW_GOAL_VERSION, sparkId, pulse: state.pulse, candidates, charge: spark.carriedCharge, chargeDeficit: spark.chargeDeficit, readiness: spark.readiness, memory, evidenceEventIds, personality: firstGlowSparkPersonalityProfile(sparkId), relationships };
   return compactFirstGlowGoalContext({ ...context, contextHash: "" });
 }
@@ -110,7 +111,7 @@ export async function requestFirstGlowGoal(input: FirstGlowState, sparkId: strin
   if (options.historicalPlayback) return { state: input, reason: "historical-playback" };
   const spark = input.settlements.flatMap(s => s.sparks).find(a => a.id === sparkId);
   if (!input.goalLoops || !spark) return { state: input, reason: "goals-disabled-or-unknown-spark" };
-  if (coordinatedGoalFor(input,sparkId) || input.goalLoops.goals.some(g => g.sparkId === sparkId && g.status === "active") || spark.intention?.status === "active" || spark.destinationObjectId || spark.destinationCell || !["choosing", "waiting", "idle"].includes(spark.status)) return { state: input, reason: "existing-activity-continues" };
+  if (preparingRendezvousFor(input,sparkId) || coordinatedGoalFor(input,sparkId) || input.goalLoops.goals.some(g => g.sparkId === sparkId && g.status === "active") || spark.intention?.status === "active" || spark.destinationObjectId || spark.destinationCell || !["choosing", "waiting", "idle"].includes(spark.status)) return { state: input, reason: "existing-activity-continues" };
   if (input.goalLoops.goals.length >= 64) return { state: input, reason: "goal-record-limit" };
   const context = buildFirstGlowGoalContext(input, sparkId)!;
   if (!context.candidates.length || !context.evidenceEventIds.length) return { state: input, reason: "no-local-opportunity-evidence" };
@@ -140,12 +141,14 @@ export async function requestFirstGlowGoal(input: FirstGlowState, sparkId: strin
   const targetObjectId = chosenOpportunity?.objectId;
   const goal: FirstGlowGoal = { ...(selected.kind === "follow-trace" ? { targetCell: context.frontierExploration!.target } : {}), ...(targetObjectId ? { targetObjectId } : {}), id: `goal-${next.pulse}-${sparkId}-${next.goalLoops!.goals.length}`, sparkId, kind: selected.kind, summary: selected.summary, evidenceEventIds: selected.evidenceEventIds, ...(chosenOpportunity?.partnerSparkId ? {preferredPartnerId:chosenOpportunity.partnerSparkId} : {}), source, ...(source === "ai" ? { providerId: options.provider!.providerId } : { fallbackReason }), contextHash: context.contextHash, context, createdPulse: next.pulse, expiresPulse: next.pulse + 128, status: "active", step: 0, dispatches: 0, completions: [] };
   next.goalLoops!.goals.push(goal);
+  offerGoalRendezvous(next,goal);
   validateFirstGlowGoals(next);
   return { state: next, goal, reason: source === "ai" ? "provider-selected" : fallbackReason };
 }
 
 export function interruptFirstGlowGoal(state: FirstGlowState, goal: FirstGlowGoal, reason: string): void {
   goal.status = "interrupted";
+  if(goal.rendezvous)goal.rendezvous.status="ended";
   goal.reason = reason;
   const settlement = state.settlements.find(s => s.sparks.some(a => a.id === goal.sparkId))!;
   const spark = settlement.sparks.find(a => a.id === goal.sparkId)!;
@@ -157,6 +160,7 @@ export function interruptFirstGlowGoal(state: FirstGlowState, goal: FirstGlowGoa
 
 /** Selects only at an activity boundary: never teleports, grants resources or steals reservations. */
 export function selectFirstGlowGoalActivity(state: FirstGlowState, settlement: FirstGlowSettlement, spark: FirstGlowSpark): boolean {
+  if (selectRendezvousPreparation(state,settlement,spark)) return true;
   if (coordinatedGoalFor(state, spark.id)) return true;
   const goal = state.goalLoops?.goals.find(g => g.sparkId === spark.id && g.status === "active");
   if (!goal) { delete spark.frontierTargetObjectId; delete spark.frontierTargetCell; return false; }
@@ -247,6 +251,7 @@ export function validateFirstGlowGoals(state: FirstGlowState): void {
     if (g.targetCell && (g.kind!=="follow-trace" || !Number.isInteger(g.targetCell.x) || !Number.isInteger(g.targetCell.y) || g.targetCell.x<0 || g.targetCell.y<0 || g.targetCell.x>=state.settlements[0].bundle.width || g.targetCell.y>=state.settlements[0].bundle.height)) fail();
     if (g.kind==="follow-trace" && (!state.frontier || !g.targetCell || JSON.stringify(g.targetCell)!==JSON.stringify(g.context.frontierExploration?.target))) fail();
     if (g.context.planning && (!policy.planning || g.context.planning.version !== policy.planning.version || g.createdPulse < policy.planning.activatedPulse)) fail();
+    if(g.context.planning?.refinement && (!policy.planning?.refinement || g.context.planning.refinement!==GOAL_REFINEMENT_VERSION || g.createdPulse<policy.planning.refinement.activatedPulse))fail();
     if (g.preferredPartnerId !== undefined && (!g.context.planning || !g.context.opportunities?.some(o=>o.kind===g.kind&&o.objectId===g.targetObjectId&&o.partnerSparkId===g.preferredPartnerId))) fail();
     const { contextHash, ...context } = g.context ?? {};
     validateFirstGlowGoalContextProjection(g.context);

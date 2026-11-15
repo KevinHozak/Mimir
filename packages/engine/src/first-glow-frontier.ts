@@ -1,4 +1,4 @@
-import { willingMeetingPartner } from "./first-glow-goal-planning.js";
+import { preparableMeetingPartner, willingMeetingPartner } from "./first-glow-goal-planning.js";
 import type { FirstGlowState, FirstGlowSettlement, FirstGlowSpark } from "./structured.js";
 import { firstGlowRouteCandidates } from "./structured.js";
 export const FRONTIER_VERSION = "local-frontier-v1" as const;
@@ -51,8 +51,9 @@ export function frontierOpportunities(state: FirstGlowState, settlement: FirstGl
       const route = firstGlowRouteCandidates(settlement, { ...spark, frontierTargetObjectId: undefined }, activity, object.id)[0];
       if (!route) return [];
       const region = settlement.bundle.frontier!.regions.find(r=>object.origin.x>=r.x&&object.origin.x<r.x+r.width&&object.origin.y>=r.y&&object.origin.y<r.y+r.height)!;
-      const partner = kind === "explore-meet-mark" && state.goalLoops?.planning ? willingMeetingPartner(state,settlement,spark,object.id) : undefined;
+      const partner = kind === "explore-meet-mark" && state.goalLoops?.planning ? (state.goalLoops.planning.refinement ? preparableMeetingPartner(state,settlement,spark,object.id) : willingMeetingPartner(state,settlement,spark,object.id)) : undefined;
       if (kind === "explore-meet-mark" && state.goalLoops?.planning && !partner) return [];
+      if(state.goalLoops?.planning?.refinement && (kind==='explore-mark'||kind==='explore-shape') && state.goalLoops.goals.filter(g=>g.sparkId===spark.id&&g.status==='completed').slice(-2).some(g=>g.targetObjectId===object.id&&g.completions.some(c=>c.activity===activity)))return [];
       const recentCompletions = state.goalLoops?.goals.filter(g=>g.sparkId===spark.id&&g.status==="completed").slice(-2).filter(g=>g.targetObjectId===object.id).length ?? 0;
       return [{ ...(state.goalLoops?.planning ? {recentCompletions,...(partner ? {partnerSparkId:partner.peer.id} : {})} : {}), kind, objectId: object.id, label: definition.label, regionId: region.id, routeCost: route.cost, evidenceEventId: d.eventId }];
     }).sort((a,b)=>(a.recentCompletions??0)-(b.recentCompletions??0)||a.routeCost-b.routeCost || (a.objectId<b.objectId?-1:1));

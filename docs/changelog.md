@@ -1,5 +1,9 @@
 # Mimir Changelog
 
+## Recoverable local rendezvous and recent-work variety — 2026-11-14
+
+An explicit goal-planning refinement removes redundant recent solo tasks from new menus and admits bounded preparation for a locally agreed rendezvous. Same-batch partner ownership, real recovery costs, physical arrival, honest expiry and unchanged historical contexts preserve the distinction between intentions and outcomes. Existing AI/hosting caps, eight-pulse AI cadence and pilot cutoff remain unchanged. Live emergence is a separate qualification step.
+
 ## Occasional observer polling — 2026-11-14 (implementation)
 
 Hosted read-only observation refreshes every four minutes in visible tabs instead of maintaining SSE and reloading every 15 seconds. The bridge can deny streaming, compress bounded reads and enforce the pilot deadline. A cumulative two-revision hosting guard can return the observer to private-only mode without stopping the simulation, preserving original usage and cost ceilings. [Local verification](evidence/observer-polling-local-2026-11-14.md) is separate from the authorized rollout's live asset/cost checks.

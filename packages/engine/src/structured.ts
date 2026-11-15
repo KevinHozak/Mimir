@@ -221,6 +221,7 @@ export function advanceFirstGlowState(input: FirstGlowState, validate = true, ro
     for (const spark of settlement.sparks.slice().sort((a, b) => compare(a.id, b.id))) {
       spark.committedCells = [{ ...spark.position }];
       if (state.goalLoops && completedArrival.has(spark.id)) continue;
+      if(spark.waitReason==='rendezvous-prepared' && !spark.destinationObjectId && !spark.destinationCell){state.events.push({id:`event-${state.pulse}-${spark.id}-rendezvous-wait`,kind:'wait',actorId:spark.id,message:`${spark.name} is prepared and waiting for the bounded local rendezvous.`});continue;}
       if (recoveryBlocked.has(spark.id)) { state.events.push({ id: `event-${state.pulse}-${spark.id}-wait`, kind: "wait", actorId: spark.id, message: `${spark.name} is waiting for recovery contact admission.` }); continue; }
       const continuation = state.postProbeContinuation?.goals.find(g => g.sparkId === spark.id);
       if (continuation?.phase === "committed" && !continuation.outcome && continuation.navigationRevision !== settlement.runtime.navigationRevision) {
