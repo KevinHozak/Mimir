@@ -1,6 +1,8 @@
+import { rename } from "node:fs/promises";
+import { setTimeout as delay } from "node:timers/promises";
 import { DatabaseSync } from "node:sqlite";
 import { createHash, randomUUID } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { dirname, join, resolve, relative, isAbsolute } from "node:path";
 import { createBundleInclusiveBackup } from "./backup-lib.js";
 import { replicateBackup, uploadVerifiedFile, type BackupReplicationStatus } from "./backup-replication.js";
@@ -58,18 +60,33 @@ export function offsiteHealth(status: OffsiteStatus, now = Date.now()) {
   const incomplete = !Number.isFinite(attempt) || !Number.isFinite(last) || attempt > last;
   return { ...status, stale, incomplete, healthy: !stale && !incomplete && status.consecutiveFailures === 0 && !status.lastError };
 }
-export function saveOffsiteStatus(path: string, status: OffsiteStatus) {
+export async function saveOffsiteStatus(path: string, status: OffsiteStatus) {
   mkdirSync(dirname(path), { recursive: true });
   const temporary = `${path}.${randomUUID()}.tmp`;
   writeFileSync(temporary, JSON.stringify(status, null, 2) + "\n", { mode: 0o600 });
-  renameSync(temporary, path);
+  try {
+    for (let attempt = 0; ; attempt++) {
+      try {
+        await rename(temporary, path);
+        return;
+      } catch (error) {
+        // Windows readers or scanners can briefly hold either file open.
+        const code = (error as NodeJS.ErrnoException).code;
+        if (process.platform !== "win32" || (code !== "EPERM" && code !== "EBUSY") || attempt >= 5) throw error;
+        await delay(25 * 2 ** attempt);
+      }
+    }
+  } catch (error) {
+    try { rmSync(temporary, { force: true }); } catch { /* Preserve the rename error. */ }
+    throw error;
+  }
 }
 
 export async function runOffsiteBackup(config: { source: string; retainLocalSnapshots?: boolean; aiBudgetPath?: string; directory: string; bundleRoot: string; destination: string; statusPath: string; freshnessMaxAgeMs: number; impersonateServiceAccount?: string; minimumCheckpoint?: () => Promise<{ timeline_id: string; pulse: number }> },
   upload: typeof replicateBackup = replicateBackup, uploadReceipt: typeof uploadVerifiedFile = uploadVerifiedFile) {
   const status = loadOffsiteStatus(config.statusPath, config.destination, config.freshnessMaxAgeMs);
   status.lastAttemptAt = new Date().toISOString();
-  saveOffsiteStatus(config.statusPath, status);
+  await saveOffsiteStatus(config.statusPath, status);
   let stage = "live checkpoint check";
   try {
     const minimum = await config.minimumCheckpoint?.();
@@ -91,11 +108,11 @@ export async function runOffsiteBackup(config: { source: string; retainLocalSnap
     const result = await upload(backup, config.destination, undefined, new Date(), config.impersonateServiceAccount);
     const completed = { ...status, lastSuccessAt: new Date().toISOString(), lastObjectUri: result.objectUri, lastReceiptObjectUri: `${result.objectUri}.receipt.json`, lastArchiveSha256: result.archiveSha256, lastArchiveBytes: result.archiveBytes, database: evidence, bundleFiles: manifest.bundleFiles.length, lastError: undefined, consecutiveFailures: 0 };
     const receiptPath = `${backup}.receipt.json`;
-    saveOffsiteStatus(receiptPath, completed);
+    await saveOffsiteStatus(receiptPath, completed);
     stage = "recovery receipt upload and checksum verification";
     await uploadReceipt(receiptPath, completed.lastReceiptObjectUri, config.impersonateServiceAccount);
     Object.assign(status, completed);
-    saveOffsiteStatus(config.statusPath, status);
+    await saveOffsiteStatus(config.statusPath, status);
     if (config.retainLocalSnapshots === false) {
       stage = "verified snapshot cache cleanup";
       const root=resolve(config.directory);
@@ -110,7 +127,7 @@ export async function runOffsiteBackup(config: { source: string; retainLocalSnap
     // Child-process errors can include command output. Persist only a safe fixed message.
     status.lastError = `off-VM backup failed during ${stage}; inspect the service exit status and private operator diagnostics`;
     status.consecutiveFailures += 1;
-    saveOffsiteStatus(config.statusPath, status);
+    await saveOffsiteStatus(config.statusPath, status);
     throw new Error(status.lastError);
   }
 }
