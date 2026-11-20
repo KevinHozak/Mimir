@@ -29,7 +29,8 @@ const startBackend = async () => {
   children.push(child); await ready(apiOrigin); return child;
 };
 const startBridge = async () => {
-  const child = fork(join(root, "scripts/observer-bridge-fault-fixture.mjs"), [String(bridgePort), apiOrigin, webOrigin], { cwd: root, stdio: ["ignore", "ignore", "inherit", "ipc"] });
+  // The plain JavaScript child does not need the parent test runner's tsx loader.
+  const child = fork(join(root, "scripts/observer-bridge-fault-fixture.mjs"), [String(bridgePort), apiOrigin, webOrigin], { cwd: root, execArgv: [], stdio: ["ignore", "ignore", "inherit", "ipc"] });
   children.push(child);
   await new Promise<void>((resolveReady, reject) => {
     const timeout = setTimeout(() => reject(new Error("bridge fixture startup timeout")), 30000);
