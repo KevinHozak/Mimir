@@ -26,6 +26,8 @@ Verify a signed-in visible tab with its preserved selection, a later naturally c
 
 ## Paused-writer recovery and chart load — 2026-11-14
 
+The stopped pilot’s [private continuation](evidence/spark-online-private-running-2026-11-14.md) and [polling observation](evidence/observer-polling-live-2026-11-14.md) are historical operation records. They do not authorize a restart or renew its original allocation.
+
 Do not resume a pilot whose health listener or backup checks are unresponsive. The S021 chart repair separates measurement projection from expensive replay validation and caches appended samples. Qualify both cold chart reads and a concurrent health read on a real retained history before resuming. If the old listener cannot answer, stop the already-paused writer, verify the persisted run/pause/checkpoint and stopped allocation directly, and use a proper stopped-writer paired backup; these are alternate authoritative facts, not permission to skip lease or budget checks.
 
 The final-backup service allows 180 seconds for grown histories. Five minutes before the unchanged hard deadline, network cleanup queues the shutdown coordinator before removing its owned endpoint; the coordinator quiesces regular backups and stops the writer before the final snapshot. The original cutoff timer and independent hard shutdown still win. Regular backup health during operation and independent restoration remain required. Preserve incomplete artifacts from timed-out attempts and distinguish infrastructure delay from application assertions.

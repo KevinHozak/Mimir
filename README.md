@@ -14,7 +14,9 @@ The prepared `npm run start:ai:goals` launcher uses a separate paused goal world
 
 ## Persistent online world development
 
-The active [roadmap](docs/roadmap.md) targets a persistent online AI world under [MIM-E003](issues/MIM-E003.md). Human review is deferred to finalization.
+The bounded S021 pilot is stopped. Its dated [private continuation](docs/evidence/spark-online-private-running-2026-11-14.md) and [polling observation](docs/evidence/observer-polling-live-2026-11-14.md) are historical evidence, not authorization to resume it.
+
+The active [roadmap](docs/roadmap.md) targets a persistent online AI world under [MIM-E003](issues/MIM-E003.md). The owner skipped the S023 human review; the separate study’s review disposition remains open in [MIM-S026](issues/MIM-S026.md).
 
 Run `npm run review:goal-loop` for the first offline goal-loop fixture. It builds, runs a fake-provider explore/meet/mark scenario, and writes evidence under `.tmp/goal-loop-review-*`. It does not launch a hosted world or spend the AI allocation. Contacts, starting resources and reflection cadence are controlled test conditions; expanded authored regions and live goal qualification remain unfinished.
 
