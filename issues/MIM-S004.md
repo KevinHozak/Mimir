@@ -1,5 +1,5 @@
 ﻿---
-depends_on: ["MIM-S003","MIM-S023"]
+depends_on: ["MIM-S003","MIM-S026"]
 id: "MIM-S004"
 parent: ["MIM-E001"]
 priority: "medium"
@@ -92,4 +92,4 @@ No model substitution, credential acquisition, live approval or inference was pe
 
 ## Human review disposition — 2026-11-21
 
-S023 was closed at the owner's direction because human review was skipped. Its unchecked review criteria were not satisfied, and closure does not establish human acceptance or authorize this study. Resolve the study's applicable human-review and other execution gates explicitly before any run.
+S023 was closed at the owner's direction because human review was skipped. Its unchecked review criteria were not satisfied, and closure does not establish human acceptance or authorize this study. The unresolved study-specific human-review gate is tracked as the open dependency [MIM-S026](MIM-S026.md); resolve it and the other execution gates explicitly before any run.

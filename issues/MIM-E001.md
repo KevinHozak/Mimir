@@ -27,3 +27,5 @@ docs/roadmap.md; docs/ai-plan.md; docs/ai-p14-rollout-runbook.md
 - [MIM-S003 - Build a reproducible matched observer study protocol](MIM-S003.md)
 - [MIM-S004 - Run the approved bounded model-benefit comparison](MIM-S004.md)
 - [MIM-S005 - Publish the model-benefit evidence and rollout decision](MIM-S005.md)
+
+- [MIM-S026 - Resolve the matched study's human-review gate](MIM-S026.md)
