@@ -26,3 +26,7 @@ The owner affirmed clarity at all nine guided evidence steps in the frozen 2026-
 - [ ] Record an explicit final accept/defer decision and residual functional gaps, including timely completion and useful ordinary reuse; no automatic acceptance from technical checks.
 
 No scheduled follow-up, paid calls or live changes are authorized by this story. The separate matched model-benefit study retains its own execution gates.
+
+## Owner decision (2026-11-20)
+
+The owner elected to skip human review. No new unguided exercise, usability result, sustained-interest finding, or human acceptance decision was recorded. The [S022 comparison](../docs/evidence/s022-ordinary-history-comparison-2026-11-20.md) remains technical evidence. The acceptance boxes and dependencies remain as recorded.
