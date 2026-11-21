@@ -33,3 +33,7 @@ The browser was restricted to local read requests. The disposable copy retained 
 ## Offline closeout (2026-11-20)
 
 The offline evaluation is complete. PRs #346, #347, and #348 contain the report, comparison, and local browser evidence. S021 remains an open dependency for hosted qualification. The owner skipped S023 human review. The comparison provides no causal model-benefit result.
+
+## Dependency update — 2026-11-21
+
+S021 subsequently closed as a bounded pilot. Hosted return qualification remains in S008 and S024; S022's offline evidence and completed scope are unchanged.

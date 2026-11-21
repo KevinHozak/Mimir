@@ -28,6 +28,8 @@ Preserve server authority, private knowledge, actual costs, deterministic record
 - [MIM-S021](MIM-S021.md)
 - [MIM-S022](MIM-S022.md)
 - [MIM-S023](MIM-S023.md)
+- [MIM-S024](MIM-S024.md)
+- [MIM-S025](MIM-S025.md)
 
 Human review is finalization, not a prerequisite for implementation. The matched study remains separate.
 
@@ -52,3 +54,7 @@ Bounded context and explicit local rejection telemetry are implemented and quali
 ## S020 complete locally — 2026-11-13
 
 The authored frontier, locally discovered destinations, genuine rendezvous and cooperative trace weaves are implemented and qualified. Two 240-pulse histories completed 39/44 goals; both weaves completed in each. The separate 12-Spark offline runtime passed project-event persistence and restoration. S021 remains the next online gate, including S008 and explicit operating/budget decisions. [S020 evidence](../docs/evidence/first-glow-frontier-2026-11-13.md).
+
+## Bounded pilot closeout — 2026-11-21
+
+S021 is closed as a bounded stopped pilot, not as hosted readiness. Genuine Firebase refresh remains in S008; hosted operations and recovery qualification are tracked in S024, and final billing and retained-storage disposition in S025. This epic remains in progress. No allocation was renewed.
