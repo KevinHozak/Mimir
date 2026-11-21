@@ -1,5 +1,7 @@
 # S021 bounded online pilot
 
+**Closeout, 2026-11-21:** The bounded pilot is stopped at pulse 293 and S021 is closed as a pilot, not as hosted readiness. The entries below document historical operation. Genuine hosted authentication remains in [S008](../issues/MIM-S008.md), hosted operations and recovery qualification in [S024](../issues/MIM-S024.md), and billing and retained-storage disposition in [S025](../issues/MIM-S025.md). No allocation has been renewed.
+
 ## Posted-charge reconciliation — 2026-11-15
 
 The [read-only billing review](evidence/spark-pilot-cost-reconciliation-2026-11-15.md) matched the original ledger's known 90,548 input and 3,927 output tokens exactly with the posted Gemini 3.5 Flash Lite SKUs for November 8–15. The shorter pilot-date filter omitted earlier allocation usage; expanding it resolved the apparent discrepancy. Recorded cost remains USD 0.040698 and conservative AI accounting USD 1.181396 / USD 5, including both uncertain holds.

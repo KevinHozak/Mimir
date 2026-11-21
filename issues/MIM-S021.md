@@ -1,25 +1,33 @@
 ﻿---
-depends_on: ["MIM-S019","MIM-S020","MIM-S008"]
+depends_on: ["MIM-S019","MIM-S020"]
 id: "MIM-S021"
 parent: ["MIM-E003"]
 priority: "high"
 schema_version: 1
-status: "in_progress"
-title: "Qualify and run the persistent online AI world"
+status: "closed"
+title: "Close out the bounded online AI pilot"
 type: "enhancement"
 ---
 ## Outcome
 
-Deploy a verified single-writer world with persistent history, bounded AI operations, recoverable backups and return visits to the same world. Existing private hosting is historical evidence, not current readiness.
+Complete and document the bounded owner-only online AI pilot, its recorded outcomes, recovery evidence, cost accounting and explicit limitations. Closure records the completed pilot and its disposition; it does not establish hosted production readiness.
 
 ## Acceptance
 
-- [ ] Prepare exact-source deployment, access, cost allocation, cadence, season/continuation and rollback decisions; obtain operational authorization before changing live services or spending.
-- [ ] Resolve applicable genuine auth refresh/reconnect gaps in MIM-S008; preserve selection across return visits.
-- [ ] Verify persistent single-writer world identity and goal/AI receipts across restart and reconnect.
-- [ ] Verify bundle-inclusive off-host backup and fresh restoration of latest committed goals/history; expose stalled simulation and backup failures.
-- [ ] Verify stop controls, budget exhaustion and provider-free archive reads in the selected hosted configuration.
-- [ ] Record exact deployed assets, audience/time limits, actual cost and remaining limitations.
+- [x] Record the authorized scope, original AI and hosting limits, exact deployed assets and bounded operating decisions.
+- [x] Record observed single-writer continuity, real AI goals and receipts, and the pilot's stopped final state.
+- [x] Preserve and document the recovered pulse-293 history, bundles and ledger, distinguishing local recovery from the interrupted final offsite backup.
+- [x] Record available billing evidence, conservative accounting and unresolved attribution without releasing holds or treating estimates as final charges.
+- [x] Assign unfinished genuine hosted authentication, operating/recovery qualification and billing to explicit follow-up issues.
+
+## Bounded pilot closeout — 2026-11-21
+
+The owner chose to close this issue as a bounded pilot while keeping the pilot stopped. The writer stopped at pulse 293 before its deadline. The last completed offsite archive was pulse 290: the final offsite backup was interrupted during shutdown. The recovered pulse-293 world, all 294 checkpoints, bundles and AI ledger were independently archived and restored locally; the shutdown repair has local qualification, not live cloud or systemd qualification. The pilot demonstrated real AI goal selections and recorded outcomes; [S022](MIM-S022.md) contains the offline evaluation. No comparative model benefit or broader hosted readiness is claimed.
+
+The original USD 5 AI and USD 2 hosting allocations are not renewed. Preserve the two USD 0.50 uncertain-request holds and conservative AI and hosting/recovery accounting described below. Genuine Firebase expiry/refresh and return behavior remain in [S008](MIM-S008.md); hosted operations, shutdown and recovery qualification move to [S024](MIM-S024.md); final billing, attribution and retained-storage disposition move to [S025](MIM-S025.md). Future deployment, restart, spending or resource changes require separate authorization.
+
+The dated entries below are historical observations and do not describe the pilot as currently running.
+
 
 ## S020 handoff — 2026-11-13
 
@@ -96,3 +104,17 @@ Final billing remains open: the latest available statement is October 31, no Nov
 The [S021/S008 closeout matrix](../docs/s021-s008-closeout-matrix-2026-11-15.md) maps all six acceptance criteria to dated evidence and remaining gates. The [auth qualification plan](../docs/hosted-token-refresh-verification-plan.md) now targets scheduled polling rather than hosted stream rotation. Final recovery/local shutdown coverage and known token reconciliation are retained; genuine hosted auth/return, deployed shutdown/offsite recovery qualification, final billing/uncertain holds and retained-storage disposition remain open. No acceptance box or relationship changed. Human finalization remains deferred to S023.
 
 Documentation preparation is complete locally; this is not new runtime qualification. No service, resource, allocation, lease or reserve changed. The expired pilot stays stopped and the shutdown repair remains undeployed. Future execution requires a separately authorized bounded plan.
+
+## Refreshed Cloud Billing exports (2026-11-21)
+
+Read-only, SKU-grouped Google Cloud Billing Reports CSVs for Mimir and Mimir Realm Backups were compared against the November 15 snapshot. The original exports are private and remain outside the repository.
+
+- **November 8–15, AI allocation window.** Vertex AI still shows 90,548 input tokens and 3,927 output tokens, matching the known ledger receipts and the November 15 snapshot. After savings the input SKU subtotal is USD 0.012517 and the output SKU subtotal is USD 0.004632, totaling USD 0.017149. The full filtered project total is USD -0.044506 after savings and tax.
+- **November 13–15, hosting and recovery window.** No increase is visible at the original snapshot's cent precision. Networking usage cost still displays USD 0.26, Cloud Run USD 0.22 (fully offset), and Artifact Registry USD 0.01. Private Service Connect shows 12.07 endpoint hours and USD 0.048918 after savings. The full filtered project total is USD -0.008775 after savings and tax, displayed as USD -0.01. The rounded baseline cannot rule out sub-cent changes.
+- **November 16–21, after shutdown.** The report shows a USD 0.00 filtered total and no inference SKU. Artifact Registry shows USD 0.02 in usage cost before savings, offset at cent precision. Persistent disk, Firebase Hosting, Cloud Storage, and Service Directory still show usage with zero displayed billed cost.
+
+The filtered totals include credits and project activity outside the pilot. Final invoice and run-level attribution remain open. AI request IDs 11 and 12 remain uncertain, with both USD 0.50 holds retained (USD 1 total). The USD 1.181396 conservative AI accounting and USD 1.963414 conservative hosting and recovery accounting remain in effect. The pilot stays stopped. This update used the supplied CSVs and incurred no additional spending.
+
+## Fresh Edge billing confirmation — 2026-11-21
+
+A read-only Google Cloud Billing Reports check in Edge confirmed that the report was grouped by SKU and scoped to Mimir and Mimir Realm Backups. For November 8–15, Vertex AI still displayed 90,548 input and 3,927 output tokens, with a filtered total of USD -0.04 at the console's cent precision. For November 13–15, the filtered total displayed USD -0.01 and Private Service Connect showed 12.07 endpoint hours and USD 0.05 after savings. For November 16–21, the filtered total displayed USD 0.00, with no inference SKU in the report; Artifact Registry displayed USD 0.02 usage offset by USD 0.02 savings, while persistent disk, Firebase Hosting, Cloud Storage and Service Directory showed usage. These observations agree with the CSV evidence above at displayed precision and do not resolve invoice or run-level attribution. The existing uncertain-request holds and conservative accounting remain unchanged.

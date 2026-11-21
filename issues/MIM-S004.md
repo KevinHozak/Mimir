@@ -88,3 +88,8 @@ Later preparation: [revision 4 specification](../docs/model-study-s004-protocol-
 [Approval packet](../docs/model-study-s004-live-approval-packet.md) and [preflight receipt](../docs/evidence/model-study-s004-approval-preflight-2026-11-08.json) are complete as blocked drafts. Current official documentation lists the pinned model's retirement on 2026-10-20. Local configured identity is only a candidate: authenticated principal/project/billing/API checks failed without a classified cause. Privacy settings/contract and an all-in reasoning-token cost bound remain unverified. The frozen adapter omits thinking configuration and its calculator accounts for candidate output rather than separately reconciling reasoning usage.
 
 No model substitution, credential acquisition, live approval or inference was performed. All 261 frozen source fingerprints still match. Resolve these gates for a supported model, reverify/refreeze any changed code, and obtain manifest-specific approval before execution. Live acceptance remains unchecked.
+
+
+## Human review disposition — 2026-11-21
+
+S023 was closed at the owner's direction because human review was skipped. Its unchecked review criteria were not satisfied, and closure does not establish human acceptance or authorize this study. Resolve the study's applicable human-review and other execution gates explicitly before any run.
