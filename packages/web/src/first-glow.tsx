@@ -97,7 +97,7 @@ export function FirstGlowExplanationPanel({ explanations, currentPulse, evidence
       <dl className="explanation-score"><dt>Need</dt><dd>{explanation.score.need}</dd><dt>Values</dt><dd>{explanation.score.values}</dd><dt>Local knowledge</dt><dd>{explanation.score.localKnowledge}</dd><dt>Trust</dt><dd>{explanation.score.trust}</dd><dt>Commitments</dt><dd>{explanation.score.commitments}</dd><dt>Cost</dt><dd>{explanation.score.cost}</dd><dt>Risk</dt><dd>{explanation.score.risk}</dd><dt>Total</dt><dd>{explanation.score.total}</dd></dl>
       <EvidenceList evidenceHref={evidenceHref} title="Objective evidence" evidence={explanation.objectiveEvents} empty="No objective event was recorded." />
       <EvidenceList evidenceHref={evidenceHref} title={`What ${explanation.actorName} knew`} evidence={explanation.knownFacts} empty="This Spark had no recorded witnessed fact for this choice." />
-      <section className="explanation-evidence"><h4>Uncertain interpretation</h4>{explanation.uncertainInferences.length ? <ul>{explanation.uncertainInferences.map(inference => <li key={inference}>{inference}</li>)}</ul> : <p>No uncertain inference was recorded.</p>}</section>
+      <section className="explanation-evidence"><h4>Uncertain interpretation</h4>{explanation.uncertainInferences.length ? <ul>{explanation.uncertainInferences.map((inference, index) => <li key={`${index}:${inference}`}>{inference}</li>)}</ul> : <p>No uncertain inference was recorded.</p>}</section>
       <EvidenceList evidenceHref={evidenceHref} title="What changed afterward" evidence={explanation.consequenceEvents} empty="No consequence event was recorded." />
     </article>) : <p className="empty-selection">No consequential choice has been committed at this pulse yet.</p>}
   </section>;
