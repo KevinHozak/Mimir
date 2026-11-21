@@ -22,6 +22,8 @@ A private live read-size probe measured 193,948 gzip bytes for the complete eigh
 
 ## Blocking chart read repair — 2026-11-14
 
+After the repair, the same world resumed privately at pulse 157; three real goal selections and their receipts were independently recovered. Later, a polling observer retained Spark selection and Follow across a natural pulse. The [private continuation](evidence/spark-online-private-running-2026-11-14.md) and [live polling observation](evidence/observer-polling-live-2026-11-14.md) retain dated details. The pilot subsequently stopped at pulse 293; neither observation establishes current hosted readiness.
+
 Before activation of the merged AI recovery, the paused pulse-150 server stopped answering health requests and filled its TCP accept queue. `/api/metrics` synchronously normalized and fully validated every historical world, including spatial/replay material. The already-paused writer was stopped; its checkpoint and pause were independently read from SQLite, and a proper stopped-writer paired offsite backup succeeded in 22 seconds. AI remains stopped in this source snapshot.
 
 The chart now projects only compatible measured fields, with numeric validation, and caches the one active timeline. Subsequent reads refresh its mutable head and append new samples. Full state normalization remains at checkpoint load and replay boundaries. No world, goal, charge, ledger or reflection state is changed by metrics reads. On the actual Node 22 VM, the read-only pulse-150 history returned 151 samples in 3.44 seconds cold and 36 ms warm, rereading one head row on the warm request. This is a dated isolated probe; repaired HTTP health and subsequent live AI receipts remain separate deployment checks.

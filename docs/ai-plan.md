@@ -1,5 +1,7 @@
 # Mimir AI Plan
 
+The stopped S021 pilot’s [private continuation](evidence/spark-online-private-running-2026-11-14.md) records three live goal selections and paired recovery. Its [later polling check](evidence/observer-polling-live-2026-11-14.md) changed observer delivery, not the AI allocation or payload boundary. These are dated observations, not authority to resume.
+
 ## S021 repaired-run admission — 2026-11-14
 
 The private US Vertex route uses a run-owned Private Service Connect endpoint with early-deadline and guest-shutdown cleanup. The endpoint/model/location and original AI/hosting caps remain pinned. Audited `resumeAfterRecovery` retains uncertain holds and creates a `budget_recoveries` record carrying the run, attempt boundary, all uncertain IDs, guarded totals, authorization and evidence hash. Only the new failure window resets; original uncertain contexts remain non-retriable. Backups carry the complete ledger including this additive audit table. Normal unresolved-attempt resume stays closed, and pending attempts cannot recover. Provider diagnostics persist only bounded stage/status codes. [Operating and verification boundaries](spark-ai-online.md).

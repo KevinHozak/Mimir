@@ -70,6 +70,8 @@ AI recovery PR #334 is merged but was not activated: the old paused server block
 
 ## Cost-bounded polling implementation — 2026-11-14
 
+During the later private continuation, three real goal selections and their receipts were independently restored at pulse 159. The later owner polling observation preserved selection and Follow across a natural pulse. See the [private continuation](../docs/evidence/spark-online-private-running-2026-11-14.md) and [polling observation](../docs/evidence/observer-polling-live-2026-11-14.md); both are historical and do not change this pilot’s stopped closeout.
+
 The owner selected occasional polling to restore observation without extending the original budgets or deadline. The implementation supplies visible-tab four-minute refresh, no streaming or old 15-second reload, compressed/authenticated bounded reads, and cumulative two-revision accounting with private-only viewing fallback. Local synthetic browser checks passed cadence, new committed pulse, selection/follow preservation and desktop/mobile layout. Exact-source verification and actual image/Hosting/live admission remain rollout gates; S021 remains in progress. See [local evidence](../docs/evidence/observer-polling-local-2026-11-14.md).
 
 

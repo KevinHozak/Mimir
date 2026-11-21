@@ -1,0 +1,11 @@
+# Hosted polling live check — 2026-11-14
+
+**Historical evidence:** This records observations on November 14. The pilot subsequently stopped at pulse 293; allocations were not renewed and S021 was closed as a bounded pilot. Hosted qualification and final billing remain separate.
+
+[PR #336](https://github.com/KevinHozak/Mimir/pull/336) merged the polling observer. All 114 exact-source local checks passed without source changes. Merged release `fdc7c19ed79496634d3664b9a9d915493eab2851` was deployed as bridge revision `mimir-observer-bridge-poll-fdc7c19`, image `sha256:aaecb8a9152249f3b79236e3a91773e918fb1adf89b692cd6012fe51d32e63bb`. Hosting version `3b7ad573c9dd1bf7` passed exact live index and both hashed-asset comparisons. The writer was not restarted for that rollout.
+
+The existing owner-authenticated tab displayed pulse 178 and then pulse 179 after a natural 243.255739-second interval. Spark 4 selection, Follow and presentation context remained. Both world responses were gzip, at 180,074 and 180,717 wire bytes. No `/api/live` request occurred in the non-truncated clean observation window. The old fifteen-second refresh was absent. The cadence label and rendered world were visible without document overflow. Local desktop/mobile fixtures had already passed. Network diagnostics were stopped afterward; captures and detailed receipts remain in the private local pilot directory.
+
+Anonymous world/live reads returned 401, and a scheduler POST returned 405. Owner token verification and IAM were unchanged. The cumulative guard retained old usage and counted the polling revision. At 20:53 UTC the healthy pulse-180 world and independent backups remained active; conservative hosting accounting was USD 1.915379 including reserves, beneath the original USD 2 cap. The original USD 5 AI cap and USD 3.871338 guarded headroom remained, retaining both old uncertain holds. These are estimates/reserves, not invoices.
+
+At that observation, viewing was configured to close automatically at the USD 1.00 cumulative bridge valuation, with USD 1.05 as the hard bridge ceiling and USD 0.95 other reserves. The original 05:19 UTC cleanup, 05:22 cutoff work and 05:24 hard stop were armed. Continuous streaming was denied. Sustained outcomes, genuine SDK refresh, final billing and the then-current S021 acceptance remained open.

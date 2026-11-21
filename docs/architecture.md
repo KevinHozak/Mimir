@@ -16,6 +16,8 @@ The bridge supports `OBSERVER_POLLING_ONLY=1` (authenticated `/api/live` returns
 
 ## Incremental checkpoint chart projection — 2026-11-14
 
+The stopped pilot also used a run-specific private controller before polling was restored; it retained cumulative hosting accounting and the original lease. The [private continuation](evidence/spark-online-private-running-2026-11-14.md) and [polling observation](evidence/observer-polling-live-2026-11-14.md) document historical operations, not a current deployment.
+
 `checkpoint-metrics.ts` validates the First Glow chart projection rather than replaying spatial/history validation for every chart sample. `/api/metrics` retains its response fields. A single-active-timeline cache refreshes the mutable head and appends committed checkpoints; changing active timeline discards that cache. Only compact immutable numeric samples are retained. Unsupported versions and malformed measured values fail; full `normalizeState` validation is unchanged for load and historical playback. The original unbounded repeated validation could block the server at a 151-checkpoint online history. [Operating evidence](spark-ai-online.md).
 
 
