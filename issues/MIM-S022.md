@@ -4,7 +4,7 @@ id: "MIM-S022"
 parent: ["MIM-E003"]
 priority: "high"
 schema_version: 1
-status: "open"
+status: "closed"
 title: "Summarize online Spark choices and world outcomes"
 type: "enhancement"
 ---
@@ -14,11 +14,11 @@ Evaluate the running world through compact evidence-linked summaries without req
 
 ## Acceptance
 
-- [ ] Summarize selected goals, notable choices, actual consequences, cooperation/refusal and stalled/expired goals.
-- [ ] Link exact timeline/pulse/Spark evidence and retain the same Follow return context.
-- [ ] Report AI attempts, accepted/fallback decisions, measured usage and cost uncertainty separately.
-- [ ] Compare declared ordinary histories without replacing quiet or unsuccessful runs; do not equate AI prose with benefit.
-- [ ] Record an automated technical evaluation and its limits separately from owner interest/usability feedback.
+- [x] Summarize selected goals, notable choices, actual consequences, cooperation/refusal and stalled/expired goals.
+- [x] Link exact timeline/pulse/Spark evidence and retain the same Follow return context.
+- [x] Report AI attempts, accepted/fallback decisions, measured usage and cost uncertainty separately.
+- [x] Compare declared ordinary histories without replacing quiet or unsuccessful runs; do not equate AI prose with benefit.
+- [x] Record an automated technical evaluation and its limits separately from owner interest/usability feedback.
 
 ## Offline evaluation (2026-11-20)
 
@@ -29,3 +29,7 @@ The [pulse-293 evaluation](../docs/evidence/s022-pulse-293-offline-evaluation-20
 Chromium opened the exact [report links](../docs/evidence/s022-pulse-293-offline-evaluation-2026-11-20.md) for the Spark 9 and 10 meeting at pulse 287 and the unfinished rendezvous offers from Spark 11 at pulse 280 and Spark 12 at pulse 283. Each loaded the expected checkpoint and Spark and displayed its event anchor. Return to live observer restored the corresponding Spark in immersive Follow for all three links. At pulse 293 both rendezvous were still preparing, with zero dispatches or completed steps.
 
 The browser was restricted to local read requests. The disposable copy retained the original expired lease, with its scheduler paused and AI disabled. All 294 checkpoint payloads matched the recovered source after testing. Duplicate React key warnings appeared during rendering, but selection, evidence highlighting, and Follow assertions passed. This records local technical evidence. Hosted return qualification remains in S021 and human review was skipped.
+
+## Offline closeout (2026-11-20)
+
+The offline evaluation is complete. PRs #346, #347, and #348 contain the report, comparison, and local browser evidence. S021 remains an open dependency for hosted qualification. The owner skipped S023 human review. The comparison provides no causal model-benefit result.
