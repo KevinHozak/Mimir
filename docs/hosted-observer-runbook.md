@@ -366,7 +366,7 @@ The user approved the bounded 120-second/two-client rehearsal with a 180-second 
 
 ### S010 collector repair and failed timed cleanup (2026-10-24)
 
-[Measured retry evidence](evidence/hosted-capacity-retry-2026-10-24.md) supersedes the earlier no-load state. Two observers completed 120.043 seconds, but upstream HTTP pools prevented socket zero and cleanup missed T+180. Exact service restoration, all eight temporary revisions absent, zero sockets and unchanged healthy pulse-64 history were verified afterward. The latest local pool-drain fix passes regression tests but has not been retried live. Direct expiring probes replace delayed Logging for instantaneous counters. Include prior attempts in the same USD 0.10 allocation; actual billing and cumulative ancillary cost remain unresolved, so further retries are held. No expansion is authorized.
+[Measured retry evidence](evidence/hosted-capacity-retry-2026-10-24.md) supersedes the earlier no-load state. Two observers completed 120.043 seconds, but upstream HTTP pools prevented socket zero and cleanup missed T+180. Exact service restoration, all eight temporary revisions absent, zero sockets and unchanged healthy pulse-64 history were verified afterward. The local pool-drain fix uses non-pooled SSE connections to avoid speculative reconnects after cancellation; it has not been retried live. Direct expiring probes replace delayed Logging for instantaneous counters. Include prior attempts in the same USD 0.10 allocation; actual billing and cumulative ancillary cost remain unresolved, so further retries are held. No expansion is authorized.
 
 ### S010 cumulative cost reconciliation and timely abort cleanup
 

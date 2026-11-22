@@ -1,5 +1,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { request as httpRequest } from "node:http";
+import { Readable } from "node:stream";
 import { getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { createObserverBridgeServer } from "./observer-bridge.mjs";
@@ -32,11 +34,35 @@ export function installCapacityTelemetry(server, { emit, revision, sample = reso
   return { close: () => { clearInterval(timer); clearTimeout(expiry); } };
 }
 
-export function closeIdleUpstreamConnections(upstreamOrigin, original = globalThis.fetch) {
+function fetchPrivateStream(input, init = {}) {
+  const target = new URL(typeof input === "string" || input instanceof URL ? input : input.url);
+  const headers = new Headers(init.headers ?? (input instanceof Request ? input.headers : undefined));
+  return new Promise((resolve, reject) => {
+    const request = httpRequest(target, {
+      method: init.method ?? (input instanceof Request ? input.method : "GET"),
+      headers: Object.fromEntries(headers), signal: init.signal ?? (input instanceof Request ? input.signal : undefined), agent: false,
+    }, response => {
+      try {
+        const body = [204, 205, 304].includes(response.statusCode) ? null : Readable.toWeb(response);
+        resolve(new Response(body, { status: response.statusCode, headers: response.headers }));
+      } catch (error) { response.destroy(); reject(error); }
+    });
+    request.once("error", reject);
+    request.end();
+  });
+}
+
+export function closeIdleUpstreamConnections(upstreamOrigin, original = globalThis.fetch, streamFetch = fetchPrivateStream) {
   const origin = new URL(upstreamOrigin).origin;
   return (input, init = {}) => {
     const target = new URL(typeof input === "string" || input instanceof URL ? input : input.url);
-    if (target.origin !== origin || target.pathname === "/api/live") return original(input, init);
+    if (target.origin !== origin) return original(input, init);
+    // A dedicated, non-pooled HTTP stream avoids fetch's speculative reconnect
+    // after cancellation without closing other origins' shared connections.
+    if (target.pathname === "/api/live") {
+      if (target.protocol === "http:" && (init.method ?? (input instanceof Request ? input.method : "GET")) === "GET") return streamFetch(input, init);
+      return original(input, init);
+    }
     const headers = new Headers(init.headers ?? (input instanceof Request ? input.headers : undefined));
     headers.set("connection", "close");
     return original(input, { ...init, headers });
