@@ -133,23 +133,36 @@ test("authorized direct probes return only fixed current counters and resource m
 
 test("bounded fixture closes only non-stream private upstream pools and preserves authorization",async()=>{
  const {closeIdleUpstreamConnections}=await import("./observer-capacity-bridge.mjs");const calls=[];
- const request=closeIdleUpstreamConnections("http://10.0.0.1:8888",async(input,init)=>{calls.push({url:String(input),headers:new Headers(init.headers)});return "ok";});
+ const stub=async(input,init)=>{calls.push({url:String(input),headers:new Headers(init.headers)});return "ok";};
+ const request=closeIdleUpstreamConnections("http://10.0.0.1:8888",stub,stub);
  await request("http://10.0.0.1:8888/api/world",{headers:{authorization:"synthetic-auth"}});assert.equal(calls[0].headers.get("connection"),"close");assert.equal(calls[0].headers.get("authorization"),"synthetic-auth");
  await request("http://10.0.0.1:8888/api/live",{headers:{authorization:"synthetic-auth"}});assert.equal(calls[1].headers.get("connection"),null);
  await request("https://example.invalid/certificates",{});assert.equal(calls[2].headers.get("connection"),null);
+});
+
+test("dedicated private stream preserves errors and cancellation",async()=>{
+ const {createServer}=await import("node:http"),{once}=await import("node:events");
+ const {closeIdleUpstreamConnections}=await import("./observer-capacity-bridge.mjs");
+ let received;const upstream=createServer((req,res)=>{received=req.headers.authorization;if(req.url.includes("reject")){res.writeHead(503);res.end("unavailable");}else{res.writeHead(200,{"content-type":"text/event-stream"});res.write("data: fixture\n\n");}});
+ upstream.listen(0,"127.0.0.1");await once(upstream,"listening");const origin=`http://127.0.0.1:${upstream.address().port}`;const request=closeIdleUpstreamConnections(origin);
+ try{
+  const rejected=await request(`${origin}/api/live?reject`,{headers:{authorization:"synthetic-auth"}});assert.equal(rejected.status,503);assert.equal(await rejected.text(),"unavailable");assert.equal(received,"synthetic-auth");
+  const controller=new AbortController();const response=await request(`${origin}/api/live`,{signal:controller.signal});const reader=response.body.getReader();assert.equal((await reader.read()).done,false);controller.abort();await assert.rejects(reader.read());
+ }finally{upstream.closeAllConnections();await new Promise(resolve=>upstream.close(resolve));}
+ await assert.rejects(request(`${origin}/api/live`));
 });
 
 
 test("two streams plus ordinary reads drain all upstream sockets despite long backend keepalive",async()=>{
  const {createServer}=await import("node:http"),{once}=await import("node:events");
  const {createObserverBridgeServer}=await import("./observer-bridge.mjs");const {closeIdleUpstreamConnections}=await import("./observer-capacity-bridge.mjs");const {runBoundedRehearsal}=await import("./observer-rehearsal.mjs");
- const sockets=new Set();const upstream=createServer((req,res)=>{if(req.url==="/api/live"){res.writeHead(200,{"content-type":"text/event-stream"});res.write("data: fixture\n\n");}else res.end("{}");});upstream.keepAliveTimeout=72000;upstream.on("connection",socket=>{sockets.add(socket);socket.on("close",()=>sockets.delete(socket));});upstream.listen(0,"127.0.0.1");await once(upstream,"listening");
+ const sockets=new Set(),streamAuth=[];const upstream=createServer((req,res)=>{if(req.url==="/api/live"){streamAuth.push(req.headers.authorization);res.writeHead(200,{"content-type":"text/event-stream"});res.write("data: fixture\n\n");}else res.end("{}");});upstream.keepAliveTimeout=72000;upstream.on("connection",socket=>{sockets.add(socket);socket.on("close",()=>sockets.delete(socket));});upstream.listen(0,"127.0.0.1");await once(upstream,"listening");
  const original=globalThis.fetch;globalThis.fetch=closeIdleUpstreamConnections(`http://127.0.0.1:${upstream.address().port}`,original);
  const bridge=createObserverBridgeServer({upstreamOrigin:`http://127.0.0.1:${upstream.address().port}`,verifyObserverToken:async()=>true});bridge.listen(0,"127.0.0.1");await once(bridge,"listening");
  try{
-  const origin=`http://127.0.0.1:${bridge.address().port}`;const running=runBoundedRehearsal({targetOrigin:origin,windowMs:350,rampDelayMs:25});await delay(100);
+  const origin=`http://127.0.0.1:${bridge.address().port}`;const running=runBoundedRehearsal({targetOrigin:origin,token:"synthetic-auth",windowMs:350,rampDelayMs:25});await delay(100);
   await Promise.all(Array.from({length:5},async()=>{const response=await fetch(origin+"/api/world");await response.text();}));const result=await running;assert.equal(result.totalErrors,0);assert.equal(result.peakClients,2);
-  for(let i=0;i<100&&sockets.size;i++)await delay(10);assert.equal(sockets.size,0);assert.equal(bridge.observerStreamSnapshot().activeUpstreamStreams,0);
+  for(let i=0;i<100&&sockets.size;i++)await delay(10);assert.equal(sockets.size,0);assert.equal(bridge.observerStreamSnapshot().activeUpstreamStreams,0);assert.deepEqual(streamAuth,["synthetic-auth","synthetic-auth"]);
  }finally{globalThis.fetch=original;bridge.closeAllConnections();upstream.closeAllConnections();await Promise.all([new Promise(resolve=>bridge.close(resolve)),new Promise(resolve=>upstream.close(resolve))]);}
 });
 

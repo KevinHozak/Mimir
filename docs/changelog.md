@@ -1,5 +1,9 @@
 # Mimir Changelog
 
+## Capacity stream cleanup — 2026-11-22 (local implementation)
+
+The bounded capacity collector uses dedicated, non-pooled private SSE connections so canceling its streams does not leave speculative idle reconnects. Local regressions cover authorization forwarding and socket cleanup; this has not been deployed or qualified against a hosted service.
+
 ## Synthetic polling auth qualification — 2026-11-15 (local implementation)
 
 A separate polling refresh harness reuses production authenticated reads and the four-minute polling controller with injected synthetic credentials and requests. It covers scheduled credential use, one forced retry after denial, hidden-tab behavior, stalled requests/credentials, denial privacy, cutoff and cleanup without opening a stream. The historical stream harness remains separate. [Local evidence](evidence/polling-refresh-harness-local-2026-11-15.md); genuine Firebase, deployed UI and hosted process cleanup remain unqualified. The pilot stays stopped.
