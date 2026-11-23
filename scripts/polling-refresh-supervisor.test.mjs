@@ -107,3 +107,19 @@ test('watchdog exits if the driver disconnects during browser startup', async ()
   await exited;
   assert.ok(guard.exitCode !== null || guard.signalCode !== null);
 });
+
+test('preparation deadline terminates a stalled launcher and its child', async () => {
+  const guard = fork(fileURLToPath(new URL('./polling-refresh-watchdog.mjs', import.meta.url)), [], {
+    stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true, detached: true,
+    env: { ...process.env, MIMIR_TEST_STALLED_POLLING_LAUNCH: '1' }
+  });
+  const exited = once(guard, 'exit');
+  const started = once(guard, 'message');
+  guard.send({ kind: 'launch-browser', preparationMs: 4000 });
+  const [message] = await started;
+  assert.ok(Number.isInteger(message.testChild));
+  const observed = Date.now();
+  await Promise.race([exited, new Promise((_, reject) => setTimeout(() => reject(new Error('Stalled launcher exceeded its lease')), 8000).unref())]);
+  assert.ok(Date.now() - observed < 8000);
+  assert.throws(() => process.kill(message.testChild, 0));
+});
