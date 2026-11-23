@@ -5,24 +5,23 @@ import { chromium } from 'playwright';
 // Offline synthetic rehearsal only; this is not a live admission or polling driver.
 export async function withSyntheticPollingBrowser(work, { preparationMs = 4500000 } = {}) {
   if (!Number.isInteger(preparationMs) || preparationMs <= 0 || preparationMs > 4500000) throw new Error('Invalid preparation lease');
-  const server = await chromium.launchServer({ headless: true });
   const child = fork(fileURLToPath(new URL('./polling-refresh-watchdog.mjs', import.meta.url)), [], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true, detached: true });
   let browser;
   const acknowledge = (message, expected) => new Promise((resolve, reject) => {
-    const finish = error => {
+    const finish = (error, value) => {
       clearTimeout(timer);
       child.off('message', onMessage); child.off('exit', onExit); child.off('error', onExit);
-      error ? reject(new Error('Polling watchdog unavailable')) : resolve();
+      error ? reject(new Error('Polling watchdog unavailable')) : resolve(value);
     };
-    const onMessage = value => finish(!value?.[expected]);
+    const onMessage = value => finish(!value?.[expected], value);
     const onExit = () => finish(true);
-    const timer = setTimeout(() => finish(true), 5000);
+    const timer = setTimeout(() => finish(true), Math.min(preparationMs, 30000));
     child.once('message', onMessage); child.once('exit', onExit); child.once('error', onExit);
     child.send(message, error => { if (error) finish(true); });
   });
   try {
-    await acknowledge({ kind: 'owned-browser', pid: server.process().pid, preparationMs }, 'ready');
-    browser = await chromium.connect(server.wsEndpoint());
+    const ready = await acknowledge({ kind: 'launch-browser', preparationMs }, 'ready');
+    browser = await chromium.connect(ready.endpoint);
     const context = await browser.newContext({ offline: true, serviceWorkers: 'block' });
     await context.route('**/*', route => route.abort());
     let armed = false;
@@ -33,8 +32,6 @@ export async function withSyntheticPollingBrowser(work, { preparationMs = 450000
     } });
   } finally {
     await browser?.close().catch(() => {});
-    await server.close().catch(() => {});
-    if ((server.process().exitCode !== null || server.process().signalCode !== null) && child.connected) child.send({ kind: 'target-exited' }, () => {});
     if (child.connected) child.disconnect();
   }
 }

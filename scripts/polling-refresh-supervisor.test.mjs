@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import { fork, spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { fileURLToPath } from 'node:url';
+import { chromium } from 'playwright';
 import { withSyntheticPollingBrowser } from './polling-refresh-supervisor.mjs';
 
 test('offline browser denies network and the observer deadline closes a stalled page', async () => {
@@ -78,4 +79,31 @@ test('watchdog stops its owned process when the driver actually exits', async ()
     if (driver.exitCode === null && driver.signalCode === null) driver.kill();
     if (target.exitCode === null && target.signalCode === null) target.kill();
   }
+});
+
+test('watchdog owns browser startup and closes it on driver disconnect', async () => {
+  const guard = fork(fileURLToPath(new URL('./polling-refresh-watchdog.mjs', import.meta.url)), [], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true, detached: true });
+  let browser;
+  try {
+    const ready = once(guard, 'message');
+    guard.send({ kind: 'launch-browser', preparationMs: 30000 });
+    const [message] = await ready;
+    assert.equal(message.ready, true);
+    browser = await chromium.connect(message.endpoint);
+    const disconnected = once(browser, 'disconnected');
+    guard.disconnect();
+    await disconnected;
+    assert.equal(browser.isConnected(), false);
+  } finally {
+    await browser?.close().catch(() => {});
+    if (guard.connected) guard.disconnect();
+  }
+});
+
+test('watchdog exits if the driver disconnects during browser startup', async () => {
+  const guard = fork(fileURLToPath(new URL('./polling-refresh-watchdog.mjs', import.meta.url)), [], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true, detached: true });
+  const exited = once(guard, 'exit');
+  guard.send({ kind: 'launch-browser', preparationMs: 30000 }, () => guard.disconnect());
+  await exited;
+  assert.ok(guard.exitCode !== null || guard.signalCode !== null);
 });
