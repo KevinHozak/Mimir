@@ -1,7 +1,7 @@
 import {testPort,stopTestProcesses} from '../../../scripts/test-runtime.mjs';
 import assert from 'node:assert/strict';import {chromium} from 'playwright';import {spawn,type ChildProcess} from 'node:child_process';import {join} from 'node:path';import {mkdirSync} from 'node:fs';
 const root=join(process.cwd(),'..','..'),apiPort=await testPort(),webPort=await testPort();const children:ChildProcess[]=[];mkdirSync(join(root,'.tmp/browser-tests'),{recursive:true});
-async function wait(url:string){for(let i=0;i<100;i++){try{if((await fetch(url)).ok)return;}catch{}await new Promise(r=>setTimeout(r,100));}throw Error('fixture unavailable');}
+async function wait(url:string){const deadline=performance.now()+90000;while(performance.now()<deadline){const exited=children.find(child=>child.exitCode!==null||child.signalCode!==null);if(exited)throw Error(`fixture process exited (code ${exited.exitCode}, signal ${exited.signalCode}) while waiting for ${url}`);try{if((await fetch(url)).ok)return;}catch{}await new Promise(r=>setTimeout(r,100));}throw Error(`fixture unavailable after 90 seconds: ${url}`);}
 let browser:Awaited<ReturnType<typeof chromium.launch>>|undefined;
 try{
  const env={...process.env,HOST:'127.0.0.1',PORT:String(apiPort),AUTO_PULSE:'false',PULSE_INTERVAL_MS:'0',AI_ENABLED:'false',MIMIR_HOSTED:'false',PUBLIC_OBSERVER_AUTH_REQUIRED:'false',DATABASE_PATH:join(root,'.tmp/browser-tests',`polling-${Date.now()}.db`),OWNER_TOKEN:'polling-fixture-owner',OBSERVER_ORIGIN:`http://127.0.0.1:${webPort}`,WORLD_BUNDLE_ROOT:join(root,'assets/world/generated')};
